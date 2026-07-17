@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Python 3.11 release checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      JUPYTER_PLATFORM_DIRS: "1"
+      WEAVEMARK_LOG: "0"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          lfs: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
+      - name: Check out verified Ellements dependency
+        run: |
+          git clone --quiet https://github.com/paulosalem/ellements.git \
+            "$RUNNER_TEMP/ellements"
+          git -C "$RUNNER_TEMP/ellements" checkout --quiet \
+            b46cc497a08b5090fbe7ba992a644be4b2eb5ab1
+
+      - name: Install package and release tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install \
+            -e "$RUNNER_TEMP/ellements[cli,execution,fslm]"
+          python -m pip install -e ".[dev,convert,ui]"
+          python -m pip install build twine
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Run focused Ruff checks
+        run: |
+          ruff check --select F,I,B,SIM \
+            src/weavemark/compilation/diagnostics.py \
+            src/weavemark/compilation/result.py \
+            src/weavemark/compilation/provenance.py \
+            src/weavemark/version.py \
+            src/weavemark/protection.py \
+            src/weavemark/settings.py \
+            src/weavemark/logging_policy.py \
+            src/weavemark/logging_setup.py \
+            scripts/check_repository_hygiene.py \
+            scripts/check_distribution_artifact.py \
+            tests/test_provenance.py \
+            tests/test_diagnostics.py \
+            tests/test_reference_authority.py \
+            tests/test_repository_hygiene.py \
+            tests/test_logging_policy.py \
+            tests/test_logging_setup.py \
+            tests/test_app_logging.py \
+            tests/test_public_claims.py
+
+      - name: Run focused MyPy checks
+        run: |
+          export MYPYPATH="$RUNNER_TEMP/ellements/ellements-core/src:$RUNNER_TEMP/ellements/ellements-execution/src:$RUNNER_TEMP/ellements/ellements-fslm/src:$RUNNER_TEMP/ellements/ellements-cli/src"
+          mypy --follow-imports=skip \
+            src/weavemark/compilation/diagnostics.py \
+            src/weavemark/compilation/result.py \
+            src/weavemark/compilation/provenance.py \
+            src/weavemark/version.py \
+            src/weavemark/protection.py \
+            src/weavemark/settings.py
+
+      - name: Check language and repository artifacts
+        run: |
+          python scripts/check_grammar_sync.py
+          python scripts/check_repository_hygiene.py
+
+      - name: Check VS Code extension
+        working-directory: vscode-extension
+        run: |
+          npm test
+          npm run check
+
+      - name: Build distributions
+        run: python -m build
+
+      - name: Check distributions
+        run: |
+          python scripts/check_distribution_artifact.py dist/*
+          twine check --strict dist/*
+
+      - name: Verify wheel installation
+        run: |
+          python -m build --wheel \
+            --outdir "$RUNNER_TEMP/ellements-dist" \
+            "$RUNNER_TEMP/ellements"
+          python -m venv "$RUNNER_TEMP/weavemark-wheel"
+          "$RUNNER_TEMP/weavemark-wheel/bin/pip" install \
+            --find-links "$RUNNER_TEMP/ellements-dist" \
+            dist/*.whl
+          "$RUNNER_TEMP/weavemark-wheel/bin/python" -c \
+            "import weavemark; assert weavemark.__version__ == '0.8.0'"
+          "$RUNNER_TEMP/weavemark-wheel/bin/weavemark" --version
