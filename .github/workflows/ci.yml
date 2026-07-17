@@ -21,7 +21,6 @@ jobs:
     timeout-minutes: 30
     env:
       JUPYTER_PLATFORM_DIRS: "1"
-      WEAVEMARK_LOG: "0"
 
     steps:
       - name: Check out repository
