@@ -1,0 +1,5 @@
+{
+  "app_name": "Evidence-to-Decision Workspace",
+  "source_families": "- personal notes and transcripts;\n- saved articles, newsletters, and links;\n- research papers, documentation, and official pages;\n- GitHub issues, releases, and technical discussions;\n- market, product, competitor, and community signals;\n- manually added observations and conversations.",
+  "decision_domains": "- product and research priorities;\n- prompt-language and agent-workflow design choices;\n- investment or business opportunities that need evidence discipline;\n- personal project commitments;\n- risks, warnings, and wait-versus-act judgments."
+}

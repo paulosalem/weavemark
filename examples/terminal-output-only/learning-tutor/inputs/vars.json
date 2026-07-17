@@ -1,0 +1,8 @@
+{
+  "topic": "Bayesian reasoning for interpreting product experiment results",
+  "learning_goal": "Understand why a statistically significant result can still be a bad reason to ship a feature.",
+  "learner_context": "I understand basic percentages and product metrics, but I get lost when people talk about priors, base rates, and false positives.",
+  "preferred_style": "Use intuitive examples first, then introduce the precise terms. Avoid heavy notation unless it is necessary.",
+  "time_available": "25 minutes today, with one follow-up practice session tomorrow.",
+  "desired_depth": "Practical enough to use in product decision meetings, not a full statistics course."
+}

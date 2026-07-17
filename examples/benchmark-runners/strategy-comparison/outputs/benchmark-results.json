@@ -1,0 +1,32 @@
+{
+  "model": "gpt-5.5",
+  "tasks": [
+    "gsm8k"
+  ],
+  "scores": {
+    "Chain Of Thought": {
+      "gsm8k/exact_match,strict-match": 0.0,
+      "gsm8k/exact_match_stderr,strict-match": 0.0,
+      "gsm8k/exact_match,flexible-extract": 1.0,
+      "gsm8k/exact_match_stderr,flexible-extract": 0.0
+    },
+    "Self Consistency Solver": {
+      "gsm8k/exact_match,strict-match": 0.0,
+      "gsm8k/exact_match_stderr,strict-match": 0.0,
+      "gsm8k/exact_match,flexible-extract": 1.0,
+      "gsm8k/exact_match_stderr,flexible-extract": 0.0
+    },
+    "Simplified Tree Of Thought Solver": {
+      "gsm8k/exact_match,strict-match": 1.0,
+      "gsm8k/exact_match_stderr,strict-match": 0.0,
+      "gsm8k/exact_match,flexible-extract": 1.0,
+      "gsm8k/exact_match_stderr,flexible-extract": 0.0
+    },
+    "Reflection Solver": {
+      "gsm8k/exact_match,strict-match": 0.0,
+      "gsm8k/exact_match_stderr,strict-match": 0.0,
+      "gsm8k/exact_match,flexible-extract": 1.0,
+      "gsm8k/exact_match_stderr,flexible-extract": 0.0
+    }
+  }
+}

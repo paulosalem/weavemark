@@ -1,0 +1,28 @@
+{
+  "artifact_hashes": {
+    "output_sha256": "25cf563905481a62281513b190aad66f92b873259fe61bc5ef7d4926c0b16dde",
+    "source_sha256": "25cf563905481a62281513b190aad66f92b873259fe61bc5ef7d4926c0b16dde",
+    "variables_sha256": null
+  },
+  "fact_candidate_count": 5,
+  "fact_candidates": [
+    "Use this implementation-ready specification to build **Orbital Drift**, a browser",
+    "racing game where the player pilots a small craft through planets, asteroid",
+    "fields, gravity wells, propulsion challenges, and lap-based racing.",
+    "The specification should cover gameplay, variants, physics, scoring, visual",
+    "style, browser implementation, validation, and acceptance criteria."
+  ],
+  "metrics": {
+    "candidate_facts": 5,
+    "counted_facts": 5,
+    "discounted_fact_units": 5.0,
+    "information_density_per_1k_output_words": 96.2,
+    "information_yield_per_1k_source_words": 96.2,
+    "local_authored_source_words": 52,
+    "local_leverage": 1.0,
+    "output_words": 52,
+    "study": "orbital-drift",
+    "variable_payload_words": 0,
+    "variant": "manual"
+  }
+}

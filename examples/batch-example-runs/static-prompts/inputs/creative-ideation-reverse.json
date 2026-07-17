@@ -1,0 +1,8 @@
+{
+  "method": "reverse-brainstorming",
+  "subject": "A remote engineering team onboarding process for senior developers joining a complex platform",
+  "objective": "Find safeguards and improvements that reduce time-to-productivity without overwhelming new hires",
+  "additional_context": "The team has strong documentation but many implicit architectural conventions and cross-team dependencies.",
+  "constraints": "No week-long synchronous bootcamp, no dedicated full-time onboarding coordinator, and improvements should be testable within one quarter.",
+  "seed_ideas": "Architecture map, buddy rotation, first pull request checklist."
+}

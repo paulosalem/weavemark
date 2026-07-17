@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Python API</title>
+    <meta
+      name="description"
+      content="Use WeaveMark as an importable Python library to compile and execute promplet specifications from application programs."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html">Tutorial</a>
+          <a href="python-api.html" aria-current="page">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Library API</p>
+      <h1>
+        Use WeaveMark directly
+        <span class="gradient-text">inside Python apps.</span>
+      </h1>
+      <p class="hero-copy">
+        The WeaveMark Processor CLI is one product surface. The <strong>Python API is the application
+        surface</strong>: compile promplets from files or memory, inspect emitted
+        prompt artifacts, and run execution engines <em>without subprocesses</em>.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Python API highlights">
+      <div class="summary-card">
+        <strong>Compile</strong>
+        <span>Load promplets from files, strings, editors, databases, or packages.</span>
+      </div>
+      <div class="summary-card">
+        <strong>Inspect</strong>
+        <span>Read prompts, emitted files, tools, bindings, and diagnostics.</span>
+      </div>
+      <div class="summary-card">
+        <strong>Execute</strong>
+        <span>Run explicit prompt specifications without spawning a subprocess.</span>
+      </div>
+    </div>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Python API sections">
+        <h2>API guide</h2>
+        <a href="#install">Install</a>
+        <a href="#overview">Overview</a>
+        <a href="#library">Promplet library</a>
+        <a href="#compile-file">Compile files</a>
+        <a href="#compile-text">Compile text</a>
+        <a href="#options">Options</a>
+        <a href="#output">Output formatting</a>
+        <a href="#execute">Execution</a>
+        <a href="#engines">Engines</a>
+        <a href="#diagnostics">Diagnostics</a>
+      </aside>
+
+      <div class="article">
+        <section id="install" class="article-section">
+          <h2>Install</h2>
+          <p>
+            Install WeaveMark as a <strong>normal Python package</strong>. The same installation
+            provides the <code>weavemark</code> CLI and the importable
+            <code>weavemark</code> library.
+          </p>
+          <pre><code>pip install weavemark</code></pre>
+          <p>For local development from the repository root:</p>
+          <pre><code>pip install -e ".[dev]"</code></pre>
+        </section>
+
+        <section id="overview" class="article-section">
+          <h2>Overview</h2>
+          <p>
+            The public API is <strong>async</strong> because WeaveMark can use
+            an AI-backed semantic compilation path. Structural work
+            such as variables, imports, branching, emitted files, and diagnostics
+            is handled before that path whenever possible.
+          </p>
+          <pre><code>from weavemark import (
+    bundled_promplet,
+    compile_text,
+    compile_file,
+    execute_text,
+    execute_file,
+    read_bundled_promplet,
+)</code></pre>
+          <table>
+            <thead>
+              <tr>
+                <th>Function</th>
+                <th>Purpose</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>compile_text</code></td>
+                <td>Compile WeaveMark source already loaded in memory.</td>
+                <td><code>CompositionResult</code></td>
+              </tr>
+              <tr>
+                <td><code>compile_file</code></td>
+                <td>Compile a <code>.weavemark.md</code> file from disk.</td>
+                <td><code>CompositionResult</code></td>
+              </tr>
+              <tr>
+                <td><code>execute_text</code></td>
+                <td>Compile in-memory source and run an engine.</td>
+                <td><code>WeaveMarkRunResult</code></td>
+              </tr>
+              <tr>
+                <td><code>execute_file</code></td>
+                <td>Compile a file and run an engine.</td>
+                <td><code>WeaveMarkRunResult</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="library" class="article-section">
+          <h2>Read the built-in promplet library</h2>
+          <p>
+            The canonical corpus remains prominent at the repository root under
+            <code>promplets/</code>. Wheel builds map that same tree into
+            <code>weavemark/promplets</code>, so installed applications can read it
+            without a repository checkout or a duplicate maintained copy.
+          </p>
+          <pre><code>from weavemark import bundled_promplet, iter_bundled_promplets, read_bundled_promplet
+
+paths = list(iter_bundled_promplets())
+resource = bundled_promplet("catalog/standalone/investment-brief.weavemark.md")
+source = read_bundled_promplet(
+    "stdlib/fragments/reasoning/chain-of-thought.weavemark.md"
+)</code></pre>
+          <p>
+            Resources implement <code>importlib.resources.abc.Traversable</code>.
+            Use <code>bundled_promplet_path()</code> as a context manager when an
+            external tool requires a filesystem path.
+          </p>
+          <pre><code>from weavemark import bundled_promplet_path
+
+with bundled_promplet_path(
+    "catalog/standalone/investment-brief.weavemark.md"
+) as path:
+    print(path)</code></pre>
+          <div class="callout">
+            <strong>One effective library:</strong>
+            <code>weavemark library</code> combines built-in resources with
+            project <code>./promplets</code>, user
+            <code>~/.weavemark/promplets</code>, configured
+            <code>library_dirs</code>, and <code>--library-dir</code>. Use
+            <code>project:</code>, <code>user:</code>, <code>extra:</code>,
+            <code>builtin:</code>, or <code>module:</code> explicitly.
+          </div>
+        </section>
+
+        <section id="compile-file" class="article-section">
+          <h2>Compile promplet files</h2>
+          <p>
+            Use <code>compile_file</code> when prompts are stored as
+            <strong><code>.weavemark.md</code> files in your app or project. The
+            file parent becomes
+            <code>base_dir</code></strong>, so relative references, module lookup, and
+            project-level <code>weavemark.json</code> behave like the WeaveMark Processor.
+          </p>
+          <pre><code>import asyncio
+from weavemark import compile_file
+
+
+async def main() -> None:
+    result = await compile_file(
+        "promplets/support-agent.weavemark.md",
+        variables={
+            "product": "WeaveMark",
+            "audience": "new users",
+        },
+    )
+    if result.errors:
+        raise RuntimeError(result.errors)
+
+    print(result.composed_prompt)
+    print(result.prompts)
+    print(result.emits)
+    print(result.tools)
+    print(result.bindings)
+
+
+asyncio.run(main())</code></pre>
+        </section>
+
+        <section id="compile-text" class="article-section">
+          <h2>Compile text</h2>
+          <p>
+            Use <code>compile_text</code> when WeaveMark source lives in a
+            package resource, database, notebook, web editor, or generated
+            document.
+          </p>
+          <pre><code>from pathlib import Path
+from weavemark import compile_text
+
+source = """
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7 <span class="syntax-key">surface:</span> markdown
+
+# Support answer
+
+Reply to <span class="syntax-var">@{question}</span> in a concise, kind voice.
+"""
+
+result = await compile_text(
+    source,
+    {"question": "How do modules work?"},
+    base_dir=Path("prompts"),
+)</code></pre>
+        </section>
+
+        <section id="options" class="article-section">
+          <h2>Compilation options</h2>
+          <p>
+            <code>CompileOptions</code> controls the model path for semantic
+            compilation while preserving structural processing and diagnostics.
+          </p>
+          <pre><code>from weavemark import CompileOptions, compile_file
+
+compiled = await compile_file(
+    "promplets/brief.weavemark.md",
+    {"topic": "battery recycling"},
+    options=CompileOptions(
+        model="gpt-5.5",
+        temperature=0.0,
+        max_iterations=12,
+        use_structural_helpers=True,
+    ),
+)</code></pre>
+          <p>
+            Advanced integrations can pass a custom async LLM client through the
+            <code>client</code> parameter when they need their own provider,
+            tracing, retry, or policy layer.
+          </p>
+        </section>
+
+        <section id="output" class="article-section">
+          <h2>Output formatting</h2>
+          <p>
+            Most apps should consume the structured result directly. Use
+            <code>format_compiled_output</code> when you need CLI-style primary
+            output.
+          </p>
+          <pre><code>from weavemark import compile_file, format_compiled_output
+
+compiled = await compile_file("promplets/review.weavemark.md")
+
+markdown = format_compiled_output(compiled)
+data_json = format_compiled_output(compiled, "json")
+raw_response = format_compiled_output(compiled, "xml")</code></pre>
+          <p>
+            If your project defines custom formats or aliases in
+            <code>weavemark.json</code>, pass <code>base_dir</code> or a loaded
+            settings object so the formatter uses the same registry.
+          </p>
+        </section>
+
+        <section id="execute" class="article-section">
+          <h2>Execution</h2>
+          <p>
+            <code>execute_file</code> compiles first, then runs the compiled
+            prompts through an engine. It raises
+            <code>WeaveMarkCompilationError</code> when compilation has errors,
+            so execution never proceeds with invalid prompt artifacts.
+          </p>
+          <pre><code>from weavemark import RuntimeConfig, execute_file
+
+run = await execute_file(
+    "promplets/tree-solver.weavemark.md",
+    variables={"problem": "Design a retention strategy"},
+    runtime_config=RuntimeConfig(
+        engine="tree-of-thought",
+        engine_config={"branching_factor": 3},
+    ),
+)
+
+print(run.output)
+print(run.engine)
+print(run.compiled.prompts)
+print(run.execution.steps)</code></pre>
+          <p>
+            Runtime config may be a <code>RuntimeConfig</code> object, a mapping,
+            or a path to a JSON/YAML config file. Runtime variables are merged
+            before compilation; explicit call variables win.
+          </p>
+        </section>
+
+        <section id="engines" class="article-section">
+          <h2>Custom engines and callbacks</h2>
+          <p>
+            Pass a built-in engine name or any object implementing the
+            <code>Engine</code> protocol.
+          </p>
+          <pre><code>from weavemark import execute_file
+from weavemark.engines import ExecutionResult
+
+
+class MyEngine:
+    async def execute(self, result, config=None, on_step=None):
+        return ExecutionResult(output=result.composed_prompt.upper())
+
+
+run = await execute_file(
+    "promplets/support-agent.weavemark.md",
+    {"question": "What changed?"},
+    engine=MyEngine(),
+)</code></pre>
+          <p>
+            Use <code>on_event</code> for compilation events and
+            <code>on_step</code> for execution-engine traces.
+          </p>
+        </section>
+
+        <section id="diagnostics" class="article-section">
+          <h2>Diagnostics and errors</h2>
+          <p>
+            Compilation returns diagnostics in the result so applications can
+            display warnings, errors, and suggestions in their own UI.
+          </p>
+          <pre><code>compiled = await compile_file("promplets/agent.weavemark.md")
+
+for diagnostic in compiled.diagnostics:
+    print(diagnostic["type"], diagnostic["message"])</code></pre>
+          <p>
+            During execution, catch <code>WeaveMarkCompilationError</code> and
+            inspect <code>exc.result</code> to display the failed compile output.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark Python API</strong><br>
+          Compile and execute prompt specifications directly from apps.
+        </div>
+        <div>
+          <a href="tutorial.html">Tutorial</a> |
+          <a href="reference.html">Reference</a> |
+          <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+{
+  "composed_prompt": "# Executable Stock Learning Snapshot\n\n@{asset_snapshot}\n\n@{web_context}\n\n@{source_readings}\n\n## Draft Report\n\nUse @{asset_snapshot}, @{web_context}, and @{source_readings} to write a concise\nlearning brief about Apple Inc. (AAPL).\n\nCover:\n\n1. What the company does and why the stock is currently interesting.\n2. Current market data and business fundamentals from the finance tools.\n3. Recent news, analyst opinion, and outside commentary from web search.\n4. Evidence from crawled sources, with source URLs.\n5. Key uncertainties a learner should investigate next.\n\nDo not make a buy/sell recommendation. Treat this as asset education, not\npersonal financial advice.",
+  "raw_xml": "",
+  "analysis": "Resolved structural WeaveMark directives with deterministic helpers.",
+  "warnings": [],
+  "errors": [],
+  "suggestions": [],
+  "transitions": [],
+  "tool_calls_made": 0,
+  "prompts": {
+    "default": "# Executable Stock Learning Snapshot\n\n@{asset_snapshot}\n\n@{web_context}\n\n@{source_readings}\n\n## Draft Report\n\nUse @{asset_snapshot}, @{web_context}, and @{source_readings} to write a concise\nlearning brief about Apple Inc. (AAPL).\n\nCover:\n\n1. What the company does and why the stock is currently interesting.\n2. Current market data and business fundamentals from the finance tools.\n3. Recent news, analyst opinion, and outside commentary from web search.\n4. Evidence from crawled sources, with source URLs.\n5. Key uncertainties a learner should investigate next.\n\nDo not make a buy/sell recommendation. Treat this as asset education, not\npersonal financial advice."
+  },
+  "compile": {
+    "weavemark_version": "0.7"
+  },
+  "bindings": [
+    {
+      "name": "finance_data",
+      "language": "python",
+      "from": "./companions/market_data.py",
+      "symbol": "fetch_asset_snapshot"
+    },
+    {
+      "name": "web_search",
+      "language": "python",
+      "from": "./companions/market_data.py",
+      "symbol": "search_asset_context"
+    },
+    {
+      "name": "web_crawl",
+      "language": "python",
+      "from": "./companions/market_data.py",
+      "symbol": "crawl_asset_sources"
+    }
+  ],
+  "execution": {
+    "type": "weave",
+    "scheduler": "graph-strict",
+    "allow_effects": [
+      "finance_data",
+      "web_search",
+      "web_crawl"
+    ],
+    "bindings": [
+      {
+        "name": "finance_data",
+        "language": "python",
+        "from": "./companions/market_data.py",
+        "symbol": "fetch_asset_snapshot"
+      },
+      {
+        "name": "web_search",
+        "language": "python",
+        "from": "./companions/market_data.py",
+        "symbol": "search_asset_context"
+      },
+      {
+        "name": "web_crawl",
+        "language": "python",
+        "from": "./companions/market_data.py",
+        "symbol": "crawl_asset_sources"
+      }
+    ],
+    "plan": {
+      "scheduler": "graph-strict",
+      "order": [
+        "asset_snapshot",
+        "web_context",
+        "source_readings"
+      ],
+      "levels": [
+        [
+          "asset_snapshot"
+        ],
+        [
+          "web_context"
+        ],
+        [
+          "source_readings"
+        ]
+      ]
+    },
+    "nodes": [
+      {
+        "id": "asset_snapshot",
+        "directive": "fetch_asset_snapshot",
+        "definition": "fetch_asset_snapshot",
+        "phase": "execute",
+        "scope": "self",
+        "returns": "value",
+        "effects": [
+          {
+            "name": "finance_data",
+            "mode": "read"
+          }
+        ],
+        "args": {
+          "positional": [],
+          "options": {
+            "ticker": "@{ticker}"
+          }
+        },
+        "body": "",
+        "as": "asset_snapshot"
+      },
+      {
+        "id": "web_context",
+        "directive": "search_asset_context",
+        "definition": "search_asset_context",
+        "phase": "execute",
+        "scope": "self",
+        "returns": "value",
+        "effects": [
+          {
+            "name": "web_search",
+            "mode": "read"
+          }
+        ],
+        "args": {
+          "positional": [],
+          "options": {
+            "ticker": "@{ticker}",
+            "company_name": "@{company_name}",
+            "focus": "@{research_focus}"
+          }
+        },
+        "body": "",
+        "as": "web_context",
+        "uses": [
+          "asset_snapshot"
+        ]
+      },
+      {
+        "id": "source_readings",
+        "directive": "crawl_asset_sources",
+        "definition": "crawl_asset_sources",
+        "phase": "execute",
+        "scope": "self",
+        "returns": "value",
+        "effects": [
+          {
+            "name": "web_crawl",
+            "mode": "read"
+          }
+        ],
+        "args": {
+          "positional": [],
+          "options": {}
+        },
+        "body": "Read the highest-signal URLs found in @{web_context}. Prioritize official\ncompany pages, recent news, analyst commentary, and skeptical outside views.",
+        "as": "source_readings",
+        "uses": [
+          "web_context"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Tutorial - Reuse and Refinement</title>
+    <meta
+      name="description"
+      content="WeaveMark's superpower: refine the same reusable building blocks into completely different artifacts. The same finance fragments drive a decision analysis and a native app specification."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html" aria-current="page">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <nav class="tutorial-nav shell" aria-label="Tutorials">
+      <a href="tutorial.html"><span>1</span> First promplet</a>
+      <a href="tutorial-reuse.html" aria-current="page"><span>2</span> Reuse &amp; refine</a>
+      <a href="tutorial-refine.html"><span>3</span> Adaptive tutor</a>
+      <a href="tutorial-products.html"><span>4</span> Product specs</a>
+      <a href="tutorial-games.html"><span>5</span> Game specs</a>
+      <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
+      <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
+      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
+      <a href="tutorial-illustrated.html"><span>9</span> Illustrated stories</a>
+    </nav>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Hands-on tutorial</p>
+      <h1>
+        Reuse &amp; refine:
+        <span class="gradient-text">one library, many outputs.</span>
+      </h1>
+      <p class="hero-copy">
+        This is the promplet superpower. A promplet is not an isolated prompt: it
+        <strong>refines reusable building blocks</strong> with <code>@refine</code>,
+        and the <em>same</em> blocks can compile into completely different
+        artifacts. In this lesson two real specs pull in the same finance
+        fragments &mdash; one produces a <strong>decision analysis</strong>, the
+        other a <strong>native-app specification</strong>.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Reuse tutorial highlights">
+      <div class="summary-card">
+        <strong>You compare</strong>
+        <span>Two checked-in specs that share the same finance fragments.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You produce</strong>
+        <span>A decision-analysis prompt and a build-ready app specification.</span>
+      </div>
+      <div class="summary-card">
+        <strong>The big idea</strong>
+        <span>Update a concept once; every promplet that refines it picks up the new guidance on its next compile.</span>
+      </div>
+    </div>
+
+    <section class="shell repo-resources" aria-label="Repository files for this tutorial">
+      <h2>In the repository</h2>
+      <div class="repo-resources-links">
+        <a class="repo-link" href="../promplets/catalog/standalone/financial-independence-decision.weavemark.md"><span class="repo-tag">Spec</span> financial-independence-decision.weavemark.md</a>
+        <a class="repo-link" href="../promplets/catalog/standalone/passive-income-android-app.weavemark.md"><span class="repo-tag">Spec</span> passive-income-android-app.weavemark.md</a>
+        <a class="repo-link" href="../promplets/domains/finance/fragments/passive-income-forecasting.weavemark.md"><span class="repo-tag">Library</span> passive-income-forecasting.weavemark.md</a>
+      </div>
+    </section>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Tutorial sections">
+        <h2>On this page</h2>
+        <a href="#why">The copy-paste problem</a>
+        <a href="#library">The shared building blocks</a>
+        <a href="#decision">Output A — a decision analysis</a>
+        <a href="#app">Output B — an app specification</a>
+        <a href="#contrast">Same blocks, different artifacts</a>
+        <a href="#mingle">Layer or blend: <code>mingle</code></a>
+        <a href="#finish">What you learned</a>
+      </aside>
+
+      <div class="article">
+        <section id="why" class="article-section">
+          <h2>The copy-paste problem</h2>
+          <p>
+            Most prompt libraries are folders of text you copy and paste. The
+            moment you paste a checklist into two prompts, it has forked: fix a
+            flaw in one copy and the other still carries it. Prompts drift, and
+            hard-won guidance rots.
+          </p>
+          <p>
+            WeaveMark replaces copy-paste with <strong>refinement</strong>. A
+            reusable fragment lives in exactly one file. Any promplet pulls it in
+            with <code>@refine</code>, and the compiler weaves it into that
+            specific document. Update the fragment once and <em>every</em>
+            promplet that refines it picks up the new guidance on its next
+            compile &mdash; without editing them. Since compilation is
+            model-based, the quality of each result remains model- and
+            run-dependent.
+          </p>
+          <div class="callout">
+            <strong>Refinement, not inclusion.</strong> <code>@refine</code> does
+            not paste the file in. It obliges the compiled result to satisfy the
+            imported spec while reading as one coherent document for this task.
+          </div>
+        </section>
+
+        <section id="library" class="article-section">
+          <h2>The shared building blocks</h2>
+          <p>
+            Two fragments in the library capture how passive income actually works.
+            They are pure domain knowledge &mdash; no product, no audience baked in:
+          </p>
+          <ul>
+            <li>
+              <a href="../promplets/domains/finance/fragments/passive-income-capital-growth.weavemark.md"><code>passive-income-capital-growth</code></a>
+              &mdash; the planning frame: passive-income sources, the capital base,
+              and safe-to-spend amounts versus principal drawdown.
+            </li>
+            <li>
+              <a href="../promplets/domains/finance/fragments/passive-income-forecasting.weavemark.md"><code>passive-income-forecasting</code></a>
+              &mdash; the method: forecast spendable monthly income from explicit
+              sources, schedules, taxes, and reserves without turning growth into
+              erosion.
+            </li>
+          </ul>
+          <p>
+            Neither fragment knows whether it will end up in an essay, a checklist,
+            or an app. That is the point. Now watch two very different specs put
+            them to work.
+          </p>
+        </section>
+
+        <section id="decision" class="article-section">
+          <h2>Output A &mdash; a decision analysis</h2>
+          <p>
+            The first spec is an <strong>analysis</strong> promplet. It refines
+            reasoning and finance guidance, decision lenses, and the two finance
+            fragments, then frames a concrete household question.
+          </p>
+          <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+
+<span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.finance_safety <span class="syntax-key">mingle:</span> true
+<span class="syntax-comment"># ... plus evidence-quality, strategic-problem-analysis, and resilience lenses</span>
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.passive_income_capital_growth
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.passive_income_forecasting
+<span class="syntax-directive">@refine</span> module:weavemark.std.lenses.decision_gate <span class="syntax-key">mingle:</span> true
+
+# Financial independence passive-income decision
+
+<span class="syntax-var">@{person_name}</span> is deciding whether their household has enough financial
+resilience to reduce dependence on a high-pressure job ...</code></pre>
+          <p class="snippet-source">
+            From <a href="../promplets/catalog/standalone/financial-independence-decision.weavemark.md">financial-independence-decision.weavemark.md</a>.
+          </p>
+          <p>Compile it into a pastable analysis prompt:</p>
+          <pre><code>weavemark library builtin:catalog/standalone/financial-independence-decision \
+  --batch-only \
+  --var person_name=Alex \
+  --var invested_assets="1.4M" \
+  --var target_spending="70k" \
+  --output outputs/reuse/decision.md</code></pre>
+          <div class="callout">
+            <strong>What you get:</strong> a prompt that treats the situation as a
+            strategic decision &mdash; distinguishing confirmed from projected
+            income and safe-to-spend from reinvestment &mdash; because the finance
+            fragments made those distinctions obligations.
+          </div>
+        </section>
+
+        <section id="app" class="article-section">
+          <h2>Output B &mdash; an app specification</h2>
+          <p>
+            The second spec is a <strong>software</strong> promplet. It refines an
+            Android app type, a Kotlin/Compose stack, a dashboard module, and the
+            <em>same two finance fragments</em>.
+          </p>
+          <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.android_app
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.android_kotlin_compose
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.mobile_financial_dashboard
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.passive_income_capital_growth
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.passive_income_forecasting
+
+# Passive-income Android app specification
+
+<span class="syntax-var">@{app_name}</span> is a native Android app for people pursuing financial
+independence through passive income and disciplined capital growth ...</code></pre>
+          <p class="snippet-source">
+            From <a href="../promplets/catalog/standalone/passive-income-android-app.weavemark.md">passive-income-android-app.weavemark.md</a>.
+          </p>
+          <pre><code>weavemark library builtin:catalog/standalone/passive-income-android-app \
+  --batch-only \
+  --var app_name=Fathom \
+  --output outputs/reuse/app-spec.md</code></pre>
+          <div class="callout">
+            <strong>What you get:</strong> a build-ready specification whose
+            financial modules &mdash; safe-to-spend, forecasting, capital-erosion
+            warnings &mdash; are <em>induced</em> by the finance fragments rather
+            than reinvented by hand. In
+            <a href="tutorial-implement.html">Tutorial 8</a> you hand a spec like
+            this to a programming agent and get a running app.
+          </div>
+        </section>
+
+        <section id="contrast" class="article-section">
+          <h2>Same blocks, different artifacts</h2>
+          <p>
+            Look at the two <code>@refine</code> headers side by side. The two
+            finance lines are <strong>identical</strong>. Everything downstream
+            diverges:
+          </p>
+          <table class="reference-table">
+            <thead>
+                <tr>
+                  <th></th>
+                  <th>Decision analysis</th>
+                  <th>App specification</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Shared blocks</strong></td>
+                  <td colspan="2">
+                    <code>passive-income-capital-growth</code> +
+                    <code>passive-income-forecasting</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Plus</strong></td>
+                  <td>reasoning, finance guidelines, decision lenses</td>
+                  <td>Android type, Kotlin/Compose stack, dashboard module</td>
+                </tr>
+                <tr>
+                  <td><strong>Compiles into</strong></td>
+                  <td>a decision-analysis prompt</td>
+                  <td>a build-ready software specification</td>
+                </tr>
+                <tr>
+                  <td><strong>Next step</strong></td>
+                  <td>paste into an assistant for the analysis</td>
+                  <td>hand to a programming agent (Tutorial 8)</td>
+                </tr>
+              </tbody>
+            </table>
+          <p>
+            Improve <code>passive-income-forecasting</code> once &mdash; sharpen a
+            tax assumption, add a reserve rule &mdash; and both the decision prompt
+            and the app spec get better the next time they compile. That is reuse
+            that does not rot.
+          </p>
+        </section>
+
+        <section id="mingle" class="article-section">
+          <h2>Layer or blend: <code>mingle</code></h2>
+          <p>
+            You may have noticed some <code>@refine</code> lines carry
+            <code>mingle: true</code> and some do not. Both refine; the flag tunes
+            <em>how</em> the guidance shows up in the compiled document.
+          </p>
+          <ul>
+            <li>
+              <code>@refine file.weavemark.md</code> &mdash; layers the fragment in
+              as its own labelled contribution. Good for analysis lenses and domain
+              frames you want to remain visible as method.
+            </li>
+            <li>
+              <code>@refine file.weavemark.md <span class="syntax-key">mingle:</span> true</code>
+              &mdash; blends the guidance into the host document's own voice. Good
+              for guidelines and gates that should feel native, not bolted on.
+            </li>
+          </ul>
+          <div class="callout">
+            <strong>Rule of thumb:</strong> mingle guidance you want <em>felt</em>;
+            layer method you want <em>seen</em>. When in doubt, start without
+            <code>mingle</code> and add it once the result reads too much like a
+            stack of appendices.
+          </div>
+        </section>
+
+        <section id="finish" class="article-section">
+          <h2>What you learned</h2>
+          <ul>
+            <li>Reusable knowledge lives in one fragment, not in copies.</li>
+            <li><code>@refine</code> obliges a spec to satisfy an imported one, woven into a single document.</li>
+            <li>The same fragments compile into radically different artifacts.</li>
+            <li>Updating a fragment propagates its new guidance to every promplet that refines it on the next compile.</li>
+            <li><code>mingle: true</code> blends guidance in; plain <code>@refine</code> layers it as method.</li>
+          </ul>
+          <div class="callout">
+            <strong>Next:</strong> put refinement to work in a domain that must
+            adapt to the reader in
+            <a href="tutorial-refine.html">Adaptive tutor</a>.
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark tutorial</strong><br>
+          Reuse the same building blocks across completely different outputs.
+        </div>
+        <div>
+          <a href="introduction.html">Introduction</a> |
+          <a href="python-api.html">Python API</a> |
+          <a href="reference.html">Reference</a> |
+          <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        const links = Array.from(document.querySelectorAll(".sidebar a[href^='#']"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const sections = links
+          .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+          .filter(Boolean);
+        const visible = new Set();
+        const setActive = (id) => {
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href").slice(1) === id)
+          );
+        };
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            }
+            const current = sections.find((s) => visible.has(s.id));
+            if (current) setActive(current.id);
+          },
+          { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+        );
+        sections.forEach((s) => observer.observe(s));
+      })();
+    </script>
+  </body>
+</html>

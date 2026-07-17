@@ -1,0 +1,532 @@
+# WeaveMark — Deterministic Grammar (companion to the system prompt)
+
+> **Source-of-truth principle.** This file MIRRORS the canonical WeaveMark
+> language definition in `src/weavemark/prompts/weavemark.system.md`. The
+> system prompt's prose is authoritative. When this file disagrees with the
+> system prompt, **fix this file** (not the prompt), unless the user has
+> explicitly asked otherwise.
+>
+> Both files are kept in sync by `scripts/check_grammar_sync.py`, which is
+> exercised by `tests/test_grammar_sync.py` in CI. The script does not
+> require an LLM; it parses both files deterministically.
+
+This file is consumed by deterministic tooling — the structural validator
+(`src/weavemark/compilation/structural.py`), the sync checker, future
+parser generators, editor language servers, etc. It is **never sent to
+the LLM** as part of a system prompt. The LLM reads the prose definition
+and its inline `promplet-schema` blocks; this file is the engineering
+mirror of those blocks.
+
+## Layout
+
+This file has two sections:
+
+1. **Kernel grammar** — a single fenced `ebnf` block whose body is
+   byte-equivalent to the kernel grammar block embedded in the system
+   prompt's "Formal Grammar (Shape Grammar — EBNF kernel)" section. The
+   sync script compares them as plain text (after stripping trailing
+   whitespace per line).
+
+2. **Directive schemas** — one fenced `promplet-schema` block per
+   directive that has a schema in the system prompt. The format is
+   defined in the system prompt's "Per-Directive Schema Blocks
+   (convention)" section. The sync script compares each schema by
+   normalised value (positional list, sorted params set, sorted flags
+   set, body mode, and seam). `notes:` are NOT compared, so this file
+   may carry deeper notes than the prose without breaking the sync.
+
+If a directive has a schema here but not in the prompt (an "orphan
+production"), the script will raise an error and the fix is to remove
+the production from this file or add a matching schema to the prose.
+The same rule applies in reverse for missing productions.
+
+## Kernel grammar
+
+```ebnf
+# ---------- top-level ----------
+
+spec              ::= version_pragma? line*
+version_pragma    ::= "@promplet" SP+ "version:" SP? VERSION (SP+ "surface:" SP? SURFACE_NAME)? NEWLINE
+VERSION           ::= /[0-9]+\.[0-9]+/
+SURFACE_NAME      ::= "canonical" | "markdown"
+
+line              ::= BLANK_LINE
+                    | directive_line
+                    | content_line
+
+# ---------- directives ----------
+
+directive_line    ::= "@" directive_name (SP+ directive_tail)? NEWLINE body?
+directive_name    ::= IDENT
+directive_tail    ::= define_signature | arg_list
+define_signature  ::= IDENT "(" macro_param_list? ")"  # @define compact form
+macro_param_list  ::= macro_param ("," SP? macro_param)*
+macro_param       ::= IDENT ":" /[^\n,]+/
+body              ::= INDENT line+ DEDENT       # a body is itself a sub-spec
+
+# ---------- content ----------
+# Content lines are everything that is not a directive header. A line whose
+# first non-whitespace token is "@@" is content (the un-escape pass will
+# render it as a leading "@" character).
+
+content_line      ::= (TEXT | ESC_AT | variable_ref)+ NEWLINE
+
+# ---------- inline arguments ----------
+# Ordered choice resolves the flag/positional/kv ambiguity:
+#   1. kv wins when an IDENT is followed by ":"
+#   2. flag wins when an IDENT is NOT followed by ":"
+#   3. positional otherwise.
+
+arg_list          ::= arg (SP+ arg)*
+arg               ::= kv | flag | positional
+kv                ::= IDENT ":" SP? value
+flag              ::= IDENT                     # disambiguated by ! ":"  (lookahead)
+positional        ::= STRING | bareword
+
+value             ::= STRING | NUMBER | BOOL | inline_list | bareword
+inline_list       ::= "[" (value ("," SP? value)*)? "]"
+
+# ---------- variables and escapes ----------
+
+variable_ref      ::= "@{" SP? IDENT SP? "}"    # recognised in content and in non-opaque values
+                                                # NOT a directive (directives are line-leading)
+                                                # IDENT may be a dotted path (a.b.0.c): each
+                                                # segment descends one nesting level — a mapping
+                                                # key or an integer list index. Exact flat key
+                                                # wins first; an unresolved path is left intact.
+# ESC_AT is a lexical terminal; semantically it renders as "@" exactly
+# once, AFTER all directive processing, and ONLY outside opaque carriers.
+
+# ---------- opaque carriers ----------
+# The body of the following directives is <OPAQUE: kind>: the composer
+# MUST NOT parse it for directives, variables, or escapes. The opaque
+# extent is delimited by INDENT/DEDENT just like a normal body.
+
+#   @embed        body  → <OPAQUE: embed-body>
+#   @note         body  → <OPAQUE: note-body>      (stripped before final output)
+#   @output       body  → <OPAQUE: output-kv>      (output-contract key/value pairs)
+
+# ---------- lexical primitives ----------
+
+IDENT             ::= /[A-Za-z_][A-Za-z0-9_.\-]*/
+bareword          ::= /[A-Za-z0-9_./%\-]+/
+STRING            ::= /"([^"\\\n]|\\["\\])*"/
+NUMBER            ::= /-?[0-9]+(\.[0-9]+)?/
+BOOL              ::= "true" | "false"
+SP                ::= /[ \t]/                   # horizontal whitespace inside a logical line
+
+# ---------- intentionally under-specified ("LLM seams") ----------
+# The following names appear in directive-specific productions
+# (see docs/weavemark.ebnf and the prose of each directive) but their
+# bodies are deliberately NOT grammar-fixed. They are owned by the LLM
+# composer, which interprets them per the prose semantics.
+
+<LLM: if-condition>           # @if / @else_if condition
+<LLM: match-value>            # @match positional argument
+<LLM: match-pattern>          # @match case label
+<LLM: match-effect>           # @match case effect
+```
+
+## Directive schemas
+
+```promplet-schema
+directive:  @promplet
+params:
+  - version: NUMBER (required)
+  - surface: ENUM(canonical|markdown) = canonical
+body-mode:  none
+notes:      Must be the first non-blank, non-comment line in the spec. Value matches /[0-9]+\.[0-9]+/.
+```
+
+```promplet-schema
+directive:  @module
+positional:
+  - name: IDENT (required)
+body-mode:  none
+notes:      Declares a single module for the file. Module names are dotted logical names such as company.presentation.
+```
+
+```promplet-schema
+directive:  @use
+positional:
+  - module: IDENT (required)
+params:
+  - as: IDENT
+  - exposing: ANY
+body-mode:  none
+notes:      `as` and `exposing` are keyword-style import clauses, not ordinary `key:` parameters. `exposing` accepts a comma/space-separated definition name list. Module names resolve through standard-library, importer-local, project, user, and global registries.
+```
+
+```promplet-schema
+directive:  @include
+positional:
+  - module: IDENT (required)
+body-mode:  none
+notes:      Explicitly inserts reusable module body content. `@use` alone never injects body text.
+```
+
+```promplet-schema
+directive:  @define
+positional:
+  - name: IDENT (required)
+body-mode:  subspec
+notes:      Supports compact `@define name(param: description, body: description)` and long `@define name` forms. Long form uses nested @param declarations plus exactly one @body block. A long-form definition with @effect is a semantic function.
+```
+
+```promplet-schema
+directive:  @param
+positional:
+  - name: IDENT (required)
+params:
+  - default: ANY
+  - implicit: BOOL = false
+  - mode: ENUM(text|subspec|path|promplet) = text
+body-mode:  free-text
+notes:      Valid only inside long-form @define. Parameter descriptions are natural language, not a static type system.
+```
+
+```promplet-schema
+directive:  @phase
+positional:
+  - phase: ENUM(compile|execute) (required)
+body-mode:  none
+notes:      Valid only inside effectful long-form @define. Declares when the semantic function may run.
+```
+
+```promplet-schema
+directive:  @scope
+positional:
+  - scope: ENUM(self|body|enclosing_block|prompt|document|metadata) (required)
+body-mode:  none
+notes:      Valid only inside effectful long-form @define. Declares which region the semantic function may modify.
+```
+
+```promplet-schema
+directive:  @returns
+positional:
+  - kind: IDENT (required)
+body-mode:  none
+notes:      Valid only inside effectful long-form @define. Declares the semantic function result kind.
+```
+
+```promplet-schema
+directive:  @effect
+positional:
+  - name: IDENT (required)
+  - mode: ENUM(read|write)
+body-mode:  none
+notes:      Valid only inside effectful long-form @define. Declares a host-owned capability the semantic function may request.
+```
+
+```promplet-schema
+directive:  @body
+body-mode:  subspec
+notes:      Valid only inside long-form @define. Carries the WeaveMark expansion template.
+```
+
+```promplet-schema
+directive:  @if
+body-mode:  subspec
+seam:       <LLM: if-condition>
+notes:      The free-text condition is everything after "@if " on the header line.
+```
+
+```promplet-schema
+directive:  @else_if
+body-mode:  subspec
+seam:       <LLM: if-condition>
+notes:      Must follow an @if or an earlier @else_if at the same indent level.
+```
+
+```promplet-schema
+directive:  @else
+body-mode:  subspec
+notes:      Optional terminal clause. At most one per chain.
+```
+
+```promplet-schema
+directive:  @match
+body-mode:  dsl:match-branches
+seam:       <LLM: match-value>
+notes:      The header carries a free-text value to match against; the body is one or more `<pattern> ==> <effect>` branches (single-line) or `<pattern> ==>` lines whose deeper-indented body becomes the effect. `_` is the default-case wildcard. Each branch effect is a SUB-SPEC: directives nested inside the winning branch (e.g., imported `@refine`, `@if`, nested `@match`) MUST be recursively processed; directives nested inside losing branches MUST NOT be processed.
+```
+
+```promplet-schema
+directive:  @expand
+body-mode:  subspec
+seam:       <LLM: semantic-expansion>
+notes:      The header carries expansion intent/options; the indented body is the compact source subspec to expand.
+```
+
+```promplet-schema
+directive:  @style
+positional:
+  - instruction: STRING (required)
+body-mode:  subspec
+seam:       <LLM: style-transform>
+notes:      Applies the requested style to the indented target subspec.
+```
+
+```promplet-schema
+directive:  @polish
+positional:
+  - instruction: STRING
+body-mode:  subspec
+seam:       <LLM: polish-transform>
+notes:      Polishes presentation and organization of the target subspec without adding or removing substantive information.
+```
+
+```promplet-schema
+directive:  @normalize
+positional:
+  - instruction: STRING (required)
+params:
+  - scope: IDENT
+body-mode:  subspec
+seam:       <LLM: normalize-transform>
+notes:      Normalizes the indented target subspec according to the inline instruction.
+```
+
+```promplet-schema
+directive:  @revise
+positional:
+  - instruction: STRING (required)
+params:
+  - mode: IDENT
+body-mode:  subspec
+seam:       <LLM: revise-transform>
+notes:      Revises the indented target subspec according to the inline instruction.
+```
+
+```promplet-schema
+directive:  @compress
+positional:
+  - instruction: STRING (required)
+body-mode:  subspec
+seam:       <LLM: compress-transform>
+notes:      Compresses the indented target subspec while preserving the obligations named in the instruction.
+```
+
+```promplet-schema
+directive:  @summarize
+body-mode:  subspec
+seam:       <LLM: summarize-transform>
+notes:      Summarizes the indented target subspec.
+```
+
+```promplet-schema
+directive:  @extract
+positional:
+  - instruction: STRING
+params:
+  - format: IDENT
+body-mode:  subspec
+seam:       <LLM: extract-transform>
+notes:      Extracts the requested information from the indented target subspec.
+```
+
+```promplet-schema
+directive:  @generate_examples
+params:
+  - count: NUMBER
+  - style: IDENT
+body-mode:  subspec
+seam:       <LLM: example-generation>
+notes:      Generates examples from the indented target subspec.
+```
+
+```promplet-schema
+directive:  @output
+positional:
+  - format: STRING
+params:
+  - type: ENUM(text|image) = text
+  - enforce: IDENT
+  - size: STRING
+  - quality: IDENT
+  - model: IDENT
+  - n: INT
+  - edit: BOOL
+  - file: PATH
+body-mode:  dsl:output-kv
+notes:      Block-scoped output contract (root -> default production, or per-@prompt). type text|image selects model kind and API method. text carries the optional format/enforce obligation (replaces @output_format) and injects it into prompt text; image carries size/quality/model/n and injects no prompt text, and edit: on uses reference-guided editing when image inputs are present. Parameter values are variable-substituted at compile time (e.g. size: @{image_size}); file: names where the produced artifact is persisted at execution time (runtime placeholders like @{index} preserved for per-production resolution). Emits per-prompt output metadata.
+```
+
+```promplet-schema
+directive:  @structural_constraints
+params:
+  - strict: BOOL
+body-mode:  subspec
+notes:      Declares structural obligations that the composed prompt should preserve.
+```
+
+```promplet-schema
+directive:  @assert
+positional:
+  - assertion: STRING
+params:
+  - contains: STRING
+  - not_contains: STRING
+  - variable: STRING
+  - severity: ENUM(error|warning)
+body-mode:  none
+notes:      Declares a compile-time or authoring assertion. Failed assertions should be reported with their severity.
+```
+
+```promplet-schema
+directive:  @compile
+params:
+  - format: IDENT
+  - context: ENUM(auto|cascade|local) = auto
+  - images: ENUM(on|off) = on
+body-mode:  none
+notes:      Emits compile-time options in the compiled result. CLI flags override these defaults. images toggles Markdown image lifting into multimodal input parts.
+```
+
+```promplet-schema
+directive:  @prompt
+positional:
+  - name: IDENT (required)
+params:
+  - role: ENUM(system|user|assistant|tool)
+  - format: IDENT
+body-mode:  subspec
+notes:      Disposition (pipeline / emission / refine-target) is inferred from whether the spec has a top-level @execute and whether all @prompt blocks carry a role. format: requires role: and is emission-only.
+```
+
+```promplet-schema
+directive:  @emit
+params:
+  - file: PATH (required)
+body-mode:  subspec
+notes:      Path must be relative and must not escape the output directory. Two @emit blocks targeting the same path is an error.
+```
+
+```promplet-schema
+directive:  @package
+params:
+  - template: PROMPLET_REF
+  - from: PATH
+  - file: PATH (required)
+body-mode:  dsl:output-kv
+notes:      Execution-phase packaging of produced artifacts. Exactly one of template: (render a packaging-template promplet via a semantic transformation over the pipeline outputs + @{<stage>_files}) or from: (deterministically convert a produced deliverable, e.g. HTML -> PDF). Paths relative, no escape. Emitted to the compiled packages list in source order.
+```
+
+```promplet-schema
+directive:  @execute
+positional:
+  - strategy: IDENT (required)
+body-mode:  dsl:execute-kv
+notes:      The body is one `key: value` pair per line; values are emitted into the compiled execution object. Strategy types include single-call, self-consistency, tree-of-thought, simplified-tree-of-thought, reflection, collaborative, chain, fslm, and weave. `chain` runs named @prompt stages in order (each sees @{previous}/@{stage}); supports repeat:<stage>+count:<n> for data-driven iteration. `reflection` reserves `critique`/`revise` as loop roles and runs every other @prompt stage as a production chain (source order, @{previous}/@{stage}); the last production stage's artifact enters the critique→revise loop (rounds:/max_rounds:). `fslm` supports machine, initial_event/events, max_steps, and prompt_contract. `weave` supports scheduler sequential|graph|graph-strict. Duplicate @execute declarations are errors.
+```
+
+```promplet-schema
+directive:  @machine
+positional:
+  - name: IDENT (required)
+params:
+  - initial: IDENT
+  - version: STRING
+body-mode:  dsl:fslm-machine
+notes:      Supplied by explicitly importing `weavemark.experimental.fslm`. Lowers inline states/transitions into `@execute fslm` machine_spec metadata.
+```
+
+```promplet-schema
+directive:  @state
+positional:
+  - name: IDENT (required)
+params:
+  - terminal: BOOL
+body-mode:  dsl:fslm-state
+notes:      State body becomes the FSLM state objective/description.
+```
+
+```promplet-schema
+directive:  @transition
+positional:
+  - name: IDENT (required)
+params:
+  - event: IDENT
+  - target: IDENT
+  - to: IDENT
+  - internal: BOOL
+  - external: BOOL
+  - weight: NUMBER
+body-mode:  dsl:fslm-transition
+notes:      The autonomous runner may choose transitions with internal:true. Host/user/environment events may trigger transitions with external:true.
+```
+
+```promplet-schema
+directive:  @input
+positional:
+  - name: IDENT (required)
+params:
+  - default: STRING
+  - required: BOOL
+body-mode:  free-text
+notes:      Describes transition input. Tool actions receive matching input names automatically when the tool schema has matching parameters.
+```
+
+```promplet-schema
+directive:  @guard
+positional:
+  - id: IDENT (required)
+params:
+  - kind: ENUM(nl|deterministic)
+  - ref: STRING
+  - prompt_key: IDENT
+  - min_confidence: NUMBER
+body-mode:  free-text
+notes:      NL guards generate collision-safe `guard.<state>.<transition>.<id>` prompts unless prompt_key overrides the convention.
+```
+
+```promplet-schema
+directive:  @action
+positional:
+  - name: IDENT (required)
+params:
+  - tool: IDENT
+  - ref: STRING
+  - kind: ENUM(nl|tool|deterministic)
+  - prompt_key: IDENT
+  - optional: BOOL
+body-mode:  free-text
+notes:      Multiple actions per transition are allowed and run in order after guards pass. NL actions generate collision-safe `action.<state>.<transition>.<name>` prompts; tool actions are concrete effects.
+```
+
+```promplet-schema
+directive:  @tool
+positional:
+  - function_name: IDENT (required)
+body-mode:  dsl:tool-params
+notes:      The body is `description...` followed by one parameter per line in the form `- <name>: <type> [modifiers] - <description>`. Supported parameter types: string, integer, number, boolean, array, object. Description separator is ` - ` (ASCII hyphen-minus surrounded by spaces). Duplicate function names are errors.
+```
+
+```promplet-schema
+directive:  @bind
+positional:
+  - capability_name: IDENT (required)
+params:
+  - language: IDENT (required)
+  - from: PATH (required)
+  - symbol: IDENT (required)
+body-mode:  none
+notes:      Companion-program binding metadata. Never executed during composition; emitted in the compiled bindings list for authorized execution runtimes.
+```
+
+```promplet-schema
+directive:  @note
+body-mode:  opaque
+notes:      Stripped from the final composed output. Useful for prompt-engineer annotations.
+```
+
+```promplet-schema
+directive:  @embed
+params:
+  - file: RESOURCE_REF
+  - lang: IDENT
+  - label: STRING
+  - indent: BOOL = true
+body-mode:  opaque
+notes:      Either file: or an indented body provides the content. Content is OPAQUE — never re-parsed for directives, variables, or @@ escapes. Does NOT participate in cycle detection.
+```

@@ -1,0 +1,528 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "WeaveMark",
+  "scopeName": "text.markdown.weavemark",
+  "fileTypes": ["weavemark.md"],
+  "firstLineMatch": "^\\s*@(?:promplet|define|module|use|include|bind|refine|ask|iterate|note|match|if|else_if|compile|execute|prompt|emit|output|package|tool|embed|body|machine|state|transition|input|guard|action)\\b",
+  "patterns": [
+    { "include": "#escaped-at" },
+    { "include": "#note-block" },
+    { "include": "#debug-query" },
+    { "include": "#match-case" },
+    { "include": "#surface-directive-heading" },
+    { "include": "#surface-callout" },
+    { "include": "#directive-promplet" },
+    { "include": "#directive-compile" },
+    { "include": "#directive-execute" },
+    { "include": "#directive-fslm" },
+    { "include": "#directive-prompt" },
+    { "include": "#directive-emit" },
+    { "include": "#directive-output" },
+    { "include": "#directive-package" },
+    { "include": "#directive-tool" },
+    { "include": "#directive-define" },
+    { "include": "#directive-param" },
+    { "include": "#directive-body" },
+    { "include": "#directive-semantic-subdirective" },
+    { "include": "#directive-module" },
+    { "include": "#directive-use" },
+    { "include": "#directive-bind" },
+    { "include": "#directive-include" },
+    { "include": "#directive-refine" },
+    { "include": "#directive-ask" },
+    { "include": "#directive-iterate" },
+    { "include": "#directive-embed" },
+    { "include": "#directive-match" },
+    { "include": "#directive-if" },
+    { "include": "#directive-else-if" },
+    { "include": "#directive-else" },
+    { "include": "#directive-assert-inline" },
+    { "include": "#directive-with-string" },
+    { "include": "#directive-with-kv" },
+    { "include": "#directive-keyword" },
+    { "include": "#inline-variable-braced" },
+    { "include": "#mustache-triple-braced" },
+    { "include": "#mustache-braced" },
+    { "include": "#single-braced-placeholder" },
+    { "include": "#markdown-code-block" },
+    { "include": "#markdown-heading" },
+    { "include": "#markdown-bold" },
+    { "include": "#markdown-italic" },
+    { "include": "#markdown-inline-code" },
+    { "include": "#markdown-link" },
+    { "include": "#markdown-list" }
+  ],
+  "repository": {
+
+    "escaped-at": {
+      "match": "(@@)(\\w*)",
+      "captures": {
+        "1": { "name": "constant.character.escape.at.weavemark" },
+        "2": { "name": "constant.character.escape.word.weavemark" }
+      }
+    },
+
+    "note-block": {
+      "begin": "^(\\s*)(@note)\\s*$",
+      "end": "^(?!\\1  )(?!\\s*$)",
+      "beginCaptures": {
+        "2": { "name": "comment.block.documentation.directive.weavemark" }
+      },
+      "contentName": "comment.block.documentation.weavemark"
+    },
+
+    "debug-query": {
+      "match": "^(\\s*)(@(?:directives|vars|structure))(\\?)",
+      "captures": {
+        "2": { "name": "keyword.other.debug-query.weavemark" },
+        "3": { "name": "keyword.operator.debug-query.weavemark" }
+      }
+    },
+
+    "match-case": {
+      "match": "^(\\s*)(\"[^\"]*\"|_)(\\s*)(==>)",
+      "captures": {
+        "2": { "name": "string.regexp.match-case.weavemark" },
+        "4": { "name": "keyword.operator.fat-arrow.weavemark" }
+      }
+    },
+
+    "directive-execute": {
+      "match": "^(\\s*)(@execute)(\\s+)(single-call|self-consistency|tree-of-thought|simplified-tree-of-thought|reflection|chain|collaborative|fslm|weave)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.execute.weavemark" },
+        "4": { "name": "entity.name.type.strategy.weavemark" },
+        "5": { "patterns": [{ "include": "#kv-pair" }] }
+      }
+    },
+
+    "surface-directive-heading": {
+      "match": "^(\\s*)(#{1,6})(\\s+)(@(?:promplet|define|module|use|include|bind|param|phase|scope|returns|effect|body|refine|ask|iterate|if|else_if|else|match|compile|execute|machine|state|transition|input|guard|action|prompt|emit|output|package|tool|revise|expand|style|polish|summarize|compress|extract|generate_examples|example|structural_constraints|assert|note|embed|inspect|normalize|concise))(.*)$",
+      "captures": {
+        "2": { "name": "punctuation.definition.heading.markdown" },
+        "4": { "name": "keyword.control.surface.directive-heading.weavemark" },
+        "5": {
+          "patterns": [
+            { "include": "#import-clause" },
+            { "include": "#kv-pair" },
+            { "include": "#quoted-string" }
+          ]
+        }
+      }
+    },
+
+    "surface-callout": {
+      "match": "^(\\s*)(>)(\\s*)(\\[!PROMPLET)(?:\\s+([A-Za-z_][\\w.-]*)(.*?))?(\\])",
+      "captures": {
+        "2": { "name": "punctuation.definition.quote.begin.markdown" },
+        "4": { "name": "keyword.control.surface.callout.weavemark" },
+        "5": { "name": "keyword.control.surface.callout.directive.weavemark" },
+        "6": {
+          "patterns": [
+            { "include": "#import-clause" },
+            { "include": "#kv-pair" },
+            { "include": "#quoted-string" }
+          ]
+        },
+        "7": { "name": "keyword.control.surface.callout.weavemark" }
+      }
+    },
+
+    "directive-promplet": {
+      "match": "^(\\s*)(@promplet)(\\s+)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.pragma.weavemark" },
+        "4": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-fslm": {
+      "match": "^(\\s*)(@(machine|state|transition|input|guard|action))(?:\\s+)([A-Za-z_][\\w.-]*)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.fslm.weavemark" },
+        "4": { "name": "entity.name.type.fslm.weavemark" },
+        "5": {
+          "patterns": [
+            { "include": "#kv-pair" },
+            { "include": "#quoted-string" }
+          ]
+        }
+      }
+    },
+
+    "directive-compile": {
+      "match": "^(\\s*)(@compile)(\\s+)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.compile.weavemark" },
+        "4": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-prompt": {
+      "match": "^(\\s*)(@prompt)(\\s+)([A-Za-z_][\\w.-]*)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.prompt.weavemark" },
+        "4": { "name": "entity.name.section.prompt.weavemark" },
+        "5": { "patterns": [{ "include": "#kv-pair" }] }
+      }
+    },
+
+    "directive-tool": {
+      "match": "^(\\s*)(@tool)(\\s+)(\\S+)",
+      "captures": {
+        "2": { "name": "keyword.control.tool.weavemark" },
+        "4": { "name": "entity.name.function.tool.weavemark" }
+      }
+    },
+
+    "directive-define": {
+      "match": "^(\\s*)(@define)(\\s+)([A-Za-z_][\\w.-]*)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.definition.weavemark" },
+        "4": { "name": "entity.name.function.definition.weavemark" },
+        "5": {
+          "patterns": [
+            { "include": "#macro-param" },
+            { "include": "#kv-pair" },
+            { "include": "#quoted-string" }
+          ]
+        }
+      }
+    },
+
+    "directive-param": {
+      "match": "^(\\s*)(@param)(\\s+)([A-Za-z_][\\w.-]*)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.definition.param.weavemark" },
+        "4": { "name": "entity.name.parameter.definition.weavemark" },
+        "5": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-body": {
+      "match": "^(\\s*)(@body)\\b(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.definition.body.weavemark" },
+        "3": { "patterns": [{ "include": "#kv-pair" }] }
+      }
+    },
+
+    "directive-semantic-subdirective": {
+      "match": "^(\\s*)(@(phase|scope|returns|effect))(?:\\s+([A-Za-z_][\\w.-]*))?(?:\\s+([A-Za-z_][\\w.-]*))?(.*)$",
+      "captures": {
+        "2": { "name": "keyword.control.semantic.weavemark" },
+        "4": { "name": "support.constant.semantic-value.weavemark" },
+        "5": { "name": "storage.modifier.effect-mode.weavemark" },
+        "6": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-module": {
+      "match": "^(\\s*)(@module)(\\s+)([A-Za-z_][\\w.-]*)",
+      "captures": {
+        "2": { "name": "keyword.control.module.weavemark" },
+        "4": { "name": "entity.name.namespace.module.weavemark" }
+      }
+    },
+
+    "directive-use": {
+      "match": "^(\\s*)(@use)(\\s+)([A-Za-z_][\\w.-]*)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.import.use.weavemark" },
+        "4": { "name": "entity.name.namespace.module.weavemark" },
+        "5": { "patterns": [{ "include": "#import-clause" }, { "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-bind": {
+      "match": "^(\\s*)(@bind)(\\s+)([A-Za-z_][\\w.-]*)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.bind.weavemark" },
+        "4": { "name": "entity.name.function.bind.weavemark" },
+        "5": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-include": {
+      "match": "^(\\s*)(@include)(\\s+)(\\S+)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.import.weavemark" },
+        "4": { "name": "entity.name.filename.weavemark" },
+        "5": { "patterns": [{ "include": "#kv-pair" }] }
+      }
+    },
+
+    "directive-emit": {
+      "match": "^(\\s*)(@emit)(\\s+)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.emit.weavemark" },
+        "4": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-output": {
+      "match": "^(\\s*)(@output)\\b(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.output.weavemark" },
+        "3": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-package": {
+      "match": "^(\\s*)(@package)\\b(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.package.weavemark" },
+        "3": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-refine": {
+      "match": "^(\\s*)(@refine)(\\s+)(\\S+)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.import.weavemark" },
+        "4": { "name": "entity.name.filename.weavemark" },
+        "5": { "patterns": [{ "include": "#kv-pair" }] }
+      }
+    },
+
+    "directive-ask": {
+      "match": "^(\\s*)(@ask)(?:\\s+([^\\n]*?))?(?:\\s+(detail_level)(:)(\\s*)([^\\s]+))?\\s*$",
+      "captures": {
+        "2": { "name": "keyword.control.ask.weavemark" },
+        "3": { "name": "string.unquoted.ask-question-type.weavemark" },
+        "4": { "name": "entity.other.attribute-name.weavemark" },
+        "5": { "name": "punctuation.separator.key-value.weavemark" },
+        "7": { "name": "support.constant.parameter-value.weavemark" }
+      }
+    },
+
+    "directive-iterate": {
+      "match": "^(\\s*)(@iterate)(?:\\s+(\\d+))?\\s*$",
+      "captures": {
+        "2": { "name": "keyword.control.iterate.weavemark" },
+        "3": { "name": "constant.numeric.weavemark" }
+      }
+    },
+
+    "directive-embed": {
+      "match": "^(\\s*)(@embed)((?:\\s+(?:file|lang|label|indent):\\s*(?:\"[^\"]*\"|\\S+))*)(\\s*)$",
+      "captures": {
+        "2": { "name": "keyword.control.embed.weavemark" },
+        "3": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-match": {
+      "match": "^(\\s*)(@match)(\\s+)([A-Za-z_][\\w.-]*)",
+      "captures": {
+        "2": { "name": "keyword.control.switch.weavemark" },
+        "4": { "name": "variable.other.readwrite.weavemark" }
+      }
+    },
+
+    "directive-if": {
+      "match": "^(\\s*)(@if)(\\s+)(\\S.*?)\\s*$",
+      "captures": {
+        "2": { "name": "keyword.control.conditional.weavemark" },
+        "4": { "name": "variable.other.readwrite.weavemark" }
+      }
+    },
+
+    "directive-else-if": {
+      "match": "^(\\s*)(@else_if)(\\s+)(\\S.*?)\\s*$",
+      "captures": {
+        "2": { "name": "keyword.control.conditional.elseif.weavemark" },
+        "4": { "name": "variable.other.readwrite.weavemark" }
+      }
+    },
+
+    "directive-else": {
+      "match": "^(\\s*)(@else)\\b",
+      "captures": {
+        "2": { "name": "keyword.control.conditional.weavemark" }
+      }
+    },
+
+    "directive-assert-inline": {
+      "match": "^(\\s*)(@assert)((?:\\s+\\w+:\\s*\\S+)*)(\\s+.*)?$",
+      "captures": {
+        "2": { "name": "keyword.control.assert.weavemark" },
+        "3": { "patterns": [{ "include": "#kv-pair" }] },
+        "4": { "name": "string.unquoted.assert-message.weavemark" }
+      }
+    },
+
+    "directive-with-string": {
+      "match": "^(\\s*)(@(?:style|polish|summarize|compress|extract|generate_examples|example|assert|ask|phase|scope|returns|effect))(\\s+)(\"(?:[^\"\\\\\\n]|\\\\.)*\")",
+      "captures": {
+        "2": { "name": "keyword.control.directive.weavemark" },
+        "4": { "name": "string.quoted.double.weavemark" }
+      }
+    },
+
+    "directive-with-kv": {
+      "match": "^(\\s*)(@(?:revise|expand|compress|extract|summarize|generate_examples|example|structural_constraints|style|polish|ask|phase|scope|returns|effect|bind|param|normalize|inspect|concise))(\\s+)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.directive.weavemark" },
+        "4": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "directive-keyword": {
+      "match": "^(\\s*)(@(?:promplet|define|module|use|include|bind|param|phase|scope|returns|effect|body|refine|ask|iterate|if|else_if|else|match|compile|execute|prompt|emit|output|package|tool|revise|expand|style|polish|summarize|compress|extract|generate_examples|example|structural_constraints|assert|note|embed|inspect|normalize|concise))\\b",
+      "captures": {
+        "2": { "name": "keyword.control.directive.weavemark" }
+      }
+    },
+
+    "import-clause": {
+      "patterns": [
+        {
+          "match": "\\b(exposing)\\b",
+          "name": "keyword.control.import.exposing.weavemark"
+        },
+        {
+          "match": "\\b(as)\\b",
+          "name": "keyword.control.import.alias.weavemark"
+        },
+        {
+          "match": "\\b(expose|only)\\b",
+          "name": "invalid.illegal.import.weavemark"
+        },
+        {
+          "match": "\\b[A-Za-z_][\\w.-]*\\b",
+          "name": "entity.name.function.import.weavemark"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.import-list.weavemark"
+        }
+      ]
+    },
+
+    "macro-param": {
+      "match": "([A-Za-z_][\\w.-]*)(:)(\\s*)([^,\\)]+)",
+      "captures": {
+        "1": { "name": "entity.name.parameter.definition.weavemark" },
+        "2": { "name": "punctuation.separator.key-value.weavemark" },
+        "4": { "name": "string.unquoted.parameter-description.weavemark" }
+      }
+    },
+
+    "kv-pair": {
+      "match": "([A-Za-z_][\\w.-]*)(:)(\\s*)(\"(?:[^\"\\\\\\n]|\\\\.)*\"|\\[[^\\]\\n]*\\]|true|false|-?\\d+(?:\\.\\d+)?|[A-Za-z0-9_./%:\\-]+)",
+      "captures": {
+        "1": { "name": "entity.other.attribute-name.weavemark" },
+        "2": { "name": "punctuation.separator.key-value.weavemark" },
+        "4": {
+          "patterns": [
+            { "include": "#quoted-string" },
+            { "include": "#boolean" },
+            { "include": "#number" },
+            { "match": "\\[[^\\]\\n]*\\]", "name": "meta.brackets.inline-list.weavemark" },
+            { "match": "[A-Za-z0-9_./%:\\-]+", "name": "support.constant.parameter-value.weavemark" }
+          ]
+        }
+      }
+    },
+
+    "quoted-string": {
+      "match": "\"(?:[^\"\\\\\\n]|\\\\.)*\"",
+      "name": "string.quoted.double.weavemark"
+    },
+    "boolean": {
+      "match": "\\b(true|false)\\b",
+      "name": "constant.language.boolean.weavemark"
+    },
+    "number": {
+      "match": "\\b-?\\d+(?:\\.\\d+)?\\b",
+      "name": "constant.numeric.integer.weavemark"
+    },
+
+    "inline-variable-braced": {
+      "match": "(@)(\\{)([A-Za-z_][\\w.-]*)(\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.variable.at.weavemark" },
+        "2": { "name": "punctuation.section.embedded.begin.weavemark" },
+        "3": { "name": "variable.other.placeholder.weavemark" },
+        "4": { "name": "punctuation.section.embedded.end.weavemark" }
+      }
+    },
+
+    "mustache-triple-braced": {
+      "match": "\\{\\{\\{[^{}]*?\\}\\}\\}",
+      "name": "variable.other.template.mustache.weavemark"
+    },
+
+    "mustache-braced": {
+      "match": "\\{\\{[^{}\\n]*?\\}\\}",
+      "name": "variable.other.template.mustache.weavemark"
+    },
+
+    "single-braced-placeholder": {
+      "match": "(?<![@{])\\{[A-Za-z_][\\w .-]*\\}(?!\\})",
+      "name": "variable.other.template.mustache.weavemark"
+    },
+
+    "markdown-code-block": {
+      "begin": "^(\\s*)(```)(\\w*)",
+      "end": "^(\\s*)(```)",
+      "beginCaptures": {
+        "2": { "name": "punctuation.definition.code.fenced.markdown" },
+        "3": { "name": "entity.name.type.language.markdown" }
+      },
+      "endCaptures": {
+        "2": { "name": "punctuation.definition.code.fenced.markdown" }
+      },
+      "contentName": "markup.raw.block.fenced.markdown"
+    },
+    "markdown-heading": {
+      "match": "^(\\s*)(#{1,6})(\\s+)(.*)$",
+      "captures": {
+        "2": { "name": "punctuation.definition.heading.markdown" },
+        "4": { "name": "markup.heading.weavemark" }
+      }
+    },
+    "markdown-bold": {
+      "match": "(\\*\\*)(.+?)(\\*\\*)",
+      "captures": {
+        "1": { "name": "punctuation.definition.bold.markdown" },
+        "2": { "name": "markup.bold.markdown" },
+        "3": { "name": "punctuation.definition.bold.markdown" }
+      }
+    },
+    "markdown-italic": {
+      "match": "(?<!\\*)(\\*)((?!\\*).+?)(\\*)(?!\\*)",
+      "captures": {
+        "1": { "name": "punctuation.definition.italic.markdown" },
+        "2": { "name": "markup.italic.markdown" },
+        "3": { "name": "punctuation.definition.italic.markdown" }
+      }
+    },
+    "markdown-inline-code": {
+      "match": "(`)(.*?)(`)",
+      "captures": {
+        "1": { "name": "punctuation.definition.raw.markdown" },
+        "2": { "name": "markup.inline.raw.string.markdown" },
+        "3": { "name": "punctuation.definition.raw.markdown" }
+      }
+    },
+    "markdown-link": {
+      "match": "(\\[)([^\\]]*)(\\])(\\()([^)]*)(\\))",
+      "captures": {
+        "1": { "name": "punctuation.definition.link.markdown" },
+        "2": { "name": "string.other.link.title.markdown" },
+        "3": { "name": "punctuation.definition.link.markdown" },
+        "4": { "name": "punctuation.definition.link.markdown" },
+        "5": { "name": "markup.underline.link.markdown" },
+        "6": { "name": "punctuation.definition.link.markdown" }
+      }
+    },
+    "markdown-list": {
+      "match": "^(\\s*)([-*+]|\\d+\\.)(\\s)",
+      "captures": {
+        "2": { "name": "punctuation.definition.list.begin.markdown" }
+      }
+    }
+  }
+}

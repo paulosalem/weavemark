@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Tutorial - Semantic Macros and Functions</title>
+    <meta
+      name="description"
+      content="Advanced WeaveMark tutorial: build a reusable goal-to-plan semantic macro and pair it with a runtime public-reference lookup for financial independence planning."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html" aria-current="page">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <nav class="tutorial-nav shell" aria-label="Tutorials">
+      <a href="tutorial.html"><span>1</span> First promplet</a>
+      <a href="tutorial-reuse.html"><span>2</span> Reuse &amp; refine</a>
+      <a href="tutorial-refine.html"><span>3</span> Adaptive tutor</a>
+      <a href="tutorial-products.html"><span>4</span> Product specs</a>
+      <a href="tutorial-games.html"><span>5</span> Game specs</a>
+      <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
+      <a href="tutorial-advanced.html" aria-current="page"><span>7</span> Advanced macros</a>
+      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
+      <a href="tutorial-illustrated.html"><span>9</span> Illustrated stories</a>
+    </nav>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Advanced tutorial</p>
+      <h1>
+        Build a goal-to-plan promplet
+        <span class="gradient-text">with runtime lookup.</span>
+      </h1>
+      <p class="hero-copy">
+        This tutorial teaches <strong>semantic macros</strong> and
+        <strong>semantic functions</strong> with one concrete application:
+        turning the simple goal <em>"reach financial independence"</em> into a
+        useful planning prompt. The user provides only a few plain answers; no
+        transactions, portfolio, or spreadsheet upload is required.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Advanced tutorial highlights">
+      <div class="summary-card">
+        <strong>You write</strong>
+        <span>A reusable <code>@goal_plan</code> macro for any domain.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You add</strong>
+        <span>A semantic function with a real <code>web_search read</code> effect.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You produce</strong>
+        <span>A ready-to-paste financial-independence planning prompt.</span>
+      </div>
+    </div>
+
+    <section class="shell repo-resources" aria-label="Repository files for this tutorial">
+      <h2>In the repository</h2>
+      <div class="repo-resources-links">
+        <a class="repo-link" href="../promplets/catalog/standalone/financial-independence-goal-plan.weavemark.md"><span class="repo-tag">Spec</span> financial-independence-goal-plan.weavemark.md</a>
+        <a class="repo-link" href="../promplets/stdlib/definitions/planning/goals.weavemark.md"><span class="repo-tag">Module</span> goals.weavemark.md</a>
+        <a class="repo-link" href="../examples/python-runtime-integrations/financial-independence-goal-plan/run.py"><span class="repo-tag">Example</span> run.py</a>
+      </div>
+    </section>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Tutorial sections">
+        <h2>Steps</h2>
+        <a href="#setup">0. Setup</a>
+        <a href="#macro">1. Write the macro</a>
+        <a href="#apply">2. Apply it to FI</a>
+        <a href="#function">3. Add runtime lookup</a>
+        <a href="#run">4. Run the example</a>
+        <a href="#reuse">5. Reuse it elsewhere</a>
+        <a href="#finish">What you learned</a>
+      </aside>
+
+      <div class="article">
+        <section id="setup" class="article-section">
+          <h2>0. Setup</h2>
+          <p>
+            Work from the repository root. The complete checked-in version lives
+            in <code>promplets/stdlib/definitions/planning/goals.weavemark.md</code>,
+            <code>promplets/catalog/standalone/financial-independence-goal-plan.weavemark.md</code>,
+            and
+            <code>promplets/catalog/executable/financial-independence-goal-plan.weavemark.md</code>.
+          </p>
+          <pre><code>cd weavemark
+mkdir -p outputs/tutorial-goal/planning outputs/tutorial-goal/companions</code></pre>
+        </section>
+
+        <section id="macro" class="article-section">
+          <h2>1. Write a semantic macro</h2>
+          <p>
+            A semantic macro is a reusable source-level move. It does not call a
+            tool, fetch data, or ask an LLM at runtime. It <strong>expands a
+            compact instruction into structure</strong>. Here the macro turns a
+            goal into a planning specification.
+          </p>
+          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-goal/planning/goals.weavemark.md</span>
+<span class="syntax-directive">@module</span> weavemark.std.planning.goals
+
+<span class="syntax-directive">@define</span> planning_checkpoint
+  <span class="syntax-directive">@param</span> name
+    The checkpoint heading.
+
+  <span class="syntax-directive">@param</span> purpose
+    Why this checkpoint exists.
+
+  <span class="syntax-directive">@param</span> done_when
+    Observable completion condition.
+
+  <span class="syntax-directive">@body</span>
+    ### <span class="syntax-var">@{name}</span>
+
+    Purpose: <span class="syntax-var">@{purpose}</span>
+
+    Done when: <span class="syntax-var">@{done_when}</span>
+
+<span class="syntax-directive">@define</span> goal_plan
+  <span class="syntax-directive">@param</span> goal
+    Plain-language user goal.
+
+  <span class="syntax-directive">@param</span> domain
+    Domain where the goal lives.
+
+  <span class="syntax-directive">@param</span> horizon
+    Desired time horizon.
+
+  <span class="syntax-directive">@param</span> starting_point
+    Brief description of the user's current situation.
+
+  <span class="syntax-directive">@param</span> constraints
+    Boundaries and things the plan must avoid.
+
+  <span class="syntax-directive">@param</span> assumption_source
+    Runtime lookup result or user-verified assumptions.
+
+  <span class="syntax-directive">@body</span>
+    # Goal-to-plan promplet
+
+    Goal: <span class="syntax-var">@{goal}</span>
+    Domain: <span class="syntax-var">@{domain}</span>
+    Horizon: <span class="syntax-var">@{horizon}</span>
+    Starting point: <span class="syntax-var">@{starting_point}</span>
+    Constraints: <span class="syntax-var">@{constraints}</span>
+    Assumption source: <span class="syntax-var">@{assumption_source}</span>
+
+    <span class="syntax-directive">@planning_checkpoint</span> name: <span class="syntax-string">"Define the finish line"</span> purpose: <span class="syntax-string">"Translate the goal into observable success criteria."</span> done_when: <span class="syntax-string">"The plan has one measurable target and one review trigger."</span>
+
+    <span class="syntax-directive">@planning_checkpoint</span> name: <span class="syntax-string">"Build the milestone ladder"</span> purpose: <span class="syntax-string">"Turn a distant goal into near, middle, and long-horizon milestones."</span> done_when: <span class="syntax-string">"The plan has first-week, first-month, quarterly, and horizon-level milestones."</span>
+
+    <span class="syntax-directive">@planning_checkpoint</span> name: <span class="syntax-string">"Install the review loop"</span> purpose: <span class="syntax-string">"Keep the plan alive as conditions change."</span> done_when: <span class="syntax-string">"The plan includes cadence, metrics, and revision triggers."</span>
+
+    <span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
+      Return: goal profile, assumptions to verify, milestone ladder,
+      first-month actions, review cadence, and safeguards.
+
+    <span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"first-month actions"</span></code></pre>
+          <div class="callout">
+            <strong>What is reusable?</strong> Nothing here is specific to
+            financial independence. The same macro could plan learning a
+            language, launching a product, training for a race, or paying down
+            debt.
+          </div>
+        </section>
+
+        <section id="apply" class="article-section">
+          <h2>2. Apply the macro to financial independence</h2>
+          <p>
+            Now use the macro as if it were a new WeaveMark directive. The user
+            only supplies a goal, horizon, current starting point, and
+            constraints.
+          </p>
+          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-goal/fi-goal-plan.weavemark.md</span>
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+
+<span class="syntax-directive">@use</span> weavemark.std.planning.goals exposing goal_plan
+
+# Financial independence goal-to-plan prompt
+
+<span class="syntax-directive">@goal_plan</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"@{goal}"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"@{horizon}"</span> <span class="syntax-key">starting_point:</span> <span class="syntax-string">"@{starting_point}"</span> <span class="syntax-key">constraints:</span> <span class="syntax-string">"@{constraints}"</span> <span class="syntax-key">assumption_source:</span> <span class="syntax-string">"User will verify current public assumptions."</span>
+
+Treat the result as planning support, not financial, tax,
+legal, or investment advice.</code></pre>
+          <pre><code>weavemark outputs/tutorial-goal/fi-goal-plan.weavemark.md \
+  --batch-only \
+  --var goal="Reach financial independence while keeping work optional" \
+  --var horizon="15 years" \
+  --var starting_point="I save irregularly and want a monthly reviewable plan" \
+  --var constraints="No extreme frugality, no private-data uploads" \
+  --output outputs/tutorial-goal/compiled-prompt.md</code></pre>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>compiled-prompt.md</code> is a pastable planning prompt. Copy
+            it into ChatGPT, Claude, Gemini, Copilot Chat, or another assistant
+            and use the assistant to draft your plan.
+          </div>
+        </section>
+
+        <section id="function" class="article-section">
+          <h2>3. Add a semantic function with a real runtime effect</h2>
+          <p>
+            A semantic function is different from the macro. It is not merely a
+            prettier template. It declares a runtime capability: in this example,
+            a <strong>read-only public web/reference lookup</strong>. The
+            WeaveMark Processor validates the executable prompt behavior; a
+            trusted host runtime decides whether and how to run the bound Python
+            companion.
+          </p>
+          <pre><code><span class="syntax-comment"># Add this definition to weavemark.std.planning.goals</span>
+<span class="syntax-directive">@define</span> lookup_public_goal_assumptions
+  <span class="syntax-directive">@phase</span> execute
+  <span class="syntax-directive">@scope</span> self
+  <span class="syntax-directive">@returns</span> value
+
+  <span class="syntax-directive">@param</span> goal
+    Plain-language user goal.
+
+  <span class="syntax-directive">@param</span> domain
+    Domain where the goal lives.
+
+  <span class="syntax-directive">@param</span> country
+    Country or jurisdiction for public reference lookup.
+
+  <span class="syntax-directive">@param</span> horizon
+    Desired time horizon.
+
+  <span class="syntax-directive">@effect</span> web_search read
+
+  <span class="syntax-directive">@body</span>
+    Search public reference sources for current, non-private assumptions.
+    Do not read private accounts, transactions, portfolios, or identity data.</code></pre>
+          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-goal/fi-goal-plan-executable.weavemark.md</span>
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+
+<span class="syntax-directive">@use</span> weavemark.std.planning.goals exposing goal_plan lookup_public_goal_assumptions
+
+<span class="syntax-directive">@bind</span> web_search language: python from: <span class="syntax-string">"./companions/public_finance_reference.py"</span> symbol: lookup_public_goal_assumptions
+
+<span class="syntax-directive">@execute</span> weave
+  <span class="syntax-key">scheduler:</span> graph-strict
+  <span class="syntax-key">allow_effects:</span> [web_search]
+
+# Executable Financial Independence Goal Planner
+
+<span class="syntax-directive">@lookup_public_goal_assumptions</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"@{goal}"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">country:</span> <span class="syntax-string">"@{country}"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"@{horizon}"</span> <span class="syntax-key">as:</span> public_assumptions
+
+<span class="syntax-directive">@goal_plan</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"@{goal}"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"@{horizon}"</span> <span class="syntax-key">starting_point:</span> <span class="syntax-string">"@{starting_point}"</span> <span class="syntax-key">constraints:</span> <span class="syntax-string">"@{constraints}"</span> <span class="syntax-key">assumption_source:</span> <span class="syntax-string">"@{public_assumptions}"</span></code></pre>
+          <div class="callout">
+            <strong>The key distinction:</strong> <code>@goal_plan</code> expands
+            structure at compile time. <code>@lookup_public_goal_assumptions</code>
+            creates a runtime node with a declared <code>web_search read</code>
+            effect and an explicit <code>@bind</code> target.
+          </div>
+        </section>
+
+        <section id="run" class="article-section">
+          <h2>4. Run the checked-in example</h2>
+          <p>
+            The repository includes the full version and a small Python runtime
+            example. By default the companion uses a deterministic public-source
+            pack so the tutorial works offline. Set
+            <code>WEAVEMARK_LIVE_WEB_SEARCH=1</code> to ask the companion to use
+            the optional live Ellements web-search tools.
+          </p>
+          <pre><code>python3 examples/python-runtime-integrations/financial-independence-goal-plan/run.py</code></pre>
+          <p>
+            The runner writes:
+          </p>
+          <ul>
+            <li><code>outputs/compiled-prompt.md</code> - the compiled executable prompt.</li>
+            <li><code>outputs/compiled-plan.json</code> - WeaveMark's weave plan and bindings.</li>
+            <li><code>outputs/public-assumptions.json</code> - the runtime lookup result.</li>
+            <li><code>outputs/execution-output.md</code> - the final ready-to-paste prompt with public assumptions injected.</li>
+            <li><code>outputs/execution-trace.md</code> - a readable trace showing macro expansion, runtime plan, and runtime data.</li>
+          </ul>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            paste <code>execution-output.md</code> into your preferred AI
+            assistant. The assistant writes the financial-independence plan, while
+            WeaveMark keeps the reusable macro, effect declaration, runtime
+            binding, and source assumptions visible.
+          </div>
+        </section>
+
+        <section id="reuse" class="article-section">
+          <h2>5. Reuse it for another goal</h2>
+          <p>
+            The reusable component is not the financial-independence prompt. It is
+            the <code>weavemark.std.planning.goals</code> module. For a different goal, keep the
+            macro and change the application spec.
+          </p>
+          <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@use</span> weavemark.std.planning.goals exposing goal_plan
+
+# Language-learning plan
+
+<span class="syntax-directive">@goal_plan</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"Reach conversational Spanish"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"learning"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"9 months"</span> <span class="syntax-key">starting_point:</span> <span class="syntax-string">"I know basic phrases"</span> <span class="syntax-key">constraints:</span> <span class="syntax-string">"20 minutes per weekday"</span> <span class="syntax-key">assumption_source:</span> <span class="syntax-string">"No external lookup needed"</span></code></pre>
+        </section>
+
+        <section id="finish" class="article-section">
+          <h2>What you learned</h2>
+          <ul>
+            <li><code>@define</code> without effects creates reusable semantic macros.</li>
+            <li>Macros can call smaller macros, so reusable prompt structure can be factored cleanly.</li>
+            <li><code>@define</code> with <code>@phase</code>, <code>@returns</code>, and <code>@effect</code> creates semantic functions.</li>
+            <li>Runtime effects are explicit: this example declares <code>web_search read</code> and binds it to a Python companion.</li>
+            <li>The final output is practical: a pastable financial-independence planning prompt built from simple inputs.</li>
+          </ul>
+          <div class="callout">
+            <strong>Next:</strong> finish the track by turning a compiled spec
+            into a running app in <a href="tutorial-implement.html">Spec to app</a>
+            &mdash; or open the
+            <a href="reference.html#macros">macro and semantic function reference</a>.
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark advanced tutorial</strong><br>
+          Reusable semantic macros plus explicit runtime effects.
+        </div>
+        <div>
+          <a href="tutorial.html">Tutorial track</a> |
+          <a href="reference.html">Reference</a> |
+          <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const links = Array.from(document.querySelectorAll(".sidebar a[href^='#']"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const sections = links
+          .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+          .filter(Boolean);
+        const visible = new Set();
+        const setActive = (id) => {
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href").slice(1) === id)
+          );
+        };
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            }
+            const current = sections.find((s) => visible.has(s.id));
+            if (current) setActive(current.id);
+          },
+          { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+        );
+        sections.forEach((s) => observer.observe(s));
+      })();
+    </script>
+  </body>
+</html>

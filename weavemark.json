@@ -1,0 +1,27 @@
+{
+  "modules": {
+    "defaults": [
+      "weavemark.prelude.semantics",
+      {
+        "name": "weavemark.prelude.presentation",
+        "exposing": ["concise"]
+      }
+    ]
+  },
+  "fragments": {
+    "aliases": {
+      "repo": "promplets"
+    }
+  },
+  "implementation": {
+    "default_profile": "copilot",
+    "profiles": {
+      "claude-code": {
+        "type": "process",
+        "command": "claude",
+        "cwd": "{implementation_dir}",
+        "args": ["-p", "{prompt_text}"]
+      }
+    }
+  }
+}

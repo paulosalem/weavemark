@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Transit City Swarm is an original browser strategy game about drawing adaptive transit lines through an emergent city."
+    >
+    <title>Transit City Swarm</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app-shell" aria-labelledby="gameTitle">
+      <section class="hero-panel" aria-label="Game overview">
+        <div>
+          <p class="eyebrow">Original local browser game</p>
+          <h1 id="gameTitle">Transit City Swarm</h1>
+          <p class="lede">
+            Draw a readable transit organism, watch citizen trails reinforce useful corridors,
+            and keep the growing city reliable before budget pressure overtakes the shift.
+          </p>
+        </div>
+        <div class="hero-meta" aria-label="Current session summary">
+          <div>
+            <span>High score</span>
+            <strong id="highScore">0</strong>
+          </div>
+          <div>
+            <span>Status</span>
+            <strong id="gameStatus" data-status="menu">Menu</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="game-grid">
+        <aside class="hud-panel" aria-label="City dashboard">
+          <div class="stat-group">
+            <article class="stat-card stat-card--primary">
+              <span>Budget</span>
+              <strong data-stat="budget">260</strong>
+            </article>
+            <article class="stat-card">
+              <span>Score</span>
+              <strong data-stat="score">0</strong>
+              <div class="score-track" aria-hidden="true"><i id="scoreFill"></i></div>
+            </article>
+            <article class="stat-card">
+              <span>Reliability</span>
+              <strong data-stat="reliability">82%</strong>
+            </article>
+            <article class="stat-card">
+              <span>Population</span>
+              <strong data-stat="population">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Trips served</span>
+              <strong data-stat="served">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Stops</span>
+              <strong data-stat="stops">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Swarm</span>
+              <strong data-stat="agents">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Shift left</span>
+              <strong data-stat="time">5:00</strong>
+            </article>
+          </div>
+
+          <div id="message" class="message" data-tone="hint" role="status" aria-live="polite">
+            Start a round, then click the city to sketch a living transit line.
+          </div>
+
+          <div class="toolbox" aria-label="Transit tools">
+            <button type="button" data-mode="build" class="is-active" aria-pressed="true">
+              <span>1</span> Build line
+            </button>
+            <button type="button" data-mode="select" aria-pressed="false">
+              <span>2</span> Inspect
+            </button>
+            <button type="button" data-mode="upgrade" aria-pressed="false">
+              <span>3</span> Upgrade
+            </button>
+            <button type="button" data-mode="erase" aria-pressed="false">
+              <span>E</span> Prune
+            </button>
+          </div>
+
+          <div class="control-row" aria-label="Game controls">
+            <button id="pauseButton" type="button" disabled>Pause</button>
+            <button id="speedButton" type="button">1x speed</button>
+            <button id="finishButton" type="button" disabled>Finish shift</button>
+            <button id="restartButton" type="button">Restart</button>
+          </div>
+
+          <div class="hint-card">
+            <h2>First minute</h2>
+            <p>
+              Start, place 3-5 stops across glowing demand trails, then switch to Upgrade where station
+              rings turn amber or red. Space pauses, R restarts, and Finish shift shows results without reloading.
+            </p>
+          </div>
+        </aside>
+
+        <section class="canvas-wrap" aria-label="Playable city map">
+          <canvas id="gameCanvas" width="960" height="640" aria-label="Transit City Swarm map"></canvas>
+
+          <div id="menuScreen" class="screen-card" role="dialog" aria-labelledby="menuTitle">
+            <p class="eyebrow">Five-minute strategy shift</p>
+            <h2 id="menuTitle">Read the swarm. Draw the city.</h2>
+            <p>
+              Citizens leave warm demand trails as they search for better movement. Your line creates
+              accessibility, attracts growth, earns fares, and can overload if you ignore congestion.
+            </p>
+            <button id="startButton" type="button" class="primary-action">Start round</button>
+          </div>
+
+          <div id="resultsScreen" class="screen-card screen-card--results" role="dialog" aria-hidden="true" hidden>
+            <p class="eyebrow">Shift complete</p>
+            <h2 id="resultTitle">Shift report</h2>
+            <p id="resultBody">Score 0, 0 trips served, 0% reliability, budget 0.</p>
+            <button id="playAgainButton" type="button" class="primary-action">Play again</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>

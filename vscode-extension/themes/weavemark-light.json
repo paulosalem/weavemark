@@ -1,0 +1,491 @@
+{
+  "name": "WeaveMark Light",
+  "include": "./light-modern-base.json",
+  "type": "light",
+  "tokenColors": [
+    {
+      "name": "@execute — spec-to-execution bridge (DARK GOLD, bold)",
+      "scope": "keyword.control.execute.weavemark",
+      "settings": {
+        "foreground": "#B8860B",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "@execute strategy name (BURNT AMBER, bold)",
+      "scope": "entity.name.type.strategy.weavemark",
+      "settings": {
+        "foreground": "#CC7000",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "@prompt — named prompt block (ROYAL BLUE, bold)",
+      "scope": "keyword.control.prompt.weavemark",
+      "settings": {
+        "foreground": "#0050A0",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "@prompt section name (DEEP BLUE, bold italic)",
+      "scope": "entity.name.section.prompt.weavemark",
+      "settings": {
+        "foreground": "#2060C0",
+        "fontStyle": "bold italic"
+      }
+    },
+    {
+      "name": "@tool directive (DARK TEAL, bold)",
+      "scope": "keyword.control.tool.weavemark",
+      "settings": {
+        "foreground": "#008B8B",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "@tool function name (DARK TEAL, italic)",
+      "scope": "entity.name.function.tool.weavemark",
+      "settings": {
+        "foreground": "#008B8B",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "@promplet pragma (DEEP PURPLE, bold)",
+      "scope": "keyword.control.pragma.weavemark",
+      "settings": {
+        "foreground": "#6F42C1",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Definitions — @define, @param, @body (FOREST GREEN, bold)",
+      "scope": [
+        "keyword.control.definition.weavemark",
+        "keyword.control.definition.param.weavemark",
+        "keyword.control.definition.body.weavemark"
+      ],
+      "settings": {
+        "foreground": "#098658",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Definition and parameter names (FOREST GREEN, bold italic)",
+      "scope": [
+        "entity.name.function.definition.weavemark",
+        "entity.name.parameter.definition.weavemark"
+      ],
+      "settings": {
+        "foreground": "#098658",
+        "fontStyle": "bold italic"
+      }
+    },
+    {
+      "name": "Semantic-function metadata — @phase, @scope, @returns, @effect (GREEN, bold)",
+      "scope": "keyword.control.semantic.weavemark",
+      "settings": {
+        "foreground": "#16825D",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "FSLM sugar — @machine, @state, @transition, @input, @guard, @action (BLUE, bold)",
+      "scope": "keyword.control.fslm.weavemark",
+      "settings": {
+        "foreground": "#006AB1",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Semantic-function metadata values (GREEN)",
+      "scope": [
+        "support.constant.semantic-value.weavemark",
+        "storage.modifier.effect-mode.weavemark"
+      ],
+      "settings": {
+        "foreground": "#16825D"
+      }
+    },
+    {
+      "name": "Modules and imports — @module, @use, @include (BLUE, bold)",
+      "scope": [
+        "keyword.control.module.weavemark",
+        "keyword.control.import.use.weavemark"
+      ],
+      "settings": {
+        "foreground": "#0070C1",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Module namespace names (BLUE, italic)",
+      "scope": "entity.name.namespace.module.weavemark",
+      "settings": {
+        "foreground": "#0070C1",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Import clauses — exposing/as (BLUE, bold)",
+      "scope": [
+        "keyword.control.import.exposing.weavemark",
+        "keyword.control.import.alias.weavemark"
+      ],
+      "settings": {
+        "foreground": "#0070C1",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Imported definition names (BLUE, italic)",
+      "scope": "entity.name.function.import.weavemark",
+      "settings": {
+        "foreground": "#0070C1",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Invalid old import clause — expose/only (RED, underline)",
+      "scope": "invalid.illegal.import.weavemark",
+      "settings": {
+        "foreground": "#E51400",
+        "fontStyle": "underline"
+      }
+    },
+    {
+      "name": "@bind directive and companion capability (ORANGE, bold)",
+      "scope": [
+        "keyword.control.bind.weavemark",
+        "entity.name.function.bind.weavemark"
+      ],
+      "settings": {
+        "foreground": "#D16900",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "@compile and @emit directives (DEEP PURPLE, bold)",
+      "scope": [
+        "keyword.control.compile.weavemark",
+        "keyword.control.emit.weavemark"
+      ],
+      "settings": {
+        "foreground": "#6F42C1",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "@embed directive (MAGENTA, bold)",
+      "scope": "keyword.control.embed.weavemark",
+      "settings": {
+        "foreground": "#C71585",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Markdown surface sugar — directive headings and callouts (DEEP PURPLE, bold)",
+      "scope": [
+        "keyword.control.surface.directive-heading.weavemark",
+        "keyword.control.surface.callout.weavemark",
+        "keyword.control.surface.callout.directive.weavemark"
+      ],
+      "settings": {
+        "foreground": "#6F42C1",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Macro parameter descriptions (GREEN, italic)",
+      "scope": "string.unquoted.parameter-description.weavemark",
+      "settings": {
+        "foreground": "#098658",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Inline lists (PURPLE)",
+      "scope": "meta.brackets.inline-list.weavemark",
+      "settings": {
+        "foreground": "#AF00DB"
+      }
+    },
+    {
+      "name": "Directive keywords — @refine, @if, @match, etc. (VIVID PURPLE, bold)",
+      "scope": [
+        "keyword.control.import.weavemark",
+        "keyword.control.switch.weavemark",
+        "keyword.control.conditional.weavemark",
+        "keyword.control.conditional.elseif.weavemark",
+        "keyword.control.directive.weavemark",
+        "keyword.control.ask.weavemark",
+        "keyword.control.assert.weavemark"
+      ],
+      "settings": {
+        "foreground": "#AF00DB",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "@note directive keyword (comment green, bold italic)",
+      "scope": "comment.block.documentation.directive.weavemark",
+      "settings": {
+        "foreground": "#008000",
+        "fontStyle": "bold italic"
+      }
+    },
+    {
+      "name": "Note block content (comment green, italic)",
+      "scope": "comment.block.documentation.weavemark",
+      "settings": {
+        "foreground": "#008000",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Debug queries (BURNT ORANGE, bold italic)",
+      "scope": [
+        "keyword.other.debug-query.weavemark",
+        "keyword.operator.debug-query.weavemark"
+      ],
+      "settings": {
+        "foreground": "#D16900",
+        "fontStyle": "bold italic"
+      }
+    },
+    {
+      "name": "File paths (BLUE, underline)",
+      "scope": "entity.name.filename.weavemark",
+      "settings": {
+        "foreground": "#0070C1",
+        "fontStyle": "underline"
+      }
+    },
+    {
+      "name": "WeaveMark variables — @{name} body (DEEP ORANGE, bold italic)",
+      "scope": "variable.other.placeholder.weavemark",
+      "settings": {
+        "foreground": "#D16900",
+        "fontStyle": "bold italic"
+      }
+    },
+    {
+      "name": "WeaveMark variable @ sigil (HOT MAGENTA, bold)",
+      "scope": "punctuation.definition.variable.at.weavemark",
+      "settings": {
+        "foreground": "#C71585",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "WeaveMark variable braces — @{ } (HOT MAGENTA, bold)",
+      "scope": [
+        "punctuation.section.embedded.begin.weavemark",
+        "punctuation.section.embedded.end.weavemark"
+      ],
+      "settings": {
+        "foreground": "#C71585",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Mustache / single-brace template placeholders — {{var}}, {{{var}}}, {name} (MUTED SLATE, italic)",
+      "scope": "variable.other.template.mustache.weavemark",
+      "settings": {
+        "foreground": "#8A8FA0",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Match target variable and @if condition (ORANGE)",
+      "scope": "variable.other.readwrite.weavemark",
+      "settings": {
+        "foreground": "#D16900"
+      }
+    },
+    {
+      "name": "Match case labels (FOREST GREEN, bold)",
+      "scope": "string.regexp.match-case.weavemark",
+      "settings": {
+        "foreground": "#098658",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Match arrow — ==> (RED, bold)",
+      "scope": "keyword.operator.fat-arrow.weavemark",
+      "settings": {
+        "foreground": "#E51400",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Escaped @@ sequences (dimmed gray)",
+      "scope": [
+        "constant.character.escape.at.weavemark",
+        "constant.character.escape.word.weavemark"
+      ],
+      "settings": {
+        "foreground": "#A0A1A7"
+      }
+    },
+    {
+      "name": "String arguments (GREEN)",
+      "scope": "string.quoted.double.weavemark",
+      "settings": {
+        "foreground": "#098658"
+      }
+    },
+    {
+      "name": "Assert inline message text (GREEN, italic)",
+      "scope": "string.unquoted.assert-message.weavemark",
+      "settings": {
+        "foreground": "#098658",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Directive parameter names (BLUE, italic)",
+      "scope": "entity.other.attribute-name.weavemark",
+      "settings": {
+        "foreground": "#0070C1",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Key-value separator (dimmed)",
+      "scope": "punctuation.separator.key-value.weavemark",
+      "settings": {
+        "foreground": "#A0A1A7"
+      }
+    },
+    {
+      "name": "Parameter values (PURPLE)",
+      "scope": "support.constant.parameter-value.weavemark",
+      "settings": {
+        "foreground": "#AF00DB"
+      }
+    },
+    {
+      "name": "Boolean constants (PURPLE, italic)",
+      "scope": "constant.language.boolean.weavemark",
+      "settings": {
+        "foreground": "#AF00DB",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Numeric constants (PURPLE)",
+      "scope": "constant.numeric.integer.weavemark",
+      "settings": {
+        "foreground": "#AF00DB"
+      }
+    },
+    {
+      "name": "Markdown headings (BLUE, bold)",
+      "scope": "markup.heading.weavemark",
+      "settings": {
+        "foreground": "#0070C1",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Markdown heading punctuation (dimmed)",
+      "scope": "punctuation.definition.heading.markdown",
+      "settings": {
+        "foreground": "#A0A1A7"
+      }
+    },
+    {
+      "name": "Markdown bold (dark, bold)",
+      "scope": "markup.bold.markdown",
+      "settings": {
+        "foreground": "#1A1A1A",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Markdown italic (dark, italic)",
+      "scope": "markup.italic.markdown",
+      "settings": {
+        "foreground": "#383A42",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Bold/italic punctuation (dimmed)",
+      "scope": [
+        "punctuation.definition.bold.markdown",
+        "punctuation.definition.italic.markdown"
+      ],
+      "settings": {
+        "foreground": "#A0A1A7"
+      }
+    },
+    {
+      "name": "Markdown inline code (GREEN)",
+      "scope": "markup.inline.raw.string.markdown",
+      "settings": {
+        "foreground": "#098658"
+      }
+    },
+    {
+      "name": "Markdown code block content",
+      "scope": "markup.raw.block.fenced.markdown",
+      "settings": {
+        "foreground": "#4E5263"
+      }
+    },
+    {
+      "name": "Markdown code fence punctuation (dimmed)",
+      "scope": "punctuation.definition.code.fenced.markdown",
+      "settings": {
+        "foreground": "#A0A1A7"
+      }
+    },
+    {
+      "name": "Markdown backtick punctuation (dimmed)",
+      "scope": "punctuation.definition.raw.markdown",
+      "settings": {
+        "foreground": "#A0A1A7"
+      }
+    },
+    {
+      "name": "Code block language identifier (PURPLE)",
+      "scope": "entity.name.type.language.markdown",
+      "settings": {
+        "foreground": "#AF00DB"
+      }
+    },
+    {
+      "name": "Markdown link title (BLUE)",
+      "scope": "string.other.link.title.markdown",
+      "settings": {
+        "foreground": "#0070C1"
+      }
+    },
+    {
+      "name": "Markdown link URL (GREEN, underline)",
+      "scope": "markup.underline.link.markdown",
+      "settings": {
+        "foreground": "#098658",
+        "fontStyle": "underline"
+      }
+    },
+    {
+      "name": "Markdown link punctuation (dimmed)",
+      "scope": "punctuation.definition.link.markdown",
+      "settings": {
+        "foreground": "#A0A1A7"
+      }
+    },
+    {
+      "name": "Markdown list markers (PURPLE)",
+      "scope": "punctuation.definition.list.begin.markdown",
+      "settings": {
+        "foreground": "#AF00DB"
+      }
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "name": "weavemark",
+  "displayName": "WeaveMark",
+  "description": "Full language support for WeaveMark promplets (.weavemark.md files) — completions, hover docs, diagnostics, go-to-definition, outline, visual decorations, and run commands.",
+  "version": "0.8.0",
+  "publisher": "paulosalem",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paulosalem/weavemark"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "extensionKind": [
+    "workspace"
+  ],
+  "main": "./src/extension.js",
+  "scripts": {
+    "check": "node scripts/check-extension.js",
+    "test": "node --test test/*.test.js"
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "Syntax, diagnostics, navigation, and completions remain available. Commands that launch the local CLI are blocked until the workspace is trusted.",
+      "restrictedConfigurations": [
+        "weavemark.defaultModel"
+      ]
+    }
+  },
+  "activationEvents": [
+    "onLanguage:weavemark"
+  ],
+  "categories": [
+    "Programming Languages",
+    "Themes"
+  ],
+  "keywords": [
+    "prompt",
+    "prompt engineering",
+    "llm",
+    "markdown",
+    "template",
+    "weavemark"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "weavemark.compose",
+        "title": "WeaveMark: Compose",
+        "icon": "$(play)",
+        "category": "WeaveMark"
+      },
+      {
+        "command": "weavemark.run",
+        "title": "WeaveMark: Run",
+        "icon": "$(rocket)",
+        "category": "WeaveMark"
+      },
+      {
+        "command": "weavemark.openTUI",
+        "title": "WeaveMark: Open in TUI",
+        "icon": "$(terminal)",
+        "category": "WeaveMark"
+      },
+      {
+        "command": "weavemark.discover",
+        "title": "WeaveMark: Discover Promplets",
+        "icon": "$(search)",
+        "category": "WeaveMark"
+      },
+      {
+        "command": "weavemark.fillForm",
+        "title": "WeaveMark: Fill & Run (Form)",
+        "icon": "$(list-unordered)",
+        "category": "WeaveMark"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "weavemark.compose",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "navigation@1"
+        },
+        {
+          "command": "weavemark.run",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "navigation@2"
+        },
+        {
+          "command": "weavemark.openTUI",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "navigation@3"
+        },
+        {
+          "command": "weavemark.discover",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "navigation@4"
+        },
+        {
+          "command": "weavemark.fillForm",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "navigation@5"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "weavemark.compose",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "weavemark@1"
+        },
+        {
+          "command": "weavemark.run",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "weavemark@2"
+        },
+        {
+          "command": "weavemark.openTUI",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "weavemark@3"
+        },
+        {
+          "command": "weavemark.discover",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "weavemark@4"
+        },
+        {
+          "command": "weavemark.fillForm",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "weavemark@5"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "weavemark.compose",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "weavemark@1"
+        },
+        {
+          "command": "weavemark.run",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "weavemark@2"
+        },
+        {
+          "command": "weavemark.openTUI",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "weavemark@3"
+        },
+        {
+          "command": "weavemark.fillForm",
+          "when": "resourceFilename =~ /\\.weavemark\\.md$/",
+          "group": "weavemark@4"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "weavemark.compose",
+        "key": "ctrl+shift+c",
+        "mac": "cmd+shift+c",
+        "when": "resourceFilename =~ /\\.weavemark\\.md$/"
+      },
+      {
+        "command": "weavemark.run",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "resourceFilename =~ /\\.weavemark\\.md$/"
+      },
+      {
+        "command": "weavemark.openTUI",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t",
+        "when": "resourceFilename =~ /\\.weavemark\\.md$/"
+      },
+      {
+        "command": "weavemark.fillForm",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f",
+        "when": "resourceFilename =~ /\\.weavemark\\.md$/"
+      }
+    ],
+    "configuration": {
+      "title": "WeaveMark",
+      "properties": {
+        "weavemark.cliPath": {
+          "type": "string",
+          "default": "weavemark",
+          "scope": "machine",
+          "description": "Path to the trusted WeaveMark CLI executable. This setting is machine-local and cannot be supplied by a workspace."
+        },
+        "weavemark.defaultModel": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Default LLM model to use (e.g. gpt-5.5). Leave empty for CLI default."
+        },
+        "weavemark.extraArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "scope": "machine",
+          "description": "Additional CLI arguments, one array item per argument. This machine-local setting is passed directly without shell parsing."
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "weavemark",
+        "aliases": [
+          "WeaveMark"
+        ],
+        "extensions": [
+          ".weavemark.md"
+        ],
+        "firstLine": "^\\s*@(?:promplet|define|module|use|include|bind|refine|ask|iterate|note|match|if|else_if|compile|execute|prompt|emit|output|package|tool|embed|body|machine|state|transition|input|guard|action)\\b",
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "weavemark",
+        "scopeName": "text.markdown.weavemark",
+        "path": "./syntaxes/weavemark.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.markdown": "markdown"
+        }
+      }
+    ],
+    "themes": [
+      {
+        "label": "WeaveMark Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/weavemark-dark.json"
+      },
+      {
+        "label": "WeaveMark Light",
+        "uiTheme": "vs",
+        "path": "./themes/weavemark-light.json"
+      }
+    ],
+    "configurationDefaults": {
+      "files.associations": {
+        "*.weavemark.md": "weavemark"
+      },
+      "[weavemark]": {
+        "editor.bracketPairColorization.enabled": false,
+        "editor.guides.bracketPairs": false
+      }
+    }
+  }
+}

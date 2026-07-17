@@ -1,0 +1,57 @@
+{
+  "output": "ANSWER: 15400",
+  "steps": [
+    {
+      "name": "sample_0",
+      "prompt_key": "default",
+      "response": "1. **Working**:\n\n   Week 1 sales start at 18 kits.\n\n   Sales increase by 6 kits each week, for 10 total weeks, so this is an arithmetic sequence with:\n\n   - First term: \\(a = 18\\)\n   - Common difference: \\(d = 6\\)\n   - Number of weeks: \\(n = 10\\)\n\n   Calculate the week 10 sales:\n\n   \\[\n   a_{10} = 18 + (10 - 1)(6)\n   \\]\n\n   \\[\n   a_{10} = 18 + 54 = 72\n   \\]\n\n   So the sales go from 18 kits in week 1 to 72 kits in week 10.\n\n   Now calculate the total kits sold over all 10 weeks:\n\n   \\[\n   \\text{Total kits} = \\frac{n}{2}(a_1 + a_{10})\n   \\]\n\n   \\[\n   \\text{Total kits} = \\frac{10}{2}(18 + 72)\n   \\]\n\n   \\[\n   \\text{Total kits} = 5 \\times 90 = 450\n   \\]\n\n   Each kit generates $37 in profit before fixed costs:\n\n   \\[\n   450 \\times 37 = 16{,}650\n   \\]\n\n   The workshop pays a one-time tooling cost of $1,250, so subtract it exactly once:\n\n   \\[\n   16{,}650 - 1{,}250 = 15{,}400\n   \\]\n\n   This accounts for all 10 weeks and subtracts the tooling cost once.\n\n2. **Answer**:\n\nANSWER: 15400",
+      "metadata": {
+        "temperature": 0.9
+      }
+    },
+    {
+      "name": "sample_1",
+      "prompt_key": "default",
+      "response": "1. **Working**:\n\n   Week 1 sales are 18 kits, and sales increase by 6 kits each week for 10 total weeks.\n\n   This is an arithmetic sequence with:\n   - First week sales: 18\n   - Weekly increase: 6\n   - Number of weeks: 10\n\n   The total number of kits sold over 10 weeks is:\n\n   \\[\n   \\frac{10}{2}\\left(2(18) + (10-1)(6)\\right)\n   \\]\n\n   \\[\n   = 5(36 + 54)\n   \\]\n\n   \\[\n   = 5(90)\n   \\]\n\n   \\[\n   = 450\n   \\]\n\n   So, the workshop sells 450 kits over 10 weeks.\n\n   Each kit generates $37 in profit before fixed costs:\n\n   \\[\n   450 \\times 37 = 16{,}650\n   \\]\n\n   The one-time tooling cost is $1,250, subtracted exactly once:\n\n   \\[\n   16{,}650 - 1{,}250 = 15{,}400\n   \\]\n\n   This accounts for all 10 weeks and subtracts the tooling cost one time.\n\n2. **Answer**:\n\nANSWER: 15400",
+      "metadata": {
+        "temperature": 0.9
+      }
+    },
+    {
+      "name": "sample_2",
+      "prompt_key": "default",
+      "response": "1. **Working**:\n\n   - Week 1 sales are 18 kits.\n   - Sales increase by 6 kits each week.\n   - There are 10 weeks total, so this is an arithmetic sequence.\n\n   Calculate the number of kits sold in week 10:\n\n   \\[\n   18 + (10 - 1)\\times 6 = 18 + 9\\times 6 = 18 + 54 = 72\n   \\]\n\n   So the 10 weekly sales are accounted for from 18 kits up to 72 kits.\n\n   Now calculate the total number of kits sold over 10 weeks:\n\n   \\[\n   \\text{Total kits} = \\frac{10}{2}(18 + 72)\n   \\]\n\n   \\[\n   = 5 \\times 90 = 450\n   \\]\n\n   Each kit generates $37 in profit before fixed costs:\n\n   \\[\n   450 \\times 37 = 16{,}650\n   \\]\n\n   Now subtract the one-time tooling cost exactly once:\n\n   \\[\n   16{,}650 - 1{,}250 = 15{,}400\n   \\]\n\n2. **Answer**:\n\nANSWER: 15400",
+      "metadata": {
+        "temperature": 0.9
+      }
+    },
+    {
+      "name": "sample_3",
+      "prompt_key": "default",
+      "response": "1. **Working**:\n\n- Week 1 sales: 18 kits  \n- Sales increase each week by 6 kits  \n- Total number of weeks: 10  \n\nThis is an arithmetic sequence with:\n- First term: \\(a = 18\\)\n- Common difference: \\(d = 6\\)\n- Number of terms: \\(n = 10\\)\n\nThe total number of kits sold over 10 weeks is:\n\n\\[\nS_n = \\frac{n}{2}\\left(2a + (n-1)d\\right)\n\\]\n\nSubstitute the values:\n\n\\[\nS_{10} = \\frac{10}{2}\\left(2(18) + (10-1)(6)\\right)\n\\]\n\n\\[\nS_{10} = 5(36 + 54)\n\\]\n\n\\[\nS_{10} = 5(90)\n\\]\n\n\\[\nS_{10} = 450\n\\]\n\nSo, the workshop sells 450 kits total over all 10 weeks.\n\nEach kit generates $37 in profit before fixed costs:\n\n\\[\n450 \\times 37 = 16650\n\\]\n\nThe one-time tooling cost is $1,250, subtracted exactly once:\n\n\\[\n16650 - 1250 = 15400\n\\]\n\n2. **Answer**:\n\nANSWER: 15400",
+      "metadata": {
+        "temperature": 0.9
+      }
+    },
+    {
+      "name": "sample_4",
+      "prompt_key": "default",
+      "response": "1. **Working**:\n\n   We need total profit after 10 weeks, accounting for:\n   - Kits sold each week\n   - $37 profit per kit before fixed costs\n   - One-time $1,250 tooling cost subtracted exactly once\n\n   Sales form an arithmetic sequence:\n   - Week 1 sales: 18 kits\n   - Increase each week: 6 kits\n   - Total weeks: 10\n\n   The weekly sales are:\n\n   \\[\n   18, 24, 30, 36, 42, 48, 54, 60, 66, 72\n   \\]\n\n   This accounts for all 10 weeks.\n\n   Now calculate the total number of kits sold:\n\n   \\[\n   18 + 24 + 30 + 36 + 42 + 48 + 54 + 60 + 66 + 72 = 450\n   \\]\n\n   Each kit generates $37 in profit before fixed costs:\n\n   \\[\n   450 \\times 37 = 16{,}650\n   \\]\n\n   Now subtract the one-time tooling cost exactly once:\n\n   \\[\n   16{,}650 - 1{,}250 = 15{,}400\n   \\]\n\n2. **Answer**:\n\nANSWER: 15400",
+      "metadata": {
+        "temperature": 0.9
+      }
+    },
+    {
+      "name": "vote",
+      "prompt_key": "default",
+      "response": "ANSWER: 15400",
+      "metadata": {
+        "aggregation": "majority_vote"
+      }
+    }
+  ],
+  "metadata": {
+    "samples": 5,
+    "aggregation": "majority_vote"
+  }
+}

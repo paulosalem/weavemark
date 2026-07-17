@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orbital Drift</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="game-shell" aria-label="Orbital Drift browser game">
+      <section class="hero-panel" aria-label="Race status">
+        <div>
+          <p class="eyebrow">Time-trial space racing</p>
+          <h1>Orbital Drift</h1>
+        </div>
+        <div class="hud" aria-live="polite">
+          <span id="hudLap">Lap 1/2</span>
+          <span id="hudGate">Gate 1/6</span>
+          <span id="hudTime">00:00.0</span>
+          <span id="hudBest">Best --:--.-</span>
+          <span id="hudState">Ready</span>
+        </div>
+      </section>
+
+      <section class="arena-card">
+        <canvas
+          id="gameCanvas"
+          width="1200"
+          height="760"
+          tabindex="0"
+          aria-label="Space race course. Use W or Arrow Up to thrust, A and D or Arrow keys to rotate, Space to brake, P to pause, and R to restart."
+        ></canvas>
+        <div id="overlay" class="overlay" aria-live="polite">
+          <div class="overlay-card">
+            <p class="eyebrow">Ready on the line</p>
+            <h2>Thread the gates, bend around gravity, beat your best time.</h2>
+            <p>
+              Fly through the glowing gates in order for two laps. Avoid asteroids and planets;
+              gravity wells tug your racing line but can be recovered from.
+            </p>
+            <dl class="controls-grid">
+              <div><dt>Rotate</dt><dd>A / D or Arrow Left / Right</dd></div>
+              <div><dt>Thrust</dt><dd>W or Arrow Up</dd></div>
+              <div><dt>Brake</dt><dd>Space</dd></div>
+              <div><dt>Pause</dt><dd>P or Escape</dd></div>
+              <div><dt>Restart</dt><dd>R</dd></div>
+            </dl>
+            <p class="start-hint">Press W, Arrow Up, or Enter to start.</p>
+          </div>
+        </div>
+        <div id="feedback" class="feedback" aria-live="assertive"></div>
+      </section>
+
+      <p class="footer-help">
+        Collision model: hazards add a 2-second penalty, bounce the craft away, and briefly dampen control.
+        Restart is instant and keeps only your local best time.
+      </p>
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+# Storyboard Chain — Runtime Config
+# A general prompt-chaining demo: a text "beats" stage, then a repeated image
+# "frame" stage that renders each shot in sequence, editing the previous frame
+# so the style carries "one frame after the other".
+
+engine: chain
+
+variables:
+  shots: 3
+  premise: "a small round robot plants a seed and watches it grow into a flower"

@@ -1,0 +1,8 @@
+{
+  "decision_question": "Should we launch the paid beta next month, delay one month, or run a smaller invite-only beta first?",
+  "background": "The product has strong interest from five design partners. The core workflow works in demos, but onboarding still requires manual setup by the team. Two reliability issues appeared during the last pilot. The sales pipeline is waiting for a paid reference, but the team is small and support capacity is tight.",
+  "options": "1. Launch paid beta next month to all five design partners.\n2. Delay one month and fix onboarding and reliability first.\n3. Run a two-customer invite-only paid beta with explicit limits.",
+  "constraints": "We need learning and revenue, but cannot burn trust with design partners. The team can support at most two high-touch customers without hurting roadmap work.",
+  "decision_timing": "Decision needed this week because customer success needs to schedule kickoff calls.",
+  "criteria": "Customer trust, learning speed, revenue signal, support burden, reversibility, and impact on reliability work."
+}

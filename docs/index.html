@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark - Experimental Prompt Notation</title>
+    <meta
+      name="description"
+      content="WeaveMark is a Markdown-native specification language for promplets: you specify abstract intent and the WeaveMark Processor compiles, inspects, and executes it."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712-notation2">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html" aria-current="page">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <header class="shell hero">
+      <div>
+        <figure class="hero-wordmark">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="hero-logo">
+        </figure>
+        <p class="eyebrow">Readable, reusable, and composable prompts</p>
+        <h1>
+          Compose prompts like software.
+          <span class="gradient-text">Read them like Markdown.</span>
+        </h1>
+        <p class="hero-copy">
+          <strong>WeaveMark</strong> is a small, Markdown-native
+          <strong>specification language</strong> for prompts: you specify
+          abstract intent — refinements, variables, branching — and the Processor
+          makes it concrete, <strong>mostly with a language model</strong> plus
+          deterministic structure where it helps. The readable, reusable units you
+          write in it are called
+          <a href="introduction.html#faq-origin"><strong>promplets</strong></a>: each can stand alone or
+          be built from other promplets. Great for both <strong>humans</strong> and <strong>AI</strong> agents.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="tutorial.html">Build your first promplet</a>
+          <a class="button secondary" href="introduction.html">Understand the language</a>
+          <a class="button-link" href="python-api.html"><span>Use from Python</span><span class="link-arrow" aria-hidden="true">&#8594;</span></a>
+        </div>
+        <div class="processor-strip" aria-label="How the WeaveMark Processor works">
+          <span class="strip-lead"><strong>Processor</strong> <code>weavemark</code></span>
+          <span class="strip-step">Collect inputs</span>
+          <span class="strip-step">Compile artifacts</span>
+          <span class="strip-step">Inspect metadata</span>
+          <span class="strip-step">Execute prompts</span>
+        </div>
+      </div>
+
+      <div class="hero-panel" aria-label="WeaveMark examples">
+        <div class="hero-carousel" data-hero-carousel>
+          <div class="terminal">
+            <div class="terminal-top">
+              <span class="window-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+              <a data-carousel-title href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">ai-kanban-board.weavemark.md</a>
+            </div>
+            <div class="hero-slides" aria-live="polite">
+              <pre class="hero-slide is-active" data-carousel-slide data-title="ai-kanban-board.weavemark.md" data-href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md" data-stat-a-title="live cards" data-stat-a-text="AI workspaces, not sticky notes" data-stat-b-title="output surfaces" data-stat-b-text="text, program, table, diff, status" data-stat-c-title="local-first" data-stat-c-text="durable board state"><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@style</span> <span class="syntax-string">"Implementation-ready, interaction-design-conscious."</span>
+  <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite <span class="syntax-key">mingle:</span> true
+  <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.local_first_webapp <span class="syntax-key">mingle:</span> true
+
+  # AI Kanban
+
+  Cards are live AI workspaces with plans,
+  questions, outputs, activity, and review gates.
+
+  <span class="syntax-directive">@match</span> output_surface_level
+    <span class="syntax-string">"standard"</span> ==&gt; text, program, table, diff, status.
+    <span class="syntax-string">"advanced"</span> ==&gt; add canvas, terminal, forms.
+  <span class="syntax-directive">@if</span> realtime_updates
+    Stream agent progress without losing board stability.</code></pre>
+              <pre class="hero-slide" data-carousel-slide data-title="voidborne-roguelike.weavemark.md" data-href="../promplets/catalog/standalone/voidborne-roguelike.weavemark.md" data-stat-a-title="2D roguelike" data-stat-a-text="ship, sectors, bosses" data-stat-b-title="@refine" data-stat-b-text="game type plus Rust/Bevy stack" data-stat-c-title="@match" data-stat-c-text="simple or complex enemies" hidden><code><span class="syntax-directive">@refine</span> module:weavemark.domains.programming.foundations.base_spec_author
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.rust_bevy
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.2d_game
+
+# Voidborne — 2D Space Roguelike
+
+Voidborne is a 2D top-down space roguelike where
+the player pilots a ship through generated sectors,
+collecting upgrades and facing zone bosses.
+
+<span class="syntax-directive">@match</span> enemy_complexity
+  <span class="syntax-string">"simple"</span> ==&gt; Drone, Turret, Bomber, Sniper.
+  <span class="syntax-string">"complex"</span> ==&gt; elites, swarmers, cloakers, carriers.</code></pre>
+              <pre class="hero-slide" data-carousel-slide data-title="creative-ideation.weavemark.md" data-href="../promplets/catalog/standalone/creative-ideation.weavemark.md" data-stat-a-title="@match method" data-stat-a-text="SCAMPER, Six Hats, Reverse" data-stat-b-title="@refine mingle" data-stat-b-text="method becomes local structure" data-stat-c-title="constraints" data-stat-c-text="limits stay visible" hidden><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst <span class="syntax-key">mingle:</span> true
+
+# Creative ideation
+
+Subject: <span class="syntax-var">@{subject}</span>
+Objective: <span class="syntax-var">@{objective}</span>
+Constraints: <span class="syntax-var">@{constraints}</span>
+
+<span class="syntax-directive">@match</span> method
+  <span class="syntax-string">"scamper"</span> ==&gt;
+    <span class="syntax-directive">@refine</span> module:weavemark.std.ideation.scamper <span class="syntax-key">mingle:</span> true
+  <span class="syntax-string">"six-hats"</span> ==&gt;
+    <span class="syntax-directive">@refine</span> module:weavemark.std.ideation.six_thinking_hats <span class="syntax-key">mingle:</span> true
+  <span class="syntax-string">"reverse"</span> ==&gt;
+    <span class="syntax-directive">@refine</span> module:weavemark.std.ideation.reverse_brainstorming <span class="syntax-key">mingle:</span> true</code></pre>
+              <pre class="hero-slide" data-carousel-slide data-title="issue-tree-analysis.weavemark.md" data-href="../promplets/catalog/standalone/issue-tree-analysis.weavemark.md" data-stat-a-title="root question" data-stat-a-text="decision-relevant decomposition" data-stat-b-title="@refine" data-stat-b-text="issue-tree method layer" data-stat-c-title="@if inputs" data-stat-c-text="context stays optional" hidden><code><span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst
+<span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.unstructured_input_normalization <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.analysis.issue_tree_core
+
+# Issue Tree Analysis
+
+Turn the problem into a hierarchy of
+decision-relevant questions or drivers.
+
+<span class="syntax-directive">@if</span> problem
+  ## Problem
+  <span class="syntax-var">@{problem}</span>
+
+<span class="syntax-directive">@if</span> constraints
+  ## Constraints
+  <span class="syntax-var">@{constraints}</span></code></pre>
+            </div>
+          </div>
+          <div class="carousel-controls" aria-label="WeaveMark example selector">
+            <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Previous example">&lt;</button>
+            <button class="carousel-tab is-active" type="button" data-carousel-index="0" aria-pressed="true">Kanban</button>
+            <button class="carousel-tab" type="button" data-carousel-index="1" aria-pressed="false">Voidborne</button>
+            <button class="carousel-tab" type="button" data-carousel-index="2" aria-pressed="false">Ideas</button>
+            <button class="carousel-tab" type="button" data-carousel-index="3" aria-pressed="false">Issue tree</button>
+            <button class="carousel-arrow" type="button" data-carousel-next aria-label="Next example">&gt;</button>
+          </div>
+        </div>
+        <div class="hero-stats" aria-label="Active example highlights" aria-live="polite">
+          <div class="stat" data-stat-card="a">
+            <strong data-stat-title>live cards</strong>
+            <span data-stat-text>AI workspaces, not sticky notes</span>
+          </div>
+          <div class="stat" data-stat-card="b">
+            <strong data-stat-title>output surfaces</strong>
+            <span data-stat-text>text, program, table, diff, status</span>
+          </div>
+          <div class="stat" data-stat-card="c">
+            <strong data-stat-title>local-first</strong>
+            <span data-stat-text>durable board state</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="shell proof-strip" aria-label="WeaveMark at a glance">
+        <div class="proof-item">
+          <span class="ic ic-blocks" aria-hidden="true"></span>
+          <strong>50+</strong>
+          <span>reusable method fragments — MECE, ACH, SCAMPER, chain-of-thought, and more</span>
+        </div>
+        <div class="proof-item">
+          <span class="ic ic-cpu" aria-hidden="true"></span>
+          <strong>8</strong>
+          <span>execution engines — tree-of-thought, self-consistency, reflection, weave, FSLM</span>
+        </div>
+        <div class="proof-item">
+          <span class="ic ic-branch" aria-hidden="true"></span>
+          <strong>1 &rarr; many</strong>
+          <span>one source compiles to prompts, packs, agent specs, or a running app</span>
+        </div>
+        <div class="proof-item">
+          <span class="ic ic-sparkles" aria-hidden="true"></span>
+          <strong>LLM-compiled</strong>
+          <span>abstract intent becomes concrete — largely LLM-based, deterministic structure where it helps</span>
+        </div>
+      </section>
+
+      <section class="shell">
+        <div class="compile-callout" role="note">
+          <span class="ic ic-wand" aria-hidden="true"></span>
+          <p>
+            <strong>Compilation is mostly a language model at work.</strong>
+            Deterministic parsing handles variables, branches, and emission, but the
+            meaning-level moves — refining, restyling, condensing, realizing abstract
+            intent — are performed by an LLM. That is deliberate: WeaveMark is an
+            experiment in <strong>using language models to compile language</strong>.
+            <a href="introduction.html#faq">Why compile this way &rarr;</a>
+          </p>
+        </div>
+      </section>
+
+      <section id="why-promplet" class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker"><span class="ic ic-lightbulb" aria-hidden="true"></span>Why use promplets?</p>
+            <h2>Readable prompts that grow through composition.</h2>
+          </div>
+          <p class="section-lede">
+            Promplets are <strong>clear to read</strong>,
+            <strong>dense with intent</strong>, and <strong>safe to evolve</strong>.
+            Templates fill blanks; WeaveMark gives you a composition surface for
+            reusable promplets.
+          </p>
+        </div>
+
+        <div class="grid three">
+          <article class="card">
+            <span class="badge">Read</span>
+            <h3>Readable by design.</h3>
+            <p>
+              The syntax stays <strong>minimally intrusive in Markdown</strong>.
+              Most of the source is still prose, lists, headings, and examples
+              that humans can skim and edit.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="badge">Intent</span>
+            <h3>High intent density.</h3>
+            <p>
+              Directives such as <code>@expand</code>, <code>@ask</code>, and
+              <code>@iterate</code> capture transformations you would otherwise
+              explain manually to an assistant.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="badge">Evolve</span>
+            <h3>Prompt evolution and versioning.</h3>
+            <p>
+              Treat important prompts like source: keep them in files, review
+              changes, reuse shared pieces, and track how behavior evolves over
+              time.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="badge">Reuse</span>
+            <h3>Reusable constraints.</h3>
+            <p>
+              Use <code>@refine</code> when evidence standards, teaching moves,
+              product obligations, or safety rules should shape many prompt
+              programs without being pasted everywhere.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="badge">Vary</span>
+            <h3>Controlled variation.</h3>
+            <p>
+              Branch with <code>@if</code> and <code>@match</code> so one source
+              can compile into several concrete prompts while staying readable.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="badge">Ship</span>
+            <h3>Outputs with a destination.</h3>
+            <p>
+              Compile pastable prompts, role-separated prompt packs,
+              programming-agent specifications, or executable promplets
+              from the same language.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker"><span class="ic ic-branch" aria-hidden="true"></span>Structural refinement</p>
+            <h2>When templates are too shallow, refine structure.</h2>
+          </div>
+          <p class="section-lede">
+            The deeper move: one reusable promplet contributes ordering,
+            obligations, and sections to different local prompts.
+          </p>
+        </div>
+
+        <div class="weave-panel">
+          <div class="weave-copy">
+            <p class="section-kicker"><span class="ic ic-list" aria-hidden="true"></span>Worked example</p>
+            <h3>Reusable structure plus local intent.</h3>
+            <p>
+              The source stays compact, while the compiled prompt gains the
+              reusable decision structure in the right places.
+            </p>
+            <div class="weave-legend" aria-label="Highlight legend">
+              <span><i class="legend-swatch source" aria-hidden="true"></i>Reusable structure</span>
+              <span><i class="legend-swatch custom" aria-hidden="true"></i>Local intent</span>
+              <span><i class="legend-swatch result" aria-hidden="true"></i>Final compiled prompt</span>
+            </div>
+          </div>
+
+          <div class="weave-grid" aria-label="Worked structural refinement example">
+            <article class="weave-card weave-source-card">
+              <span class="snippet-label">1. Reusable promplet to refine</span>
+              <p class="snippet-note">
+                Follow the <mark class="weave-mark source">cyan reusable obligations</mark>.
+                They move into the final prompt as new structure around the local question.
+              </p>
+              <pre><code># Decision brief refinement
+
+Every decision brief must:
+- Lead with <mark class="weave-mark source">the decision pressure</mark>.
+- Separate <mark class="weave-mark source">facts, assumptions, and judgment</mark>.
+- Include <mark class="weave-mark source">counter-evidence and reversal triggers</mark>.
+
+<span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
+  Return decision, evidence, counter-evidence,
+  recommendation, and next action.</code></pre>
+            </article>
+
+            <div class="weave-operator weave-plus" aria-hidden="true">+</div>
+
+            <article class="weave-card weave-local-card">
+  <span class="snippet-label">2. Local source</span>
+  <p class="snippet-note">
+                Follow the <mark class="weave-mark custom">coral local values</mark>.
+                They stay concrete while the reusable structure grows around them.
+              </p>
+              <pre><code><span class="syntax-directive">@refine</span> module:weavemark.std.lenses.decision_gate <span class="syntax-key">mingle:</span> true
+
+# Launch gate
+
+Should we ship <mark class="weave-mark custom"><span class="syntax-var">@{release}</span></mark>
+to <mark class="weave-mark custom"><span class="syntax-var">@{segment}</span></mark> this week?
+
+Use <mark class="weave-mark custom"><span class="syntax-var">@{validation_log}</span></mark>
+and <mark class="weave-mark custom"><span class="syntax-var">@{open_risks}</span></mark>.
+
+<span class="syntax-directive">@if</span> executive_audience
+  Compress into board-ready language.</code></pre>
+            </article>
+
+            <div class="weave-operator weave-arrow" aria-hidden="true">↓</div>
+
+            <article class="weave-card weave-result">
+  <span class="snippet-label">3. Refined result after structural weaving</span>
+              <p class="snippet-note">
+                The same colors reappear below: cyan came from the reusable promplet,
+                coral came from the local source. This is a composed prompt, not a filled form.
+              </p>
+              <pre><code># Launch gate
+
+Should we ship <mark class="weave-mark custom">Aurora 1.0</mark>
+to <mark class="weave-mark custom">beta teams</mark> this week?
+
+Start with <mark class="weave-mark source">the decision pressure</mark>:
+ship, wait, or narrow the rollout.
+
+Use <mark class="weave-mark custom">the validation log</mark> and
+<mark class="weave-mark custom">open risks</mark>, but separate
+<mark class="weave-mark source">facts, assumptions, and judgment</mark>.
+
+Include <mark class="weave-mark source">counter-evidence, reversal triggers,</mark>
+recommendation, and the smallest safe next action.
+
+Use board-ready language.</code></pre>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="batteries" class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker"><span class="ic ic-blocks" aria-hidden="true"></span>Batteries included</p>
+            <h2>A library of reusable methods, not just syntax.</h2>
+          </div>
+          <p class="section-lede">
+            <strong>50+ reusable fragments</strong> across many
+            categories. <code>@refine</code> them into your own promplets instead
+            of re-deriving expertise — reasoning methods, programming stacks,
+            teaching moves, and quality gates.
+          </p>
+        </div>
+
+        <div class="library-groups">
+          <div class="library-group">
+            <span class="library-tag"><span class="ic ic-lightbulb" aria-hidden="true"></span>Reasoning &amp; analysis</span>
+            <div class="chips">
+              <a class="chip" href="../promplets/stdlib/fragments/reasoning/chain-of-thought.weavemark.md">chain-of-thought</a>
+              <a class="chip" href="../promplets/stdlib/fragments/analysis/mece-core.weavemark.md">MECE</a>
+              <a class="chip" href="../promplets/stdlib/fragments/analysis/ach-core.weavemark.md">competing hypotheses</a>
+              <a class="chip" href="../promplets/stdlib/fragments/analysis/issue-tree-core.weavemark.md">issue trees</a>
+              <a class="chip" href="../promplets/stdlib/fragments/analysis/strategic-problem-analysis.weavemark.md">strategic analysis</a>
+              <a class="chip" href="../promplets/stdlib/fragments/lenses/decision-gate.weavemark.md">decision gates</a>
+            </div>
+          </div>
+          <div class="library-group">
+            <span class="library-tag"><span class="ic ic-sparkles" aria-hidden="true"></span>Ideation</span>
+            <div class="chips">
+              <a class="chip" href="../promplets/stdlib/fragments/ideation/scamper.weavemark.md">SCAMPER</a>
+              <a class="chip" href="../promplets/stdlib/fragments/ideation/six-thinking-hats.weavemark.md">Six Thinking Hats</a>
+              <a class="chip" href="../promplets/stdlib/fragments/ideation/reverse-brainstorming.weavemark.md">reverse brainstorming</a>
+              <a class="chip" href="../promplets/stdlib/fragments/ideation/multi-persona-debate-core.weavemark.md">multi-persona debate</a>
+            </div>
+          </div>
+          <div class="library-group">
+            <span class="library-tag"><span class="ic ic-code" aria-hidden="true"></span>Programming</span>
+            <div class="chips">
+              <a class="chip" href="../promplets/domains/programming/fragments/foundations/software-spec.weavemark.md">software-spec</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/stacks/stack-typescript-nextjs-prisma.weavemark.md">Next.js + Prisma</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/stacks/stack-python-fastapi-postgres.weavemark.md">FastAPI</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/stacks/stack-android-kotlin-compose.weavemark.md">Kotlin + Compose</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/modules/module-auth.weavemark.md">+ 13 modules</a>
+            </div>
+          </div>
+          <div class="library-group">
+            <span class="library-tag"><span class="ic ic-cap" aria-hidden="true"></span>Teaching</span>
+            <div class="chips">
+              <a class="chip" href="../promplets/stdlib/fragments/teaching/socratic-tutoring.weavemark.md">Socratic tutoring</a>
+              <a class="chip" href="../promplets/stdlib/fragments/teaching/misconception-diagnosis.weavemark.md">misconception diagnosis</a>
+              <a class="chip" href="../promplets/stdlib/fragments/teaching/mastery-practice-loop.weavemark.md">mastery loops</a>
+            </div>
+          </div>
+          <div class="library-group">
+            <span class="library-tag"><span class="ic ic-shield" aria-hidden="true"></span>Quality &amp; safety</span>
+            <div class="chips">
+              <a class="chip" href="../promplets/stdlib/fragments/guidelines/evidence-quality.weavemark.md">evidence quality</a>
+              <a class="chip" href="../promplets/domains/finance/fragments/finance-safety.weavemark.md">finance safety</a>
+              <a class="chip" href="../promplets/stdlib/fragments/guidelines/research-rigor.weavemark.md">research rigor</a>
+              <a class="chip" href="../promplets/domains/product/fragments/release-readiness-gate.weavemark.md">release gates</a>
+            </div>
+          </div>
+          <div class="library-group">
+            <span class="library-tag"><span class="ic ic-target" aria-hidden="true"></span>Strategy &amp; decisions</span>
+            <div class="chips">
+              <a class="chip" href="../promplets/stdlib/fragments/strategy/indirect-strategy-principles.weavemark.md">indirect strategy</a>
+              <a class="chip" href="../promplets/stdlib/fragments/decision/strategy-selection.weavemark.md">strategy selection</a>
+              <a class="chip" href="../promplets/stdlib/fragments/decision/forecast-uncertainty.weavemark.md">forecast &amp; uncertainty</a>
+              <a class="chip" href="../promplets/stdlib/fragments/decision/values-tradeoff.weavemark.md">values tradeoffs</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="what-you-can-build" class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker"><span class="ic ic-window" aria-hidden="true"></span>What can you build?</p>
+            <h2>One language for many prompt systems.</h2>
+          </div>
+          <p class="section-lede">
+            Promplets are deliberately general: the same readable source style
+            can describe <strong>pastable prompts</strong>, <strong>agent
+            specifications</strong>, and <strong>executable promplets</strong>.
+          </p>
+        </div>
+
+        <div class="build-grid">
+          <article class="build-card">
+            <span class="build-tag"><span class="ic ic-clipboard" aria-hidden="true"></span>Paste</span>
+            <h3>Investment briefs</h3>
+            <p>Evidence-aware prompts for ChatGPT, Claude, Gemini, or Copilot Chat — <a href="../promplets/catalog/standalone/investment-brief.weavemark.md">investment-brief.weavemark.md</a>.</p>
+          </article>
+
+          <article class="build-card">
+            <span class="build-tag"><span class="ic ic-window" aria-hidden="true"></span>Build</span>
+            <h3>Product specifications</h3>
+            <p>Implementation-ready specs for Copilot, Claude Code, or Cursor — <a href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">ai-kanban-board.weavemark.md</a>.</p>
+          </article>
+
+          <article class="build-card">
+            <span class="build-tag"><span class="ic ic-cap" aria-hidden="true"></span>Teach</span>
+            <h3>Adaptive tutors</h3>
+            <p>Adapt instruction with <code>@ask</code>, <code>@refine</code>, and branches — <a href="../promplets/catalog/standalone/learning-tutor.weavemark.md">learning-tutor.weavemark.md</a>.</p>
+          </article>
+
+          <article class="build-card">
+            <span class="build-tag"><span class="ic ic-gamepad" aria-hidden="true"></span>Play</span>
+            <h3>Game promplets</h3>
+            <p>Named game ideas as readable implementation specs — <a href="../promplets/catalog/standalone/voidborne-roguelike.weavemark.md">voidborne-roguelike.weavemark.md</a>.</p>
+          </article>
+
+          <article class="build-card">
+            <span class="build-tag"><span class="ic ic-target" aria-hidden="true"></span>Decide</span>
+            <h3>Decision advisors</h3>
+            <p>Decision rules, evidence standards, and output contracts — <a href="../promplets/catalog/standalone/decision-advisor.weavemark.md">decision-advisor.weavemark.md</a>.</p>
+          </article>
+
+          <article class="build-card">
+            <span class="build-tag"><span class="ic ic-bolt" aria-hidden="true"></span>Run</span>
+            <h3>Stock-analysis agents</h3>
+            <p>Executable promplets that bind trusted companion functions — <a href="../promplets/catalog/executable/portfolio-calculator-agent.weavemark.md">portfolio-calculator-agent.weavemark.md</a>.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="shell">
+        <div class="snippet-panel">
+          <div>
+            <p class="section-kicker"><span class="ic ic-code" aria-hidden="true"></span>Language moves</p>
+            <h2>Small directives, clear source.</h2>
+            <p>
+              Each directive has a local job: clarify, transform, branch, check,
+              emit, or execute. The result is a promplet that still
+              reads as a document.
+            </p>
+          </div>
+          <div class="snippet-grid">
+            <article class="snippet-card">
+              <span class="snippet-label">Reusable obligations</span>
+              <p class="snippet-note">
+                <code>@refine</code> weaves reusable promplets into
+                the current source when you need shared behavior.
+              </p>
+              <pre><code><span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.deep_summary <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.evidence_quality <span class="syntax-key">mingle:</span> true
+
+# Leadership brief
+
+Summarize <span class="syntax-var">@{notes}</span> for <span class="syntax-var">@{audience}</span>.
+Preserve decisions, risks, evidence, gaps, and next actions.</code></pre>
+            </article>
+
+            <article class="snippet-card">
+              <span class="snippet-label">Clarification point</span>
+              <p class="snippet-note">
+                <code>@ask</code> pauses compilation for missing human context,
+                then continues with the nested body.
+              </p>
+              <pre><code><span class="syntax-directive">@ask</span> clarifying question <span class="syntax-key">detail_level:</span> 30%
+  <span class="syntax-directive">@refine</span> module:weavemark.std.teaching.socratic_tutoring <span class="syntax-key">mingle:</span> true
+
+  # Adaptive tutor
+
+  Teach <span class="syntax-var">@{topic}</span> using the learner context.
+  Clarify who the learner is before compiling.</code></pre>
+            </article>
+
+            <article class="snippet-card">
+              <span class="snippet-label">Iterative transformation</span>
+              <p class="snippet-note">
+                <code>@iterate</code> lets the Processor revisit a transformation
+                instead of accepting the first useful expansion.
+              </p>
+              <pre><code><span class="syntax-directive">@iterate</span> 2
+  <span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention <span class="syntax-key">focus:</span> <span class="syntax-string">"playable first build"</span>
+    <a class="code-link" href="../promplets/catalog/standalone/voidborne-roguelike.weavemark.md">Voidborne</a>: pilot a ship through generated sectors,
+    collect upgrades, and face zone bosses.</code></pre>
+            </article>
+
+            <article class="snippet-card">
+              <span class="snippet-label">Concept expansion</span>
+              <p class="snippet-note">
+                <code>@expand</code> elaborates a specific concept the rest of the
+                spec builds on — not a way to inflate a one-liner into a whole spec.
+              </p>
+              <pre><code><span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention <span class="syntax-key">length:</span> 70%
+  Make the <a class="code-link" href="../promplets/catalog/standalone/multi-persona-debate.weavemark.md">steel-manning</a> requirement operational: each
+  perspective restates the strongest opposing view fairly.</code></pre>
+            </article>
+
+            <article class="snippet-card">
+              <span class="snippet-label">Output contract</span>
+              <p class="snippet-note">
+                Assertions keep required content visible in the source before
+                any assistant sees the final prompt.
+              </p>
+              <pre><code><span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"risks"</span>
+<span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"open questions"</span>
+
+# Review gate
+
+Name the risk, missing information, and next step.</code></pre>
+            </article>
+
+            <article class="snippet-card">
+              <span class="snippet-label">One source, many surfaces</span>
+              <p class="snippet-note">
+                <code>@emit</code> keeps companion artifacts aligned with the
+                same readable source.
+              </p>
+              <pre><code><span class="syntax-directive">@emit</span> <span class="syntax-key">file:</span> <span class="syntax-string">"agent.system.md"</span>
+  # Agent operating brief
+
+  Use the refined prompt as the system instruction.
+  Keep the emitted file aligned with the source promplet.</code></pre>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Using the output</p>
+            <h2>Compile artifacts for the job you actually have.</h2>
+          </div>
+          <p class="section-lede">
+            Promplets are not only a nicer way to write one prompt. They can
+            produce <strong>pastable prompts</strong>, <strong>programming-agent
+            specifications</strong>, <strong>prompt packs</strong>, and
+            <strong>prompts the WeaveMark Processor executes</strong>.
+          </p>
+        </div>
+
+        <div class="wide-callout output-callout">
+          <div>
+            <p class="section-kicker">Executable promplets</p>
+            <h3>When a prompt should run, make the runtime explicit.</h3>
+            <p>
+              Declare tool schemas, bind trusted companion implementations, and
+              choose an execution engine — from a single call to tree-of-thought,
+              self-consistency, or reflection, each modeled on established
+              prompting patterns from the literature (Yao et al. 2023, Wang et al.
+              2022, Shinn &amp; Madaan 2023). The readable document stays the
+              specification everyone can inspect; the WeaveMark Processor runs it
+              when execution is requested.
+            </p>
+          </div>
+          <div class="code-card">
+            <div class="code-title">
+              <span><a href="../promplets/catalog/executable/tree-of-thought-solver.weavemark.md">tree-of-thought-solver.weavemark.md</a></span>
+              <span>@execute</span>
+            </div>
+            <pre><code><span class="syntax-directive">@execute</span> tree-of-thought
+  <span class="syntax-key">max_depth:</span> 3
+  <span class="syntax-key">branching_factor:</span> 3
+
+Problem: <span class="syntax-var">@{problem}</span>
+
+<span class="syntax-directive">@prompt</span> thought_step
+  Provide the next single reasoning step from <span class="syntax-var">@{state}</span>.
+
+<span class="syntax-directive">@prompt</span> evaluate_step
+  Rate this partial reasoning: <span class="syntax-string">"sure"</span>, <span class="syntax-string">"maybe"</span>, or <span class="syntax-string">"impossible"</span>.
+
+<span class="syntax-directive">@prompt</span> synthesize
+  State the final answer from the best reasoning path.</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker"><span class="ic ic-bolt" aria-hidden="true"></span>Start here</p>
+            <h2>Let the prompting begin.</h2>
+          </div>
+          <p class="section-lede">
+            <strong>Build one real promplet first.</strong> Then learn the directive
+            moves, explore richer application domains, or jump to the API and
+            reference as needed.
+          </p>
+        </div>
+
+        <div class="start-panel">
+          <article class="card route-card start-primary">
+            <span class="badge">Start</span>
+            <h3>Build your first promplet</h3>
+            <p>
+              Create a promplet from a blank page: add variables, borrow
+              reusable constraints, branch, and lock the output shape.
+            </p>
+            <ul>
+              <li>Write readable Markdown.</li>
+              <li>Add reusable refinement.</li>
+              <li>Compile a concrete artifact.</li>
+            </ul>
+            <a class="button" href="tutorial.html">Build your first promplet</a>
+          </article>
+
+          <div class="path-list" aria-label="Documentation paths">
+            <a class="path-link" href="introduction.html">
+              <span>Intro</span>
+              <strong>Mental model</strong>
+              <small>The language in plain terms.</small>
+            </a>
+            <a class="path-link" href="tutorial-reuse.html">
+              <span>2</span>
+              <strong>Reuse &amp; refine</strong>
+              <small>One library, many outputs &mdash; the superpower.</small>
+            </a>
+            <a class="path-link" href="tutorial-refine.html">
+              <span>3</span>
+              <strong>Adaptive tutor</strong>
+              <small>Use <code>@refine</code> and <code>@ask</code>.</small>
+            </a>
+            <a class="path-link" href="tutorial-products.html">
+              <span>4</span>
+              <strong>Product promplets</strong>
+              <small>Compose product and programming layers.</small>
+            </a>
+            <a class="path-link" href="tutorial-games.html">
+              <span>5</span>
+              <strong>Game promplets</strong>
+              <small>Use <code>@iterate</code> to improve expansion.</small>
+            </a>
+            <a class="path-link" href="tutorial-directives.html">
+              <span>6</span>
+              <strong>Semantic toolbox</strong>
+              <small>Tour <code>@refine</code>, <code>@expand</code>, <code>@revise</code>, and more.</small>
+            </a>
+            <a class="path-link" href="tutorial-advanced.html">
+              <span>7</span>
+              <strong>Advanced macros</strong>
+              <small>Write <code>@define</code> macros and runtime functions.</small>
+            </a>
+            <a class="path-link" href="tutorial-implement.html">
+              <span>8</span>
+              <strong>Spec to app</strong>
+              <small>Turn a compiled spec into a running project.</small>
+            </a>
+            <a class="path-link" href="tutorial-illustrated.html">
+              <span>9</span>
+              <strong>Illustrated stories</strong>
+              <small>Images in and out: a comic and a printable storybook.</small>
+            </a>
+            <a class="path-link" href="python-api.html">
+              <span>API</span>
+              <strong>Use from Python</strong>
+              <small>Compile prompt specifications from applications.</small>
+            </a>
+            <a class="path-link" href="reference.html">
+              <span>Ref</span>
+              <strong>Reference</strong>
+              <small>Exact syntax when you need it.</small>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark</strong><br>
+          Markdown-native prompt systems with semantic structure.
+        </div>
+        <div>
+          Authoritative language contract:
+          <a href="../src/weavemark/prompts/weavemark.system.md">weavemark.system.md</a>.
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const root = document.querySelector("[data-hero-carousel]");
+        if (!root) return;
+
+        const slides = Array.from(root.querySelectorAll("[data-carousel-slide]"));
+        const tabs = Array.from(root.querySelectorAll("[data-carousel-index]"));
+        const title = root.querySelector("[data-carousel-title]");
+        const statCards = Array.from(document.querySelectorAll("[data-stat-card]"));
+        const previous = root.querySelector("[data-carousel-prev]");
+        const next = root.querySelector("[data-carousel-next]");
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        let activeIndex = 0;
+        let timerId = null;
+
+        const canAutoRotate = () => (
+          !reducedMotion.matches
+          && !root.matches(":hover")
+          && !root.contains(document.activeElement)
+        );
+
+        const stop = () => {
+          if (timerId) {
+            window.clearInterval(timerId);
+            timerId = null;
+          }
+        };
+
+        const start = () => {
+          stop();
+          if (!canAutoRotate() || slides.length < 2) return;
+          timerId = window.setInterval(() => showSlide(activeIndex + 1), 6500);
+        };
+
+        const showSlide = (nextIndex, userRequested = false) => {
+          activeIndex = (nextIndex + slides.length) % slides.length;
+          const activeSlide = slides[activeIndex];
+          slides.forEach((slide, index) => {
+            const active = index === activeIndex;
+            slide.hidden = !active;
+            slide.classList.toggle("is-active", active);
+            slide.setAttribute("aria-hidden", String(!active));
+          });
+          tabs.forEach((tab, index) => {
+            const active = index === activeIndex;
+            tab.classList.toggle("is-active", active);
+            tab.setAttribute("aria-pressed", String(active));
+          });
+          if (title) {
+            title.textContent = activeSlide.dataset.title || "";
+            if (activeSlide.dataset.href) title.href = activeSlide.dataset.href;
+            else title.removeAttribute("href");
+          }
+          statCards.forEach((card) => {
+            const key = card.dataset.statCard;
+            const titleTarget = card.querySelector("[data-stat-title]");
+            const textTarget = card.querySelector("[data-stat-text]");
+            if (titleTarget) titleTarget.textContent = activeSlide.dataset[`stat${key.toUpperCase()}Title`] || "";
+            if (textTarget) textTarget.textContent = activeSlide.dataset[`stat${key.toUpperCase()}Text`] || "";
+          });
+          if (userRequested) start();
+        };
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            showSlide(Number(tab.dataset.carouselIndex), true);
+          });
+        });
+        previous?.addEventListener("click", () => showSlide(activeIndex - 1, true));
+        next?.addEventListener("click", () => showSlide(activeIndex + 1, true));
+        root.addEventListener("mouseenter", stop);
+        root.addEventListener("mouseleave", start);
+        root.addEventListener("focusin", stop);
+        root.addEventListener("focusout", () => {
+          window.setTimeout(() => {
+            if (!root.contains(document.activeElement)) start();
+          }, 0);
+        });
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) stop();
+          else start();
+        });
+        reducedMotion.addEventListener("change", start);
+        showSlide(0);
+        start();
+      })();
+    </script>
+    <script>
+      (() => {
+        const heroLogo = document.querySelector(".hero-logo");
+        const nav = document.querySelector(".site-nav");
+        if (!heroLogo || !nav || !("IntersectionObserver" in window)) return;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              nav.classList.toggle("brand-hidden", entry.isIntersecting);
+            }
+          },
+          { rootMargin: "-88px 0px 0px 0px", threshold: 0 }
+        );
+        observer.observe(heroLogo);
+      })();
+    </script>
+  </body>
+</html>

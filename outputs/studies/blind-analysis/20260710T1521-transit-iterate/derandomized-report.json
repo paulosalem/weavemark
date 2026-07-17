@@ -1,0 +1,651 @@
+{
+  "aggregate_delta": 68,
+  "criterion_methods": {
+    "Authoring leverage": {
+      "blindness": "derived-evidence",
+      "leakage_risk": "Low: uses automated counts and ratios only.",
+      "method": "Ranked from local leverage without exposing variant identity."
+    },
+    "Constraint integration": {
+      "blindness": "masked-source-output review",
+      "leakage_risk": "Moderate: domain content and artifact structure may leak.",
+      "method": "Independent review reads masked source/output to judge whether constraints are woven into the artifact."
+    },
+    "Grounded expressiveness": {
+      "blindness": "masked-source-output review",
+      "leakage_risk": "Moderate: domain content and style may leak even after identity masking.",
+      "method": "Independent review reads masked source/output because richness and grounding are semantic judgments."
+    },
+    "Information yield": {
+      "blindness": "derived-evidence",
+      "leakage_risk": "Low-to-moderate: fact extraction reads artifacts, but scoring uses derived counts.",
+      "method": "Ranked from discounted fact units per local source word."
+    },
+    "Input readability": {
+      "blindness": "masked-source review",
+      "leakage_risk": "Moderate: source syntax/style may reveal the authoring approach.",
+      "method": "Independent review reads masked source text because readability is not reducible to source length."
+    },
+    "Output readability": {
+      "blindness": "masked-output review",
+      "leakage_risk": "Moderate: output style/domain content may leak.",
+      "method": "Independent review reads masked output text because readability is not reducible to density or brevity."
+    },
+    "Reusable abstraction quality": {
+      "blindness": "masked-source review",
+      "leakage_risk": "Moderate-to-high: abstraction syntax can leak authoring style, but reading it is necessary for reliability.",
+      "method": "Independent review reads masked source to judge abstraction clarity and reuse."
+    }
+  },
+  "leak_risk_note": "Hybrid blind* scoring uses derived metrics for mechanical criteria and masked source/output review for criteria that require actual reading. The masked review is less blind because domain content, source syntax, or style can leak, but this is necessary to avoid replacing readability and integration judgments with weak length/density proxies.",
+  "mode": "source-and-output",
+  "run_id": "20260710T1521-transit-iterate",
+  "schema_version": 1,
+  "score_scale": "-3..+3 treatment-control contrastive delta after reveal.",
+  "score_source": "hybrid-derived-metrics-and-masked-review",
+  "studies": [
+    {
+      "deltas": [
+        {
+          "control_score": 1,
+          "criterion": "Authoring leverage",
+          "delta": 3,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 1,
+          "criterion": "Information yield",
+          "delta": 3,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Grounded expressiveness",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 6,
+          "criterion": "Input readability",
+          "delta": -1,
+          "treatment_score": 5
+        },
+        {
+          "control_score": 5,
+          "criterion": "Output readability",
+          "delta": 1,
+          "treatment_score": 6
+        },
+        {
+          "control_score": 4,
+          "criterion": "Constraint integration",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Reusable abstraction quality",
+          "delta": 1,
+          "treatment_score": 5
+        }
+      ],
+      "study_id": "crowd-factory-puzzle",
+      "title": "Crowd Factory Puzzle",
+      "total": 11,
+      "total_delta": 11,
+      "variants": [
+        {
+          "anonymous_id": "C",
+          "label": "[C1] Compact no-expand control",
+          "mean_score": 3.7142857142857144
+        },
+        {
+          "anonymous_id": "A",
+          "label": "[C2] Matched-prose no-expand control",
+          "mean_score": 3.5714285714285716
+        },
+        {
+          "anonymous_id": "B",
+          "label": "[T] Expanded WeaveMark treatment",
+          "mean_score": 6.285714285714286
+        }
+      ]
+    },
+    {
+      "deltas": [
+        {
+          "control_score": 4,
+          "criterion": "Authoring leverage",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Information yield",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 5,
+          "criterion": "Grounded expressiveness",
+          "delta": 1,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Input readability",
+          "delta": 0,
+          "treatment_score": 4
+        },
+        {
+          "control_score": 5,
+          "criterion": "Output readability",
+          "delta": 1,
+          "treatment_score": 6
+        },
+        {
+          "control_score": 5,
+          "criterion": "Constraint integration",
+          "delta": 1,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 6,
+          "criterion": "Reusable abstraction quality",
+          "delta": 0,
+          "treatment_score": 6
+        }
+      ],
+      "study_id": "evidence-decision",
+      "title": "Evidence-to-Decision Workspace",
+      "total": 7,
+      "total_delta": 7,
+      "variants": [
+        {
+          "anonymous_id": "C",
+          "label": "[C1] Manual brief",
+          "mean_score": 2.2857142857142856
+        },
+        {
+          "anonymous_id": "A",
+          "label": "[C2] Matched reusable-template control",
+          "mean_score": 4.714285714285714
+        },
+        {
+          "anonymous_id": "B",
+          "label": "[T] WeaveMark treatment",
+          "mean_score": 6.285714285714286
+        }
+      ]
+    },
+    {
+      "deltas": [
+        {
+          "control_score": 1,
+          "criterion": "Authoring leverage",
+          "delta": 3,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Information yield",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 3,
+          "criterion": "Grounded expressiveness",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 5,
+          "criterion": "Input readability",
+          "delta": 0,
+          "treatment_score": 5
+        },
+        {
+          "control_score": 4,
+          "criterion": "Output readability",
+          "delta": 1,
+          "treatment_score": 6
+        },
+        {
+          "control_score": 3,
+          "criterion": "Constraint integration",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 2,
+          "criterion": "Reusable abstraction quality",
+          "delta": 2,
+          "treatment_score": 6
+        }
+      ],
+      "study_id": "learning-tutor",
+      "title": "Learning Tutor",
+      "total": 12,
+      "total_delta": 12,
+      "variants": [
+        {
+          "anonymous_id": "C",
+          "label": "[C1] Compact manual",
+          "mean_score": 2.2857142857142856
+        },
+        {
+          "anonymous_id": "A",
+          "label": "[C2] Matched prose control",
+          "mean_score": 3.142857142857143
+        },
+        {
+          "anonymous_id": "B",
+          "label": "[T] WeaveMark treatment",
+          "mean_score": 6.428571428571429
+        }
+      ]
+    },
+    {
+      "deltas": [
+        {
+          "control_score": 4,
+          "criterion": "Authoring leverage",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Information yield",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Grounded expressiveness",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Input readability",
+          "delta": 1,
+          "treatment_score": 5
+        },
+        {
+          "control_score": 5,
+          "criterion": "Output readability",
+          "delta": 1,
+          "treatment_score": 6
+        },
+        {
+          "control_score": 4,
+          "criterion": "Constraint integration",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 6,
+          "criterion": "Reusable abstraction quality",
+          "delta": 0,
+          "treatment_score": 6
+        }
+      ],
+      "study_id": "orbital-drift",
+      "title": "Orbital Drift",
+      "total": 10,
+      "total_delta": 10,
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "label": "[C1] Manual brief",
+          "mean_score": 2.2857142857142856
+        },
+        {
+          "anonymous_id": "C",
+          "label": "[C2] Matched reusable-template control",
+          "mean_score": 4.428571428571429
+        },
+        {
+          "anonymous_id": "B",
+          "label": "[T] WeaveMark treatment",
+          "mean_score": 6.428571428571429
+        }
+      ]
+    },
+    {
+      "deltas": [
+        {
+          "control_score": 4,
+          "criterion": "Authoring leverage",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 7,
+          "criterion": "Information yield",
+          "delta": -2,
+          "treatment_score": 4
+        },
+        {
+          "control_score": 5,
+          "criterion": "Grounded expressiveness",
+          "delta": 1,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Input readability",
+          "delta": 0,
+          "treatment_score": 4
+        },
+        {
+          "control_score": 5,
+          "criterion": "Output readability",
+          "delta": 1,
+          "treatment_score": 6
+        },
+        {
+          "control_score": 5,
+          "criterion": "Constraint integration",
+          "delta": 1,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 6,
+          "criterion": "Reusable abstraction quality",
+          "delta": 0,
+          "treatment_score": 6
+        }
+      ],
+      "study_id": "release-readiness",
+      "title": "Release Readiness Workbench",
+      "total": 3,
+      "total_delta": 3,
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "label": "[C1] Manual brief",
+          "mean_score": 2.2857142857142856
+        },
+        {
+          "anonymous_id": "C",
+          "label": "[C2] Matched reusable-template control",
+          "mean_score": 5.142857142857143
+        },
+        {
+          "anonymous_id": "B",
+          "label": "[T] WeaveMark treatment",
+          "mean_score": 5.857142857142857
+        }
+      ]
+    },
+    {
+      "deltas": [
+        {
+          "control_score": 4,
+          "criterion": "Authoring leverage",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Information yield",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Grounded expressiveness",
+          "delta": 1,
+          "treatment_score": 5
+        },
+        {
+          "control_score": 5,
+          "criterion": "Input readability",
+          "delta": -1,
+          "treatment_score": 4
+        },
+        {
+          "control_score": 5,
+          "criterion": "Output readability",
+          "delta": 0,
+          "treatment_score": 5
+        },
+        {
+          "control_score": 4,
+          "criterion": "Constraint integration",
+          "delta": 1,
+          "treatment_score": 6
+        },
+        {
+          "control_score": 6,
+          "criterion": "Reusable abstraction quality",
+          "delta": 0,
+          "treatment_score": 6
+        }
+      ],
+      "study_id": "research-brief",
+      "title": "Research Brief",
+      "total": 5,
+      "total_delta": 5,
+      "variants": [
+        {
+          "anonymous_id": "B",
+          "label": "[C1] Manual request",
+          "mean_score": 2.2857142857142856
+        },
+        {
+          "anonymous_id": "C",
+          "label": "[C2] Matched reusable-template control",
+          "mean_score": 4.571428571428571
+        },
+        {
+          "anonymous_id": "A",
+          "label": "[T] WeaveMark treatment",
+          "mean_score": 5.714285714285714
+        }
+      ]
+    },
+    {
+      "deltas": [
+        {
+          "control_score": 1,
+          "criterion": "Authoring leverage",
+          "delta": 3,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 1,
+          "criterion": "Information yield",
+          "delta": 3,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Grounded expressiveness",
+          "delta": 1,
+          "treatment_score": 5
+        },
+        {
+          "control_score": 6,
+          "criterion": "Input readability",
+          "delta": -1,
+          "treatment_score": 5
+        },
+        {
+          "control_score": 5,
+          "criterion": "Output readability",
+          "delta": 0,
+          "treatment_score": 5
+        },
+        {
+          "control_score": 4,
+          "criterion": "Constraint integration",
+          "delta": 1,
+          "treatment_score": 6
+        },
+        {
+          "control_score": 4,
+          "criterion": "Reusable abstraction quality",
+          "delta": 1,
+          "treatment_score": 5
+        }
+      ],
+      "study_id": "transit-city-swarm",
+      "title": "Transit City Swarm",
+      "total": 8,
+      "total_delta": 8,
+      "variants": [
+        {
+          "anonymous_id": "B",
+          "label": "[C1] Compact no-expand control",
+          "mean_score": 3.7142857142857144
+        },
+        {
+          "anonymous_id": "A",
+          "label": "[C2] Matched-prose no-expand control",
+          "mean_score": 3.5714285714285716
+        },
+        {
+          "anonymous_id": "C",
+          "label": "[T] Expanded WeaveMark treatment",
+          "mean_score": 5.714285714285714
+        }
+      ]
+    },
+    {
+      "deltas": [
+        {
+          "control_score": 4,
+          "criterion": "Authoring leverage",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Information yield",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Grounded expressiveness",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Input readability",
+          "delta": 0,
+          "treatment_score": 4
+        },
+        {
+          "control_score": 5,
+          "criterion": "Output readability",
+          "delta": 1,
+          "treatment_score": 6
+        },
+        {
+          "control_score": 4,
+          "criterion": "Constraint integration",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 6,
+          "criterion": "Reusable abstraction quality",
+          "delta": 0,
+          "treatment_score": 6
+        }
+      ],
+      "study_id": "verdant-relay",
+      "title": "Verdant Relay",
+      "total": 9,
+      "total_delta": 9,
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "label": "[C1] Manual brief",
+          "mean_score": 2.2857142857142856
+        },
+        {
+          "anonymous_id": "B",
+          "label": "[C2] Matched reusable-template control",
+          "mean_score": 4.428571428571429
+        },
+        {
+          "anonymous_id": "C",
+          "label": "[T] WeaveMark treatment",
+          "mean_score": 6.285714285714286
+        }
+      ]
+    },
+    {
+      "deltas": [
+        {
+          "control_score": 4,
+          "criterion": "Authoring leverage",
+          "delta": 2,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 7,
+          "criterion": "Information yield",
+          "delta": -2,
+          "treatment_score": 4
+        },
+        {
+          "control_score": 5,
+          "criterion": "Grounded expressiveness",
+          "delta": 1,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 4,
+          "criterion": "Input readability",
+          "delta": 0,
+          "treatment_score": 4
+        },
+        {
+          "control_score": 5,
+          "criterion": "Output readability",
+          "delta": 1,
+          "treatment_score": 6
+        },
+        {
+          "control_score": 5,
+          "criterion": "Constraint integration",
+          "delta": 1,
+          "treatment_score": 7
+        },
+        {
+          "control_score": 6,
+          "criterion": "Reusable abstraction quality",
+          "delta": 0,
+          "treatment_score": 6
+        }
+      ],
+      "study_id": "work-intelligence-kanban",
+      "title": "Intelligence-to-Execution Kanban",
+      "total": 3,
+      "total_delta": 3,
+      "variants": [
+        {
+          "anonymous_id": "B",
+          "label": "[C1] Manual brief",
+          "mean_score": 2.2857142857142856
+        },
+        {
+          "anonymous_id": "C",
+          "label": "[C2] Matched reusable-template control",
+          "mean_score": 5.142857142857143
+        },
+        {
+          "anonymous_id": "A",
+          "label": "[T] WeaveMark treatment",
+          "mean_score": 5.857142857142857
+        }
+      ]
+    }
+  ]
+}

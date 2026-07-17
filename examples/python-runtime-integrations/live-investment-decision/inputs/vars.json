@@ -1,0 +1,23 @@
+{
+  "decision_question": "Which large-cap AI platform stock deserves deeper research first as a 12-month educational comparison against a short-duration U.S. Treasury benchmark?",
+  "assets": [
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation"
+    },
+    {
+      "ticker": "NVDA",
+      "company_name": "NVIDIA Corporation"
+    },
+    {
+      "ticker": "AAPL",
+      "company_name": "Apple Inc."
+    }
+  ],
+  "risk_free_benchmark": "12-month U.S. Treasury / T-bill proxy at an assumed 4.5% annualized yield",
+  "decision_horizon": "12 months",
+  "comparison_principal": "10,000 USD",
+  "materiality_band": "within +/- 2 percentage points of the risk-free benchmark terminal value",
+  "research_focus": "AI platform exposure, recent earnings quality, valuation risk, competitive position, margin durability, and credible downside evidence",
+  "max_crawl_sources_per_asset": 1
+}

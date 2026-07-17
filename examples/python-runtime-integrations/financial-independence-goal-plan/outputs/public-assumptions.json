@@ -1,0 +1,82 @@
+{
+  "effect": "web_search read",
+  "mode": "curated-public-reference-pack",
+  "privacy_boundary": "Uses public reference material only. It does not read bank accounts, transactions, portfolios, credit reports, or identity data.",
+  "goal": "Reach financial independence while keeping work optional, not necessarily retiring early",
+  "domain": "personal finance",
+  "country": "United States",
+  "horizon": "15 years",
+  "queries": [
+    "United States official retirement account contribution limits",
+    "United States investor education compound interest calculator",
+    "United States consumer finance budgeting emergency fund guidance",
+    "financial independence planning assumptions safe withdrawal rate 15 years",
+    "personal finance planning Reach financial independence while keeping work optional, not necessarily retiring early personal finance public reference"
+  ],
+  "sources": [
+    {
+      "query": "United States official retirement account contribution limits",
+      "provider": "curated public reference",
+      "results": [
+        {
+          "title": "IRS retirement plan contribution limits",
+          "url": "https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-contributions",
+          "why_it_matters": "Tax-advantaged contribution limits are public facts that can change yearly and should be verified before planning."
+        },
+        {
+          "title": "IRS IRA contribution limits",
+          "url": "https://www.irs.gov/retirement-plans/traditional-and-roth-iras",
+          "why_it_matters": "IRA rules affect which savings vehicles might be relevant for a U.S. financial-independence plan."
+        }
+      ]
+    },
+    {
+      "query": "United States investor education compound interest calculator",
+      "provider": "curated public reference",
+      "results": [
+        {
+          "title": "Investor.gov compound interest calculator",
+          "url": "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator",
+          "why_it_matters": "Compounding examples help turn distant goals into reviewable savings and investment assumptions."
+        }
+      ]
+    },
+    {
+      "query": "United States consumer finance budgeting emergency fund guidance",
+      "provider": "curated public reference",
+      "results": [
+        {
+          "title": "Consumer Financial Protection Bureau budgeting resources",
+          "url": "https://www.consumerfinance.gov/consumer-tools/budgeting/",
+          "why_it_matters": "Budgeting and cash-flow guidance keeps the first steps grounded before any investment assumptions."
+        }
+      ]
+    },
+    {
+      "query": "financial independence planning assumptions safe withdrawal rate 15 years",
+      "provider": "curated public reference",
+      "results": [
+        {
+          "title": "Bogleheads wiki: Safe withdrawal rates",
+          "url": "https://www.bogleheads.org/wiki/Safe_withdrawal_rates",
+          "why_it_matters": "Safe-withdrawal-rate discussion is useful context, but it is not a guarantee and must be adapted to the user."
+        }
+      ]
+    }
+  ],
+  "assumptions_to_verify": [
+    "current tax-advantaged account contribution limits",
+    "current local tax treatment and withdrawal rules",
+    "inflation and expected expense assumptions",
+    "safe-withdrawal assumptions appropriate to the user's country",
+    "health insurance, housing, family, and job-risk constraints"
+  ],
+  "planning_lenses": [
+    "savings-rate leverage",
+    "expense-floor realism",
+    "income resilience",
+    "emergency-fund runway",
+    "investment-policy clarity",
+    "review cadence and behavior guardrails"
+  ]
+}

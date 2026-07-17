@@ -1,0 +1,7 @@
+{
+  "problem": "A direct-to-consumer furniture retailer's profitability fell even though top-line revenue grew 18% year over year. Leadership wants a clean structure for diagnosing where margin pressure is coming from before launching fixes.",
+  "objective": "Create a MECE structure for diagnosing the profit decline and identifying the first analytic workstreams.",
+  "additional_context": "- Gross margin is down 4.2 points.\n- Paid acquisition spend increased 35%.\n- Return rates rose after the premium sofa launch.\n- Fulfillment costs increased after opening a second warehouse.\n- Leadership wants to avoid jumping to solutions before the problem is clearly structured.",
+  "constraints": "Stay at the problem-structuring stage. Do not recommend detailed solutions yet.",
+  "proposed_structure": "Marketing, returns, premium products, Europe, fulfillment, pricing"
+}

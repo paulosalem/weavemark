@@ -1,0 +1,38 @@
+{
+  "title": "THE PERFECT CAT",
+  "language": "English",
+  "premise": "Doctor Krazy proudly unveils Deimotron, his cybernetic cat, boasting it is the 'perfect cat' with zero bad habits because it learns by copying the best. It promptly locks onto Deimos and mirrors his every deadpan pose — stealing straws, then knocking the good china off the table in perfect sync. Krazy's pride curdles into horror as his flawless copy turns out to have inherited exactly one bad habit: Deimos himself. Punchline lands on Deimos's dry ownership of the whole disaster.",
+  "panel_count": "5",
+  "layout": "two rows in a classic Sunday-strip arrangement: a top row of 2 wide panels (the unveiling and the mirror beginning) and a bottom row of 3 panels (the straw-theft copied, the china smashed off the table, and the deadpan aftermath punchline), read left to right and top to bottom",
+  "tone": "dry, deadpan domestic humor — gently absurd, warm, and family-friendly; the comedy comes from Doctor Krazy's oblivious pride, Deimos's superior irony, and the robot cat copying his every bad habit in perfect sync",
+  "art_style": "soft-color-storybook",
+  "setting": "A cozy, sunlit apartment: an open kitchen with wooden cabinets and a stove flowing into a small dining nook with a wooden table, teacups, and a teapot. Warm afternoon light.",
+  "characters": "Draw each named character on-model from the character sheets. Personalities:\n- Deimos (character sheets 1, 2, 4): a small charcoal-black cat with large round yellow-green eyes and a permanently deadpan, ironic expression. He talks, with a sharp sense of irony, and is intensely curious — he won the Nobel Prize for 'most curious cat'. A cat of many professions (children's-bus driver who always speeds a little more than recommended, scientist, philosopher, singer, explorer). Likes to steal drinking straws and loves being petted. Often sits upright holding a small teacup.\n- Deimotron (character sheet 3): Doctor Krazy's robot cat — a metallic silver-grey cybernetic feline with glowing cyan eyes and visible mechanical joints, built to mirror Deimos's poses exactly. Throughout this strip it copies whatever Deimos does, in perfect sync, one beat behind.\n- Doctor Krazy (character sheet 3): a genius mad scientist and Caroline's father, with wild Einstein-like grey hair, round goggles, and a white lab coat over denim overalls. Gleeful, eccentric, and utterly oblivious to the obvious.\n- Peter (character sheets 1, 2): a lanky computer scientist in his 30s with tousled reddish-brown hair, light stubble, and wide expressive eyes. Wears a light-blue denim jacket over a cream t-shirt and khaki trousers. Sees things for what they are and is often in disbelief that everyone else ignores glaring, obvious problems. Married to Caroline.\n- Caroline (character sheets 1, 2): a calm, easy-going architect with a brown chin-length bob, wearing a sage-green fur-lined parka and a faint knowing half-smile. Accepts even the most absurd situations without blinking. Married to Peter.",
+  "panels": {
+    "1": {
+      "staging": "Wide establishing shot of the sunlit kitchen-diner. Doctor Krazy bursts in from the left, arms flung wide, presenting Deimotron — his metallic silver-grey robot cat with glowing cyan eyes — on the table like a prize. Deimos sits upright at the same table with his teacup, eyes half-lidded, thoroughly unimpressed.",
+      "dialogue": "Doctor Krazy (beaming): \"Behold! DEIMOTRON — the perfect cat. ZERO bad habits!\"  Deimos (flat): \"Bold claim.\""
+    },
+    "2": {
+      "staging": "Wide shot, closer on the table. Deimotron's cyan eyes lock onto Deimos, and it raises an identical little teacup in the exact same upright pose — a perfect mirror image, one beat behind. Doctor Krazy gestures proudly between them. Deimos slowly narrows his eyes at the copy.",
+      "dialogue": "Doctor Krazy: \"He learns by copying the BEST! Go on — teach him!\"  Deimos (eyeing the robot): \"...Tempting.\""
+    },
+    "3": {
+      "staging": "Bottom-left panel. Deimos slyly reaches over and steals a drinking straw from a glass on the table. In perfect sync, Deimotron's clawed mechanical paw snatches an identical straw the very same way. Peter leans into frame from the right, alarmed, grabbing at his drink.",
+      "dialogue": "Deimos: \"Lesson one.\"  Peter: \"Hey — my straw!\""
+    },
+    "4": {
+      "staging": "Bottom-middle panel. Deimos, with a sly glint, hooks one claw around his teacup and deliberately drags it toward the table's edge, eyes locked on Doctor Krazy. In perfect sync, Deimotron's metal paw drags an identical cup — both cups tip over the edge and SMASH on the floor in a burst of shards. Doctor Krazy lunges too late, his proud grin collapsing into pure horror.",
+      "dialogue": "Deimos (deadpan, still pushing): \"Watch. He's a natural.\"  Doctor Krazy: \"No — not the good china!\""
+    },
+    "5": {
+      "staging": "Bottom-right panel. The aftermath: broken cups scattered on the floor. Both cats sit side by side in identical serene, utterly-innocent poses — tails curled the same way — each raising a fresh teacup in a matching twin toast. Doctor Krazy slumps on the floor beside them, aghast, goggles askew, staring at the wreckage. Deimos looks deadpan straight at the reader with a flicker of pride; Deimotron mirrors him exactly.",
+      "dialogue": "Doctor Krazy (aghast): \"What have I built?!\"  Deimos (flat, to the reader): \"I've created a monster.\""
+    }
+  },
+  "style_reference": "../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_reference_comic.png",
+  "character_sheet_1": "../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_1.png",
+  "character_sheet_2": "../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_2.png",
+  "character_sheet_3": "../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_3.png",
+  "character_sheet_4": "../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_4.png"
+}

@@ -1,0 +1,28 @@
+{
+  "artifact_hashes": {
+    "output_sha256": "b57b86bd398320b981373ac34bab83d3dcebb3215de2ab7fb58afba65ead9bfc",
+    "source_sha256": "b57b86bd398320b981373ac34bab83d3dcebb3215de2ab7fb58afba65ead9bfc",
+    "variables_sha256": null
+  },
+  "fact_candidate_count": 5,
+  "fact_candidates": [
+    "Design a local-first web application that helps prepare a software release.",
+    "should collect release tasks, evidence, validation results, docs, examples, risks,",
+    "and go/no-go decisions in one workspace.",
+    "This implementation-ready specification covers product goals, data",
+    "model, local storage, workflows, UI, APIs, automation, privacy, failure handling,"
+  ],
+  "metrics": {
+    "candidate_facts": 5,
+    "counted_facts": 5,
+    "discounted_fact_units": 5.0,
+    "information_density_per_1k_output_words": 90.9,
+    "information_yield_per_1k_source_words": 90.9,
+    "local_authored_source_words": 55,
+    "local_leverage": 1.0,
+    "output_words": 55,
+    "study": "release-readiness",
+    "variable_payload_words": 0,
+    "variant": "manual"
+  }
+}

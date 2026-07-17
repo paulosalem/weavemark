@@ -1,0 +1,32 @@
+name: support-triage
+description: Prompt-backed support triage machine for the WeaveMark FSLM demo.
+version: "0.1"
+initial: triage
+states:
+  triage:
+    objective: Decide whether the incoming user message should be answered.
+    transitions:
+      - name: answer_user
+        event: user_message
+        target: answered
+        guards:
+          - id: has_answerable_question
+            kind: nl
+            text: The event payload must contain a concrete support question that can be answered from the available context.
+        actions:
+          - name: draft_answer
+            kind: nl
+            tool: language
+            text: Draft a concise support answer using the user message and any supplied context.
+        emits:
+          - type: final_answer
+            kind: nl
+            description: User-facing support answer.
+            text: Produce the final answer for the user.
+  answered:
+    objective: Hold the completed support answer.
+    terminal: true
+    invariants:
+      - id: answer_is_grounded
+        kind: nl
+        text: The final state must be backed by the user message and should not invent unsupported account-specific facts.

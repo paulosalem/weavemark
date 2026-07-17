@@ -1,0 +1,78 @@
+{
+  "title": "O Bebê Fusquinha e a Biblioteca Perdida das Perguntas",
+  "language": "Portuguese",
+  "audience": "crianças de aproximadamente 4 anos, com releitura prazerosa até 6 ou 7 anos; feito para leitura compartilhada em voz alta com um adulto",
+  "page_count": 15,
+  "text_in_image": "on",
+  "cover_image": "cover.png",
+  "image_size": "1536x1024",
+  "image_quality": "high",
+  "image_model": "gpt-image-2",
+  "tone": "acolhedor, curioso e cheio de encantamento; humor gentil, musicalidade e segurança emocional; desperta o pensamento sem nunca virar palestra; nunca assustador, nunca com moral explícita, nunca açucarado demais",
+  "art_style": "bright-storybook",
+  "premise": "Numa manhã calma no Porto das Conchas, uma rajada de vento traz ao Bebê Fusquinha um mapa antigo com um único nome: a Biblioteca das Perguntas. Com Barco Baleião e Garfudo, ele encontra a biblioteca — do tamanho de uma montanha — onde cada pergunta guardada num livro ganha vida como uma pequena aventura: por que os peixes não se afogam, como os pássaros sabem para onde voar, por que existem estrelas, como as árvores bebem água. Até surgir um livro sem cor com uma pergunta que ninguém sabe responder. O Bebê Fusquinha teme ter falhado, mas descobre, com os amigos, que não saber não é um fracasso — é o começo de alguma coisa. No fim, aprende que crianças curiosas escrevem, com suas perguntas, as páginas daquela biblioteca, e que toda grande aventura começa com uma pergunta.",
+  "lessons": "observar e perguntar 'como será?'; que algumas aventuras terminam com uma pergunta ainda maior; que não saber não é fracasso, e sim o começo de algo; que se aprende observando, escutando e cooperando, não pela força; que algumas perguntas precisam viajar muito antes de encontrar resposta; e que cada criança curiosa acrescenta uma página à biblioteca do mundo",
+  "setting": "O Porto das Conchas, à beira da água, com neblina dourada, gaivotas, cordas e pequenas embarcações — e, sobretudo, a Biblioteca das Perguntas: uma biblioteca do tamanho de uma montanha, antiga mas viva, com torres parcialmente cobertas por árvores, janelas enormes, relógios antigos, estantes curvas, escadas que se cruzam, passarelas, livros luminosos que flutuam, globos, mapas, pequenos mecanismos, raízes que atravessam paredes, estrelas visíveis em alguns tetos e corredores que parecem não terminar. Nada parece abandonado, sujo ou sombrio; mesmo as cenas noturnas permanecem luminosas e acolhedoras.",
+  "pages": {
+    "1": {
+      "scene": "Bebê Fusquinha na estrada do porto, Baleião na água e o mapa pousando no capô. A neblina é leve e dourada. Ao fundo, gaivotas, cordas, pequenas embarcações e árvores. O nome da biblioteca aparece legível no mapa.",
+      "text": "Era uma manhã calma no Porto das Conchas.\nO Bebê Fusquinha passeava devagar pela beira da água, enquanto Barco Baleião navegava ao seu lado.\nDe repente, uma rajada de vento trouxe um papel antigo, que pousou bem no capô do fusquinha.\n— Um mapa! — disse ele.\nHavia apenas um nome escrito nele: **Biblioteca das Perguntas.**"
+    },
+    "2": {
+      "scene": "Garfudo no céu, olhando uma biblioteca distante entre a floresta. Bebê Fusquinha e Baleião pequenos abaixo, acompanhando a direção apontada por ele. A torre está parcialmente escondida, para manter o mistério.",
+      "text": "— Talvez Garfudo consiga enxergar alguma pista lá de cima — sugeriu Baleião.\nGarfudo chegou voando, deu duas piruetas e subiu até quase tocar as nuvens.\nLá do alto, viu uma torre brilhando entre árvores enormes.\n— Encontrei! — gritou. — É uma biblioteca do tamanho de uma montanha!\nE os três partiram imediatamente."
+    },
+    "3": {
+      "scene": "Grande visão da fachada da biblioteca; os personagens parecem pequenos diante dela. A porta se abre com luz dourada. Livros flutuam suavemente.",
+      "text": "Depois de atravessarem uma ponte coberta de flores, eles finalmente chegaram.\nA biblioteca tinha torres, relógios, janelas gigantes e escadas que pareciam subir até as nuvens.\nLivros dourados flutuavam diante das janelas.\nMas havia uma coisa estranha.\nNão se via bibliotecário algum.\n— Será que ela está fechada? — perguntou o Bebê Fusquinha.\nEntão a porta começou a se abrir."
+    },
+    "4": {
+      "scene": "Interior monumental, com luz quente. Livro azul brilhando em um pedestal ou flutuando. Os amigos próximos uns dos outros, atentos.",
+      "text": "Lá dentro, não havia ninguém.\nAinda assim, uma voz gentil ecoou entre as estantes:\n— Entrem. Eu estava esperando.\nGarfudo olhou para Baleião.\nBaleião olhou para o Bebê Fusquinha.\n— Esperando por quem? — perguntou o fusquinha.\nA biblioteca respondeu:\n— Por alguém que tivesse uma boa pergunta.\nNesse instante, um livro azul começou a brilhar."
+    },
+    "5": {
+      "scene": "Transição mágica da biblioteca para o oceano; metade da cena ainda biblioteca, metade já mar. Bebê Fusquinha protegido em uma bolha ou pequena cápsula mágica transparente. Garfudo nada de modo atrapalhado e engraçado. Baleião parece completamente à vontade.",
+      "text": "O livro azul abriu sozinho.\nEm suas páginas estava escrito: **Por que os peixes não se afogam?**\n— Essa eu quero descobrir! — disse o Bebê Fusquinha.\nMal terminou a frase, o chão ondulou.\nAs estantes viraram corais.\nAs escadas viraram algas.\nE, num grande *chuááá*, a biblioteca inteira se transformou em oceano."
+    },
+    "6": {
+      "scene": "Cenário submarino colorido. Peixes próximos, guelras visíveis de modo delicado. Baleião conduzindo. Garfudo fazendo expressão exagerada de quem tenta prender a respiração.",
+      "text": "Baleião conduziu os amigos entre cardumes coloridos.\n— Os peixes não respiram como vocês — explicou. — Eles retiram da água o ar de que precisam.\nO Bebê Fusquinha observou as guelras abrindo e fechando.\n— Então eles não ficam segurando a respiração o dia inteiro?\n— Ainda bem! — disse Garfudo. — Eu já estava ficando cansado só de imaginar.\nTodos riram.\nO livro azul fechou com um brilho satisfeito."
+    },
+    "7": {
+      "scene": "Grande céu azul e dourado. Bando de pássaros em formação. Bebê Fusquinha sobre uma nuvem firme ou plataforma mágica. Garfudo feliz, voando entre as aves.",
+      "text": "Um livro verde voou até Garfudo e pousou em seu garfo.\nNele estava escrito: **Como os pássaros sabem para onde voar?**\nAntes que alguém respondesse, uma rajada de vento ergueu todos para o céu.\nGarfudo voou ao lado de um enorme bando de aves.\n— Elas observam o Sol, as estrelas, o vento e até o próprio planeta — explicou a biblioteca.\nO Bebê Fusquinha olhou para todos os lados.\n— Então o céu também é um mapa!\n— Eu sempre disse isso! — comemorou Garfudo, dando uma pirueta."
+    },
+    "8": {
+      "scene": "Biblioteca aberta para o cosmos. Estrelas, nebulosas suaves e mundos distantes. Os personagens juntos, vistos de costas ou em três quartos, contemplando.",
+      "text": "Quando voltaram à biblioteca, um livro prateado já os esperava.\n**Por que existem estrelas?**\nO teto desapareceu.\nAcima deles surgiu um céu tão grande que todos ficaram em silêncio.\nBaleião falou bem devagar:\n— Algumas perguntas são grandes demais para caber em uma frase.\nA biblioteca mostrou estrelas nascendo, brilhando e iluminando mundos distantes.\nO Bebê Fusquinha sentiu-se muito pequeno.\nE, ao mesmo tempo, muito feliz por estar ali."
+    },
+    "9": {
+      "scene": "Corte subterrâneo mostrando raízes, gotinhas, minhocas simpáticas e o tronco acima. Luz dourada percorre as raízes. Os amigos viajam em uma espiral formada por elas.",
+      "text": "Uma raiz dourada atravessou o chão e abriu outro livro.\n**Como as árvores bebem água?**\nA raiz cresceu ao redor dos amigos e os levou para baixo da terra.\nAli, gotinhas viajavam pelo solo até chegar às raízes.\nDepois subiam pelo tronco, cada vez mais alto.\n— As árvores bebem com os pés! — exclamou o Bebê Fusquinha.\n— Nesse caso, ainda bem que eu não sou árvore — disse Garfudo, olhando para as próprias patas."
+    },
+    "10": {
+      "scene": "Grande mesa iluminada no centro do salão. Livro neutro e misterioso. Os três personagens em poses de reflexão. O ambiente permanece quente, mas silencioso.",
+      "text": "De volta ao grande salão, um livro sem cor surgiu sobre a mesa.\nEle se abriu bem devagar.\nA pergunta era: **Qual será a pergunta mais importante que ainda ninguém fez?**\nO Bebê Fusquinha pensou.\nBaleião pensou.\nGarfudo pensou tanto que quase derrubou o garfo.\nMas ninguém sabia responder.\nO salão ficou muito quieto."
+    },
+    "11": {
+      "scene": "Cena íntima e calorosa. Livro sorridente de forma sutil. Baleião inclinado, Garfudo próximo e Bebê Fusquinha recuperando o sorriso.",
+      "text": "O Bebê Fusquinha abaixou um pouco os faróis.\n— Desculpe. Eu achei que precisava descobrir todas as respostas.\nO livro levantou suas páginas como se estivesse sorrindo.\n— Não precisa responder hoje — disse ele.\nBaleião aproximou-se.\n— Algumas perguntas precisam viajar muito antes de encontrar uma resposta.\nGarfudo pousou ao lado do amigo.\n— E algumas talvez estejam esperando uma pessoa que ainda nem nasceu.\nO Bebê Fusquinha tornou a sorrir.\nNão saber já não parecia um fracasso.\nParecia o começo de alguma coisa."
+    },
+    "12": {
+      "scene": "Perspectiva profunda de corredores infinitos. Livros com comportamentos discretamente engraçados. Letras flutuando. Os amigos maravilhados.",
+      "text": "De repente, as paredes se abriram.\nAtrás delas havia corredores e mais corredores.\nMilhares de estantes.\nMilhões de livros.\nAlguns roncavam.\nOutros cochichavam.\nUm deles espirrou e espalhou letras pelo ar.\n— Nunca conseguiremos abrir todos! — disse Garfudo.\n— Ainda bem — respondeu Baleião. — Seria um mundo muito pequeno se todas as perguntas coubessem em uma tarde."
+    },
+    "13": {
+      "scene": "Os livros brilham como se respondessem. Pequenas silhuetas ou ecos luminosos de crianças fazendo perguntas aparecem discretamente entre as estantes, sem tirar o foco dos protagonistas.",
+      "text": "Enquanto caminhavam para a saída, o Bebê Fusquinha parou.\n— Biblioteca, quem escreveu todos esses livros?\nOs relógios silenciaram.\nAs páginas pararam de virar.\nDepois, a voz respondeu:\n— Crianças curiosas.\n— Todas elas? — perguntou o fusquinha.\n— Cada criança que faz uma pergunta verdadeira acrescenta uma página a este lugar.\nO Bebê Fusquinha olhou ao redor, maravilhado.\nTalvez algumas daquelas páginas tivessem sido escritas naquela manhã."
+    },
+    "14": {
+      "scene": "Livro branco aberto diante do Bebê Fusquinha. Lápis dourado. Os amigos observam com carinho. A página tem espaço visual amplo e tranquilo.",
+      "text": "Antes que fossem embora, um último livro pousou diante do Bebê Fusquinha.\nEle era completamente branco.\nNa capa estava escrito: **Sua próxima pergunta.**\nUm lápis apareceu ao lado.\nO Bebê Fusquinha pensou nas estrelas, nos peixes, nas árvores e nos pássaros.\nPensou em tudo o que ainda não conhecia.\nPegou o lápis.\nMas, em vez de escrever depressa, ficou ali por um instante.\nSorrindo.\nPensando."
+    },
+    "15": {
+      "scene": "Cena ampla de despedida. Estrada à beira da água. Bebê Fusquinha seguindo com o livro branco protegido consigo. Baleião no mar. Garfudo no céu. Biblioteca distante, iluminada entre as árvores. A composição sugere que muitas aventuras ainda virão.",
+      "text": "Ao anoitecer, os três amigos voltaram para casa.\nGarfudo voava entre as primeiras estrelas.\nBaleião navegava sob a luz da Lua.\nE o Bebê Fusquinha seguia pela estrada, levando o livro branco consigo.\nEle ainda não tinha escrito nada.\nMas agora sabia que isso não era um problema.\nPorque toda grande aventura começa com uma pergunta.\n**Toda grande aventura começa com uma pergunta.**"
+    }
+  }
+}

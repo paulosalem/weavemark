@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Transit City Swarm</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23081521'/%3E%3Cpath d='M14 42C23 18 41 50 50 22' fill='none' stroke='%2363f6b5' stroke-width='7' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='42' r='6' fill='%2361ccff'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23edf9ff'/%3E%3Ccircle cx='50' cy='22' r='6' fill='%23ffca7a'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./src/styles.css">
+  </head>
+  <body>
+    <main class="shell" aria-label="Transit City Swarm game">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Original browser strategy game</p>
+          <h1>Transit City Swarm</h1>
+          <p class="intro">
+            Read the city's moving demand trails, draw a transit organism, and
+            keep growth from hardening into congestion.
+          </p>
+        </div>
+        <div class="goal-card" aria-live="polite">
+          <span class="goal-label">Round goal</span>
+          <strong id="goalText">Score 1400 before the city stalls.</strong>
+        </div>
+      </section>
+
+      <section class="game-frame">
+        <aside class="panel panel-left" aria-label="Controls">
+          <div class="panel-section">
+            <h2>Plan</h2>
+            <div class="mode-grid" role="group" aria-label="Build modes">
+              <button class="mode active" type="button" data-mode="build">
+                <span>Build</span>
+                <small>click to add stops and connect lines</small>
+              </button>
+              <button class="mode" type="button" data-mode="upgrade">
+                <span>Upgrade</span>
+                <small>boost station or segment capacity</small>
+              </button>
+              <button class="mode" type="button" data-mode="delete">
+                <span>Prune</span>
+                <small>remove weak stops or segments</small>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <h2>Run</h2>
+            <div class="button-row">
+              <button id="startButton" class="primary" type="button">Start round</button>
+              <button id="pauseButton" type="button">Pause</button>
+              <button id="restartButton" type="button">Restart</button>
+            </div>
+            <div class="speed-row" role="group" aria-label="Simulation speed">
+              <button type="button" data-speed="1" class="speed active">1x</button>
+              <button type="button" data-speed="2" class="speed">2x</button>
+              <button type="button" data-speed="4" class="speed">4x</button>
+            </div>
+          </div>
+
+          <div class="panel-section hint">
+            <h2>First minute</h2>
+            <p>
+              Let the first swarm trails appear, then place one stop near a
+              bright origin and extend toward the opposite demand cloud.
+            </p>
+            <p class="keys">Keys: B build, U upgrade, D prune, Space pause, R restart.</p>
+          </div>
+        </aside>
+
+        <section class="map-wrap" aria-label="City map">
+          <canvas id="gameCanvas" width="960" height="600" aria-label="Playable transit city map"></canvas>
+          <div id="toast" class="toast" role="status" aria-live="polite"></div>
+          <div id="overlay" class="overlay">
+            <div class="overlay-card">
+              <p class="eyebrow" id="overlayEyebrow">Ready</p>
+              <h2 id="overlayTitle">Grow a city by listening to its swarm.</h2>
+              <p id="overlayBody">
+                Citizens begin by walking through pressure corridors. Draw
+                readable lines, upgrade overloaded places, and prune bad routes.
+              </p>
+              <button id="overlayButton" class="primary" type="button">Start round</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel panel-right" aria-label="City status">
+          <div class="score-strip">
+            <div>
+              <span>Score</span>
+              <strong id="scoreValue">0</strong>
+            </div>
+            <div>
+              <span>Budget</span>
+              <strong id="budgetValue">420</strong>
+            </div>
+          </div>
+          <div class="metric">
+            <span>Reliability</span>
+            <meter id="reliabilityMeter" min="0" max="1" value="1"></meter>
+            <strong id="reliabilityValue">100%</strong>
+          </div>
+          <div class="metric">
+            <span>Population pressure</span>
+            <meter id="pressureMeter" min="0" max="1" value="0.25"></meter>
+            <strong id="pressureValue">25%</strong>
+          </div>
+          <dl class="stats">
+            <div><dt>Time</dt><dd id="timeValue">03:30</dd></div>
+            <div><dt>Trips</dt><dd id="tripsValue">0</dd></div>
+            <div><dt>Stations</dt><dd id="stationsValue">0</dd></div>
+            <div><dt>Agents</dt><dd id="agentsValue">0</dd></div>
+          </dl>
+          <div class="panel-section legend">
+            <h2>Read the map</h2>
+            <p><span class="chip trail"></span> amber trails: unmet demand</p>
+            <p><span class="chip transit"></span> blue line: your transit organism</p>
+            <p><span class="chip congestion"></span> red haze: congestion and overload</p>
+            <p><span class="chip growth"></span> green glow: accessible growth</p>
+          </div>
+          <p id="statusLine" class="status-line">
+            Start a round to watch the first citizens reveal demand.
+          </p>
+        </aside>
+      </section>
+    </main>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>

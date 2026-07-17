@@ -1,0 +1,7 @@
+{
+  "problem": "A mid-market SaaS company is considering entering Germany next year and wants to know what it must answer before making the go/no-go decision.",
+  "objective": "Build an issue tree that decomposes the market-entry decision into the major questions leadership should investigate.",
+  "additional_context": "- Current revenue is concentrated in the US and UK.\n- The company sells a workflow platform to industrial customers.\n- It has no local sales team in Germany today.\n- The product is already available in German, but customer support is English-only.\n- Leadership wants to decide within 8 weeks.",
+  "constraints": "Focus on structuring the decision and the required analyses, not on providing a final go/no-go recommendation.",
+  "starting_points": "Market size, GDPR, pricing, partnerships, hiring a country manager, competitors"
+}

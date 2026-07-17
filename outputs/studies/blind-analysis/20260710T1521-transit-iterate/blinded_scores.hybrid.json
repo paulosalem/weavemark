@@ -1,0 +1,461 @@
+{
+  "criteria": [
+    "Authoring leverage",
+    "Information yield",
+    "Grounded expressiveness",
+    "Input readability",
+    "Output readability",
+    "Constraint integration",
+    "Reusable abstraction quality"
+  ],
+  "criterion_methods": {
+    "Authoring leverage": {
+      "blindness": "derived-evidence",
+      "leakage_risk": "Low: uses automated counts and ratios only.",
+      "method": "Ranked from local leverage without exposing variant identity."
+    },
+    "Constraint integration": {
+      "blindness": "masked-source-output review",
+      "leakage_risk": "Moderate: domain content and artifact structure may leak.",
+      "method": "Independent review reads masked source/output to judge whether constraints are woven into the artifact."
+    },
+    "Grounded expressiveness": {
+      "blindness": "masked-source-output review",
+      "leakage_risk": "Moderate: domain content and style may leak even after identity masking.",
+      "method": "Independent review reads masked source/output because richness and grounding are semantic judgments."
+    },
+    "Information yield": {
+      "blindness": "derived-evidence",
+      "leakage_risk": "Low-to-moderate: fact extraction reads artifacts, but scoring uses derived counts.",
+      "method": "Ranked from discounted fact units per local source word."
+    },
+    "Input readability": {
+      "blindness": "masked-source review",
+      "leakage_risk": "Moderate: source syntax/style may reveal the authoring approach.",
+      "method": "Independent review reads masked source text because readability is not reducible to source length."
+    },
+    "Output readability": {
+      "blindness": "masked-output review",
+      "leakage_risk": "Moderate: output style/domain content may leak.",
+      "method": "Independent review reads masked output text because readability is not reducible to density or brevity."
+    },
+    "Reusable abstraction quality": {
+      "blindness": "masked-source review",
+      "leakage_risk": "Moderate-to-high: abstraction syntax can leak authoring style, but reading it is necessary for reliability.",
+      "method": "Independent review reads masked source to judge abstraction clarity and reuse."
+    }
+  },
+  "leak_risk_note": "Hybrid blind* scoring uses derived metrics for mechanical criteria and masked source/output review for criteria that require actual reading. The masked review is less blind because domain content, source syntax, or style can leak, but this is necessary to avoid replacing readability and integration judgments with weak length/density proxies.",
+  "mode": "source-and-output",
+  "run_id": "20260710T1521-transit-iterate",
+  "schema_version": 1,
+  "score_scale": "Absolute 1..7 per criterion; higher is better.",
+  "score_source": "hybrid-derived-metrics-and-masked-review",
+  "studies": [
+    {
+      "study_id": "crowd-factory-puzzle",
+      "title": "Crowd Factory Puzzle",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 1,
+            "Input readability": 6,
+            "Output readability": 5,
+            "Reusable abstraction quality": 4
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 7,
+            "Input readability": 5,
+            "Output readability": 6,
+            "Reusable abstraction quality": 5
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 3,
+            "Grounded expressiveness": 3,
+            "Information yield": 4,
+            "Input readability": 5,
+            "Output readability": 4,
+            "Reusable abstraction quality": 3
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "evidence-decision",
+      "title": "Evidence-to-Decision Workspace",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 5,
+            "Grounded expressiveness": 5,
+            "Information yield": 4,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Reusable abstraction quality": 6
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 7,
+            "Input readability": 4,
+            "Output readability": 6,
+            "Reusable abstraction quality": 6
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 2,
+            "Grounded expressiveness": 2,
+            "Information yield": 1,
+            "Input readability": 6,
+            "Output readability": 3,
+            "Reusable abstraction quality": 1
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "learning-tutor",
+      "title": "Learning Tutor",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 3,
+            "Grounded expressiveness": 3,
+            "Information yield": 4,
+            "Input readability": 5,
+            "Output readability": 4,
+            "Reusable abstraction quality": 2
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 7,
+            "Input readability": 5,
+            "Output readability": 6,
+            "Reusable abstraction quality": 6
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 2,
+            "Grounded expressiveness": 2,
+            "Information yield": 1,
+            "Input readability": 6,
+            "Output readability": 3,
+            "Reusable abstraction quality": 1
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "orbital-drift",
+      "title": "Orbital Drift",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 2,
+            "Grounded expressiveness": 2,
+            "Information yield": 1,
+            "Input readability": 6,
+            "Output readability": 3,
+            "Reusable abstraction quality": 1
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 7,
+            "Input readability": 5,
+            "Output readability": 6,
+            "Reusable abstraction quality": 6
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 4,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Reusable abstraction quality": 6
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "release-readiness",
+      "title": "Release Readiness Workbench",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 2,
+            "Grounded expressiveness": 2,
+            "Information yield": 1,
+            "Input readability": 6,
+            "Output readability": 3,
+            "Reusable abstraction quality": 1
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 4,
+            "Input readability": 4,
+            "Output readability": 6,
+            "Reusable abstraction quality": 6
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 5,
+            "Grounded expressiveness": 5,
+            "Information yield": 7,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Reusable abstraction quality": 6
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "research-brief",
+      "title": "Research Brief",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 6,
+            "Grounded expressiveness": 5,
+            "Information yield": 7,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Reusable abstraction quality": 6
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 2,
+            "Grounded expressiveness": 2,
+            "Information yield": 1,
+            "Input readability": 6,
+            "Output readability": 3,
+            "Reusable abstraction quality": 1
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 4,
+            "Input readability": 5,
+            "Output readability": 5,
+            "Reusable abstraction quality": 6
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "transit-city-swarm",
+      "title": "Transit City Swarm",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 1,
+            "Input readability": 6,
+            "Output readability": 5,
+            "Reusable abstraction quality": 4
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 3,
+            "Grounded expressiveness": 3,
+            "Information yield": 4,
+            "Input readability": 5,
+            "Output readability": 4,
+            "Reusable abstraction quality": 3
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 6,
+            "Grounded expressiveness": 5,
+            "Information yield": 7,
+            "Input readability": 5,
+            "Output readability": 5,
+            "Reusable abstraction quality": 5
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "verdant-relay",
+      "title": "Verdant Relay",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 2,
+            "Grounded expressiveness": 2,
+            "Information yield": 1,
+            "Input readability": 6,
+            "Output readability": 3,
+            "Reusable abstraction quality": 1
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 4,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Reusable abstraction quality": 6
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 7,
+            "Input readability": 4,
+            "Output readability": 6,
+            "Reusable abstraction quality": 6
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "work-intelligence-kanban",
+      "title": "Intelligence-to-Execution Kanban",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 4,
+            "Input readability": 4,
+            "Output readability": 6,
+            "Reusable abstraction quality": 6
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 2,
+            "Grounded expressiveness": 2,
+            "Information yield": 1,
+            "Input readability": 6,
+            "Output readability": 3,
+            "Reusable abstraction quality": 1
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Hybrid blind* score: mechanical criteria from derived metrics; semantic/readability criteria from independent masked source/output review.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 5,
+            "Grounded expressiveness": 5,
+            "Information yield": 7,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Reusable abstraction quality": 6
+          }
+        }
+      ]
+    }
+  ]
+}

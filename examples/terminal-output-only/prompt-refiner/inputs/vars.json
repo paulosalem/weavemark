@@ -1,0 +1,7 @@
+{
+  "target_use": "Create a reusable prompt for turning customer interview notes into product insights.",
+  "target_platform": "Any major chat assistant.",
+  "raw_prompt": "Read these notes and tell me what users want. Make it good and include ideas. Also be concise but detailed. Don't miss anything. Maybe make a table. We care about enterprise customers.",
+  "must_preserve": "The refined prompt must work when I paste raw interview notes below it. It should preserve uncertainty and not turn one customer's opinion into a universal claim.",
+  "desired_assistant_output": "A concise insight brief with themes, evidence, customer quotes, confidence, product opportunities, risks, and follow-up questions."
+}

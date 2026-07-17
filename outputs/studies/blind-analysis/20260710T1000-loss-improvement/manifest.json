@@ -1,0 +1,372 @@
+{
+  "blindness_note": "The manifest intentionally omits variant identities. Do not open private/key.json until blinded scoring is complete. The default derived-evidence mode avoids raw text review; raw-text modes are identity-blinded but can still reveal intrinsic authoring style.",
+  "created_at": "2026-07-10T13:15:52+00:00",
+  "criteria": [
+    "Authoring leverage",
+    "Information yield",
+    "Grounded expressiveness",
+    "Input readability",
+    "Output readability",
+    "Constraint integration",
+    "Reusable abstraction quality"
+  ],
+  "mode": "source-and-output",
+  "run_id": "20260710T1000-loss-improvement",
+  "schema_version": 1,
+  "score_scale": "Absolute 1..7 per criterion before derandomization.",
+  "score_template": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/blinded_scores.template.json",
+  "seed_sha256": "7792d0cbc29c7bb97d5c8f9ca052f012b391fd732bf2d62a0468efc1e0e1b2bd",
+  "studies": [
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/crowd-factory-puzzle/A.md",
+          "packet_sha256": "01a7645a1b8be3ea4b68d73379072470171430ca0e0fd5b845d807302a1a49fd"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/crowd-factory-puzzle/B.md",
+          "packet_sha256": "14df2a5e7f0c3d3aea497c81c164f27ccff555e8e85920253d3ddfc691818d63"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/crowd-factory-puzzle/C.md",
+          "packet_sha256": "a1273e3dd1b82ddb0efd05bb1092b110a4263c1c4e300915354b43c9f5fc8f13"
+        }
+      ],
+      "study_id": "crowd-factory-puzzle",
+      "title": "Crowd Factory Puzzle"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/evidence-decision/A.md",
+          "packet_sha256": "a5756113f4518f9c5460ca475221091165f976b438383224fb2d10eba97e43d7"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/evidence-decision/B.md",
+          "packet_sha256": "490fc8ab5b6cddf0906382e9c9012051b71f022377f4406056673ac4345337ca"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/evidence-decision/C.md",
+          "packet_sha256": "240f8cec5be9f854b5ac8d66cc6d4922225d01301b6044aa005032efa7b24ef3"
+        }
+      ],
+      "study_id": "evidence-decision",
+      "title": "Evidence-to-Decision Workspace"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/learning-tutor/A.md",
+          "packet_sha256": "eb55ffc660e701b63cbb312106d336c27b50c8b284659b2e62fff842de9c5933"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/learning-tutor/B.md",
+          "packet_sha256": "fb86bfb0c0e2aa8e4a37d8e6295164261c19b0706078b39f100938268f5b3bd3"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/learning-tutor/C.md",
+          "packet_sha256": "283cfd194036c3a524edb084c988b198d2aa7d7d04a441abd35c095ad86a0fab"
+        }
+      ],
+      "study_id": "learning-tutor",
+      "title": "Learning Tutor"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/orbital-drift/A.md",
+          "packet_sha256": "e02ea5abf326a1459ec7ae0bc006c26164256514c798d1a231cc569b7021cb48"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/orbital-drift/B.md",
+          "packet_sha256": "bcdd415c709608c856e4c6bef55041faa5724bcee520fe33f83788deb8243098"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/orbital-drift/C.md",
+          "packet_sha256": "c3b48571fb93957419755216673cb03c95c0cb5bd1820f0e2f0a5b39570e65c9"
+        }
+      ],
+      "study_id": "orbital-drift",
+      "title": "Orbital Drift"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/release-readiness/A.md",
+          "packet_sha256": "9b8061217aa375d8ad0b0590aee07e4825133e129d8dc433ff944f3833e6798f"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/release-readiness/B.md",
+          "packet_sha256": "7206a5ef2839f4c0a9d1a990d953d248014a9ba59bde06ea3fafc217c9889de5"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/release-readiness/C.md",
+          "packet_sha256": "e1864da72c7ff2e2a7d332e70c7b57a64da536968615df881cea6f288e75fb64"
+        }
+      ],
+      "study_id": "release-readiness",
+      "title": "Release Readiness Workbench"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/research-brief/A.md",
+          "packet_sha256": "e05dded7864230b039334b93418966e1ef240ad28dc7ff30119360134d696e45"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/research-brief/B.md",
+          "packet_sha256": "48af2f891a37f517933f63c954d08ce431733de90e5bcf446e307ac7480a08df"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/research-brief/C.md",
+          "packet_sha256": "f06b99ac91e7a27ea0f6664e558eac4c6e56b127ef88441dc99a7a3d22d677d1"
+        }
+      ],
+      "study_id": "research-brief",
+      "title": "Research Brief"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/transit-city-swarm/A.md",
+          "packet_sha256": "d61db7a616879057377112825ff3005b9f514911eaca0740013395b3e76f4a1f"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/transit-city-swarm/B.md",
+          "packet_sha256": "2fee8266ba65e355909357245a34be14056c1849cb2e62cbfdb2f2b60b6eb5f5"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/transit-city-swarm/C.md",
+          "packet_sha256": "33dd7ee796988aac014bddb39bc37fa98e3eb8a3cc12bbcf98244c5bbede06ec"
+        }
+      ],
+      "study_id": "transit-city-swarm",
+      "title": "Transit City Swarm"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/verdant-relay/A.md",
+          "packet_sha256": "14f551321d4a5c3bd1bb636ed70e77822e40ad9060d874f3beda2d13ed9f0899"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/verdant-relay/B.md",
+          "packet_sha256": "586399086eae8a19e1e9ffff1817ca58f6a95c47e3a480d0a897957664f7cd72"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/verdant-relay/C.md",
+          "packet_sha256": "0623269c6777edecf69e6ed9f462f00a448f8ca01b0b979656c9c5d7b50aa6f2"
+        }
+      ],
+      "study_id": "verdant-relay",
+      "title": "Verdant Relay"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/work-intelligence-kanban/A.md",
+          "packet_sha256": "654cdb917e221e4d0b0d3f72271b8f76ef4f412acdf805a4e74bc621cd7731f1"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/work-intelligence-kanban/B.md",
+          "packet_sha256": "43d60e4c2bf446c2415d7dca510a8d37ae04ca7811c9000290393975941f133b"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T1000-loss-improvement/packets/work-intelligence-kanban/C.md",
+          "packet_sha256": "b3ec3584f94d62d807c200a200b82ed3ab496562059b374a62d223ad067c1345"
+        }
+      ],
+      "study_id": "work-intelligence-kanban",
+      "title": "Intelligence-to-Execution Kanban"
+    }
+  ]
+}

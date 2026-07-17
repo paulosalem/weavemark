@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Tutorial - The Semantic Toolbox</title>
+    <meta
+      name="description"
+      content="A tour of WeaveMark's semantic directives — @refine, @expand, @revise, @normalize, @compress, @summarize, @extract, @style, @polish, @generate_examples, @ask, @iterate, and output contracts — with snippets drawn from real, tested specs."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html" aria-current="page">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <nav class="tutorial-nav shell" aria-label="Tutorials">
+      <a href="tutorial.html"><span>1</span> First promplet</a>
+      <a href="tutorial-reuse.html"><span>2</span> Reuse &amp; refine</a>
+      <a href="tutorial-refine.html"><span>3</span> Adaptive tutor</a>
+      <a href="tutorial-products.html"><span>4</span> Product specs</a>
+      <a href="tutorial-games.html"><span>5</span> Game specs</a>
+      <a href="tutorial-directives.html" aria-current="page"><span>6</span> Semantic toolbox</a>
+      <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
+      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
+      <a href="tutorial-illustrated.html"><span>9</span> Illustrated stories</a>
+    </nav>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Hands-on tutorial</p>
+      <h1>
+        The semantic toolbox:
+        <span class="gradient-text">directives that reshape meaning.</span>
+      </h1>
+      <p class="hero-copy">
+        A template fills blanks. WeaveMark's semantic directives do something a
+        template cannot: they <strong>transform the meaning</strong> of prompt
+        text — refining reusable specs, elaborating concepts, revising for
+        neutrality, condensing, and enforcing contracts. This is a guided tour of
+        the most useful ones. Every snippet is <strong>abridged from a real,
+        tested spec</strong> in the repository, and links to the full file.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Semantic toolbox highlights">
+      <div class="summary-card">
+        <strong>You meet</strong>
+        <span><code>@refine</code>, <code>@expand</code>, <code>@revise</code>, <code>@polish</code>, <code>@style</code>, <code>@ask</code>, <code>@iterate</code>, and more.</span>
+      </div>
+      <div class="summary-card">
+        <strong>Every example</strong>
+        <span>is a faithful excerpt of a checked-in promplet you can open and run.</span>
+      </div>
+      <div class="summary-card">
+        <strong>The big idea</strong>
+        <span>directives operate on meaning, not only strings — beyond ordinary variable-substitution and partial-inclusion templating.</span>
+      </div>
+    </div>
+
+    <section class="shell repo-resources" aria-label="Repository files for this tutorial">
+      <h2>In the repository</h2>
+      <div class="repo-resources-links">
+        <a class="repo-link" href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md"><span class="repo-tag">Spec</span> prompt-refactoring-pipeline.weavemark.md</a>
+        <a class="repo-link" href="../promplets/catalog/standalone/multi-persona-debate.weavemark.md"><span class="repo-tag">Spec</span> multi-persona-debate.weavemark.md</a>
+        <a class="repo-link" href="../promplets/catalog/standalone/knowledge-base-article.weavemark.md"><span class="repo-tag">Spec</span> knowledge-base-article.weavemark.md</a>
+        <a class="repo-link" href="../promplets/catalog/standalone/"><span class="repo-tag">More</span> prompts/</a>
+      </div>
+    </section>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Tutorial sections">
+        <h2>On this page</h2>
+        <a href="#why">Prompts as specifications</a>
+        <a href="#refine">Compose &amp; reuse — @refine</a>
+        <a href="#expand">Elaborate a concept — @expand</a>
+        <a href="#transform">Transform — @revise, @normalize</a>
+        <a href="#condense">Condense — @extract, @summarize, @compress</a>
+        <a href="#present">Presentation — @style, @polish</a>
+        <a href="#examples">Examples — @generate_examples</a>
+        <a href="#iterate">Clarify &amp; improve — @ask, @iterate</a>
+        <a href="#contracts">Contracts — @output, @assert</a>
+        <a href="#pipeline">A full pipeline</a>
+        <a href="#finish">What you learned</a>
+      </aside>
+
+      <div class="article">
+        <section id="why" class="article-section">
+          <h2>Prompts as specifications</h2>
+          <p>
+            Most WeaveMark directives are <strong>semantic</strong>: their body is a
+            sub-spec, and the WeaveMark Processor rewrites that sub-spec according to
+            an instruction expressed in natural language. The result is compiled
+            into the surrounding prompt — the directive itself never appears in the
+            output.
+          </p>
+          <p>
+            Because the transformation understands meaning, you can refactor a
+            prompt the way you refactor a program: extract obligations, normalize
+            terminology, revise for neutrality, elaborate a concept, or enforce an
+            output contract. The tour below draws every example from a real spec
+            under <code>promplets/</code>.
+          </p>
+          <div class="callout">
+            <strong>Structural vs semantic:</strong> directives like
+            <code>@if</code>, <code>@match</code>, <code>@prompt</code>, and
+            <code>@emit</code> resolve deterministically and locally. The directives
+            on this page are semantic — they may call the configured model to
+            transform meaning.
+          </div>
+        </section>
+
+        <section id="refine" class="article-section">
+          <h2>Compose &amp; reuse — <code>@refine</code></h2>
+          <p>
+            <code>@refine</code> weaves a reusable promplet into the current one.
+            With <code>mingle: true</code> (the default) it is
+            <strong>specification refinement</strong>: the compiled result must imply
+            the imported spec, but reads as one concrete document — not pasted
+            fragments.
+          </p>
+          <pre><code><span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.prompt_quality <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.prompt_refinement_core <span class="syntax-key">mingle:</span> true
+
+# Prompt refactoring pipeline</code></pre>
+          <p class="snippet-source">
+            From <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>.
+          </p>
+        </section>
+
+        <section id="expand" class="article-section">
+          <h2>Elaborate a concept — <code>@expand</code></h2>
+          <p>
+            <code>@expand</code> takes a <strong>specific, compact idea in its body</strong>
+            and elaborates it into fuller prompt content the rest of the spec then
+            builds on. It is <em>not</em> a way to inflate a one-liner into an
+            entire specification — it makes one requirement or concept operational.
+          </p>
+          <pre><code><span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention <span class="syntax-key">length:</span> 70%
+  Make the steel-manning requirement operational: each perspective must
+  restate the strongest opposing position in a form its holder would endorse.</code></pre>
+          <p>
+            Here the <strong>steel-manning</strong> concept is expanded into a
+            concrete obligation; later sections of the debate prompt refer back to
+            it. <code>mode</code> is <code>definition</code>, <code>intention</code>,
+            or <code>context</code>; <code>length</code> and <code>focus</code> tune
+            the elaboration.
+          </p>
+          <p class="snippet-source">
+            From <a href="../promplets/catalog/standalone/multi-persona-debate.weavemark.md">multi-persona-debate.weavemark.md</a>.
+          </p>
+        </section>
+
+        <section id="transform" class="article-section">
+          <h2>Transform meaning — <code>@revise</code>, <code>@normalize</code></h2>
+          <p>
+            <code>@normalize</code> makes a body consistent. With
+            <code>scope: syntactic</code> it harmonizes headings, lists, and
+            terminology; with <code>scope: semantic</code> it resolves
+            cross-references and contradictions.
+          </p>
+          <pre><code><span class="syntax-directive">@normalize</span> <span class="syntax-string">"Normalize headings, lists, and terminology without changing meaning."</span> <span class="syntax-key">scope:</span> syntactic
+  <span class="syntax-var">@{raw_prompt}</span>
+
+<span class="syntax-directive">@normalize</span> <span class="syntax-string">"Resolve cross-references and contradictions while preserving intent."</span> <span class="syntax-key">scope:</span> semantic
+  <span class="syntax-var">@{raw_prompt}</span></code></pre>
+          <p>
+            <code>@revise</code> edits a body against an instruction — surgically
+            adding or removing requirements while preserving the rest.
+          </p>
+          <pre><code><span class="syntax-directive">@revise</span> <span class="syntax-string">"Remove standalone format labels such as `json` or `markdown`; describe JSON fields as a table instead."</span> <span class="syntax-key">mode:</span> editorial
+  <span class="syntax-var">@{raw_prompt}</span></code></pre>
+          <p class="snippet-source">
+            From <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>.
+          </p>
+        </section>
+
+        <section id="condense" class="article-section">
+          <h2>Condense — <code>@extract</code>, <code>@summarize</code>, <code>@compress</code></h2>
+          <p>
+            These derive tighter content from a body. <code>@extract</code> pulls out
+            requested information (like extracting an interface); <code>@summarize</code>
+            condenses; <code>@compress</code> forces brevity while preserving hard
+            requirements.
+          </p>
+          <pre><code><span class="syntax-directive">@extract</span> <span class="syntax-string">"key_concepts"</span>
+  From the topic <span class="syntax-string">"@{topic}"</span>, identify the 3–5 most important concepts.
+
+<span class="syntax-directive">@summarize</span>
+  Compare <span class="syntax-var">@{topic}</span> against its main alternatives:
+  <span class="syntax-var">@{alternatives}</span>
+
+<span class="syntax-directive">@compress</span> <span class="syntax-string">"Keep the migration guide concise while preserving checklist, rollback, and validation details."</span>
+  Provide a step-by-step migration guide from <span class="syntax-var">@{migration_from}</span> to <span class="syntax-var">@{topic}</span>.</code></pre>
+          <p class="snippet-source">
+            From <a href="../promplets/catalog/standalone/knowledge-base-article.weavemark.md">knowledge-base-article.weavemark.md</a>.
+          </p>
+        </section>
+
+        <section id="present" class="article-section">
+          <h2>Presentation — <code>@style</code>, <code>@polish</code></h2>
+          <p>
+            <code>@style</code> imposes a voice or register on its body without
+            changing the substance.
+          </p>
+          <pre><code><span class="syntax-directive">@style</span> <span class="syntax-string">"Warm, precise, and Socratic. Ask before explaining. Never shame the learner."</span>
+  Teach <span class="syntax-var">@{topic}</span> to <span class="syntax-var">@{learner_context}</span>.</code></pre>
+          <p>
+            <code>@polish</code> is a final presentation pass: it unifies structure
+            and smooths transitions <strong>without adding or removing substantive
+            information</strong>. With no body, it applies to the enclosing scope.
+          </p>
+          <pre><code><span class="syntax-directive">@polish</span> <span class="syntax-string">"Harmonize the assembled sections into one coherent final prompt without adding or removing requirements."</span></code></pre>
+          <p class="snippet-source">
+            From <a href="../promplets/tutorials/adaptive-tutor.weavemark.md">adaptive-tutor.weavemark.md</a>
+            and <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>.
+          </p>
+        </section>
+
+        <section id="examples" class="article-section">
+          <h2>Examples — <code>@generate_examples</code></h2>
+          <p>
+            <code>@generate_examples</code> produces worked examples consistent with
+            its body — useful for turning an abstract contract into something an
+            assistant can imitate.
+          </p>
+          <pre><code><span class="syntax-directive">@generate_examples</span> <span class="syntax-key">count:</span> 2
+  Generate realistic request/response examples for each endpoint above.</code></pre>
+          <p class="snippet-source">
+            From <a href="../promplets/catalog/standalone/api-docs-generator.weavemark.md">api-docs-generator.weavemark.md</a>.
+          </p>
+        </section>
+
+        <section id="iterate" class="article-section">
+          <h2>Clarify &amp; improve — <code>@ask</code>, <code>@iterate</code></h2>
+          <p>
+            <code>@ask</code> pauses compilation to gather missing human context
+            before continuing with its body. <code>@iterate</code> compiles a body
+            through explicit steps, judges the result, and reruns steps that can be
+            materially improved. They compose: a leading <code>@ask</code> is the
+            iteration target.
+          </p>
+          <pre><code><span class="syntax-directive">@iterate</span> 3
+  <span class="syntax-directive">@ask</span> clarifying question <span class="syntax-key">detail_level:</span> 35%
+    <span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention
+      Draft a prompt for the first-run onboarding flow for <span class="syntax-var">@{product}</span>.</code></pre>
+          <p class="snippet-source">
+            From <a href="../promplets/catalog/standalone/iterative-onboarding-prompt.weavemark.md">iterative-onboarding-prompt.weavemark.md</a>.
+          </p>
+        </section>
+
+        <section id="contracts" class="article-section">
+          <h2>Contracts — <code>@output</code>, <code>@assert</code>, <code>@structural_constraints</code></h2>
+          <p>
+            These make the shape of the result checkable. <code>@structural_constraints</code>
+            declares required sections; <code>@assert</code> states invariants with a
+            severity; <code>@output</code> pins the final response format.
+          </p>
+          <pre><code><span class="syntax-directive">@structural_constraints</span> <span class="syntax-key">strict:</span> true
+  Required sections in order:
+  1. Role and Identity
+  2. Core Requirements
+  3. Constraints and Prohibitions
+  4. Output Format
+
+<span class="syntax-directive">@assert</span> The prompt contains no contradictory instructions. <span class="syntax-key">severity:</span> error
+
+<span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
+  The refactored prompt must be ready to use as-is with an LLM.</code></pre>
+          <p class="snippet-source">
+            From <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>.
+          </p>
+        </section>
+
+        <section id="pipeline" class="article-section">
+          <h2>A full pipeline</h2>
+          <p>
+            Put together, these directives refactor a messy prompt the way a
+            compiler pass refactors a program. The checked-in
+            <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>
+            extracts obligations, resolves contradictions, revises wording, enforces
+            structure, and polishes the whole — automatically:
+          </p>
+          <pre><code><span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.prompt_quality <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.prompt_refinement_core <span class="syntax-key">mingle:</span> true
+
+# Prompt refactoring pipeline
+
+<span class="syntax-directive">@extract</span> <span class="syntax-string">"All hard requirements (MUST, SHOULD, NEVER) and output-format constraints."</span> <span class="syntax-key">format:</span> bullets
+  <span class="syntax-var">@{raw_prompt}</span>
+
+<span class="syntax-directive">@normalize</span> <span class="syntax-string">"Resolve cross-references and contradictions while preserving intent."</span> <span class="syntax-key">scope:</span> semantic
+  <span class="syntax-var">@{raw_prompt}</span>
+
+<span class="syntax-directive">@revise</span> <span class="syntax-string">"@{revision_instruction}"</span> <span class="syntax-key">mode:</span> editorial
+  <span class="syntax-var">@{raw_prompt}</span>
+
+<span class="syntax-directive">@structural_constraints</span> <span class="syntax-key">strict:</span> true
+  Required sections in order:
+  1. Role and Identity
+  2. Core Requirements
+  3. Constraints and Prohibitions
+  4. Output Format
+
+<span class="syntax-directive">@assert</span> The prompt contains no contradictory instructions. <span class="syntax-key">severity:</span> error
+
+<span class="syntax-directive">@polish</span> <span class="syntax-string">"Harmonize the assembled sections into one coherent final prompt."</span></code></pre>
+          <pre><code>weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline \
+  --var raw_prompt="$(cat messy-prompt.md)" \
+  --var revision_instruction="Add a section on handling ambiguous input." \
+  --batch-only \
+  --output outputs/refactored-prompt.md</code></pre>
+        </section>
+
+        <section id="finish" class="article-section">
+          <h2>What you learned</h2>
+          <ul>
+            <li><code>@refine</code> composes reusable promplets by specification refinement.</li>
+            <li><code>@expand</code> elaborates a specific concept the rest of the spec builds on.</li>
+            <li><code>@revise</code> and <code>@normalize</code> transform meaning — surgically or for consistency.</li>
+            <li><code>@extract</code>, <code>@summarize</code>, and <code>@compress</code> condense without dropping hard requirements.</li>
+            <li><code>@style</code> and <code>@polish</code> shape voice and presentation without changing substance.</li>
+            <li><code>@generate_examples</code> turns a contract into worked examples.</li>
+            <li><code>@ask</code> and <code>@iterate</code> gather context and improve results step by step.</li>
+            <li><code>@output</code>, <code>@assert</code>, and <code>@structural_constraints</code> make the result checkable.</li>
+          </ul>
+          <div class="callout">
+            <strong>Next:</strong> go deeper with reusable
+            <a href="tutorial-advanced.html">Advanced macros</a>, or read the
+            exact parameters in the <a href="reference.html">reference</a>.
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark semantic toolbox</strong><br>
+          The directives that transform meaning, drawn from real specs.
+        </div>
+        <div>
+          <a href="tutorial.html">Tutorial track</a> |
+          <a href="reference.html">Reference</a> |
+          <a href="introduction.html">Introduction</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const links = Array.from(document.querySelectorAll(".sidebar a[href^='#']"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const sections = links
+          .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+          .filter(Boolean);
+        const visible = new Set();
+        const setActive = (id) => {
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href").slice(1) === id)
+          );
+        };
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            }
+            const current = sections.find((s) => visible.has(s.id));
+            if (current) setActive(current.id);
+          },
+          { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+        );
+        sections.forEach((s) => observer.observe(s));
+      })();
+    </script>
+  </body>
+</html>

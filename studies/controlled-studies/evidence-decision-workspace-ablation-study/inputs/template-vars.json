@@ -1,0 +1,7 @@
+{
+  "app_name": "Evidence-to-Decision Workspace",
+  "artifact_name": "Evidence-to-Decision Workspace",
+  "product_brief": "Design Evidence-to-Decision Workspace, a local-first application for turning messy personal and professional source material into auditable decisions and follow-up actions. The user imports notes, documents, links, research snippets, meeting fragments, and news, then normalizes inputs, extracts claims, grades evidence, surfaces contradictions, compares explanations or options, decides whether to act, wait, or investigate, and converts decisions into tracked actions.",
+  "source_families": "documents, PDFs, notes, meeting transcripts, pasted snippets, URLs, newsletters, GitHub issues or releases, research papers, web pages, news items, calendars, and manual observations.",
+  "decision_domains": "personal project choices, public-release decisions, technology adoption, vendor or tool selection, investment-like tradeoffs, operational incidents, and research-backed action plans."
+}

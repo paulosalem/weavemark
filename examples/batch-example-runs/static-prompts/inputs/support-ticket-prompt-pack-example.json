@@ -1,0 +1,6 @@
+{
+  "product_name": "Northstar Notes",
+  "tone": "calm, concise, and ownership-oriented",
+  "support_scenario": "A customer upgraded to the Pro plan yesterday, but their workspace still shows the Free plan. They have a board presentation in six hours and need PDF export enabled.",
+  "escalation_policy": "Escalate billing or entitlement mismatches that block paid features. Support may acknowledge the issue, collect account details, and promise a priority review, but only Billing Operations may confirm plan changes or refunds."
+}

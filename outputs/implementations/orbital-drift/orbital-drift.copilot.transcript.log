@@ -1,0 +1,241 @@
+● skill(promplet-compiled-spec-implementation)
+
+● skill(programming-know-how)
+
+I’ll inspect the compiled spec and current workspace, then implement the smallest runnable project that satisfies it.
+
+● Read compiled-spec.md
+  └ 1 line read
+
+/ Search (glob)
+  │ "**/*"
+  └ 5 files found
+
+The workspace currently has only the generated spec artifacts, so I’m reading the spec in chunks before adding project files.
+
+● Read compiled-spec.md
+  └ L241:360 (120 lines read)
+
+● Read compiled-spec.md
+  └ L361:520 (160 lines read)
+
+● Read compiled-spec.md
+  └ L121:240 (120 lines read)
+
+● Read compiled-spec.md
+  └ L1:120 (120 lines read)
+
+✗ Read compiled-spec.md
+  └ view_range out of bounds
+
+✗ Read compiled-spec.md
+  └ view_range out of bounds
+
+● Read compiled-spec.md
+  └ L521:680 (129 lines read)
+
+I’ve got the requirements: a single-page canvas game with real browser validation. I’ll track implementation, tests, and Playwright smoke validation as separate work items.
+
+● Todo added 4 items
+  │ Inspecting compiled specification
+  │ Building playable browser game
+  │ Adding tests and documentation
+  └ Validating browser gameplay
+
+I’ll create a dependency-light canvas project with pure game logic modules so the browser app is playable and the checkpoint/timer/physics behavior can be tested without adding heavy tooling.
+
+● Todo started build-game
+
+I’m adding the actual game files now: static browser entrypoint, canvas rendering, pure engine logic, lightweight tests, and concise docs.
+
+● Edit
+  │ Create package.json
+  │ Create index.html
+  │ Create styles.css
+  │ Create src/engine.js
+  │ Create src/main.js
+  │ Create test/engine.test.js
+  └ Create README.md
+
+The runnable project is in place; I’m moving into verification and will fix any behavior or test failures before browser validation.
+
+✔ Todo completed build-game
+
+● Run Node engine tests (shell)
+  │ cd "./outputs/implementations/orbital-drift"
+  │ && npm test
+  └ 51 lines…
+
+The engine checks pass. I’m starting the local server for the required browser-grounded smoke run.
+
+✔ Todo completed add-tests-docs
+
+● Start local game server (shell)
+  │ cd "./outputs/implementations/orbital-drift"
+  │ && npm start
+  └ 1 line…
+
+● Check local server response (shell)
+  │ curl -fsS -I http://127.0.0.1:4173/ | head -n 5
+  └ 6 lines…
+
+The server is responding; I’ll now exercise the actual page in Chromium and inspect behavior/console state.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4173/ · url: "http://127.0.0.1:4173/"
+  └ ### Ran Playwright code
+
+The first browser load surfaced a console error, so I’m reading it before continuing the smoke flow.
+
+● Get console messages (MCP: playwright) · level: "debug", all: true
+  └ ### Result
+
+The only console issue is a missing favicon request. I’ll add a tiny local SVG favicon so the browser smoke test can run cleanly.
+
+● Edit
+  │ Edit index.html
+  └ Create favicon.svg
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4173/ · url: "http://127.0.0.1:4173/"
+  └ ### Ran Playwright code
+
+● Page snapshot (MCP: playwright) · depth: 4, boxes: true
+  └ ### Page
+
+The page loaded, but the default browser viewport made the top status panel sit partly off-screen. I’m tightening the responsive sizing so the whole game fits common laptop-height windows.
+
+● Edit
+  └ Edit styles.css
+
+I’ll reload the page after the layout adjustment and continue the playable smoke flow.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4173/ · url: "http://127.0.0.1:4173/"
+  └ ### Ran Playwright code
+
+● Page snapshot (MCP: playwright) · depth: 3, boxes: true
+  └ ### Page
+
+The page now fits vertically, but the ready overlay is too tall inside the scaled playfield. I’m compacting that overlay while keeping controls readable.
+
+● Edit
+  └ Edit styles.css
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4173/ · url: "http://127.0.0.1:4173/"
+  └ ### Ran Playwright code
+
+● Page snapshot (MCP: playwright) · depth: 4, boxes: true
+  └ ### Page
+
+The overlay still needs a compact-height pass, so I’m adding a targeted laptop-height style to keep the start instructions visible without scrolling.
+
+● Edit
+  └ Edit styles.css
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4173/ · url: "http://127.0.0.1:4173/"
+  └ ### Ran Playwright code
+
+● Page snapshot (MCP: playwright) · depth: 4, boxes: true
+  └ ### Page
+
+● Evaluate JavaScript (MCP: playwright) · function: "() => window.orbitalDrift.getSnapshot()"
+  └ ### Result
+
+● Press a key (MCP: playwright) · key: "R"
+  └ ### Ran Playwright code
+
+● Page snapshot (MCP: playwright) · depth: 4, boxes: true
+  └ ### Page
+
+A keyboard state is being carried across the browser session, so I’m clearing all movement keys and resetting the game before continuing the interaction script.
+
+✗ Run Playwright code (unsafe) (MCP: playwright) · code: "async (page) => {   for (const key of ['w…
+  └ MCP server 'playwright': ### Error
+    ReferenceError: window is not defined
+
+● Run Playwright code (unsafe) (MCP: playwright) · code: "async (page) => {   for (const key of ['w…
+  └ ### Result
+
+● Page snapshot (MCP: playwright) · depth: 4, boxes: true
+  └ ### Page
+
+The first-load layout is now fully visible. I’ll take a visual artifact, then run an automated keyboard-control smoke through the gameplay loop.
+
+● Take a screenshot (MCP: playwright) · filename: "orbital-drift-ready.png", fullPage: true, scale:…
+  └ ### Result
+
+For the smoke script, I’m exposing read-only snapshot details (course hazards and gravity intensity) so the browser automation can verify behavior while still using keyboard controls to play.
+
+● Edit
+  └ Edit src/main.js
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4173/ · url: "http://127.0.0.1:4173/"
+  └ ### Ran Playwright code
+
+I’ll run a keyboard-driven Playwright smoke now: start, thrust/steer, clear a gate, enter a gravity well, collide with a hazard, pause/resume, and restart.
+
+● Run Playwright code (unsafe) (MCP: playwright) · code: "async (page) => {   const held = new Set(…
+  └ Output too large to read at once (24.3 KB). Saved to: /var/folders/v4/7mn5r85...
+
+The playable smoke assertions passed; I’m checking console output and capturing an in-game screenshot before final cleanup.
+
+● Get console messages (MCP: playwright) · level: "debug", all: false
+  └ ### Result
+
+● Take a screenshot (MCP: playwright) · filename: "orbital-drift-smoke.png", fullPage: true, scale:…
+  └ ### Result
+
+I reset during the smoke assertions, so I’m briefly starting play again to save a true in-game visual artifact.
+
+● Run Playwright code (unsafe) (MCP: playwright) · code: "async (page) => {   await page.evaluate((…
+  └ ### Result
+
+● Take a screenshot (MCP: playwright) · filename: "orbital-drift-playing.png", fullPage: true, scal…
+  └ ### Result
+
+The browser smoke passed cleanly. I’m adding the concrete verification evidence to the README, then I’ll rerun the project checks and shut down the temporary server.
+
+● Edit
+  └ Edit README.md
+
+I’m running the final test pass and checking the browser console once more after the in-game screenshot.
+
+● Get console messages (MCP: playwright) · level: "debug", all: false
+  └ ### Result
+
+● Run final Node tests (shell)
+  │ cd "./outputs/implementations/orbital-drift"
+  │ && npm test
+  └ 51 lines…
+
+Final checks are green; I’m stopping the temporary local server and checking the resulting file set.
+
+✔ Todo completed validate-browser
+
+● Stop shell
+  └ 1 line…
+
+All work items are complete; I’m doing one final workspace status check before marking the task done.
+
+● Show implementation file status (shell)
+  │ cd "./outputs/implementations/orbital-drift"
+  │ && git --no-pager status --short .
+  └ 2 lines…
+
+The implementation directory is untracked as expected for a fresh generated app; I’ll read the manifest once so the final handoff includes the transcript path.
+
+● Read orbital-drift.implementation.json
+  └ 30 lines read
+
+The manifest references a transcript path; I’m checking whether that artifact exists before including it as evidence.
+
+/ Search (glob)
+  │ "*.transcript.log"
+  └ No matches found
+
+The manifest’s transcript file is not present in the directory, so the final note will distinguish that from the completed implementation artifacts.
+
+
+
+Changes    +1653 -4
+AI Credits 384 (9m 4s)
+Tokens     ↑ 2.9m (2.6m cached) • ↓ 35.5k (14.6k reasoning)
+Resume     copilot --resume=de4d96a3-213a-430d-96c0-4233ee8cb8ad

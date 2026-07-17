@@ -1,0 +1,20 @@
+{
+  "topic": "things to do with my @{age} y.o. child",
+  "age": 6,
+  "monitor_mode": "events",
+  "cadence": "weekly",
+  "lookback_window": "next 7 days",
+  "region": "São Paulo, Brazil",
+  "audience": "a parent looking for practical, age-appropriate activities",
+  "research_depth": "deep",
+  "run_date": "today",
+  "previous_run_context": "No previous run context supplied.",
+  "user_constraints": "Prefer safe, age-appropriate, not-too-expensive activities. Include booking, weather, location, cost, and age-fit caveats when available.",
+  "seed_urls": [
+    "https://www.sescsp.org.br/programacao/cores-e-caras-mascaras-infantis/",
+    "https://www.sescsp.org.br/programacao/territorio-do-brincar-3/",
+    "https://www.sescsp.org.br/programacao/do-piao-a-pipa-brincadeiras-de-rua-projeto-de-ferias-sesc-belenzinho/",
+    "https://saopauloparacriancas.com.br/"
+  ],
+  "companion_runtime_results": "Injected by the companion runtime after Ellements web search, news search, first-level crawling, and second-level crawling."
+}

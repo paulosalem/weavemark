@@ -1,0 +1,28 @@
+{
+  "artifact_hashes": {
+    "output_sha256": "bdc7451a8b68a7fb69f28ff11ec2ec2069cc679097c55aeef7feff34e2bf0bae",
+    "source_sha256": "635db587815a3af1ca9d0cc9694bd2348e1c7739b269c4ae5d630416ae1afd3d",
+    "variables_sha256": null
+  },
+  "fact_candidate_count": 5,
+  "fact_candidates": [
+    "Design a browser game called Verdant Relay that combines tower defense,",
+    "The player protects a living railway",
+    "garden from spreading blight by placing defenses, playing cards, and maintaining",
+    "Use this implementation-ready specification to implement gameplay, entities, systems,",
+    "UI, variants, browser implementation, assets, validation, and acceptance"
+  ],
+  "metrics": {
+    "candidate_facts": 5,
+    "counted_facts": 5,
+    "discounted_fact_units": 5.0,
+    "information_density_per_1k_output_words": 87.7,
+    "information_yield_per_1k_source_words": 87.7,
+    "local_authored_source_words": 57,
+    "local_leverage": 1.0,
+    "output_words": 57,
+    "study": "verdant-relay",
+    "variable_payload_words": 0,
+    "variant": "manual"
+  }
+}

@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Tutorial - From Spec to a Running App</title>
+    <meta
+      name="description"
+      content="Compile a software promplet, then hand the compiled spec to a headless programming agent with `weavemark implement`. The result is a real, runnable project — shown with the checked-in Orbital Drift game."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html" aria-current="page">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <nav class="tutorial-nav shell" aria-label="Tutorials">
+      <a href="tutorial.html"><span>1</span> First promplet</a>
+      <a href="tutorial-reuse.html"><span>2</span> Reuse &amp; refine</a>
+      <a href="tutorial-refine.html"><span>3</span> Adaptive tutor</a>
+      <a href="tutorial-products.html"><span>4</span> Product specs</a>
+      <a href="tutorial-games.html"><span>5</span> Game specs</a>
+      <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
+      <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
+      <a href="tutorial-implement.html" aria-current="page"><span>8</span> Spec to app</a>
+      <a href="tutorial-illustrated.html"><span>9</span> Illustrated stories</a>
+    </nav>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Hands-on tutorial</p>
+      <h1>
+        From spec to
+        <span class="gradient-text">a running app.</span>
+      </h1>
+      <p class="hero-copy">
+        A compiled prompt does not have to be the end of the line. When a promplet
+        describes <strong>software</strong>, the WeaveMark Processor can hand the
+        compiled specification to a headless programming agent and get back a real,
+        runnable project. This lesson walks the two-step flow &mdash;
+        <code>compile</code> then <code>implement</code> &mdash; and shows the
+        checked-in game it already produced.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Implementation tutorial highlights">
+      <div class="summary-card">
+        <strong>You run</strong>
+        <span><code>weavemark implement</code> against a compiled software spec.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You produce</strong>
+        <span>A self-contained project with run and verification steps.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You inspect</strong>
+        <span>The real, checked-in <em>Orbital Drift</em> implementation.</span>
+      </div>
+    </div>
+
+    <section class="shell repo-resources" aria-label="Repository files for this tutorial">
+      <h2>In the repository</h2>
+      <div class="repo-resources-links">
+        <a class="repo-link" href="../promplets/catalog/standalone/passive-income-android-app.weavemark.md"><span class="repo-tag">Spec</span> passive-income-android-app.weavemark.md</a>
+      </div>
+    </section>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Tutorial sections">
+        <h2>On this page</h2>
+        <a href="#why">Specs that want to be built</a>
+        <a href="#compile">Step 1 — compile the spec</a>
+        <a href="#implement">Step 2 — implement it</a>
+        <a href="#artifacts">What the run leaves behind</a>
+        <a href="#dry-run">Preview safely with <code>--dry-run</code></a>
+        <a href="#proof">A real result: Orbital Drift</a>
+        <a href="#finish">What you learned</a>
+      </aside>
+
+      <div class="article">
+        <section id="why" class="article-section">
+          <h2>Specs that want to be built</h2>
+          <p>
+            In <a href="tutorial-reuse.html">Tutorial 2</a> you compiled a
+            promplet into an <strong>app specification</strong> &mdash; a precise,
+            build-ready document. A specification is only worth writing if
+            something acts on it. WeaveMark closes that loop: it can drive a
+            headless programming agent to turn a compiled software spec into a
+            working project, without you copying prompts between tools.
+          </p>
+          <div class="callout">
+            <strong>Two clean steps.</strong> Compilation is deterministic
+            assembly plus semantic refinement; implementation is a separate,
+            explicit command. You always see the compiled spec before any program is
+            written.
+          </div>
+        </section>
+
+        <section id="compile" class="article-section">
+          <h2>Step 1 &mdash; compile the spec</h2>
+          <p>
+            First compile a software promplet into a plain Markdown specification.
+            We will reuse the passive-income app from Tutorial 2:
+          </p>
+          <pre><code>weavemark library builtin:catalog/standalone/passive-income-android-app \
+  --batch-only \
+  --var app_name=Fathom \
+  --output outputs/fathom/compiled-spec.md</code></pre>
+          <p>
+            Open <code>compiled-spec.md</code>. It reads like a crisp engineering
+            brief: product surface, financial modules, platform conventions, and
+            constraints &mdash; every part traceable to a fragment you refined.
+            This is the artifact the agent will build from.
+          </p>
+        </section>
+
+        <section id="implement" class="article-section">
+          <h2>Step 2 &mdash; implement it</h2>
+          <p>
+            Hand the compiled spec to <code>weavemark implement</code>. It sets up a
+            fresh workspace, writes an implementation prompt, and runs a configured
+            headless programming agent inside that directory:
+          </p>
+          <pre><code>weavemark implement outputs/fathom/compiled-spec.md \
+  --name fathom \
+  --profile copilot</code></pre>
+          <p>
+            The <code>--profile</code> selects the agent. WeaveMark ships a
+            <code>copilot</code> profile and <code>weavemark.json</code> adds a
+            <code>claude-code</code> profile; both are just processes described in
+            config, so you can point WeaveMark at whichever agent you trust. The
+            agent is instructed to read <code>./compiled-spec.md</code> and build
+            <strong>the smallest complete, runnable implementation</strong> that
+            satisfies it &mdash; working only inside its own workspace, and running
+            the available build, test, or smoke checks before finishing.
+          </p>
+          <div class="callout">
+            <strong>Isolation by design.</strong> Each run gets a fresh directory
+            under <code>outputs/implementations/</code>. The agent is instructed not
+            to touch the source repository or the original spec &mdash; it builds in
+            a dedicated working directory. This is workspace separation, not an
+            operating-system security sandbox.
+          </div>
+        </section>
+
+        <section id="artifacts" class="article-section">
+          <h2>What the run leaves behind</h2>
+          <p>
+            Alongside the generated project, each run records its inputs, command,
+            and transcript, making the run traceable and easier to audit or attempt
+            again. A programming agent may still produce a different implementation:
+          </p>
+          <ul>
+            <li><code>compiled-spec.md</code> &mdash; the exact spec the agent built from.</li>
+            <li><code>implementation-prompt.md</code> &mdash; the instructions it was given.</li>
+            <li><code>&lt;name&gt;.&lt;profile&gt;.transcript.log</code> &mdash; the full agent transcript.</li>
+            <li><code>&lt;name&gt;.implementation.json</code> &mdash; a manifest: source spec, profile, resolved command, and artifact paths.</li>
+          </ul>
+          <p>
+            Nothing is hidden. If you want to know why the app looks the way it
+            does, the spec, the prompt, and the transcript are all right there.
+          </p>
+        </section>
+
+        <section id="dry-run" class="article-section">
+          <h2>Preview safely with <code>--dry-run</code></h2>
+          <p>
+            Before launching an agent, you can prepare all the artifacts and print
+            the resolved command <strong>without running anything</strong>:
+          </p>
+          <pre><code>weavemark implement outputs/fathom/compiled-spec.md \
+  --name fathom \
+  --profile copilot \
+  --dry-run</code></pre>
+          <p>
+            This writes the workspace and manifest and shows you the exact process
+            WeaveMark would launch. It is the safe way to inspect the flow, wire up
+            a new profile, or review the prompt an agent will receive.
+          </p>
+        </section>
+
+        <section id="proof" class="article-section">
+          <h2>A real result: Orbital Drift</h2>
+          <p>
+            This is not hypothetical. A compiled game spec was implemented this way
+            and the result is checked into the repository at
+            <a href="../outputs/implementations/orbital-drift/README.md"><code>outputs/implementations/orbital-drift/</code></a>
+            &mdash; a dependency-light single-page canvas racing game, built from
+            its <code>compiled-spec.md</code>.
+          </p>
+          <pre><code><span class="syntax-comment"># inside outputs/implementations/orbital-drift/</span>
+npm start   <span class="syntax-comment"># serve the game at http://127.0.0.1:4173</span>
+npm test    <span class="syntax-comment"># run the engine test suite (node --test)</span></code></pre>
+          <p>
+            The workspace holds real, runnable assets: <code>index.html</code>,
+            <code>styles.css</code>, a <code>src/</code> game engine, a
+            <code>test/</code> suite, a <code>package.json</code> with
+            <code>start</code>/<code>test</code>/<code>verify</code> scripts, a
+            <code>README.md</code> with controls and verification steps, and browser
+            smoke screenshots. The specification became software.
+          </p>
+          <div class="callout">
+            <strong>Why this matters:</strong> the same authoring surface that
+            writes an analysis prompt can, unchanged in spirit, drive a working
+            application. Compose meaning once; target a prompt, a document, or a
+            program.
+          </div>
+        </section>
+
+        <section id="finish" class="article-section">
+          <h2>What you learned</h2>
+          <ul>
+            <li>A software promplet compiles into a build-ready specification.</li>
+            <li><code>weavemark implement</code> hands that spec to a headless programming agent in an isolated workspace.</li>
+            <li>Profiles (<code>copilot</code>, <code>claude-code</code>) are just configured processes you can swap.</li>
+            <li>Every run records the spec, prompt, transcript, and a manifest for traceability and repeat attempts.</li>
+            <li><code>--dry-run</code> prepares and previews without executing.</li>
+            <li>The checked-in <em>Orbital Drift</em> game demonstrates one successful end-to-end run of the loop.</li>
+          </ul>
+          <div class="callout">
+            <strong>You have the whole track.</strong> Author with variables and
+            refinement, reshape meaning with the semantic toolbox, and target a
+            prompt, a pack, or a program. Start building from the
+            <a href="index.html">home page</a> or browse the
+            <a href="reference.html">reference</a>.
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark tutorial</strong><br>
+          Turn a compiled software specification into a running project.
+        </div>
+        <div>
+          <a href="introduction.html">Introduction</a> |
+          <a href="python-api.html">Python API</a> |
+          <a href="reference.html">Reference</a> |
+          <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        const links = Array.from(document.querySelectorAll(".sidebar a[href^='#']"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const sections = links
+          .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+          .filter(Boolean);
+        const visible = new Set();
+        const setActive = (id) => {
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href").slice(1) === id)
+          );
+        };
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            }
+            const current = sections.find((s) => visible.has(s.id));
+            if (current) setActive(current.id);
+          },
+          { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+        );
+        sections.forEach((s) => observer.observe(s));
+      })();
+    </script>
+  </body>
+</html>

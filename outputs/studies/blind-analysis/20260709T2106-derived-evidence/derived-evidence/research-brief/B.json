@@ -1,0 +1,45 @@
+{
+  "artifact_hashes": {
+    "output_sha256": "029475b47ee1b081768301393a53a66d42b959d4c8f3d7e9cd1573ccd0a11ef4",
+    "source_sha256": "8a0fc5f585c1f88543c225af3c0b13c931654bc6df06d3e4755ce5c696584c87",
+    "variables_sha256": "c74692c6c60fcf89e1da55f7782a49946189d680cbed49a69a527c4b6e4a5009"
+  },
+  "fact_candidate_count": 22,
+  "fact_candidates": [
+    "Prepare a decision-grade research brief on grid-scale energy storage options for mid-sized cities for city planners evaluating a 2030 resilience roadmap.",
+    "Research mission: Identify which grid-scale energy storage technologies deserve deeper procurement analysis and which claims remain weakly evidenced. Treat the brief as a planning input for decisions over the next 18 months while considering infrastructure relevance through 2030.",
+    "Known context and limits: The city has rising summer peak demand, wildfire-related outage risk, limited downtown land, and political pressure to improve resilience without locking into immature technology. Missing location-specific inputs include load profiles, interconnection limits, land availability, tariff design, outage-duration targets, permitting constraints, critical loads, budget, ownership model, and political risk tolerance.",
+    "State live-search status, context status, verification status, and highest",
+    "impact missing inputs near the top.",
+    "Use a balanced source mix: public agencies, operators, deployments,",
+    "independent technical reviews, skeptical economic analysis, vendor claims",
+    "clearly labeled, recent news when recency matters, technical/legal/financial",
+    "If live search is unavailable, say so and produce a research plan plus a",
+    "provisional brief clearly marked as unverified.",
+    "Do not fabricate citations, URLs, dates, quotes, source names, source access,",
+    "Separate facts, reported claims, analysis, estimates, assumptions, and",
+    "Grade major claims by relevance, specificity, freshness, independence, and",
+    "End major findings with evidence grade, main gap, and",
+    "Compare alternatives using decision-relevant criteria rather than listing them",
+    "Start the comparison with leading option, runner-up, decisive criterion, and",
+    "Include confidence level, basis for confidence, strongest counterargument,",
+    "evidence that would change the conclusion, readiness category, assumptions,",
+    "limits, contradictions, open questions, next searches, and bottom line.",
+    "Produce these sections: research status; executive answer; source map;",
+    "comparative alternatives; main findings; contradictions and open questions;",
+    "implications for city planners and sequencing through 2030; next searches; and"
+  ],
+  "metrics": {
+    "candidate_facts": 22,
+    "counted_facts": 22,
+    "discounted_fact_units": 22.0,
+    "information_density_per_1k_output_words": 66.3,
+    "information_yield_per_1k_source_words": 536.6,
+    "local_authored_source_words": 41,
+    "local_leverage": 8.1,
+    "output_words": 332,
+    "study": "research-brief",
+    "variable_payload_words": 105,
+    "variant": "matched-template"
+  }
+}

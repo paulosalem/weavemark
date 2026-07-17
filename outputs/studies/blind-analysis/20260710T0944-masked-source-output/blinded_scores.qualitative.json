@@ -1,0 +1,367 @@
+{
+  "schema_version": 1,
+  "run_id": "20260710T0944-masked-source-output",
+  "mode": "source-and-output",
+  "score_scale": "Absolute 1..7 per criterion; higher is better.",
+  "score_source": "masked-source-output-independent-review",
+  "criteria": [
+    "Grounded expressiveness",
+    "Input readability",
+    "Output readability",
+    "Constraint integration",
+    "Reusable abstraction quality"
+  ],
+  "studies": [
+    {
+      "study_id": "crowd-factory-puzzle",
+      "title": "Crowd Factory Puzzle",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "scores": {
+            "Grounded expressiveness": 5,
+            "Input readability": 6,
+            "Output readability": 6,
+            "Constraint integration": 5,
+            "Reusable abstraction quality": 3
+          },
+          "notes": "Clear prose source and well-organized output with integrated mechanic requirements, though still mostly a specification scaffold rather than concrete game rules."
+        },
+        {
+          "anonymous_id": "B",
+          "scores": {
+            "Grounded expressiveness": 5,
+            "Input readability": 5,
+            "Output readability": 5,
+            "Constraint integration": 5,
+            "Reusable abstraction quality": 5
+          },
+          "notes": "Directive-based source captures the mechanic families and output covers the necessary sections, but some constraints remain listed and a few wording issues reduce polish."
+        },
+        {
+          "anonymous_id": "C",
+          "scores": {
+            "Grounded expressiveness": 4,
+            "Input readability": 5,
+            "Output readability": 5,
+            "Constraint integration": 4,
+            "Reusable abstraction quality": 2
+          },
+          "notes": "Compact source is readable and the output is organized, but the final artifact is more generic and less grounded in reconciled game-specific details."
+        }
+      ]
+    },
+    {
+      "study_id": "evidence-decision",
+      "title": "Evidence-to-Decision Workspace",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "scores": {
+            "Grounded expressiveness": 1,
+            "Input readability": 4,
+            "Output readability": 2,
+            "Constraint integration": 1,
+            "Reusable abstraction quality": 1
+          },
+          "notes": "The output largely repeats a compact request, leaving little concrete structure, integration, or reusable abstraction visible."
+        },
+        {
+          "anonymous_id": "B",
+          "scores": {
+            "Grounded expressiveness": 4,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Constraint integration": 4,
+            "Reusable abstraction quality": 5
+          },
+          "notes": "Reusable partials assemble a coherent medium-depth workspace contract, but hidden template boundaries keep it less specific and less fully integrated."
+        },
+        {
+          "anonymous_id": "C",
+          "scores": {
+            "Grounded expressiveness": 7,
+            "Input readability": 5,
+            "Output readability": 6,
+            "Constraint integration": 7,
+            "Reusable abstraction quality": 6
+          },
+          "notes": "Very rich, domain-grounded implementation specification with concrete entities, workflows, APIs, validation, and privacy/provenance constraints integrated throughout."
+        }
+      ]
+    },
+    {
+      "study_id": "learning-tutor",
+      "title": "Learning Tutor",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "scores": {
+            "Grounded expressiveness": 1,
+            "Input readability": 4,
+            "Output readability": 2,
+            "Constraint integration": 1,
+            "Reusable abstraction quality": 1
+          },
+          "notes": "Readable but extremely thin source is echoed as output, with almost no final tutor behavior or abstraction."
+        },
+        {
+          "anonymous_id": "B",
+          "scores": {
+            "Grounded expressiveness": 2,
+            "Input readability": 6,
+            "Output readability": 3,
+            "Constraint integration": 2,
+            "Reusable abstraction quality": 2
+          },
+          "notes": "The source is clear and pedagogically organized, but the compiled output remains a request rather than a pasteable adaptive tutor prompt."
+        },
+        {
+          "anonymous_id": "C",
+          "scores": {
+            "Grounded expressiveness": 7,
+            "Input readability": 5,
+            "Output readability": 7,
+            "Constraint integration": 7,
+            "Reusable abstraction quality": 6
+          },
+          "notes": "Excellent tutor prompt: specific, adaptive, well navigated, and tightly integrates diagnostics, Socratic flow, practice, feedback, mastery, and spaced review."
+        }
+      ]
+    },
+    {
+      "study_id": "orbital-drift",
+      "title": "Orbital Drift",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "scores": {
+            "Grounded expressiveness": 4,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Constraint integration": 4,
+            "Reusable abstraction quality": 5
+          },
+          "notes": "Reusable game templates provide a decent scaffold and validation requirements, but the output remains high-level and only partly game-specific."
+        },
+        {
+          "anonymous_id": "B",
+          "scores": {
+            "Grounded expressiveness": 6,
+            "Input readability": 6,
+            "Output readability": 6,
+            "Constraint integration": 6,
+            "Reusable abstraction quality": 3
+          },
+          "notes": "Strong browser-game spec with concrete scope, physics, states, UX, verification, and acceptance criteria, though source abstractions are minimal."
+        },
+        {
+          "anonymous_id": "C",
+          "scores": {
+            "Grounded expressiveness": 1,
+            "Input readability": 4,
+            "Output readability": 2,
+            "Constraint integration": 1,
+            "Reusable abstraction quality": 1
+          },
+          "notes": "Compact prompt is merely repeated, so the final artifact lacks implementable structure, integrated constraints, and reusable building blocks."
+        }
+      ]
+    },
+    {
+      "study_id": "release-readiness",
+      "title": "Release Readiness Workbench",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "scores": {
+            "Grounded expressiveness": 4,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Constraint integration": 4,
+            "Reusable abstraction quality": 5
+          },
+          "notes": "Template assembly gives a coherent release-readiness outline with useful reusable modules, but many requirements stay generic rather than fully instantiated."
+        },
+        {
+          "anonymous_id": "B",
+          "scores": {
+            "Grounded expressiveness": 1,
+            "Input readability": 4,
+            "Output readability": 2,
+            "Constraint integration": 1,
+            "Reusable abstraction quality": 1
+          },
+          "notes": "The final output repeats a compact specification request and provides little artifact-level detail or constraint integration."
+        },
+        {
+          "anonymous_id": "C",
+          "scores": {
+            "Grounded expressiveness": 7,
+            "Input readability": 5,
+            "Output readability": 6,
+            "Constraint integration": 7,
+            "Reusable abstraction quality": 6
+          },
+          "notes": "Comprehensive implementation spec with release gates, evidence, validation, actions, APIs, AI/privacy rules, rollback, and acceptance woven into one product contract."
+        }
+      ]
+    },
+    {
+      "study_id": "research-brief",
+      "title": "Research Brief",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "scores": {
+            "Grounded expressiveness": 4,
+            "Input readability": 5,
+            "Output readability": 5,
+            "Constraint integration": 5,
+            "Reusable abstraction quality": 5
+          },
+          "notes": "Concise reusable research template grounds the topic, context, evidence grading, and comparison needs, but stays at a relatively skeletal level."
+        },
+        {
+          "anonymous_id": "B",
+          "scores": {
+            "Grounded expressiveness": 1,
+            "Input readability": 4,
+            "Output readability": 2,
+            "Constraint integration": 1,
+            "Reusable abstraction quality": 1
+          },
+          "notes": "The compact request is simply repeated, so there is little grounded specificity beyond the original ask."
+        },
+        {
+          "anonymous_id": "C",
+          "scores": {
+            "Grounded expressiveness": 6,
+            "Input readability": 5,
+            "Output readability": 6,
+            "Constraint integration": 6,
+            "Reusable abstraction quality": 6
+          },
+          "notes": "Rich decision-grade research prompt integrates context sufficiency, evidence grading, source quality, alternatives, explainability, caveats, and next searches."
+        }
+      ]
+    },
+    {
+      "study_id": "transit-city-swarm",
+      "title": "Transit City Swarm",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "scores": {
+            "Grounded expressiveness": 4,
+            "Input readability": 5,
+            "Output readability": 5,
+            "Constraint integration": 4,
+            "Reusable abstraction quality": 2
+          },
+          "notes": "Readable source and organized output cover the requested game areas, but the result is more a generic specification outline than a deeply integrated simulation design."
+        },
+        {
+          "anonymous_id": "B",
+          "scores": {
+            "Grounded expressiveness": 5,
+            "Input readability": 6,
+            "Output readability": 6,
+            "Constraint integration": 5,
+            "Reusable abstraction quality": 3
+          },
+          "notes": "Clear prose source and output articulate the integrated transit/city/swarm system with good validation coverage, though abstractions are mostly ad hoc."
+        },
+        {
+          "anonymous_id": "C",
+          "scores": {
+            "Grounded expressiveness": 5,
+            "Input readability": 5,
+            "Output readability": 6,
+            "Constraint integration": 5,
+            "Reusable abstraction quality": 5
+          },
+          "notes": "Directive-based source uses reusable mechanic intentions well and the output is navigable and coherent, but still mostly describes required spec shape."
+        }
+      ]
+    },
+    {
+      "study_id": "verdant-relay",
+      "title": "Verdant Relay",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "scores": {
+            "Grounded expressiveness": 4,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Constraint integration": 4,
+            "Reusable abstraction quality": 5
+          },
+          "notes": "Reusable game templates provide useful tower-defense, deckbuilder, ecosystem, asset, and validation scaffolding, but the output is not fully instantiated."
+        },
+        {
+          "anonymous_id": "B",
+          "scores": {
+            "Grounded expressiveness": 7,
+            "Input readability": 5,
+            "Output readability": 7,
+            "Constraint integration": 7,
+            "Reusable abstraction quality": 6
+          },
+          "notes": "Highly specific, readable implementation spec with concrete mechanics, tables, state model, tuning, assets, validation flows, risks, and acceptance criteria integrated throughout."
+        },
+        {
+          "anonymous_id": "C",
+          "scores": {
+            "Grounded expressiveness": 1,
+            "Input readability": 4,
+            "Output readability": 2,
+            "Constraint integration": 1,
+            "Reusable abstraction quality": 1
+          },
+          "notes": "The output repeats a compact brief with almost no implementable expansion or reusable structure."
+        }
+      ]
+    },
+    {
+      "study_id": "work-intelligence-kanban",
+      "title": "Intelligence-to-Execution Kanban",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "scores": {
+            "Grounded expressiveness": 4,
+            "Input readability": 4,
+            "Output readability": 5,
+            "Constraint integration": 4,
+            "Reusable abstraction quality": 5
+          },
+          "notes": "Reusable template stack creates a coherent mid-level workspace outline, but remains partly generic and less grounded than a full instantiated spec."
+        },
+        {
+          "anonymous_id": "B",
+          "scores": {
+            "Grounded expressiveness": 1,
+            "Input readability": 4,
+            "Output readability": 2,
+            "Constraint integration": 1,
+            "Reusable abstraction quality": 1
+          },
+          "notes": "The compact request is echoed with no meaningful implementation artifact, integration, or abstraction."
+        },
+        {
+          "anonymous_id": "C",
+          "scores": {
+            "Grounded expressiveness": 7,
+            "Input readability": 5,
+            "Output readability": 6,
+            "Constraint integration": 7,
+            "Reusable abstraction quality": 6
+          },
+          "notes": "Detailed, integrated local-first Kanban specification covering monitoring, cards, decisions, delegation, outputs, dashboards, APIs, realtime, AI, validation, and acceptance."
+        }
+      ]
+    }
+  ]
+}

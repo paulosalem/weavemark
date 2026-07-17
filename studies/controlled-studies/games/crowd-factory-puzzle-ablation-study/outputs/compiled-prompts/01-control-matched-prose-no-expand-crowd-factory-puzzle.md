@@ -1,0 +1,116 @@
+# Crowd Factory Puzzle: Implementation-Ready Browser Game Specification
+
+Use this implementation-ready software specification to build a browser-based puzzle game called **Crowd Factory Puzzle**. The specification is the source of truth for a programming agent or human developer that will build the first playable version. It must be concrete enough to implement without asking basic product-shape questions.
+
+This is a software specification, not a requirements interview, brainstorm, pitch, or planning conversation. Prefer concrete decisions and safe assumptions over exploratory questions. Mark only genuinely blocking open decisions.
+
+## Product intent
+
+Specify a compact, browser-first puzzle game that integrates these mechanic references into one original design:
+
+- Lemmings-style autonomous crowds: many tiny agents, indirect control, assigned roles, environmental hazards, rescue pressure, and readable mass behavior.
+- Factory automation belts and converters: conveyor routing, machines, inputs and outputs, throughput, bottlenecks, timing, resource transformation, and compact production chains.
+- Sokoban-style spatial pushing puzzles: grid constraints, crates, blocking, irreversible mistakes, planning ahead, undo/restart, and level readability.
+
+The final design must not read like three pasted-together modules. It must define a single integrated mechanic: how the player indirectly routes autonomous workers, uses belts and machines to transform resources, and solves spatial pushing constraints within a realistic first-build scope.
+
+Use original names, visuals, rules, and assets. Existing games may be referenced only as high-level mechanic inspiration. Do not copy protected characters, maps, art, music, names, levels, UI, or distinctive presentation. Define asset ownership boundaries: no unlicensed copyrighted art, music, sounds, fonts, names, characters, or level layouts.
+
+## Required specification shape
+
+Include these sections, adapted to the game:
+
+1. **Product intent**
+   - Target player.
+   - User job and value delivered.
+   - First-build scope and explicit out-of-scope features.
+
+2. **Core game design**
+   - Player objective.
+   - Core loop: learn, plan, act, observe feedback, undo/restart or improve, complete the level.
+   - Win condition, loss/failure condition, scoring or rating if any.
+   - How the game teaches itself in the first minute.
+
+3. **Integrated mechanic**
+   - Explain the unified puzzle system in concrete terms.
+   - Define how autonomous workers move, how the player indirectly influences them, how conveyor belts and machines transform resources or workers’ carried items, and how pushable objects create spatial constraints.
+   - Clarify why the combined system creates planning depth without exceeding first-build complexity.
+   - Include examples-as-rules for at least two representative puzzle situations.
+
+4. **Puzzle objects and domain model**
+   Define the key entities, states, identifiers, and transitions, including at minimum:
+   - Grid, tiles, entrances, exits, goals, hazards, blockers, and checkpoints if used.
+   - Autonomous workers and their readable state.
+   - Assignable roles or commands.
+   - Belts, splitters, gates, converters, machines, inputs, outputs, queues, and timing.
+   - Pushable crates or blocks, immovable walls, locks, switches, and any irreversible or recoverable mistakes.
+   - Level data structure and persistence needs.
+   - Game states: loading, menu, level select, playing, paused, won, failed, restarting, and settings where applicable.
+
+5. **Player controls and UX**
+   - Keyboard and mouse controls for the first build.
+   - Touch controls only if in scope; otherwise state that the first build is desktop-browser first.
+   - Pause, restart, undo, level reset, and retry paths.
+   - Focus-loss, tab-switching, and page-visibility behavior: pause or safely suspend gameplay.
+   - Readable HUD: objective, remaining workers/resources, timer or move count if used, current tool/role, undo availability, and level status.
+   - Empty states, loading states, failure feedback, success feedback, and error handling.
+   - Accessibility requirements: readable contrast, keyboard operability for core actions where practical, non-color-only communication, reduced-motion consideration, and clear text labels.
+
+6. **Level progression**
+   - First playable level set and teaching sequence.
+   - How new objects and rules are introduced.
+   - Difficulty curve from approachable first minute to deeper planning.
+   - Level readability rules and constraints that prevent unfair puzzles.
+   - Restart and undo expectations for irreversible mistakes.
+
+7. **Browser implementation plan**
+   - Recommended implementation approach suitable for an ordinary browser game.
+   - Major components/modules and data flow.
+   - Rendering approach, update loop, timing model, collision/grid rules, worker simulation, belt/machine simulation, input handling, UI state, level loading, and local persistence.
+   - Performance requirements: stable frame pacing, no avoidable layout shifts during play, quick casual load, compressed/deferred assets, and smooth behavior on ordinary laptops.
+   - Browser compatibility expectations and responsive layout rules that preserve aspect ratio and readable UI across common viewport sizes.
+   - Maintainability and extension points for new levels, tiles, machines, worker roles, and visual themes.
+
+8. **Game feel and presentation**
+   - Coherent original visual style, even if minimal.
+   - Feedback rules for player actions: motion, animation, sound placeholders, score/status changes, messages, particles, hit pauses, or screen shake only when they improve legibility.
+   - How mass worker behavior remains readable.
+   - Asset style guide for the first build using original simple shapes, icons, or generated placeholder assets.
+
+9. **Validation strategy**
+   The implementing agent must use a repeated build-run-observe-improve loop:
+   - Inspect the specification, repository structure, package scripts, existing tests, and framework conventions.
+   - Implement the smallest coherent browser-visible slice.
+   - Start the application with an existing development or preview command. If none exists, add the minimal project-appropriate command and document it.
+   - Open the running URL with Playwright MCP or an equivalent browser automation surface.
+   - Interact as a real user: load the game, start a level, use controls, route workers, push objects, trigger belts/machines, win or fail, pause, undo or restart, and replay without a full page reload.
+   - Observe rendered UI, accessibility tree where useful, console output, network behavior, screenshots or traces, and persisted state.
+   - Compare observed behavior against the specification for clarity, responsiveness, stability, accessibility, visual legibility, and absence of runtime errors.
+   - Inspect source files when browser behavior reveals defects, improve the implementation, and repeat until the main experience works and no high-value improvement remains obvious.
+
+   Before claiming browser validation, check whether Playwright MCP or equivalent browser automation is available. If Playwright MCP is not available, install or configure the official Playwright MCP server when the environment permits; when Node/npm are available, the server command is commonly `npx @playwright/mcp@latest`. If setup cannot be completed, state the exact blocker and do not pretend browser validation happened.
+
+   If project-level Playwright tests are needed, add Playwright through the project’s package manager and install required browsers with the existing ecosystem command. Do not add duplicate or unrelated test tooling.
+
+10. **Verification plan**
+    Include testable verification tasks:
+    - Unit tests for level parsing, grid movement, worker state transitions, belt routing, machine conversion, pushing rules, win/loss checks, undo/restart, and persistence where applicable.
+    - Integration checks for a complete level simulation.
+    - Browser smoke test from first load through active play, controls, collisions/core interactions, visible progress feedback, win/fail, and restart/replay without full page reload.
+    - Manual or visual checks for readability, layout stability, focus behavior, responsive sizing, and console/runtime errors.
+    - Evidence expected from validation: run command, tested URL, flows exercised, screenshots or trace artifacts for spatial gameplay, console/network/runtime errors found and resolved, and remaining limitations.
+
+11. **Acceptance criteria**
+    Provide precise, testable criteria showing the first build is complete. At minimum, acceptance criteria must prove that:
+    - A player can open the browser page, understand the goal, start a level, and play a complete round.
+    - The integrated crowd/factory/pushing mechanic is playable, readable, and not merely three disconnected subsystems.
+    - Player actions have clear feedback.
+    - Pause, restart, and at least one recovery path such as undo work without reloading the page.
+    - The first level teaches the goal through play.
+    - Later initial levels introduce added depth without unfair hidden information.
+    - The app preserves stable layout and acceptable performance.
+    - No unlicensed copyrighted assets or copied distinctive presentation are required.
+    - Browser validation has been performed or an exact blocker is documented.
+    - Final reporting distinguishes verified behavior from unverified assumptions.
+
+Use MUST, SHOULD, and MAY carefully. Make both product behavior and implementation details precise enough for a developer to act. Preserve the first-build scope: favor a small polished playable puzzle with extensible systems over an ambitious content-heavy game.

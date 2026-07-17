@@ -1,0 +1,4 @@
+{
+  "app_name": "Release Readiness Workbench",
+  "release_surfaces": "- WeaveMark public README, docs, examples, generated outputs, study results, and release notes;\n- package artifacts, extension builds, CLI behavior, and installation checks;\n- single-output validation studies, qualitative evidence, and score explanations;\n- browser-facing examples, screenshots, traces, and console/runtime findings;\n- issues, PR notes, local TODOs, deferred work, waivers, and known limitations."
+}

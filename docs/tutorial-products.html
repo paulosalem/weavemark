@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Tutorial - Product Specifications</title>
+    <meta
+      name="description"
+      content="Learn how WeaveMark uses reusable product and programming fragments to compile implementation-ready software specifications."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html" aria-current="page">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <nav class="tutorial-nav shell" aria-label="Tutorials">
+      <a href="tutorial.html"><span>1</span> First promplet</a>
+      <a href="tutorial-reuse.html"><span>2</span> Reuse &amp; refine</a>
+      <a href="tutorial-refine.html"><span>3</span> Adaptive tutor</a>
+      <a href="tutorial-products.html" aria-current="page"><span>4</span> Product specs</a>
+      <a href="tutorial-games.html"><span>5</span> Game specs</a>
+      <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
+      <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
+      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
+      <a href="tutorial-illustrated.html"><span>9</span> Illustrated stories</a>
+    </nav>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Hands-on tutorial</p>
+      <h1>
+        Turn reusable product layers into
+        <span class="gradient-text">one buildable specification.</span>
+      </h1>
+      <p class="hero-copy">
+        Product and programming specs are where WeaveMark most clearly differs
+        from template systems: reusable layers should be transformed into
+        <strong>one coherent product contract</strong>, not pasted as generic sections.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Product tutorial highlights">
+      <div class="summary-card">
+        <strong>You write</strong>
+        <span>A product spec that composes product and programming layers.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You produce</strong>
+        <span>Implementation prompts and a product handoff package.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You learn</strong>
+        <span>Reusable stacks, branching, emitted files, and review checklists.</span>
+      </div>
+    </div>
+
+    <section class="shell repo-resources" aria-label="Repository files for this tutorial">
+      <h2>In the repository</h2>
+      <div class="repo-resources-links">
+        <a class="repo-link" href="../promplets/tutorials/release-workbench.weavemark.md"><span class="repo-tag">Spec</span> release-workbench.weavemark.md</a>
+        <a class="repo-link" href="../promplets/tutorials/release-workbench-pack.weavemark.md"><span class="repo-tag">Spec</span> release-workbench-pack.weavemark.md</a>
+      </div>
+    </section>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Tutorial sections">
+        <h2>Steps</h2>
+        <a href="#source">1. Write the product spec</a>
+        <a href="#compose">2. Compose it</a>
+        <a href="#adapt">3. Adapt it</a>
+        <a href="#emit">4. Emit artifacts</a>
+        <a href="#next">Next</a>
+      </aside>
+
+      <div class="article">
+        <section id="source" class="article-section">
+          <h2>1. Write a product specification</h2>
+          <p>
+            Create <code>outputs/tutorial-product/release-workbench.weavemark.md</code>.
+            This spec is concrete enough to run, but it still pulls in
+            <strong>reusable product and programming layers</strong>.
+          </p>
+          <pre><code>mkdir -p outputs/tutorial-product</code></pre>
+          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-product/release-workbench.weavemark.md</span>
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.foundations.software_spec <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.domains.product.release_readiness_gate <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.domains.product.product_validation_surface <span class="syntax-key">mingle:</span> true
+
+# Release readiness workbench
+
+Design <span class="syntax-var">@{product_name}</span>, a local-first command center for
+release notes, validation runs, screenshots, risks, waivers,
+and go/no-go decisions.
+
+Primary users: <span class="syntax-var">@{primary_users}</span>
+Critical release risk: <span class="syntax-var">@{release_risk}</span>
+
+<span class="syntax-directive">@match</span> release_stage
+  <span class="syntax-string">"alpha"</span> ==&gt;
+    Prioritize pilot feedback, bug capture, and rollback.
+  <span class="syntax-string">"public"</span> ==&gt;
+    Prioritize support readiness, documentation, and observability.
+
+<span class="syntax-directive">@if</span> include_ai_review
+  Add an AI-assisted review queue with human approval gates.
+
+<span class="syntax-directive">@if</span> include_audit_trail
+  Add immutable release events for approvals, waivers, validation runs,
+  screenshot evidence, and rollback decisions.
+
+<span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
+  Return these sections:
+  1. Product promise
+  2. User roles and permissions
+  3. Screens and core workflows
+  4. Data model
+  5. Local-first persistence rules
+  6. AI review behavior
+  7. Release gate logic
+  8. Acceptance criteria
+  9. Validation plan
+
+<span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"Acceptance criteria"</span>
+<span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"Local-first persistence"</span></code></pre>
+          <p>
+            The complete, tested specs for this tutorial are checked in under
+            <code>promplets/tutorials/</code>:
+            <a href="../promplets/tutorials/release-workbench.weavemark.md">release-workbench.weavemark.md</a>
+            and the emission pack
+            <a href="../promplets/tutorials/release-workbench-pack.weavemark.md">release-workbench-pack.weavemark.md</a>.
+          </p>
+        </section>
+
+        <section id="compose" class="article-section">
+          <h2>2. Compose the buildable product spec</h2>
+          <p>
+            Compile a concrete product specification. The refinements should
+            shape the result into a <strong>buildable program plan</strong>, not a
+            stack of generic advice.
+          </p>
+          <pre><code>weavemark outputs/tutorial-product/release-workbench.weavemark.md \
+  --batch-only \
+  --var product_name="LaunchDesk" \
+  --var primary_users="founders, release managers, and support leads" \
+  --var release_risk="shipping with unresolved validation gaps" \
+  --var release_stage=public \
+  --var include_ai_review=true \
+  --var include_audit_trail=true \
+  --output outputs/tutorial-product/launchdesk-spec.md</code></pre>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>launchdesk-spec.md</code> is a programming-agent prompt. Give
+            it to GitHub Copilot, Claude Code, Cursor, or another AI-assisted
+            programming tool and ask it to implement the application.
+          </div>
+        </section>
+
+        <section id="adapt" class="article-section">
+          <h2>3. Adapt the same spec to another product</h2>
+          <p>
+            Change only variables to reuse the same product program. This is the
+            practical payoff: <strong>one specification, many concrete products</strong>.
+          </p>
+          <pre><code>weavemark outputs/tutorial-product/release-workbench.weavemark.md \
+  --batch-only \
+  --var product_name="ClinicOps" \
+  --var primary_users="clinic administrators and front-desk teams" \
+  --var release_risk="missed appointment reminders during migration" \
+  --var release_stage=alpha \
+  --var include_ai_review=false \
+  --var include_audit_trail=false \
+  --output outputs/tutorial-product/clinicops-spec.md</code></pre>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>clinicops-spec.md</code> is another programming-agent prompt.
+            Use it as the implementation brief for a different product, not as a
+            normal chat question.
+          </div>
+        </section>
+
+        <section id="emit" class="article-section">
+          <h2>4. Emit a product handoff package</h2>
+          <p>
+            A larger product spec often needs more than one artifact. Use
+            <code>@emit file:</code> to generate a handoff package: a product
+            brief for stakeholders, an implementation brief for a programming
+            agent, and an acceptance checklist for review.
+          </p>
+          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-product/release-workbench-pack.weavemark.md</span>
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@compile</span> <span class="syntax-key">format:</span> markdown
+
+<span class="syntax-directive">@emit</span> <span class="syntax-key">file:</span> <span class="syntax-string">"product-brief.md"</span>
+  # <span class="syntax-var">@{product_name}</span> product brief
+
+  Product promise:
+  Help <span class="syntax-var">@{primary_users}</span> make safer release decisions.
+
+  The brief must explain:
+  - the release readiness problem
+  - the user roles
+  - the go/no-go decision moment
+  - the evidence each decision must cite
+  - the top risk: <span class="syntax-var">@{release_risk}</span>
+
+<span class="syntax-directive">@emit</span> <span class="syntax-key">file:</span> <span class="syntax-string">"implementation-spec.md"</span>
+  <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.foundations.software_spec <span class="syntax-key">mingle:</span> true
+  <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite <span class="syntax-key">mingle:</span> true
+
+  # <span class="syntax-var">@{product_name}</span> implementation specification
+
+  Build a local-first web app with:
+  - release dashboard
+  - validation run detail page
+  - risk and waiver queue
+  - screenshot evidence gallery
+  - go/no-go decision record
+
+  <span class="syntax-directive">@match</span> release_stage
+    <span class="syntax-string">"alpha"</span> ==&gt;
+      Optimize for pilot users, fast correction, and visible defects.
+    <span class="syntax-string">"public"</span> ==&gt;
+      Optimize for support readiness, auditability, and release confidence.
+
+  <span class="syntax-directive">@if</span> include_ai_review
+    Add an AI review assistant that proposes issues, never approves release,
+    and always requires human confirmation.
+
+  <span class="syntax-directive">@if</span> include_audit_trail
+    Persist immutable audit events for approvals, waivers, validation runs,
+    comments, attachments, and decision changes.
+
+<span class="syntax-directive">@emit</span> <span class="syntax-key">file:</span> <span class="syntax-string">"acceptance-checklist.md"</span>
+  # Acceptance checklist
+
+  The implementation is ready when:
+  - every release has a visible readiness state
+  - every failed validation links to evidence
+  - every waiver records owner, reason, and expiry
+  - go/no-go decisions cite risks and validation runs
+  - local data survives restart and can be exported
+  - no AI-suggested review can bypass human approval</code></pre>
+          <pre><code>weavemark outputs/tutorial-product/release-workbench-pack.weavemark.md \
+  --batch-only \
+  --output-dir outputs/tutorial-product/launchdesk-pack \
+  --var product_name="LaunchDesk" \
+  --var primary_users="founders, release managers, and support leads" \
+  --var release_risk="shipping with unresolved validation gaps" \
+  --var release_stage=public \
+  --var include_ai_review=true \
+  --var include_audit_trail=true</code></pre>
+          <div class="callout">
+            <strong>What this teaches:</strong> one WeaveMark source can produce
+            a stakeholder brief, a buildable implementation specification, and a
+            review checklist while sharing the same variables and branch logic.
+          </div>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>product-brief.md</code> is for humans,
+            <code>implementation-spec.md</code> is the prompt for your
+            programming agent, and <code>acceptance-checklist.md</code> is the
+            review checklist you keep beside the implementation.
+          </div>
+        </section>
+
+        <section id="next" class="article-section">
+          <h2>Next</h2>
+          <p>
+            Continue with <a href="tutorial-games.html">Game specifications</a>
+            to see <code>@expand</code> and <code>@iterate</code> applied to
+            concrete playable systems, or jump ahead to
+            <a href="tutorial-advanced.html">Advanced macros</a>.
+          </p>
+        </section>
+      </div>
+    </main>
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark product tutorial</strong><br>
+          Turn product intent into implementation-ready prompt artifacts.
+        </div>
+        <div>
+          <a href="tutorial.html">Tutorial track</a> |
+          <a href="tutorial-games.html">Game specs</a> |
+          <a href="tutorial-advanced.html">Advanced macros</a> |
+          <a href="reference.html">Reference</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const links = Array.from(document.querySelectorAll(".sidebar a[href^='#']"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const sections = links
+          .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+          .filter(Boolean);
+        const visible = new Set();
+        const setActive = (id) => {
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href").slice(1) === id)
+          );
+        };
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            }
+            const current = sections.find((s) => visible.has(s.id));
+            if (current) setActive(current.id);
+          },
+          { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+        );
+        sections.forEach((s) => observer.observe(s));
+      })();
+    </script>
+  </body>
+</html>

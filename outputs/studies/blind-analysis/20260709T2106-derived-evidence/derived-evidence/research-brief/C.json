@@ -1,0 +1,27 @@
+{
+  "artifact_hashes": {
+    "output_sha256": "d6a5637a9cfa31e8c5caf910e7d2f29f667ff044eb125e78fd62f52f9add4489",
+    "source_sha256": "d6a5637a9cfa31e8c5caf910e7d2f29f667ff044eb125e78fd62f52f9add4489",
+    "variables_sha256": null
+  },
+  "fact_candidate_count": 4,
+  "fact_candidates": [
+    "Prepare a research brief on grid-scale energy storage for city planners.",
+    "Include a short executive answer, main findings, risks, contradictions, source",
+    "quality notes, and next searches.",
+    "If web access is unavailable, say so and mark"
+  ],
+  "metrics": {
+    "candidate_facts": 4,
+    "counted_facts": 4,
+    "discounted_fact_units": 4.0,
+    "information_density_per_1k_output_words": 90.9,
+    "information_yield_per_1k_source_words": 90.9,
+    "local_authored_source_words": 44,
+    "local_leverage": 1.0,
+    "output_words": 44,
+    "study": "research-brief",
+    "variable_payload_words": 0,
+    "variant": "manual"
+  }
+}

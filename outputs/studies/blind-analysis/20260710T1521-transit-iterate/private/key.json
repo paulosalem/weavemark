@@ -1,0 +1,188 @@
+{
+  "mode": "source-and-output",
+  "run_id": "20260710T1521-transit-iterate",
+  "schema_version": 1,
+  "seed": 13704960367886569581,
+  "studies": {
+    "crowd-factory-puzzle": {
+      "A": {
+        "output": "studies/games/crowd-factory-puzzle-ablation-study/outputs/compiled-prompts/01-control-matched-prose-no-expand-crowd-factory-puzzle.md",
+        "source": "studies/games/crowd-factory-puzzle-ablation-study/specs/01-control-matched-prose-no-expand-crowd-factory-puzzle.weavemark.md",
+        "variables": null,
+        "variant": "matched-prose"
+      },
+      "B": {
+        "output": "studies/games/crowd-factory-puzzle-ablation-study/outputs/compiled-prompts/02-treatment-expand-crowd-factory-puzzle.md",
+        "source": "studies/games/crowd-factory-puzzle-ablation-study/specs/02-treatment-expand-crowd-factory-puzzle.weavemark.md",
+        "variables": null,
+        "variant": "promplet"
+      },
+      "C": {
+        "output": "studies/games/crowd-factory-puzzle-ablation-study/outputs/compiled-prompts/00-control-compact-no-expand-crowd-factory-puzzle.md",
+        "source": "studies/games/crowd-factory-puzzle-ablation-study/specs/00-control-compact-no-expand-crowd-factory-puzzle.weavemark.md",
+        "variables": null,
+        "variant": "compact-no-expand"
+      }
+    },
+    "evidence-decision": {
+      "A": {
+        "output": "studies/evidence-decision-workspace-ablation-study/outputs/compiled-prompts/01-control-template-evidence-decision-workspace.md",
+        "source": "studies/evidence-decision-workspace-ablation-study/specs/01-control-template-evidence-decision-workspace.weavemark.md",
+        "variables": "studies/evidence-decision-workspace-ablation-study/inputs/template-vars.json",
+        "variant": "matched-template"
+      },
+      "B": {
+        "output": "studies/evidence-decision-workspace-ablation-study/outputs/compiled-prompts/02-treatment-promplet-evidence-decision-workspace.md",
+        "source": "studies/evidence-decision-workspace-ablation-study/specs/02-treatment-promplet-evidence-decision-workspace.weavemark.md",
+        "variables": "studies/evidence-decision-workspace-ablation-study/inputs/promplet-vars.json",
+        "variant": "promplet"
+      },
+      "C": {
+        "output": "studies/evidence-decision-workspace-ablation-study/outputs/compiled-prompts/00-control-manual-evidence-decision-workspace.md",
+        "source": "studies/evidence-decision-workspace-ablation-study/specs/00-control-manual-evidence-decision-workspace.weavemark.md",
+        "variables": null,
+        "variant": "manual"
+      }
+    },
+    "learning-tutor": {
+      "A": {
+        "output": "studies/learning-tutor-refinement-ablation-study/outputs/compiled-prompts/01-control-matched-prose-linear-algebra-tutor.md",
+        "source": "studies/learning-tutor-refinement-ablation-study/specs/01-control-matched-prose-linear-algebra-tutor.weavemark.md",
+        "variables": null,
+        "variant": "matched-prose"
+      },
+      "B": {
+        "output": "studies/learning-tutor-refinement-ablation-study/outputs/compiled-prompts/02-treatment-refined-expand-linear-algebra-tutor.md",
+        "source": "studies/learning-tutor-refinement-ablation-study/specs/02-treatment-refined-expand-linear-algebra-tutor.weavemark.md",
+        "variables": "studies/learning-tutor-refinement-ablation-study/inputs/treatment-vars.json",
+        "variant": "promplet"
+      },
+      "C": {
+        "output": "studies/learning-tutor-refinement-ablation-study/outputs/compiled-prompts/00-control-compact-manual-linear-algebra-tutor.md",
+        "source": "studies/learning-tutor-refinement-ablation-study/specs/00-control-compact-manual-linear-algebra-tutor.weavemark.md",
+        "variables": null,
+        "variant": "manual"
+      }
+    },
+    "orbital-drift": {
+      "A": {
+        "output": "studies/games/orbital-drift-racing-ablation-study/outputs/compiled-prompts/00-control-manual-orbital-drift.md",
+        "source": "studies/games/orbital-drift-racing-ablation-study/specs/00-control-manual-orbital-drift.weavemark.md",
+        "variables": null,
+        "variant": "manual"
+      },
+      "B": {
+        "output": "studies/games/orbital-drift-racing-ablation-study/outputs/compiled-prompts/02-treatment-promplet-orbital-drift.md",
+        "source": "studies/games/orbital-drift-racing-ablation-study/specs/02-treatment-promplet-orbital-drift.weavemark.md",
+        "variables": null,
+        "variant": "promplet"
+      },
+      "C": {
+        "output": "studies/games/orbital-drift-racing-ablation-study/outputs/compiled-prompts/01-control-template-orbital-drift.md",
+        "source": "studies/games/orbital-drift-racing-ablation-study/specs/01-control-template-orbital-drift.weavemark.md",
+        "variables": "studies/games/orbital-drift-racing-ablation-study/inputs/template-vars.json",
+        "variant": "matched-template"
+      }
+    },
+    "release-readiness": {
+      "A": {
+        "output": "studies/release-readiness-workbench-ablation-study/outputs/compiled-prompts/00-control-manual-release-readiness-workbench.md",
+        "source": "studies/release-readiness-workbench-ablation-study/specs/00-control-manual-release-readiness-workbench.weavemark.md",
+        "variables": null,
+        "variant": "manual"
+      },
+      "B": {
+        "output": "studies/release-readiness-workbench-ablation-study/outputs/compiled-prompts/02-treatment-promplet-release-readiness-workbench.md",
+        "source": "studies/release-readiness-workbench-ablation-study/specs/02-treatment-promplet-release-readiness-workbench.weavemark.md",
+        "variables": "studies/release-readiness-workbench-ablation-study/inputs/promplet-vars.json",
+        "variant": "promplet"
+      },
+      "C": {
+        "output": "studies/release-readiness-workbench-ablation-study/outputs/compiled-prompts/01-control-template-release-readiness-workbench.md",
+        "source": "studies/release-readiness-workbench-ablation-study/specs/01-control-template-release-readiness-workbench.weavemark.md",
+        "variables": "studies/release-readiness-workbench-ablation-study/inputs/template-vars.json",
+        "variant": "matched-template"
+      }
+    },
+    "research-brief": {
+      "A": {
+        "output": "studies/research-brief-ablation-study/outputs/compiled-prompts/02-treatment-refined-research-brief.md",
+        "source": "studies/research-brief-ablation-study/specs/02-treatment-refined-research-brief.weavemark.md",
+        "variables": "studies/research-brief-ablation-study/inputs/energy-storage.json",
+        "variant": "promplet"
+      },
+      "B": {
+        "output": "studies/research-brief-ablation-study/outputs/compiled-prompts/00-control-manual-research-brief.md",
+        "source": "studies/research-brief-ablation-study/specs/00-control-manual-research-brief.weavemark.md",
+        "variables": null,
+        "variant": "manual"
+      },
+      "C": {
+        "output": "studies/research-brief-ablation-study/outputs/compiled-prompts/01-control-template-research-brief.md",
+        "source": "studies/research-brief-ablation-study/specs/01-control-template-research-brief.weavemark.md",
+        "variables": "studies/research-brief-ablation-study/inputs/template-vars.json",
+        "variant": "matched-template"
+      }
+    },
+    "transit-city-swarm": {
+      "A": {
+        "output": "studies/games/transit-city-swarm-ablation-study/outputs/compiled-prompts/01-control-matched-prose-no-expand-transit-city-swarm.md",
+        "source": "studies/games/transit-city-swarm-ablation-study/specs/01-control-matched-prose-no-expand-transit-city-swarm.weavemark.md",
+        "variables": null,
+        "variant": "matched-prose"
+      },
+      "B": {
+        "output": "studies/games/transit-city-swarm-ablation-study/outputs/compiled-prompts/00-control-compact-no-expand-transit-city-swarm.md",
+        "source": "studies/games/transit-city-swarm-ablation-study/specs/00-control-compact-no-expand-transit-city-swarm.weavemark.md",
+        "variables": null,
+        "variant": "compact-no-expand"
+      },
+      "C": {
+        "output": "studies/games/transit-city-swarm-ablation-study/outputs/compiled-prompts/02-treatment-expand-transit-city-swarm.md",
+        "source": "studies/games/transit-city-swarm-ablation-study/specs/02-treatment-expand-transit-city-swarm.weavemark.md",
+        "variables": null,
+        "variant": "promplet"
+      }
+    },
+    "verdant-relay": {
+      "A": {
+        "output": "studies/games/verdant-relay-ablation-study/outputs/compiled-prompts/00-control-compact-manual-verdant-relay.md",
+        "source": "studies/games/verdant-relay-ablation-study/specs/00-control-compact-manual-verdant-relay.weavemark.md",
+        "variables": null,
+        "variant": "manual"
+      },
+      "B": {
+        "output": "studies/games/verdant-relay-ablation-study/outputs/compiled-prompts/01-control-template-verdant-relay.md",
+        "source": "studies/games/verdant-relay-ablation-study/specs/01-control-template-verdant-relay.weavemark.md",
+        "variables": "studies/games/verdant-relay-ablation-study/inputs/template-vars.json",
+        "variant": "matched-template"
+      },
+      "C": {
+        "output": "studies/games/verdant-relay-ablation-study/outputs/compiled-prompts/02-treatment-promplet-verdant-relay.md",
+        "source": "studies/games/verdant-relay-ablation-study/specs/02-treatment-promplet-verdant-relay.weavemark.md",
+        "variables": "studies/games/verdant-relay-ablation-study/inputs/promplet-vars.json",
+        "variant": "promplet"
+      }
+    },
+    "work-intelligence-kanban": {
+      "A": {
+        "output": "studies/intelligence-execution-kanban-ablation-study/outputs/compiled-prompts/02-treatment-promplet-intelligence-execution-kanban.md",
+        "source": "studies/intelligence-execution-kanban-ablation-study/specs/02-treatment-promplet-intelligence-execution-kanban.weavemark.md",
+        "variables": "studies/intelligence-execution-kanban-ablation-study/inputs/promplet-vars.json",
+        "variant": "promplet"
+      },
+      "B": {
+        "output": "studies/intelligence-execution-kanban-ablation-study/outputs/compiled-prompts/00-control-manual-intelligence-execution-kanban.md",
+        "source": "studies/intelligence-execution-kanban-ablation-study/specs/00-control-manual-intelligence-execution-kanban.weavemark.md",
+        "variables": null,
+        "variant": "manual"
+      },
+      "C": {
+        "output": "studies/intelligence-execution-kanban-ablation-study/outputs/compiled-prompts/01-control-template-intelligence-execution-kanban.md",
+        "source": "studies/intelligence-execution-kanban-ablation-study/specs/01-control-template-intelligence-execution-kanban.weavemark.md",
+        "variables": "studies/intelligence-execution-kanban-ablation-study/inputs/template-vars.json",
+        "variant": "matched-template"
+      }
+    }
+  }
+}

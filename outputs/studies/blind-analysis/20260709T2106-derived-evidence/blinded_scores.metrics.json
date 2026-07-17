@@ -1,0 +1,423 @@
+{
+  "criteria": [
+    "Authoring leverage",
+    "Information yield",
+    "Grounded expressiveness",
+    "Input readability",
+    "Output readability",
+    "Constraint integration",
+    "Reusable abstraction quality"
+  ],
+  "mode": "derived-evidence",
+  "run_id": "20260709T2106-derived-evidence",
+  "schema_version": 1,
+  "score_scale": "Absolute 1..7 per criterion; higher is better.",
+  "score_source": "metric-only",
+  "studies": [
+    {
+      "study_id": "crowd-factory-puzzle",
+      "title": "Crowd Factory Puzzle",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 1,
+            "Grounded expressiveness": 1,
+            "Information yield": 7,
+            "Input readability": 7,
+            "Output readability": 4,
+            "Reusable abstraction quality": 7
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 4,
+            "Input readability": 4,
+            "Output readability": 7,
+            "Reusable abstraction quality": 1
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 1,
+            "Input readability": 1,
+            "Output readability": 1,
+            "Reusable abstraction quality": 4
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "evidence-decision",
+      "title": "Evidence-to-Decision Workspace",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 4,
+            "Input readability": 4,
+            "Output readability": 4,
+            "Reusable abstraction quality": 4
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 7,
+            "Input readability": 1,
+            "Output readability": 1,
+            "Reusable abstraction quality": 7
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 1,
+            "Grounded expressiveness": 1,
+            "Information yield": 1,
+            "Input readability": 7,
+            "Output readability": 7,
+            "Reusable abstraction quality": 1
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "learning-tutor",
+      "title": "Learning Tutor",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 1,
+            "Grounded expressiveness": 1,
+            "Information yield": 1,
+            "Input readability": 7,
+            "Output readability": 4,
+            "Reusable abstraction quality": 1
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 4,
+            "Input readability": 1,
+            "Output readability": 7,
+            "Reusable abstraction quality": 1
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 7,
+            "Input readability": 4,
+            "Output readability": 1,
+            "Reusable abstraction quality": 7
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "orbital-drift",
+      "title": "Orbital Drift",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 4,
+            "Input readability": 4,
+            "Output readability": 4,
+            "Reusable abstraction quality": 4
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 7,
+            "Input readability": 1,
+            "Output readability": 1,
+            "Reusable abstraction quality": 7
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 1,
+            "Grounded expressiveness": 1,
+            "Information yield": 1,
+            "Input readability": 7,
+            "Output readability": 7,
+            "Reusable abstraction quality": 1
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "release-readiness",
+      "title": "Release Readiness Workbench",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 1,
+            "Grounded expressiveness": 1,
+            "Information yield": 1,
+            "Input readability": 7,
+            "Output readability": 4,
+            "Reusable abstraction quality": 1
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 4,
+            "Input readability": 1,
+            "Output readability": 1,
+            "Reusable abstraction quality": 7
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 7,
+            "Input readability": 4,
+            "Output readability": 7,
+            "Reusable abstraction quality": 4
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "research-brief",
+      "title": "Research Brief",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 7,
+            "Input readability": 1,
+            "Output readability": 1,
+            "Reusable abstraction quality": 7
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 4,
+            "Input readability": 7,
+            "Output readability": 4,
+            "Reusable abstraction quality": 4
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 1,
+            "Grounded expressiveness": 1,
+            "Information yield": 1,
+            "Input readability": 4,
+            "Output readability": 7,
+            "Reusable abstraction quality": 1
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "transit-city-swarm",
+      "title": "Transit City Swarm",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 1,
+            "Grounded expressiveness": 1,
+            "Information yield": 7,
+            "Input readability": 7,
+            "Output readability": 7,
+            "Reusable abstraction quality": 7
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 4,
+            "Input readability": 4,
+            "Output readability": 4,
+            "Reusable abstraction quality": 4
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 1,
+            "Input readability": 1,
+            "Output readability": 1,
+            "Reusable abstraction quality": 1
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "verdant-relay",
+      "title": "Verdant Relay",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 4,
+            "Input readability": 4,
+            "Output readability": 4,
+            "Reusable abstraction quality": 4
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 7,
+            "Input readability": 1,
+            "Output readability": 1,
+            "Reusable abstraction quality": 7
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 1,
+            "Grounded expressiveness": 1,
+            "Information yield": 1,
+            "Input readability": 7,
+            "Output readability": 7,
+            "Reusable abstraction quality": 1
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "work-intelligence-kanban",
+      "title": "Intelligence-to-Execution Kanban",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 1,
+            "Constraint integration": 1,
+            "Grounded expressiveness": 1,
+            "Information yield": 1,
+            "Input readability": 4,
+            "Output readability": 4,
+            "Reusable abstraction quality": 1
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 7,
+            "Constraint integration": 7,
+            "Grounded expressiveness": 7,
+            "Information yield": 4,
+            "Input readability": 1,
+            "Output readability": 1,
+            "Reusable abstraction quality": 7
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "Metric-only blind score from saved source/output measurements; use human or LLM blinded judging for qualitative claims.",
+          "scores": {
+            "Authoring leverage": 4,
+            "Constraint integration": 4,
+            "Grounded expressiveness": 4,
+            "Information yield": 7,
+            "Input readability": 7,
+            "Output readability": 7,
+            "Reusable abstraction quality": 4
+          }
+        }
+      ]
+    }
+  ]
+}

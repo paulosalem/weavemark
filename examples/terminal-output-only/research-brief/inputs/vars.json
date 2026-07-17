@@ -1,0 +1,8 @@
+{
+  "research_topic": "Whether internal agentic browser automation is mature enough for finance operations teams",
+  "purpose": "Decide whether to run a small pilot for invoice reconciliation and vendor portal updates.",
+  "audience": "A finance operations leader and a technical product manager.",
+  "time_horizon": "Focus on the last 18 months. Recency matters because product capabilities and security posture are changing quickly.",
+  "known_context": "The team already uses spreadsheet macros and RPA for repetitive workflows. They are interested in browser agents but worry about auditability, permissions, and exception handling.",
+  "source_requirements": "Include vendor documentation, recent product announcements, practitioner case studies, security or governance guidance, and skeptical commentary if available."
+}

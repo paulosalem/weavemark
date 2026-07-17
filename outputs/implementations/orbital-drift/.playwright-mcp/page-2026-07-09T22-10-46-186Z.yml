@@ -1,0 +1,36 @@
+- main "Orbital Drift browser game" [ref=f2e2]:
+  - region "Race status" [ref=f2e3]:
+    - generic [ref=f2e4]:
+      - paragraph [ref=f2e5]: Time-trial space racing
+      - heading "Orbital Drift" [level=1] [ref=f2e6]
+    - generic [ref=f2e7]:
+      - generic [ref=f2e8]: Lap 1/2
+      - generic [ref=f2e9]: Gate 1/6
+      - generic [ref=f2e10]: 00:00.0
+      - generic [ref=f2e11]: Best --:--.-
+      - generic [ref=f2e12]: Ready
+  - generic [ref=f2e13]:
+    - generic "Space race course. Use W or Arrow Up to thrust, A and D or Arrow keys to rotate, Space to brake, P to pause, and R to restart." [active] [ref=f2e14]
+    - generic:
+      - generic:
+        - paragraph: Ready on the line
+        - heading "Thread the gates, bend around gravity, beat your best time." [level=2]
+        - paragraph: Fly through the glowing gates in order for two laps. Avoid asteroids and planets; gravity wells tug your racing line but can be recovered from.
+        - generic:
+          - generic:
+            - term: Rotate
+            - definition: A / D or Arrow Left / Right
+          - generic:
+            - term: Thrust
+            - definition: W or Arrow Up
+          - generic:
+            - term: Brake
+            - definition: Space
+          - generic:
+            - term: Pause
+            - definition: P or Escape
+          - generic:
+            - term: Restart
+            - definition: R
+        - paragraph: Press W, Arrow Up, or Enter to start.
+  - paragraph [ref=f2e15]: "Collision model: hazards add a 2-second penalty, bounce the craft away, and briefly dampen control. Restart is instant and keeps only your local best time."

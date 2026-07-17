@@ -1,0 +1,66 @@
+{
+  "title": "Orion and the Hunt for His Spark",
+  "language": "English",
+  "audience": "children aged 3 to 5 (bright and curious — give them a real story, not a watered-down one)",
+  "page_count": 12,
+  "text_in_image": "on",
+  "image_size": "1536x1024",
+  "image_quality": "high",
+  "image_model": "gpt-image-2",
+  "tone": "warm, playful, and quietly clever — full of wonder and gentle humor, encouraging real thinking; never scary, never preachy, never babyish",
+  "art_style": "bright-storybook",
+  "premise": "Orion is a small purple dragon child who cannot make fire yet, while the other young dragons already can. Instead of forcing it, Mama teaches him to become a 'fire detective' — to observe, wonder, and experiment. Orion discovers that fire needs a big breath of air and a spark, and that his own spark is a feeling: the warm, curious care he feels when he stops trying to impress and simply helps his shivering friend Pip. He learns skills grow from curiosity, patience through wobbles, and heart — then passes the lesson on.",
+  "characters": "- Orion: a small, round baby dragon with soft lilac-purple scales, a paler purple tummy, big friendly golden eyes, tiny stubby wings, a short tail with a little rounded tip, and small soft horns. Cheerful, curious, expressive, and a bit clumsy — a young child dragon, plump and adorable, never fierce.\n- Mama Dragon: a gentle, larger dragon with deep violet scales and kind eyes, warm and patient; she guides Orion with questions instead of doing things for him.\n- Pip: a tiny cheerful orange bird, Orion's playful friend, who joins his experiments and, later, needs Orion's warmth.",
+  "setting": "A cozy, sunny valley of green meadows, gentle hills, a sparkling stream, a friendly little cave home with a small campfire outside, and soft rounded mountains under big fluffy clouds. Warm, inviting light.",
+  "lessons": "how to observe and ask 'what if?'; that skills grow through experiments, not force; that a wobble or a fizzle is progress, not failure; patient practice; and that the truest 'spark' is a feeling — curiosity and kindness.",
+  "pages": {
+    "1": {
+      "scene": "Wide, sunny establishing view of the green valley with the little cave home and stream. Orion sits alone on a hill watching, a bit wistful, as two other young dragons in the distance puff tiny bright flames.",
+      "text": "In a bright green valley lived Orion, a small purple dragon. Every young dragon was learning to make fire — every dragon but Orion."
+    },
+    "2": {
+      "scene": "Close on Orion mid-effort: eyes squeezed shut, chest puffed round, cheeks full. A single chilly grey puff of smoke curls out of his snout, and his body gives a little hiccup-bounce.",
+      "text": "He squeezed his eyes, puffed his chest, and blew with ALL his might. Out came a chilly grey puff — and a hiccup. Hic!"
+    },
+    "3": {
+      "scene": "Orion sneezes — head thrown back, a harmless sprinkle of glittery sparkles bursting from his nose instead of flame. His little wings droop and his face falls, discouraged.",
+      "text": "He tried again. Ah — ah — CHOO! A sprinkle of sparkles, but no fire at all. Orion's wings drooped low."
+    },
+    "4": {
+      "scene": "Mama Dragon leans down gently beside Orion, warm and kind, tilting her head with a curious, encouraging smile as she asks him a question. Orion looks up, listening.",
+      "text": "\"Don't force it, little one,\" said Mama. \"Be a fire detective. What do you think fire needs?\""
+    },
+    "5": {
+      "scene": "Orion and Mama watch the small campfire outside the cave. A breeze bends the flames taller and brighter; Orion leans in, wide-eyed, one claw raised in a bright 'aha' moment.",
+      "text": "They watched the campfire. When the breeze blew, the flames danced taller. \"Air!\" whispered Orion. \"Fire loves a big breath.\""
+    },
+    "6": {
+      "scene": "Mama flicks one tiny bright spark toward the fire with her claw. Orion watches the little spark closely, then looks down at his own empty paws with a thoughtful frown.",
+      "text": "\"And a spark to begin,\" said Mama, flicking one bright spark. Orion frowned. \"But where is MY spark?\""
+    },
+    "7": {
+      "scene": "Orion runs an experiment: belly rounded with the biggest breath, he blows hard. A warm, bigger puff of smoke rolls out — still no flame, but his eyes are excited and hopeful, not sad.",
+      "text": "So Orion tried an experiment. He took the BIGGEST belly-breath and blew. Warmer this time — but still no flame. \"Closer!\" he grinned."
+    },
+    "8": {
+      "scene": "A sudden chilly gust; Pip the little orange bird shivers, feathers fluffed, on a branch. Orion completely forgets about fire and rushes over, gentle and caring, cupping his paws around his cold friend.",
+      "text": "Just then Pip began to shiver in a cold gust. Orion forgot all about showing off. \"I'll warm you, Pip,\" he said softly."
+    },
+    "9": {
+      "scene": "The magic moment: Orion takes a big warm breath, his chest and heart glowing softly — and a small, gentle golden flame appears at last, lighting up his and Pip's astonished, delighted faces.",
+      "text": "He breathed a big warm breath, his heart aglow with kindness — and WHOOSH, a small golden flame! There was his spark all along."
+    },
+    "10": {
+      "scene": "Cozy, tender scene: Pip nestles close to the little flame, warm and happy. Orion gazes at his own gentle fire with a soft, proud, understanding smile.",
+      "text": "Pip snuggled close, cozy and warm. Orion's spark was no trick — it was the warm, curious feeling glowing inside him."
+    },
+    "11": {
+      "scene": "A lively little practice montage across the meadow: Orion mid-try in a few playful poses — one wobbly fizzle of sparks, one crooked puff, one proud steady flame — getting braver each time.",
+      "text": "Now Orion practiced every day — a wobble here, a WHOOSH there — and each little flame grew braver, just like him."
+    },
+    "12": {
+      "scene": "Full-circle ending: Orion, now confident, kneels beside an even smaller worried dragon who can't spark yet, pointing kindly toward the campfire. Mama and Pip watch warmly in the golden evening light.",
+      "text": "And when a smaller dragon couldn't spark, Orion smiled. \"Don't force it,\" he said. \"Let's be fire detectives — together.\""
+    }
+  }
+}

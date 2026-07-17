@@ -1,0 +1,372 @@
+{
+  "blindness_note": "The manifest intentionally omits variant identities. Do not open private/key.json until blinded scoring is complete. The default derived-evidence mode avoids raw text review; raw-text modes are identity-blinded but can still reveal intrinsic authoring style.",
+  "created_at": "2026-07-10T12:45:56+00:00",
+  "criteria": [
+    "Authoring leverage",
+    "Information yield",
+    "Grounded expressiveness",
+    "Input readability",
+    "Output readability",
+    "Constraint integration",
+    "Reusable abstraction quality"
+  ],
+  "mode": "source-and-output",
+  "run_id": "20260710T0944-masked-source-output",
+  "schema_version": 1,
+  "score_scale": "Absolute 1..7 per criterion before derandomization.",
+  "score_template": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/blinded_scores.template.json",
+  "seed_sha256": "e36aba2a87ff3c715bf48f9379bb3eb14cbc9c31ee6fe3264637c49a4b6df40d",
+  "studies": [
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/crowd-factory-puzzle/A.md",
+          "packet_sha256": "76a6fdf1c213a016e8922928f563e5b912b8b0b5f5d56ce1b2a7408032b464e6"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/crowd-factory-puzzle/B.md",
+          "packet_sha256": "ca6e0f3b5996fe8b9c8a54d95f27f797d36e9247e5b3436630a6da897e492f8e"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/crowd-factory-puzzle/C.md",
+          "packet_sha256": "42c9f9fffe410f036f6134e9ee9b73659148b41b255694b8013e9a13d4c32b0c"
+        }
+      ],
+      "study_id": "crowd-factory-puzzle",
+      "title": "Crowd Factory Puzzle"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/evidence-decision/A.md",
+          "packet_sha256": "a5756113f4518f9c5460ca475221091165f976b438383224fb2d10eba97e43d7"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/evidence-decision/B.md",
+          "packet_sha256": "490fc8ab5b6cddf0906382e9c9012051b71f022377f4406056673ac4345337ca"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/evidence-decision/C.md",
+          "packet_sha256": "240f8cec5be9f854b5ac8d66cc6d4922225d01301b6044aa005032efa7b24ef3"
+        }
+      ],
+      "study_id": "evidence-decision",
+      "title": "Evidence-to-Decision Workspace"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/learning-tutor/A.md",
+          "packet_sha256": "b13486ca3f0e6578b917da34117ba5e6d9b5f74e0a342b51fc79601b4cc5ffe7"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/learning-tutor/B.md",
+          "packet_sha256": "fb86bfb0c0e2aa8e4a37d8e6295164261c19b0706078b39f100938268f5b3bd3"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/learning-tutor/C.md",
+          "packet_sha256": "bad0c14265a724e4937c0aeac624382e34e356ba009e9acc12b2dc7301de10ba"
+        }
+      ],
+      "study_id": "learning-tutor",
+      "title": "Learning Tutor"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/orbital-drift/A.md",
+          "packet_sha256": "68120bf4c1aa6c3742d8ccdf9b45e7fffadf7ed2f553e3ef60f9846c22ac37cf"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/orbital-drift/B.md",
+          "packet_sha256": "88bf1f95241592a01fc61a625135394d0104982f467307fe06fc0af8349f4b48"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/orbital-drift/C.md",
+          "packet_sha256": "34bcb4b164dc0aaa4641d2e21c7922983b796acdb581371c844dd953041fe2bc"
+        }
+      ],
+      "study_id": "orbital-drift",
+      "title": "Orbital Drift"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/release-readiness/A.md",
+          "packet_sha256": "686ce9dc6feb3970259b81c755cf6590ff27452983f30a9d75ae72459f8e99e5"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/release-readiness/B.md",
+          "packet_sha256": "178124c7a3772a71da93fe2e316175b314e00637dc119b385a8e848b2f69a31f"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/release-readiness/C.md",
+          "packet_sha256": "3eebe52d90d544961f619b590b84c782557afc1d3c653d078313d4cbdfd43c7a"
+        }
+      ],
+      "study_id": "release-readiness",
+      "title": "Release Readiness Workbench"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/research-brief/A.md",
+          "packet_sha256": "bcb53ab7beee5d81b8d34750af1adc7438b7114714d2d9dfb57b8998deefdc27"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/research-brief/B.md",
+          "packet_sha256": "71746b5fa4985d2e131ed4c8b128e6a8642299378c2825ee7b89d7b834b2d0fe"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/research-brief/C.md",
+          "packet_sha256": "f06b99ac91e7a27ea0f6664e558eac4c6e56b127ef88441dc99a7a3d22d677d1"
+        }
+      ],
+      "study_id": "research-brief",
+      "title": "Research Brief"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/transit-city-swarm/A.md",
+          "packet_sha256": "7e9e4b70dce878867eb44ea13d41f206645058ca8876534e8003100342bdac07"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/transit-city-swarm/B.md",
+          "packet_sha256": "2fee8266ba65e355909357245a34be14056c1849cb2e62cbfdb2f2b60b6eb5f5"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/transit-city-swarm/C.md",
+          "packet_sha256": "e30861fe02284afc90963197305adcc172617b26a2c6d890663388f4b5ce70ee"
+        }
+      ],
+      "study_id": "transit-city-swarm",
+      "title": "Transit City Swarm"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/verdant-relay/A.md",
+          "packet_sha256": "bc85ff65c404a14ea0fca944afab8398186b2e718d92ac6812850044ff28f582"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/verdant-relay/B.md",
+          "packet_sha256": "586399086eae8a19e1e9ffff1817ca58f6a95c47e3a480d0a897957664f7cd72"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/verdant-relay/C.md",
+          "packet_sha256": "142b0cd3f2f3558a8755d6c77a4169a255d9f89272f12f2dd13b86703e504154"
+        }
+      ],
+      "study_id": "verdant-relay",
+      "title": "Verdant Relay"
+    },
+    {
+      "packets": [
+        {
+          "anonymous_id": "A",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/work-intelligence-kanban/A.md",
+          "packet_sha256": "3bc39aca3f818af94da93d4cbf8161e6ebb947fdf55cdb3374ab50972046de10"
+        },
+        {
+          "anonymous_id": "B",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/work-intelligence-kanban/B.md",
+          "packet_sha256": "3f2e01e6a6d4b0d503a4842b4295db5b5e22a9509f4a041df49ebfb7a2a6118a"
+        },
+        {
+          "anonymous_id": "C",
+          "leak_counts_after_masking": {
+            "pattern_1": 0,
+            "pattern_2": 0,
+            "pattern_3": 0,
+            "pattern_4": 0
+          },
+          "packet": "outputs/studies/blind-analysis/20260710T0944-masked-source-output/packets/work-intelligence-kanban/C.md",
+          "packet_sha256": "9f6ea5d9a953732dea9d82cf21e9a7a3f686f95271c75e0d20f780fb07e05826"
+        }
+      ],
+      "study_id": "work-intelligence-kanban",
+      "title": "Intelligence-to-Execution Kanban"
+    }
+  ]
+}

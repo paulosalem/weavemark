@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Technical Reference</title>
+    <meta
+      name="description"
+      content="A systematic technical reference for WeaveMark syntax, directives, output shapes, CLI commands, execution metadata, and authoring rules."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html" aria-current="page">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Technical reference</p>
+      <h1>
+        Systematic guidance for
+        <span class="gradient-text">WeaveMark authors.</span>
+      </h1>
+      <p class="hero-copy">
+        This page is the <strong>practical authoring reference</strong>. For the
+        formal language contract used by the WeaveMark Processor, see
+        <a href="../src/weavemark/prompts/weavemark.system.md">weavemark.system.md</a>.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Reference highlights">
+      <div class="summary-card">
+        <strong>Syntax</strong>
+        <span>Directive lines, variables, bodies, imports, and quoting rules.</span>
+      </div>
+      <div class="summary-card">
+        <strong>Artifacts</strong>
+        <span>Single prompts, prompt packs, emitted files, and executable promplets.</span>
+      </div>
+      <div class="summary-card">
+        <strong>Advanced</strong>
+        <span>Macros, semantic functions, surface adapters, and runtime hooks.</span>
+      </div>
+    </div>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Reference sections">
+        <h2>Reference</h2>
+        <a href="#syntax">Core syntax</a>
+        <a href="#directive-families">Directive families</a>
+        <a href="#imports">Imports and modules</a>
+        <a href="#macros">Macros and functions</a>
+        <a href="#outputs">Output shapes</a>
+        <a href="#execution">Execution</a>
+        <a href="#surface-adapters">Surface adapters</a>
+        <a href="#cli">CLI commands</a>
+        <a href="#pitfalls">Pitfalls</a>
+      </aside>
+
+      <div class="article">
+        <section id="syntax" class="article-section">
+          <h2>Core syntax</h2>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>Construct</th>
+                <th>Syntax</th>
+                <th>Guidance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Version pragma</td>
+                <td><code>@promplet version: 0.8</code></td>
+                <td><strong>Optional, but recommended.</strong> If present, it must be the first non-blank line.</td>
+              </tr>
+              <tr>
+                <td>Directive</td>
+                <td><code>@name positional key: value</code></td>
+                <td>Directive lines begin with <code>@</code> after indentation.</td>
+              </tr>
+              <tr>
+                <td>Directive body</td>
+                <td>Indented block below the directive</td>
+                <td><strong>Indentation is significant.</strong> Keep 2 or 4 spaces consistent within a file.</td>
+              </tr>
+              <tr>
+                <td>Variable</td>
+                <td><code>@{name}</code></td>
+                <td><strong>Only WeaveMark variables use this form.</strong> Mustache <code>{{name}}</code> is literal prompt text.</td>
+              </tr>
+              <tr>
+                <td>Escaped at sign</td>
+                <td><code>@@if</code></td>
+                <td>Renders as literal <code>@if</code> after directive processing.</td>
+              </tr>
+              <tr>
+                <td>Quoted value</td>
+                <td><code>label: "Risk: high"</code></td>
+                <td>Use double quotes for values with whitespace, colons, commas, or escaped quotes.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="directive-families" class="article-section">
+          <h2>Directive families</h2>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>Family</th>
+                <th>Directives</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Language metadata</td>
+                <td><code>@promplet</code>, <code>@compile</code></td>
+                <td>Declare language version and compile-time output options.</td>
+              </tr>
+              <tr>
+                <td>Modules and macros</td>
+                <td><code>@module</code>, <code>@use</code>, <code>@include</code>, <code>@define</code>, <code>@param</code>, <code>@body</code></td>
+                <td>Organize reusable definitions and source-to-source expansions.</td>
+              </tr>
+              <tr>
+                <td>Control flow</td>
+                <td><code>@if</code>, <code>@else_if</code>, <code>@else</code>, <code>@match</code></td>
+                <td>Select content based on variables and branch cases.</td>
+              </tr>
+              <tr>
+                <td>Prompt surfaces</td>
+                <td><code>@prompt</code>, <code>@emit</code></td>
+                <td>Create named prompt stages or emitted files.</td>
+              </tr>
+              <tr>
+                <td>Execution</td>
+                <td><code>@execute</code>, <code>@tool</code>, <code>@bind</code></td>
+                <td>Declare runtime strategy, function schemas, and companion implementation metadata.</td>
+              </tr>
+              <tr>
+                <td>Stdlib semantics</td>
+                <td><code>@style</code>, <code>@normalize</code>, <code>@revise</code>, <code>@output</code>, <code>@assert</code>, <code>@refine</code>, <code>@ask</code>, <code>@expand</code>, <code>@iterate</code>, and others</td>
+                <td>Imported semantic helpers for common prompt transformations and constraints. For <code>@style</code>, <code>@normalize</code>, and <code>@revise</code>, put the instruction inline and the target subspec in the body.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="imports" class="article-section">
+          <h2>Imports and modules</h2>
+          <p>
+            Modules use <strong>dotted logical names, not file paths</strong>. A module file may
+            contain one module and no unrelated outside content. Importing with
+            <code>@use</code> makes definitions available; it does not inject the
+            module body. Use <code>@refine module:&lt;name&gt;</code> to
+            semantically compose reusable body content.
+          </p>
+          <p>
+            <strong>Module discovery is deterministic.</strong> Every effective
+            promplet-library root participates in one shared dotted namespace.
+            The <code>weavemark.*</code> namespace is reserved for built-ins;
+            duplicate module names are errors.
+          </p>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Library source</th>
+                <th>How it is found</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Project</td><td>The nearest project <code>./promplets/</code> root.</td></tr>
+              <tr><td>2</td><td>User</td><td><code>~/.weavemark/promplets/</code>.</td></tr>
+              <tr><td>3</td><td>Additional</td><td><code>library_dirs</code>, <code>--library-dir</code>, and <code>WEAVEMARK_LIBRARY_PATH</code>.</td></tr>
+              <tr><td>4</td><td>Built-in</td><td>The packaged <code>weavemark/promplets/</code> library.</td></tr>
+            </tbody>
+          </table>
+          <pre><code>{
+  <span class="syntax-key">"library_dirs"</span>: [<span class="syntax-string">"/work/team-promplets"</span>]
+}</code></pre>
+          <p>
+            Every reusable module promplet declares its logical identity, for
+            example <code>@module company.writing</code>. A body-bearing module
+            may be refined with <code>@refine module:company.writing</code>;
+            definitions are imported with <code>@use</code>.
+          </p>
+          <pre><code><span class="syntax-directive">@use</span> company.writing as writing exposing calm_voice
+
+<span class="syntax-directive">@calm_voice</span>
+  Draft the release note.
+
+<span class="syntax-directive">@refine</span> module:company.writing</code></pre>
+          <div class="callout">
+            <strong>Collision rule:</strong> exposed direct names must not
+            collide with core primitives or other direct imports. Use aliases
+            when a namespace is clearer.
+          </div>
+        </section>
+
+        <section id="macros" class="article-section">
+          <h2>Macros and semantic functions</h2>
+          <p>
+            <code>@define</code> has two major uses. Without effects, it defines
+            a deterministic macro that expands WeaveMark source before ordinary
+            composition. With <code>@effect</code>, <code>@phase</code>, and
+            <code>@returns</code>, it defines a semantic function whose behavior
+            is planned or executed according to its phase.
+          </p>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>Kind</th>
+                <th>When to use</th>
+                <th>Required pieces</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Compact macro</td>
+                <td>Short parameter descriptions and source expansion.</td>
+                <td><code>@define name(param: description)</code> plus body.</td>
+              </tr>
+              <tr>
+                <td>Long macro</td>
+                <td>Defaults, multiline docs, implicit body parameter.</td>
+                <td><code>@define</code>, nested <code>@param</code>, and <code>@body</code>.</td>
+              </tr>
+              <tr>
+                <td>Semantic function</td>
+                <td>Compile-time or execute-time effectful behavior.</td>
+                <td><code>@phase</code>, <code>@scope</code>, <code>@returns</code>, <code>@effect</code>, <code>@body</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+          <pre><code><span class="syntax-directive">@define</span> summarize_source
+  <span class="syntax-directive">@param</span> body implicit: true mode: subspec
+    Source material to summarize.
+
+  <span class="syntax-directive">@body</span>
+    Summarize the following material:
+    <span class="syntax-var">@{body}</span></code></pre>
+        </section>
+
+        <section id="outputs" class="article-section">
+          <h2>Output shapes</h2>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>Shape</th>
+                <th>Trigger</th>
+                <th>Output</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Single prompt</td>
+                <td>No <code>@prompt</code>, no <code>@execute</code></td>
+                <td>Primary <code>&lt;prompt&gt;</code> and default prompt entry.</td>
+              </tr>
+              <tr>
+                <td>Pipeline</td>
+                <td>Top-level <code>@execute</code></td>
+                <td>Named <code>&lt;prompts&gt;</code> consumed by an engine.</td>
+              </tr>
+              <tr>
+                <td>Emission</td>
+                <td>No <code>@execute</code>, all <code>@prompt</code> blocks have <code>role:</code></td>
+                <td>Files in <code>&lt;emits&gt;</code> named by prompt, role, optional prompt <code>format:</code>, and compile format.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <code>@compile context: auto|cascade|local</code> controls whether
+            root text is shared with named blocks: <code>auto</code> keeps the
+            disposition default, <code>cascade</code> includes shared context,
+            and <code>local</code> keeps each block self-contained.
+          </p>
+          <pre><code><span class="syntax-directive">@prompt</span> agent <span class="syntax-key">role:</span> system <span class="syntax-key">format:</span> mustache
+  You are a careful research assistant.
+
+<span class="syntax-directive">@prompt</span> agent <span class="syntax-key">role:</span> user <span class="syntax-key">format:</span> mustache
+  Research {{query}} for <span class="syntax-var">@{audience}</span>.</code></pre>
+        </section>
+
+        <section id="execution" class="article-section">
+          <h2>Execution reference</h2>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>Strategy</th>
+                <th>Meaning</th>
+                <th>Prompt requirements</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>single-call</code></td>
+                <td>One model call returns the result directly.</td>
+                <td>Root prompt text or default prompt.</td>
+              </tr>
+              <tr>
+                <td><code>self-consistency</code></td>
+                <td>Run multiple samples and aggregate.</td>
+                <td>Root prompt text or default prompt.</td>
+              </tr>
+              <tr>
+                <td><code>tree-of-thought</code></td>
+                <td>Generate, evaluate, synthesize reasoning paths.</td>
+                <td><code>generate</code>, <code>evaluate</code>, <code>synthesize</code>.</td>
+              </tr>
+              <tr>
+                <td><code>reflection</code></td>
+                <td>Generate, critique, revise loop.</td>
+                <td><code>generate</code>, <code>critique</code>, <code>revise</code>.</td>
+              </tr>
+              <tr>
+                <td><code>fslm</code></td>
+                <td>Run a finite-state linguistic machine from a companion runtime.</td>
+                <td>External machines use <code>guard.&lt;id&gt;</code>, <code>invariant.&lt;id&gt;</code>, <code>action.&lt;name&gt;</code>, and <code>output.&lt;type&gt;</code> unless <code>metadata.prompt_key</code> overrides them. Inline sugar records collision-safe state/transition-qualified keys.</td>
+              </tr>
+              <tr>
+                <td><code>weave</code></td>
+                <td>Validate and execute effectful semantic-function nodes.</td>
+                <td>Execute-phase semantic-function calls with <code>as:</code> bindings.</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3>Weave scheduler values</h3>
+          <ul>
+            <li><code>sequential</code>: execute surviving nodes top-to-bottom.</li>
+            <li><code>graph</code>: build a dependency DAG from <code>uses:</code> edges.</li>
+            <li><code>graph-strict</code>: graph mode plus strict unknown dependency and effect validation.</li>
+          </ul>
+          <h3>FSLM prompt contract</h3>
+          <p>
+            <code>@execute fslm</code> loads an external machine with
+            <code>machine:</code>, validates all required prompts before the
+            initial snapshot is created, and injects runtime context into every
+            prompt call. Use <code>initial_event:</code> or runtime-config
+            <code>events:</code> to feed the machine.
+          </p>
+          <pre><code><span class="syntax-directive">@execute</span> fslm
+  machine: support-triage.fslm.yaml
+  initial_event: user_message
+  prompt_contract: strict
+
+<span class="syntax-directive">@prompt</span> guard.has_answerable_question
+  Decide whether the event contains an answerable support question.
+
+<span class="syntax-directive">@prompt</span> output.final_answer
+  Return only the final user-facing answer.</code></pre>
+          <p>
+            Inline machine sugar is available by explicitly importing
+            <code>weavemark.experimental.fslm</code>. It compiles to the same
+            event-driven execution metadata:
+          </p>
+          <pre><code><span class="syntax-directive">@use</span> weavemark.experimental.fslm exposing machine state transition input guard action
+
+<span class="syntax-directive">@execute</span> fslm
+  machine: support_triage
+
+<span class="syntax-directive">@machine</span> support_triage initial: triage
+  Support workflow.
+
+  <span class="syntax-directive">@state</span> triage
+    The request is being triaged.
+
+    <span class="syntax-directive">@transition</span> gather_evidence target: triage internal: true external: false
+      Search docs before answering.
+
+      <span class="syntax-directive">@input</span> query
+        Search query.
+
+      <span class="syntax-directive">@guard</span> needs_more_evidence
+        Choose this only when evidence is insufficient.
+
+      <span class="syntax-directive">@action</span> search_docs tool: search_docs
+        Search docs using matching transition inputs.</code></pre>
+          <div class="callout">
+            <strong>Transition scope:</strong> <code>internal: true</code> marks a
+            transition the machine can take itself; <code>external: false</code>
+            means it is not triggered directly by user events.
+          </div>
+        </section>
+
+        <section id="surface-adapters" class="article-section">
+          <h2>Surface adapters</h2>
+          <p>
+            Surface adapters let programmers author WeaveMark using host-format
+            syntax sugar. The sugar is lowered to standard WeaveMark before
+            macro expansion, scanning, and composition, so the WeaveMark Processor
+            sees normal directives.
+          </p>
+          <p>
+            Activate a surface adapter with the <code>surface:</code> key on the
+            <code>@promplet</code> pragma:
+          </p>
+          <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7 <span class="syntax-key">surface:</span> markdown</code></pre>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>Surface</th>
+                <th>Status</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>canonical</code></td>
+                <td>Default</td>
+                <td>No adapter — files are processed exactly as written.</td>
+              </tr>
+              <tr>
+                <td><code>markdown</code></td>
+                <td>Supported</td>
+                <td>Enables directive headings and WeaveMark callouts (see below).</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3>Markdown surface — directive headings</h3>
+          <p>
+            A Markdown heading whose heading text begins with a directive name
+            is lowered to a canonical directive block. The body is the section
+            until the next heading of equal or higher level.
+          </p>
+          <pre><code><span class="syntax-comment">## @prompt extract role: user</span>
+
+Extract claims from <span class="syntax-var">@{passage}</span>.
+
+<span class="syntax-comment">## @prompt critique</span>
+
+Critique each claim.</code></pre>
+          <p>Lowers to:</p>
+          <pre><code><span class="syntax-directive">@prompt</span> extract <span class="syntax-key">role:</span> user
+  Extract claims from <span class="syntax-var">@{passage}</span>.
+
+<span class="syntax-directive">@prompt</span> critique
+  Critique each claim.</code></pre>
+          <h3>Markdown surface — WeaveMark callouts</h3>
+          <p>
+            A Markdown blockquote whose first quoted line is
+            <code>[!PROMPLET &lt;directive&gt; &lt;args&gt;]</code> is lowered
+            to a canonical directive. For body-transforming directives such as
+            <code>@style</code>, the callout arguments describe the operation and
+            the quoted body is the target.
+          </p>
+          <pre><code>&gt; [!PROMPLET style "Crisp, direct, professional."]
+&gt; Explain <span class="syntax-var">@{feature}</span> to a busy product leader.</code></pre>
+          <p>Lowers to:</p>
+          <pre><code><span class="syntax-directive">@style</span> <span class="syntax-string">"Crisp, direct, professional."</span>
+  Explain <span class="syntax-var">@{feature}</span> to a busy product leader.</code></pre>
+          <div class="callout">
+            <strong>Fenced blocks are opaque.</strong> Directive headings and
+            callouts inside <code>```</code> or <code>~~~</code> fences are
+            treated as literal Markdown and are never lowered.
+          </div>
+
+          <h3>Body-transforming stdlib directives</h3>
+          <p>
+            <code>@style</code>, <code>@normalize</code>, and <code>@revise</code>
+            all transform the subspec in their body. The body is not extra
+            criteria; it is the material being transformed.
+          </p>
+          <pre><code><span class="syntax-directive">@normalize</span> <span class="syntax-string">"Use consistent product terminology."</span> <span class="syntax-key">scope:</span> semantic <span class="syntax-key">intensity:</span> medium
+  The dashboard calls the same object a project, board, and workspace.
+
+<span class="syntax-directive">@revise</span> <span class="syntax-string">"Remove contradictions while preserving the launch constraints."</span> <span class="syntax-key">mode:</span> editorial
+  The pilot must be offline-first.
+  The pilot may require cloud access for every save.</code></pre>
+        </section>
+
+        <section id="cli" class="article-section">
+          <h2>CLI commands</h2>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Command</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Scan a spec without LLM composition</td>
+                <td><code>weavemark --scan path/to/spec.weavemark.md</code></td>
+              </tr>
+              <tr>
+                <td>Compose to stdout</td>
+                <td><code>weavemark --batch-only path/to/spec.weavemark.md</code></td>
+              </tr>
+              <tr>
+                <td>Compose to a file</td>
+                <td><code>weavemark --batch-only -o out.md spec.weavemark.md</code></td>
+              </tr>
+              <tr>
+                <td>Compose to a file and still show the result</td>
+                <td><code>weavemark --batch-only --show-output -o out.md spec.weavemark.md</code></td>
+              </tr>
+              <tr>
+                <td>Write files without per-file status messages</td>
+                <td><code>weavemark --batch-only --show-output --no-file-summary -o out.md spec.weavemark.md</code></td>
+              </tr>
+              <tr>
+                <td>Compose all artifacts to a directory</td>
+                <td><code>weavemark --batch-only --output-dir dist spec.weavemark.md</code></td>
+              </tr>
+              <tr>
+                <td>Pass variables inline</td>
+                <td><code>weavemark --var topic=ferns --batch-only spec.weavemark.md</code></td>
+              </tr>
+              <tr>
+                <td>Pass variables from JSON</td>
+                <td><code>weavemark --vars-file vars.json --batch-only spec.weavemark.md</code></td>
+              </tr>
+              <tr>
+                <td>Compose and execute</td>
+                <td><code>weavemark --run --batch-only spec.weavemark.md</code></td>
+              </tr>
+              <tr>
+                <td>List built-in and custom promplets</td>
+                <td><code>weavemark library list</code></td>
+              </tr>
+              <tr>
+                <td>Run a project/user-first library target</td>
+                <td><code>weavemark library investment-brief</code></td>
+              </tr>
+              <tr>
+                <td>Run the built-in artifact explicitly</td>
+                <td><code>weavemark library builtin:catalog/standalone/investment-brief</code></td>
+              </tr>
+              <tr>
+                <td>Copy the built-in corpus for editing</td>
+                <td><code>weavemark library copy ./weavemark-promplets</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="pitfalls" class="article-section">
+          <h2>Common pitfalls</h2>
+          <ul>
+            <li>Use <code>@{name}</code> for WeaveMark variables. Do not use Mustache for WeaveMark inputs.</li>
+            <li>Use standard helpers such as <code>@style</code>, <code>@assert</code>, and <code>@output</code> directly; they are loaded by default.</li>
+            <li>For <code>@style</code>, <code>@normalize</code>, and <code>@revise</code>, put the operation instruction inline and indent the subspec being transformed below it.</li>
+            <li>Do not mix role-tagged and role-less <code>@prompt</code> blocks in a spec without <code>@execute</code>.</li>
+            <li>Do not put <code>@promplet</code> below title text. If present, it must be first.</li>
+            <li>Use <code>@bind</code> for helper implementations. Do not put implementation paths in <code>@tool</code>.</li>
+            <li>Use quoted values when inline arguments contain whitespace, colons, commas, or escaped quotes.</li>
+            <li>Keep helper file paths relative and let the execution runtime enforce sandboxing.</li>
+          </ul>
+          <div class="callout">
+            <strong>Formal language contract:</strong> if this page and the
+            formal language contract disagree, update the practical reference. The
+            formal contract is
+            <a href="../src/weavemark/prompts/weavemark.system.md">weavemark.system.md</a>.
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark reference</strong><br>
+          Systematic guidance for authors and tool builders.
+        </div>
+        <div>
+          <a href="introduction.html">Introduction</a> |
+          <a href="tutorial.html">Tutorial</a> |
+          <a href="python-api.html">Python API</a> |
+          <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

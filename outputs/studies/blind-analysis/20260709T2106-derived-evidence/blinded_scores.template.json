@@ -1,0 +1,422 @@
+{
+  "criteria": [
+    "Authoring leverage",
+    "Information yield",
+    "Grounded expressiveness",
+    "Input readability",
+    "Output readability",
+    "Constraint integration",
+    "Reusable abstraction quality"
+  ],
+  "mode": "derived-evidence",
+  "run_id": "20260709T2106-derived-evidence",
+  "schema_version": 1,
+  "score_scale": "Absolute 1..7 per criterion; higher is better.",
+  "studies": [
+    {
+      "study_id": "crowd-factory-puzzle",
+      "title": "Crowd Factory Puzzle",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "evidence-decision",
+      "title": "Evidence-to-Decision Workspace",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "learning-tutor",
+      "title": "Learning Tutor",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "orbital-drift",
+      "title": "Orbital Drift",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "release-readiness",
+      "title": "Release Readiness Workbench",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "research-brief",
+      "title": "Research Brief",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "transit-city-swarm",
+      "title": "Transit City Swarm",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "verdant-relay",
+      "title": "Verdant Relay",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        }
+      ]
+    },
+    {
+      "study_id": "work-intelligence-kanban",
+      "title": "Intelligence-to-Execution Kanban",
+      "variants": [
+        {
+          "anonymous_id": "A",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "B",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        },
+        {
+          "anonymous_id": "C",
+          "notes": "",
+          "scores": {
+            "Authoring leverage": null,
+            "Constraint integration": null,
+            "Grounded expressiveness": null,
+            "Information yield": null,
+            "Input readability": null,
+            "Output readability": null,
+            "Reusable abstraction quality": null
+          }
+        }
+      ]
+    }
+  ]
+}

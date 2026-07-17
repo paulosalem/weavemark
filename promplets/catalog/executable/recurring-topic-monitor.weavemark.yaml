@@ -1,0 +1,23 @@
+# Recurring Topic Monitor — Runtime Config
+
+engine: single-call
+
+prompts:
+  default:
+    model: gpt-5.5
+    temperature: 0.2
+
+variables:
+  topic: "LLM Generative AI news"
+  monitor_mode: "news"
+  cadence: "weekly"
+  lookback_window: "past week"
+  region: "global"
+  audience: "a technically curious reader tracking practical AI developments"
+  research_depth: "deep"
+  run_date: "today"
+  previous_run_context: "No previous run context supplied."
+  user_constraints: "Prioritize important product, research, policy, business, and developer-tooling developments over generic AI commentary."
+  seed_urls: []
+  seed_urls_summary: "No user-supplied source seeds."
+  companion_runtime_results: "Provided by the companion runtime after search and crawl passes."

@@ -1,0 +1,16 @@
+{
+  "name": "transit-city-swarm",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A polished local browser strategy game built from a compiled WeaveMark specification.",
+  "scripts": {
+    "start": "python3 -m http.server 4287 --bind 127.0.0.1",
+    "test": "node --test tests/simulation.test.js",
+    "test:browser": "playwright test",
+    "smoke": "playwright test tests/playwright-smoke.spec.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.1"
+  }
+}

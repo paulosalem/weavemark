@@ -1,0 +1,398 @@
+[
+  {
+    "example_id": "program-review-checklist",
+    "title": "Program Review Checklist",
+    "spec_path": "promplets/catalog/standalone/program-review-checklist.weavemark.md",
+    "vars_path": "examples/terminal-output-only/program-review-checklist/inputs/vars.json",
+    "output_path": "examples/terminal-output-only/program-review-checklist/outputs/compiled-prompt.md",
+    "intention": "Produce a practical review checklist tailored to a programming project.",
+    "metrics": {
+      "study": "program-review-checklist",
+      "variant": "example",
+      "local_authored_source_words": 506,
+      "variable_payload_words": 22,
+      "output_words": 788,
+      "local_leverage": 1.56,
+      "candidate_facts": 44,
+      "counted_facts": 44,
+      "discounted_fact_units": 43.75,
+      "information_density_per_1k_output_words": 55.5,
+      "information_yield_per_1k_source_words": 86.5
+    },
+    "rubric": {
+      "Intention fit": {
+        "score": 5,
+        "rationale": "Matches 5/5 expected intent terms."
+      },
+      "Completeness": {
+        "score": 4,
+        "rationale": "Compiled output has 788 words."
+      },
+      "Writing and structure": {
+        "score": 5,
+        "rationale": "Uses 5 headings and 24 bullet rows."
+      },
+      "No leakage/pathologies": {
+        "score": 5,
+        "rationale": "Detected 0 internal leaks and 0 pathology markers."
+      },
+      "Direct usefulness": {
+        "score": 5,
+        "rationale": "Instruction/action signal combines 4 directive verbs and 24 bullets."
+      }
+    },
+    "rubric_total": 24
+  },
+  {
+    "example_id": "program-debugging-assistant",
+    "title": "Program Debugging Assistant",
+    "spec_path": "promplets/catalog/standalone/program-debugging-assistant.weavemark.md",
+    "vars_path": "examples/terminal-output-only/program-debugging-assistant/inputs/vars.json",
+    "output_path": "examples/terminal-output-only/program-debugging-assistant/outputs/compiled-prompt.md",
+    "intention": "Produce a debugging assistant prompt that diagnoses behavior from evidence.",
+    "metrics": {
+      "study": "program-debugging-assistant",
+      "variant": "example",
+      "local_authored_source_words": 319,
+      "variable_payload_words": 172,
+      "output_words": 948,
+      "local_leverage": 2.97,
+      "candidate_facts": 70,
+      "counted_facts": 70,
+      "discounted_fact_units": 67.75,
+      "information_density_per_1k_output_words": 71.5,
+      "information_yield_per_1k_source_words": 212.4
+    },
+    "rubric": {
+      "Intention fit": {
+        "score": 5,
+        "rationale": "Matches 5/5 expected intent terms."
+      },
+      "Completeness": {
+        "score": 4,
+        "rationale": "Compiled output has 948 words."
+      },
+      "Writing and structure": {
+        "score": 5,
+        "rationale": "Uses 14 headings and 28 bullet rows."
+      },
+      "No leakage/pathologies": {
+        "score": 5,
+        "rationale": "Detected 0 internal leaks and 0 pathology markers."
+      },
+      "Direct usefulness": {
+        "score": 5,
+        "rationale": "Instruction/action signal combines 5 directive verbs and 28 bullets."
+      }
+    },
+    "rubric_total": 24
+  },
+  {
+    "example_id": "learning-tutor",
+    "title": "Learning Tutor",
+    "spec_path": "promplets/catalog/standalone/learning-tutor.weavemark.md",
+    "vars_path": "examples/terminal-output-only/learning-tutor/inputs/vars.json",
+    "output_path": "examples/terminal-output-only/learning-tutor/outputs/compiled-prompt.md",
+    "intention": "Produce an adaptive tutor prompt grounded in learner context and practice.",
+    "metrics": {
+      "study": "learning-tutor",
+      "variant": "example",
+      "local_authored_source_words": 234,
+      "variable_payload_words": 90,
+      "output_words": 942,
+      "local_leverage": 4.03,
+      "candidate_facts": 59,
+      "counted_facts": 59,
+      "discounted_fact_units": 57.75,
+      "information_density_per_1k_output_words": 61.3,
+      "information_yield_per_1k_source_words": 246.8
+    },
+    "rubric": {
+      "Intention fit": {
+        "score": 3,
+        "rationale": "Matches 3/5 expected intent terms."
+      },
+      "Completeness": {
+        "score": 4,
+        "rationale": "Compiled output has 942 words."
+      },
+      "Writing and structure": {
+        "score": 5,
+        "rationale": "Uses 6 headings and 39 bullet rows."
+      },
+      "No leakage/pathologies": {
+        "score": 5,
+        "rationale": "Detected 0 internal leaks and 0 pathology markers."
+      },
+      "Direct usefulness": {
+        "score": 5,
+        "rationale": "Instruction/action signal combines 5 directive verbs and 39 bullets."
+      }
+    },
+    "rubric_total": 22
+  },
+  {
+    "example_id": "research-brief",
+    "title": "Research Brief",
+    "spec_path": "promplets/catalog/standalone/research-brief.weavemark.md",
+    "vars_path": "examples/terminal-output-only/research-brief/inputs/vars.json",
+    "output_path": "examples/terminal-output-only/research-brief/outputs/compiled-prompt.md",
+    "intention": "Produce a research brief prompt with source expectations and caveats.",
+    "metrics": {
+      "study": "research-brief",
+      "variant": "example",
+      "local_authored_source_words": 281,
+      "variable_payload_words": 103,
+      "output_words": 1370,
+      "local_leverage": 4.88,
+      "candidate_facts": 101,
+      "counted_facts": 101,
+      "discounted_fact_units": 99.0,
+      "information_density_per_1k_output_words": 72.3,
+      "information_yield_per_1k_source_words": 352.3
+    },
+    "rubric": {
+      "Intention fit": {
+        "score": 5,
+        "rationale": "Matches 5/5 expected intent terms."
+      },
+      "Completeness": {
+        "score": 5,
+        "rationale": "Compiled output has 1370 words."
+      },
+      "Writing and structure": {
+        "score": 5,
+        "rationale": "Uses 9 headings and 57 bullet rows."
+      },
+      "No leakage/pathologies": {
+        "score": 5,
+        "rationale": "Detected 0 internal leaks and 0 pathology markers."
+      },
+      "Direct usefulness": {
+        "score": 5,
+        "rationale": "Instruction/action signal combines 5 directive verbs and 57 bullets."
+      }
+    },
+    "rubric_total": 25
+  },
+  {
+    "example_id": "decision-advisor",
+    "title": "Decision Advisor",
+    "spec_path": "promplets/catalog/standalone/decision-advisor.weavemark.md",
+    "vars_path": "examples/terminal-output-only/decision-advisor/inputs/vars.json",
+    "output_path": "examples/terminal-output-only/decision-advisor/outputs/compiled-prompt.md",
+    "intention": "Produce a decision-advice prompt with options, tradeoffs, and uncertainty.",
+    "metrics": {
+      "study": "decision-advisor",
+      "variant": "example",
+      "local_authored_source_words": 274,
+      "variable_payload_words": 157,
+      "output_words": 803,
+      "local_leverage": 2.93,
+      "candidate_facts": 51,
+      "counted_facts": 50,
+      "discounted_fact_units": 48.25,
+      "information_density_per_1k_output_words": 60.1,
+      "information_yield_per_1k_source_words": 176.1
+    },
+    "rubric": {
+      "Intention fit": {
+        "score": 4,
+        "rationale": "Matches 4/5 expected intent terms."
+      },
+      "Completeness": {
+        "score": 4,
+        "rationale": "Compiled output has 803 words."
+      },
+      "Writing and structure": {
+        "score": 5,
+        "rationale": "Uses 8 headings and 46 bullet rows."
+      },
+      "No leakage/pathologies": {
+        "score": 5,
+        "rationale": "Detected 0 internal leaks and 0 pathology markers."
+      },
+      "Direct usefulness": {
+        "score": 5,
+        "rationale": "Instruction/action signal combines 6 directive verbs and 46 bullets."
+      }
+    },
+    "rubric_total": 23
+  },
+  {
+    "example_id": "investment-brief",
+    "title": "Investment Brief",
+    "spec_path": "promplets/catalog/standalone/investment-brief.weavemark.md",
+    "vars_path": "examples/saved-artifact-workflows/investment-brief/inputs/vars.json",
+    "output_path": "examples/saved-artifact-workflows/investment-brief/outputs/compiled-prompt.md",
+    "intention": "Produce an educational investment brief with evidence, risks, alternatives, and decision triggers.",
+    "metrics": {
+      "study": "investment-brief",
+      "variant": "example",
+      "local_authored_source_words": 191,
+      "variable_payload_words": 42,
+      "output_words": 731,
+      "local_leverage": 3.83,
+      "candidate_facts": 53,
+      "counted_facts": 53,
+      "discounted_fact_units": 52.5,
+      "information_density_per_1k_output_words": 71.8,
+      "information_yield_per_1k_source_words": 274.9
+    },
+    "rubric": {
+      "Intention fit": {
+        "score": 5,
+        "rationale": "Matches 5/5 expected intent terms."
+      },
+      "Completeness": {
+        "score": 4,
+        "rationale": "Compiled output has 731 words."
+      },
+      "Writing and structure": {
+        "score": 5,
+        "rationale": "Uses 0 headings and 34 bullet rows."
+      },
+      "No leakage/pathologies": {
+        "score": 5,
+        "rationale": "Detected 0 internal leaks and 0 pathology markers."
+      },
+      "Direct usefulness": {
+        "score": 5,
+        "rationale": "Instruction/action signal combines 4 directive verbs and 34 bullets."
+      }
+    },
+    "rubric_total": 24
+  },
+  {
+    "example_id": "deep-summary",
+    "title": "Deep Summary",
+    "spec_path": "promplets/catalog/standalone/deep-summary.weavemark.md",
+    "vars_path": "examples/terminal-output-only/deep-summary/inputs/vars.json",
+    "output_path": "examples/terminal-output-only/deep-summary/outputs/compiled-prompt.md",
+    "intention": "Produce a deep-summary prompt that preserves structure and audience needs.",
+    "metrics": {
+      "study": "deep-summary",
+      "variant": "example",
+      "local_authored_source_words": 205,
+      "variable_payload_words": 179,
+      "output_words": 1005,
+      "local_leverage": 4.9,
+      "candidate_facts": 58,
+      "counted_facts": 58,
+      "discounted_fact_units": 57.5,
+      "information_density_per_1k_output_words": 57.2,
+      "information_yield_per_1k_source_words": 280.5
+    },
+    "rubric": {
+      "Intention fit": {
+        "score": 4,
+        "rationale": "Matches 4/5 expected intent terms."
+      },
+      "Completeness": {
+        "score": 5,
+        "rationale": "Compiled output has 1005 words."
+      },
+      "Writing and structure": {
+        "score": 5,
+        "rationale": "Uses 13 headings and 41 bullet rows."
+      },
+      "No leakage/pathologies": {
+        "score": 5,
+        "rationale": "Detected 0 internal leaks and 0 pathology markers."
+      },
+      "Direct usefulness": {
+        "score": 5,
+        "rationale": "Instruction/action signal combines 6 directive verbs and 41 bullets."
+      }
+    },
+    "rubric_total": 24
+  },
+  {
+    "example_id": "messy-notes-action-plan",
+    "title": "Messy Notes Action Plan",
+    "spec_path": "promplets/catalog/standalone/messy-notes-action-plan.weavemark.md",
+    "vars_path": "examples/terminal-output-only/messy-notes-action-plan/inputs/vars.json",
+    "output_path": "examples/terminal-output-only/messy-notes-action-plan/outputs/compiled-prompt.md",
+    "intention": "Turn messy notes into an organized action plan.",
+    "metrics": {
+      "study": "messy-notes-action-plan",
+      "variant": "example",
+      "local_authored_source_words": 258,
+      "variable_payload_words": 211,
+      "output_words": 1058,
+      "local_leverage": 4.1,
+      "candidate_facts": 68,
+      "counted_facts": 67,
+      "discounted_fact_units": 67.0,
+      "information_density_per_1k_output_words": 63.3,
+      "information_yield_per_1k_source_words": 259.7
+    },
+    "rubric": {
+      "Intention fit": {
+        "score": 5,
+        "rationale": "Matches 5/5 expected intent terms."
+      },
+      "Completeness": {
+        "score": 5,
+        "rationale": "Compiled output has 1058 words."
+      },
+      "Writing and structure": {
+        "score": 5,
+        "rationale": "Uses 8 headings and 43 bullet rows."
+      },
+      "No leakage/pathologies": {
+        "score": 5,
+        "rationale": "Detected 0 internal leaks and 0 pathology markers."
+      },
+      "Direct usefulness": {
+        "score": 5,
+        "rationale": "Instruction/action signal combines 5 directive verbs and 43 bullets."
+      }
+    },
+    "rubric_total": 25
+  },
+  {
+    "example_id": "prompt-refiner",
+    "title": "Prompt Refiner",
+    "spec_path": "promplets/catalog/standalone/prompt-refiner.weavemark.md",
+    "vars_path": "examples/terminal-output-only/prompt-refiner/inputs/vars.json",
+    "output_path": "examples/terminal-output-only/prompt-refiner/outputs/compiled-prompt.md",
+    "intention": "Produce a prompt-improvement prompt that preserves intent and improves clarity.",
+    "metrics": {
+      "study": "prompt-refiner",
+      "variant": "example",
+      "local_authored_source_words": 205,
+      "variable_payload_words": 98,
+      "output_words": 635,
+      "local_leverage": 3.1,
+      "candidate_facts": 47,
+      "counted_facts": 47,
+      "discounted_fact_units": 45.5,
+      "information_density_per_1k_output_words": 71.7,
+      "information_yield_per_1k_source_words": 222.0
+    },
+    "rubric": {
+      "Intention fit": {
+        "score": 4,
+        "rationale": "Matches 4/5 expected intent terms."
+      },
+      "Completeness": {
+        "score": 3,
+        "rationale": "Compiled output has 635 words."
+      },
+      "Writing and structure": {
+        "score": 5,
+        "rationale": "Uses 9 headings and 31 bullet rows."
+      },
+      "No leakage/pathologies": {
+        "score": 5,
+        "rationale": "Detected 0 internal leaks and 0 pathology markers."
+      },
+      "Direct usefulness": {
+        "score": 5,
+        "rationale": "Instruction/action signal combines 5 directive verbs and 31 bullets."
+      }
+    },
+    "rubric_total": 22
+  }
+]

@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Tutorial - Build an Adaptive Tutor</title>
+    <meta
+      name="description"
+      content="Build, compose, and adapt a concrete WeaveMark adaptive-tutor specification using @refine, variables, branching, output contracts, and assertions."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html" aria-current="page">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <nav class="tutorial-nav shell" aria-label="Tutorials">
+      <a href="tutorial.html"><span>1</span> First promplet</a>
+      <a href="tutorial-reuse.html"><span>2</span> Reuse &amp; refine</a>
+      <a href="tutorial-refine.html" aria-current="page"><span>3</span> Adaptive tutor</a>
+      <a href="tutorial-products.html"><span>4</span> Product specs</a>
+      <a href="tutorial-games.html"><span>5</span> Game specs</a>
+      <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
+      <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
+      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
+      <a href="tutorial-illustrated.html"><span>9</span> Illustrated stories</a>
+    </nav>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Hands-on tutorial</p>
+      <h1>
+        Build an adaptive tutor
+        <span class="gradient-text">with real refinement.</span>
+      </h1>
+      <p class="hero-copy">
+        This is a <strong>copyable WeaveMark specification</strong>, not a concept
+        essay. You will write one tutor spec, use <code>@refine</code> to weave in
+        reusable teaching behavior, compose it, and then adapt it for a
+        different lesson.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Adaptive tutor tutorial highlights">
+      <div class="summary-card">
+        <strong>You write</strong>
+        <span>A reusable tutor spec for multiple lessons and learners.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You produce</strong>
+        <span>Pastable tutor prompts for chat assistants.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You learn</strong>
+        <span><code>@refine</code>, <code>@ask</code>, branches, and output contracts.</span>
+      </div>
+    </div>
+
+    <section class="shell repo-resources" aria-label="Repository files for this tutorial">
+      <h2>In the repository</h2>
+      <div class="repo-resources-links">
+        <a class="repo-link" href="../promplets/tutorials/adaptive-tutor.weavemark.md"><span class="repo-tag">Spec</span> adaptive-tutor.weavemark.md</a>
+        <a class="repo-link" href="../promplets/tutorials/adaptive-tutor-guided.weavemark.md"><span class="repo-tag">Spec</span> adaptive-tutor-guided.weavemark.md</a>
+      </div>
+    </section>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Tutorial sections">
+        <h2>Steps</h2>
+        <a href="#setup">0. Setup</a>
+        <a href="#write">1. Write the spec</a>
+        <a href="#compose">2. Compose the tutor</a>
+        <a href="#branch">3. Understand the branches</a>
+        <a href="#ask">4. Add clarification</a>
+        <a href="#adapt">5. Adapt it</a>
+        <a href="#finish">What you learned</a>
+      </aside>
+
+      <div class="article">
+        <section id="setup" class="article-section">
+          <h2>0. Setup</h2>
+          <p>
+            Work from the repository root. Create a scratch folder so the tutorial
+            is safe to edit and rerun.
+          </p>
+          <pre><code>cd weavemark
+mkdir -p outputs/tutorial-tutor</code></pre>
+        </section>
+
+        <section id="write" class="article-section">
+          <h2>1. Write a useful tutor specification</h2>
+          <p>
+            Save this file as
+            <code>outputs/tutorial-tutor/adaptive-tutor.weavemark.md</code>. It is
+            already a real WeaveMark program: <strong>refinements</strong>,
+            <strong>variables</strong>, <strong>branching</strong>, an
+            <strong>output contract</strong>, and <strong>assertions</strong>.
+          </p>
+          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-tutor/adaptive-tutor.weavemark.md</span>
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@refine</span> module:weavemark.std.teaching.socratic_tutoring <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.teaching.misconception_diagnosis <span class="syntax-key">mingle:</span> true
+
+# Adaptive learning tutor
+
+<span class="syntax-directive">@style</span> <span class="syntax-string">"Warm, precise, and Socratic. Ask before explaining. Never shame the learner."</span>
+  Teach <span class="syntax-var">@{topic}</span> to <span class="syntax-var">@{learner_context}</span>.
+
+  Learning target: <span class="syntax-var">@{learning_goal}</span>
+
+  Start by asking one diagnostic question. Use the learner's
+  answer to choose the explanation depth.
+
+  <span class="syntax-directive">@match</span> learner_level
+    <span class="syntax-string">"beginner"</span> ==&gt;
+      Use a concrete analogy before formal terms.
+    <span class="syntax-string">"intermediate"</span> ==&gt;
+      Connect intuition to the formal rule.
+    <span class="syntax-string">"advanced"</span> ==&gt;
+      Use counterexamples and transfer tasks.
+
+  <span class="syntax-directive">@if</span> include_practice
+    Add three practice tasks: one easy, one transfer,
+    and one challenge.
+
+  <span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
+    Return exactly these sections:
+    1. Diagnostic question
+    2. Explanation
+    3. Likely misconception
+    4. Practice
+    5. Review plan
+
+  <span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"likely misconception"</span>
+  <span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"diagnostic question"</span></code></pre>
+          <p>
+            The complete, tested specs for this tutorial are checked in under
+            <code>promplets/tutorials/</code>:
+            <a href="../promplets/tutorials/adaptive-tutor.weavemark.md">adaptive-tutor.weavemark.md</a>
+            and, with the <code>@ask</code> variant,
+            <a href="../promplets/tutorials/adaptive-tutor-guided.weavemark.md">adaptive-tutor-guided.weavemark.md</a>.
+          </p>
+          <div class="callout">
+            <strong>What makes this WeaveMark:</strong> the local source is short,
+            but the compiled tutor can inherit reusable Socratic behavior and
+            misconception diagnosis without pasting those instructions here.
+          </div>
+        </section>
+
+        <section id="compose" class="article-section">
+          <h2>2. Compose the tutor prompt</h2>
+          <p>
+            Now provide values and compile the concrete tutor prompt. The output
+            should read as <strong>one coherent teaching prompt</strong>, not a
+            pile of imported fragments.
+          </p>
+          <pre><code>weavemark outputs/tutorial-tutor/adaptive-tutor.weavemark.md \
+  --batch-only \
+  --var topic="Bayes' rule" \
+  --var learner_context="a product manager who knows basic percentages" \
+  --var learning_goal="use Bayes' rule to update a belief after new evidence" \
+  --var learner_level=beginner \
+  --var include_practice=true \
+  --output outputs/tutorial-tutor/bayes-tutor.md</code></pre>
+          <p>
+            Open <code>outputs/tutorial-tutor/bayes-tutor.md</code>. Check for the
+            five required sections and confirm that the final prompt tells the
+            assistant to diagnose misconceptions before teaching.
+          </p>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>bayes-tutor.md</code> is a pastable tutor prompt. Copy it into
+            ChatGPT, Claude, Gemini, Copilot Chat, or another assistant, then let
+            the assistant run the tutoring session with you or a learner.
+          </div>
+        </section>
+
+        <section id="branch" class="article-section">
+          <h2>3. Learn the language moves in the spec</h2>
+          <div class="grid two">
+            <article class="card">
+              <h3><code>@refine</code> with <code>mingle: true</code></h3>
+              <p>
+                Reusable teaching specifications become part of the concrete
+                tutor. They are <strong>structurally woven</strong>, not appended.
+              </p>
+            </article>
+            <article class="card">
+              <h3><code>@match learner_level</code></h3>
+              <p>
+                One source handles beginner, intermediate, and advanced learners.
+                No duplicate prompt files.
+              </p>
+            </article>
+            <article class="card">
+              <h3><code>@if include_practice</code></h3>
+              <p>
+                Optional practice appears only when the caller requests it.
+                The branch remains readable in Markdown.
+              </p>
+            </article>
+            <article class="card">
+              <h3><code>@output</code> + <code>@assert</code></h3>
+              <p>
+                The spec states what the final tutor must include, so the output
+                contract is visible before compilation.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="ask" class="article-section">
+          <h2>4. Highlight: ask for missing teaching context with <code>@ask</code></h2>
+          <p>
+            If a tutor needs a human clarification before compilation, wrap the
+            rest of the spec in <code>@ask</code>. Notice the shape: the
+            <strong>body of <code>@ask</code> is the specification to continue
+            compiling after the answer arrives</strong>.
+          </p>
+          <div class="callout">
+            <strong>Why <code>@ask</code> matters:</strong> some decisions are
+            too structural for a variable. <code>@ask</code> lets WeaveMark stop,
+            ask the human, and then compile the following body with that answer
+            woven into the result.
+          </div>
+          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-tutor/adaptive-tutor-guided.weavemark.md</span>
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+
+<span class="syntax-directive">@ask</span> clarifying question <span class="syntax-key">detail_level:</span> 35%
+  <span class="syntax-directive">@refine</span> module:weavemark.std.teaching.socratic_tutoring <span class="syntax-key">mingle:</span> true
+  <span class="syntax-directive">@refine</span> module:weavemark.std.teaching.misconception_diagnosis <span class="syntax-key">mingle:</span> true
+
+  # Guided adaptive learning tutor
+
+  <span class="syntax-directive">@style</span> <span class="syntax-string">"Warm, precise, and Socratic. Prefer short learner turns over long lectures."</span>
+    Teach <span class="syntax-var">@{topic}</span> to <span class="syntax-var">@{learner_context}</span>.
+
+    Clarify what the learner should be able to do by the end.
+    Use the clarification answer as the concrete learning outcome.
+
+    <span class="syntax-directive">@match</span> learner_level
+      <span class="syntax-string">"beginner"</span> ==&gt;
+        Use a familiar analogy, then name the formal idea.
+      <span class="syntax-string">"intermediate"</span> ==&gt;
+        Ask the learner to predict the next step before explaining it.
+      <span class="syntax-string">"advanced"</span> ==&gt;
+        Use a counterexample, then ask for a transfer explanation.
+
+    <span class="syntax-directive">@if</span> include_practice
+      Add a practice ladder:
+      - recognition task
+      - guided application task
+      - transfer task
+      - self-explanation prompt
+
+    <span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
+      Return exactly these sections:
+      1. Diagnostic question
+      2. Learner model
+      3. Socratic explanation
+      4. Misconception repair
+      5. Practice ladder
+      6. Review plan
+
+    <span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"Diagnostic question"</span>
+    <span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"Misconception repair"</span></code></pre>
+          <p>
+            Run it without <code>--batch-only</code> so WeaveMark can ask the
+            clarification in the terminal:
+          </p>
+          <pre><code>weavemark outputs/tutorial-tutor/adaptive-tutor-guided.weavemark.md \
+  --var topic="gradient descent" \
+  --var learner_context="a designer learning machine-learning basics" \
+  --var learner_level=beginner \
+  --var include_practice=true \
+  --output outputs/tutorial-tutor/gradient-descent-tutor.md</code></pre>
+          <div class="callout">
+            <strong>When to use this:</strong> use <code>@ask</code> when a
+            processing-time decision affects the whole structure. Use ordinary
+            variables when the caller already knows the values.
+          </div>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>gradient-descent-tutor.md</code> is also a pastable tutor
+            prompt. The difference is that WeaveMark first asks you for missing
+            teaching context, then compiles a more specific prompt for the
+            assistant.
+          </div>
+        </section>
+
+        <section id="adapt" class="article-section">
+          <h2>5. Adapt the same spec to another lesson</h2>
+          <p>
+            Do not copy the prompt. Reuse the same specification and change the
+            variables. This is where WeaveMark starts paying rent.
+          </p>
+          <pre><code>weavemark outputs/tutorial-tutor/adaptive-tutor.weavemark.md \
+  --batch-only \
+  --var topic="Rust ownership" \
+  --var learner_context="a Python programmer writing their first Rust CLI" \
+  --var learning_goal="predict when a value moves, borrows, or must be cloned" \
+  --var learner_level=intermediate \
+  --var include_practice=true \
+  --output outputs/tutorial-tutor/rust-ownership-tutor.md</code></pre>
+          <p>
+            Compare the two outputs. The <strong>source stays stable</strong>,
+            while the compiled prompt changes lesson domain, learner context, and
+            branch behavior.
+          </p>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>rust-ownership-tutor.md</code> is a second pastable tutor
+            prompt. Use it in a chat assistant when you want a Rust ownership
+            tutoring session instead of a Bayes-rule session.
+          </div>
+        </section>
+
+        <section id="finish" class="article-section">
+          <h2>What you learned</h2>
+          <ul>
+            <li>Use <code>@refine</code> when reusable behavior should shape the current spec.</li>
+            <li>Use <code>mingle: true</code> when the refined material should become one prompt, not an appendix.</li>
+            <li>Use <code>@match</code> and <code>@if</code> for readable variation.</li>
+            <li>Use <code>@output</code> and <code>@assert</code> to make output obligations explicit.</li>
+            <li>Reuse the same spec by changing variables, not by duplicating prompt files.</li>
+          </ul>
+          <div class="callout">
+            <strong>Next:</strong> continue with
+            <a href="tutorial-products.html">Product specs</a> to use the same
+            ideas for larger buildable specifications, then try
+            <a href="tutorial-advanced.html">Advanced macros</a>.
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark adaptive tutor tutorial</strong><br>
+          Reuse teaching behavior with refinement, branching, and processing-time questions.
+        </div>
+        <div>
+          <a href="tutorial.html">Tutorial track</a> |
+          <a href="tutorial-products.html">Product specs</a> |
+          <a href="reference.html">Reference</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const links = Array.from(document.querySelectorAll(".sidebar a[href^='#']"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const sections = links
+          .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+          .filter(Boolean);
+        const visible = new Set();
+        const setActive = (id) => {
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href").slice(1) === id)
+          );
+        };
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            }
+            const current = sections.find((s) => visible.has(s.id));
+            if (current) setActive(current.id);
+          },
+          { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+        );
+        sections.forEach((s) => observer.observe(s));
+      })();
+    </script>
+  </body>
+</html>

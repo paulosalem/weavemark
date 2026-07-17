@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Tutorial - Illustrated stories (images in and out)</title>
+    <meta
+      name="description"
+      content="Use WeaveMark to take images as input and generate images as output: a reference-driven comic strip and a fully in-language children's picture book, with per-frame beat sheets, a self-inspecting render loop, and print-ready packaging."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html" aria-current="page">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <nav class="tutorial-nav shell" aria-label="Tutorials">
+      <a href="tutorial.html"><span>1</span> First promplet</a>
+      <a href="tutorial-reuse.html"><span>2</span> Reuse &amp; refine</a>
+      <a href="tutorial-refine.html"><span>3</span> Adaptive tutor</a>
+      <a href="tutorial-products.html"><span>4</span> Product specs</a>
+      <a href="tutorial-games.html"><span>5</span> Game specs</a>
+      <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
+      <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
+      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
+      <a href="tutorial-illustrated.html" aria-current="page"><span>9</span> Illustrated stories</a>
+    </nav>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Hands-on tutorial</p>
+      <h1>
+        Illustrated stories:
+        <span class="gradient-text">images in, images out.</span>
+      </h1>
+      <p class="hero-copy">
+        Promplets are not limited to text. A specification can <strong>take images
+        as input</strong> and <strong>generate images as output</strong>. In this
+        tutorial you run two finished, in-repo examples &mdash; a
+        <strong>reference-driven comic strip</strong> and a
+        <strong>fully in-language children&rsquo;s picture book</strong> &mdash;
+        and learn the handful of language features that make them work.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Illustrated stories tutorial highlights">
+      <div class="summary-card">
+        <strong>You run</strong>
+        <span>Two multimodal pipelines: a comic strip and a printable storybook.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You produce</strong>
+        <span>A finished comic image, and a 12-page book as HTML + PDF.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You learn</strong>
+        <span><code>@output type: image</code>, image inputs, <code>@execute reflection</code>/<code>chain</code>, dotted-path beats, and <code>@package</code>.</span>
+      </div>
+    </div>
+
+    <section class="shell repo-resources" aria-label="Repository files for this tutorial">
+      <h2>In the repository</h2>
+      <div class="repo-resources-links">
+        <a class="repo-link" href="../promplets/catalog/executable/comic-strip.weavemark.md"><span class="repo-tag">Spec</span> comic-strip.weavemark.md</a>
+        <a class="repo-link" href="../promplets/catalog/executable/childrens-book.weavemark.md"><span class="repo-tag">Spec</span> childrens-book.weavemark.md</a>
+        <a class="repo-link" href="../promplets/domains/creative/fragments/illustrated-story-core.weavemark.md"><span class="repo-tag">Library</span> illustrated-story-core.weavemark.md</a>
+        <a class="repo-link" href="../examples/saved-artifact-workflows/comic-strip-en/outputs/comic-strip.png"><span class="repo-tag out">Output</span> comic-strip.png</a>
+        <a class="repo-link" href="../examples/saved-artifact-workflows/childrens-book-orion-en/outputs/book.pdf"><span class="repo-tag out">Output</span> book.pdf</a>
+      </div>
+      <p class="repo-resources-note">
+        The page previews below are optimized site images. Full-resolution
+        generated PNG/PDF outputs are curated with Git LFS; install Git LFS or
+        use <code>git lfs pull</code> in a clone to retrieve the originals.
+      </p>
+    </section>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Tutorial sections">
+        <h2>Steps</h2>
+        <a href="#setup">0. Setup</a>
+        <a href="#inout">1. Images in and out</a>
+        <a href="#comic">2. Run the comic</a>
+        <a href="#loop">3. The self-inspecting render</a>
+        <a href="#beats">4. Per-frame beat sheets</a>
+        <a href="#book">5. Run the storybook</a>
+        <a href="#package">6. Package to print</a>
+        <a href="#finish">What you learned</a>
+      </aside>
+
+      <div class="article">
+        <section id="setup" class="article-section">
+          <h2>0. Setup</h2>
+          <p>
+            Both examples are checked in and runnable. You need an image-capable
+            model provider configured (the examples default to OpenAI&rsquo;s
+            image model for rendering and a vision model for authoring), and the
+            <code>weavemark</code> CLI on your path. Work from the repository root.
+          </p>
+          <pre><code>cd weavemark
+export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's key</span></code></pre>
+          <div class="callout">
+            <strong>Heads up:</strong> these pipelines call real image models, so
+            they take a little time and incur usage cost. Everything is deterministic
+            in structure &mdash; only the pixels come from the model.
+          </div>
+        </section>
+
+        <section id="inout" class="article-section">
+          <h2>1. Images as input and output</h2>
+          <p>
+            Two small language facts unlock everything in this tutorial.
+          </p>
+          <div class="grid two">
+            <article class="card">
+              <h3>Images in &mdash; a Markdown link</h3>
+              <p>
+                Any ordinary Markdown image reference in a spec is
+                <strong>lifted into a real multimodal input</strong> and sent to
+                the model. No special directive &mdash; a link is enough. Toggle it
+                with <code>@compile images: off</code> when you want plain text.
+              </p>
+              <pre><code>![Style reference](<span class="syntax-var">@{style_reference}</span>)
+![Character sheet 1](<span class="syntax-var">@{character_sheet_1}</span>)</code></pre>
+            </article>
+            <article class="card">
+              <h3>Images out &mdash; an output contract</h3>
+              <p>
+                <code>@output type: image</code> tells the engine this production
+                point renders an image instead of text. It carries
+                <code>size</code>, <code>quality</code>, <code>model</code>, and
+                <code>edit: on</code> (reference-guided editing).
+              </p>
+              <pre><code><span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image
+  <span class="syntax-key">size:</span> 1536x1024
+  <span class="syntax-key">quality:</span> high
+  <span class="syntax-key">edit:</span> on</code></pre>
+            </article>
+          </div>
+          <div class="callout">
+            <strong>The key idea:</strong> the same notation you use for text
+            prompts now describes a picture. A promplet that reads reference art
+            and writes an illustration is still just a specification.
+          </div>
+        </section>
+
+        <section id="comic" class="article-section">
+          <h2>2. Run the reference-driven comic</h2>
+          <p>
+            The comic example feeds a style-reference strip and four character
+            sheets into the model, authors a scripted 5-panel strip, renders it,
+            and inspects its own output until it passes. Run it:
+          </p>
+          <pre><code>bash examples/saved-artifact-workflows/comic-strip-en/run.sh</code></pre>
+          <p>
+            Under the hood that is a single <code>weavemark --run</code> over one
+            spec &mdash; no external script does the orchestration:
+          </p>
+          <pre><code>weavemark library builtin:catalog/executable/comic-strip \
+  --run \
+  --vars-file examples/saved-artifact-workflows/comic-strip-en/inputs/vars.json \
+  --output-dir examples/saved-artifact-workflows/comic-strip-en/outputs \
+  --trace-output examples/saved-artifact-workflows/comic-strip-en/outputs/inspection-log.md \
+  --batch-only</code></pre>
+          <p>
+            See the transfer for yourself. One of the inputs is this
+            <strong>character sheet</strong> &mdash; the reference for Doctor Krazy
+            and his robot cat Deimotron:
+          </p>
+          <figure class="result-figure">
+            <img
+              src="tutorial-character-sheet.jpg"
+              alt="A character-reference sheet titled THE LLM REVOLUTION, showing model turnarounds and expressions for a wild-haired scientist in a lab coat, goggles and overalls (Doctor Krazy) and a silver-grey robotic cat with glowing cyan eyes (Deimotron), plus a workshop full of tools and gadgets."
+              width="1280"
+              height="706"
+              loading="lazy"
+            >
+            <figcaption>
+              <strong>Reference in.</strong> A character sheet attached to the spec
+              as a plain Markdown image link. It fixes Doctor Krazy&rsquo;s wild
+              Einstein hair, round goggles and lab coat, and Deimotron&rsquo;s
+              cyan-eyed metallic body.
+            </figcaption>
+          </figure>
+          <p>
+            And here is the finished strip. Notice how those exact traits &mdash;
+            Krazy&rsquo;s hair, goggles and coat, Deimotron&rsquo;s glowing eyes and
+            mechanical joints &mdash; carry straight from the sheet into
+            <em>every</em> panel:
+          </p>
+          <figure class="result-figure">
+            <img
+              src="tutorial-comic.jpg"
+              alt="A five-panel color comic strip titled THE PERFECT CAT. Doctor Krazy unveils a robotic cat, Deimotron, that copies the black cat Deimos pose for pose, steals a straw, and knocks the china off the table. Final panel: Krazy cries What have I built?! and Deimos deadpans I've created a monster."
+              width="1280"
+              height="853"
+              loading="lazy"
+            >
+            <figcaption>
+              <strong>Result out.</strong> The finished strip, produced entirely
+              from the specification and its reference images. Deimotron mirrors
+              Deimos&rsquo;s every bad habit; Doctor Krazy takes the fall.
+            </figcaption>
+          </figure>
+          <p>
+            That is the whole point: the reference images keep the cast on-model
+            and hold the reference&rsquo;s soft pastel palette. The character sheets
+            and the style-reference comic are attached as inputs to <em>both</em>
+            the authoring and the rendering stages, so one drawing transfers
+            faithfully into another.
+          </p>
+        </section>
+
+        <section id="loop" class="article-section">
+          <h2>3. The self-inspecting render loop</h2>
+          <p>
+            The comic runs on <code>@execute reflection</code>, which is a
+            <strong>production chain followed by a critique &rarr; revise loop</strong>.
+            <code>critique</code> and <code>revise</code> are reserved roles; every
+            other <code>@prompt</code> stage is a production step. The last
+            production stage yields the artifact the loop refines.
+          </p>
+          <pre><code><span class="syntax-directive">@execute</span> reflection
+  <span class="syntax-key">rounds:</span> 3
+
+<span class="syntax-directive">@prompt</span> author
+  <span class="syntax-directive">@refine</span> module:weavemark.domains.creative.illustrated_story_core
+    <span class="syntax-key">with</span> story_format: <span class="syntax-string">"comic-strip"</span>
+    <span class="syntax-key">with</span> references: true
+  <span class="syntax-comment"># ... a per-panel beat sheet (see next step) ...</span>
+
+<span class="syntax-directive">@prompt</span> generate
+  <span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image
+    <span class="syntax-key">file:</span> comic-strip.png
+    <span class="syntax-key">edit:</span> on
+  <span class="syntax-var">@{author}</span>
+  ![Style reference](<span class="syntax-var">@{style_reference}</span>)
+
+<span class="syntax-directive">@prompt</span> critique
+  Inspect the RENDERED strip against the spec. Reply OK or list defects.
+
+<span class="syntax-directive">@prompt</span> revise
+  <span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image
+    <span class="syntax-key">edit:</span> on
+  Fix these defects exactly: {{critique}}</code></pre>
+          <div class="grid two">
+            <article class="card">
+              <h3>Author sees the references</h3>
+              <p>
+                The <code>author</code> stage is a vision step: it reads the
+                character sheets and writes one detailed, on-model image prompt.
+                Its output threads forward as <code>@{author}</code>.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Render is conditioned on them too</h3>
+              <p>
+                <code>generate</code> attaches the same references with
+                <code>edit: on</code>, so the pixels &mdash; not just the words
+                &mdash; are guided by the reference art.
+              </p>
+            </article>
+            <article class="card">
+              <h3>The model checks its own work</h3>
+              <p>
+                A vision model inspects the <em>rendered</em> image for wrong panel
+                counts, off-model or duplicated characters, and garbled lettering,
+                then <code>revise</code> edits it &mdash; stopping when satisfied.
+              </p>
+            </article>
+            <article class="card">
+              <h3><code>@output file:</code> persists it</h3>
+              <p>
+                The artifact stage names its file, so the final image is written to
+                the output directory automatically. No glue programs to write.
+              </p>
+            </article>
+          </div>
+          <p class="snippet-source">
+            Full spec:
+            <a href="../promplets/catalog/executable/comic-strip.weavemark.md">comic-strip.weavemark.md</a>
+            &middot; shared core:
+            <a href="../promplets/domains/creative/fragments/illustrated-story-core.weavemark.md">illustrated-story-core.weavemark.md</a>
+          </p>
+        </section>
+
+        <section id="beats" class="article-section">
+          <h2>4. Direct each frame with a beat sheet</h2>
+          <p>
+            The story is not improvised. The concrete spec carries a
+            <strong>beat sheet</strong> and reads it with <strong>dotted-path
+            variables</strong>: a name like <code>@{panels.1.dialogue}</code>
+            navigates nested JSON &mdash; each segment descends one level (a key,
+            or an integer list index).
+          </p>
+          <pre><code><span class="syntax-comment"># In the author stage of comic-strip.weavemark.md</span>
+- **Panel 1** &mdash; <span class="syntax-var">@{panels.1.staging}</span>
+  Dialogue &mdash; <span class="syntax-var">@{panels.1.dialogue}</span>
+- **Panel 2** &mdash; <span class="syntax-var">@{panels.2.staging}</span>
+  Dialogue &mdash; <span class="syntax-var">@{panels.2.dialogue}</span>
+  <span class="syntax-comment"># ... one entry per panel ...</span></code></pre>
+          <p>
+            The panels themselves live in the companion variables, so rewriting the
+            story never touches the spec &mdash; you edit data:
+          </p>
+          <pre><code><span class="syntax-comment">// comic-strip/inputs/vars.json</span>
+<span class="syntax-key">"panels"</span>: {
+  <span class="syntax-key">"1"</span>: {
+    <span class="syntax-key">"staging"</span>: <span class="syntax-string">"Doctor Krazy presents his robot cat like a prize..."</span>,
+    <span class="syntax-key">"dialogue"</span>: <span class="syntax-string">"Krazy: \"Behold! ZERO bad habits!\"  Deimos: \"Bold claim.\""</span>
+  },
+  <span class="syntax-key">"5"</span>: {
+    <span class="syntax-key">"staging"</span>: <span class="syntax-string">"Aftermath: broken cups, Krazy slumped on the floor..."</span>,
+    <span class="syntax-key">"dialogue"</span>: <span class="syntax-string">"Krazy: \"What have I built?!\"  Deimos: \"I've created a monster.\""</span>
+  }
+}</code></pre>
+          <div class="callout">
+            <strong>Why this matters:</strong> the reusable core owns the craft
+            (consistency, art style, reference fidelity, panel layout); the concrete
+            spec owns the <em>story</em>; and the JSON owns the exact words. Change
+            the joke, rerun, done.
+          </div>
+        </section>
+
+        <section id="book" class="article-section">
+          <h2>5. Run the children&rsquo;s picture book</h2>
+          <p>
+            The storybook reuses the very same core, pinned to the
+            <code>picture-book</code> format, and runs on <code>@execute chain</code>:
+            an <code>author</code> stage writes the whole book, then a
+            <code>page</code> stage is <strong>repeated once per page</strong>,
+            rendering and persisting each illustration.
+          </p>
+          <pre><code><span class="syntax-directive">@execute</span> chain
+  <span class="syntax-key">repeat:</span> page
+  <span class="syntax-key">count:</span> <span class="syntax-var">@{page_count}</span>
+
+<span class="syntax-directive">@prompt</span> author
+  <span class="syntax-directive">@refine</span> module:weavemark.domains.creative.illustrated_story_core
+    <span class="syntax-key">with</span> story_format: <span class="syntax-string">"picture-book"</span>
+  <span class="syntax-comment"># ... a per-page beat sheet: @{pages.1.scene} / @{pages.1.text} ...</span>
+
+<span class="syntax-directive">@prompt</span> page
+  <span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image
+    <span class="syntax-key">file:</span> pages/page-<span class="syntax-var">@{index}</span>.png
+    <span class="syntax-key">size:</span> <span class="syntax-var">@{image_size}</span>
+  Render page <span class="syntax-var">@{index}</span> of <span class="syntax-var">@{count}</span> from the authored book:
+  <span class="syntax-var">@{author}</span></code></pre>
+          <p>
+            With narration lettered directly into each illustration, every image is
+            a complete, printable page. Run it:
+          </p>
+          <pre><code>bash examples/saved-artifact-workflows/childrens-book-orion-en/run.sh</code></pre>
+          <figure class="result-figure">
+            <img
+              src="tutorial-storybook-page.jpg"
+              alt="A bright storybook page: Orion, a small purple dragon, cradles his little orange bird friend Pip as a gentle golden flame appears at last. Lettered narration reads: He breathed a big warm breath, his heart aglow with kindness, and WHOOSH, a small golden flame! There was his spark all along."
+              width="1100"
+              height="733"
+              loading="lazy"
+            >
+            <figcaption>
+              One page of the generated book &mdash; &ldquo;Orion and the Hunt for
+              His Spark.&rdquo; The narration is rendered into the illustration, so
+              the page is ready to print. Twelve of these make the book.
+            </figcaption>
+          </figure>
+          <p class="snippet-source">
+            Full spec:
+            <a href="../promplets/catalog/executable/childrens-book.weavemark.md">childrens-book.weavemark.md</a>
+          </p>
+        </section>
+
+        <section id="package" class="article-section">
+          <h2>6. Package the pages into a printable book</h2>
+          <p>
+            Rendering twelve pages is only half the job &mdash; you still need a
+            deliverable. The <code>@package</code> directive assembles produced
+            artifacts after execution, entirely in the language:
+          </p>
+          <pre><code><span class="syntax-directive">@package</span> <span class="syntax-key">template:</span> ../library/creative/picture-book-html.weavemark.md <span class="syntax-key">file:</span> book.html
+<span class="syntax-directive">@package</span> <span class="syntax-key">from:</span> book.html <span class="syntax-key">file:</span> book.pdf</code></pre>
+          <div class="grid two">
+            <article class="card">
+              <h3><code>template:</code> render</h3>
+              <p>
+                A packaging-template promplet is compiled with the produced page
+                files in scope (<code>@{page_files}</code>) and fills a print-ready
+                HTML skeleton &mdash; a semantic assembly, no external programs.
+              </p>
+            </article>
+            <article class="card">
+              <h3><code>from:</code> convert</h3>
+              <p>
+                A produced deliverable is deterministically converted to another
+                format &mdash; here HTML becomes a print-ready
+                <strong>book.pdf</strong>.
+              </p>
+            </article>
+          </div>
+          <p>
+            The result is a folder with <code>pages/page-1.png</code> &hellip;
+            <code>page-12.png</code>, a <code>book.html</code> that references them
+            in order, and a single <code>book.pdf</code> you can send to a printer
+            &mdash; all from one <code>weavemark --run</code>.
+          </p>
+          <p class="snippet-source">
+            Packaging template:
+            <a href="../promplets/domains/creative/fragments/picture-book-html.weavemark.md">picture-book-html.weavemark.md</a>
+          </p>
+        </section>
+
+        <section id="finish" class="article-section">
+          <h2>What you learned</h2>
+          <ul>
+            <li>A Markdown image link becomes a real multimodal <strong>input</strong>; <code>@output type: image</code> makes a stage render an <strong>output</strong>.</li>
+            <li><code>@execute reflection</code> is a production chain plus a critique &rarr; revise loop &mdash; the model inspects and repairs its own rendered artifact.</li>
+            <li><code>@execute chain</code> with <code>repeat</code> renders a sequence (one page after another) and <code>@output file:</code> persists each one.</li>
+            <li>Dotted-path variables like <code>@{panels.1.dialogue}</code> read nested JSON, so a beat sheet directs each frame while the story stays as data.</li>
+            <li><code>@package</code> turns produced artifacts into deliverables (HTML, PDF) fully in the language &mdash; no glue script.</li>
+            <li>One reusable core (<code>illustrated-story-core</code>) powers both the comic and the book; the concrete specs only pin what differs.</li>
+          </ul>
+          <div class="callout">
+            <strong>Next:</strong> revisit
+            <a href="tutorial-reuse.html">Reuse &amp; refine</a> to see the same
+            composition idea on text, or
+            <a href="tutorial-implement.html">Spec to app</a> to wrap a compiled
+            spec in a running project.
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark illustrated-stories tutorial</strong><br>
+          Take images in, generate images out: a comic strip and a printable storybook.
+        </div>
+        <div>
+          <a href="tutorial.html">Tutorial track</a> |
+          <a href="tutorial-implement.html">Spec to app</a> |
+          <a href="reference.html">Reference</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const links = Array.from(document.querySelectorAll(".sidebar a[href^='#']"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const sections = links
+          .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+          .filter(Boolean);
+        const visible = new Set();
+        const setActive = (id) => {
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href").slice(1) === id)
+          );
+        };
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            }
+            const current = sections.find((s) => visible.has(s.id));
+            if (current) setActive(current.id);
+          },
+          { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+        );
+        sections.forEach((s) => observer.observe(s));
+      })();
+    </script>
+  </body>
+</html>

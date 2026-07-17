@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WeaveMark Color System Reference</title>
+    <meta name="description" content="WeaveMark color-system reference for logo-led teal/navy UI with a sparse coral accent." />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="weavemark_logo.png" />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #102033;
+        --muted: #64748b;
+        --line: rgba(24, 48, 96, 0.13);
+        --logo-deep: #183060;
+        --logo-dark: #243c60;
+        --logo-mid: #3c7884;
+        --logo-mid-rgb: 60, 120, 132;
+        --logo-bright: #48b4cc;
+        --logo-bright-rgb: 72, 180, 204;
+        --logo-soft: #dff5f4;
+        --logo-glass: #78a8a8;
+        --code: #0e1d36;
+        --shadow-soft: 0 26px 90px rgba(24, 48, 96, 0.13);
+        --shadow-card: 0 18px 55px rgba(24, 48, 96, 0.09);
+        --radius-xl: 34px;
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --max: 1180px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 8% 4%, rgba(var(--logo-bright-rgb), 0.18), transparent 32rem),
+          radial-gradient(circle at 88% 10%, rgba(var(--logo-mid-rgb), 0.16), transparent 34rem),
+          radial-gradient(circle at 14% 92%, rgba(249, 115, 91, 0.08), transparent 34rem),
+          linear-gradient(180deg, #fbfefd 0%, #eef9f8 46%, #fffaf7 100%);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        line-height: 1.6;
+      }
+
+      body::before {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        content: "";
+        background-image:
+          linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: linear-gradient(to bottom, black 0%, transparent 82%);
+      }
+
+      a {
+        color: var(--logo-dark);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .shell {
+        width: min(var(--max), calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
+        gap: 34px;
+        align-items: center;
+        padding: 42px 0 26px;
+      }
+
+      .logo {
+        width: min(280px, 72%);
+        margin-bottom: 22px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 18px;
+        padding: 8px 12px;
+        border: 1px solid rgba(var(--logo-bright-rgb), 0.28);
+        border-radius: 999px;
+        color: var(--logo-deep);
+        background: var(--logo-soft);
+        font-size: 0.8rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+        content: "";
+        background: var(--logo-bright);
+        box-shadow: 0 0 0 6px rgba(var(--logo-bright-rgb), 0.18);
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.05;
+        letter-spacing: -0.055em;
+      }
+
+      h1 {
+        font-size: clamp(2.55rem, 5.3vw, 5rem);
+      }
+
+      .gradient-text {
+        display: block;
+        background: linear-gradient(110deg, var(--logo-deep) 0%, var(--logo-mid) 52%, var(--logo-bright) 94%);
+        background-clip: text;
+        color: transparent;
+      }
+
+      .lede {
+        max-width: 720px;
+        margin: 20px 0 0;
+        color: #42526b;
+        font-size: clamp(1.06rem, 1.8vw, 1.32rem);
+      }
+
+      .principle-card {
+        position: relative;
+        overflow: hidden;
+        padding: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: var(--radius-xl);
+        background:
+          radial-gradient(circle at top right, rgba(var(--logo-bright-rgb), 0.18), transparent 42%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.66));
+        box-shadow: var(--shadow-soft);
+      }
+
+      .principle-card h2 {
+        margin-bottom: 12px;
+        font-size: clamp(1.8rem, 3.4vw, 3rem);
+      }
+
+      .principle-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .ratio {
+        display: grid;
+        grid-template-columns: 7.5fr 2fr 0.5fr;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .ratio span {
+        min-height: 18px;
+        border-radius: 999px;
+      }
+
+      .ratio span:nth-child(1) {
+        background: #ffffff;
+        border: 1px solid var(--line);
+      }
+
+      .ratio span:nth-child(2) {
+        background: linear-gradient(90deg, var(--logo-deep), var(--logo-bright));
+      }
+
+      .ratio span:nth-child(3) {
+        background: var(--comp, #f9735b);
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin: 30px 0 16px;
+      }
+
+      .section-head h2 {
+        max-width: 760px;
+        font-size: clamp(1.9rem, 4vw, 3.4rem);
+      }
+
+      .section-head p {
+        max-width: 360px;
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .base-swatches,
+      .options {
+        display: grid;
+        gap: 18px;
+      }
+
+      .base-swatches {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .swatch,
+      .option {
+        border: 1px solid rgba(var(--logo-bright-rgb), 0.13);
+        border-radius: var(--radius-lg);
+        background:
+          radial-gradient(circle at 100% 100%, rgba(249, 115, 91, 0.035), transparent 42%),
+          rgba(255, 255, 255, 0.84);
+        box-shadow: var(--shadow-card);
+      }
+
+      .swatch {
+        overflow: hidden;
+      }
+
+      .swatch-chip {
+        height: 54px;
+        background: var(--color);
+      }
+
+      .swatch p {
+        margin: 0;
+        padding: 10px 12px 12px;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .swatch strong {
+        display: block;
+        color: var(--ink);
+        font-size: 0.86rem;
+      }
+
+      .options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .option {
+        --comp: #f9735b;
+        --comp-deep: #b94735;
+        --comp-soft: #fff1ed;
+        overflow: hidden;
+      }
+
+      .option.coral {
+        --comp: #f9735b;
+        --comp-deep: #b94735;
+        --comp-soft: #fff1ed;
+      }
+
+      .option.amber {
+        --comp: #f5a524;
+        --comp-deep: #9a5b00;
+        --comp-soft: #fff7df;
+      }
+
+      .option.orchid {
+        --comp: #a855f7;
+        --comp-deep: #6d28d9;
+        --comp-soft: #f5edff;
+      }
+
+      .option.rose {
+        --comp: #e54b7a;
+        --comp-deep: #9f1239;
+        --comp-soft: #fff0f5;
+      }
+
+      .option-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 24px 24px 18px;
+      }
+
+      .option-title {
+        min-width: 0;
+      }
+
+      .option-title h3 {
+        font-size: clamp(1.55rem, 2.4vw, 2.2rem);
+      }
+
+      .option-title p {
+        margin: 8px 0 0;
+        color: var(--muted);
+      }
+
+      .recommendation {
+        align-self: start;
+        padding: 7px 10px;
+        border-radius: 999px;
+        color: var(--comp-deep);
+        background: var(--comp-soft);
+        font-size: 0.74rem;
+        font-weight: 950;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .palette-row {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        height: 14px;
+      }
+
+      .palette-row span:nth-child(1) {
+        background: var(--logo-deep);
+      }
+
+      .palette-row span:nth-child(2) {
+        background: var(--logo-mid);
+      }
+
+      .palette-row span:nth-child(3) {
+        background: var(--logo-bright);
+      }
+
+      .palette-row span:nth-child(4) {
+        background: var(--logo-soft);
+      }
+
+      .palette-row span:nth-child(5) {
+        background: var(--comp);
+      }
+
+      .palette-row span:nth-child(6) {
+        background: var(--comp-soft);
+      }
+
+      .preview {
+        display: grid;
+        gap: 16px;
+        padding: 22px 24px 24px;
+      }
+
+      .mock-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 0.96fr) minmax(220px, 1.04fr);
+        gap: 16px;
+        align-items: center;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background:
+          radial-gradient(circle at top right, color-mix(in srgb, var(--comp) 18%, transparent), transparent 42%),
+          radial-gradient(circle at bottom left, rgba(var(--logo-bright-rgb), 0.12), transparent 40%),
+          linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.66));
+      }
+
+      .mock-hero h4 {
+        margin: 0;
+        color: var(--logo-deep);
+        font-size: 1.4rem;
+        letter-spacing: -0.045em;
+        line-height: 1.08;
+      }
+
+      .mock-hero p {
+        margin: 9px 0 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .accent-word {
+        color: var(--comp-deep);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: 999px;
+        color: white;
+        background: linear-gradient(135deg, var(--logo-deep), var(--logo-mid) 58%, var(--logo-bright));
+        box-shadow: 0 14px 36px rgba(var(--logo-mid-rgb), 0.24);
+        font-size: 0.88rem;
+        font-weight: 850;
+      }
+
+      .button.spark {
+        background: linear-gradient(135deg, var(--logo-deep) 0%, var(--comp-deep) 48%, var(--comp) 100%);
+        box-shadow:
+          0 14px 32px color-mix(in srgb, var(--comp) 24%, transparent),
+          0 7px 20px rgba(var(--logo-mid-rgb), 0.16);
+      }
+
+      .button.secondary {
+        border: 1px solid var(--line);
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: none;
+      }
+
+      .mini-card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .mini-card,
+      .callout {
+        border-radius: var(--radius-md);
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.76);
+      }
+
+      .mini-card {
+        padding: 14px;
+      }
+
+      .mini-card strong {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--logo-deep);
+      }
+
+      .mini-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .tiny-badge {
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 11px;
+        padding: 5px 8px;
+        border-radius: 999px;
+        color: var(--comp-deep);
+        background: var(--comp-soft);
+        font-size: 0.7rem;
+        font-weight: 900;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .callout {
+        padding: 15px 16px;
+        border-left: 5px solid var(--comp);
+        background: linear-gradient(135deg, var(--comp-soft), rgba(223, 245, 244, 0.68));
+      }
+
+      .callout strong {
+        color: var(--comp-deep);
+      }
+
+      .callout p {
+        margin: 4px 0 0;
+        color: #475569;
+        font-size: 0.9rem;
+      }
+
+      .mock-code {
+        min-width: 0;
+        overflow: hidden;
+        border: 1px solid rgba(var(--logo-bright-rgb), 0.18);
+        border-radius: 20px;
+        background: linear-gradient(180deg, #102744, var(--code));
+        box-shadow: 0 20px 50px rgba(24, 48, 96, 0.22);
+      }
+
+      .mock-code-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(var(--logo-bright-rgb), 0.18);
+        color: #d6e5ef;
+        background: linear-gradient(90deg, rgba(var(--logo-bright-rgb), 0.08), rgba(249, 115, 91, 0.04));
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      pre,
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+
+      pre {
+        margin: 0;
+        padding: 16px;
+        overflow-x: auto;
+        color: #dbeafe;
+        font-size: 0.84rem;
+        line-height: 1.6;
+      }
+
+      .syntax-directive {
+        color: #f472b6;
+      }
+
+      .syntax-var {
+        color: #c084fc;
+      }
+
+      .syntax-key {
+        color: #38bdf8;
+      }
+
+      .syntax-string {
+        color: #facc15;
+      }
+
+      .notes {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin: 22px 0 56px;
+      }
+
+      .note {
+        padding: 18px;
+        border: 1px solid rgba(var(--logo-bright-rgb), 0.13);
+        border-radius: var(--radius-lg);
+        background:
+          radial-gradient(circle at 100% 100%, rgba(249, 115, 91, 0.035), transparent 42%),
+          rgba(255, 255, 255, 0.84);
+        box-shadow: var(--shadow-card);
+      }
+
+      .note h3 {
+        margin-bottom: 8px;
+        font-size: 1.12rem;
+      }
+
+      .note p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .footer-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin: 0 auto 34px;
+        padding: 22px 24px;
+        border: 1px solid rgba(var(--logo-bright-rgb), 0.14);
+        border-radius: 26px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 250, 247, 0.7));
+        box-shadow: var(--shadow-card);
+      }
+
+      .footer-card strong {
+        color: var(--ink);
+      }
+
+      @supports not (color: color-mix(in srgb, red, transparent)) {
+        .mock-hero {
+          background:
+            radial-gradient(circle at top right, rgba(var(--logo-bright-rgb), 0.18), transparent 42%),
+            linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.66));
+        }
+
+        .button.spark {
+          box-shadow: 0 14px 32px rgba(15, 23, 42, 0.16);
+        }
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .mock-hero,
+        .options,
+        .notes {
+          grid-template-columns: 1fr;
+        }
+
+        .base-swatches {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .section-head {
+          display: block;
+        }
+
+        .section-head p {
+          margin-top: 12px;
+        }
+
+        .footer-card {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .shell {
+          width: min(100% - 24px, var(--max));
+        }
+
+        .hero {
+          gap: 20px;
+          padding-top: 24px;
+          padding-bottom: 18px;
+        }
+
+        .logo {
+          width: min(220px, 70%);
+          margin-bottom: 16px;
+        }
+
+        .eyebrow {
+          margin-bottom: 14px;
+          font-size: 0.72rem;
+        }
+
+        h1 {
+          font-size: clamp(2.35rem, 11vw, 3.3rem);
+        }
+
+        .lede {
+          margin-top: 14px;
+          font-size: 1rem;
+        }
+
+        .principle-card {
+          display: grid;
+          grid-template-columns: minmax(0, 0.9fr) minmax(96px, 0.5fr);
+          gap: 14px;
+          align-items: center;
+          padding: 16px 18px;
+        }
+
+        .principle-card h2 {
+          margin-bottom: 6px;
+          font-size: 1.38rem;
+        }
+
+        .principle-card p {
+          grid-column: 1;
+          font-size: 0.84rem;
+          line-height: 1.42;
+        }
+
+        .ratio {
+          grid-template-columns: 7.5fr 2fr 0.5fr;
+          gap: 5px;
+          margin-top: 14px;
+        }
+
+        .principle-card .ratio {
+          grid-column: 2;
+          grid-row: 1 / span 2;
+          margin-top: 0;
+        }
+
+        .ratio span {
+          min-height: 12px;
+        }
+
+        .section-head {
+          margin-top: 20px;
+          margin-bottom: 12px;
+        }
+
+        .section-head h2 {
+          font-size: clamp(1.85rem, 10vw, 2.35rem);
+        }
+
+        .base-swatches,
+        .mini-card-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .option-head {
+          display: block;
+        }
+
+        .recommendation {
+          display: inline-flex;
+          margin-top: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <img class="logo" src="weavemark_logo.png" alt="WeaveMark" />
+          <p class="eyebrow">Color system reference</p>
+          <h1>
+            Logo-led calm,
+            <span class="gradient-text">with coral energy.</span>
+          </h1>
+          <p class="lede">
+            This reference records the selected WeaveMark UI palette:
+            logo-true teal and navy as the identity system, plus coral spark as
+            a sparse complementary accent for emphasis, delight, and clearer
+            hierarchy.
+          </p>
+        </div>
+
+        <aside class="principle-card">
+          <h2>Suggested ratio</h2>
+          <p>
+            Keep the identity calm and logo-led: about 75% neutral surface,
+            20% navy/teal/cyan identity accents, and 5% coral spark.
+          </p>
+          <div class="ratio" aria-label="75 percent neutral, 20 percent logo accents, 5 percent complementary accent">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </aside>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Selected direction, plus alternatives.</h2>
+          <p>Coral spark is the production choice. The alternatives remain here as future reference.</p>
+        </div>
+
+        <div class="options">
+          <article class="option coral">
+            <div class="option-head">
+              <div class="option-title">
+                <h3>Coral spark</h3>
+                <p>Warm, energetic, and naturally complementary to cyan without feeling like an error state.</p>
+              </div>
+              <span class="recommendation">Recommended</span>
+            </div>
+            <div class="palette-row" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="preview">
+              <div class="mock-hero">
+                <div>
+                  <span class="tiny-badge">Start here</span>
+                  <h4>Refinement turns prompts into <span class="accent-word">living specs</span>.</h4>
+                  <p>Use coral for entry points, tiny highlights, and friendly invitation moments.</p>
+                  <div class="actions">
+                    <span class="button">Read tutorial</span>
+                    <span class="button spark">Try @refine</span>
+                    <span class="button secondary">View examples</span>
+                  </div>
+                </div>
+                <div class="mock-code">
+                  <div class="mock-code-title">WeaveMark syntax remains colorful</div>
+                  <pre><code><span class="syntax-directive">@refine</span> module:weavemark.std.teaching.socratic_tutoring
+
+Teach <span class="syntax-var">@{topic}</span> with a <span class="syntax-key">tone:</span> <span class="syntax-string">"patient"</span></code></pre>
+                </div>
+              </div>
+              <div class="mini-card-grid">
+                <div class="mini-card"><span class="tiny-badge">Good use</span><strong>Primary invitations</strong><p>Small CTAs, tutorial starts, and selected examples.</p></div>
+                <div class="mini-card"><span class="tiny-badge">Caution</span><strong>Use sparingly</strong><p>Too much coral can make calm docs feel promotional.</p></div>
+              </div>
+              <div class="callout"><strong>Why it works:</strong><p>It gives the teal system warmth and memorability while preserving the logo as the main identity.</p></div>
+            </div>
+          </article>
+
+          <article class="option amber">
+            <div class="option-head">
+              <div class="option-title">
+                <h3>Golden insight</h3>
+                <p>Optimistic and scholarly, useful for learning notes, insight callouts, and "note this" moments.</p>
+              </div>
+              <span class="recommendation">Warmest</span>
+            </div>
+            <div class="palette-row" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="preview">
+              <div class="mock-hero">
+                <div>
+                  <span class="tiny-badge">Evidence note</span>
+                  <h4>Evidence pages can surface <span class="accent-word">insight</span> without visual noise.</h4>
+                  <p>Amber is best for insights, caveats, and measured analytical emphasis.</p>
+                  <div class="actions">
+                    <span class="button">Open artifact</span>
+                    <span class="button spark">See result</span>
+                    <span class="button secondary">Method notes</span>
+                  </div>
+                </div>
+                <div class="mock-code">
+                  <div class="mock-code-title">WeaveMark syntax remains colorful</div>
+                  <pre><code><span class="syntax-directive">@iterate</span> 2
+  <span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention
+    Summarize <span class="syntax-var">@{source}</span> clearly and ground every claim.</code></pre>
+                </div>
+              </div>
+              <div class="mini-card-grid">
+                <div class="mini-card"><span class="tiny-badge">Good use</span><strong>Evidence moments</strong><p>Highlights, insight badges, and explanatory notes.</p></div>
+                <div class="mini-card"><span class="tiny-badge">Caution</span><strong>Warning overlap</strong><p>Amber can be confused with warning semantics if overused.</p></div>
+              </div>
+              <div class="callout"><strong>Why it works:</strong><p>It adds warmth and readability, especially for evidence-heavy pages, but is less distinctive than coral.</p></div>
+            </div>
+          </article>
+
+          <article class="option orchid">
+            <div class="option-head">
+              <div class="option-title">
+                <h3>Orchid refinement</h3>
+                <p>Technical, language-like, and a good fit for Processor/specification metaphors.</p>
+              </div>
+              <span class="recommendation">Most technical</span>
+            </div>
+            <div class="palette-row" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="preview">
+              <div class="mock-hero">
+                <div>
+                  <span class="tiny-badge">Processor idea</span>
+                  <h4>Abstract prompts become <span class="accent-word">compiled programs</span>.</h4>
+                  <p>Orchid supports formal-spec language, but can feel more generic AI/SaaS.</p>
+                  <div class="actions">
+                    <span class="button">Learn @refine</span>
+                    <span class="button spark">Inspect compile</span>
+                    <span class="button secondary">Reference</span>
+                  </div>
+                </div>
+                <div class="mock-code">
+                  <div class="mock-code-title">WeaveMark syntax remains colorful</div>
+                  <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.evidence_quality
+
+Review <span class="syntax-var">@{program}</span></code></pre>
+                </div>
+              </div>
+              <div class="mini-card-grid">
+                <div class="mini-card"><span class="tiny-badge">Good use</span><strong>Language concepts</strong><p>Processor metaphors, spec semantics, and advanced docs.</p></div>
+                <div class="mini-card"><span class="tiny-badge">Caution</span><strong>Less logo-native</strong><p>Purple can pull attention away from the turquoise identity.</p></div>
+              </div>
+              <div class="callout"><strong>Why it works:</strong><p>It reinforces WeaveMark as a specification language, but should be reserved for conceptual emphasis.</p></div>
+            </div>
+          </article>
+
+          <article class="option rose">
+            <div class="option-head">
+              <div class="option-title">
+                <h3>Rose proof</h3>
+                <p>Distinct and memorable, with stronger contrast than coral and more editorial personality.</p>
+              </div>
+              <span class="recommendation">Boldest</span>
+            </div>
+            <div class="palette-row" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="preview">
+              <div class="mock-hero">
+                <div>
+                  <span class="tiny-badge">High signal</span>
+                  <h4>Use strong color only when something <span class="accent-word">really matters</span>.</h4>
+                  <p>Rose is punchy and expressive, but risks feeling too close to alert/error red.</p>
+                  <div class="actions">
+                    <span class="button">Read docs</span>
+                    <span class="button spark">Compare output</span>
+                    <span class="button secondary">Examples</span>
+                  </div>
+                </div>
+                <div class="mock-code">
+                  <div class="mock-code-title">WeaveMark syntax remains colorful</div>
+                  <pre><code><span class="syntax-directive">@style</span> <span class="syntax-string">"concise, direct, useful."</span>
+  Advise <span class="syntax-var">@{reader}</span>
+
+<span class="syntax-directive">@output</span> <span class="syntax-string">"markdown"</span></code></pre>
+                </div>
+              </div>
+              <div class="mini-card-grid">
+                <div class="mini-card"><span class="tiny-badge">Good use</span><strong>Rare emphasis</strong><p>One-off marks, selected states, and editorial highlights.</p></div>
+                <div class="mini-card"><span class="tiny-badge">Caution</span><strong>Error overlap</strong><p>Needs careful separation from validation and failure colors.</p></div>
+              </div>
+              <div class="callout"><strong>Why it works:</strong><p>It makes the site feel less monochrome, but it is the easiest option to overdo.</p></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Base palette stays anchored in the logo.</h2>
+          <p>Complementary accents should be small, intentional, and never compete with the logo colors.</p>
+        </div>
+
+        <div class="base-swatches">
+          <div class="swatch"><div class="swatch-chip" style="--color:#183060"></div><p><strong>#183060</strong>deep navy</p></div>
+          <div class="swatch"><div class="swatch-chip" style="--color:#243c60"></div><p><strong>#243c60</strong>supporting dark</p></div>
+          <div class="swatch"><div class="swatch-chip" style="--color:#3c7884"></div><p><strong>#3c7884</strong>blue-green</p></div>
+          <div class="swatch"><div class="swatch-chip" style="--color:#48b4cc"></div><p><strong>#48b4cc</strong>bright cyan</p></div>
+          <div class="swatch"><div class="swatch-chip" style="--color:#78a8a8"></div><p><strong>#78a8a8</strong>glass teal</p></div>
+          <div class="swatch"><div class="swatch-chip" style="--color:#dff5f4"></div><p><strong>#dff5f4</strong>soft wash</p></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Practical takeaways.</h2>
+          <p>The complement should be a spice, not a second brand palette.</p>
+        </div>
+        <div class="notes">
+          <div class="note">
+            <h3>Best default</h3>
+            <p>Coral spark feels friendly, public-release ready, and naturally balances the cyan logo tones.</p>
+          </div>
+          <div class="note">
+            <h3>Best for evidence notes</h3>
+            <p>Golden insight is strong for analytical pages, but it may conflict with warning semantics.</p>
+          </div>
+          <div class="note">
+            <h3>Best for language concepts</h3>
+            <p>Orchid works for formal specification and Processor ideas, but should not dominate the general UI.</p>
+          </div>
+          <div class="note">
+            <h3>Use with restraint</h3>
+            <p>Rose is memorable, but should stay rare because it approaches alert and error territory.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="shell">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark color system</strong><br />
+          Logo-led teal and navy with sparse coral emphasis.
+        </div>
+        <div>
+          <a href="index.html">Home</a> ·
+          <a href="reference.html">Reference</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

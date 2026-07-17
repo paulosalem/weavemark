@@ -1,0 +1,8 @@
+{
+  "method": "scamper",
+  "subject": "A personal finance app for young professionals who want to build passive income without day trading",
+  "objective": "Generate product concepts that stand out from generic budgeting tools",
+  "additional_context": "The app should educate users, support habit formation, and avoid speculative get-rich-quick behavior.",
+  "constraints": "No crypto speculation, no individual stock picking, no tax advice, and the strongest concepts must fit a mobile app MVP.",
+  "seed_ideas": "Dividend tracker, learning quests, portfolio health nudges."
+}

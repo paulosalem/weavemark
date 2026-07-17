@@ -1,0 +1,29 @@
+{
+  "artifact_hashes": {
+    "output_sha256": "809a7c4deff4b987c3e6762ea6ba024ef1e598d3194ea7d52ee8e73962161458",
+    "source_sha256": "af40489f28c983519769a34423b6000ca25b3bf26184ba6446eb2276a22c745e",
+    "variables_sha256": null
+  },
+  "fact_candidate_count": 6,
+  "fact_candidates": [
+    "Build a local-first Kanban workspace that helps me monitor selected topics,",
+    "capture relevant news and information, turn important inputs into cards, manage",
+    "ideas, decide what to do, delegate work, track status, and produce useful project",
+    "Include board/card behavior, source tracking,",
+    "alerts, idea management, delegation, status checks, output artifacts, UI screens,",
+    "APIs, validation, and acceptance criteria."
+  ],
+  "metrics": {
+    "candidate_facts": 6,
+    "counted_facts": 6,
+    "discounted_fact_units": 6.0,
+    "information_density_per_1k_output_words": 89.6,
+    "information_yield_per_1k_source_words": 89.6,
+    "local_authored_source_words": 67,
+    "local_leverage": 1.0,
+    "output_words": 67,
+    "study": "work-intelligence-kanban",
+    "variable_payload_words": 0,
+    "variant": "manual"
+  }
+}

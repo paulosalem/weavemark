@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Tutorial - Your First WeaveMark</title>
+    <meta
+      name="description"
+      content="A gentle first tutorial: build a useful promplet from a blank file with variables, reusable refinement, one branch, and an output contract."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html" aria-current="page">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <nav class="tutorial-nav shell" aria-label="Tutorials">
+      <a href="tutorial.html" aria-current="page"><span>1</span> First promplet</a>
+      <a href="tutorial-reuse.html"><span>2</span> Reuse &amp; refine</a>
+      <a href="tutorial-refine.html"><span>3</span> Adaptive tutor</a>
+      <a href="tutorial-products.html"><span>4</span> Product specs</a>
+      <a href="tutorial-games.html"><span>5</span> Game specs</a>
+      <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
+      <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
+      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
+      <a href="tutorial-illustrated.html"><span>9</span> Illustrated stories</a>
+    </nav>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Hands-on tutorial</p>
+      <h1>
+        Build a useful promplet
+        <span class="gradient-text">step by step.</span>
+      </h1>
+      <p class="hero-copy">
+        Your first promplet is a plain Markdown prompt with a few explicit moving
+        parts. Starting from a blank file, you will add <strong>variables</strong>,
+        borrow reusable <strong>finance and evidence lenses</strong>, add one
+        <strong>branch</strong>, and lock the shape with an <strong>output
+        contract</strong> &mdash; ending with a clean, pastable prompt. A completed
+        version lives in <code>promplets/catalog/standalone/investment-brief.weavemark.md</code>.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Investment tutorial highlights">
+      <div class="summary-card">
+        <strong>You write</strong>
+        <span>A reusable investment-brief specification.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You produce</strong>
+        <span>A pastable investment-brief prompt you control from the outside.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You learn</strong>
+        <span>Variables, refinement, branching, and structural validation.</span>
+      </div>
+    </div>
+
+    <section class="shell repo-resources" aria-label="Repository files for this tutorial">
+      <h2>In the repository</h2>
+      <div class="repo-resources-links">
+        <a class="repo-link" href="../promplets/catalog/standalone/investment-brief.weavemark.md"><span class="repo-tag">Promplet</span> investment-brief.weavemark.md</a>
+        <a class="repo-link" href="../promplets/domains/finance/fragments/investment-decision.weavemark.md"><span class="repo-tag">Library</span> investment-decision.weavemark.md</a>
+        <a class="repo-link" href="../examples/saved-artifact-workflows/investment-brief/outputs/compiled-prompt.md"><span class="repo-tag out">Output</span> compiled-prompt.md</a>
+      </div>
+    </section>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Tutorial sections">
+        <h2>Steps</h2>
+        <a href="#setup">0. Setup</a>
+        <a href="#completed-example">Completed example</a>
+        <a href="#first-spec">1. First spec</a>
+        <a href="#refine">2. Add finance lenses</a>
+        <a href="#compose">3. Compose</a>
+        <a href="#branch">4. Add branching</a>
+        <a href="#finish">What you learned</a>
+      </aside>
+
+      <div class="article">
+        <section id="setup" class="article-section">
+          <h2>0. Setup</h2>
+          <p>
+            Work from the WeaveMark repository root. The commands below assume
+            the package is installed in editable mode and the <code>weavemark</code>
+            command is available on your path.
+          </p>
+          <pre><code>cd weavemark
+pip install -e ".[dev]"
+weavemark --help</code></pre>
+          <p>
+            Create a scratch directory for this tutorial. It keeps generated
+            files separate from the existing examples.
+          </p>
+          <pre><code>mkdir -p outputs/tutorial-investment
+mkdir -p outputs/tutorial-investment/prompts</code></pre>
+        </section>
+
+        <section id="completed-example" class="article-section">
+          <h2>Completed example</h2>
+          <p>
+            This tutorial teaches by building from scratch, but the completed
+            prompt is checked in as a normal public spec:
+            <a href="../promplets/catalog/standalone/investment-brief.weavemark.md">promplets/catalog/standalone/investment-brief.weavemark.md</a>.
+          </p>
+          <pre><code>weavemark library builtin:catalog/standalone/investment-brief \
+  --var ticker=MSFT \
+  --var audience="investment committee" \
+  --var time_horizon="3 years" \
+  --var source_notes="Paste your source notes here." \
+  --var depth=committee \
+  --var include_watchlist=true \
+  --batch-only \
+  --output outputs/tutorial-investment/compiled-prompt.md</code></pre>
+          <div class="callout">
+            <strong>Why keep it in <code>promplets/</code>?</strong> The promplet is the
+            reusable artifact. Put private variables in CLI flags or a local
+            vars file, and keep the reusable prompt specification under version
+            control.
+          </div>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>compiled-prompt.md</code> is a pastable prompt. Open it, copy
+            it into ChatGPT, Claude, Gemini, Copilot Chat, or another assistant,
+            then provide any private context you did not want in the spec file.
+          </div>
+        </section>
+
+        <section id="first-spec" class="article-section">
+          <h2>1. Write the first spec</h2>
+          <p>
+            Start with <strong>one readable Markdown prompt</strong>. The only
+            WeaveMark pieces are the version pragma, a style block, variables,
+            and an output contract.
+          </p>
+          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-investment/investment-brief.weavemark.md</span>
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+
+# Investment brief
+
+<span class="syntax-directive">@style</span> <span class="syntax-string">"Clear, sober, evidence-oriented. Avoid hype and unsupported certainty."</span>
+  Write an investment brief for <span class="syntax-var">@{ticker}</span>.
+
+  Audience: <span class="syntax-var">@{audience}</span>
+  Time horizon: <span class="syntax-var">@{time_horizon}</span>
+
+  Use the following notes as source material:
+
+  <span class="syntax-var">@{source_notes}</span>
+
+  <span class="syntax-directive">@output</span> enforce: strict
+    Return exactly these sections:
+    1. Thesis
+    2. Evidence
+    3. Risks
+    4. Open questions
+    5. Decision trigger
+
+  <span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"Risks"</span>
+  <span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"Open questions"</span></code></pre>
+
+          <div class="callout">
+            <strong>Why this is already useful:</strong> the document stays
+            readable, but the important moving parts are explicit. A caller can
+            provide <code>ticker</code>, <code>audience</code>,
+            <code>time_horizon</code>, and <code>source_notes</code> without
+            guessing which parts of the prompt are meant to vary.
+          </div>
+        </section>
+
+        <section id="refine" class="article-section">
+          <h2>2. Add reusable finance and evidence lenses</h2>
+          <p>
+            Now make the investment brief more credible without pasting a giant
+            checklist into the local source. Add these <code>@refine</code> lines
+            directly below the version pragma.
+          </p>
+          <pre><code><span class="syntax-comment"># Add below @promplet version: 0.8</span>
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.finance_safety <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.evidence_quality <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.investment_decision <span class="syntax-key">mingle:</span> true</code></pre>
+          <p>
+            After this change, your local file still reads like a brief, but the
+            compiled prompt can carry <strong>finance safety, evidence discipline,
+            and decision framing</strong>.
+          </p>
+          <pre><code><span class="syntax-comment"># The top of your spec now looks like this</span>
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.finance_safety <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.evidence_quality <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.investment_decision <span class="syntax-key">mingle:</span> true
+
+# Investment brief</code></pre>
+        </section>
+
+        <section id="compose" class="article-section">
+          <h2>3. Compose the first artifact</h2>
+          <p>
+            Now provide values and ask WeaveMark to compose the <strong>final prompt</strong>.
+            Use <code>--batch-only</code> for scripts, CI, and reproducible
+            agent workflows.
+          </p>
+          <pre><code>weavemark outputs/tutorial-investment/investment-brief.weavemark.md \
+  --batch-only \
+  --var ticker=NVDA \
+  --var audience="portfolio committee" \
+  --var time_horizon="12 months" \
+  --var source_notes="Revenue growth is strong, margins are elevated, valuation risk is material." \
+  --output outputs/tutorial-investment/brief.md</code></pre>
+          <p>
+            Open <code>outputs/tutorial-investment/brief.md</code>. The output
+            should be a clean prompt with <strong>variables substituted</strong>,
+            authoring directives removed, and the semantic constraints preserved
+            as downstream instructions.
+          </p>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>brief.md</code> is a pastable analysis prompt. Copy it into
+            ChatGPT, Claude, Gemini, Copilot Chat, or your preferred assistant.
+            The assistant should then write the actual investment brief.
+          </div>
+        </section>
+
+        <section id="branch" class="article-section">
+          <h2>4. Add controlled variation with branching</h2>
+          <p>
+            Real prompts often need variants: executive summary vs. deep memo,
+            conservative vs. aggressive analysis, with or without valuation
+            tables. Add that variation <strong>in the spec</strong> instead of
+            duplicating files.
+          </p>
+          <pre><code><span class="syntax-directive">@match</span> depth
+  <span class="syntax-string">"committee"</span> ==&gt;
+    Keep the memo concise. Focus on decision relevance, downside, and timing.
+
+  <span class="syntax-string">"deep"</span> ==&gt;
+    Add detailed sections for unit economics, competitive dynamics,
+    management quality, and valuation sensitivity.
+
+<span class="syntax-directive">@if</span> include_watchlist
+  Add a watchlist table with:
+  - metric
+  - current reading
+  - threshold that would change the recommendation</code></pre>
+          <p>
+            Compose again with <code>--var depth=deep</code> or
+            <code>--var depth=committee</code>, and toggle
+            <code>include_watchlist</code>. The output is still a pastable
+            prompt, but now the source cleanly controls which analysis variant
+            the assistant should perform.
+          </p>
+        </section>
+
+        <section id="finish" class="article-section">
+          <h2>What you learned</h2>
+          <ul>
+            <li>Use Markdown as the primary authoring surface.</li>
+            <li>Use <code>@{variables}</code> for caller-provided inputs.</li>
+            <li>Borrow reusable lenses with <code>@refine</code> instead of pasting checklists.</li>
+            <li>Use <code>@match</code> and <code>@if</code> for controlled variation.</li>
+            <li>Lock the output shape with <code>@output</code> and guard it with <code>@assert</code>.</li>
+          </ul>
+          <div class="callout">
+            <strong>Next:</strong> see the real superpower &mdash; reuse the same
+            building blocks across completely different outputs &mdash; in
+            <a href="tutorial-reuse.html">Reuse &amp; refine</a>.
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark tutorial</strong><br>
+          A hands-on path from Markdown prompt to prompt system.
+        </div>
+        <div>
+          <a href="introduction.html">Introduction</a> |
+          <a href="python-api.html">Python API</a> |
+          <a href="reference.html">Reference</a> |
+          <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const links = Array.from(document.querySelectorAll(".sidebar a[href^='#']"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const sections = links
+          .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+          .filter(Boolean);
+        const visible = new Set();
+        const setActive = (id) => {
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href").slice(1) === id)
+          );
+        };
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            }
+            const current = sections.find((s) => visible.has(s.id));
+            if (current) setActive(current.id);
+          },
+          { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+        );
+        sections.forEach((s) => observer.observe(s));
+      })();
+    </script>
+  </body>
+</html>

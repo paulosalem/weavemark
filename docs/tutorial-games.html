@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Tutorial - Game Specifications</title>
+    <meta
+      name="description"
+      content="Learn WeaveMark game-specification workflows with @expand, @iterate, reusable game fragments, and browser-validation requirements."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="tutorial.html" aria-current="page">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <nav class="tutorial-nav shell" aria-label="Tutorials">
+      <a href="tutorial.html"><span>1</span> First promplet</a>
+      <a href="tutorial-reuse.html"><span>2</span> Reuse &amp; refine</a>
+      <a href="tutorial-refine.html"><span>3</span> Adaptive tutor</a>
+      <a href="tutorial-products.html"><span>4</span> Product specs</a>
+      <a href="tutorial-games.html" aria-current="page"><span>5</span> Game specs</a>
+      <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
+      <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
+      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
+      <a href="tutorial-illustrated.html"><span>9</span> Illustrated stories</a>
+    </nav>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Hands-on tutorial</p>
+      <h1>
+        Expand named game concepts into
+        <span class="gradient-text">playable browser specifications.</span>
+      </h1>
+      <p class="hero-copy">
+        Game specs are a vivid way to see WeaveMark's semantic composition.
+        In this tutorial, you will build <strong>Metro Lines</strong>:
+        <strong>mechanics, validation, assets, progression, and UI constraints</strong>
+        must turn into one playable first-build loop.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Game tutorial highlights">
+      <div class="summary-card">
+        <strong>You write</strong>
+        <span>A named Metro Lines spec that expands compact mechanics into a build prompt.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You produce</strong>
+        <span>Programming-agent prompts plus playtest and art-direction files.</span>
+      </div>
+      <div class="summary-card">
+        <strong>You learn</strong>
+        <span><code>@expand</code>, <code>@iterate</code>, validation, and support artifacts.</span>
+      </div>
+    </div>
+
+    <section class="shell repo-resources" aria-label="Repository files for this tutorial">
+      <h2>In the repository</h2>
+      <div class="repo-resources-links">
+        <a class="repo-link" href="../promplets/tutorials/metro-lines.weavemark.md"><span class="repo-tag">Spec</span> metro-lines.weavemark.md</a>
+        <a class="repo-link" href="../promplets/tutorials/metro-lines-pack.weavemark.md"><span class="repo-tag">Spec</span> metro-lines-pack.weavemark.md</a>
+      </div>
+    </section>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Tutorial sections">
+        <h2>Steps</h2>
+        <a href="#expand">1. Write the game spec</a>
+        <a href="#iterate">2. Read the language moves</a>
+        <a href="#browser">3. Compose it</a>
+        <a href="#adapt">4. Adapt it</a>
+        <a href="#pack">5. Emit support files</a>
+        <a href="#next">Next</a>
+      </aside>
+
+      <div class="article">
+        <section id="expand" class="article-section">
+          <h2>1. Write a playable browser-game spec</h2>
+          <p>
+            Save this as <code>outputs/tutorial-game/metro-lines.weavemark.md</code>.
+            It starts from a named, memorable game idea, expands it into a
+            playable loop, and refines it with browser-validation requirements.
+          </p>
+          <pre><code>mkdir -p outputs/tutorial-game</code></pre>
+          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-game/metro-lines.weavemark.md</span>
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.web_based_game <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.validation.playwright_mcp_browser_validation <span class="syntax-key">mingle:</span> true
+
+# Metro Lines
+
+<span class="syntax-directive">@iterate</span> 2
+  <span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention <span class="syntax-key">focus:</span> <span class="syntax-string">"one integrated playable loop"</span>
+    Metro Lines: a browser game where the player draws transit
+    routes, passenger swarms reveal demand, congestion creates
+    pressure, and districts grow when the network succeeds.
+
+Core fantasy: <span class="syntax-var">@{game_fantasy}</span>
+Target device: <span class="syntax-var">@{target_device}</span>
+Visual mood: <span class="syntax-var">@{visual_mood}</span>
+
+<span class="syntax-directive">@match</span> session_length
+  <span class="syntax-string">"short"</span> ==&gt;
+    Design a 5-minute score chase with quick restarts.
+  <span class="syntax-string">"long"</span> ==&gt;
+    Design a 25-minute city-growth arc with escalating pressure.
+
+<span class="syntax-directive">@if</span> include_touch_controls
+  Specify touch-friendly drawing, undo, and station selection.
+
+<span class="syntax-directive">@if</span> include_accessibility
+  Add keyboard-only play, reduced-motion mode, and non-color-only demand cues.
+
+<span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
+  Return game loop, entities, controls, progression,
+  scoring, accessibility, failure states, browser validation steps,
+  and first-build scope.
+
+<span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"first-build scope"</span>
+<span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"browser validation"</span></code></pre>
+          <p>
+            The complete, tested specs for this tutorial are checked in under
+            <code>promplets/tutorials/</code>:
+            <a href="../promplets/tutorials/metro-lines.weavemark.md">metro-lines.weavemark.md</a>
+            and the emission pack
+            <a href="../promplets/tutorials/metro-lines-pack.weavemark.md">metro-lines-pack.weavemark.md</a>.
+          </p>
+        </section>
+
+        <section id="iterate" class="article-section">
+          <h2>2. Highlight: improve expansion with <code>@iterate</code></h2>
+          <p>
+            <code>@expand</code> has a body: the compact idea to expand.
+            <code>@iterate 2</code> wraps that expansion so the Processor can
+            improve the directive-application step when it sees a useful change.
+          </p>
+          <div class="callout">
+            <strong>Why <code>@iterate</code> matters:</strong> creative specs
+            often get better when the Processor can revisit the transformation.
+            Here, the first pass expands the game idea; the second pass can
+            tighten the playable loop, validation obligations, and first-build
+            scope.
+          </div>
+          <p>
+            The validation refinement is also concrete: the final prompt should
+            ask a programming agent to <strong>open the browser, exercise controls,
+            inspect console output, and fix visible defects</strong>.
+          </p>
+        </section>
+
+        <section id="browser" class="article-section">
+          <h2>3. Compose the game specification</h2>
+          <p>
+            Compile a concrete <strong>Metro Lines</strong> first-build prompt
+            for a programming agent.
+          </p>
+          <pre><code>weavemark outputs/tutorial-game/metro-lines.weavemark.md \
+  --batch-only \
+  --var game_fantasy="Metro Lines makes a living city breathe through transit routes" \
+  --var target_device="desktop browser" \
+  --var visual_mood="clean transit maps, soft city glow, readable swarms" \
+  --var session_length=short \
+  --var include_touch_controls=false \
+  --var include_accessibility=true \
+  --output outputs/tutorial-game/metro-lines-build.md</code></pre>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>metro-lines-build.md</code> is a programming-agent prompt.
+            Give it to GitHub Copilot, Claude Code, Cursor, or another
+            AI-assisted programming tool and ask it to build the playable
+            Metro Lines browser game.
+          </div>
+        </section>
+
+        <section id="adapt" class="article-section">
+          <h2>4. Adapt it to mobile</h2>
+          <p>
+            Reuse the same spec and change the variables. The branch and touch
+            control instructions now produce a different build prompt.
+          </p>
+          <pre><code>weavemark outputs/tutorial-game/metro-lines.weavemark.md \
+  --batch-only \
+  --var game_fantasy="Metro Lines as calm commute planning with tactile route drawing" \
+  --var target_device="mobile browser" \
+  --var visual_mood="paper-map warmth, large stations, calm motion" \
+  --var session_length=long \
+  --var include_touch_controls=true \
+  --var include_accessibility=true \
+  --output outputs/tutorial-game/metro-lines-mobile-build.md</code></pre>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>metro-lines-mobile-build.md</code> is a mobile-focused
+            programming-agent prompt. Use it when the implementation target is a
+            touch-friendly Metro Lines browser game.
+          </div>
+        </section>
+
+        <section id="pack" class="article-section">
+          <h2>5. Emit support files for the programming agent</h2>
+          <p>
+            For games, companion artifacts are especially useful: a first-build
+            brief, a playtest checklist, and a visual-direction sheet keep the
+            implementation focused. This larger spec also shows that emitted
+            files can contain normal WeaveMark directives.
+          </p>
+          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-game/metro-lines-pack.weavemark.md</span>
+<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@compile</span> <span class="syntax-key">format:</span> markdown
+
+<span class="syntax-directive">@emit</span> <span class="syntax-key">file:</span> <span class="syntax-string">"build-spec.md"</span>
+  <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.web_based_game <span class="syntax-key">mingle:</span> true
+  <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.validation.playwright_mcp_browser_validation <span class="syntax-key">mingle:</span> true
+
+  # Metro Lines first build
+
+  <span class="syntax-directive">@iterate</span> 2
+    <span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention <span class="syntax-key">focus:</span> <span class="syntax-string">"playable systems with visible feedback"</span>
+      Metro Lines: the player draws transit routes, passenger
+      swarms expose demand, congestion creates pressure, and
+      districts evolve when the network succeeds or fails.
+
+  Core fantasy: <span class="syntax-var">@{game_fantasy}</span>
+  Target device: <span class="syntax-var">@{target_device}</span>
+  Visual mood: <span class="syntax-var">@{visual_mood}</span>
+
+  <span class="syntax-directive">@match</span> session_length
+    <span class="syntax-string">"short"</span> ==&gt;
+      Build a quick score chase with visible demand spikes and restarts.
+    <span class="syntax-string">"long"</span> ==&gt;
+      Build a city-growth arc with unlocks, congestion pressure, and recovery.
+
+  <span class="syntax-directive">@if</span> include_touch_controls
+    Add touch drawing, tap-to-select stations, and a large undo target.
+
+  <span class="syntax-directive">@if</span> include_accessibility
+    Include keyboard-only line drawing, reduced motion, and shape-based demand cues.
+
+<span class="syntax-directive">@emit</span> <span class="syntax-key">file:</span> <span class="syntax-string">"playtest-checklist.md"</span>
+  # Metro Lines playtest checklist
+
+  Validate the first build in a real browser:
+  - draw a route between two districts
+  - watch passenger swarms choose the route
+  - create congestion and observe visible feedback
+  - undo a route and confirm demand updates
+  - trigger the win or score condition within one session
+  - open the console and fix errors before claiming success
+
+<span class="syntax-directive">@emit</span> <span class="syntax-key">file:</span> <span class="syntax-string">"art-direction.md"</span>
+  # Metro Lines art direction
+
+  Mood: <span class="syntax-var">@{visual_mood}</span>
+
+  Use:
+  - crisp routes with high contrast
+  - station glyphs that remain readable at small sizes
+  - passenger swarms that show direction without overwhelming the map
+  - district growth animations that can be disabled
+  - a HUD that always shows score, congestion, and current tool</code></pre>
+          <pre><code>weavemark outputs/tutorial-game/metro-lines-pack.weavemark.md \
+  --batch-only \
+  --output-dir outputs/tutorial-game/metro-lines-pack \
+  --var game_fantasy="Metro Lines makes a living city breathe through transit routes" \
+  --var target_device="desktop browser" \
+  --var visual_mood="clean transit maps, soft city glow, readable swarms" \
+  --var session_length=short \
+  --var include_touch_controls=false \
+  --var include_accessibility=true</code></pre>
+          <div class="callout">
+            <strong>What this teaches:</strong> the same WeaveMark source can
+            expand a creative idea, refine it with browser-game requirements,
+            and emit focused support files that make implementation easier to
+            inspect and test.
+          </div>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            <code>build-spec.md</code> is the programming-agent prompt,
+            <code>playtest-checklist.md</code> is the manual/agent validation
+            checklist, and <code>art-direction.md</code> is a support brief to
+            keep the visual implementation consistent.
+          </div>
+        </section>
+
+        <section id="next" class="article-section">
+          <h2>Next</h2>
+          <p>
+            Continue with the <a href="tutorial-directives.html">Semantic toolbox</a>
+            to master the directives that reshape meaning, or open
+            the <a href="python-api.html">Python API</a> to compile specs from
+            applications.
+          </p>
+        </section>
+      </div>
+    </main>
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark game tutorial</strong><br>
+          Build Metro Lines as a concrete browser-game specification.
+        </div>
+        <div>
+          <a href="tutorial.html">Tutorial track</a> |
+          <a href="tutorial-advanced.html">Advanced macros</a> |
+          <a href="reference.html">Reference</a> |
+          <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const links = Array.from(document.querySelectorAll(".sidebar a[href^='#']"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const sections = links
+          .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+          .filter(Boolean);
+        const visible = new Set();
+        const setActive = (id) => {
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href").slice(1) === id)
+          );
+        };
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            }
+            const current = sections.find((s) => visible.has(s.id));
+            if (current) setActive(current.id);
+          },
+          { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+        );
+        sections.forEach((s) => observer.observe(s));
+      })();
+    </script>
+  </body>
+</html>

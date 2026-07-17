@@ -1,0 +1,30 @@
+{
+  "source": "studies/controlled-studies/games/orbital-drift-racing-ablation-study/outputs/compiled-prompts/02-treatment-promplet-orbital-drift.md",
+  "implementation_name": "orbital-drift",
+  "profile": "copilot",
+  "command": [
+    "copilot",
+    "-C",
+    "outputs/implementations/orbital-drift",
+    "--add-dir",
+    "outputs/implementations/orbital-drift",
+    "--no-color",
+    "--no-ask-user",
+    "--autopilot",
+    "--max-autopilot-continues",
+    "8",
+    "--allow-all-tools",
+    "--name",
+    "promplet-implementation",
+    "--prompt",
+    "You are implementing a compiled WeaveMark software specification.\n\nRead ./compiled-spec.md and build the smallest complete, runnable implementation that satisfies it in the current directory.\n\nOperating constraints:\n- Work only inside the current directory.\n- Do not edit the source WeaveMark repository or the original study/example files.\n- Prefer a simple, inspectable project structure over framework ceremony unless\n  the spec explicitly requires a framework.\n- If the spec names a platform or stack, use it. If it does not, choose the\n  simplest local stack that can satisfy the behavior.\n- Add concise run and verification instructions in README.md.\n- Run the relevant available build, test, lint, or smoke checks before finishing.\n- If a requirement cannot be implemented in this pass, document the gap clearly\n  in README.md instead of pretending it is complete.\n"
+  ],
+  "created_at": "2026-07-09T19:04:36-03:00",
+  "dry_run": false,
+  "artifacts": {
+    "compiled_spec_snapshot": "outputs/implementations/orbital-drift/orbital-drift.compiled-spec.md",
+    "agent_prompt": "outputs/implementations/orbital-drift/orbital-drift.implementation-prompt.md",
+    "transcript": "outputs/implementations/orbital-drift/orbital-drift.copilot.transcript.log",
+    "manifest": "outputs/implementations/orbital-drift/orbital-drift.implementation.json"
+  }
+}

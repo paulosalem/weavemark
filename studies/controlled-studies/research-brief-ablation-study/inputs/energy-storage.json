@@ -1,0 +1,10 @@
+{
+  "research_topic": "grid-scale energy storage options for mid-sized cities",
+  "audience": "city planners evaluating a 2030 resilience roadmap",
+  "purpose": "Identify which storage technologies deserve deeper procurement analysis and which claims are still weakly evidenced.",
+  "known_context": "The city has rising summer peak demand, wildfire-related outage risk, limited downtown land, and political pressure to improve resilience without locking into immature technology.",
+  "time_horizon": "Decisions over the next 18 months, with infrastructure relevance through 2030.",
+  "source_requirements": "Cover public agencies, grid operators, recent project deployments, independent technical reviews, skeptical economic analysis, and vendor claims clearly labeled as such.",
+  "depth": "decision-grade",
+  "compare_alternatives": true
+}

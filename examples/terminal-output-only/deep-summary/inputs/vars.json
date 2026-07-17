@@ -1,0 +1,6 @@
+{
+  "audience": "A founder deciding whether the update changes the company operating plan.",
+  "summary_goal": "Extract the real implications, not just a shorter version of the text.",
+  "desired_depth": "A layered summary: fast orientation first, then evidence, implications, and action items.",
+  "source_material": "Quarterly update excerpt:\nRevenue grew 18% quarter over quarter, mostly from expansion inside existing mid-market accounts. New-logo sales were weaker than forecast because implementation references are still thin in regulated industries. Gross retention stayed above 94%, but two large customers delayed renewals until the reporting workflow supports custom approval chains. The product team shipped the first version of the compliance dashboard, but usage is concentrated in three accounts and support tickets show confusion about role permissions. Sales wants to promise custom approval chains this quarter. Engineering says that would displace the reliability work planned after two customer-visible incidents in June. Finance can support two more enterprise implementations this quarter, but only if onboarding hours per account fall by at least 20%. The leadership team has not decided whether the priority is faster enterprise expansion or stabilizing the mid-market motion."
+}

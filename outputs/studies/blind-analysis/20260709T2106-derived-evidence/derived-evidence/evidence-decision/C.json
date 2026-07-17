@@ -1,0 +1,28 @@
+{
+  "artifact_hashes": {
+    "output_sha256": "95f8dd0fea9ea86efc6a118916c30f7b19e10c2896f9185ff44c7e1667c73014",
+    "source_sha256": "94db853943c170d9f880a9d991a5c72462555586ba3b1107a181ef44973f53b6",
+    "variables_sha256": null
+  },
+  "fact_candidate_count": 5,
+  "fact_candidates": [
+    "Design a local-first web application that helps me collect documents, notes,",
+    "links, and news; audit claims and evidence; compare explanations and options;",
+    "make decisions; assign follow-up actions; and preserve provenance.",
+    "This implementation-ready specification covers product goals, data",
+    "model, local storage, workflows, UI, APIs, privacy, failure handling, validation,"
+  ],
+  "metrics": {
+    "candidate_facts": 5,
+    "counted_facts": 5,
+    "discounted_fact_units": 5.0,
+    "information_density_per_1k_output_words": 90.9,
+    "information_yield_per_1k_source_words": 90.9,
+    "local_authored_source_words": 55,
+    "local_leverage": 1.0,
+    "output_words": 55,
+    "study": "evidence-decision",
+    "variable_payload_words": 0,
+    "variant": "manual"
+  }
+}

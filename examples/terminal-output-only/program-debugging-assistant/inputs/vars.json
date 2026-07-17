@@ -1,0 +1,11 @@
+{
+  "language_or_stack": "Python 3.11, FastAPI, async SQLAlchemy, PostgreSQL",
+  "problem_summary": "After moving invoice creation to async SQLAlchemy, the endpoint sometimes returns HTTP 500 instead of creating an invoice.",
+  "expected_behavior": "POST /invoices should create one invoice row, return 201, and include the generated invoice id.",
+  "observed_behavior": "About one in three requests returns 500. The database sometimes has the invoice row even when the client sees an error.",
+  "error_output": "sqlalchemy.exc.InvalidRequestError: Can't operate on closed transaction inside context manager. Please complete the context manager before emitting further commands.",
+  "relevant_program_text": "async def create_invoice(payload: InvoiceIn, session: AsyncSession):\n    async with session.begin():\n        invoice = Invoice(customer_id=payload.customer_id, total=payload.total)\n        session.add(invoice)\n        await session.flush()\n    await session.refresh(invoice)\n    await publish_invoice_created(invoice.id)\n    return invoice",
+  "environment_and_recent_changes": "The service recently changed from a synchronous repository to async SQLAlchemy sessions injected per request. A background event publish step was added after flush so downstream reports update faster.",
+  "attempts_so_far": "Retried the request, moved publish_invoice_created after refresh, and added logging around session.begin. The error still appears intermittently.",
+  "constraints": "Prefer a narrow fix and a verification test. Do not rewrite the whole persistence layer."
+}

@@ -1,0 +1,21 @@
+{
+  "engine": "fslm",
+  "engine_config": {
+    "initial_event": {
+      "type": "user_message",
+      "payload": {
+        "message": "How do I reset my password if I no longer have access to my old phone?",
+        "channel": "email",
+        "context": "The product supports password reset by email and recovery codes."
+      }
+    },
+    "max_steps": 2,
+    "prompt_contract": "strict"
+  },
+  "prompts": {
+    "guard.has_answerable_question": { "temperature": 0.0 },
+    "invariant.answer_is_grounded": { "temperature": 0.0 },
+    "action.draft_answer": { "temperature": 0.2 },
+    "output.final_answer": { "temperature": 0.2 }
+  }
+}

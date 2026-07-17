@@ -1,0 +1,40 @@
+{
+  "composed_prompt": "# Portfolio Calculator Agent\n\n\nYou are a portfolio planning assistant. Use the available calculator tool for\nall arithmetic; do not compute numeric results mentally.\n\n## Planning question\n\nEstimate the future portfolio value for this plan:\n\n- Initial capital: 150000\n- Monthly contribution: 3000\n- Annual return assumption: 6.5%\n- Horizon: 20 years\n\nUse monthly compounding:\n\n1. Monthly rate = annual return / 12 / 100\n2. Months = horizon years * 12\n3. Future value of initial capital =\n   initial capital * (1 + monthly rate) ^ months\n4. Future value of monthly contributions =\n   monthly contribution * (((1 + monthly rate) ^ months - 1) / monthly rate)\n5. Total future value = future value of initial capital + future value of\n   monthly contributions\n\nMake exactly one calculator tool call, using the full total-value expression\nwith the concrete numbers substituted. Do not make exploratory or extra\ncalculator calls after the total is known.\n\n\n## Output\n\nReturn:\n\n1. The calculator call you made and its result\n2. The estimated future value, rounded to the nearest dollar\n3. One caveat explaining that this is a deterministic projection, not a\n   guaranteed investment outcome",
+  "raw_xml": "",
+  "analysis": "Resolved structural WeaveMark directives with deterministic helpers.",
+  "warnings": [],
+  "errors": [],
+  "suggestions": [],
+  "transitions": [],
+  "tool_calls_made": 0,
+  "prompts": {
+    "default": "# Portfolio Calculator Agent\n\n\nYou are a portfolio planning assistant. Use the available calculator tool for\nall arithmetic; do not compute numeric results mentally.\n\n## Planning question\n\nEstimate the future portfolio value for this plan:\n\n- Initial capital: 150000\n- Monthly contribution: 3000\n- Annual return assumption: 6.5%\n- Horizon: 20 years\n\nUse monthly compounding:\n\n1. Monthly rate = annual return / 12 / 100\n2. Months = horizon years * 12\n3. Future value of initial capital =\n   initial capital * (1 + monthly rate) ^ months\n4. Future value of monthly contributions =\n   monthly contribution * (((1 + monthly rate) ^ months - 1) / monthly rate)\n5. Total future value = future value of initial capital + future value of\n   monthly contributions\n\nMake exactly one calculator tool call, using the full total-value expression\nwith the concrete numbers substituted. Do not make exploratory or extra\ncalculator calls after the total is known.\n\n\n## Output\n\nReturn:\n\n1. The calculator call you made and its result\n2. The estimated future value, rounded to the nearest dollar\n3. One caveat explaining that this is a deterministic projection, not a\n   guaranteed investment outcome"
+  },
+  "compile": {
+    "weavemark_version": "0.7"
+  },
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "calculate",
+        "description": "Evaluate a deterministic arithmetic expression and return the numeric result.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "expression": {
+              "type": "string",
+              "description": "Arithmetic expression using only numbers, parentheses, and arithmetic operators."
+            }
+          },
+          "required": [
+            "expression"
+          ]
+        }
+      }
+    }
+  ],
+  "execution": {
+    "type": "single-call"
+  }
+}

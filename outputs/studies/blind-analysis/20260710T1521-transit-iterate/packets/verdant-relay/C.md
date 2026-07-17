@@ -1,0 +1,673 @@
+# Blind evaluation packet
+
+Study: Verdant Relay
+Variant: C
+Mode: source-and-output
+
+Evaluate only the anonymous artifact content. Do not use filenames, marker guesses, known study history, or presumed authoring condition.
+
+## Source material
+
+# @{game_title}: Framework-X Browser-Game variant
+
+@directive-c goal: "dense browser-game implementation spec" target: structure budget: "dense implementation spec" preserve: hard
+  @directive-a programming/foundations/software-spec
+    Mingle mechanics, architecture, assets, validation, tuning, and readability
+    into one browser-game implementation spec; never append generic fragments.
+
+  @directive-a programming/types/web-based-game
+
+  Design @{game_title}: a playable living-railway browser game where route
+  defense, deckbuilder choices, ecosystem feedback, original assets, and real
+  browser validation shape the same first build.
+
+  @directive-b mode: intention focus: "route pressure plus card choice plus ecosystem feedback plus readable first-build loop plus assets plus Playwright validation"
+    Living railway garden defense.
+
+  ## Integrated mechanics
+
+  @directive-a game-design/mechanics/tower-defense
+    Railway blight lanes, leaks, rewards, upgrades, cards, and ecosystem state.
+
+  @directive-a game-design/mechanics/deckbuilder
+    Cards change wave outcomes through plant, habitat, intervention, route,
+    resource, upgrade, and recovery choices.
+
+  @directive-a game-design/mechanics/ecosystem-simulation
+    Ecosystem state changes defense decisions, card value, recovery, and failure.
+
+  @directive-a programming/types/type-2d-game
+    Adapt components/systems to tiles, lanes, cards, ecosystem, waves, overlays,
+    and animation.
+
+  ## Player readability, progression, and tuning
+
+  @directive-a game-design/production/playability-readability
+  @directive-a game-design/production/progression-balance-model
+
+  Use deterministic waves, seeded draws/events, and a small complete content set.
+
+  ## Browser implementation, assets, and validation
+
+  @directive-a programming/validation/playwright-mcp-browser-validation
+    Prove load, start, card draw/play, placement/upgrade, wave, ecosystem
+    feedback, leak/win, pause/resume, and restart in a real browser.
+
+  @directive-a programming/assets/generative-2d-sprites
+  @directive-a product/product-validation-surface
+
+  ## Required output
+
+  Produce one information-rich implementation spec covering objective, loop,
+  entities, state, simulation, content, UI, variants, assets, browser
+  implementation, Playwright validation, progression, balance, playtests, risks,
+  failures, release gate, and acceptance. Include concrete lists/tables for
+  content, fields, tuning, validation, assets, and acceptance. Use field lists or
+  tables instead of fenced examples for JSON-shaped game data.
+
+
+## Variable payload
+
+{
+  "game_title": "Verdant Relay"
+}
+
+
+
+## Compiled output
+
+# Verdant Relay: Browser-Game Implementation Spec
+
+Use this implementation-ready specification to build **Verdant Relay**, a playable browser game whose route defense, deckbuilder choices, living ecosystem feedback, original 2D assets, and real browser validation form one coherent first build.
+
+This is a software specification for a programming agent. It MUST be concrete enough to implement without asking basic product-shape questions. Use MUST/SHOULD/MAY precisely. State first-build scope, safe assumptions, and genuine open decisions. Do not write an interview script or generic planning prompt.
+
+## 1. Product intent and first-build scope
+
+**Game pitch:** Verdant Relay is a living-railway garden-defense deckbuilder. Blight travels along railway lanes toward a central garden relay. The player uses a small hand of cards to grow defensive plants, restore habitats, redirect route pressure, upgrade defenses, and recover damaged ecosystem nodes before leaks collapse the relay.
+
+**Target user:** casual strategy players who understand tower defense and card choices but need clear first-run teaching, readable feedback, and short-session completion.
+
+**First-build promise:** a complete vertical slice playable in one browser page: load, start, learn, draw cards, place or upgrade defenses, start deterministic waves, observe ecosystem feedback, leak or win, pause/resume, restart without page reload, and validate in a real browser.
+
+**In scope for the first build**
+- One map with 3 railway lanes, a protected Garden Relay, and visible habitat tiles.
+- 6 deterministic waves plus a short tutorial wave.
+- Seeded deck draws and seeded ecosystem events for repeatable testing.
+- 12 cards, 4 defensive plant types, 4 blight threat types, 3 habitat/resource types, 2 upgrade tiers.
+- Local-only browser play; no backend, accounts, multiplayer, leaderboards, paid content, or network dependency.
+- Original or generated placeholder 2D sprites with documented generation prompts, metadata, and provenance.
+- Playwright MCP or equivalent browser validation proving the main play loop.
+
+**Out of scope for the first build**
+- Procedural maps, endless mode, large card pools, advanced pathfinding, online saves, mobile-first layout beyond responsive readability, music composition beyond simple generated or placeholder audio, and monetization.
+
+## 2. Player objective, loop, and win/loss
+
+**Protected objective:** the Garden Relay at the rail terminus has `relay_health = 10`. Blight units that reach it cause leaks. If `relay_health <= 0`, the run fails.
+
+**Win condition:** defeat all units in Wave 6 while keeping `relay_health > 0` and ecosystem `resilience >= 20`.
+
+**Loss conditions**
+- `relay_health <= 0`.
+- Ecosystem `resilience <= 0` at the end of a wave.
+- A scripted validation failure occurs only in tests, not normal play.
+
+**Core loop**
+1. Read wave preview: lanes, threat icons, route arrows, spawn timing, rewards, and ecosystem risk.
+2. Draw 5 cards from the deck.
+3. Spend `sun_energy` and `spore_tokens` to play cards: plant, upgrade, habitat, intervention, route, resource, or recovery.
+4. Preview placement/range/target/effect; invalid actions show exact reasons.
+5. Start the wave.
+6. Systems simulate movement, attacks, growth, blight spread, pollination, decay, leaks, rewards, and recovery.
+7. End wave: gain rewards, draft 1 of 3 cards or upgrade/remove 1 card, update ecosystem, show failure lessons or next-wave plan.
+8. Continue, win, lose, pause/resume, or restart.
+
+**First 30 seconds**
+- Player sees title, one-sentence goal, Start button, and a simple 3-lane map.
+- Tutorial points to the Garden Relay, incoming blight lane, hand of cards, and one legal planting tile.
+- First card play is constrained but real; player previews range, places a `Moss Sprayer`, starts the tutorial wave, sees blight slowed/damaged, earns a reward, and draws the next hand.
+
+## 3. Game states and transitions
+
+Use explicit state machines. Gameplay systems MUST run only in states that permit them.
+
+| State | Entered by | Active systems | Required UI | Exit |
+|---|---|---|---|---|
+| `Loading` | page load | asset preload, manifest validation | progress bar, fallback text | `MainMenu` when assets ready |
+| `MainMenu` | load complete or quit | animated background only | Start, Options, Credits/Asset provenance | Start -> `PlayingSetup` |
+| `PlayingSetup` | new run/wave end | input, card preview, placement preview | map, HUD, hand, wave preview, ecosystem panel | Start Wave -> `WaveActive`; Pause -> `Paused` |
+| `WaveActive` | wave start | movement, attack, blight, ecosystem tick, animation, sound | same HUD plus wave progress and speed variants | wave clear -> `Reward`; relay/ecosystem fail -> `GameOver`; Pause -> `Paused` |
+| `Reward` | wave clear | draft/upgrade/remove UI | reward choices, deck delta, next-wave preview | Continue -> `PlayingSetup` |
+| `Paused` | Escape, P, visibility loss, blur | no gameplay simulation; UI still responds | Resume, Restart, Main Menu, options overlay | Resume returns to prior state |
+| `GameOver` | loss or win | result animation, score persistence | Win/Lose reason, stats, lesson, Play Again, Main Menu | Play Again -> reset run |
+| `Error` | unrecoverable asset/runtime issue | none except reporting | clear error message and restart/reload option | restart or reload |
+
+Page visibility changes, tab switching, and focus loss MUST pause or safely suspend gameplay. Restart MUST reset run state without full page reload.
+
+## 4. Architecture and implementation model
+
+Use a browser-first 2D game architecture. Recommended stack: TypeScript, Vite, HTML Canvas 2D or PixiJS. Keep the engine small and inspectable.
+
+**Core loop order**
+1. Process input events.
+2. Apply queued commands.
+3. Run simulation systems using fixed-step ticks.
+4. Run animation/interpolation.
+5. Render frame.
+6. Emit UI/audio feedback.
+
+**ECS discipline**
+- All gameplay state is expressed as entities with components; avoid global mutable singletons.
+- Global services MAY exist for rendering, asset registry, input, audio, seeded RNG, and persistence, but gameplay facts live in world state.
+- Systems are pure or near-pure over world state where feasible and are deterministic under a seed.
+
+**Required components**
+| Component | Fields |
+|---|---|
+| `Transform` | `x`, `y`, `rotation`, `scale`, `lane_id`, `tile_id` |
+| `Velocity` | `dx`, `dy`, `speed` |
+| `Sprite` | `asset_key`, `animation`, `frame_index`, `tint`, `visible`, `z_index` |
+| `Health` | `current`, `max`, `armor`, `last_damage_tick` |
+| `Collider` | `shape`, `radius_or_bounds`, `layer`, `solid` |
+| `RailPathFollower` | `path_id`, `progress`, `direction`, `waypoint_index` |
+| `Threat` | `threat_id`, `kind`, `reward`, `resistances`, `special_tags` |
+| `Defense` | `defense_id`, `range`, `targeting_rule`, `damage`, `effect`, `reload_ticks`, `cooldown_ticks`, `upgrade_tier` |
+| `Plant` | `species`, `growth_stage`, `water_need`, `pollination_need`, `habitat_tags` |
+| `Habitat` | `type`, `fertility`, `moisture`, `biodiversity`, `contamination` |
+| `EcosystemNode` | `health`, `stress`, `resilience_delta`, `spread_risk`, `recovery_rate` |
+| `CardInstance` | `card_id`, `zone`, `upgraded`, `temporary_modifiers`, `draw_order` |
+| `StatusEffect` | `id`, `source`, `target`, `duration_ticks`, `magnitude`, `stack_rule` |
+| `Selectable` | `hovered`, `selected`, `disabled_reason` |
+| `AudioEmitter` | `category`, `sound_key`, `volume`, `pan` |
+
+**Required systems**
+| System | Responsibility |
+|---|---|
+| `InputSystem` | keyboard/mouse/touch events, command queue, focus handling |
+| `DeckSystem` | draw, discard, reshuffle, exhaust, reward draft, upgrades/removals |
+| `CardPlaySystem` | cost validation, target validation, effect preview, effect resolution |
+| `PlacementSystem` | tile occupancy, range preview, blocked placement reasons |
+| `WaveSystem` | deterministic spawns, route selection, wave completion |
+| `MovementSystem` | rail-path progress and leak detection |
+| `DefenseTargetingSystem` | target selection, reload cadence, attacks/effects |
+| `EcosystemSystem` | resource flows, growth/decay, pollination, contamination, resilience |
+| `RewardSystem` | resources, draft offers, unlocks, score updates |
+| `RenderSystem` | stable canvas layout, sprites, overlays, HUD, particles |
+| `AudioSystem` | music/sfx/ui categories, volume sliders, stereo pan relative to camera |
+| `PersistenceSystem` | settings, tutorial completion, top-10 local scores, best wave |
+| `ValidationHooks` | deterministic test variants and readable state probes for Playwright |
+
+**Camera and viewport**
+- Use a stable top-down or slight isometric 2D view.
+- Camera bounds clamp to the map; never show void outside the map.
+- If camera movement is used, smooth-follow or pan with lerp speed factor near `5.0`.
+- Screen shake MAY occur on relay damage: amplitude `4px`, decay `0.3s`, disabled by reduced-motion setting.
+- Preserve aspect ratio and readable UI at common desktop browser sizes; mobile MAY stack panels but must remain playable if claimed.
+
+**Persistence**
+- Store settings, tutorial completion, and top-10 scores locally as JSON in `localStorage`.
+- A later desktop wrapper MAY export the same structure as a `RON/JSON file`.
+- Do not persist secrets or user personal data.
+
+## 5. Map, lanes, and placement
+
+**Map layout**
+- Grid: 12 columns x 8 rows.
+- Lanes: `north_rail`, `central_rail`, `south_rail`.
+- Each lane has visible rail ties and arrows showing threat direction.
+- Garden Relay occupies 2x2 tiles at the right edge.
+- Habitat tiles sit adjacent to rails and can host plants/interventions.
+- Threat paths are fixed polylines; no advanced pathfinding required for first build.
+
+**Placement rules**
+| Rule | Requirement |
+|---|---|
+| Legal tiles | habitat or rail-adjacent garden tiles marked as buildable |
+| Illegal tiles | rail path, relay core, occupied tiles, blocked terrain, off-map |
+| Preview | show range circle/diamond, affected lane segments, cost, expected effect |
+| Invalid feedback | show reason: insufficient resource, occupied tile, wrong target, cooldown, not during setup, ecosystem too stressed |
+| Repositioning | not available in first build except `Transplant Permit` card |
+| Selling | not available in first build; use card removal/recovery instead |
+| Upgrades | done through cards or reward upgrade, not by free-click spending |
+
+## 6. Threats, waves, pressure, and rewards
+
+Threat movement MUST be readable before and during waves. The wave preview MUST show lane, count, spawn timing, threat type, special behavior, and reward.
+
+**Threat types**
+| id | Name | Health | Speed | Behavior | Reward | Counterplay |
+|---|---|---:|---:|---|---:|---|
+| `soot_mite` | Soot Mite | 6 | 1.00 | basic rail crawler | 1 `spore_token` | any damage |
+| `rust_slug` | Rust Slug | 14 | 0.55 | armored; resists small rapid hits | 2 `spore_token` | burst roots, upgrades |
+| `cinder_moth` | Cinder Moth | 8 | 1.35 | ignores first slow effect; stresses pollinators | 1 `sun_energy` | nectar habitats, direct shots |
+| `bramble_blight` | Bramble Blight | 22 | 0.75 | drops contamination on death if not cleansed | 3 `spore_token` | cleansing cards, wetland buffer |
+
+**Wave table**
+| Wave | Teaches/Stresses | Spawns | Ecosystem event | Reward |
+|---:|---|---|---|---|
+| 0 | tutorial placement and start wave | 3 `soot_mite` on `central_rail` | none | draft 1 of 3 simple cards |
+| 1 | two-lane coverage | 5 `soot_mite`, split central/south | light drought: `moisture -5` | 2 spores + draft |
+| 2 | armor counterplay | 3 `rust_slug`, 4 `soot_mite` | fungus bloom if contamination > 10 | upgrade offer |
+| 3 | speed and pollinator stress | 4 `cinder_moth`, 6 `soot_mite` | pollinator shortage: `biodiversity -8` | draft + remove option |
+| 4 | contamination recovery | 2 `bramble_blight`, 4 `rust_slug` | contamination spread on weak habitats | 4 spores + upgrade |
+| 5 | combined routes | mixed pack across all lanes | seeded storm: slows enemies, stresses plants | draft rare |
+| 6 | final resilience test | all types, heavier timing overlap | relay surge: resilience check at end | win if cleared |
+
+**Difficulty tuning knobs**
+| Parameter | Initial | Safe range | Too low symptom | Too high symptom | Adjustment rule |
+|---|---:|---:|---|---|---|
+| `relay_health` | 10 | 6-14 | mistakes irrelevant | early leaks feel fatal | tune after Wave 3 leak data |
+| `enemy_health_multiplier` | 1.0 | 0.8-1.35 | no pressure | impossible waves | adjust by 5-10% |
+| `spawn_gap_ticks` | 90 | 45-140 | cluttered unreadable waves | idle waiting | keep simultaneous threats <= 9 |
+| `starting_sun_energy` | 3 | 2-5 | dead turns | spam all cards | target 2-3 meaningful plays/turn |
+| `starting_spore_tokens` | 2 | 0-4 | no setup choices | trivial defenses | pair with card costs |
+| `resilience_loss_per_leak` | 4 | 2-8 | ecosystem irrelevant | one leak cascades | leak should teach, not instantly doom |
+| `card_draw_count` | 5 | 4-6 | too few options | hand too dense | keep hand readable at target viewport |
+
+## 7. Deckbuilder system
+
+Cards represent plantings, habitat work, interventions, route manipulation, resources, upgrades, and recovery. Card text MUST be concise, unambiguous, and previewable.
+
+**Card fields**
+| Field | Meaning |
+|---|---|
+| `id` | stable identifier |
+| `name` | player-facing name |
+| `cost` | `sun_energy`, `spore_tokens`, or special cost |
+| `type` | `plant`, `habitat`, `intervention`, `route`, `resource`, `upgrade`, `recovery` |
+| `timing` | `setup`, `wave`, `reward`, or `any` |
+| `target` | `tile`, `lane`, `defense`, `habitat`, `hand`, `deck`, `discard`, or `none` |
+| `effect` | deterministic effect descriptor implemented by card effect functions |
+| `rarity` | `common`, `uncommon`, `rare` |
+| `upgrade_state` | `base` or `upgraded` |
+| `tags` | synergy tags such as `moss`, `nectar`, `wetland`, `root`, `cleanse`, `slow`, `draw` |
+| `description` | concise rules text |
+| `visual_state` | enabled, disabled, selected, targeting, resolving |
+
+**Zones and rules**
+- Run deck starts with 10 cards.
+- Draw pile, hand, discard pile, and exhaust zone are explicit.
+- Draw 5 at setup; played non-exhaust cards go to discard; unplayed hand discards at wave start unless card says otherwise.
+- When draw pile is empty, shuffle discard into draw pile using seeded RNG.
+- Exhausted cards return only after the run unless a card explicitly recovers them.
+- Invalid play feedback MUST name the exact missing resource or invalid target.
+- Rewards offer 3 cards from seeded pools; player chooses 1, upgrades 1 existing card, or removes 1 card when those options are available.
+
+**Initial card set**
+| id | Name | Cost | Type | Timing | Target | Effect | Tags |
+|---|---|---:|---|---|---|---|---|
+| `plant_moss_sprayer` | Moss Sprayer | 2 sun | plant | setup | tile | place short-range rapid plant, damage 1 every 30 ticks | `moss`, `damage` |
+| `plant_root_snare` | Root Snare | 1 sun + 1 spore | plant | setup | tile | place slow plant; applies 35% slow for 90 ticks | `root`, `slow` |
+| `plant_nectar_bell` | Nectar Bell | 2 sun | plant | setup | tile | boosts nearby pollination and weakens `cinder_moth` | `nectar`, `pollinator` |
+| `habitat_wetland_patch` | Wetland Patch | 2 spore | habitat | setup | tile | moisture +12, contamination spread -30% nearby | `wetland`, `cleanse` |
+| `intervention_cleanse_crew` | Cleanse Crew | 1 sun | intervention | any | habitat | contamination -15; if upgraded also draw 1 | `cleanse`, `recovery` |
+| `route_switchback` | Switchback Signal | 1 sun | route | setup | lane | delays next 3 spawns on lane by 60 ticks | `route`, `delay` |
+| `resource_sunbreak` | Sunbreak | 0 | resource | setup | none | gain 2 sun this setup; exhaust | `resource`, `exhaust` |
+| `upgrade_mycelium_lens` | Mycelium Lens | 2 spore | upgrade | setup | defense | range +1 tile and reveal synergy preview | `upgrade`, `moss` |
+| `recovery_seed_bank` | Seed Bank | 1 spore | recovery | reward | deck | return one exhausted non-rare card | `recovery`, `deck` |
+| `habitat_pollinator_hotel` | Pollinator Hotel | 2 spore | habitat | setup | tile | biodiversity +10; adjacent nectar effects +20% | `pollinator`, `habitat` |
+| `intervention_rain_barrel` | Rain Barrel | 1 sun | intervention | wave | habitat | emergency moisture +8, plant reload -10% for 8s | `water`, `tempo` |
+| `route_maintenance_trolley` | Maintenance Trolley | 3 sun | route | wave | lane | damages all threats on lane for 3 and cleanses rail residue | `route`, `burst`, `cleanse` |
+
+**Archetypes and synergies**
+| Archetype | Works through | Counter-risk | Anti-dominance rule |
+|---|---|---|---|
+| Moss barrage | rapid low damage + range upgrades | armored `rust_slug` | armor reduces repeated small hits |
+| Root variant | slows and route delays | `cinder_moth` slow resistance | slow immunity windows |
+| Habitat recovery | wetland + cleanse + resilience | low immediate damage | waves punish no-defense decks |
+| Pollinator tempo | nectar/pollination boosts | moth stress events | biodiversity can be damaged |
+| Route intervention | delay/burst lane tools | high resource costs | route cards cannot fully replace plants |
+
+## 8. Ecosystem simulation
+
+The ecosystem is small, visible, and deterministic enough to reason about. It should create meaningful feedback loops without opaque hidden math.
+
+**Ecosystem state**
+| Field | Range | Meaning | Player cue |
+|---|---:|---|---|
+| `resilience` | 0-100 | overall living-system stability; loss at 0 | relay vine brightness, panel meter |
+| `moisture` | 0-100 | supports growth/reload and wetland effects | blue soil tint, droop animation |
+| `biodiversity` | 0-100 | supports pollinator and nectar synergies | insect icons, flower density |
+| `contamination` | 0-100 | blight residue causing stress/spread | purple stains, warning pulse |
+| `fertility` | 0-100 | affects plant upgrade efficiency | soil richness overlay |
+| `pollination` | 0-100 | temporary wave/setup modifier | pollen particles, card tooltip |
+| `spread_risk` | 0-100 | chance/pressure for contamination to jump | rail sparks and hazard icons |
+
+**Tick rules**
+- Ecosystem updates every 1 second during `WaveActive` and once at setup/reward transitions.
+- Moisture below 25 increases plant reload by 15%.
+- Biodiversity above 60 gives nectar-tag cards +1 effective range or +10% reload speed, whichever is specified per card.
+- Contamination above 50 causes adjacent habitat stress: `resilience -2` per wave end.
+- Wetland habitat reduces nearby contamination spread by 30%.
+- Pollinator shortage events reduce biodiversity but make `Pollinator Hotel` and `Nectar Bell` higher-value recovery choices.
+- Leaks reduce `relay_health` and `resilience`; the result screen must explain both.
+- Recovery must be possible after moderate mistakes through cleanse, wetland, pollinator, and seed-bank tools.
+
+**Failure explanation table**
+| Failure | Likely cause | Player-readable clue | Recovery lesson |
+|---|---|---|---|
+| Relay leaks | under-defended lane or wrong target priority | red flash on lane endpoint, leak counter | preview lanes and diversify coverage |
+| Armor breakthrough | too much rapid small damage | shield pings on `rust_slug` | add burst/root upgrades |
+| Moth swarm damage | poor pollinator protection | biodiversity meter drops, moth icon warning | build nectar/pollinator support |
+| Contamination collapse | killed blight without cleanse/wetland | purple spread overlay | use wetland and cleanse cards |
+| Dead hand | deck too expensive or too narrow | disabled card reasons dominate hand | draft resource/recovery, remove weak cards |
+| Unreadable wave | too many effects/threats at once | visual clutter in validation | reduce spawn overlap/particles |
+
+## 9. UI, variants, accessibility, and feedback vocabulary
+
+**Required screen layout**
+- Stable central map/canvas.
+- Top HUD: wave, relay health, resources, score, pause.
+- Right or bottom panel: ecosystem meters with icons and tooltips.
+- Bottom hand: cards with cost, type color, concise text, disabled reason, and hover/tap preview.
+- Wave preview panel before start.
+- Reward modal after wave completion.
+- Result modal for win/loss with cause and next-step lesson.
+
+**variants**
+| Input | Action |
+|---|---|
+| Mouse/touch click | select card, select tile/target, confirm buttons |
+| Hover or long-press | preview card effect/range/reason |
+| Escape or P | pause/resume |
+| Space | start wave when setup is valid; toggle speed if wave active |
+| R | restart from result screen or with confirmation during play |
+| 1-5 | select hand card |
+| Enter | confirm selected legal action |
+
+**Feedback vocabulary**
+| Event | Visual | Audio | Text/Tooltip |
+|---|---|---|---|
+| Valid placement | green tile/range overlay | soft plant pop | cost/effect preview |
+| Invalid placement | red outline, shake card | low click | exact blocked reason |
+| Damage | hit flash, small particles | short sfx | damage number optional |
+| Slow/root | vine wrap overlay | muted thud | slow icon with duration |
+| Cleanse | purple fades to green | chime | contamination delta |
+| Leak | rail endpoint flash, relay vine dims | alarm pulse | `-relay_health`, cause |
+| Synergy | linked glow between habitat/plant | bright accent | “Nectar boosts nearby Moss” |
+| Reward | card fan and deck delta | reward flourish | chosen effect summary |
+| Failure | freeze frame, cause highlight | low sting | lesson table row |
+
+**Readability budget**
+- Maximum simultaneous threats visible: 9 in early waves, 14 in final wave.
+- Maximum active particles per lane: 25.
+- Maximum hand size: 6.
+- Card text: 1-2 short lines plus icons; no paragraph cards.
+- Ecosystem panel: 4 primary meters visible; secondary values in tooltip/overlay.
+- Use color plus icon/shape; do not rely on color alone.
+- Respect reduced-motion preference by limiting shake/particles and disabling nonessential motion.
+
+**Accessibility and browser UX**
+- Canvas interactions require DOM-accessible buttons/panels for Start, Pause, Restart, cards, and reward choices.
+- Keyboard path must allow starting, selecting cards, confirming targets where feasible.
+- Focus styles must be visible.
+- No console errors during normal play.
+- Avoid layout shifts during play.
+- Loading and error states must be understandable.
+
+## 10. Assets and generative 2D sprite pipeline
+
+Treat sprite generation as an asset pipeline, not a one-off art request. All art MUST be original or properly licensed. Do not request, imitate, or include unlicensed copyrighted characters, logos, sprites, names, fonts, music, or distinctive art styles owned by others.
+
+**Art direction**
+- Style: readable botanical pixel art or crisp small-canvas cartoon sprites.
+- View: top-down/slight isometric, consistent lighting, bold silhouettes.
+- Palette: verdant greens, rail browns, rust oranges, blight purples.
+- Background: transparent for sprites; map tiles separate from units.
+- Scale: first build target frame size `64x64` for units/plants, `128x128` for relay, `32x32` for icons/effects.
+
+**Required first-build assets**
+| Asset key | Role | Frame size | Animations | Placeholder allowed? |
+|---|---|---:|---|---|
+| `relay_garden` | protected objective | 128x128 | `idle` 4f 6fps loop, `hit` 2f 8fps no-loop, `restore` 4f 8fps no-loop | no for final slice |
+| `plant_moss_sprayer` | rapid defense | 64x64 | `idle` 4f, `attack` 4f, `upgrade` 2f | yes early |
+| `plant_root_snare` | slow defense | 64x64 | `idle` 4f, `snare` 4f | yes early |
+| `plant_nectar_bell` | pollinator support | 64x64 | `idle` 4f, `pulse` 4f | yes early |
+| `habitat_wetland_patch` | habitat tile | 64x64 | `idle` 4f, `cleanse` 4f | yes early |
+| `soot_mite` | threat | 64x64 | `crawl` 6f, `hit` 2f, `die` 4f | yes early |
+| `rust_slug` | armored threat | 64x64 | `crawl` 6f, `hit` 2f, `die` 4f | yes early |
+| `cinder_moth` | fast threat | 64x64 | `flutter` 6f, `hit` 2f, `die` 4f | yes early |
+| `bramble_blight` | contamination threat | 64x64 | `crawl` 6f, `burst` 4f, `die` 4f | yes early |
+| `cards_ui` | card frames/icons | 32-256px | static variants | no |
+| `ecosystem_icons` | meters/status | 32x32 | static/pulse | no |
+
+**Sprite spec fields for each generated sprite**
+| Field | Requirement |
+|---|---|
+| `name` | stable asset key |
+| `description` | role, silhouette, colors, gameplay readability |
+| `style` | concrete visual style, e.g. `pixel_art` or `crisp_cartoon` |
+| `frame_width`, `frame_height` | target dimensions |
+| `background_color` | `transparent` for reusable sprites |
+| `animations` | list of stable names, frame counts, fps, loop flags, and motion descriptions |
+| `additional_prompt` | no text, no UI, no scene background, centered, same proportions |
+
+**Frame prompt rules**
+- Generate/request individual frames first, then pack deterministically; do not rely on an image model to produce an exact production-ready sprite sheet grid.
+- Each prompt MUST include: a single frame size statement, full sprite identity repeated, concrete style, animation name, frame index, motion progress, background requirement, and quality constraints.
+- Pixel art prompts MUST mention crisp edges, limited palette, readable silhouette, no painterly blur.
+- Cartoon/vector prompts MUST mention bold outlines, clean shapes, flat colors, consistent proportions.
+- Keep one canonical appearance description per sprite and repeat it every frame.
+
+**Animation consistency requirements**
+- Stable view angle, lighting, outline, palette, proportions, anchor points, and scale.
+- Feet/contact points aligned for grounded entities.
+- Centered placement unless metadata offsets intentionally differ.
+- Smooth progression, no duplicate poses unless deliberate.
+- Loop checks for `loop: true`; first-to-last continuity must be acceptable.
+- One-shot effects such as death use `loop: false`.
+
+**Packing and metadata**
+| Field | Requirement |
+|---|---|
+| `sheet` | stable PNG path, e.g. `assets/sprites/verdant_relay_units.png` |
+| `frame_order` | sort by animation and frame index |
+| `packing` | grid or horizontal strip with deterministic padding |
+| `padding` | at least 2px if scaling or texture bleeding is possible |
+| `rectangles` | per-frame `x`, `y`, `w`, `h` |
+| `animations` | name, frame list, fps, loop |
+| `provenance` | prompt, model, revised prompt if any, seed/request metadata if available, selection notes |
+| `regeneration` | filenames and animation keys must remain stable |
+
+**Asset quality checks**
+- Readable at in-game scale.
+- Style matches game and other frames.
+- Proportions, palette, outline, and view angle are coherent.
+- Transparent background actually has alpha.
+- Contact points and effect origins are stable.
+- Animation plays smoothly and loops when declared.
+- Collider fits silhouette.
+- No text, watermarks, UI, unwanted shadows, stray pixels, cropped limbs, merged props, or background remnants.
+- Failed frames get documented issue notes and corrective prompts such as “Render with sharp, crisp edges and no blur,” “Must have transparent alpha background,” and “Keep feet on the same baseline.”
+
+## 11. Data model and content structures
+
+Use field lists or tables instead of fenced examples for JSON-shaped game data.
+
+**Run state fields**
+| Field | Type | Notes |
+|---|---|---|
+| `seed` | string/number | drives draws/events/spawns |
+| `state` | enum | `Loading`, `MainMenu`, `PlayingSetup`, `WaveActive`, `Reward`, `Paused`, `GameOver`, `Error` |
+| `wave_index` | number | 0-6 |
+| `relay_health` | number | starts 10 |
+| `resources` | object | `sun_energy`, `spore_tokens` |
+| `deck_zones` | object | draw, hand, discard, exhaust |
+| `ecosystem` | object | resilience, moisture, biodiversity, contamination, fertility, pollination, spread risk |
+| `entities` | map/list | ECS entity component records |
+| `score` | number | rewards, leaks, ecosystem bonus |
+| `tutorial_flags` | object | teaching steps completed |
+| `settings` | object | volumes, reduced motion, speed preference |
+
+**Wave definition fields**
+| Field | Requirement |
+|---|---|
+| `id` | stable wave id |
+| `preview_text` | concise player-facing summary |
+| `spawns` | list of lane, threat id, count, start tick, gap ticks |
+| `event` | optional seeded ecosystem event |
+| `reward_pool` | card/upgrade/remove options |
+| `completion_bonus` | resources/score |
+| `validation_tags` | useful labels for browser tests |
+
+**Card effect implementation**
+- Prefer explicit effect handler functions keyed by `card_id`.
+- Handlers must validate cost, timing, and target before mutating state.
+- Every mutation emits a feedback event used by rendering, audio, logs, and tests.
+- Card descriptions must match handler behavior.
+
+## 12. Performance, reliability, and non-functional requirements
+
+- Target 60 FPS on ordinary laptops for the first map; degrade gracefully to 30 FPS without breaking simulation.
+- Use fixed-step simulation to avoid frame-rate-dependent gameplay.
+- Keep entity counts small; final wave should remain readable and performant.
+- Preload required assets in `Loading`; show progress and actionable errors.
+- Compress/defer heavy assets; avoid blocking first interaction unnecessarily.
+- No runtime console errors in validated flows.
+- No layout shifts during active play.
+- The game must run in current Chromium; Firefox/Safari compatibility SHOULD be smoke-tested if feasible.
+- Privacy: local state only; no analytics unless explicitly added later.
+- Maintainability: content tables, tuning constants, and asset manifests should be easy to inspect and modify.
+
+## 13. Browser implementation plan
+
+1. Create project scaffold with TypeScript, Vite, rendering layer, and test scripts.
+2. Implement state machine, canvas layout, HUD shell, and loading/menu/pause/restart states.
+3. Implement ECS world, fixed-step loop, seeded RNG, map/lane rendering, and debug overlays.
+4. Implement deck zones, card UI, card selection, validation, target preview, and 12 card handlers.
+5. Implement placement, defenses, threats, deterministic waves, movement, targeting, attacks, leaks, and rewards.
+6. Implement ecosystem meters, tick rules, overlays, feedback events, and failure explanations.
+7. Add assets/placeholders, sprite manifest loading, animation playback, audio categories, and volume persistence.
+8. Add result screens, reward drafting/upgrading/removal, score persistence, and tutorial script.
+9. Add validation hooks/test ids for Start, cards, tiles, wave variants, pause, restart, result states, ecosystem panel, and console checks.
+10. Run repeated build-run-observe-improve browser validation until the slice is playable and stable.
+
+## 14. Playwright MCP browser validation
+
+The implementing agent MUST validate in a real browser, preferably with Playwright MCP. If Playwright MCP is unavailable, install/configure the official server where possible; with Node/npm the server command is commonly `npx @playwright/mcp@latest`. If project Playwright tests are needed, add them through the project package manager and install required browsers. If browser validation cannot run, report the exact blocker and do not claim it happened.
+
+**Required browser-grounded loop**
+1. Inspect specification, repository, package scripts, tests, and framework conventions.
+2. Implement the smallest coherent visible/testable slice.
+3. Start app with existing dev/preview command; add minimal command if absent.
+4. Open URL with Playwright MCP/equivalent.
+5. Interact as a real user: click, type/keyboard, select cards, place targets, start wave, pause/resume, lose/win/restart, resize if relevant.
+6. Observe rendered page, accessibility tree, console, network, screenshots/traces, and persisted state.
+7. Compare against spec for clarity, responsiveness, stability, accessibility, visual polish, and absence of errors.
+8. Inspect source, fix defects, and repeat until no high-value obvious improvement remains.
+
+**Mandatory validation flows**
+| Flow | Steps | Evidence |
+|---|---|---|
+| Load/menu | open page, observe loading, reach menu | command, URL, screenshot, no console errors |
+| Start/tutorial | click Start, observe goal/tutorial/map/hand | screenshot, accessible labels |
+| Card draw/play | select valid card, preview range, place; attempt invalid card/target | state assertions, invalid reason |
+| Placement/upgrade | place plant, apply upgrade card/reward | before/after screenshot, component state |
+| Wave | start wave, observe spawns, attacks, kills, rewards | wave progress, no jank/console errors |
+| Ecosystem feedback | trigger moisture/biodiversity/contamination change | meter delta and tooltip/overlay |
+| Leak/loss | force or play into leak/failure | relay health delta, failure lesson |
+| Win | complete final or test-shortened wave sequence | win modal, score saved |
+| Pause/resume | pause via button/key and visibility/focus if possible | simulation frozen/resumed |
+| Restart | restart from result and mid-run confirmation | state reset without reload |
+| Persistence | change volume or finish score, reload | settings/score retained locally |
+
+**Negative/stress probes**
+- Invalid target, insufficient resources, wrong timing, full/occupied tile.
+- Empty hand/draw reshuffle edge case.
+- Rapid pause/resume, restart during wave, tab visibility change.
+- Missing/corrupt asset manifest fallback.
+- Small viewport readability.
+- Reduced-motion setting.
+- Final wave maximum threat count.
+
+Final reporting MUST distinguish verified behavior from unverified assumptions and include remaining limitations.
+
+## 15. Progression, playtest questions, and release balance gate
+
+**Progression ladder**
+| Stage | New concept | Content | Success signal |
+|---|---|---|---|
+| Tutorial | place and start wave | `Moss Sprayer`, `soot_mite` | player understands relay protection |
+| Wave 1 | lane split | second lane preview | player covers route, not just center |
+| Wave 2 | armor | `rust_slug`, upgrades | player learns counterplay |
+| Wave 3 | ecosystem stress | `cinder_moth`, biodiversity | player reads ecosystem panel |
+| Wave 4 | contamination | `bramble_blight`, cleanse/wetland | player recovers from negative loop |
+| Wave 5 | combined pressure | mixed lanes/events | player balances cards/defenses/ecology |
+| Wave 6 | mastery | all systems | player wins or understands failure |
+
+**Playtest questions**
+- Can a new player state the objective after 30 seconds?
+- Do they understand why a card is disabled or target is invalid?
+- Do they preview lanes before starting waves?
+- Are ecosystem changes visible and causally linked to player choices?
+- Does failure teach the broken relationship?
+- Does the deck create meaningful tradeoffs instead of obvious picks?
+- Are any cards dead, dominant, or too expensive?
+- Is the final wave stressful but readable?
+- Can the player restart and improve without external explanation?
+
+**Release balance gate**
+- 3 consecutive internal playthroughs reach Wave 3 without confusion.
+- At least 1 playthrough wins with moderate leaks and visible recovery.
+- No single card/archetype solves all waves without adaptation.
+- No required card is dead in ordinary play.
+- Browser validation completes mandatory flows with no console errors.
+- UI remains readable at target viewport.
+- Asset placeholders are clearly intentional or replaced by first-pass original sprites.
+- Result screen explains win/loss cause and next improvement.
+
+## 16. Risks and mitigation
+
+| Risk | Mitigation |
+|---|---|
+| Systems feel disconnected | Make cards, lanes, and ecosystem meters mutate each other visibly through feedback events |
+| Too much complexity for first build | Limit content set, deterministic waves, 4 primary meters, 12 cards |
+| Dominant strategy | Use armor, speed, contamination, and pollinator stress as counterpressure |
+| Opaque ecosystem math | Show tooltips, deltas, overlays, and wave-end explanations |
+| Unreadable canvas | Enforce readability budget, icons plus colors, Playwright screenshots |
+| Asset generation inconsistency | Generate frames individually, repeat canonical prompts, pack deterministically, validate frames |
+| Browser validation skipped | Make Playwright evidence part of acceptance and final reporting |
+| Jank with many entities | Cap threat counts, fixed-step loop, simple paths, particle limits |
+| Poor accessibility | DOM variants for key actions, focus styles, keyboard shortcuts, reduced motion |
+
+## 17. Acceptance criteria
+
+A first build of Verdant Relay is accepted only when all of the following are true:
+
+**Playable product**
+- Browser page loads to a menu and starts a run.
+- Player can understand the goal, draw cards, play valid cards, receive invalid-play feedback, place/upgrade defenses, start waves, observe attacks/leaks/rewards, use ecosystem recovery, win or lose, pause/resume, and restart without full reload.
+- First-run tutorial teaches through interaction, not only text.
+- Failure and victory screens explain cause, score, and improvement path.
+
+**Mechanics**
+- Deterministic waves and seeded draws/events are implemented.
+- Tower-defense lanes, threats, rewards, upgrades, and leaks are readable.
+- Deck zones, draw/discard/reshuffle/exhaust, rewards, upgrades/removals, and card text match behavior.
+- Ecosystem state changes defense decisions, card value, recovery, and failure.
+- Progression introduces mechanics in order and has explicit tuning knobs.
+
+**Implementation**
+- ECS-style world and fixed-step simulation are used.
+- Game states, focus-loss pause, restart, persistence, and asset loading are implemented.
+- Canvas/UI remains stable and readable.
+- No unlicensed copyrighted assets are included.
+- Settings and top-10 scores persist locally as JSON.
+
+**Assets**
+- Required sprite specs exist.
+- Frames are generated or represented by intentional placeholders.
+- Sprite sheets or individual PNGs plus metadata drive animation without compact coordinate guessing.
+- Provenance, prompts, selected frames, and rejected-frame notes are stored.
+- Game loads and animates assets in browser.
+
+**Validation**
+- Playwright MCP or equivalent browser validation exercises load, start, card draw/play, placement/upgrade, wave, ecosystem feedback, leak/loss, win path or shortened win test, pause/resume, restart, persistence, and negative cases.
+- Evidence includes command, URL, flows exercised, screenshots/traces where useful, console/network findings, fixed issues, and remaining limitations.
+- Final report clearly separates verified behavior from assumptions.
+
+**Quality bar**
+- A competent programming agent can implement directly from the spec.
+- The result is a coherent vertical slice, not a concatenation of unrelated systems.
+- All major requirements are testable by inspection, automation, or real browser play.

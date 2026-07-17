@@ -1,0 +1,6 @@
+{
+  "app_name": "Release Readiness Workbench",
+  "artifact_name": "Release Readiness Workbench",
+  "product_brief": "Design Release Readiness Workbench, a local-first public-release command center that turns release notes, issue lists, pull request summaries, docs gaps, example runs, test results, package artifacts, screenshots, risks, blockers, waivers, and launch decisions into one auditable go/no-go workspace.",
+  "release_surfaces": "WeaveMark public README, docs, examples, generated outputs, study results, release notes, package artifacts, extension builds, CLI behavior, installation checks, browser-facing examples, screenshots, traces, issues, PR notes, local TODOs, deferred work, waivers, and known limitations."
+}

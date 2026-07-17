@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Introduction</title>
+    <meta
+      name="description"
+      content="A conceptual introduction to WeaveMark: promplets, the WeaveMark Processor, mental model, principles, language pieces, output shapes, and execution boundary."
+    >
+    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="icon" href="weavemark_logo.png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html" aria-current="page">Intro</a>
+          <a href="tutorial.html">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+    </div>
+
+    <header class="shell page-hero mini-hero">
+      <p class="eyebrow">Conceptual guide</p>
+      <h1>
+        The mental model behind
+        <span class="gradient-text">WeaveMark.</span>
+      </h1>
+      <p class="hero-copy">
+        <strong>WeaveMark</strong> is a <strong>specification language</strong> for prompts and
+        prompt-based systems that keeps the author's surface close to Markdown —
+        readable prose plus a few directives for variables, branches, reusable
+        modules, emitted artifacts, tools, bindings, and execution. You
+        <em>specify</em> abstract intent — for example, <code>@refine</code> to
+        shape a prompt with a reusable module — and the Processor decides how to
+        make it concrete. The
+        reusable units you write in it are called
+        <a href="#faq-origin"><strong>promplets</strong></a>.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Introduction highlights">
+      <div class="summary-card">
+        <strong>Read</strong>
+        <span>promplets remain Markdown documents first.</span>
+      </div>
+      <div class="summary-card">
+        <strong>Compose</strong>
+        <span>Directives capture intent, branching, reuse, and output shape.</span>
+      </div>
+      <div class="summary-card">
+        <strong>Use</strong>
+        <span>Compiled artifacts can be pasted, handed to agents, or executed.</span>
+      </div>
+    </div>
+
+    <main class="shell page-grid">
+      <aside class="sidebar" aria-label="Introduction sections">
+        <h2>On this page</h2>
+        <a href="#what-is-it">What is WeaveMark?</a>
+        <a href="#what-is-a-promplet">What is a promplet?</a>
+        <a href="#processor">What is the WeaveMark Processor?</a>
+        <a href="#principles">Design principles</a>
+        <a href="#compile-model">Compilation model</a>
+        <a href="#language-pieces">Language pieces</a>
+        <a href="#output-shapes">Output shapes</a>
+        <a href="#execution-boundary">Execution boundary</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#faq">FAQ</a>
+        <a href="#citation-author">Citation and author</a>
+      </aside>
+
+      <div class="article">
+        <section id="what-is-it" class="article-section">
+          <h2><span class="ic ic-doc" aria-hidden="true"></span>What is WeaveMark?</h2>
+          <p>
+            WeaveMark is a <strong>small, opinionated specification
+            language for prompts</strong>. A <code>.weavemark.md</code> file is
+            <em>plain Markdown</em> sprinkled with line-leading directives such
+            as <code>@refine</code>, <code>@style</code>, <code>@match</code>,
+            and <code>@execute</code> that <em>specify</em> abstract intent rather
+            than exact wording. It can be read by a human as a document and
+            compiled by the WeaveMark Processor — which uses a language model to
+            realize that intent, with deterministic structure around it — into
+            <strong>structured prompt artifacts</strong>.
+          </p>
+          <p>
+            The core idea is simple: keep intent in prose, then make important
+            structure explicit. Deterministic parsing handles the mechanical parts —
+            module resolution, macro expansion, branching, emitted files, output
+            shaping, and execution checks — while the meaning-level work (realizing
+            abstract intent, refining, restyling, condensing) is done by a language
+            model. So compilation is <strong>largely LLM-based</strong>, with
+            deterministic structure as scaffolding.
+          </p>
+        </section>
+
+        <section id="what-is-a-promplet" class="article-section">
+          <h2><span class="ic ic-blocks" aria-hidden="true"></span>What is a promplet?</h2>
+          <p>
+            A <strong>promplet</strong> is an individual reusable prompt specification
+            written in WeaveMark. It can
+            define instructions, variables, branches, tools, output contracts,
+            prompt execution behavior, and refinements
+          </p>
+          <p>
+            Promplets are compositional. A promplet can stand alone as a concrete
+            prompt specification, or it can be made from other promplets: shared
+            personas, policies, reasoning methods, domain constraints, tool
+            definitions, and output structures. The idea is that the final prompt
+            is made out of several <i>little prompts</i>.
+          </p>
+          <figure class="diagram-figure">
+            <svg viewBox="0 0 840 738" role="img" aria-labelledby="pd-title pd-desc" xmlns="http://www.w3.org/2000/svg">
+            <title id="pd-title">What a promplet is and does</title>
+            <desc id="pd-desc">A promplet draws in variables, other refined promplets, declared tools, and embedded content such as files, PDFs, and Markdown images. The WeaveMark Processor compiles, validates, and executes it; it clarifies with you through @ask, self-improves through an @iterate judge loop, and calls tools and effects at run time, producing a compiled prompt, emitted files, an execution, or a running app.</desc>
+            <defs>
+              <linearGradient id="pd-dark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#122a49"/>
+                <stop offset="1" stop-color="#0e1d36"/>
+              </linearGradient>
+              <linearGradient id="pd-proc" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#183060"/>
+                <stop offset="1" stop-color="#48b4cc"/>
+              </linearGradient>
+              <filter id="pd-shadow" x="-20%" y="-30%" width="140%" height="170%">
+                <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#183060" flood-opacity="0.16"/>
+              </filter>
+              <marker id="pd-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#93a7c0"/></marker>
+              <marker id="pd-arrow-user" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7.4" markerHeight="7.4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#f0805f"/></marker>
+              <marker id="pd-arrow-run" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7.4" markerHeight="7.4" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2fb0a3"/></marker>
+              <marker id="pd-arrow-iter" viewBox="0 0 10 10" refX="6.5" refY="5" markerWidth="5.6" markerHeight="5.6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#183060"/></marker>
+            </defs>
+
+            <g fill="none" stroke="#93a7c0" stroke-width="2.2" marker-end="url(#pd-arrow)">
+              <path d="M138,108 C138,160 300,150 300,192"/>
+              <path d="M326,108 C326,150 372,150 372,192"/>
+              <path d="M514,108 C514,150 468,150 468,192"/>
+              <path d="M702,108 C702,160 540,150 540,192"/>
+              <path d="M420,296 L420,350"/>
+              <path d="M420,408 C420,456 234,458 234,494"/>
+              <path d="M420,408 L420,494"/>
+              <path d="M420,408 C420,456 606,458 606,494"/>
+            </g>
+
+            <g fill="none" stroke="#f0805f" stroke-width="2" stroke-opacity="0.92">
+              <path d="M292,372 L134,372" marker-end="url(#pd-arrow-user)"/>
+              <path d="M132,392 L290,392" marker-end="url(#pd-arrow-user)"/>
+            </g>
+            <g fill="none" stroke="#2fb0a3" stroke-width="2" stroke-opacity="0.92">
+              <path d="M548,372 L706,372" marker-end="url(#pd-arrow-run)"/>
+              <path d="M708,392 L550,392" marker-end="url(#pd-arrow-run)"/>
+            </g>
+
+            <!-- iterate judge loop on the processor -->
+            <path d="M377.5,310.2 A13,13 0 1 1 366.5,310.2" fill="none" stroke="#183060" stroke-width="2" stroke-linecap="round" marker-end="url(#pd-arrow-iter)"/>
+
+            <g font-family="Inter, system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#7c8ba0" text-anchor="middle">
+              <text x="213" y="366">asks (@ask)</text>
+              <text x="213" y="406">you answer</text>
+              <text x="628" y="366">tool calls</text>
+              <text x="628" y="406">effects, results</text>
+            </g>
+            <g font-family="Inter, system-ui, sans-serif" text-anchor="end">
+              <text x="350" y="317" font-size="11" font-weight="800" fill="#183060">@iterate loop</text>
+              <text x="350" y="332" font-size="9.5" font-weight="700" fill="#64748b">LLM-as-judge &#183; improve</text>
+            </g>
+
+            <g font-family="Inter, system-ui, sans-serif">
+              <!-- inputs -->
+              <g>
+                <rect x="50" y="16" width="176" height="88" rx="16" fill="#ffffff" stroke="#48b4cc" stroke-opacity="0.32" stroke-width="1.4" filter="url(#pd-shadow)"/>
+                <circle cx="74" cy="46" r="5" fill="#48b4cc"/>
+                <text x="90" y="51" font-size="13.5" font-weight="800" fill="#102033">Variables</text>
+                <text x="74" y="80" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#2b4a6b">@{ticker}</text>
+              </g>
+              <g>
+                <rect x="238" y="16" width="176" height="88" rx="16" fill="#ffffff" stroke="#48b4cc" stroke-opacity="0.32" stroke-width="1.4" filter="url(#pd-shadow)"/>
+                <circle cx="262" cy="46" r="5" fill="#48b4cc"/>
+                <text x="278" y="51" font-size="13.5" font-weight="800" fill="#102033">Refined promplets</text>
+                <text x="262" y="80" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#2b4a6b">@refine</text>
+              </g>
+              <g>
+                <rect x="426" y="16" width="176" height="88" rx="16" fill="#ffffff" stroke="#48b4cc" stroke-opacity="0.32" stroke-width="1.4" filter="url(#pd-shadow)"/>
+                <circle cx="450" cy="46" r="5" fill="#48b4cc"/>
+                <text x="466" y="51" font-size="13.5" font-weight="800" fill="#102033">Declared tools</text>
+                <text x="450" y="80" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#2b4a6b">@tool &#183; @bind</text>
+              </g>
+              <g>
+                <rect x="614" y="16" width="176" height="88" rx="16" fill="#ffffff" stroke="#48b4cc" stroke-opacity="0.32" stroke-width="1.4" filter="url(#pd-shadow)"/>
+                <circle cx="638" cy="46" r="5" fill="#48b4cc"/>
+                <text x="654" y="51" font-size="13.5" font-weight="800" fill="#102033">Embedded content</text>
+                <text x="638" y="80" font-size="11.5" font-family="ui-monospace, Menlo, monospace" fill="#2b4a6b">@embed &#183; ![image]</text>
+              </g>
+
+              <!-- weavemark -->
+              <rect x="234" y="196" width="372" height="100" rx="20" fill="url(#pd-dark)" stroke="#48b4cc" stroke-opacity="0.42" stroke-width="1.4" filter="url(#pd-shadow)"/>
+              <text x="420" y="238" text-anchor="middle" font-size="22" font-weight="900" fill="#ffffff">A promplet</text>
+              <text x="420" y="265" text-anchor="middle" font-size="13" fill="#9fb6cc">readable Markdown + directives</text>
+              <text x="420" y="288" text-anchor="middle" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#7dd3fc">.weavemark.md</text>
+
+              <!-- processor -->
+              <rect x="294" y="352" width="252" height="56" rx="26" fill="url(#pd-proc)" filter="url(#pd-shadow)"/>
+              <text x="420" y="376" text-anchor="middle" font-size="14.5" font-weight="800" fill="#ffffff">WeaveMark Processor</text>
+              <text x="420" y="394" text-anchor="middle" font-size="9.6" letter-spacing="0.05em" fill="#dcecf8">COMPILE &#183; VALIDATE &#183; EXECUTE</text>
+
+              <!-- user actor -->
+              <g>
+                <rect x="12" y="332" width="118" height="96" rx="16" fill="#fff6f3" stroke="#f0805f" stroke-opacity="0.42" stroke-width="1.4" filter="url(#pd-shadow)"/>
+                <circle cx="36" cy="362" r="5" fill="#f0805f"/>
+                <text x="50" y="367" font-size="15" font-weight="800" fill="#102033">You</text>
+                <text x="26" y="395" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#7a3f30">@ask</text>
+                <text x="26" y="413" font-size="10" fill="#9a6a5c">clarify &#183; answer</text>
+              </g>
+
+              <!-- runtime actor -->
+              <g>
+                <rect x="710" y="332" width="118" height="96" rx="16" fill="#f1faf8" stroke="#2fb0a3" stroke-opacity="0.42" stroke-width="1.4" filter="url(#pd-shadow)"/>
+                <circle cx="734" cy="362" r="5" fill="#2fb0a3"/>
+                <text x="748" y="367" font-size="15" font-weight="800" fill="#102033">Runtime</text>
+                <text x="724" y="395" font-size="10" font-family="ui-monospace, Menlo, monospace" fill="#1f6b62">tools &#183; effects</text>
+                <text x="724" y="413" font-size="10" fill="#4f8a83">web &#183; companions</text>
+              </g>
+
+              <!-- outputs -->
+              <g>
+                <rect x="150" y="496" width="168" height="88" rx="16" fill="#f3faf9" stroke="#3c7884" stroke-opacity="0.28" stroke-width="1.4" filter="url(#pd-shadow)"/>
+                <circle cx="174" cy="526" r="5" fill="#2fb0a3"/>
+                <text x="188" y="531" font-size="13.5" font-weight="800" fill="#102033">Compiled prompt</text>
+                <text x="174" y="560" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#2b4a6b">pastable</text>
+              </g>
+              <g>
+                <rect x="336" y="496" width="168" height="88" rx="16" fill="#f3faf9" stroke="#3c7884" stroke-opacity="0.28" stroke-width="1.4" filter="url(#pd-shadow)"/>
+                <circle cx="360" cy="526" r="5" fill="#2fb0a3"/>
+                <text x="374" y="531" font-size="13.5" font-weight="800" fill="#102033">Emitted files</text>
+                <text x="360" y="560" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#2b4a6b">system &#183; user &#183; tool</text>
+              </g>
+              <g>
+                <rect x="522" y="496" width="168" height="88" rx="16" fill="#f3faf9" stroke="#3c7884" stroke-opacity="0.28" stroke-width="1.4" filter="url(#pd-shadow)"/>
+                <circle cx="546" cy="526" r="5" fill="#2fb0a3"/>
+                <text x="560" y="531" font-size="13.5" font-weight="800" fill="#102033">Execution</text>
+                <text x="546" y="560" font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#2b4a6b">engine &#183; running app</text>
+              </g>
+            </g>
+              <!-- output destinations -->
+              <g fill="none" stroke="#93a7c0" stroke-width="2" stroke-dasharray="4 5" marker-end="url(#pd-arrow)">
+                <path d="M234,588 L234,624"/>
+                <path d="M420,588 L420,624"/>
+                <path d="M606,588 L606,624"/>
+              </g>
+              <g>
+                <circle cx="234" cy="652" r="26" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.4"/>
+                <circle cx="420" cy="652" r="26" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.4"/>
+                <circle cx="606" cy="652" r="26" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.4"/>
+              </g>
+              <g transform="translate(236,650)" fill="none" stroke="#334155" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M-14,-10 h22 a5,5 0 0 1 5,5 v7 a5,5 0 0 1 -5,5 h-12 l-7,6 v-6 h-3 a5,5 0 0 1 -5,-5 v-7 a5,5 0 0 1 5,-5 z"/>
+                <path d="M0,-2 l1.5,3.4 3.4,1.5 -3.4,1.5 -1.5,3.4 -1.5,-3.4 -3.4,-1.5 3.4,-1.5 z" fill="#334155" stroke="none"/>
+              </g>
+              <g transform="translate(420,650)" fill="none" stroke="#334155" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <rect x="-15" y="-13" width="30" height="26" rx="4"/>
+                <line x1="-15" y1="-5" x2="15" y2="-5"/>
+                <circle cx="-11" cy="-9" r="1.2" fill="#334155" stroke="none"/>
+                <circle cx="-7" cy="-9" r="1.2" fill="#334155" stroke="none"/>
+                <line x1="-9" y1="2" x2="9" y2="2"/>
+                <line x1="-9" y1="7" x2="3" y2="7"/>
+              </g>
+              <g transform="translate(606,650)" fill="none" stroke="#334155" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M-10,-14 h11 l9,9 v19 h-20 z"/>
+                <path d="M1,-14 v9 h9"/>
+                <line x1="-5" y1="1" x2="6" y2="1"/>
+                <line x1="-5" y1="6" x2="6" y2="6"/>
+                <line x1="-5" y1="11" x2="1" y2="11"/>
+              </g>
+              <g font-family="Inter, system-ui, sans-serif" text-anchor="middle">
+                <text x="234" y="702" font-size="12.5" font-weight="800" fill="#334155">AI assistant</text>
+                <text x="234" y="718" font-size="9.5" font-weight="600" fill="#64748b">ChatGPT &#183; Claude &#183; Copilot</text>
+                <text x="420" y="702" font-size="12.5" font-weight="800" fill="#334155">LLM app</text>
+                <text x="420" y="718" font-size="9.5" font-weight="600" fill="#64748b">your product / agent</text>
+                <text x="606" y="702" font-size="12.5" font-weight="800" fill="#334155">Direct output</text>
+                <text x="606" y="718" font-size="9.5" font-weight="600" fill="#64748b">answer &#183; trace &#183; files</text>
+              </g>
+            </svg>
+            <figcaption>
+            A promplet composes <strong>variables</strong>, <strong>refined
+            promplets</strong>, <strong>tools</strong>, and <strong>embedded
+            content</strong> (<code>@embed</code> files, PDFs, and Markdown
+            <code>![images]</code>). The WeaveMark Processor compiles, validates,
+            and executes it &mdash; clarifying with you (<code>@ask</code>),
+            self-improving through an <code>@iterate</code> <strong>LLM-as-judge
+            loop</strong>, and running <strong>tools and effects</strong> &mdash;
+            to produce artifacts that go where you need them: a
+            <strong>pastable prompt</strong> for an AI assistant, <strong>emitted
+            files</strong> for an LLM app, an <strong>execution</strong> that
+            returns output directly, or a running app.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section id="processor" class="article-section">
+          <h2><span class="ic ic-cpu" aria-hidden="true"></span>What is the WeaveMark Processor?</h2>
+          <p>
+            The <strong>WeaveMark Processor</strong> is the tool invoked as
+            <code>weavemark</code>. It is the command-line entry point for working
+            with promplets: it compiles them into usable prompt artifacts, shows
+            structured metadata for tools and editors, and executes prompts when
+            a promplet declares executable behavior.
+          </p>
+          <div class="grid two">
+            <article class="card">
+              <span class="badge">Input</span>
+              <h3>Collect and validate inputs</h3>
+              <p>
+                In guided mode, the Processor asks for missing variables,
+                <code>@match</code> choices, and conditional flags. In batch
+                mode, it fails clearly instead of guessing.
+              </p>
+            </article>
+            <article class="card">
+              <span class="badge">Compose</span>
+              <h3>Compile promplets into artifacts</h3>
+              <p>
+                It resolves modules, applies directives, expands reusable
+                fragments, materializes emitted files, and returns a structured
+                result that other programs can inspect.
+              </p>
+            </article>
+            <article class="card">
+              <span class="badge">Inspect</span>
+              <h3>Expose metadata and diagnostics</h3>
+              <p>
+                <code>--scan</code>, JSON output, warnings, errors, tools, and
+                execution metadata make promplets usable from editors, scripts,
+                CI checks, and Python applications.
+              </p>
+            </article>
+            <article class="card">
+              <span class="badge">Execute</span>
+              <h3>Run prompts through engines</h3>
+              <p>
+                When a promplet uses <code>@execute</code> or the caller requests
+                <code>--run</code>, the Processor executes the prompt through the
+                declared or configured engine instead of merely producing text.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="principles" class="article-section">
+          <h2><span class="ic ic-target" aria-hidden="true"></span>Design principles</h2>
+          <div class="grid two">
+            <article class="card">
+              <span class="badge">1</span>
+              <h3>Markdown stays primary</h3>
+              <p>
+                The prompt should remain <strong>readable before compilation</strong>.
+                Directives exist to clarify structure, not to bury intent in a
+                programming language.
+              </p>
+            </article>
+            <article class="card">
+              <span class="badge">2</span>
+              <h3>Semantics beat string concatenation</h3>
+              <p>
+                A directive can describe a <strong>transformation in natural language</strong>:
+                tighten the style of the subspec in its body, normalize wording,
+                revise a draft, assert an invariant, or generate examples.
+              </p>
+            </article>
+            <article class="card">
+              <span class="badge">3</span>
+              <h3>Structure is checkable where possible</h3>
+              <p>
+                <strong>Indentation, directive boundaries, module imports, output
+                shapes, execution dependencies, and error reporting should be
+                machine-checkable.</strong>
+              </p>
+            </article>
+            <article class="card">
+              <span class="badge">4</span>
+              <h3>Execution is explicit</h3>
+              <p>
+                <strong>Runtime behavior is explicit:</strong> it is described by <code>@execute</code>,
+                <code>@tool</code>, and <code>@bind</code>. Composition does not
+                secretly run helper programs.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="compile-model" class="article-section">
+          <h2><span class="ic ic-wand" aria-hidden="true"></span>The compilation model</h2>
+          <p>
+            The WeaveMark Processor receives a promplet plus variable values.
+            It returns a <strong>structured envelope</strong> containing the primary prompt,
+            named prompts, compile options, tools, companion-implementation bindings,
+            execution metadata, emitted files, warnings, errors, and
+            suggestions. The first steps are <strong>deterministic scaffolding</strong>;
+            the final step is where a <strong>language model does most of the
+            work</strong>.
+          </p>
+          <div class="timeline" aria-label="Compilation steps">
+            <article class="step">
+              <span class="step-number">1</span>
+              <div>
+                <h3>Parse the shape</h3>
+                <p>
+                  Recognize directive lines, indentation, variables,
+                  comments, strings, inline lists, and opaque bodies.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">2</span>
+              <div>
+                <h3>Preprocess modules and macros</h3>
+                <p>
+                  Resolve <code>@module</code>, <code>@use</code>,
+                  <code>@include</code>, and source-to-source macro
+                  definitions before ordinary directive evaluation.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">3</span>
+              <div>
+                <h3>Substitute variables</h3>
+                <p>
+                  Replace <code>@{name}</code> with provided values. Preserve
+                  Mustache templates such as <code>{{name}}</code> as ordinary
+                  prompt content.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">4</span>
+              <div>
+                <h3>Apply structural directives</h3>
+                <p>
+                  Deterministically evaluate branches, remove notes, collect tools
+                  and bindings, compose prompt blocks, and materialize emitted files.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">5</span>
+              <div>
+                <h3>Realize semantic intent with a model</h3>
+                <p>
+                  A language model performs the meaning-level moves —
+                  <code>@refine</code>, <code>@style</code>, <code>@revise</code>,
+                  <code>@summarize</code>, and the rest — turning abstract intent
+                  into concrete prompt text. This is where most of the compilation
+                  happens, and why it is not a template engine.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="language-pieces" class="article-section">
+          <h2><span class="ic ic-code" aria-hidden="true"></span>The main language pieces</h2>
+          <table class="reference-table">
+            <thead>
+              <tr>
+                <th>Piece</th>
+                <th>Purpose</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>@{variable}</code></td>
+                <td>External input supplied by the caller or CLI.</td>
+                <td><code>@{company}</code></td>
+              </tr>
+              <tr>
+                <td>Core directives</td>
+                <td>Structural language features always available.</td>
+                <td><code>@prompt</code>, <code>@emit</code>, <code>@execute</code></td>
+              </tr>
+              <tr>
+                <td>Stdlib semantic functions</td>
+                <td>Default-loaded helpers for common prompt operations.</td>
+                <td><code>@style</code>, <code>@normalize</code>, <code>@revise</code>, <code>@assert</code>, <code>@refine</code></td>
+              </tr>
+              <tr>
+                <td>Macros</td>
+                <td>Reusable source-to-source expansions.</td>
+                <td><code>@define reviewer(...)</code></td>
+              </tr>
+              <tr>
+                <td>Modules</td>
+                <td>Named files that export definitions and reusable bodies.</td>
+                <td><code>@module company.writing</code></td>
+              </tr>
+              <tr>
+                <td>Tools and bindings</td>
+                <td>Function schemas and companion implementation metadata.</td>
+                <td><code>@tool search_web</code>, <code>@bind search_web ...</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>A small macro</h3>
+          <pre><code><span class="syntax-directive">@define</span> review_block(subject: thing being reviewed, focus: review priority, body: review material)
+  ## Review: <span class="syntax-var">@{subject}</span>
+
+  Focus on <span class="syntax-var">@{focus}</span>.
+
+  <span class="syntax-var">@{body}</span>
+
+<span class="syntax-directive">@review_block</span> subject: <span class="syntax-string">"API design"</span> focus: <span class="syntax-string">"clarity and safety"</span>
+  Assess the endpoint naming, error shapes, and auth flow.</code></pre>
+        </section>
+
+        <section id="output-shapes" class="article-section">
+          <h2><span class="ic ic-files" aria-hidden="true"></span>Three output shapes</h2>
+          <div class="grid three">
+            <article class="card">
+              <span class="badge"><span class="ic ic-chat" aria-hidden="true"></span></span>
+              <h3>Single prompt</h3>
+              <p>
+                No <code>@prompt</code> and no <code>@execute</code>. The whole
+                document compiles into one primary prompt.
+              </p>
+            </article>
+            <article class="card">
+              <span class="badge"><span class="ic ic-bolt" aria-hidden="true"></span></span>
+              <h3>Prompt execution</h3>
+              <p>
+                A top-level <code>@execute</code> turns a promplet into an
+                executable prompt specification that runs through an engine.
+              </p>
+            </article>
+            <article class="card">
+              <span class="badge"><span class="ic ic-files" aria-hidden="true"></span></span>
+              <h3>Emission</h3>
+              <p>
+                Without <code>@execute</code>, role-tagged
+                <code>@prompt</code> blocks compile into named prompt files.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="execution-boundary" class="article-section">
+          <h2><span class="ic ic-bolt" aria-hidden="true"></span>The execution boundary</h2>
+          <p>
+            Most directives in a promplet operate in the specification domain:
+            they transform, compose, or annotate prompt text. The
+            <code>@execute</code> directive crosses into the execution domain by
+            declaring how the runtime should orchestrate calls.
+          </p>
+          <pre><code><span class="syntax-directive">@execute</span> tree-of-thought
+  branching_factor: 3
+  max_depth: 2
+
+<span class="syntax-directive">@prompt</span> generate
+  Generate three candidate solutions to <span class="syntax-var">@{problem}</span>.
+
+<span class="syntax-directive">@prompt</span> evaluate
+  Evaluate the candidates.
+
+<span class="syntax-directive">@prompt</span> synthesize
+  Produce the final answer.</code></pre>
+
+          <p>
+            More advanced runtimes can load finite-state linguistic machines:
+            state machines whose guards, actions, and outputs are written as
+            named prompts in a promplet. The engine fails before execution if any
+            required prompt is missing.
+          </p>
+        </section>
+
+        <section id="workflow" class="article-section">
+          <h2><span class="ic ic-list" aria-hidden="true"></span>A practical workflow</h2>
+          <ol>
+            <li>Write the smallest readable Markdown prompt that captures intent.</li>
+            <li>Add variables where caller input should enter.</li>
+            <li>Add semantic helpers such as <code>@style</code>, <code>@normalize</code>, <code>@revise</code>, <code>@output</code>, and <code>@assert</code>.</li>
+            <li>Use <code>@match</code> and <code>@if</code> for genuine variation.</li>
+            <li>Compose with <code>weavemark --batch-only</code> and inspect the artifact.</li>
+            <li>Add tools, bindings, emission, or execution only when the composed prompt is clear.</li>
+          </ol>
+          <div class="callout">
+            <strong>Next:</strong> follow the step-by-step
+            <a href="tutorial.html">technical tutorial</a>, or jump to the
+            <a href="python-api.html">Python API guide</a> for app integration,
+            or the <a href="reference.html">reference</a> for systematic guidance.
+          </div>
+        </section>
+
+        <section id="faq" class="article-section">
+          <h2><span class="ic ic-lightbulb" aria-hidden="true"></span>Frequently asked questions</h2>
+
+          <h3>If AI assistants can already program for me, why use WeaveMark?</h3>
+          <p>
+            <strong>Not at all mutually exclusive — they reinforce each other.</strong>
+            WeaveMark and AI-assisted programming tools (Copilot CLI, Claude Code,
+            and the like) are complementary, not competing. WeaveMark is itself
+            built almost entirely <em>with</em> such tools.
+          </p>
+          <p>
+            An AI assistant can also <em>use</em> WeaveMark to organize its own
+            work. Instead of regenerating sprawling, ad-hoc prompts every time, it
+            can capture reusable intent as <strong>promplets</strong> — shared
+            personas, policies, reasoning methods, and output contracts — and
+            compose more organized, effective, and repeatable systems for itself. A
+            specification language gives the model durable structure to build on,
+            not just one-shot text.
+          </p>
+          <p>
+            It also makes <strong>human–AI collaboration</strong> easier. Because a
+            promplet is a precise, readable surface, a person can limit their touch
+            to exactly the parts that matter — a variable, a constraint, an output
+            contract — and leave the rest to the AI. Those boundaries can even be
+            drawn <em>by</em> the AI: it drafts the promplets, and a human reviews
+            or adjusts only the well-scoped pieces. You keep the leverage of AI
+            generation together with the reviewability and control of a
+            specification.
+          </p>
+
+          <h3>What do the names “WeaveMark” and “promplet” mean?</h3>
+          <p>
+            <strong>WeaveMark</strong> joins <em>weave</em> and <em>mark</em>.
+            <em>Weave</em> is about <strong>composition</strong>: a promplet is
+            woven together from reusable prose, refinements, and directives. It
+            also nods to <em>literate programming</em> and its classic
+            <code>WEAVE</code> tool, which likewise wove documentation and code
+            into a single readable source. <em>Mark</em> signals that this is a
+            <strong>markup notation</strong>: like Markdown or HTML, it stays
+            minimally invasive and keeps the focus on the underlying prose, only
+            <em>marking</em> the few seams where composition, reuse, branching,
+            and output happen. “Mark” also carries the sense of tracing
+            boundaries and of something worth <em>remarking</em> — taking careful
+            notice.
+          </p>
+          <p>
+            <strong>WeaveMark</strong> names the language, toolchain, and
+            ecosystem; a <strong>promplet</strong> is the native artifact you
+            write in it. The word <em>promplet</em> itself has two complementary
+            readings: <strong>prompt + -let</strong>, a small modular prompt
+            artifact in the spirit of <em>applet</em>, <em>servlet</em>, and
+            <em>cmdlet</em> (fitting, since some promplets are executable); and
+            <strong>prompt + let</strong>, an allusion to declarations such as
+            “let x be…” in mathematics and programming languages, emphasizing
+            specification, binding, and composition.
+          </p>
+          <p>
+            And a small confession: finding a name that was <strong>not already
+            taken by some related project</strong> turned out to be surprisingly
+            hard. The prompt and LLM space is crowded, and several earlier
+            candidates were already claimed by other tools before
+            <strong>WeaveMark</strong> finally stuck.
+          </p>
+
+          <h3 id="faq-origin">Where does the promplet concept come from?</h3>
+          <p>
+            The concept grew out of my own work; I developed it during
+            <strong>2025</strong> without being aware of anyone else using a similar
+            term. Since then I have been glad to find that a few other people have
+            independently explored <strong>kindred ideas</strong> under the similar
+            name <em>promptlet</em> &mdash; each in their own way: a reusable
+            <a href="https://www.josh.ing/promptlet">prompt snippet</a>, a
+            <a href="https://geekycuriosity.substack.com/p/midjourney-beginners-4-making-sense">weighted segment of a Midjourney multi-prompt</a>,
+            and a unit of
+            <a href="https://breakingrocks.net/Promptlets-The-Full-How-to-Guide-20f3a5cc79f9808a9422fae353036248">prompt reuse and structure</a>.
+          </p>
+          <p>
+            None of these are the same as WeaveMark, and that is part of the fun: the
+            idea of a small, named, reusable unit of prompting seems to be in the air,
+            and each project takes it somewhere different. WeaveMark simply develops it
+            <strong>in its own direction</strong> &mdash; toward composable, refinable
+            specifications you can compile. These related efforts are a genuinely
+            welcome source of ideas and inspiration. (WeaveMark spells it
+            <em>promplet</em>; several of them use <em>promptlet</em>.)
+          </p>
+
+          <h3>Why does the notation use <code>@</code> and indentation for scoping?</h3>
+          <p>
+            The goal is to keep promplets as readable as Markdown. The notation
+            introduces as little new syntax as possible: <code>@</code> marks
+            the few places where WeaveMark adds a directive, and indentation
+            scopes the directive body without braces, closing tags, or a
+            separate block language. Most of a promplet should still look and
+            read like ordinary Markdown prose.
+          </p>
+
+          <h3>Why Markdown instead of HTML or another markup language?</h3>
+          <p>
+            Markdown is the starting point because it is already popular for
+            prompts: readable in plain text, familiar to LLM users, and easy to
+            paste into chat, docs, issues, and agent tools. WeaveMark is not
+            fundamentally limited to Markdown, though. Future versions could
+            support HTML or other notations, and the <code>@</code>-based
+            directive style is intentionally compatible with many text and
+            markup languages.
+          </p>
+
+          <h3>LLM-based compilation? Are you insane?</h3>
+          <p>
+            A little, of course; where would
+            <a href="https://en.wikipedia.org/wiki/In_Praise_of_Folly">the fun</a>
+            be otherwise? But bear with me. Language — natural language,
+            programming languages, logic, mathematical notation — is the ultimate
+            thinking tool. What if natural language could help us design new
+            useful languages more easily? LLMs let us try. So let's experiment.
+          </p>
+
+          <h3>Why not a template engine?</h3>
+          <p>
+            Template engines are excellent when the result shape is known
+            precisely: replace this variable, include that partial verbatim,
+            repeat this block exactly here. Promplets, on the other hand, allow
+            more abstract compositions, at the cost of requiring a generative
+            model to realize the final prompt. This makes promplets more
+            reusable, since they can be applied directly in more contexts, and
+            more readable, giving the approach a literate-programming feel.
+          </p>
+          <p>
+            Promplets can also go beyond merely generating prompt text. Some
+            promplets are executable: they can run compiled prompts through
+            engines such as reflection, self-consistency, or tree-of-thought.
+            They can also bind trusted programs, such as Python companion
+            functions, to the prompt specification. In that sense, WeaveMark is
+            not only a language; it can also act as a prompting engine.
+          </p>
+
+          <h3>This is not literate programming!</h3>
+          <p>
+            Well, we are not weaving programs from prose, true. Our final
+            “program” is, rather, the final prompts to be used. We weave them
+            from more abstract, readable prose, much like in literate
+            programming. So if we take a liberally minded view of “program” as
+            “a set of instructions to be executed”, then WeaveMark is
+            indeed a form of literate programming,
+            albeit for instructions in a natural rather than formal language.
+            Perhaps we should invert the terminology and call the method
+            “programmatic literature”, “programmatic writing”, or “programmatic
+            prompting” instead?
+          </p>
+        </section>
+
+        <section id="citation-author" class="article-section">
+          <h2><span class="ic ic-doc" aria-hidden="true"></span>Citation and author</h2>
+          <p>
+            If WeaveMark helps your research, writing, or software work, please
+            cite it as software. Update the version if you are citing a specific
+            release.
+          </p>
+          <h3>BibTeX</h3>
+          <pre><code>@misc{salem2026weavemark,
+  author = {Salem, Paulo},
+  title = {{WeaveMark}: An Experimental Language for Readable, Reusable, and Composable Prompts},
+  year = {2026},
+  url = {https://github.com/paulosalem/weavemark},
+  note = {Version 0.8.0; computer software}
+}</code></pre>
+          <h3>APA</h3>
+          <p>
+            Salem, P. (2026). <em>WeaveMark: An experimental language for
+            readable, reusable, and composable prompts</em> (Version 0.8.0)
+            [Computer software]. GitHub.
+            <a href="https://github.com/paulosalem/weavemark">https://github.com/paulosalem/weavemark</a>
+          </p>
+          <p>
+            WeaveMark is authored by Dr. Paulo Salem. Learn more at
+            <a href="https://www.paulosalem.com">www.paulosalem.com</a> or connect
+            on <a href="https://www.linkedin.com/in/paulosalem/">LinkedIn</a>.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark introduction</strong><br>
+          Conceptual overview for promplet authors.
+        </div>
+        <div>
+          <a href="tutorial.html">Tutorial</a> |
+          <a href="python-api.html">Python API</a> |
+          <a href="reference.html">Reference</a> |
+          <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      (() => {
+        const links = Array.from(document.querySelectorAll(".sidebar a[href^='#']"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const sections = links
+          .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+          .filter(Boolean);
+        const visible = new Set();
+        const setActive = (id) => {
+          links.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href").slice(1) === id)
+          );
+        };
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) visible.add(entry.target.id);
+              else visible.delete(entry.target.id);
+            }
+            const current = sections.find((s) => visible.has(s.id));
+            if (current) setActive(current.id);
+          },
+          { rootMargin: "-96px 0px -55% 0px", threshold: 0 }
+        );
+        sections.forEach((s) => observer.observe(s));
+      })();
+    </script>
+  </body>
+</html>

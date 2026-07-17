@@ -1,0 +1,8 @@
+{
+  "problem": "A B2B SaaS company saw enterprise trial-to-paid conversion fall sharply over the last six weeks after launching a redesigned onboarding flow. Leadership wants to know the most likely explanation and what evidence would discriminate among alternatives.",
+  "decision_question": "What best explains the drop in enterprise trial-to-paid conversion, and what should leadership investigate first?",
+  "hypotheses": "1. The redesigned onboarding flow introduced friction for enterprise users.\n2. A pricing or packaging change reduced perceived value.\n3. Lead quality deteriorated because marketing shifted acquisition channels.\n4. A tracking or instrumentation bug is understating conversions.\n5. A competitor launched a materially better offer in the same segment.",
+  "evidence": "- Enterprise conversion dropped 27%, while SMB conversion is flat.\n- Time-to-first-value increased from 2.1 days to 4.8 days after the redesign.\n- Session replays show multiple enterprise admins abandoning the permissions setup step.\n- Marketing spend shifted toward broad paid social six weeks ago, but demo-request quality scores are unchanged.\n- Finance reports stable average contract value among the customers who do convert.\n- Two sales reps report prospects citing a competitor's new AI features, but win-loss notes mention this in only 3 of 41 lost deals.\n- Product analytics found no missing payment-success events, but CRM-to-billing reconciliation has not yet been completed.",
+  "assumptions": "- The underlying demand environment has not changed dramatically in the last quarter.\n- Sales team behavior has not materially changed during the period.",
+  "constraints": "Do not use outside web research. Base the analysis only on the supplied information."
+}

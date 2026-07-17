@@ -1,0 +1,26 @@
+{
+  "artifact_hashes": {
+    "output_sha256": "9ba0bb8a2c1cd844a262d6ff05c50980724f201a81c23d11711425d4b16d418a",
+    "source_sha256": "5babc9096c71ea8e040e2ec700aaa71a3a3fe4e54d99cddf8664c8cb2a399a44",
+    "variables_sha256": null
+  },
+  "fact_candidate_count": 3,
+  "fact_candidates": [
+    "Create a chat prompt for a tutor that helps me learn linear algebra.",
+    "explain vectors, matrices, transformations, eigenvectors, and practice problems",
+    "Make it friendly and adapt to what I know."
+  ],
+  "metrics": {
+    "candidate_facts": 3,
+    "counted_facts": 3,
+    "discounted_fact_units": 3.0,
+    "information_density_per_1k_output_words": 71.4,
+    "information_yield_per_1k_source_words": 71.4,
+    "local_authored_source_words": 42,
+    "local_leverage": 1.0,
+    "output_words": 42,
+    "study": "learning-tutor",
+    "variable_payload_words": 0,
+    "variant": "manual"
+  }
+}

@@ -1,0 +1,10 @@
+examples/saved-artifact-workflows/childrens-book-bebe-fusquinha/en/outputs/book.pdf filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/childrens-book-bebe-fusquinha/en/outputs/cover.png filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/childrens-book-bebe-fusquinha/en/outputs/pages/*.png filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/childrens-book-bebe-fusquinha/pt/outputs/book.pdf filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/childrens-book-bebe-fusquinha/pt/outputs/cover.png filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/childrens-book-bebe-fusquinha/pt/outputs/pages/*.png filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/childrens-book-orion-en/outputs/book.pdf filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/childrens-book-orion-en/outputs/pages/*.png filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/comic-strip-en/inputs/*.png filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/comic-strip-en/outputs/comic-strip.png filter=lfs diff=lfs merge=lfs -text
