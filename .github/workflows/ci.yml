@@ -70,6 +70,7 @@ jobs:
             src/weavemark/logging_setup.py \
             scripts/check_repository_hygiene.py \
             scripts/check_distribution_artifact.py \
+            scripts/build_pages_site.py \
             tests/test_provenance.py \
             tests/test_diagnostics.py \
             tests/test_reference_authority.py \
@@ -77,7 +78,8 @@ jobs:
             tests/test_logging_policy.py \
             tests/test_logging_setup.py \
             tests/test_app_logging.py \
-            tests/test_public_claims.py
+            tests/test_public_claims.py \
+            tests/test_pages_site.py
 
       - name: Run focused MyPy checks
         run: |
@@ -89,11 +91,14 @@ jobs:
             src/weavemark/version.py \
             src/weavemark/protection.py \
             src/weavemark/settings.py
+          mypy --follow-imports=skip \
+            scripts/build_pages_site.py
 
       - name: Check language and repository artifacts
         run: |
           python scripts/check_grammar_sync.py
           python scripts/check_repository_hygiene.py
+          python scripts/build_pages_site.py --output "$RUNNER_TEMP/pages-site"
 
       - name: Check VS Code extension
         working-directory: vscode-extension

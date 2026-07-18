@@ -1,0 +1,64 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/pages.yml"
+      - ".gitattributes"
+      - "CHANGELOG.md"
+      - "LICENSE"
+      - "README.md"
+      - "docs/**"
+      - "examples/**"
+      - "outputs/**"
+      - "promplets/**"
+      - "scripts/build_pages_site.py"
+      - "src/**"
+      - "studies/**"
+      - "vscode-extension/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and deploy website
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          lfs: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build public site
+        run: python scripts/build_pages_site.py --output _site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
