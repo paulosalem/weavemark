@@ -36,6 +36,9 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         encoding="utf-8"
     )
     assert (destination / "docs" / "tutorial-comic.jpg").is_file()
+    assert 'rel="icon"' in (destination / "docs" / "index.html").read_text(
+        encoding="utf-8"
+    )
     assert not (
         destination
         / "examples"

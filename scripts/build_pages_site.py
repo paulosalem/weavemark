@@ -38,6 +38,7 @@ ROOT_REDIRECT = """<!doctype html>
   </body>
 </html>
 """
+FAVICON_LINK = '    <link rel="icon" href="weavemark_logo.png" type="image/png">\n'
 
 
 class _LinkCollector(HTMLParser):
@@ -123,6 +124,7 @@ def build_site(destination: Path, root: Path = ROOT) -> list[Path]:
 
     (destination / "index.html").write_text(ROOT_REDIRECT, encoding="utf-8")
     (destination / ".nojekyll").touch()
+    _inject_favicon(destination / "docs")
     return copied
 
 
@@ -194,6 +196,14 @@ def _is_public_path(relative: Path) -> bool:
     if relative.parts and relative.parts[0] in PUBLIC_TREES:
         return True
     return relative.as_posix() in PUBLIC_ROOT_FILES
+
+
+def _inject_favicon(docs_directory: Path) -> None:
+    for html_path in docs_directory.glob("*.html"):
+        text = html_path.read_text(encoding="utf-8")
+        if 'rel="icon"' not in text:
+            text = text.replace("</head>", f"{FAVICON_LINK}</head>", 1)
+            html_path.write_text(text, encoding="utf-8")
 
 
 def _within(path: Path, root: Path) -> bool:
