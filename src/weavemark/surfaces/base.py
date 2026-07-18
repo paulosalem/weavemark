@@ -2,8 +2,8 @@
 
 Design rules
 ------------
-* The canonical surface (``surface: canonical`` or no ``surface:`` param) is
-  a no-op identity adapter — the source text is returned unchanged.
+* The canonical surface (``surface: canonical`` or no ``surface:`` param)
+  preserves source text after Markdown-native comments are stripped.
 * Every adapter receives only the raw spec text and returns a
   :class:`SurfaceLoweringResult` with canonical WeaveMark text plus any
   warnings or errors produced during lowering.
@@ -18,6 +18,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from typing import Protocol, runtime_checkable
+
+from weavemark.source_comments import strip_markdown_comments
 
 # ---------------------------------------------------------------------------
 # Data types
@@ -138,11 +140,20 @@ def lower_weavemark_surface(spec_text: str) -> SurfaceLoweringResult:
     scanner, CLI).  It must be called *before* macro/module preprocessing.
 
     Behaviour:
-    * No ``surface:`` param → return unchanged text with ``surface="canonical"``.
-    * ``surface: canonical`` → identity, same result.
+    * Markdown HTML comments are stripped before surface detection.
+    * No ``surface:`` param → return canonical text with ``surface="canonical"``.
+    * ``surface: canonical`` → return the comment-free canonical text.
     * ``surface: markdown`` → run the Markdown adapter.
     * Unknown surface → return an error result without modifying the text.
     """
+    comment_result = strip_markdown_comments(spec_text)
+    if comment_result.errors:
+        return SurfaceLoweringResult(
+            text=comment_result.text,
+            errors=comment_result.errors,
+        )
+
+    spec_text = comment_result.text
     surface = parse_surface_pragma(spec_text)
     if surface is None or surface == "canonical":
         return SurfaceLoweringResult(text=spec_text, surface="canonical")

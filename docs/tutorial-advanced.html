@@ -122,7 +122,7 @@ mkdir -p outputs/tutorial-goal/planning outputs/tutorial-goal/companions</code><
             compact instruction into structure</strong>. Here the macro turns a
             goal into a planning specification.
           </p>
-          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-goal/planning/goals.weavemark.md</span>
+          <pre><code><span class="syntax-comment">&lt;!-- Save as outputs/tutorial-goal/planning/goals.weavemark.md --&gt;</span>
 <span class="syntax-directive">@module</span> weavemark.std.planning.goals
 
 <span class="syntax-directive">@define</span> planning_checkpoint
@@ -197,7 +197,7 @@ mkdir -p outputs/tutorial-goal/planning outputs/tutorial-goal/companions</code><
             only supplies a goal, horizon, current starting point, and
             constraints.
           </p>
-          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-goal/fi-goal-plan.weavemark.md</span>
+          <pre><code><span class="syntax-comment">&lt;!-- Save as outputs/tutorial-goal/fi-goal-plan.weavemark.md --&gt;</span>
 <span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
 <span class="syntax-directive">@use</span> weavemark.std.planning.goals exposing goal_plan
@@ -236,7 +236,7 @@ someone with no transaction upload, portfolio upload, or spreadsheet model.</cod
             trusted host runtime decides whether and how to run the bound Python
             companion.
           </p>
-          <pre><code><span class="syntax-comment"># Add this definition to weavemark.std.planning.goals</span>
+          <pre><code><span class="syntax-comment">&lt;!-- Add this definition to weavemark.std.planning.goals --&gt;</span>
 <span class="syntax-directive">@define</span> lookup_public_goal_assumptions
   <span class="syntax-directive">@phase</span> execute
   <span class="syntax-directive">@scope</span> self
@@ -259,7 +259,7 @@ someone with no transaction upload, portfolio upload, or spreadsheet model.</cod
   <span class="syntax-directive">@body</span>
     Search public reference sources for current, non-private assumptions.
     Do not read private accounts, transactions, portfolios, or identity data.</code></pre>
-          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-goal/fi-goal-plan-executable.weavemark.md</span>
+          <pre><code><span class="syntax-comment">&lt;!-- Save as outputs/tutorial-goal/fi-goal-plan-executable.weavemark.md --&gt;</span>
 <span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
 <span class="syntax-directive">@use</span> weavemark.std.planning.goals exposing goal_plan lookup_public_goal_assumptions

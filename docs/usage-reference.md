@@ -3,6 +3,25 @@
 The `weavemark` command is the **WeaveMark Processor**: the command-line tool for
 compiling, inspecting, and running promplets.
 
+## Comments and author notes
+
+WeaveMark uses ordinary Markdown headings, so `#` starts a heading rather than a
+comment. For short author-only annotations, use Markdown's native HTML comment
+syntax:
+
+```markdown
+<!-- This note is stripped before parsing and never reaches the model. -->
+# Public prompt heading
+```
+
+HTML comments may span lines and can appear inline. The Processor removes them
+before surface lowering, directive parsing, and composition. Comment-like text
+inside inline code or fenced code blocks remains literal.
+
+Use `@note` when the annotation is compiler-facing guidance rather than a purely
+lexical comment. Its indented body can inform compilation diagnostics, but is
+still excluded from the composed prompt.
+
 ## Live demo
 
 Start with a plain single-spec run when you want the normal user experience:

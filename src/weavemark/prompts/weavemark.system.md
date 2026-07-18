@@ -172,6 +172,7 @@ A promplet specification is a Markdown text that may contain:
 - **Directives** (`@directive_name`): reusable components and logic/control-flow building blocks that can transform a prompt (e.g., `@if`, `@match`, `@note`, imported semantic definitions such as `@refine`). A line is treated as a directive only when `@...` appears at the start of a logical line (after indentation).
 - **Variables** (`@{variable_name}`): WeaveMark placeholders that should be replaced with the appropriate value. The variable name should be descriptive of the kind of value expected. A name may be a **dotted path** that navigates nested (JSON) values — each `.`-separated segment descends one level: a mapping key or an integer index into a list (e.g. `@{book.title}`, `@{panels.0.dialogue}`, `@{xs.-1}`). An exact flat key that literally contains a dot resolves first; otherwise the dotted path is walked. A path that cannot be fully resolved is left intact (the placeholder is preserved, never blanked), and `@if`/`@match` may also test a dotted path. Mustache syntax (`{{...}}`, including sections such as `{{#items}}...{{/items}}`) is ordinary prompt/template content and must be preserved unless an explicit directive transforms that surrounding text.
 - **Definition/module declarations** (`@define`, `@module`, `@use`, `@include`): compile-time abstractions resolved before ordinary directive evaluation. `@define` without `@effect` declares a deterministic macro; `@define` with `@effect` declares a semantic function.
+- **Markdown comments** (`<!-- ... -->`): purely lexical author annotations stripped before parsing. They may be inline or span lines; comment-like text inside inline code or fenced code remains literal. `#` is always a Markdown heading marker, never a WeaveMark comment.
 
 
 ### Version Pragma: `@promplet`
@@ -1946,6 +1947,10 @@ notes:      Companion-program binding metadata. Never executed during compositio
 ### Meta-Comments: `@note`
 
 `@note` introduces comments that are visible to the prompt engineer but are **stripped before sending to the LLM**.
+
+Use `@note` for compiler-facing block guidance. For a short annotation that
+should be ignored before parsing, use the Markdown-native `<!-- ... -->` form
+instead.
 
 Example:
 ```

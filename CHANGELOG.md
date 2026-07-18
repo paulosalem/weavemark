@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Markdown-native `<!-- ... -->` author comments, stripped before WeaveMark
+  parsing while remaining literal inside inline and fenced code.
+
+### Fixed
+
+- Tutorial snippets no longer present Markdown `#` headings as WeaveMark
+  comments.
+
 ## 0.9.0
 
 ### Added

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from weavemark.surfaces import (
     SurfaceLoweringResult,
     lower_weavemark_surface,
@@ -54,6 +52,28 @@ class TestLowerPromptspecSurfaceCanonical:
         assert result.text == spec
         assert result.surface == "canonical"
         assert not result.errors
+
+    def test_html_comments_are_stripped_before_surface_detection(self):
+        spec = (
+            "<!-- author note -->\n"
+            "@promplet version: 0.8 surface: markdown\n\n"
+            "# Prompt\n"
+            "Hello.\n"
+        )
+
+        result = lower_weavemark_surface(spec)
+
+        assert not result.errors
+        assert result.surface == "markdown"
+        assert "<!--" not in result.text
+        assert "# Prompt" in result.text
+
+    def test_unterminated_html_comment_is_an_error(self):
+        result = lower_weavemark_surface("Hello.\n<!-- unfinished")
+
+        assert result.errors == [
+            "Unterminated HTML comment in WeaveMark source starting at line 2."
+        ]
 
     def test_canonical_surface_returns_unchanged(self):
         spec = "@promplet version: 0.7 surface: canonical\n\n@prompt default\n  Hello.\n"

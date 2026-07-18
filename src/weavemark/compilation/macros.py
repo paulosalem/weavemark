@@ -19,6 +19,7 @@ from weavemark.settings import (
     WeaveMarkSettings,
     load_weavemark_settings,
 )
+from weavemark.source_comments import strip_markdown_comments
 
 _DIRECTIVE_RE = re.compile(
     r"^(?P<indent>[ \t]*)@(?P<name>[A-Za-z_][A-Za-z0-9_.-]*\??)"
@@ -790,12 +791,14 @@ class _WeaveMarkPreprocessor:
 
 
 def _parse_document(text: str, source: str) -> ParsedDocument:
+    comment_result = strip_markdown_comments(text, source_name=source)
+    text = comment_result.text
     lines = text.splitlines()
     body_lines: list[str] = []
     uses: list[UseDirective] = []
     definitions: list[WeaveMarkDefinition] = []
     module_name: str | None = None
-    errors: list[str] = []
+    errors = list(comment_result.errors)
     index = 0
 
     while index < len(lines):

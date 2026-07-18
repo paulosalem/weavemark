@@ -114,3 +114,23 @@ def test_programming_tutorials_use_maintained_surfaces() -> None:
         / "news-intelligence-board"
         / "compiled-prompt.md"
     ).is_file()
+
+
+def test_weavemark_tutorial_snippets_do_not_fake_hash_comments() -> None:
+    weavemark_tutorials = (
+        "tutorial.html",
+        "tutorial-advanced.html",
+        "tutorial-games.html",
+        "tutorial-products.html",
+        "tutorial-refine.html",
+        "tutorial-reuse.html",
+    )
+    for name in weavemark_tutorials:
+        assert '<span class="syntax-comment">#' not in _tutorial(name)
+
+    assert _tutorial("tutorial-illustrated.html").count(
+        '<span class="syntax-comment">#'
+    ) == 1
+    assert _tutorial("tutorial-implement.html").count(
+        '<span class="syntax-comment">#'
+    ) == 3

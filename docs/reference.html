@@ -90,7 +90,7 @@
               <tr>
                 <td>Version pragma</td>
                 <td><code>@promplet version: 0.8</code></td>
-                <td><strong>Optional, but recommended.</strong> If present, it must be the first non-blank line.</td>
+                <td><strong>Optional, but recommended.</strong> If present, it must be the first non-blank, non-comment line.</td>
               </tr>
               <tr>
                 <td>Directive</td>
@@ -111,6 +111,16 @@
                 <td>Escaped at sign</td>
                 <td><code>@@if</code></td>
                 <td>Renders as literal <code>@if</code> after directive processing.</td>
+              </tr>
+              <tr>
+                <td>Author comment</td>
+                <td><code>&lt;!-- private note --&gt;</code></td>
+                <td>Stripped before parsing. Remains literal inside inline or fenced code.</td>
+              </tr>
+              <tr>
+                <td>Compiler note</td>
+                <td><code>@note</code> with an indented body</td>
+                <td>May guide compilation diagnostics, but is excluded from the composed prompt.</td>
               </tr>
               <tr>
                 <td>Quoted value</td>

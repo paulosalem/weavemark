@@ -157,7 +157,7 @@ mkdir -p outputs/tutorial-investment/prompts</code></pre>
             WeaveMark pieces are the version pragma, a style block, variables,
             and an output contract.
           </p>
-          <pre><code><span class="syntax-comment"># Save as outputs/tutorial-investment/investment-brief.weavemark.md</span>
+          <pre><code><span class="syntax-comment">&lt;!-- Save as outputs/tutorial-investment/investment-brief.weavemark.md --&gt;</span>
 <span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
 # Investment brief
@@ -199,7 +199,7 @@ mkdir -p outputs/tutorial-investment/prompts</code></pre>
             checklist into the local source. Add these <code>@refine</code> lines
             directly below the version pragma.
           </p>
-          <pre><code><span class="syntax-comment"># Add below @promplet version: 0.8</span>
+          <pre><code><span class="syntax-comment">&lt;!-- Add directly below the @promplet line --&gt;</span>
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.finance_safety <span class="syntax-key">mingle:</span> true
 <span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.evidence_quality <span class="syntax-key">mingle:</span> true
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.investment_decision <span class="syntax-key">mingle:</span> true</code></pre>
@@ -208,7 +208,7 @@ mkdir -p outputs/tutorial-investment/prompts</code></pre>
             compiled prompt can carry <strong>finance safety, evidence discipline,
             and decision framing</strong>.
           </p>
-          <pre><code><span class="syntax-comment"># The top of your spec now looks like this</span>
+          <pre><code><span class="syntax-comment">&lt;!-- The top of your spec now looks like this --&gt;</span>
 <span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.finance_safety <span class="syntax-key">mingle:</span> true
 <span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.evidence_quality <span class="syntax-key">mingle:</span> true

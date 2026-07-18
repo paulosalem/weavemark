@@ -254,7 +254,7 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
   <span class="syntax-directive">@refine</span> module:weavemark.domains.creative.illustrated_story_core
     <span class="syntax-key">with</span> story_format: <span class="syntax-string">"comic-strip"</span>
     <span class="syntax-key">with</span> references: true
-  <span class="syntax-comment"># ... a per-panel beat sheet (see next step) ...</span>
+  <span class="syntax-comment">&lt;!-- ... a per-panel beat sheet (see next step) ... --&gt;</span>
 
 <span class="syntax-directive">@prompt</span> generate
   <span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image
@@ -320,12 +320,12 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
             navigates nested JSON &mdash; each segment descends one level (a key,
             or an integer list index).
           </p>
-          <pre><code><span class="syntax-comment"># In the author stage of comic-strip.weavemark.md</span>
+          <pre><code><span class="syntax-comment">&lt;!-- In the author stage of comic-strip.weavemark.md --&gt;</span>
 - **Panel 1** &mdash; <span class="syntax-var">@{panels.1.staging}</span>
   Dialogue &mdash; <span class="syntax-var">@{panels.1.dialogue}</span>
 - **Panel 2** &mdash; <span class="syntax-var">@{panels.2.staging}</span>
   Dialogue &mdash; <span class="syntax-var">@{panels.2.dialogue}</span>
-  <span class="syntax-comment"># ... one entry per panel ...</span></code></pre>
+  <span class="syntax-comment">&lt;!-- ... one entry per panel ... --&gt;</span></code></pre>
           <p>
             The panels themselves live in the companion variables, so rewriting the
             story never touches the spec &mdash; you edit data:
@@ -365,7 +365,7 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
 <span class="syntax-directive">@prompt</span> author
   <span class="syntax-directive">@refine</span> module:weavemark.domains.creative.illustrated_story_core
     <span class="syntax-key">with</span> story_format: <span class="syntax-string">"picture-book"</span>
-  <span class="syntax-comment"># ... a per-page beat sheet: @{pages.1.scene} / @{pages.1.text} ...</span>
+  <span class="syntax-comment">&lt;!-- ... a per-page beat sheet: @{pages.1.scene} / @{pages.1.text} ... --&gt;</span>
 
 <span class="syntax-directive">@prompt</span> page
   <span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image
