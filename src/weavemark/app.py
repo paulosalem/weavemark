@@ -106,6 +106,7 @@ if TYPE_CHECKING:
     from weavemark.engines import ExecutionResult
 
 logger = get_logger("cli")
+DISCOVERY_SYSTEM_PROMPT = Path(__file__).resolve().parent / "prompts" / "discovery.system.md"
 
 # ------------------------------------------------------------------
 # Argument parsing
@@ -761,7 +762,12 @@ def _render_user_diagnostic(
     )
 
 
-def _format_raw_output(result: CompositionResult, fmt: str) -> str:
+def _format_raw_output(
+    result: CompositionResult,
+    fmt: str,
+    *,
+    source_label: str | None = None,
+) -> str:
     """Format the primary output for stdout or file.
 
     Always returns ONLY the prompt content (no issues):
@@ -769,8 +775,24 @@ def _format_raw_output(result: CompositionResult, fmt: str) -> str:
     - ``json``: full structured data (includes issues in JSON fields)
     """
     if fmt == "json":
-        return json.dumps(result.to_dict(), indent=2, ensure_ascii=False)
-    return result.composed_prompt
+        return json.dumps(
+            _portable_result_dict(result, source_label),
+            indent=2,
+            ensure_ascii=False,
+        )
+    return str(result.composed_prompt)
+
+
+def _portable_result_dict(
+    result: CompositionResult,
+    source_label: str | None,
+) -> dict[str, Any]:
+    """Serialize a CLI result without leaking host-specific source paths."""
+
+    data = result.to_dict()
+    if source_label is not None and "source_path" in data:
+        data["source_path"] = source_label
+    return data
 
 
 def _resolve_output_format(
@@ -822,7 +844,7 @@ def _resolve_output_format(
             )
             result.warnings.append(warning)
             printer.warning(warning)
-        return normalized_cli_format
+        return str(normalized_cli_format)
 
     return str(spec_format or DEFAULT_COMPILE_FORMAT)
 
@@ -930,7 +952,10 @@ def _write_primary_file(
                 reason="Writing the primary compiled or executed output",
             )
         primary_output.parent.mkdir(parents=True, exist_ok=True)
-        primary_output.write_text(content, encoding="utf-8")
+        primary_output.write_text(
+            _normalize_markdown_for_path(primary_output, content),
+            encoding="utf-8",
+        )
         if show_summary:
             printer.file_written(primary_output)
         return True
@@ -940,6 +965,14 @@ def _write_primary_file(
         "If the spec only declares @emit / role-tagged @prompt artifacts, this is expected."
     )
     return False
+
+
+def _normalize_markdown_for_path(path: Path, content: str) -> str:
+    """Remove unstable trailing whitespace from persisted Markdown artifacts."""
+
+    if path.suffix.casefold() not in {".md", ".markdown"}:
+        return content
+    return "\n".join(line.rstrip(" \t\r") for line in content.split("\n"))
 
 
 def _write_emit_targets(
@@ -958,7 +991,7 @@ def _write_emit_targets(
                 reason="Writing an @emit or role-tagged @prompt artifact",
             )
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(content, encoding="utf-8")
+        path.write_text(_normalize_markdown_for_path(path, content), encoding="utf-8")
         if show_summary:
             printer.file_written(path)
 
@@ -976,6 +1009,12 @@ def _portable_source_label(args: argparse.Namespace) -> str:
         return source.relative_to(Path.cwd().resolve()).as_posix()
     except ValueError:
         return source.name
+
+
+def _load_discovery_system_prompt() -> str:
+    """Load the packaged system prompt used only by discovery chat."""
+
+    return DISCOVERY_SYSTEM_PROMPT.read_text(encoding="utf-8").strip()
 
 
 def _run_compiled_implementation(
@@ -1042,7 +1081,7 @@ def _execute_implementation_request(
             f"Implementation profile {result.profile!r} exited with code "
             f"{result.exit_code}. Transcript: {result.transcript}"
         )
-        return result.exit_code
+        return int(result.exit_code)
 
     printer.done()
     return 0
@@ -1054,10 +1093,11 @@ def _show_result(
     fmt: str,
     elapsed: float,
     verbose: bool = False,
+    source_label: str | None = None,
 ) -> None:
     """Display the composition result using the printer."""
     if fmt == "json":
-        printer.result_json(result.to_dict())
+        printer.result_json(_portable_result_dict(result, source_label))
     else:
         # Markdown — always show the prompt
         printer.result_markdown(result.composed_prompt)
@@ -1162,10 +1202,12 @@ def _confirm_protection_request(
             padding=(1, 2),
         )
     )
-    return Confirm.ask(
-        "[bold yellow]Allow and remember this exact item?[/]",
-        default=False,
-        console=printer.console,
+    return bool(
+        Confirm.ask(
+            "[bold yellow]Allow and remember this exact item?[/]",
+            default=False,
+            console=printer.console,
+        )
     )
 
 
@@ -1260,7 +1302,11 @@ async def run_batch(
         )
         return 1
     output_format = _resolve_output_format(result, args, printer, settings)
-    output = _format_raw_output(result, output_format)
+    output = _format_raw_output(
+        result,
+        output_format,
+        source_label=_portable_source_label(args),
+    )
     primary_output, emit_root = _resolve_output_layout(
         args,
         base_dir,
@@ -1377,9 +1423,20 @@ async def run_interactive(
         printer.error(str(exc))
         return 1
 
-    raw = _format_raw_output(result, output_format)
+    raw = _format_raw_output(
+        result,
+        output_format,
+        source_label=_portable_source_label(args),
+    )
     if (primary_output is None and not args.implement) or args.show_output:
-        _show_result(printer, result, output_format, elapsed, verbose=args.verbose)
+        _show_result(
+            printer,
+            result,
+            output_format,
+            elapsed,
+            verbose=args.verbose,
+            source_label=_portable_source_label(args),
+        )
     if primary_output is not None:
         _write_primary_file(
             primary_output,
@@ -1448,7 +1505,14 @@ async def run_interactive(
             )
             return 1
         output_format = _resolve_output_format(result, args, printer, settings)
-        _show_result(printer, result, output_format, elapsed, verbose=args.verbose)
+        _show_result(
+            printer,
+            result,
+            output_format,
+            elapsed,
+            verbose=args.verbose,
+            source_label=_portable_source_label(args),
+        )
 
     printer.done()
     return 0
@@ -1738,7 +1802,10 @@ async def run_execute(
                 reason="Writing the requested execution trace",
             )
             trace_output.parent.mkdir(parents=True, exist_ok=True)
-            trace_output.write_text(trace, encoding="utf-8")
+            trace_output.write_text(
+                _normalize_markdown_for_path(trace_output, trace),
+                encoding="utf-8",
+            )
         except OSError as exc:
             printer.error(f"Failed to write execution trace: {exc}")
             return 1
@@ -1946,65 +2013,8 @@ async def run_discover(args: argparse.Namespace) -> int:
     cached_count[0] = len(entries) - analyzed_count[0]
     ui.show_cache_summary(cached_count[0], analyzed_count[0], len(entries))
 
-    # 4. Load the discovery system prompt
-    discovery_spec = (
-        Path(__file__).parent.parent
-        / "weavemark"
-        / "specs"
-        / "spec-discovery.weavemark.md"
-    )
-    # Try multiple locations
-    for candidate in [
-        Path.cwd() / "specs" / "spec-discovery.weavemark.md",
-        Path(__file__).resolve().parent
-        / ".."
-        / ".."
-        / "specs"
-        / "spec-discovery.weavemark.md",
-    ]:
-        if candidate.is_file():
-            discovery_spec = candidate
-            break
-
-    if discovery_spec.is_file():
-        # Strip the @note and @tool blocks — use the text as system prompt
-        raw = discovery_spec.read_text(encoding="utf-8")
-        # Remove @note blocks and @tool blocks (they're handled by the tools system)
-        lines = []
-        in_note = False
-        in_tool = False
-        for line in raw.splitlines():
-            stripped = line.strip()
-            if stripped.startswith("@note"):
-                in_note = True
-                continue
-            if stripped.startswith("@tool"):
-                in_tool = True
-                continue
-            if in_note and (
-                not stripped or stripped.startswith("@") or not line.startswith(" ")
-            ):
-                in_note = False
-            if in_tool and (
-                stripped.startswith("@")
-                and not stripped.startswith("@tool")
-                and not line.startswith(" ")
-            ):
-                in_tool = False
-            if in_note or in_tool:
-                continue
-            # Skip lines starting with "## Tools" header
-            if stripped == "## Tools":
-                in_tool = True
-                continue
-            lines.append(line)
-        system_prompt = "\n".join(lines).strip()
-    else:
-        system_prompt = (
-            "You are WeaveMark Discovery — a friendly assistant that helps users "
-            "find the right promplet specification. Use search_catalog to find specs, "
-            "read_spec to examine them, and select_spec when the user is ready."
-        )
+    # 4. Load the internal discovery system prompt.
+    system_prompt = _load_discovery_system_prompt()
 
     # 5. Build the chat engine
     tool_executor = create_tool_executor(entries, metadata)
@@ -2326,7 +2336,7 @@ def cli() -> None:
         except ImportError:
             printer.error(
                 "Textual is required for --ui mode. "
-                "Install with: [bright_cyan]pip install promplet\\[ui][/]"
+                "Install with: [bright_cyan]pip install weavemark\\[ui][/]"
             )
             sys.exit(1)
         launch_tui(

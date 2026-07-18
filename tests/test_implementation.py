@@ -91,8 +91,8 @@ def test_dry_run_uses_exact_compiled_stem_without_prefix_stripping(
 def test_weavemark_source_stem_strips_only_weavemark_compound_suffix(
     tmp_path: Path,
 ) -> None:
-    source = tmp_path / "passive-income-android-app.weavemark.md"
-    source.write_text("# Passive income Android app spec\n", encoding="utf-8")
+    source = tmp_path / "planning-dashboard.weavemark.md"
+    source.write_text("# Planning dashboard spec\n", encoding="utf-8")
     settings = load_weavemark_settings(tmp_path).settings
 
     result = run_implementation(
@@ -105,8 +105,8 @@ def test_weavemark_source_stem_strips_only_weavemark_compound_suffix(
         )
     )
 
-    assert result.implementation_name == "passive-income-android-app"
-    assert result.implementation_dir.name == "passive-income-android-app"
+    assert result.implementation_name == "planning-dashboard"
+    assert result.implementation_dir.name == "planning-dashboard"
 
 
 def test_implementation_name_overrides_default(tmp_path: Path) -> None:

@@ -83,3 +83,34 @@ def test_runtime_trace_fence_handles_nested_code_blocks() -> None:
 
     assert fenced.startswith("````markdown\n")
     assert fenced.endswith("\n````")
+
+
+def test_programming_tutorials_use_maintained_surfaces() -> None:
+    reuse = _tutorial("tutorial-reuse.html")
+    implement = _tutorial("tutorial-implement.html")
+    refine = _tutorial("tutorial-refine.html")
+
+    assert "passive-income-planning-dashboard" in reuse
+    assert "passive-income-planning-dashboard" in implement
+    assert "passive-income-android-app" not in reuse + implement
+    assert "android_kotlin_compose" not in reuse
+    assert "Python async task cancellation" in refine
+    assert "Rust ownership" not in refine
+
+    assert (
+        ROOT
+        / "outputs"
+        / "examples"
+        / "compiled-prompt-snapshots"
+        / "passive-income-planning-dashboard"
+        / "compiled-prompt.md"
+    ).is_file()
+    assert (
+        ROOT
+        / "examples"
+        / "batch-example-runs"
+        / "static-prompts"
+        / "outputs"
+        / "news-intelligence-board"
+        / "compiled-prompt.md"
+    ).is_file()

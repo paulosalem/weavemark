@@ -46,9 +46,9 @@
         <p class="hero-copy">
           <strong>WeaveMark</strong> is a small, Markdown-native
           <strong>specification language</strong> for prompts: you specify
-          abstract intent — refinements, variables, branching — and the Processor
-          makes it concrete, <strong>mostly with a language model</strong> plus
-          deterministic structure where it helps. The readable, reusable units you
+          abstract intent and the LLM-based processor
+          makes it concrete (either by compilation or dynamic interpretation).
+          The readable, reusable units you
           write in it are called
           <a href="introduction.html#faq-origin"><strong>promplets</strong></a>: each can stand alone or
           be built from other promplets. Great for both <strong>humans</strong> and <strong>AI</strong> agents.
@@ -90,19 +90,18 @@
     <span class="syntax-string">"advanced"</span> ==&gt; add canvas, terminal, forms.
   <span class="syntax-directive">@if</span> realtime_updates
     Stream agent progress without losing board stability.</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="voidborne-roguelike.weavemark.md" data-href="../promplets/catalog/standalone/voidborne-roguelike.weavemark.md" data-stat-a-title="2D roguelike" data-stat-a-text="ship, sectors, bosses" data-stat-b-title="@refine" data-stat-b-text="game type plus Rust/Bevy stack" data-stat-c-title="@match" data-stat-c-text="simple or complex enemies" hidden><code><span class="syntax-directive">@refine</span> module:weavemark.domains.programming.foundations.base_spec_author
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.rust_bevy
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.2d_game
+              <pre class="hero-slide" data-carousel-slide data-title="news-intelligence-board.weavemark.md" data-href="../promplets/catalog/standalone/news-intelligence-board.weavemark.md" data-stat-a-title="event memory" data-stat-a-text="sources, clusters, presentations" data-stat-b-title="material updates" data-stat-b-text="resurface only when meaning changes" data-stat-c-title="local-first" data-stat-c-text="durable SQLite history" hidden><code><span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.workflow_board
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.local_sqlite_storage
+<span class="syntax-directive">@refine</span> module:weavemark.domains.research.recurring_topic_monitor
 
-# Voidborne — 2D Space Roguelike
+# News Intelligence Board
 
-Voidborne is a 2D top-down space roguelike where
-the player pilots a ship through generated sectors,
-collecting upgrades and facing zone bosses.
+Search configured topics and event types.
+Cluster many articles into one durable event.
 
-<span class="syntax-directive">@match</span> enemy_complexity
-  <span class="syntax-string">"simple"</span> ==&gt; Drone, Turret, Bomber, Sniper.
-  <span class="syntax-string">"complex"</span> ==&gt; elites, swarmers, cloakers, carriers.</code></pre>
+Exact duplicate: store retrieval metadata; never show again.
+Material update: resurface the existing event card
+with a visible “What changed” diff.</code></pre>
               <pre class="hero-slide" data-carousel-slide data-title="creative-ideation.weavemark.md" data-href="../promplets/catalog/standalone/creative-ideation.weavemark.md" data-stat-a-title="@match method" data-stat-a-text="SCAMPER, Six Hats, Reverse" data-stat-b-title="@refine mingle" data-stat-b-text="method becomes local structure" data-stat-c-title="constraints" data-stat-c-text="limits stay visible" hidden><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 <span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst <span class="syntax-key">mingle:</span> true
 
@@ -140,7 +139,7 @@ decision-relevant questions or drivers.
           <div class="carousel-controls" aria-label="WeaveMark example selector">
             <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Previous example">&lt;</button>
             <button class="carousel-tab is-active" type="button" data-carousel-index="0" aria-pressed="true">Kanban</button>
-            <button class="carousel-tab" type="button" data-carousel-index="1" aria-pressed="false">Voidborne</button>
+            <button class="carousel-tab" type="button" data-carousel-index="1" aria-pressed="false">News board</button>
             <button class="carousel-tab" type="button" data-carousel-index="2" aria-pressed="false">Ideas</button>
             <button class="carousel-tab" type="button" data-carousel-index="3" aria-pressed="false">Issue tree</button>
             <button class="carousel-arrow" type="button" data-carousel-next aria-label="Next example">&gt;</button>
@@ -413,10 +412,10 @@ Use board-ready language.</code></pre>
             <span class="library-tag"><span class="ic ic-code" aria-hidden="true"></span>Programming</span>
             <div class="chips">
               <a class="chip" href="../promplets/domains/programming/fragments/foundations/software-spec.weavemark.md">software-spec</a>
-              <a class="chip" href="../promplets/domains/programming/fragments/stacks/stack-typescript-nextjs-prisma.weavemark.md">Next.js + Prisma</a>
-              <a class="chip" href="../promplets/domains/programming/fragments/stacks/stack-python-fastapi-postgres.weavemark.md">FastAPI</a>
-              <a class="chip" href="../promplets/domains/programming/fragments/stacks/stack-android-kotlin-compose.weavemark.md">Kotlin + Compose</a>
-              <a class="chip" href="../promplets/domains/programming/fragments/modules/module-auth.weavemark.md">+ 13 modules</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/stacks/stack-typescript-nextjs-prisma-sqlite.weavemark.md">Next.js + SQLite</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/modules/module-dashboard.weavemark.md">decision dashboards</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/modules/module-workflow-board.weavemark.md">workflow boards</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/modules/module-auth.weavemark.md">+ focused modules</a>
             </div>
           </div>
           <div class="library-group">
@@ -483,7 +482,7 @@ Use board-ready language.</code></pre>
           <article class="build-card">
             <span class="build-tag"><span class="ic ic-gamepad" aria-hidden="true"></span>Play</span>
             <h3>Game promplets</h3>
-            <p>Named game ideas as readable implementation specs — <a href="../promplets/catalog/standalone/voidborne-roguelike.weavemark.md">voidborne-roguelike.weavemark.md</a>.</p>
+            <p>Playable browser-game specifications with explicit validation — <a href="../promplets/tutorials/metro-lines.weavemark.md">metro-lines.weavemark.md</a>.</p>
           </article>
 
           <article class="build-card">
@@ -550,8 +549,8 @@ Preserve decisions, risks, evidence, gaps, and next actions.</code></pre>
               </p>
               <pre><code><span class="syntax-directive">@iterate</span> 2
   <span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention <span class="syntax-key">focus:</span> <span class="syntax-string">"playable first build"</span>
-    <a class="code-link" href="../promplets/catalog/standalone/voidborne-roguelike.weavemark.md">Voidborne</a>: pilot a ship through generated sectors,
-    collect upgrades, and face zone bosses.</code></pre>
+    <a class="code-link" href="../promplets/tutorials/metro-lines.weavemark.md">Metro Lines</a>: draw routes through a living city,
+    manage congestion, and validate the first playable loop.</code></pre>
             </article>
 
             <article class="snippet-card">

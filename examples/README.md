@@ -52,6 +52,10 @@ playwright install chromium
 pip install -e ".[benchmarking]"
 ```
 
+The strategy benchmark downloads and caches its tiny GSM8K slice on the first
+run. After that, set `HF_DATASETS_OFFLINE=1` when you deliberately want a
+cache-only run.
+
 Set the provider credentials required by the model named in the visible runner
 command. Every runner works from any current directory, uses default protections
 without `--no-protections`, and writes only beneath its own `outputs/` folder.
@@ -101,10 +105,11 @@ git clone https://github.com/paulosalem/weavemark.git
 ```
 
 An existing clone that contains only pointer files can fetch them with
-`git lfs pull`. These assets are curated snapshots, not build inputs. Runner
-scripts may replace them locally, but changed binary snapshots should be added
-to release history only deliberately because every version consumes its full
-LFS storage and download bandwidth.
+`git lfs pull`. Storybook/comic outputs are curated snapshots. The comic
+character sheets and style reference are required runtime inputs for reproducing
+that workflow. Runner scripts may replace output snapshots locally, but changed
+binaries should enter release history only deliberately because every version
+consumes its full LFS storage and download bandwidth.
 
 The documentation site uses lightweight regular-Git JPG previews because Git
 LFS objects cannot be served by GitHub Pages. Full-resolution originals remain
@@ -119,8 +124,8 @@ output directory:
 
 ```bash
 weavemark implement \
-  outputs/examples/compiled-prompt-snapshots/passive-income-android-app/compiled-prompt.md \
-  --name passive-income-android-app
+  outputs/examples/compiled-prompt-snapshots/passive-income-planning-dashboard/compiled-prompt.md \
+  --name passive-income-planning-dashboard
 ```
 
 The command copies the compiled prompt into a fresh workspace under
@@ -175,7 +180,8 @@ Useful entry points:
   `creative-ideation` examples that show one source spec semantically mingling
   three reusable ideation methods through `@refine`.
 - `batch-example-runs/execution-engines/run.sh` runs Tree-of-Thought,
-  Self-Consistency, Reflection, and JSON execution examples with saved traces.
+  Self-Consistency, Reflection, JSON, and the native bound-tool recurring monitor
+  with saved traces.
 - `saved-artifact-workflows/crisis-strategy/run.sh` runs one tool-enabled
   strategy-analysis spec, saving the compiled prompt and executed result.
 - `saved-artifact-workflows/program-review-json/run.sh` shows the
@@ -192,10 +198,11 @@ Useful entry points:
   WeaveMark investment-decision brief from reusable finance, evidence, news,
   comparison, and explainability specs, then runs Ellements finance/search/crawl
   companions before synthesizing a source-grounded learning brief.
-- `python-runtime-integrations/recurring-topic-monitor/run.py` compiles the
-  recurring news/events monitor, runs Ellements web search and multi-level
-  crawling, and synthesizes example weekly digests for `LLM Generative AI news`
-  and `things to do with my @{age} y.o. child`.
+- `catalog/executable/recurring-topic-monitor` runs directly through the regular
+  `weavemark ... --run` path. Query planning, source selection, crawling,
+  relevance ranking, deduplication, previous-report comparison, and synthesis
+  live in the promplet; its Python companion only binds one web search, news
+  search, or crawl call at a time.
 - `python-runtime-integrations/market-snapshot/run.py` compiles the experimental
   Weave stock snapshot, executes the bound Ellements finance/search/crawl tools
   through companion runtime components, and saves the tool results plus a

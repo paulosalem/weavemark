@@ -1606,7 +1606,44 @@ def _compile_structural_text(
             positional, options = _parse_directive_options(rest)
             lang = options.get("lang", "")
             label = options.get("label", "")
+            optional = str(options.get("optional", "")).casefold() in {
+                "1",
+                "on",
+                "true",
+                "yes",
+            }
             file_name = options.get("file")
+            folder_name = options.get("folder")
+            if file_name and folder_name:
+                state.errors.append("@embed accepts either file: or folder:, not both.")
+                index += 1
+                continue
+            if folder_name:
+                folder_name = _substitute_variables(folder_name, variables).strip()
+                if not folder_name and optional:
+                    index += 1
+                    continue
+                if _VARIABLE_RE.search(folder_name):
+                    state.errors.append(
+                        f"@embed folder path has unresolved variable(s): {folder_name}"
+                    )
+                    index += 1
+                    continue
+                content = read_file(f"directory:{folder_name}", base_dir)
+                state.file_reads += 1
+                if content.startswith("Error:"):
+                    state.errors.append(content)
+                    index += 1
+                    continue
+                output_lines.append(
+                    _format_embed_block(
+                        content,
+                        lang=lang or "markdown",
+                        label=label or "Previous reports",
+                    )
+                )
+                index += 1
+                continue
             if file_name:
                 file_name = _substitute_variables(file_name, variables).strip()
                 if _VARIABLE_RE.search(file_name):

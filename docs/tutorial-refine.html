@@ -318,12 +318,12 @@ mkdir -p outputs/tutorial-tutor</code></pre>
           </p>
           <pre><code>weavemark outputs/tutorial-tutor/adaptive-tutor.weavemark.md \
   --batch-only \
-  --var topic="Rust ownership" \
-  --var learner_context="a Python programmer writing their first Rust CLI" \
-  --var learning_goal="predict when a value moves, borrows, or must be cloned" \
+  --var topic="Python async task cancellation" \
+  --var learner_context="a Python programmer building their first concurrent CLI" \
+  --var learning_goal="predict when cancellation propagates and clean up tasks safely" \
   --var learner_level=intermediate \
   --var include_practice=true \
-  --output outputs/tutorial-tutor/rust-ownership-tutor.md</code></pre>
+  --output outputs/tutorial-tutor/async-cancellation-tutor.md</code></pre>
           <p>
             Compare the two outputs. The <strong>source stays stable</strong>,
             while the compiled prompt changes lesson domain, learner context, and
@@ -331,9 +331,9 @@ mkdir -p outputs/tutorial-tutor</code></pre>
           </p>
           <div class="callout">
             <strong>What to do with the output:</strong>
-            <code>rust-ownership-tutor.md</code> is a second pastable tutor
-            prompt. Use it in a chat assistant when you want a Rust ownership
-            tutoring session instead of a Bayes-rule session.
+            <code>async-cancellation-tutor.md</code> is a second pastable tutor
+            prompt. Use it in a chat assistant when you want an async
+            cancellation lesson instead of a Bayes-rule lesson.
           </div>
         </section>
 

@@ -2,34 +2,88 @@
 
 @module weavemark.domains.programming.modules.dashboard
 
-# Frontend: Dashboard & Data Visualization
+# Module: Decision-Oriented Dashboard
 
-### Dashboard Layout
-- Responsive grid: 1 column on mobile, 2 on tablet, 3–4 on desktop.
-- Each widget is a self-contained card with: title bar, content area, optional action menu.
-- Widgets MUST support a loading skeleton state and an error state with retry button.
-- Drag-to-reorder and show/hide widgets (persisted to user preferences).
+Use this module when a product must turn changing records, events, metrics, or
+forecasts into a clear current answer and an inspectable path to evidence.
+Domain specs supply the exact calculations, entities, thresholds, and actions.
 
-### Charts & Graphs
-- Use a lightweight charting library (e.g., Chart.js, Recharts, or Plotly).
-- Required chart types:
-  - **Line chart**: time series data (e.g., balance over time) with zoom/pan.
-  - **Bar chart**: categorical comparisons (e.g., spending by category).
-  - **Donut/pie chart**: proportional breakdowns (e.g., expense distribution).
-  - **Sparkline**: compact inline trend indicator for widgets.
-- All charts MUST support: dark/light theme, responsive resize, accessible color palettes,
-  tooltip on hover with formatted values, and export as PNG.
+## Information hierarchy
 
-### Data Tables
-- Sortable columns (click header to toggle asc/desc, shift-click for multi-sort).
-- Filterable: text search + dropdown filters per column.
-- Paginated: 10/25/50/100 rows per page, with total count.
-- Row actions: edit, delete (with confirmation modal), view detail.
-- Bulk actions: select-all checkbox, bulk delete, bulk export.
-- Empty state: illustration + "No data yet" message + CTA button.
+- Put the user's primary decision or status answer first: what matters now, why,
+  confidence or freshness, and what could change it.
+- Follow with exceptions and attention items, then trends and supporting detail.
+- Keep assumptions, source timestamps, and calculation provenance near the values
+  they affect.
+- Distinguish observed, confirmed, inferred, projected, and stale values.
+- Prefer a few decision-changing cards over a wall of vanity metrics.
 
-### Date Ranges
-- Global date range picker: preset ranges (This Month, Last 30 Days, This Year, Custom).
-- Date range selection applies to all dashboard widgets and data tables simultaneously.
-- Custom range: calendar picker with min/max date constraints.
-- Display format: user-locale-aware (e.g., MM/DD/YYYY for US, DD/MM/YYYY for EU).
+## Dashboard states
+
+- **Quiet:** show the current answer, what is being monitored, last successful
+  refresh, and next scheduled refresh.
+- **Attention:** foreground threshold crossings, material changes, failed checks,
+  or records that need review.
+- **Loading:** preserve the last valid result when possible and label its age;
+  use skeletons only for content that has never loaded.
+- **Partial failure:** keep healthy widgets usable and explain which source or
+  calculation failed, the effect, and the retry path.
+- **Empty:** explain what data or configuration is missing and offer the next
+  useful action.
+- **Offline:** show locally available evidence and the last sync state without
+  pretending the data is current.
+
+## Cards and widgets
+
+- Every card MUST have a purpose, title, current state, freshness indicator, and
+  a clear path to details.
+- Status cards SHOULD pair a plain-language answer with the decisive value,
+  threshold, or evidence.
+- Timeline/calendar cards SHOULD distinguish expected events, confirmed events,
+  missed events, and confidence.
+- Scenario cards MAY compare conservative, expected, and optimistic assumptions
+  when uncertainty changes the decision.
+- Users MAY pin, hide, or reorder secondary cards; the primary answer and urgent
+  attention items remain stable.
+- Persist meaningful layout preferences without letting browser-only state become
+  the source of truth for business data.
+
+## Charts and tables
+
+- Use a chart only when shape, trend, comparison, or distribution is easier to
+  understand visually than in prose or a table.
+- Every visualization MUST have an accessible text/table equivalent, descriptive
+  labels, keyboard access, responsive sizing, and non-color-only distinctions.
+- Tooltips MUST show exact values, units, time period, and source/freshness when
+  relevant.
+- Tables MUST support the filters and sorting needed for the user's actual
+  decision; do not add generic bulk actions without a domain use case.
+- Preserve active filters, selection, scroll, and focus across background
+  refreshes.
+
+## Interaction and explanation
+
+- Let users inspect how a value was calculated and which evidence contributed.
+- Let users change permitted assumptions inline and see the affected answer
+  immediately, without silently persisting experimental values as canonical.
+- Explain threshold changes and alerts in plain language before exposing advanced
+  controls.
+- Make destructive or high-impact actions explicit, reversible where practical,
+  and attributable.
+- Exports SHOULD include the visible answer, selected scope, assumptions,
+  freshness, and source references.
+
+## Responsive behavior
+
+- Mobile: one primary answer, attention queue, and progressive disclosure.
+- Tablet: primary answer plus the most important comparison or timeline.
+- Desktop: multi-column overview with a dedicated detail surface.
+- Compact layouts MUST not reduce critical labels to unexplained icons or hide
+  active warnings.
+
+## Acceptance criteria
+
+A dashboard is complete when users can identify the current answer, understand
+its freshness and evidence, find what needs attention, inspect why it changed,
+recover from empty/error/offline states, and reach the relevant action without
+reading raw implementation data.

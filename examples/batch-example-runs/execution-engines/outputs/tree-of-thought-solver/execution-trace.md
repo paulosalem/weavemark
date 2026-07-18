@@ -5,16 +5,23 @@
 | Spec | `promplets/catalog/executable/tree-of-thought-solver.weavemark.md` |
 | Model | `gpt-5.5` |
 | Engine | `tree-of-thought` |
-| Steps | 25 |
+| Steps | 43 |
 
 ## Execution metadata
 
 ```json
 {
   "mode": "beam",
-  "max_depth": 2,
+  "max_depth": 3,
   "beam_width": 3,
-  "branching_factor": 3
+  "branching_factor": 3,
+  "call_settings": {
+    "model": "gpt-5.5",
+    "modality": "text",
+    "prompt_key": "default",
+    "stage": "default",
+    "model_source": "runtime.model"
+  }
 }
 ```
 
@@ -35,24 +42,36 @@
 - Response:
 
 ```markdown
-Step 1: Compute the team’s delivery capacity and translate it into a product-shape constraint.
+**Next reasoning step: Calculate the true delivery constraint.**
 
-- Team capacity = 3 engineers × 6 weeks = **18 engineer-weeks**
-- Since each engineer can focus on only one major component, the MVP can realistically support at most **3 major components**.
+The team has:
 
-Logical deduction:
+\[
+3 \text{ engineers} \times 6 \text{ weeks} = 18 \text{ engineer-weeks}
+\]
 
-To maximize chances of getting paying customers, the startup should avoid splitting effort across too many components. A polished full web app likely needs at least:
+But because **each engineer can only focus on one major component**, the practical limit is not just 18 engineer-weeks — it is **3 major workstreams max**.
 
-1. Frontend/UI
-2. Backend/API
-3. Core product logic/infrastructure
+So we should evaluate each option by whether it fits into 3 focused components:
 
-That already consumes all 3 engineers, leaving little room for customer onboarding, iteration, analytics, billing, or polish beyond the minimum.
+- **A: Polished web app with limited features**
+  - Frontend/UI
+  - Backend/API
+  - Product polish/onboarding/payments
+  → Fits 3 components, but polish consumes time that may not directly prove willingness to pay.
 
-So the next constraint is:
+- **B: Feature-rich prototype with rough UX**
+  - Multiple features likely create more than 3 meaningful components
+  - Rough UX may hurt customer adoption
+  → High scope risk.
 
-**Choose the option that delivers the core customer value with the fewest components, leaving room for iteration and sales feedback within 6 weeks.**
+- **C: CLI tool plus API with no frontend**
+  - API
+  - CLI
+  - Docs/onboarding/customer setup
+  → Fits 3 components cleanly and avoids frontend complexity.
+
+**Deduction:** Since the team can only sustain 3 focused workstreams, option **B** is the weakest candidate because “feature-rich” likely exceeds the team’s component capacity within 6 weeks.
 ```
 
 ### 2. eval_d0_s0_b0
@@ -63,13 +82,13 @@ So the next constraint is:
 ```json
 {
   "depth": 0,
-  "score": 0.72
+  "score": 0.65
 }
 ```
 - Response:
 
 ```markdown
-{"score":0.72,"reasoning":"The capacity/component reasoning is plausible and contains no hard contradiction, but it relies on assumptions about the customer segment and what buyers require, so it is not definitely correct."}
+{"score":0.65,"reasoning":"The calculation is correct and the focus-on-three-workstreams framing is useful, but the conclusion depends heavily on customer segment and validation needs. Dismissing B and favoring C/A is plausible, not definitely established."}
 ```
 
 ### 3. thought_d0_s0_b1
@@ -87,23 +106,24 @@ So the next constraint is:
 - Response:
 
 ```markdown
-**Next reasoning step: Compute the hard capacity constraint.**
+Step 1: Convert the team constraint into a component constraint.
 
-They have:
+Calculation:
 
-\[
-3 \text{ engineers} \times 6 \text{ weeks} = 18 \text{ engineer-weeks}
-\]
+**3 engineers × 6 weeks = 18 engineer-weeks total**, but since each engineer can focus on only **one major component**, the MVP plan can realistically have at most **3 major components**.
 
-But because each engineer can only focus on **one major component**, the team can realistically build at most:
+Logical deduction:
 
-\[
-3 \text{ major components}
-\]
+Any option requiring more than 3 major components is risky. A polished web app likely needs:
 
-So any option that requires more than three major workstreams — for example, frontend + backend + API + onboarding + billing + analytics + polish — is likely too risky for a 6-week MVP.
+1. Frontend
+2. Backend/API
+3. Database/infrastructure
+4. UX polish/QA/onboarding
 
-**Deduction:** To maximize chances of getting paying customers, they should favor the option that delivers a complete paid-use workflow within **three focused components**, rather than the option with the most features or polish.
+That is **4+ components**, which exceeds the team’s focus capacity.
+
+So option **A** is likely too broad unless the feature scope is extremely narrow.
 ```
 
 ### 4. eval_d0_s0_b1
@@ -114,13 +134,13 @@ So any option that requires more than three major workstreams — for example, f
 ```json
 {
   "depth": 0,
-  "score": 0.7
+  "score": 0.65
 }
 ```
 - Response:
 
 ```markdown
-{"score":0.7,"reasoning":"The capacity calculation is correct and the constraint-based reasoning is plausible. However, the definition of “major components” is somewhat subjective, and maximizing paying customers depends on customer segment, validation needs, and sales motion, so it is not definitely correct yet."}
+{"score":0.65,"reasoning":"The arithmetic is correct and the focus-capacity framing is plausible, but the component decomposition is debatable: database/infrastructure and QA/onboarding may not require separate dedicated engineers, and a narrow polished web app could fit within three focus areas. So the reasoning is useful but not definitive."}
 ```
 
 ### 5. thought_d0_s0_b2
@@ -138,31 +158,22 @@ So any option that requires more than three major workstreams — for example, f
 - Response:
 
 ```markdown
-**Next reasoning step:** Establish the capacity constraint and compare it to component scope.
+Next step: **apply the 3-engineer focus constraint to eliminate the highest-risk option.**
 
-Calculation:
+Calculation/deduction:
 
-- Team capacity = **3 engineers × 6 weeks = 18 engineer-weeks**
-- Focus constraint = **3 engineers × 1 major component each = 3 major components max**
+- Available capacity = **3 engineers × 1 major component each = 3 major components max**
+- Option B, “feature-rich prototype with rough UX,” likely requires:
+  1. Core backend/API
+  2. Frontend
+  3. Multiple feature implementations
+  4. QA/bug fixing/onboarding polish
 
-So the MVP choice should fit into **no more than 3 major components**.
+That is **at least 4 major work areas**, but the team can only reliably cover **3**.
 
-Logical deduction:
+So the deduction is:
 
-- **A: Polished web app with limited features** can be scoped as:
-  1. Core backend/product logic
-  2. Web frontend UX
-  3. Deployment/onboarding/payments/customer support loop
-
-- **B: Feature-rich prototype with rough UX** likely requires:
-  1. Multiple feature areas
-  2. Backend/product logic
-  3. Frontend
-  4. QA/integration/onboarding
-
-  That is **more than 3 major components**, so it is higher risk.
-
-This suggests the team should prioritize an option that is narrow enough to be complete and sellable within **3 focused workstreams**.
+> **Option B is structurally over-scoped for a 3-engineer, 6-week MVP if the goal is paying customers, because rough UX plus many features increases delivery and conversion risk.**
 ```
 
 ### 6. eval_d0_s0_b2
@@ -179,7 +190,7 @@ This suggests the team should prioritize an option that is narrow enough to be c
 - Response:
 
 ```markdown
-{"score":0.7,"reasoning":"The capacity calculation is correct and the reasoning is plausible, but the mapping of each option to “major components” is somewhat subjective and it has not yet evaluated customer willingness to pay or the CLI/API option."}
+{"score":0.7,"reasoning":"The reasoning is plausible: Option B may be over-scoped for 3 engineers in 6 weeks, especially if rough UX hurts conversion. However, the component count is somewhat assumption-dependent—QA/onboarding and feature work may not necessarily be separate major components, and “feature-rich” could vary in scope. So it is not definitely proven, but it is a reasonable direction."}
 ```
 
 ### 7. thought_d1_s0_b0
@@ -197,26 +208,22 @@ This suggests the team should prioritize an option that is narrow enough to be c
 - Response:
 
 ```markdown
-Step 2: Evaluate each option by **time-to-paid-use**, not feature count.
-
-A paying customer needs at least one workflow that is:
-
-1. Valuable
-2. Usable without heavy handholding
-3. Reliable enough to trust
-4. Easy to demo/sell
+Step 2: **compare Options A and C on customer-conversion friction, not just build feasibility.**
 
 Logical deduction:
 
-- **A: Polished web app with limited features** → likely delivers **1 complete paid workflow**
-- **B: Feature-rich rough prototype** → delivers many partial workflows, but lower trust/usability
-- **C: CLI + API, no frontend** → viable only if customers are technical/developer users
+- Paying customers need an MVP that lets them experience value quickly.
+- Option C requires customers to use a **CLI/API**, which means the buyer/user must be technical or willing to integrate it.
+- Option A gives customers a **web app**, which is easier to demo, onboard, and charge for.
 
-So the key constraint becomes:
+So:
 
-> If the target customer is not primarily technical, option C has high adoption friction, and option B risks looking unfinished. Therefore, the strongest path is likely a narrow, polished workflow rather than broad feature coverage.
+> If the target customer is not explicitly a developer or technical team, Option C has higher adoption friction than Option A.
 
-This points toward choosing **A**, assuming its limited feature set solves one painful customer problem end-to-end.
+Therefore, after eliminating B, the decision narrows to:
+
+- Choose **C** only if the paying customer is technical and wants API/CLI access.
+- Otherwise, prefer **A**, because a polished limited web app is more likely to convert nontechnical users into paying customers within 6 weeks.
 ```
 
 ### 8. eval_d1_s0_b0
@@ -233,7 +240,7 @@ This points toward choosing **A**, assuming its limited feature set solves one p
 - Response:
 
 ```markdown
-{"score":0.72,"reasoning":"The reasoning is generally plausible and internally consistent, but the best choice depends heavily on the target customer. If customers are technical, C could be strongest; if not, A is likely better. So it is not definitely correct, but it can lead to a sound answer with the stated assumptions."}
+{"score":0.72,"reasoning":"The reasoning is broadly plausible: it correctly accounts for the 3-engineer focus constraint and highlights customer-conversion friction. However, eliminating Option B as structurally over-scoped depends on assumptions about the actual feature set, target customer, and what counts as a major component. The conclusion is directionally sound but not definitely proven."}
 ```
 
 ### 9. thought_d1_s0_b1
@@ -251,24 +258,31 @@ This points toward choosing **A**, assuming its limited feature set solves one p
 - Response:
 
 ```markdown
-Step 2: Compare each option by **component load vs. spare capacity for customer learning/sales support**.
-
-Required major components:
-
-| Option | Major components needed | Component count | Spare engineer focus |
-|---|---:|---:|---:|
-| A: Polished web app, limited features | Frontend + backend/API + core logic | 3 | 0 |
-| B: Feature-rich rough prototype | Frontend + backend/API + core logic + multiple feature areas | 4+ | Not feasible |
-| C: CLI tool + API, no frontend | API/backend + core logic + CLI/docs/onboarding | 3 | 0, but less UX burden |
+Step 2: **compare the remaining feasible options, A vs. C, on customer conversion friction.**
 
 Logical deduction:
 
-Since the team has capacity for only **3 major components**, option **B is overloaded** because “feature-rich” likely exceeds the 3-component limit.
+- Option A requires 3 major components:
+  1. Narrow core backend/workflow
+  2. Polished web frontend
+  3. Onboarding/payment/customer-ready polish
 
-So the viable choice is between **A and C**. The next distinction is:
-**Which option gets customers to paid value faster with less polish risk?**
+  This fits the team constraint: **3 components ≤ 3 engineers**
 
-At this stage, eliminate **B** from serious consideration.
+- Option C requires 3 major components:
+  1. API
+  2. CLI
+  3. Documentation/auth/integration support
+
+  This also fits the team constraint: **3 components ≤ 3 engineers**
+
+But for getting paying customers:
+
+> A polished web app lets customers experience value immediately, while a CLI/API usually requires technical integration before the customer sees value.
+
+So the deduction is:
+
+> **Unless the target customer is specifically developers, Option A has lower adoption friction than Option C and is more likely to convert early paying customers.**
 ```
 
 ### 10. eval_d1_s0_b1
@@ -279,13 +293,13 @@ At this stage, eliminate **B** from serious consideration.
 ```json
 {
   "depth": 1,
-  "score": 0.6
+  "score": 0.67
 }
 ```
 - Response:
 
 ```markdown
-{"score":0.6,"reasoning":"The capacity arithmetic is correct and the component-focus framing is plausible, but the component counts and elimination of the feature-rich prototype rely on assumptions not guaranteed by the problem. The reasoning can still lead to a sound answer, but it is not definitely established yet."}
+{"score":0.67,"reasoning":"The reasoning is broadly plausible and correctly identifies capacity and adoption-friction issues, but it relies on assumptions about target customers and the scope of each option. Option B is not necessarily impossible with 3 engineers, and Option C could be optimal for developer customers or API-first markets. No fatal contradiction, but not definitely correct."}
 ```
 
 ### 11. thought_d1_s0_b2
@@ -303,35 +317,31 @@ At this stage, eliminate **B** from serious consideration.
 - Response:
 
 ```markdown
-Step 2: Map each option to required major components and identify which leaves capacity for customer-facing iteration.
-
-Component estimate:
-
-- **A: Polished web app with limited features**
-  1. Frontend/UI
-  2. Backend/API
-  3. Core product logic
-  = **3/3 engineers fully allocated**
-
-- **B: Feature-rich prototype with rough UX**
-  1. Frontend/UI
-  2. Backend/API
-  3. Multiple product features/core logic
-  = **3/3 engineers fully allocated**, likely with quality risk
-
-- **C: CLI tool plus API with no frontend**
-  1. CLI
-  2. API/backend
-  3. Core product logic/infrastructure
-  = **3/3 engineers allocated**, but avoids frontend polish and UX complexity
+Step 2: **test Option C against the paying-customer onboarding requirement.**
 
 Logical deduction:
 
-Because paying customers care most about whether the MVP solves a painful problem, not whether it has a polished interface, **Option C removes the frontend burden while still exposing the core value through an API/CLI**.
+To get paying customers, the MVP must let the target customer reach value with minimal friction.
 
-So the strongest next candidate is:
+For most non-developer customers, the minimum buying/onboarding path requires:
 
-**C, if the target customers are technical enough to use a CLI or API.**
+1. **Core product functionality**
+2. **Customer-facing interface**
+3. **Basic onboarding / demo / support polish**
+
+That is exactly **3 major components**, matching the team’s capacity.
+
+Option C allocates those 3 components differently:
+
+1. API
+2. CLI
+3. Documentation / integration support
+
+So Option C only works if the paying customer is technical enough to use a CLI/API directly.
+
+Deduction:
+
+> **Option C should be eliminated unless the startup’s target paying customers are developers or technical teams buying an API/devtool. Otherwise it creates too much adoption friction and reduces the chance of converting customers in 6 weeks.**
 ```
 
 ### 12. eval_d1_s0_b2
@@ -342,13 +352,13 @@ So the strongest next candidate is:
 ```json
 {
   "depth": 1,
-  "score": 0.6
+  "score": 0.68
 }
 ```
 - Response:
 
 ```markdown
-{"score":0.6,"reasoning":"The capacity calculation is correct and the component-based framing is plausible, but the conclusion depends heavily on the target customer, buying process, and whether a CLI/API is acceptable. It also somewhat contradicts the claim of leaving room for iteration since all options allocate all 3 engineers. Thus it is plausible but not definitely correct."}
+{"score":0.68,"reasoning":"The reasoning is broadly plausible and identifies key constraints, but it relies on assumptions about what counts as a major component and about the customer type. Option B is not necessarily structurally impossible if features are narrow or reused, and Option C may be strong for technical buyers. No fatal contradiction, but not definitely correct."}
 ```
 
 ### 13. thought_d1_s1_b0
@@ -366,27 +376,26 @@ So the strongest next candidate is:
 - Response:
 
 ```markdown
-Step 2: **Map each option to the minimum paid-use workflow components.**
+Step 2: **Check whether “no frontend” blocks payment from the target customer.**
 
-A paying customer needs at least:
+The remaining viable options are **A** and **C**, but they serve different customer types.
 
-1. **Core value-producing functionality**
-2. **A usable interface to access it**
-3. **Deployment/onboarding/payment/support path**
-
-Now compare options against the 3-component limit:
+Logical test:
 
 \[
-\text{Available major components} = 3
+\text{If target users can adopt via CLI/API} \Rightarrow C \text{ has lower scope risk}
 \]
 
-| Option | Likely components required | Component count | Risk |
-|---|---:|---:|---|
-| A: Polished web app, limited features | frontend + backend/core + polish/onboarding | 3 | May look good but not solve enough pain |
-| B: Feature-rich rough prototype | many features + backend + frontend/UX + QA/integration | 4+ | Exceeds capacity; high risk of unstable MVP |
-| C: CLI + API, no frontend | core/API + CLI + docs/onboarding/deploy | 3 | Fits capacity; best if target customers are technical |
+\[
+\text{If target users need a web UI} \Rightarrow C \text{ may be unusable, regardless of speed}
+\]
 
-**Deduction:** Option B should likely be eliminated first because “feature-rich” implies more than one major product workstream, making it the most likely to miss the 6-week deadline or ship something unreliable.
+So evaluate the buyer/user:
+
+- If the likely paying customers are **developers, data teams, DevOps, technical founders, or internal tooling users**, then **C** is viable because API + CLI + docs may be enough to deliver value.
+- If the likely paying customers are **nontechnical business users**, then **C** creates too much adoption friction and **A** is more likely to convert.
+
+**Deduction:** Option **C** is only better if the startup is selling to technical early adopters. If customers need a visual workflow to understand or trust the product, choose **A** despite the extra frontend effort.
 ```
 
 ### 14. eval_d1_s1_b0
@@ -397,13 +406,13 @@ Now compare options against the 3-component limit:
 ```json
 {
   "depth": 1,
-  "score": 0.72
+  "score": 0.77
 }
 ```
 - Response:
 
 ```markdown
-{"score":0.72,"reasoning":"The capacity calculation and component-limit framing are broadly sound, and eliminating the feature-rich rough prototype is plausible. However, the best option depends heavily on the target customer and sales/onboarding context, so the reasoning is not definitely correct yet."}
+{"score":0.77,"reasoning":"The reasoning is directionally sound: the 18 engineer-week calculation is correct, the 3-workstream constraint is relevant, and the conditional comparison between A and C based on customer type is appropriate. However, it relies on assumptions about what counts as a major component and whether B necessarily exceeds capacity, so it is plausible but not definitively proven."}
 ```
 
 ### 15. thought_d1_s1_b1
@@ -421,38 +430,36 @@ Now compare options against the 3-component limit:
 - Response:
 
 ```markdown
-Step 2: **Map each option to the minimum components needed for a customer to pay and get value.**
+Step 2: **Identify the customer-adoption constraint, not just the build constraint.**
 
-A paying MVP needs at least:
+To get paying customers, the MVP must let a customer complete this loop:
 
 \[
-\text{Core value delivery} + \text{Customer access/interface} + \text{Payment or sales/onboarding path}
+\text{Discover value} \rightarrow \text{Use product} \rightarrow \text{See outcome} \rightarrow \text{Pay}
 \]
 
-Now evaluate the options under the 3-component limit:
+Now compare remaining options:
 
-- **A: Polished web app, limited features**
-  \[
-  \text{Frontend} + \text{Backend/core logic} + \text{Auth/onboarding/payment}
-  = 3 \text{ components}
-  \]
-  Feasible, but limited features may not solve enough of the customer problem.
+- **A: Polished limited web app**
+  - Easier for non-technical customers to try.
+  - Better onboarding and perceived credibility.
+  - But limited features may fail if the core paid value is missing.
 
-- **B: Feature-rich prototype, rough UX**
-  \[
-  \text{Multiple features} + \text{Frontend} + \text{Backend} + \text{QA/integration}
-  > 3 \text{ components}
-  \]
-  Risky because breadth creates integration and usability risk.
+- **C: CLI + API, no frontend**
+  - Faster and cleaner to build.
+  - Strong if customers are developers or technical teams.
+  - Weak if buyers/users expect a visual workflow.
 
-- **C: CLI tool plus API, no frontend**
-  \[
-  \text{Core engine} + \text{API} + \text{CLI/docs/onboarding}
-  = 3 \text{ components}
-  \]
-  Feasible if the target customers are technical and can adopt without a frontend.
+**Logical deduction:**
+Option **C** is only superior if the first paying customers are technical users who can adopt a CLI/API. If the target customer is non-technical, option **A** has a higher chance of converting because usability and onboarding become part of the value delivery.
 
-**Deduction:** Option C fits the capacity constraint best if the likely paying customers are developers or technical teams, because it delivers usable value within exactly three focused workstreams without spending capacity on frontend polish.
+So the next decision hinge is:
+
+\[
+\text{Are early paying users technical enough to use CLI/API?}
+\]
+
+If **yes**, favor **C**. If **no**, favor **A**.
 ```
 
 ### 16. eval_d1_s1_b1
@@ -463,13 +470,13 @@ Now evaluate the options under the 3-component limit:
 ```json
 {
   "depth": 1,
-  "score": 0.72
+  "score": 0.7
 }
 ```
 - Response:
 
 ```markdown
-{"score":0.72,"reasoning":"The capacity arithmetic is correct and the component-based framing is plausible, but the conclusion depends heavily on the target customer segment and assumptions about whether payment/onboarding must be built versus handled manually. The reasoning can lead to a good answer, but it is not definitely correct from the information given."}
+{"score":0.7,"reasoning":"The reasoning correctly identifies capacity and adoption constraints, and appropriately treats the best option as contingent on customer type. However, it makes assumptions about component counts and does not yet determine a concrete allocation, so it is plausible but not definitely complete or guaranteed."}
 ```
 
 ### 17. thought_d1_s1_b2
@@ -487,23 +494,23 @@ Now evaluate the options under the 3-component limit:
 - Response:
 
 ```markdown
-Step 2: **Map each option to the 3-component limit and eliminate overloaded choices.**
+Step 2: **Evaluate which remaining option creates the shortest path to a paid “aha” moment.**
 
-Given the constraint:
+After weakening **B**, compare **A vs C** by customer activation:
 
-\[
-\text{Max major components} = 3
-\]
+- **A: Polished web app**
+  - Engineer 1: frontend
+  - Engineer 2: backend
+  - Engineer 3: onboarding/polish/payments
+  - Customer value depends on the limited web-app feature set being enough to justify payment.
 
-Estimate the component load for each option:
+- **C: CLI + API**
+  - Engineer 1: core API
+  - Engineer 2: CLI/client workflow
+  - Engineer 3: docs, onboarding, customer integrations
+  - Customer value can be proven through direct usage/integration without spending time on frontend polish.
 
-| Option | Likely major components | Component count | Fits? |
-|---|---:|---:|---|
-| A: Polished web app, limited features | Frontend/UI, backend/core logic, deployment/onboarding | 3 | Yes, but little feature depth |
-| B: Feature-rich prototype, rough UX | Backend/core logic, multiple feature modules, frontend, QA/integration | 4+ | No |
-| C: CLI tool + API, no frontend | API/backend, CLI client, docs/deployment/onboarding | 3 | Yes |
-
-**Deduction:** Option B should be deprioritized because “feature-rich” likely exceeds the 3-component focus limit and risks shipping an incomplete or unreliable MVP. The viable choices are A and C.
+**Deduction:** If the likely paying customers are technical users or businesses that can integrate an API, **C has the shorter path to revenue** because it focuses engineering on core utility and onboarding rather than UI polish.
 ```
 
 ### 18. eval_d1_s1_b2
@@ -514,13 +521,13 @@ Estimate the component load for each option:
 ```json
 {
   "depth": 1,
-  "score": 0.74
+  "score": 0.66
 }
 ```
 - Response:
 
 ```markdown
-{"score":0.74,"reasoning":"The capacity calculation and component-focus framing are plausible, and deprioritizing a feature-rich rough prototype is reasonable. However, the mapping of options to components and the best choice depend heavily on target customer, sales motion, and what workflow customers will pay for, so it is not definitely correct."}
+{"score":0.66,"reasoning":"The reasoning is internally consistent and the engineer-week/workstream constraint is a useful framing, but it relies on unstated assumptions about the target customers being technical enough to adopt a CLI/API. Without customer context, C is not definitely superior, and A could be better for nontechnical buyers. No fatal contradiction, but uncertain."}
 ```
 
 ### 19. thought_d1_s2_b0
@@ -538,29 +545,30 @@ Estimate the component load for each option:
 - Response:
 
 ```markdown
-Step 2: **Evaluate option C against the “paying customers” goal, not just build capacity.**
+Step 2: Test option B against the 3-component limit.
+
+Calculation / component breakdown:
+
+A **feature-rich prototype with rough UX** likely requires:
+
+1. Frontend or interface layer
+2. Backend/API
+3. Database/infrastructure
+4. Multiple core product features
+5. Basic QA/debugging across those features
+
+Even if UX polish is minimized, the “feature-rich” requirement spreads engineering effort across several product behaviors.
 
 Logical deduction:
 
-- **C: CLI tool + API with no frontend** can fit within the 3-component constraint:
-  1. Core API/backend/product logic
-  2. CLI client
-  3. Docs, onboarding, auth, billing, deployment
+With only **3 engineers**, option **B** risks becoming:
 
-So from a capacity standpoint:
+- many half-finished features,
+- unstable demos,
+- unclear value to customers,
+- hard-to-support early users.
 
-- Required components = **3**
-- Available focused engineers = **3**
-- Fit = **yes**
-
-But the customer constraint is narrower:
-
-- If target customers are **developers or technical teams**, CLI + API may be directly usable and sellable.
-- If target customers are **non-technical business users**, no frontend creates adoption friction and likely reduces willingness to pay.
-
-Therefore:
-
-> Option C is viable only if the startup’s initial paying customers are technical users who can adopt an API/CLI product without a web UI. Otherwise, it may be buildable but not sufficiently sellable.
+So option **B** is also risky unless the “feature-rich” scope is reduced to only the few features directly tied to customer willingness to pay.
 ```
 
 ### 20. eval_d1_s2_b0
@@ -571,13 +579,13 @@ Therefore:
 ```json
 {
   "depth": 1,
-  "score": 0.7
+  "score": 0.72
 }
 ```
 - Response:
 
 ```markdown
-{"score":0.7,"reasoning":"The reasoning is broadly plausible and has no fatal contradiction, but it relies on assumptions about component scope and target customer type, so it is not definitely correct."}
+{"score":0.72,"reasoning":"The 18 engineer-week calculation is correct, and the component-capacity framing is a useful heuristic. However, the component breakdown is somewhat debatable: UX/QA/infrastructure may not always be separate “major components,” and option A could be viable if the feature scope is narrow enough. The reasoning is plausible but not definitively correct."}
 ```
 
 ### 21. thought_d1_s2_b1
@@ -595,35 +603,29 @@ Therefore:
 - Response:
 
 ```markdown
-Step 2: **Test each remaining option against the minimum “paying customer loop.”**
+Step 2: Test option **B** against the same component constraint.
 
 Logical deduction:
 
-To get paying customers, the MVP must support an end-to-end sellable workflow:
+A **feature-rich prototype with rough UX** still needs multiple major workstreams:
 
-1. **Solve one painful customer problem**
-2. **Let the customer use it with low friction**
-3. **Support onboarding/payment/feedback**
+1. Core backend/API
+2. Database/infrastructure
+3. Frontend or demo interface
+4. Multiple feature modules
+5. Basic QA/stability work
 
-Compare A vs. C:
+Even if UX polish is reduced, “feature-rich” increases scope. With only **3 engineers**, the team would have to cover roughly **5 major components with 3 people**.
 
-- **A: Polished web app with limited features**
-  1. Core product capability
-  2. Usable frontend/onboarding flow
-  3. Deployment/payment/feedback loop
+Calculation:
 
-  This matches the 3 required sellable components.
+**5 components ÷ 3 engineers ≈ 1.67 components per engineer**
 
-- **C: CLI tool plus API**
-  1. Core product/API
-  2. CLI/tooling
-  3. Docs/deployment/support
-
-  This is sellable mainly if the target customer is technical/developer-oriented. Otherwise, lack of frontend increases adoption friction.
+But the constraint says each engineer can focus on only **one major component**, so option **B** also exceeds capacity.
 
 Deduction:
 
-**A is the safer default for maximizing paying customers unless the startup’s target buyers are developers or technical teams, in which case C may be better.**
+Option **B** is risky because it may produce many incomplete features rather than one reliable workflow that customers will pay for.
 ```
 
 ### 22. eval_d1_s2_b1
@@ -634,13 +636,13 @@ Deduction:
 ```json
 {
   "depth": 1,
-  "score": 0.7
+  "score": 0.5
 }
 ```
 - Response:
 
 ```markdown
-{"score":0.7,"reasoning":"The reasoning is broadly plausible: the capacity calculation is correct, the focus constraint is relevant, and the comparison between A and C appropriately depends on customer type. However, it relies on assumptions about target customers, scope, and what counts as a major component, so it is not definitely correct."}
+{"score":0.5,"reasoning":"maybe"}
 ```
 
 ### 23. thought_d1_s2_b2
@@ -658,32 +660,31 @@ Deduction:
 - Response:
 
 ```markdown
-Step 2: **Compare the remaining viable options, A and C, against “can a customer buy and use this without hand-holding?”**
+Step 2: Evaluate which option fits the 3-component limit while still supporting customer validation.
 
 Logical deduction:
 
-- **A: Polished web app with limited features**
-  1. Core backend/product logic
-  2. Web frontend UX
-  3. Deployment/onboarding/payments/customer feedback loop
+Option **B (feature-rich prototype with rough UX)** likely requires:
 
-  This fits the **3-component limit** and gives customers a clear way to try, understand, and pay for the product.
+1. Frontend/UI
+2. Backend/API
+3. Database/infrastructure
+4. Multiple feature workflows
+5. QA/debugging across many rough features
 
-- **C: CLI tool plus API with no frontend**
-  1. API/backend/product logic
-  2. CLI/client integration
-  3. Docs/auth/deployment/onboarding
+Even if UX is rough, “feature-rich” increases integration and testing burden. That creates more than **3 major areas of focus**, so it is also risky for 3 engineers in 6 weeks.
 
-  This also fits the **3-component limit**, but it only works well if the target buyers are technical users who are comfortable with CLI/API workflows.
+Option **C (CLI tool plus API with no frontend)** likely requires:
 
-Deduction:
+1. Core product logic
+2. API/backend
+3. CLI/customer-facing interface
 
-- If the target customer is a **developer or technical team**, C may be sellable.
-- If the target customer is broader or nontechnical, A is more likely to convert paying customers because the web app reduces adoption friction.
+That fits the constraint:
 
-So the next filter is:
+**3 engineers = 3 major components**
 
-> Choose **A by default** unless the startup’s paying customer is specifically a developer/technical buyer, in which case **C** may be viable.
+So, compared with A and B, option **C** is the most feasible within the team’s focus limit.
 ```
 
 ### 24. eval_d1_s2_b2
@@ -694,64 +695,644 @@ So the next filter is:
 ```json
 {
   "depth": 1,
-  "score": 0.75
+  "score": 0.66
 }
 ```
 - Response:
 
 ```markdown
-{"score":0.75,"reasoning":"The capacity arithmetic is correct and the reasoning sensibly filters options by scope and customer adoption friction. However, the best choice depends heavily on the target customer, sales motion, and the specific problem being solved, so the conclusion is plausible rather than definitely established."}
+{"score":0.66,"reasoning":"The component-capacity framing and 18 engineer-week calculation are reasonable, and the concern that feature-rich or polished web products can exceed a 3-person/6-week focus budget is plausible. However, the reasoning relies on assumptions: a limited polished web app could be scoped to fit 3 components, and a CLI+API may not maximize paying customers unless the target buyers are technical users. Feasibility alone is not the same as customer-payment likelihood, so the path is plausible but not definitely correct."}
 ```
 
-### 25. synthesize
+### 25. thought_d2_s0_b0
+
+- Prompt key: `thought_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "state_idx": 0,
+  "branch": 0
+}
+```
+- Response:
+
+```markdown
+Step 3: **Reserve one full workstream for customer activation, not just product building.**
+
+To get paying customers, the MVP must include more than “working software.” It needs:
+
+\[
+\text{Payable MVP} = \text{Core value} + \text{Usable interface} + \text{Onboarding/payment path}
+\]
+
+Since the team has only **3 focused engineers**, the maximum viable allocation is:
+
+1. **Engineer 1:** Core product/backend/value-producing logic
+2. **Engineer 2:** User-facing interface — either web app or CLI/API
+3. **Engineer 3:** Onboarding, docs, integrations, billing, deployment, customer support tooling
+
+**Deduction:** Any plan that uses all 3 engineers only to build features is weaker, because it may produce a demo but not a product customers can successfully adopt and pay for.
+
+This further weakens **B**, because a feature-rich prototype likely consumes engineers on feature breadth and leaves too little capacity for onboarding, payment, and reliability.
+```
+
+### 26. eval_d2_s0_b0
+
+- Prompt key: `evaluate_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "score": 0.7
+}
+```
+- Response:
+
+```markdown
+{"score":0.7,"reasoning":"The reasoning is broadly plausible and has no fatal contradiction, but it depends heavily on unknown target customer type and makes some assumptions about component scope and the need for a full activation workstream."}
+```
+
+### 27. thought_d2_s0_b1
+
+- Prompt key: `thought_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "state_idx": 0,
+  "branch": 1
+}
+```
+- Response:
+
+```markdown
+Step 3: **Reserve one workstream for customer activation, not just product building.**
+
+To maximize chances of getting **paying customers**, the MVP must include enough work for:
+
+- onboarding
+- docs or demo flow
+- customer setup/integration
+- feedback fixes
+- payment or pilot conversion
+
+So the full 18 engineer-weeks cannot be spent purely on features.
+
+A reasonable constraint:
+
+\[
+18 \text{ engineer-weeks} \times 25\% \approx 4.5 \text{ engineer-weeks}
+\]
+
+At least ~1 engineer’s 6-week focus should effectively go toward **customer activation/support/onboarding**, because without that, the product may be built but not sold.
+
+That leaves only **2 major build workstreams**.
+
+Evaluate under this stricter constraint:
+
+- **A: Polished web app**
+  - Frontend
+  - Backend
+  - Onboarding/polish/customer conversion
+  → Feasible only if the feature set is extremely narrow.
+
+- **B: Feature-rich prototype**
+  - Multiple features
+  - Backend
+  - UX/onboarding
+  → Still too broad; likely no clean customer conversion path.
+
+- **C: CLI + API**
+  - API
+  - CLI
+  - Docs/onboarding/integration support
+  → Cleanly matches 3 workstreams and leaves a clear path to technical paid pilots.
+
+**Deduction:** Once customer activation is treated as a required workstream, **B should be eliminated**, and **C becomes the strongest choice for technical customers**. If customers are nontechnical, choose a very narrow version of **A**, not B.
+```
+
+### 28. eval_d2_s0_b1
+
+- Prompt key: `evaluate_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "score": 0.74
+}
+```
+- Response:
+
+```markdown
+{"score":0.74,"reasoning":"The calculations are correct and the reasoning is generally sound: it recognizes the workstream constraint, eliminates the overly broad feature-rich option, and conditions the choice between A and C on customer type. However, because the target customer is unspecified, the conclusion cannot be definitely confirmed."}
+```
+
+### 29. thought_d2_s0_b2
+
+- Prompt key: `thought_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "state_idx": 0,
+  "branch": 2
+}
+```
+- Response:
+
+```markdown
+Step 3: **Choose the option that leaves capacity for customer activation, not just product construction.**
+
+Getting paying customers requires more than “shipping software.” The MVP must support a full paid-customer path:
+
+\[
+\text{Customer pays} = \text{core value delivered} + \text{easy enough adoption} + \text{clear path to purchase}
+\]
+
+Now compare the remaining options against that path:
+
+### Option A: Polished web app
+
+Workstreams:
+
+1. Backend/core product
+2. Frontend/UI
+3. Polish/onboarding/payments
+
+This can support payment if users need UI, but a lot of effort goes into presentation.
+
+### Option C: CLI + API
+
+Workstreams:
+
+1. Backend/API/core product
+2. CLI/client tooling
+3. Docs, examples, onboarding, customer integration
+
+For technical customers, this more directly supports activation:
+
+\[
+\text{API/CLI} + \text{docs/integration help} \Rightarrow \text{customer can use it in real workflow}
+\]
+
+**Deduction:** If the startup can target technical early adopters, **C is stronger** because the third engineer can focus on docs, onboarding, and customer setup rather than frontend polish. That increases the chance that someone actually reaches value and pays within 6 weeks.
+```
+
+### 30. eval_d2_s0_b2
+
+- Prompt key: `evaluate_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "score": 0.74
+}
+```
+- Response:
+
+```markdown
+{"score":0.74,"reasoning":"The reasoning is broadly sound and contains no fatal contradiction: the engineer-week calculation is correct, the 3-workstream constraint is relevant, and the distinction between technical and nontechnical customers is important. However, it relies on assumptions about the target customer and about option B necessarily exceeding scope, so it is plausible rather than definitely correct."}
+```
+
+### 31. thought_d2_s1_b0
+
+- Prompt key: `thought_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "state_idx": 1,
+  "branch": 0
+}
+```
+- Response:
+
+```markdown
+Step 3: **choose the default MVP shape based on the most likely path to paid conversion, then map it to the 3-engineer constraint.**
+
+Logical deduction:
+
+- The problem does **not** specify that the target customers are developers.
+- Therefore, we should not assume customers will tolerate CLI/API setup.
+- To maximize chances of getting paying customers in 6 weeks, the MVP should minimize activation friction.
+
+So the default choice is:
+
+> **Option A: a polished web app with limited features.**
+
+Now check whether it fits the 3-engineer constraint:
+
+Option A can be split into exactly **3 major components**:
+
+1. **Engineer 1:** Core backend / business logic
+2. **Engineer 2:** Web frontend / user workflow
+3. **Engineer 3:** Onboarding, payments, deployment, QA, customer feedback loop
+
+Calculation:
+
+> 3 engineers × 1 major component each = 3 components available
+> Option A needs ≈ 3 major components
+> Therefore, Option A fits the team structure without overloading anyone.
+
+Deduction:
+
+> Option A is the strongest default because it fits the capacity constraint and gives customers the fastest path to understanding, using, and paying for the product.
+```
+
+### 32. eval_d2_s1_b0
+
+- Prompt key: `evaluate_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "score": 0.72
+}
+```
+- Response:
+
+```markdown
+{"score":0.72,"reasoning":"The reasoning is broadly plausible but relies on unstated assumptions about the target customer and somewhat subjective component counts. Option A is a reasonable default, but not definitely correct without knowing whether customers are technical or what feature set is essential for payment conversion."}
+```
+
+### 33. thought_d2_s1_b1
+
+- Prompt key: `thought_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "state_idx": 1,
+  "branch": 1
+}
+```
+- Response:
+
+```markdown
+Step 3: **define the MVP as one monetizable end-to-end workflow, then allocate engineers to cover the full customer path.**
+
+Logical deduction:
+
+To get paying customers, the MVP must include:
+
+1. **Core value delivery** — the product actually solves one painful problem.
+2. **Usable access path** — customers can use it without heavy help.
+3. **Conversion/support layer** — onboarding, billing or payment path, analytics, fixes, demos.
+
+Capacity:
+
+- 3 engineers = 3 major components
+- Therefore the team should not split work by “more features”
+- They should split work by **customer conversion path**
+
+For the default nontechnical-customer case, this favors Option A with allocation:
+
+- **Engineer 1:** core backend / business logic / data model
+- **Engineer 2:** polished minimal web frontend for the one key workflow
+- **Engineer 3:** onboarding, billing/paywall, analytics, QA, deployment, customer feedback loop
+
+Deduction:
+
+> A limited web app can fit the 3-engineer constraint if it is scoped to one valuable workflow, while still covering the full path from demo → usage → payment. This makes it more likely to produce paying customers than spreading effort across many rough features.
+```
+
+### 34. eval_d2_s1_b1
+
+- Prompt key: `evaluate_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "score": 0.72
+}
+```
+- Response:
+
+```markdown
+{"score":0.72,"reasoning":"The reasoning is broadly plausible and well-structured, especially in focusing on customer conversion and the 3-engineer constraint. However, it relies on assumptions about the target customer and about Option B's scope that are not guaranteed by the prompt, so it is not definitely correct in all cases."}
+```
+
+### 35. thought_d2_s1_b2
+
+- Prompt key: `thought_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "state_idx": 1,
+  "branch": 2
+}
+```
+- Response:
+
+```markdown
+Step 3: **verify that Option A can fit into exactly 3 major components and map one engineer to each.**
+
+Calculation/deduction:
+
+Option A, “polished web app with limited features,” can be reduced to **one paid-value workflow** plus the minimum needed to onboard and charge users.
+
+Required major components:
+
+1. **Core product/backend logic**
+   - Data model
+   - Business logic
+   - API endpoints
+   - Reliability for the main workflow
+
+2. **Web frontend/user experience**
+   - Clean UI for the single core workflow
+   - Signup/login flow
+   - Basic dashboard or task completion path
+
+3. **Customer conversion infrastructure**
+   - Billing/payment
+   - Analytics/activation tracking
+   - Admin/support tools
+   - Onboarding/demo polish
+
+Capacity:
+
+> 3 engineers × 1 major component each = 3 components available
+
+Option A can be scoped as:
+
+> 3 required components = 3 available engineers
+
+So the deduction is:
+
+> **Option A is feasible if the team commits to one narrow, high-value workflow and assigns one engineer each to backend, frontend, and customer-conversion/onboarding infrastructure.**
+```
+
+### 36. eval_d2_s1_b2
+
+- Prompt key: `evaluate_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "score": 0.72
+}
+```
+- Response:
+
+```markdown
+{"score":0.72,"reasoning":"The reasoning is broadly plausible and has no fatal contradiction: it correctly applies the 3-engineer constraint, flags Option B as over-scoped, and compares A vs. C based on customer type and adoption friction. However, it depends on assumptions about the target customer and about how many major components each option truly requires, so it is not definitely proven."}
+```
+
+### 37. thought_d2_s2_b0
+
+- Prompt key: `thought_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "state_idx": 2,
+  "branch": 0
+}
+```
+- Response:
+
+```markdown
+Step 3: Test option C against the 3-component limit and customer-payment goal.
+
+Component breakdown for **CLI tool + API with no frontend**:
+
+1. **Core product logic / workflow automation**
+2. **API layer**
+3. **CLI / developer-facing interface**
+
+This fits the team constraint exactly:
+
+**3 engineers → 3 major components**
+
+Logical deduction:
+
+Option **C** avoids the extra frontend/UX/onboarding burden of option A and avoids the sprawling feature scope of option B. If the target customers are technical users or businesses willing to integrate via API, then C gives the team the best chance to deliver a usable, reliable product in 6 weeks.
+
+So the strongest path is likely:
+
+- Engineer 1: core product functionality
+- Engineer 2: API + infrastructure
+- Engineer 3: CLI + docs/examples
+
+This maximizes the chance of shipping something complete enough for early paying customers, assuming the customer segment can use a CLI/API product.
+```
+
+### 38. eval_d2_s2_b0
+
+- Prompt key: `evaluate_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "score": 0.72
+}
+```
+- Response:
+
+```markdown
+{"score":0.72,"reasoning":"The reasoning is plausible and internally mostly consistent, but it relies on assumptions about the target customer segment and somewhat debatable component counts. Option C is best only if customers can buy/use a CLI/API; otherwise a narrow polished web app may be better for paying customers."}
+```
+
+### 39. thought_d2_s2_b1
+
+- Prompt key: `thought_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "state_idx": 2,
+  "branch": 1
+}
+```
+- Response:
+
+```markdown
+Step 3: Test option C against the 3-component limit.
+
+Component breakdown for **CLI tool + API with no frontend**:
+
+1. **Core product logic / CLI workflow** — engineer 1
+2. **API/backend** — engineer 2
+3. **Database/infrastructure/deployment** — engineer 3
+
+Logical deduction:
+
+Option **C** fits the constraint cleanly: **3 engineers → 3 major components**.
+
+By removing the frontend, the team avoids spending scarce time on:
+
+- visual UI polish,
+- responsive design,
+- onboarding screens,
+- frontend state management,
+- browser QA.
+
+So option **C** is the most feasible execution path within 6 weeks, especially if the target paying customers are technical users or businesses that can integrate via API.
+```
+
+### 40. eval_d2_s2_b1
+
+- Prompt key: `evaluate_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "score": 0.63
+}
+```
+- Response:
+
+```markdown
+{"score":0.63,"reasoning":"The reasoning is plausible in identifying the 3-engineer focus constraint and the execution risk of too many components, but it overstates some component breakdowns and assumes technical customers without enough market context. A polished limited-feature web app could fit if tightly scoped, and CLI+API only maximizes paying customers if customers are technical/API-ready."}
+```
+
+### 41. thought_d2_s2_b2
+
+- Prompt key: `thought_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "state_idx": 2,
+  "branch": 2
+}
+```
+- Response:
+
+```markdown
+Step 3: Test option C against the 3-component limit and customer-payment goal.
+
+Component breakdown for **CLI tool + API with no frontend**:
+
+1. **Core backend/API** — implements the actual product value
+2. **CLI tool** — gives users a usable interface without building a full web frontend
+3. **Infrastructure/docs/onboarding** — deployment, authentication, billing/manual payment flow, setup docs, support scripts
+
+Calculation:
+
+**3 engineers = 3 focused components**, and option **C** maps cleanly to those 3 components.
+
+Logical deduction:
+
+Option **C** fits the team constraint better than A or B because it avoids the expensive frontend/UX layer while still delivering something customers can actually use. If the target customers are technical users or businesses that can integrate via API, this option likely maximizes the chance of shipping a reliable MVP in 6 weeks and getting paying customers.
+```
+
+### 42. eval_d2_s2_b2
+
+- Prompt key: `evaluate_step`
+- Metadata:
+
+```json
+{
+  "depth": 2,
+  "score": 0.72
+}
+```
+- Response:
+
+```markdown
+{"score":0.72,"reasoning":"The component-count reasoning is plausible and internally consistent, and the arithmetic is correct. However, the conclusion depends heavily on customer type: CLI/API is best only if buyers are technical or API-ready. For many markets, a narrow polished web app could be more likely to convert paying customers. So the reasoning may lead to a correct answer, but it is not definitely established."}
+```
+
+### 43. synthesize
 
 - Prompt key: `synthesize`
 - Response:
 
 ```markdown
-They should choose **A: a polished web app with limited features**, unless they have strong evidence that their paying customers are developers who prefer CLI/API access.
+They should **not build the feature-rich prototype**. Option **B** is too broad for 3 engineers in 6 weeks and is likely to produce something impressive-looking but hard to adopt, hard to sell, and unfinished.
 
-For maximizing chances of getting paying customers, the MVP should be narrow, usable, and easy to buy. A limited but polished web app is more likely to convert because customers can understand the value quickly, onboard with less friction, and pay without heavy hand-holding.
+The best default choice is:
 
-Allocate the 3 engineers as:
+## Choose C: CLI tool + API, aimed at technical early adopters
 
-1. **Engineer 1: Core product/backend logic**
-   Build the one or two features that deliver the main customer value.
+This maximizes the chance of getting paying customers **if the target customers can use developer-facing tools**.
 
-2. **Engineer 2: Web frontend and UX**
-   Make the product usable, clear, and polished enough that customers trust it.
+Allocate the 3 engineers as follows:
 
-3. **Engineer 3: Deployment, onboarding, payments, analytics, customer feedback loop**
-   Ensure users can sign up, use the product, pay, and give feedback.
+1. **Engineer 1: Core API / backend**
+   - Build the minimum valuable workflow.
+   - Focus on reliability, authentication, basic billing/pilot access, logging, and integration points.
+   - Avoid extra features.
 
-They should avoid **B**, because a feature-rich prototype with rough UX is likely to exceed their capacity and may fail to convert customers despite having more features.
+2. **Engineer 2: CLI / integration layer**
+   - Build a simple CLI that exposes the core value quickly.
+   - Make setup fast.
+   - Include examples, templates, and common use-case commands.
 
-If their target customers are specifically technical teams or developers, then **C** could be viable. But by default, the best choice for paying customer conversion is **A**.
+3. **Engineer 3: Activation, docs, onboarding, customer support**
+   - Write docs and quickstart guides.
+   - Create demo scripts and sample projects.
+   - Help early customers integrate.
+   - Collect feedback and convert pilots into paid usage.
 
-ANSWER: 1
+The goal should not be “ship the most product.” The goal should be:
+
+> Get a narrow group of customers to experience the core value quickly enough that they are willing to pay.
+
+If the startup’s customers are **nontechnical business users**, then option C is too high-friction. In that case, they should choose a very narrow version of **A**: one polished web workflow, not a broad product.
+
+But given the constraints and assuming technical early adopters are viable, the strongest allocation is **C: API + CLI + onboarding/docs**.
+
+ANSWER: 3
 ```
 
 ## Final output
 
 ```markdown
-They should choose **A: a polished web app with limited features**, unless they have strong evidence that their paying customers are developers who prefer CLI/API access.
+They should **not build the feature-rich prototype**. Option **B** is too broad for 3 engineers in 6 weeks and is likely to produce something impressive-looking but hard to adopt, hard to sell, and unfinished.
 
-For maximizing chances of getting paying customers, the MVP should be narrow, usable, and easy to buy. A limited but polished web app is more likely to convert because customers can understand the value quickly, onboard with less friction, and pay without heavy hand-holding.
+The best default choice is:
 
-Allocate the 3 engineers as:
+## Choose C: CLI tool + API, aimed at technical early adopters
 
-1. **Engineer 1: Core product/backend logic**
-   Build the one or two features that deliver the main customer value.
+This maximizes the chance of getting paying customers **if the target customers can use developer-facing tools**.
 
-2. **Engineer 2: Web frontend and UX**
-   Make the product usable, clear, and polished enough that customers trust it.
+Allocate the 3 engineers as follows:
 
-3. **Engineer 3: Deployment, onboarding, payments, analytics, customer feedback loop**
-   Ensure users can sign up, use the product, pay, and give feedback.
+1. **Engineer 1: Core API / backend**
+   - Build the minimum valuable workflow.
+   - Focus on reliability, authentication, basic billing/pilot access, logging, and integration points.
+   - Avoid extra features.
 
-They should avoid **B**, because a feature-rich prototype with rough UX is likely to exceed their capacity and may fail to convert customers despite having more features.
+2. **Engineer 2: CLI / integration layer**
+   - Build a simple CLI that exposes the core value quickly.
+   - Make setup fast.
+   - Include examples, templates, and common use-case commands.
 
-If their target customers are specifically technical teams or developers, then **C** could be viable. But by default, the best choice for paying customer conversion is **A**.
+3. **Engineer 3: Activation, docs, onboarding, customer support**
+   - Write docs and quickstart guides.
+   - Create demo scripts and sample projects.
+   - Help early customers integrate.
+   - Collect feedback and convert pilots into paid usage.
 
-ANSWER: 1
+The goal should not be “ship the most product.” The goal should be:
+
+> Get a narrow group of customers to experience the core value quickly enough that they are willing to pay.
+
+If the startup’s customers are **nontechnical business users**, then option C is too high-friction. In that case, they should choose a very narrow version of **A**: one polished web workflow, not a broad product.
+
+But given the constraints and assuming technical early adopters are viable, the strongest allocation is **C: API + CLI + onboarding/docs**.
+
+ANSWER: 3
 ```

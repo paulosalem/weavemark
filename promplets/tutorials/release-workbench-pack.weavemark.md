@@ -17,6 +17,7 @@
 @emit file: "implementation-spec.md"
   @refine module:weavemark.domains.programming.foundations.software_spec mingle: true
   @refine module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite mingle: true
+  @refine module:weavemark.domains.programming.validation.release_validation_matrix mingle: true
 
   # @{product_name} implementation specification
 

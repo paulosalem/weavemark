@@ -266,7 +266,7 @@
   {
     "example_id": "deep-summary",
     "title": "Deep Summary",
-    "spec_path": "promplets/catalog/standalone/deep-summary.weavemark.md",
+    "spec_path": "promplets/catalog/standalone/deep-summary-prompt.weavemark.md",
     "vars_path": "examples/terminal-output-only/deep-summary/inputs/vars.json",
     "output_path": "examples/terminal-output-only/deep-summary/outputs/compiled-prompt.md",
     "intention": "Produce a deep-summary prompt that preserves structure and audience needs.",

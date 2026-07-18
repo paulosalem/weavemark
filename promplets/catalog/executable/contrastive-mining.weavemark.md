@@ -14,9 +14,9 @@ make them different or similar, grounding every finding in short
 verbatim citations from the source material.
 
 @note
-  This standalone prompt applies the reusable
-  `../library/ideation/contrastive-mining-core.weavemark.md` method to two embedded
-  sample texts. It uses the **reflection** strategy to improve coverage:
+  This executable prompt applies
+  `module:weavemark.std.ideation.contrastive_mining_core` to two embedded sample
+  texts. It uses the **reflection** strategy to improve coverage:
     1. **Generate** — initial contrastive analysis with citations
     2. **Critique** — check for missed characteristics, weak citations,
        or miscategorised items

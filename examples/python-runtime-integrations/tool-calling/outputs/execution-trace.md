@@ -98,5 +98,6 @@ Return:
 2. Estimated future portfolio value, rounded to the nearest dollar:
    **$2,019,730**
 
-3. Caveat: This is a deterministic projection based on a constant 6.5% annual return assumption and monthly compounding; actual investment outcomes are not guaranteed and may vary due to market performance, fees, taxes, and contribution timing.
+3. Caveat: This is a deterministic projection based on a fixed return assumption and monthly compounding; actual investment outcomes are not guaranteed and may vary due to market performance, fees, taxes, and contribution timing.
+
 ```

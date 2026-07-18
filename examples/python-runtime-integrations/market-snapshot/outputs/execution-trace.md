@@ -34,6 +34,7 @@ Cover:
 
 Do not make a buy/sell recommendation. Treat this as asset education, not
 personal financial advice.
+
 ```
 
 ## Weave execution plan
@@ -202,12 +203,12 @@ personal financial advice.
   ],
   "crawled_sources": [
     {
-      "url": "https://www.apple.com/newsroom/2026/04/apple-reports-second-quarter-results/",
-      "markdown_preview": "[Continuar](https://www.apple.com/br/newsroom/2026/04/apple-reports-second-quarter-results/)\n*     * [Store](https://www.apple.com/us/shop/goto/store)\n[Newsroom](https://www.apple.com/newsroom/)\n#  Apple reports second quarter results\nMarch quarter records for total company revenue, iPhone revenue, and EPS\nServices revenue reaches new all-time high\n**CUPERTINO, CALIFORNIA** Apple today announced financial results for its fiscal 2026 second quarter ended March 28, 2026. The Company posted quarterly revenue of $111.2 billion, up 17 percent year over year. Diluted earnings per share was $2.01, up 22 percent year over year.\n“Today Apple is proud to report our best March quarter ever, with revenue of $111.2 billion and double-digit growth across every geographic segment,” said Tim Cook, Apple’s CEO. “iPhone achieved a March quarter revenue record, fueled by such extraordinary demand for the iPhone 17 lineup. During the quarter, Services achieved yet another all-time record, and we were excited to introduce remarkable new products to our strongest lineup ever. That included the addition of the iPhone 17e and the M4-powered iPad Air, along with the launch of MacBook Neo, which is captivat"
+      "url": "https://quartr.com/companies/apple-inc_4742",
+      "markdown_preview": "Apple\n![Logotype for Apple Inc](https://assets.quartr.com/_next/image?url=https%3A%2F%2Ffiles.quartr.com%2Fcompany-icons%2F86eed81e8008f0d5621a887f482ced47-2026-07-14-16-34-43.png%3Fref%3DZG90Y29t&w=96&q=100)\n# Apple (AAPL) investor relations material\n## Apple Q2 2026 earnings summary\nComplete event summary combining all related documents: earnings call transcript, report, and slide presentation.\n![Logotype for Apple Inc](https://assets.quartr.com/_next/image?url=https%3A%2F%2Ffiles.quartr.com%2Fcompany-icons%2F86eed81e8008f0d5621a887f482ced47-2026-07-14-16-34-43.png%3Fref%3DZG90Y29t&w=96&q=100)\nQ2 2026 earnings summary30 Apr, 2026\n* Revenue reached $111.2 billion, up 17% year-over-year, setting a March quarter record with double-digit growth across all geographic segments.\n* Net income was $29.6 billion and diluted EPS was $2.01, both up 22% year-over-year and setting March quarter records.\n* Growth was driven by strong iPhone and Services sales, with iPhone revenue hitting a March quarter record and Services revenue reaching an all-time high.\n* CEO transition announced: Tim Cook to become Executive Chairman on September 1st, with John Ternus to assume CEO role.\n### Financial high"
     },
     {
-      "url": "https://investor.apple.com/",
-      "markdown_preview": "[Skip to main content](https://investor.apple.com/investor-relations/default.aspx#maincontent)\n*     * [Store](https://www.apple.com/us/shop/goto/store)\n### FY 26 Third Quarter Results\nApple’s conference call to discuss third fiscal quarter results and business updates is scheduled for Thursday, July 30, 2026 at 2:00 p.m. PT / 5:00 p.m. ET.\n[Listen to the conference call webcast](https://www.apple.com/investor/earnings-call/)\n## Financial Data\n### Quarterly Earnings Reports\n[Press Release](https://www.apple.com/newsroom/2026/04/apple-reports-second-quarter-results/)\n[Financial Statements](https://www.apple.com/newsroom/pdfs/fy2026q2/FY26_Q2_Consolidated_Financial_Statements.pdf)\n[10-Q](https://s2.q4cdn.com/470004039/files/doc_earnings/2026/q2/filing/10Q-Q2-2026-as-filed.pdf)\n[Press Release](https://www.apple.com/newsroom/2026/01/apple-reports-first-quarter-results/)\n[Financial Statements](https://www.apple.com/newsroom/pdfs/fy2026-q1/FY26_Q1_Consolidated_Financial_Statements.pdf)\n[10-Q](https://s2.q4cdn.com/470004039/files/doc_earnings/2026/q1/filing/10Q-Q1-2026-as-filed.pdf)\n[Press Release](https://www.apple.com/newsroom/2025/10/apple-reports-fourth-quarter-results/)\n[Financial St"
+      "url": "https://www.businesswire.com/news/home/20251030333927/en/Apple-reports-fourth-quarter-results",
+      "markdown_preview": "# Page Unavailable\n* * *\nPlease be advised that this page is unavailable.\nCall +1.888.381.9473 for our Web Support team or open a support ticket if you need further assistance. \nReference Error ID: `0.62841402.1784403098.8eedba6a`\nClient IP: 179.100.0.247"
     }
   ]
 }
@@ -216,180 +217,160 @@ personal financial advice.
 ## Final response
 
 ```markdown
-## Apple Inc. (AAPL) — Concise Learning Brief
+## Apple Inc. (AAPL) — Learning Brief
 
-**Purpose:** Asset education only; not personal financial advice and not a buy/sell recommendation.
+**Purpose:** Educational overview only, not personal financial advice or a buy/sell recommendation. Market data is point-in-time from the provided finance tools.
+
+---
 
 ### 1. What Apple does and why AAPL is interesting now
 
-Apple Inc. designs, manufactures, and markets consumer technology products and related services globally. Its major hardware lines include **iPhone, Mac, iPad, Apple Watch, AirPods, Apple Vision Pro, Apple TV, Beats, and HomePod**. It also runs a large services ecosystem, including the **App Store, AppleCare, iCloud, Apple Music, Apple TV+, Apple Pay, Apple Card, Apple Arcade, Fitness+, News+, advertising, and licensing**.
+Apple Inc. is a global consumer technology company best known for the **iPhone, Mac, iPad, Apple Watch, AirPods, Apple Vision Pro**, and a growing portfolio of **services** such as the App Store, iCloud, Apple Music, Apple TV, Apple Pay, AppleCare, advertising, and licensing. It serves consumers, businesses, education, enterprise, and government customers worldwide.
 
-AAPL is currently interesting because several major themes are converging:
+AAPL is currently interesting because the stock is trading near a **52-week high**, with a market value approaching **$5 trillion**, while investors are weighing several competing narratives:
 
-- **Record financial performance:** Apple reported a March-quarter record for revenue, iPhone revenue, and EPS in fiscal Q2 2026.
-- **Services growth:** Services revenue reached a new all-time high, reinforcing Apple’s recurring-revenue narrative.
-- **iPhone demand:** Management cited strong demand for the iPhone 17 lineup.
-- **Capital returns:** Apple raised its dividend and authorized an additional **$100 billion** share repurchase program.
-- **Valuation debate:** The stock trades near its 52-week high with a high P/E ratio, making expectations and growth durability important.
-- **Product pricing and costs:** Recent outside commentary focuses on Apple’s ability to raise prices, preserve margins, and manage component cost pressure.
-- **AI and competition questions:** Investors continue to weigh whether Apple’s AI strategy, ecosystem strength, and product refreshes can sustain growth.
+- **Positive:** strong iPhone and Services growth, high margins, large cash generation, and potential AI-related device upgrade demand.
+- **Negative/uncertain:** rich valuation, competitive pressure, hardware demand cyclicality, rising component costs, regulatory risk around App Store/search economics, and questions about whether AI features will materially accelerate upgrades.
 
 ---
 
 ### 2. Current market data and business fundamentals
 
-**Snapshot market data**
+From the finance snapshot:
 
 | Metric | Value |
 |---|---:|
 | Ticker | AAPL |
-| Company | Apple Inc. |
 | Exchange | Nasdaq / NMS |
-| Current price | **$331.57** |
-| Previous close | $327.50 |
-| Day range | $326.79 – $333.55 |
-| 52-week range | $201.50 – $333.55 |
-| Market cap | **~$4.87 trillion** |
-| Volume | 36,014,224 |
-| Currency | USD |
-
-**Valuation and profitability**
-
-| Metric | Value |
-|---|---:|
-| Trailing P/E | **40.19** |
-| Forward P/E | **34.47** |
-| PEG ratio | 2.54 |
-| Price / sales | 10.79 |
-| Price / book | 45.67 |
-| EV / revenue | 10.69 |
-| EV / EBITDA | 30.17 |
-| Gross margin | **47.86%** |
-| Operating margin | **32.28%** |
-| Profit margin | **27.15%** |
-| Return on assets | 26.23% |
-| Return on equity | 141.47% |
-
-**Growth, balance sheet, and shareholder returns**
-
-| Metric | Value |
-|---|---:|
-| Revenue growth | **16.6%** |
-| Earnings growth | **21.8%** |
-| EPS | $8.25 |
-| Revenue per share | $30.53 |
-| Total cash | ~$68.5 billion |
-| Total debt | ~$84.7 billion |
-| Debt / equity | 79.55 |
-| Current ratio | 1.07 |
-| Quick ratio | 0.91 |
-| Dividend rate | $1.08 |
-| Dividend yield | 0.33% |
-| Payout ratio | 12.59% |
+| Current price | **$333.74** |
+| Previous close | $333.26 |
+| Day range | $329.00 – $334.98 |
+| 52-week range | **$201.50 – $334.99** |
+| Market capitalization | **~$4.90 trillion** |
+| Volume | 63.3 million shares |
+| Trailing P/E | **40.5x** |
+| Forward P/E | **34.6x** |
+| Price/sales | **10.86x** |
+| Price/book | **45.97x** |
+| EV/revenue | **10.89x** |
+| EV/EBITDA | **30.74x** |
+| Dividend yield | **0.32%** |
+| Dividend rate | $1.08/share |
 | Beta | 1.10 |
-| Shares outstanding | ~14.69 billion |
 
-**Analyst snapshot**
+Business fundamentals from the finance tools show Apple remains highly profitable:
+
+- **Gross margin:** 47.9%
+- **Operating margin:** 32.3%
+- **Profit margin:** 27.2%
+- **Revenue growth:** 16.6%
+- **Earnings growth:** 21.8%
+- **Return on assets:** 26.2%
+- **Return on equity:** 141.5%
+- **Total cash:** $68.5 billion
+- **Total debt:** $84.7 billion
+- **Debt/equity:** 79.5%
+- **Current ratio:** 1.07
+- **EPS:** $8.24
+
+Analyst data in the finance tools shows:
 
 - Consensus recommendation: **Buy**
-- Recommendation mean: **2.04** on a 1–5 scale, where 1 = Strong Buy and 5 = Sell
+- Recommendation mean: **2.00** on a 1–5 scale, where 1 = Strong Buy and 5 = Sell
 - Number of analysts: **43**
-- Mean price target: **$315.79**
-- Median price target: **$315.00**
+- Mean price target: **$318.25**
+- Median price target: **$325.00**
 - High target: **$400.00**
 - Low target: **$215.00**
 
-One notable learning point: the current price of **$331.57** is above the mean and median analyst price targets in the finance snapshot, while still below the high target. That gap highlights the market’s current debate around valuation, expected growth, and whether Apple’s product and services momentum can justify a premium multiple.
+A notable learning point: the current stock price of **$333.74** is above both the mean and median analyst price targets in the provided data, which may indicate that recent price momentum has moved ahead of some published analyst expectations.
 
 ---
 
 ### 3. Recent news, analyst opinion, and outside commentary
 
-Recent search results and commentary point to a mixed but active debate around AAPL:
+Recent web search results show a split between momentum-driven optimism and valuation/growth concerns.
 
-- **Earnings momentum:** Apple’s official Q2 FY2026 release reported **$111.2 billion** in quarterly revenue, up **17% year over year**, and diluted EPS of **$2.01**, up **22% year over year**. Management described it as Apple’s best March quarter ever and said Services reached another all-time record.
-  Source: https://www.apple.com/newsroom/2026/04/apple-reports-second-quarter-results/
+**Bullish or constructive commentary:**
 
-- **Upcoming earnings catalyst:** Apple’s investor relations page says its **FY2026 third-quarter results** conference call is scheduled for **July 30, 2026**, at 2:00 p.m. PT / 5:00 p.m. ET.
-  Source: https://investor.apple.com/
+- Yahoo Finance reported that AAPL hit a fresh record and that **HSBC upgraded Apple to Buy from Hold** with a **$366 price target**, implying further upside from prior levels.
+  Source: https://finance.yahoo.com/markets/stocks/articles/aapl-stock-hits-fresh-record-022034847.html
 
-- **Pricing power and margin debate:** A Yahoo Finance news result says AAPL was “on-track for worst week in four months” amid discussion of Mac and iPad price hikes, with Evercore noting that price hikes could protect margins but create demand friction, while Wedbush’s Dan Ives viewed Apple as well-positioned to raise prices.
-  Source: https://finance.yahoo.com/markets/stocks/articles/aapl-stock-track-worst-week-171213126.html
+- A Seeking Alpha article argued that Apple’s **AI upgrade cycle has not fully arrived yet**, but that business momentum has improved, with core offerings showing strength independent of AI catalysts.
+  Source: https://seekingalpha.com/article/4921791-apple-stock-ai-upgrade-cycle-growth
 
-- **Component cost pressure:** An MSN/Benzinga-linked result says Apple is testing pricing power as component costs rise, with investors watching whether Apple can offset AI-driven supply-chain and component cost pressures.
-  Source: https://www.msn.com/en-us/money/news/apple-tests-pricing-power-as-component-costs-quadruple-where-is-aapl-stock-headed/ar-AA26NWuY?ocid=BingNewsVerp
+- Zacks commentary highlighted that Apple’s recent rally has been supported by **iPhone 17 demand, record Services revenue, and AI expectations**, while also noting valuation and memory-cost concerns.
+  Source: https://www.zacks.com/stock/news/2953775/apple-rises-20-in-3-months-buy-sell-or-hold-the-stock
 
-- **Margin and demand risk:** A USA Today result frames the debate as whether rising costs could threaten Apple’s margins and demand, while noting that Apple’s margins have been strong in recent years.
-  Source: https://www.usatoday.com/story/money/investing/2026/07/02/apple-stock-buy-rising-costs/90755205007/
+**More cautious commentary:**
 
-- **Legal/regulatory risk:** A Yahoo Finance result highlights investor risk around an Apple lawsuit, suggesting the market may not be fully focused on legal uncertainty.
-  Source: https://finance.yahoo.com/markets/stocks/articles/risk-behind-apple-lawsuit-most-114539299.html
+- KeyBanc reportedly downgraded Apple to **Underweight**, citing slowing hardware demand, weaker growth expectations, and valuation concerns.
+  Sources:
+  https://invezz.com/news/2026/07/14/apple-stock-falls-after-keybanc-downgrade-on-slowing-growth-concerns/
+  https://finance.yahoo.com/markets/stocks/articles/keybanc-downgrades-apple-growth-concerns-192613881.html
 
-- **AI expectations and investor sentiment:** A 9to5Mac search result says Apple stock had slid after WWDC, with some attributing weakness to disappointment in Apple’s AI announcements, before later rallying as investors weighed Apple’s more cautious AI approach and price increases.
-  Source: https://9to5mac.com/2026/07/13/aapl-stock-rallies-15-as-investors-favor-ai-caution-and-welcome-price-increases/
+- Seeking Alpha also noted that Apple’s strong short-term momentum triggered a rare technical “sell signal” discussion, suggesting some investors may consider profit rotation after the rally.
+  Source: https://seekingalpha.com/news/4614940-apple-stocks-12-day-momentum-triggers-sell-signal-not-seen-since-2020
+
+The analyst picture is therefore mixed: the finance-tool consensus still shows **Buy**, but recent external commentary includes both upgrades and downgrades, with valuation becoming a central debate.
 
 ---
 
 ### 4. Evidence from crawled sources
 
-**Apple Q2 FY2026 results — official company source**
-URL: https://www.apple.com/newsroom/2026/04/apple-reports-second-quarter-results/
+The crawled Quartr investor-relations summary reported Apple’s **Q2 2026** results as follows:
 
-Key evidence from the crawled Apple release:
+- Revenue of **$111.2 billion**, up **17% year over year**
+- Net income of **$29.6 billion**, up from $24.8 billion
+- Diluted EPS of **$2.01**, up **22% year over year**
+- Gross margin of **49.3%**
+- Services gross margin of **76.7%**
+- Operating cash flow above **$28 billion**
+- Growth driven by strong **iPhone** and **Services** performance
+- June-quarter revenue guidance of **14%–17% year-over-year growth**
+- Gross margin guidance of **47.5%–48.5%**
+- The source also flagged open questions around the **Google antitrust ruling**, Apple’s **AI investment focus**, and **rising memory costs**
 
-- Quarterly revenue: **$111.2 billion**, up **17% year over year**
-- Diluted EPS: **$2.01**, up **22% year over year**
-- Apple called it its **best March quarter ever**
-- iPhone achieved a March-quarter revenue record
-- Services reached a new all-time high
-- Operating cash flow was over **$28 billion**
-- Apple’s installed base of active devices hit a new all-time high across all major product categories and geographic segments
-- Dividend increased to **$0.27 per share**, up 4%
-- Board authorized an additional **$100 billion** share repurchase program
+Source: https://quartr.com/companies/apple-inc_4742
 
-**Apple Investor Relations — official source**
-URL: https://investor.apple.com/
+The crawler also attempted to access a Business Wire Apple results page, but the page was unavailable at crawl time, so it should not be relied on for substantive evidence here.
+Attempted source: https://www.businesswire.com/news/home/20251030333927/en/Apple-reports-fourth-quarter-results
 
-Key evidence from the crawled investor relations page:
-
-- Apple lists its quarterly earnings reports, financial statements, 10-Qs, and 10-Ks.
-- The next scheduled event is the **FY2026 third-quarter results** call on **July 30, 2026**.
-- The page links to the Q2 FY2026 press release, financial statements, and 10-Q filing.
-
-These official sources support the core business narrative: Apple remains highly profitable, has strong cash generation, continues to return capital to shareholders, and is emphasizing growth in iPhone demand and Services.
+Apple’s official investor relations page was also identified in search results as the primary place to verify upcoming earnings calls and official financial releases.
+Source: https://investor.apple.com/investor-relations/default.aspx
 
 ---
 
-### 5. Key uncertainties for a learner to investigate next
+### 5. Key uncertainties for learners to investigate next
 
-1. **Can Apple sustain iPhone growth?**
-   The Q2 release cited strong demand for the iPhone 17 lineup. A learner should investigate whether that strength is a one-cycle boost or evidence of durable upgrade demand.
+1. **Valuation versus growth**
+   - AAPL trades at about **40.5x trailing earnings** and **34.6x forward earnings**. Learners should compare this with Apple’s expected revenue/EPS growth and with other mega-cap technology companies.
 
-2. **How much growth can Services continue to deliver?**
-   Services reached an all-time high, but learners should examine segment margins, regulatory risk around the App Store, and whether Services growth can keep offsetting hardware cyclicality.
+2. **Durability of iPhone demand**
+   - Recent commentary points to strong iPhone momentum, but hardware cycles can be uneven. The key question is whether new iPhone demand is structural or mainly cycle-driven.
 
-3. **Is the valuation justified?**
-   AAPL trades at a trailing P/E of about **40x** and price/sales of about **10.8x**. Learners should compare those multiples with Apple’s historical valuation, expected earnings growth, and other mega-cap technology peers.
+3. **Services growth and margin sustainability**
+   - Services are high-margin and strategically important. Learners should investigate whether Services growth can remain strong amid regulatory scrutiny of App Store fees, search payments, and platform rules.
 
-4. **Will price increases protect margins or hurt demand?**
-   Outside commentary highlights a debate around Apple’s pricing power. The key question is whether customers accept higher prices without slowing unit demand.
+4. **AI monetization**
+   - Apple’s AI opportunity may depend less on selling AI directly and more on stimulating device upgrades and ecosystem engagement. The timing and strength of any AI-driven upgrade cycle remain uncertain.
 
-5. **How material are component cost pressures?**
-   Search results point to concerns about rising component costs and AI-driven supply constraints. Learners should track gross margin trends, supplier commentary, and management guidance.
+5. **Regulatory and antitrust exposure**
+   - The Quartr source specifically flags the potential impact of a Google antitrust ruling. Apple’s search-related revenue arrangements and App Store economics are important areas to monitor.
 
-6. **What is Apple’s AI strategy worth?**
-   Some market commentary has tied stock movement to investor reactions to Apple’s AI announcements. Learners should assess whether Apple’s AI features can strengthen the ecosystem, drive upgrades, or expand Services revenue.
+6. **Leadership transition**
+   - The Quartr summary states that Tim Cook is expected to become Executive Chairman and John Ternus to assume the CEO role. Learners should verify this through Apple’s official filings or investor relations materials and evaluate implications for strategy and execution.
 
-7. **What legal and regulatory risks matter most?**
-   Apple faces ongoing scrutiny around App Store policies, platform control, payments, and competition. Learners should read recent filings and legal updates to understand potential financial impact.
+7. **Cost pressures**
+   - Rising memory and component costs could pressure gross margin, especially if Apple cannot fully pass costs to customers.
 
-8. **How important are buybacks to EPS growth?**
-   Apple authorized another **$100 billion** repurchase program. Learners should separate operating earnings growth from EPS growth driven by share count reduction.
-
-9. **What does the July 30, 2026 earnings call reveal?**
-   The next earnings call could update investors on demand trends, Services growth, margins, China and international performance, capital returns, and AI/product roadmap commentary.
+8. **China and global competition**
+   - Apple faces competition from Samsung, Huawei, Xiaomi, Google, and others, with China remaining a key market to monitor for demand, regulation, and geopolitical risk.
 
 ---
 
-**Bottom line for learning:** Apple is a globally dominant consumer technology and services ecosystem company trading at a premium valuation near its 52-week high. The educational debate centers on whether strong iPhone demand, Services growth, pricing power, and capital returns can support that valuation amid cost pressure, competition, AI uncertainty, legal/regulatory scrutiny, and high market expectations.
+### Bottom line for learning purposes
+
+Apple remains one of the world’s most profitable and influential technology companies, with a powerful hardware ecosystem and a high-margin Services business. The stock’s current interest comes from the tension between **strong recent growth and record-high share prices** on one side, and **valuation, regulatory, cost, and demand-cycle risks** on the other. A learner should focus next on whether Apple’s earnings growth can justify its premium valuation and whether AI, Services, and future device cycles can sustain momentum.
+
 ```

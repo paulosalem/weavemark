@@ -1,0 +1,17 @@
+{
+  "topic": "things to do with my 6-year-old child",
+  "monitor_mode": "events",
+  "cadence": "weekly",
+  "lookback_window": "next 7 days",
+  "region": "São Paulo, Brazil",
+  "audience": "a parent looking for practical, age-appropriate activities",
+  "research_depth": "deep",
+  "run_date": "2026-07-18",
+  "user_constraints": "Prefer safe, age-appropriate, not-too-expensive activities. Include booking, weather, location, cost, and age-fit caveats when available.",
+  "seed_urls": [
+    "https://www.sescsp.org.br/programacao/",
+    "https://saopauloparacriancas.com.br/"
+  ],
+  "use_previous_reports": false,
+  "previous_reports": ""
+}

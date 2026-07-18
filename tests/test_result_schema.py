@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 
 import pytest
+from ellements.core import ToolCallResponse
 
 from tests.wire_helpers import compiler_response
 from weavemark.compilation.result_schema import (
@@ -12,7 +13,11 @@ from weavemark.compilation.result_schema import (
     compiler_response_format,
     parse_wire_result,
 )
-from weavemark.controller import parse_composition_response
+from weavemark.controller import (
+    WeaveMarkConfig,
+    WeaveMarkController,
+    parse_composition_response,
+)
 
 
 @pytest.mark.parametrize(
@@ -63,7 +68,7 @@ def test_complete_metadata_round_trip_includes_packages_and_outputs() -> None:
     assert result.prompts == {"stage": "Stage"}
     assert result.prompt_roles == {"stage": "system"}
     assert result.compile == {"format": "json", "context": "local", "images": "off"}
-    assert result.bindings == [{"capability": "search", "language": "python"}]
+    assert result.bindings == [{"name": "search", "language": "python"}]
     assert result.execution == {"type": "chain"}
     assert result.emits == {"artifact.md": "Artifact"}
     assert result.prompt_outputs["stage"].params["file"] == "stage.md"
@@ -114,6 +119,37 @@ def test_duplicate_json_key_is_rejected() -> None:
 
     with pytest.raises(CompilerProtocolError, match="duplicate JSON key"):
         parse_wire_result(duplicate)
+
+
+class _ProtocolRepairClient:
+    def __init__(self) -> None:
+        valid = compiler_response("Repaired prompt")
+        self.responses = [
+            valid[:-1] + ', "prompt": "Duplicate"}',
+            valid,
+        ]
+        self.calls = 0
+
+    async def complete_with_tools(self, *args: object, **kwargs: object) -> ToolCallResponse:
+        response = self.responses[self.calls]
+        self.calls += 1
+        return ToolCallResponse(content=response)
+
+
+@pytest.mark.asyncio
+async def test_controller_repairs_one_invalid_compiler_response() -> None:
+    client = _ProtocolRepairClient()
+    controller = WeaveMarkController(
+        WeaveMarkConfig(use_structural_helpers=False),
+        client=client,
+    )
+
+    result = await controller.compose("Write a useful prompt.", variables={})
+
+    assert result.errors == []
+    assert result.composed_prompt == "Repaired prompt"
+    assert client.calls == 2
+    assert "protocol-repair retry" in " ".join(result.warnings)
 
 
 @pytest.mark.parametrize(

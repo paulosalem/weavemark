@@ -43,15 +43,6 @@ Flag issues using severity levels:
     - **Nullability** — use strict null checks, prefer optional chaining (`?.`) and nullish coalescing (`??`)
     - **Import organization** — group by: external deps, internal modules, types
 
-  "rust" ==>
-    ## Rust-Specific Checks
-
-    Apply the following Rust-specific review criteria:
-    - **Ownership and lifetimes** — verify borrow checker compliance, no unnecessary `clone()`
-    - **Error handling** — use `Result`/`Option` properly, no `.unwrap()` in production programs
-    - **Zero-cost abstractions** — prefer iterators over indexed loops, use `impl Trait` where appropriate
-    - **Unsafe blocks** — must have a `// SAFETY:` comment explaining the invariant
-
   _ ==>
     ## General Program Quality Checks
 

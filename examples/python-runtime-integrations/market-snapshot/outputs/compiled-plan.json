@@ -1,12 +1,14 @@
 {
   "composed_prompt": "# Executable Stock Learning Snapshot\n\n@{asset_snapshot}\n\n@{web_context}\n\n@{source_readings}\n\n## Draft Report\n\nUse @{asset_snapshot}, @{web_context}, and @{source_readings} to write a concise\nlearning brief about Apple Inc. (AAPL).\n\nCover:\n\n1. What the company does and why the stock is currently interesting.\n2. Current market data and business fundamentals from the finance tools.\n3. Recent news, analyst opinion, and outside commentary from web search.\n4. Evidence from crawled sources, with source URLs.\n5. Key uncertainties a learner should investigate next.\n\nDo not make a buy/sell recommendation. Treat this as asset education, not\npersonal financial advice.",
-  "raw_xml": "",
+  "raw_response": "",
   "analysis": "Resolved structural WeaveMark directives with deterministic helpers.",
   "warnings": [],
   "errors": [],
   "suggestions": [],
+  "diagnostics": [],
   "transitions": [],
   "tool_calls_made": 0,
+  "model_calls_made": 0,
   "prompts": {
     "default": "# Executable Stock Learning Snapshot\n\n@{asset_snapshot}\n\n@{web_context}\n\n@{source_readings}\n\n## Draft Report\n\nUse @{asset_snapshot}, @{web_context}, and @{source_readings} to write a concise\nlearning brief about Apple Inc. (AAPL).\n\nCover:\n\n1. What the company does and why the stock is currently interesting.\n2. Current market data and business fundamentals from the finance tools.\n3. Recent news, analyst opinion, and outside commentary from web search.\n4. Evidence from crawled sources, with source URLs.\n5. Key uncertainties a learner should investigate next.\n\nDo not make a buy/sell recommendation. Treat this as asset education, not\npersonal financial advice."
   },

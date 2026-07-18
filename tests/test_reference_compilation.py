@@ -1335,6 +1335,39 @@ class TestReferenceCompilation:
         }
 
     @pytest.mark.asyncio
+    async def test_embed_folder_reads_sorted_markdown_reports(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        history = tmp_path / "history"
+        history.mkdir()
+        (history / "2026-07-10.md").write_text("# Earlier\n\nAlpha.", encoding="utf-8")
+        (history / "2026-07-17.md").write_text("# Latest\n\nBeta.", encoding="utf-8")
+        spec_path = _write(
+            tmp_path / "monitor.weavemark.md",
+            """
+            # Monitor
+
+            @embed folder: "./history" label: "Prior monitor reports"
+            """,
+        )
+        controller = WeaveMarkController(WeaveMarkConfig())
+
+        result = await controller.compose(
+            spec_path.read_text(encoding="utf-8"),
+            variables={},
+            base_dir=spec_path.parent,
+        )
+
+        assert result.errors == []
+        assert "Prior monitor reports" in result.composed_prompt
+        assert result.composed_prompt.index("2026-07-10.md") < result.composed_prompt.index(
+            "2026-07-17.md"
+        )
+        assert "Alpha." in result.composed_prompt
+        assert "Beta." in result.composed_prompt
+
+    @pytest.mark.asyncio
     async def test_weavemark_version_is_compile_metadata(
         self,
         tmp_path: Path,

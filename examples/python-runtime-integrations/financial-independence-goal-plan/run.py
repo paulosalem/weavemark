@@ -23,7 +23,10 @@ if hasattr(sys.stdout, "reconfigure"):
 sys.path.insert(0, str(REPO_ROOT / "src"))
 sys.path.insert(0, str(REPO_ROOT / "examples" / "_lib"))
 
-from weavemark_example_progress import weavemark_verbose_event
+from weavemark_example_progress import (
+    normalize_generated_markdown,
+    weavemark_verbose_event,
+)
 
 from weavemark.controller import WeaveMarkConfig, WeaveMarkController
 from weavemark.defaults import DEFAULT_MODEL
@@ -91,7 +94,10 @@ async def main() -> None:
     )
     print(json.dumps(assumptions, indent=2, ensure_ascii=False, default=str))
 
-    ready_prompt = _inject_assumptions(result.composed_prompt, assumptions)
+    composed_prompt = normalize_generated_markdown(result.composed_prompt)
+    ready_prompt = normalize_generated_markdown(
+        _inject_assumptions(composed_prompt, assumptions)
+    )
     _section("Ready-to-paste final prompt")
     print(ready_prompt)
 
@@ -102,7 +108,7 @@ async def main() -> None:
     output_path = OUTPUT_DIR / "execution-output.md"
     trace_path = OUTPUT_DIR / "execution-trace.md"
 
-    compiled_prompt_path.write_text(result.composed_prompt, encoding="utf-8")
+    compiled_prompt_path.write_text(composed_prompt, encoding="utf-8")
     compiled_plan_path.write_text(
         json.dumps(result.to_dict(), indent=2, ensure_ascii=False, default=str),
         encoding="utf-8",
@@ -114,7 +120,7 @@ async def main() -> None:
     output_path.write_text(ready_prompt, encoding="utf-8")
     trace_path.write_text(
         _render_trace(
-            composed_prompt=result.composed_prompt,
+            composed_prompt=composed_prompt,
             execution_plan=result.execution,
             bindings=result.bindings,
             assumptions=assumptions,

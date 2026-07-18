@@ -22,6 +22,7 @@ from .base import (
     render_image,
     resolve_call_settings,
 )
+from .bindings import load_tool_executor
 
 _EDIT_FLAG_VALUES = {"on", "true", "yes", "1"}
 
@@ -59,6 +60,15 @@ class SingleCallEngine(BaseEngine):
                 on_step,
             )
 
+        if result.tools and result.bindings:
+            return await self._complete_with_bound_tools(
+                prompt,
+                prompts.get("system"),
+                result,
+                config,
+                on_step,
+            )
+
         strategy = SingleCallStrategy()
         sr = await strategy.execute(
             prompts,
@@ -67,6 +77,59 @@ class SingleCallEngine(BaseEngine):
             config=self._build_strategy_config(result, config, on_step),
         )
         return self._wrap_result(sr, result, config)
+
+    async def _complete_with_bound_tools(
+        self,
+        prompt: str,
+        system: str | None,
+        result: CompositionResult,
+        config: RuntimeConfig | None,
+        on_step: OnStepCallback | None,
+    ) -> ExecutionResult:
+        messages: list[dict[str, Any]] = []
+        if system:
+            messages.append({"role": "system", "content": system})
+        messages.append({"role": "user", "content": prompt})
+        settings = resolve_call_settings(
+            result,
+            config,
+            prompt_key="default",
+            modality="text",
+        )
+        temperature = (
+            settings.temperature if settings.temperature is not None else 0.7
+        )
+        max_iterations = int(result.execution.get("max_iterations", 10))
+        max_tool_calls = int(result.execution.get("max_tool_calls", 30))
+        response = await self.client.complete_with_tools(
+            messages,
+            tools=result.tools,
+            tool_executor=load_tool_executor(result, max_calls=max_tool_calls),
+            model=settings.model,
+            temperature=temperature,
+            max_iterations=max_iterations,
+        )
+        output = _normalize_generated_markdown(response.content)
+        tool_calls = [record.model_dump(mode="json") for record in response.tool_calls]
+        step = StepRecord(
+            name="call",
+            prompt_key="default",
+            response=output,
+            metadata={"tool_calls": tool_calls},
+        )
+        if on_step is not None:
+            on_step(step)
+        return ExecutionResult(
+            output=output,
+            steps=[step],
+            metadata={
+                "output_type": "text",
+                "tool_calls": tool_calls,
+                "tool_call_count": len(tool_calls),
+                "tool_call_budget": max_tool_calls,
+                "call_settings": settings.metadata(),
+            },
+        )
 
     async def _complete_multimodal(
         self,
@@ -183,3 +246,9 @@ class SingleCallEngine(BaseEngine):
                 "call_settings": settings.metadata(),
             },
         )
+
+
+def _normalize_generated_markdown(text: str) -> str:
+    """Remove unstable trailing whitespace from model-authored Markdown."""
+
+    return "\n".join(line.rstrip(" \t\r") for line in text.split("\n"))

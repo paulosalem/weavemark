@@ -1,20 +1,105 @@
 {
-  "composed_prompt": "# Self-Consistency Math Solver\n\nYou are a precise mathematical problem solver. Think step by step. Before answering, reason through the problem carefully. Never jump to a conclusion without showing your work.\n\n## Problem\n\nA workshop sells 18 starter kits in week 1. Sales increase by 6 kits each week for 10 weeks total. Each kit generates $37 in profit before fixed costs, and the workshop pays a one-time $1,250 tooling cost. What is the total profit after 10 weeks?\n\n## Instructions\n\nWork through the problem one logical step at a time:\n- State what you are calculating and why at each step.\n- Show the arithmetic or reasoning clearly.\n- Show each step of your calculation.\n- After completing all steps, state your final numerical answer clearly on its own line, prefixed with \"ANSWER: \" and containing the number only, with no units or explanation.",
-  "raw_xml": "<output>\n  <prompt># Self-Consistency Math Solver\n\nYou are a precise mathematical problem solver. Think step by step. Before answering, reason through the problem carefully. Never jump to a conclusion without showing your work.\n\n## Problem\n\nA workshop sells 18 starter kits in week 1. Sales increase by 6 kits each week for 10 weeks total. Each kit generates $37 in profit before fixed costs, and the workshop pays a one-time $1,250 tooling cost. What is the total profit after 10 weeks?\n\n## Instructions\n\nWork through the problem one logical step at a time:\n- State what you are calculating and why at each step.\n- Show the arithmetic or reasoning clearly.\n- Show each step of your calculation.\n- After completing all steps, state your final numerical answer clearly on its own line, prefixed with \"ANSWER: \" and containing the number only, with no units or explanation.</prompt>\n  <prompts>{\"default\":{\"text\":\"# Self-Consistency Math Solver\\n\\nYou are a precise mathematical problem solver. Think step by step. Before answering, reason through the problem carefully. Never jump to a conclusion without showing your work.\\n\\n## Problem\\n\\nA workshop sells 18 starter kits in week 1. Sales increase by 6 kits each week for 10 weeks total. Each kit generates $37 in profit before fixed costs, and the workshop pays a one-time $1,250 tooling cost. What is the total profit after 10 weeks?\\n\\n## Instructions\\n\\nWork through the problem one logical step at a time:\\n- State what you are calculating and why at each step.\\n- Show the arithmetic or reasoning clearly.\\n- Show each step of your calculation.\\n- After completing all steps, state your final numerical answer clearly on its own line, prefixed with \\\"ANSWER: \\\" and containing the number only, with no units or explanation.\",\"role\":null}}</prompts>\n  <compile>{}</compile>\n  <tools>[]</tools>\n  <bindings>[]</bindings>\n  <execution>{\"type\":\"self-consistency\",\"samples\":5,\"aggregation\":\"majority_vote\"}</execution>\n  <emits>{}</emits>\n  <analysis>Loaded and semantically integrated the chain-of-thought reasoning prompt, substituted the provided math problem, stripped notes, converted the output-format directive into explicit answer-format instructions, and preserved self-consistency as execution metadata.</analysis>\n  <warnings></warnings>\n  <errors></errors>\n  <suggestions></suggestions>\n</output>",
-  "analysis": "Loaded and semantically integrated the chain-of-thought reasoning prompt, substituted the provided math problem, stripped notes, converted the output-format directive into explicit answer-format instructions, and preserved self-consistency as execution metadata.",
+  "composed_prompt": "# Self-Consistency Math Solver\n\nYou are a precise mathematical problem solver. Think step by step. Before answering, reason through the problem carefully. Never jump to a conclusion without showing your work.\n\n## Problem\n\nA workshop sells 18 starter kits in week 1. Sales increase by 6 kits each week for 10 weeks total. Each kit generates $37 in profit before fixed costs, and the workshop pays a one-time $1,250 tooling cost. What is the total profit after 10 weeks?\n\n## Instructions\n\nWork through the problem one logical step at a time:\n- State what you are calculating and why at each step.\n- Show the arithmetic or reasoning clearly.\n- Show each step of your calculation.\n- After completing all steps, state the final numerical answer clearly on its own line, prefixed with \"ANSWER: \" (number only, no units or explanation).\n\n## Output Format\n\nProvide your answer in this format:\n1. **Working**: Show each step of your calculation.\n2. **Answer**: State the final numerical answer clearly on its own line, prefixed with \"ANSWER: \" (number only, no units or explanation).",
+  "raw_response": "{\"prompt\":\"# Self-Consistency Math Solver\\n\\nYou are a precise mathematical problem solver. Think step by step. Before answering, reason through the problem carefully. Never jump to a conclusion without showing your work.\\n\\n## Problem\\n\\nA workshop sells 18 starter kits in week 1. Sales increase by 6 kits each week for 10 weeks total. Each kit generates $37 in profit before fixed costs, and the workshop pays a one-time $1,250 tooling cost. What is the total profit after 10 weeks?\\n\\n## Instructions\\n\\nWork through the problem one logical step at a time:\\n- State what you are calculating and why at each step.\\n- Show the arithmetic or reasoning clearly.\\n- Show each step of your calculation.\\n- After completing all steps, state the final numerical answer clearly on its own line, prefixed with \\\"ANSWER: \\\" (number only, no units or explanation).\\n\\n## Output Format\\n\\nProvide your answer in this format:\\n1. **Working**: Show each step of your calculation.\\n2. **Answer**: State the final numerical answer clearly on its own line, prefixed with \\\"ANSWER: \\\" (number only, no units or explanation).\",\"prompts\":{\"default\":{\"text\":\"# Self-Consistency Math Solver\\n\\nYou are a precise mathematical problem solver. Think step by step. Before answering, reason through the problem carefully. Never jump to a conclusion without showing your work.\\n\\n## Problem\\n\\nA workshop sells 18 starter kits in week 1. Sales increase by 6 kits each week for 10 weeks total. Each kit generates $37 in profit before fixed costs, and the workshop pays a one-time $1,250 tooling cost. What is the total profit after 10 weeks?\\n\\n## Instructions\\n\\nWork through the problem one logical step at a time:\\n- State what you are calculating and why at each step.\\n- Show the arithmetic or reasoning clearly.\\n- Show each step of your calculation.\\n- After completing all steps, state the final numerical answer clearly on its own line, prefixed with \\\"ANSWER: \\\" (number only, no units or explanation).\\n\\n## Output Format\\n\\nProvide your answer in this format:\\n1. **Working**: Show each step of your calculation.\\n2. **Answer**: State the final numerical answer clearly on its own line, prefixed with \\\"ANSWER: \\\" (number only, no units or explanation).\",\"role\":null}},\"compile\":{\"context\":null,\"images\":null,\"weavemark_version\":\"0.7\"},\"tools\":[],\"bindings\":[],\"execution\":{\"type\":\"self-consistency\",\"samples\":5,\"aggregation\":\"majority_vote\"},\"emits\":{},\"outputs\":{\"default\":{\"type\":\"text\",\"enforce\":\"strict\",\"body\":\"Provide your answer in this format:\\n1. **Working**: Show each step of your calculation\\n2. **Answer**: State the final numerical answer clearly on its own line,\\n   prefixed with \\\"ANSWER: \\\" (number only, no units or explanation)\",\"size\":null,\"quality\":null,\"model\":null,\"n\":null,\"edit\":null,\"file\":null}},\"packages\":[],\"directives\":[{\"id\":\"d1\",\"name\":\"promplet\",\"header\":\"@promplet version: 0.7\",\"body\":\"\",\"depth\":0,\"line\":1,\"parent_scope_id\":null,\"source_span\":{\"start_line\":1,\"start_column\":1,\"end_line\":1,\"end_column\":24}},{\"id\":\"d2\",\"name\":\"note\",\"header\":\"@note\",\"body\":\"Self-Consistency (Wang et al., 2022) improves Chain-of-Thought\\nprompting by sampling multiple diverse reasoning paths at high\\ntemperature and selecting the most consistent answer via majority\\nvote. The key insight is that complex problems admit multiple valid\\nreasoning approaches, and the correct answer is more likely to\\nemerge across independent paths than from a single greedy decode.\\nThe original paper reports +17.9% on GSM8K over standard CoT.\\n\\nThis spec uses @refine to inherit the CoT baseline prompt, then\\nruns it 5 times independently and votes over the final `ANSWER:` lines.\\n\\nReferences:\\n- Wang et al. (2022). \\\"Self-Consistency Improves Chain of Thought\\n  Reasoning in Language Models.\\\" ICLR 2023. arXiv:2203.11171\",\"depth\":0,\"line\":6,\"parent_scope_id\":null,\"source_span\":{\"start_line\":6,\"start_column\":1,\"end_line\":20,\"end_column\":68}},{\"id\":\"d3\",\"name\":\"execute\",\"header\":\"@execute self-consistency\",\"body\":\"samples: 5\\naggregation: majority_vote\",\"depth\":0,\"line\":22,\"parent_scope_id\":null,\"source_span\":{\"start_line\":22,\"start_column\":1,\"end_line\":24,\"end_column\":28}},{\"id\":\"d4\",\"name\":\"refine\",\"header\":\"@refine module:weavemark.std.reasoning.chain_of_thought\",\"body\":\"\",\"depth\":0,\"line\":26,\"parent_scope_id\":null,\"source_span\":{\"start_line\":26,\"start_column\":1,\"end_line\":26,\"end_column\":59}},{\"id\":\"d5\",\"name\":\"output\",\"header\":\"@output enforce: strict\",\"body\":\"Provide your answer in this format:\\n1. **Working**: Show each step of your calculation\\n2. **Answer**: State the final numerical answer clearly on its own line,\\n   prefixed with \\\"ANSWER: \\\" (number only, no units or explanation)\",\"depth\":0,\"line\":35,\"parent_scope_id\":null,\"source_span\":{\"start_line\":35,\"start_column\":1,\"end_line\":39,\"end_column\":69}}],\"analysis\":\"Substituted the problem variable, stripped private notes, emitted execution and output-contract metadata, and integrated the loaded chain-of-thought reasoning prompt into a single concrete math-solving prompt.\",\"warnings\":[],\"errors\":[],\"suggestions\":[]}",
+  "analysis": "Substituted the problem variable, stripped private notes, emitted execution and output-contract metadata, and integrated the loaded chain-of-thought reasoning prompt into a single concrete math-solving prompt.",
   "warnings": [],
   "errors": [],
   "suggestions": [],
+  "diagnostics": [],
   "transitions": [
-    "Resolved one pass: loaded ../library/reasoning/chain-of-thought.weavemark.md for the surviving @refine directive, stripped @note blocks, substituted the problem variable in local and refined content, integrated the chain-of-thought requirements with the local math-solver prompt, applied the output-format semantic directive, and collected self-consistency execution metadata because @execute is metadata only."
+    "Resolved version metadata, removed note, emitted self-consistency execution metadata, loaded and semantically integrated module:weavemark.std.reasoning.chain_of_thought via @refine, substituted the problem variable, and converted the @output directive into a strict text output contract plus prompt formatting obligation because the directives define compiler metadata/refinement rather than final raw syntax."
   ],
   "tool_calls_made": 2,
+  "model_calls_made": 1,
   "prompts": {
-    "default": "# Self-Consistency Math Solver\n\nYou are a precise mathematical problem solver. Think step by step. Before answering, reason through the problem carefully. Never jump to a conclusion without showing your work.\n\n## Problem\n\nA workshop sells 18 starter kits in week 1. Sales increase by 6 kits each week for 10 weeks total. Each kit generates $37 in profit before fixed costs, and the workshop pays a one-time $1,250 tooling cost. What is the total profit after 10 weeks?\n\n## Instructions\n\nWork through the problem one logical step at a time:\n- State what you are calculating and why at each step.\n- Show the arithmetic or reasoning clearly.\n- Show each step of your calculation.\n- After completing all steps, state your final numerical answer clearly on its own line, prefixed with \"ANSWER: \" and containing the number only, with no units or explanation."
+    "default": "# Self-Consistency Math Solver\n\nYou are a precise mathematical problem solver. Think step by step. Before answering, reason through the problem carefully. Never jump to a conclusion without showing your work.\n\n## Problem\n\nA workshop sells 18 starter kits in week 1. Sales increase by 6 kits each week for 10 weeks total. Each kit generates $37 in profit before fixed costs, and the workshop pays a one-time $1,250 tooling cost. What is the total profit after 10 weeks?\n\n## Instructions\n\nWork through the problem one logical step at a time:\n- State what you are calculating and why at each step.\n- Show the arithmetic or reasoning clearly.\n- Show each step of your calculation.\n- After completing all steps, state the final numerical answer clearly on its own line, prefixed with \"ANSWER: \" (number only, no units or explanation).\n\n## Output Format\n\nProvide your answer in this format:\n1. **Working**: Show each step of your calculation.\n2. **Answer**: State the final numerical answer clearly on its own line, prefixed with \"ANSWER: \" (number only, no units or explanation)."
+  },
+  "compile": {
+    "weavemark_version": "0.7"
   },
   "execution": {
     "type": "self-consistency",
     "samples": 5,
     "aggregation": "majority_vote"
-  }
+  },
+  "prompt_outputs": {
+    "default": {
+      "type": "text",
+      "enforce": "strict",
+      "body": "Provide your answer in this format:\n1. **Working**: Show each step of your calculation\n2. **Answer**: State the final numerical answer clearly on its own line,\n   prefixed with \"ANSWER: \" (number only, no units or explanation)"
+    }
+  },
+  "directives": [
+    {
+      "id": "d1",
+      "name": "promplet",
+      "header": "@promplet version: 0.7",
+      "body": "",
+      "line": 1,
+      "depth": 0,
+      "source_span": {
+        "start_line": 1,
+        "end_line": 1,
+        "start_column": 1,
+        "end_column": 24
+      }
+    },
+    {
+      "id": "d2",
+      "name": "note",
+      "header": "@note",
+      "body": "Self-Consistency (Wang et al., 2022) improves Chain-of-Thought\nprompting by sampling multiple diverse reasoning paths at high\ntemperature and selecting the most consistent answer via majority\nvote. The key insight is that complex problems admit multiple valid\nreasoning approaches, and the correct answer is more likely to\nemerge across independent paths than from a single greedy decode.\nThe original paper reports +17.9% on GSM8K over standard CoT.\n\nThis spec uses @refine to inherit the CoT baseline prompt, then\nruns it 5 times independently and votes over the final `ANSWER:` lines.\n\nReferences:\n- Wang et al. (2022). \"Self-Consistency Improves Chain of Thought\n  Reasoning in Language Models.\" ICLR 2023. arXiv:2203.11171",
+      "line": 6,
+      "depth": 0,
+      "source_span": {
+        "start_line": 6,
+        "end_line": 20,
+        "start_column": 1,
+        "end_column": 68
+      }
+    },
+    {
+      "id": "d3",
+      "name": "execute",
+      "header": "@execute self-consistency",
+      "body": "samples: 5\naggregation: majority_vote",
+      "line": 22,
+      "depth": 0,
+      "source_span": {
+        "start_line": 22,
+        "end_line": 24,
+        "start_column": 1,
+        "end_column": 28
+      }
+    },
+    {
+      "id": "d4",
+      "name": "refine",
+      "header": "@refine module:weavemark.std.reasoning.chain_of_thought",
+      "body": "",
+      "line": 26,
+      "depth": 0,
+      "source_span": {
+        "start_line": 26,
+        "end_line": 26,
+        "start_column": 1,
+        "end_column": 59
+      }
+    },
+    {
+      "id": "d5",
+      "name": "output",
+      "header": "@output enforce: strict",
+      "body": "Provide your answer in this format:\n1. **Working**: Show each step of your calculation\n2. **Answer**: State the final numerical answer clearly on its own line,\n   prefixed with \"ANSWER: \" (number only, no units or explanation)",
+      "line": 35,
+      "depth": 0,
+      "source_span": {
+        "start_line": 35,
+        "end_line": 39,
+        "start_column": 1,
+        "end_column": 69
+      }
+    }
+  ],
+  "source_path": "promplets/catalog/executable/self-consistency-solver.weavemark.md"
 }

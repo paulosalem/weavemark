@@ -3,7 +3,6 @@ set -euo pipefail
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/_lib/example-env.sh"
 
 mkdir -p examples/benchmark-runners/strategy-comparison/outputs
-export HF_DATASETS_OFFLINE=1
 export HF_DATASETS_VERBOSITY=error
 export HF_HUB_DISABLE_PROGRESS_BARS=1
 export TQDM_DISABLE=1

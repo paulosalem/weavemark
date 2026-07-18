@@ -208,7 +208,7 @@ def _tool_identity(tool: dict[str, Any]) -> str:
 
 
 def _binding_identity(binding: dict[str, str]) -> str:
-    for key in ("capability", "name", "tool"):
+    for key in ("name", "capability", "capability_name", "tool"):
         value = binding.get(key)
         if value:
             return value.casefold()

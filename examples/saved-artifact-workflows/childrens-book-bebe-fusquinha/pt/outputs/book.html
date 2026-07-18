@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=1536, height=1024">
   <title>O Bebê Fusquinha e a Biblioteca Perdida das Perguntas</title>
   <style>
     @page {
@@ -11,14 +12,10 @@
 
     html,
     body {
-      width: 1536px;
       margin: 0;
       padding: 0;
-      background: #fff;
-    }
-
-    * {
-      box-sizing: border-box;
+      width: 1536px;
+      background: #ffffff;
     }
 
     section.page {
@@ -27,46 +24,25 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
-      page-break-before: auto;
-      page-break-after: always;
       page-break-inside: avoid;
-      break-after: page;
       break-inside: avoid;
-      position: relative;
+      page-break-after: always;
+      break-after: page;
     }
 
-    section.page:last-child {
+    section.page:last-of-type {
       page-break-after: auto;
       break-after: auto;
     }
 
     section.page img {
       display: block;
-      width: 100%;
-      height: 100%;
+      width: 1536px;
+      height: 1024px;
       margin: 0;
       padding: 0;
       border: 0;
       object-fit: cover;
-    }
-
-    @media print {
-      html,
-      body {
-        width: 1536px;
-        margin: 0;
-        padding: 0;
-      }
-
-      section.page {
-        width: 1536px;
-        height: 1024px;
-      }
-
-      img {
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-      }
     }
   </style>
 </head>

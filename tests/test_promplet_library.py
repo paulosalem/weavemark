@@ -335,6 +335,51 @@ def test_parse_library_target_returns_processor_arguments() -> None:
     assert remaining == ["--scan"]
 
 
+@pytest.mark.parametrize(
+    ("target", "expected"),
+    (
+        ("deep-summary-prompt", "deep-summary-prompt.weavemark.md"),
+        (
+            "financial-independence-goal-plan-prompt",
+            "financial-independence-goal-plan-prompt.weavemark.md",
+        ),
+        ("recurring-topic-monitor", "recurring-topic-monitor.weavemark.md"),
+    ),
+)
+def test_builtin_public_targets_have_unambiguous_short_names(
+    target: str,
+    expected: str,
+) -> None:
+    path, remaining = parse_library_target([target, "--scan"], cwd=Path.cwd())
+
+    assert path.name == expected
+    assert remaining == ["--scan"]
+
+
+def test_news_board_reuses_workflow_module_family() -> None:
+    source = (
+        Path("promplets/catalog/standalone/news-intelligence-board.weavemark.md")
+        .read_text(encoding="utf-8")
+    )
+    required_modules = (
+        "workflow_board",
+        "card",
+        "activity_stream",
+        "context_attachments",
+        "output_surfaces",
+        "local_sqlite_storage",
+        "dashboard",
+        "ai_features",
+        "notifications",
+        "realtime",
+        "rest_api",
+    )
+
+    for module in required_modules:
+        assert f"weavemark.domains.programming.modules.{module}" in source
+    assert "weavemark.domains.work_intelligence.topic_intelligence_monitor" in source
+
+
 @pytest.mark.asyncio
 async def test_direct_target_keeps_all_library_dirs_for_module_resolution(
     tmp_path: Path,

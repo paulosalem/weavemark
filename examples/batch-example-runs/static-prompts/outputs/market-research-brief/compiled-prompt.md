@@ -1,226 +1,176 @@
 # Market Research Brief: Rivian in Electric Vehicles
 
-You are a rigorous analytical assistant producing a comprehensive market research analysis for **Rivian** operating in the **electric vehicles** industry, focused on the next **3 years**.
+You are a rigorous analytical assistant preparing a comprehensive market research analysis for **Rivian** operating in the **electric vehicles** industry. Your analysis must be evidence-grounded, structured for clarity, directly actionable, and transparent about uncertainty.
 
-## Working Standards
+## Core analytical standards
 
-- Ground the analysis in evidence, not plausibility alone.
-- Separate **facts**, **reported claims**, **estimates**, **assumptions**, **analysis**, and **speculation**.
-- State whether live web/search access is available. If live access is not available, clearly distinguish:
-  - what can be answered from general knowledge,
-  - what requires current verification,
-  - which data points may be stale.
-- Do not fabricate citations, URLs, publication dates, quotes, source names, market-size figures, policy details, or competitor metrics.
-- Prefer concrete numbers, named entities, dates, products, regulations, agencies, geographies, and source families over broad commentary.
-- Surface contradictory evidence instead of smoothing it away.
-- When estimating, state confidence level: **high / medium / low**, and explain the basis.
-- Identify the strongest counter-argument or downside risk for each major claim or recommendation.
-- Use professional, direct language. Avoid vague hedging unless uncertainty is genuine; when uncertainty exists, quantify or qualify it explicitly.
+- Lead each major section with the key finding or recommendation, then provide supporting evidence, caveats, risks, and open questions.
+- Separate **facts**, **reported claims**, **analysis**, **estimates**, **assumptions**, and **speculation**. Label them explicitly where the distinction matters.
+- When estimating, state confidence as **high / medium / low** and explain the basis for that confidence.
+- Identify the strongest counter-argument or contradictory evidence for every major claim or recommendation.
+- Avoid vague hedging. If uncertainty is real, quantify or bound it where possible.
+- Do not fabricate citations, URLs, publication dates, quotes, source names, market sizes, market shares, or regulatory details.
+- Preserve concrete named entities: identify specific companies, products, agencies, laws, policies, geographies, customer segments, and events.
+- Present both positive and negative aspects, including benefits, risks, trade-offs, likely winners and losers, and who is affected.
 
-## Context Sufficiency Check
+## Context sufficiency and research status
 
-Before the recommendations, classify the available context:
+Before making recommendations, classify the available context and evidence:
 
-| Field | Content |
+| Field | Required content |
 | --- | --- |
-| Context status | sufficient / limited / insufficient |
+| Context status | `sufficient`, `limited`, or `insufficient` |
+| Research status | `verified`, `partially verified`, `unverified`, or `research plan only` |
+| Source mix | Source families used or needed |
 | Missing context | Highest-impact missing inputs |
-| Impact | How gaps affect confidence or permissible conclusions |
+| Impact | How gaps change confidence or permissible conclusions |
 | Safe output | What can still be said responsibly |
-| Next evidence | Smallest evidence or input that would improve the analysis |
+| Next evidence | Smallest evidence or input that would improve the answer |
 
-If context is **limited**, provide a bounded answer with visible caveats. If context is **insufficient** for action recommendations, avoid confident recommendations and provide a scoping answer plus the most important missing inputs.
+If live web/search access is unavailable, state that near the top. Separate what can be answered from general knowledge from what requires current verification. If context is `limited`, provide a bounded answer with visible caveats. If context is `insufficient`, avoid confident action recommendations and provide a scoping answer plus the smallest useful next step.
 
-## Source and Evidence Requirements
+## Source and evidence requirements
 
-Use or request a balanced source mix where available:
+Use a balanced source mix when available:
 
-- Rivian primary sources: filings, investor presentations, earnings calls, production/delivery releases, product announcements, sustainability reports.
-- Official and regulatory sources: NHTSA, EPA, DOE, IRS, CARB, state-level EV incentive and ZEV rules, SEC filings, trade policy announcements.
-- Recent news and event coverage when recency matters.
-- Independent analyst, industry, practitioner, financial, technical, and market research sources.
-- Skeptical, contradictory, or competing-source material, including bear cases, recall issues, margin concerns, demand risks, and policy reversals.
+- Primary or official material, such as company filings, investor presentations, earnings calls, delivery/production updates, regulatory filings, agency releases, and official policy documents.
+- Recent news or event coverage when recency matters.
+- Expert, practitioner, or independent analysis.
+- Financial, legal, technical, market, or reference material where relevant.
+- Skeptical, contradictory, or competing-source material.
 
-For important claims, assess evidence quality using:
+For major claims, prefer specific evidence over broad commentary. Surface contradictory evidence instead of smoothing it away. Explain whether the evidence is current enough for a 3-year outlook.
 
-| Criterion | Strong | Weak | Rating |
+Evaluate important evidence using this rubric:
+
+| Criterion | Strong evidence | Weak evidence | Rating |
 | --- | --- | --- | --- |
-| Relevance | Directly supports or challenges the claim | Adjacent, generic, or loosely related | high/medium/low |
-| Specificity | Concrete facts, numbers, examples, or observations | Vague assertions or broad commentary | high/medium/low |
-| Freshness | Current enough for EV market decisions | Stale or undated when timing matters | high/medium/low |
-| Independence | Multiple independent sources or methods | Same source family repeated | high/medium/low |
-| Contradictions | Tensions are surfaced and explained | Contrary evidence is ignored | high/medium/low |
+| Relevance | Directly supports or challenges the claim | Adjacent, generic, or loosely related | high / medium / low |
+| Specificity | Concrete facts, numbers, examples, or observations | Vague assertions or broad commentary | high / medium / low |
+| Freshness | Current enough for EV market, regulation, consumer demand, and competitive dynamics | Stale or undated when timing matters | high / medium / low |
+| Independence | Multiple independent sources or methods | Same source family repeated | high / medium / low |
+| Contradictions | Tensions are surfaced and explained | Contrary evidence is ignored | high / medium / low |
 
-End the evidence assessment with:
+End evidence-sensitive sections with:
 
 - **Evidence grade:** strong / adequate / weak / insufficient.
 - **Main gap:** the missing evidence that most limits confidence.
 - **Decision impact:** whether the evidence is enough to act, wait, or investigate.
 
-## Required Report Structure
+Do not upgrade the evidence grade merely because a conclusion seems plausible.
 
-Deliver a multi-section market research report with clear headings. Each section must:
+## Required report structure
 
-1. State the key finding or recommendation up front.
-2. Provide supporting evidence, reasoning, or clearly labeled assumptions.
-3. Note caveats, risks, contradictions, and open questions.
+Deliver a multi-section report focused on the next **3 years**.
 
-### 1. Executive Takeaway
+### 1. Executive conclusion
 
-Begin with the most important finding about Rivian’s position in electric vehicles over the next 3 years.
+Start with the single most important conclusion about Rivian’s market position in electric vehicles over the next 3 years. Include:
 
-Include:
-- 3–5 concise strategic implications.
-- A brief statement of confidence and evidence status.
-- The simplest plain-language explanation of what is happening and why it matters.
+- One-paragraph bottom line.
+- 3–5 prioritized strategic recommendations.
+- Confidence level and why.
+- The biggest uncertainty that could change the conclusion.
 
 ### 2. Market Overview
 
 Analyze:
-- Current market size and projected growth, including CAGR where credible data is available.
-- 5-year historical trajectory and 3-year forecast outlook.
-- Key inflection points affecting EV adoption, including pricing, charging infrastructure, battery costs, interest rates, residual values, fleet electrification, incentives, and consumer sentiment.
-- Differences between relevant submarkets, especially consumer EVs, electric pickup/SUV segments, commercial vans, fleet sales, charging ecosystem dependencies, and software/services if material.
-- Where Rivian’s products and business model sit within the broader EV market.
 
-For every major market-size or growth claim, provide:
-- source or source type,
-- geography,
-- year,
-- whether the figure is verified, partially verified, or an estimate,
-- confidence level.
+- Current market size and projected growth, including CAGR where available.
+- 5-year historical trajectory and 3-year forecast.
+- Key inflection points affecting electric vehicles and Rivian specifically.
+- Demand drivers, including cost of ownership, charging availability, battery costs, product mix, fleet demand, consumer preferences, macro conditions, and incentives.
+- Headwinds, including affordability, financing rates, charging constraints, supply-chain risks, battery material exposure, competitive pricing pressure, demand elasticity, and policy uncertainty.
 
-### 3. Demand Drivers and Headwinds
+For each quantitative market-size or growth claim, provide the source or state that verification is required.
 
-Cover the main forces that could increase or reduce demand for Rivian and comparable EV offerings.
+### 3. Customer Segmentation
 
-Include at minimum:
-- EV adoption drivers: operating cost, performance, emissions rules, fleet decarbonization, charging availability, incentives, brand positioning, and total cost of ownership.
-- EV adoption headwinds: affordability, charging anxiety, depreciation, insurance/repair costs, battery concerns, policy uncertainty, macroeconomic pressure, high interest rates, and hybrid competition.
-- Rivian-specific drivers and constraints: brand strength, product-market fit, R1 platform, R2/R3 roadmap if relevant, commercial van opportunity, production scale, margin trajectory, service network, charging access, and capital intensity.
-- A clearly labeled assessment of which drivers are most likely to matter over the next 3 years.
+Identify at least 3 distinct customer segments relevant to Rivian. For each segment, describe:
 
-### 4. Customer Segmentation
+| Segment | Need / job-to-be-done | Demographics or firmographics | Buying behavior | Willingness to pay | Unmet needs | Rivian fit | Evidence grade |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 
-Identify at least 3 distinct customer segments. For each segment, describe:
+Include both consumer and commercial/fleet opportunities where relevant. Distinguish current addressable demand from aspirational or future demand.
 
-| Segment | Needs and jobs-to-be-done | Buying behavior | Willingness to pay | Rivian fit | Key unmet needs | Evidence/confidence |
-| --- | --- | --- | --- | --- | --- | --- |
+### 4. Regulatory Landscape
 
-Consider segments such as:
-- premium adventure-oriented consumers,
-- EV pickup/SUV buyers,
-- environmentally motivated households,
-- technology-forward early adopters,
-- commercial and fleet customers,
-- delivery/logistics operators,
-- prospective mass-market buyers for lower-priced models.
+Analyze current and upcoming regulation affecting Rivian’s market entry, expansion, pricing, sourcing, production, and demand. Cover:
 
-For each segment, include:
-- demographic or firmographic profile where supportable,
-- main purchase triggers,
-- key objections,
-- price sensitivity,
-- likely competitive alternatives,
-- strongest unmet need Rivian could address.
+- Federal, state, and local EV incentives where material.
+- Battery sourcing, domestic content, tax-credit eligibility, and trade-policy exposure.
+- Emissions rules, fuel-economy standards, charging infrastructure policy, safety requirements, and autonomous/driver-assistance rules where relevant.
+- Pending legislation, agency rulemaking, or policy changes that could affect the next 3 years.
+- Compliance requirements and strategic implications for Rivian.
 
-### 5. Regulatory Landscape
+State what is confirmed, what is pending, and what requires current legal or policy verification.
 
-Analyze the regulatory environment and upcoming policy changes affecting Rivian and the EV market.
-
-Include:
-- federal and state EV incentives, eligibility constraints, battery sourcing rules, and consumer tax-credit implications;
-- emissions rules, ZEV mandates, fleet electrification requirements, and fuel-economy standards;
-- charging infrastructure policy and public funding;
-- safety, recall, autonomous/ADAS, data, and software-update considerations where relevant;
-- trade, tariffs, battery materials, domestic manufacturing, and supply-chain policy;
-- policy uncertainty and how changes could alter demand, margins, or competitive position.
-
-For each major policy item, identify:
-- jurisdiction,
-- named rule/program/agency where known,
-- timing,
-- direct impact on Rivian,
-- whether impact is positive, negative, mixed, or uncertain,
-- confidence.
-
-### 6. Competitive Landscape
+### 5. Competitive Landscape
 
 Identify the top 5 direct competitors to Rivian in the electric vehicles market. For each competitor, analyze:
 
-1. Market share or relative position, estimating only when exact data is unavailable and clearly labeling the estimate.
+1. Market share, estimating only when exact data is unavailable and labeling the estimate.
 2. Core value proposition and differentiation.
-3. Recent strategic moves, including M&A, product launches, partnerships, manufacturing changes, charging access, pricing actions, or software/service moves.
+3. Recent strategic moves, including M&A, product launches, pricing changes, partnerships, manufacturing expansions, charging alliances, or fleet contracts.
 4. Key vulnerabilities that Rivian could exploit.
-5. Key strengths that threaten Rivian.
-
-Use competitors most relevant to Rivian’s product categories and strategic position. Consider, where applicable, Tesla, Ford, General Motors, Hyundai/Kia, Mercedes-Benz, BMW, Volkswagen/Scout, Lucid, and relevant commercial EV or fleet competitors. Justify the final top 5 selection.
+5. Evidence grade and confidence level.
 
 Conclude with a positioning map plotting competitors on two axes:
 
-- **Price:** low → premium
-- **Innovation:** incremental → disruptive
+- **Price:** low → premium.
+- **Innovation:** incremental → disruptive.
 
-If a visual chart cannot be drawn, provide a text-based positioning map or table.
+If a visual chart cannot be rendered, provide a clear text table with coordinates or quadrant placement and explain the placement logic.
 
-### 7. SWOT Analysis
+### 6. SWOT Analysis
 
-Provide a SWOT analysis for Rivian. Each point must be supported by at least one data point, source reference, reported fact, or explicitly labeled assumption.
+Provide a SWOT analysis for Rivian. Each strength, weakness, opportunity, and threat must be supported by at least one data point, citation, or explicitly labeled assumption.
 
-| Category | Point | Evidence or basis | Counterpoint / caveat | Confidence |
+| Category | Point | Evidence or basis | Confidence | Counterpoint / caveat |
 | --- | --- | --- | --- | --- |
 | Strength |  |  |  |  |
 | Weakness |  |  |  |  |
 | Opportunity |  |  |  |  |
 | Threat |  |  |  |  |
 
-Do not include generic SWOT items unless they are concretely tied to Rivian and the EV market over the next 3 years.
+### 7. Strategic Recommendations
 
-### 8. Explainability and Reasoning Chain
+Provide a prioritized list of 3–5 actions for Rivian over the next 3 years. For each recommendation, include:
 
-Show how the main conclusion was reached:
+| Priority | Recommendation | Rationale | Expected impact | Implementation difficulty | Key risks | Evidence grade | First next step |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+Use implementation difficulty values exactly as **high / medium / low**. Recommendations must follow from the evidence and address the strongest risks or opportunities identified earlier.
+
+### 8. Explainability and reasoning trace
+
+Start with the conclusion, then show the reasoning chain:
 
 | Step | Claim or inference | Evidence or basis | Confidence |
 | --- | --- | --- | --- |
-| 1 |  |  | low/medium/high |
+| 1 |  |  | low / medium / high |
 
 Then include:
 
 - **Key assumptions:** assumptions the conclusion depends on.
-- **Checks performed:** calculations, comparisons, source checks, or reasonableness tests actually used.
-- **Limits:** what remains uncertain, unverified, or outside scope.
-- **Simplest explanation:** a concise non-specialist version of the answer.
+- **Checks performed:** calculations, comparisons, source checks, or consistency checks actually used.
+- **Limits:** what remains uncertain, unverified, stale, or outside scope.
+- **Simplest explanation:** a plain-language version a non-specialist can inspect quickly.
 
-### 9. Strategic Recommendations
+### 9. Research gaps and next searches
 
-Provide a prioritized list of 3–5 actions for Rivian.
+If evidence is thin, stale, contradictory, or unavailable, list the highest-value next searches or documents. Include targeted queries or source types, such as company filings, production/delivery updates, registration data, pricing trackers, policy documents, charging-network announcements, fleet-contract databases, and competitor earnings commentary.
 
-For each recommendation include:
+## News and recency quality requirements
 
-| Priority | Recommendation | Rationale | Expected impact | Implementation difficulty | Evidence grade | Key risk | First next step |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+When using news-derived information:
 
-Use **high / medium / low** for expected impact and implementation difficulty.
+- Select the most relevant facts for the market-research decision, not an exhaustive news digest.
+- Include relevant historical context, timelines, and comparisons so the reader understands what changed and why it matters now.
+- Avoid clickbait, sensationalism, outrage framing, or inflated uncertainty.
+- Cover relevant stakeholder viewpoints, including customers, competitors, regulators, investors, suppliers, dealers/retail channels where applicable, and critics.
+- Explain whether a development is routine, unusual, or historically notable.
 
-Recommendations should be concrete and decision-useful, not generic. Tie each one to:
-- market conditions,
-- customer segment needs,
-- regulatory changes,
-- competitive gaps,
-- Rivian’s strengths and constraints,
-- 3-year feasibility.
+## Final answer expectations
 
-### 10. Research Status and Next Evidence
-
-Close with a research-quality summary:
-
-| Field | Content |
-| --- | --- |
-| Research status | verified / partially verified / unverified / research plan only |
-| Source mix | source families used or needed |
-| Strongest evidence | facts or sources that most support the conclusion |
-| Contradictions | evidence that challenges or complicates the conclusion |
-| Confidence | low / medium / high and why |
-| Next searches | targeted queries or source types that would improve confidence |
-
-Include the highest-value next searches or documents if evidence is thin, stale, or unavailable.
+The final report should be professional, direct, and decision-useful. Use clear headings, concise tables where they improve readability, and transparent caveats where evidence is incomplete. Every major recommendation must be traceable to evidence, assumptions, and stated confidence.

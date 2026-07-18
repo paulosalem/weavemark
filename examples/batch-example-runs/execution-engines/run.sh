@@ -6,7 +6,8 @@ mkdir -p \
   examples/batch-example-runs/execution-engines/outputs/tree-of-thought-solver \
   examples/batch-example-runs/execution-engines/outputs/self-consistency-solver \
   examples/batch-example-runs/execution-engines/outputs/reflection-writer \
-  examples/batch-example-runs/execution-engines/outputs/self-consistency-solver-json
+  examples/batch-example-runs/execution-engines/outputs/self-consistency-solver-json \
+  examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-ai-news
 
 section() {
   printf '\n\n%s\n' "================================================================================"
@@ -21,6 +22,7 @@ artifact_summary() {
     examples/batch-example-runs/execution-engines/outputs/self-consistency-solver \
     examples/batch-example-runs/execution-engines/outputs/reflection-writer \
     examples/batch-example-runs/execution-engines/outputs/self-consistency-solver-json \
+    examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-ai-news \
     -type f | sort | sed 's#^#- #'
 }
 
@@ -104,6 +106,18 @@ weavemark library builtin:catalog/executable/self-consistency-solver \
   --show-output \
   --no-file-summary \
   --trace-output examples/batch-example-runs/execution-engines/outputs/self-consistency-solver-json/execution-trace.md \
+  --verbose
+
+# Bound tools: the regular CLI runs a model-directed search/crawl loop.
+# This automated runner disables prompts only for this trusted checked-in promplet.
+section "Recurring topic monitor: native bound-tool execution"
+weavemark library builtin:catalog/executable/recurring-topic-monitor \
+  --vars-file examples/batch-example-runs/execution-engines/inputs/recurring-topic-monitor-ai-news.json \
+  --run \
+  --no-protections \
+  --output examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-ai-news/execution-output.md \
+  --no-file-summary \
+  --trace-output examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-ai-news/execution-trace.md \
   --verbose
 
 artifact_summary

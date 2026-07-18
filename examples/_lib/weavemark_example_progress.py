@@ -13,6 +13,12 @@ def weavemark_verbose_event(event_type: str, data: dict[str, Any]) -> None:
         print(f"[promplet] {message}", file=sys.stderr, flush=True)
 
 
+def normalize_generated_markdown(text: str) -> str:
+    """Return generated Markdown without changing its final-newline shape."""
+
+    return "\n".join(line.rstrip(" \t\r") for line in text.split("\n"))
+
+
 def _format_event(event_type: str, data: dict[str, Any]) -> str:
     if event_type == "composing":
         return (
@@ -40,7 +46,11 @@ def _format_event(event_type: str, data: dict[str, Any]) -> str:
     if event_type == "compile_effect_round":
         remaining_iterates = data.get("remaining_iterate_count")
         remaining_asks = data.get("remaining_ask_count")
-        remaining = remaining_iterates if remaining_iterates is not None else remaining_asks
+        remaining = (
+            remaining_iterates
+            if remaining_iterates is not None
+            else remaining_asks
+        )
         return (
             f"completed compile-effect round {data.get('completed_round')}; "
             f"remaining effects: {remaining}"

@@ -12,7 +12,14 @@
 ```json
 {
   "rounds_used": 2,
-  "satisfied": true
+  "satisfied": true,
+  "call_settings": {
+    "model": "gpt-5.5",
+    "modality": "text",
+    "prompt_key": "default",
+    "stage": "default",
+    "model_source": "runtime.model"
+  }
 }
 ```
 
@@ -24,21 +31,21 @@
 - Response:
 
 ```markdown
-## How Containerization (Docker) Works and Why Developers Use It
+Containerization is a way to package an application together with everything it needs to run: code, runtime, libraries, command-line tools, and configuration. Docker is the most common tool used to create and run containers.
 
-Containerization is a way to package an application together with everything it needs to run: code, runtime, libraries, tools, and configuration. Docker is the most common tool used for this. Instead of installing an app directly on your computer or server, you run it inside a **container**, which is an isolated environment that behaves like a small, self-contained system.
+A **container** is an isolated process on a computer. “Isolated” means it has its own view of files, environment variables, and installed dependencies, even though it shares the host machine’s operating system kernel. The **kernel** is the core part of the operating system that manages CPU, memory, files, and networking.
 
-A helpful comparison is a shipping container. Goods inside can vary, but every container has the same standard shape, so ships, trucks, and cranes can handle it easily. Docker containers work similarly: once your app is packaged, it can run in the same way on a laptop, test server, or cloud platform.
+Imagine you build a Node.js app that requires Node 20, a specific version of `npm`, and certain system libraries. On your laptop, it works. But on a teammate’s laptop, it fails because they have Node 18 installed. On a server, it fails again because a required library is missing. Docker solves this by letting you define the environment once.
 
-Docker uses an **image** as the blueprint for a container. An image is a read-only package that describes what should be inside the container. For example, a Node.js web app image might include Linux basics, Node.js, npm packages, and the app’s source code. When you start the image, Docker creates a running container from it.
+A Docker setup usually starts with a **Dockerfile**, which is a text file containing instructions for building an **image**. An image is like a snapshot or blueprint for your app environment. For example, a Dockerfile might say: start from a Node 20 base image, copy the app files, install dependencies, and run `npm start`.
 
-Developers usually define images with a **Dockerfile**, which is a text file containing step-by-step instructions. For example, it might say: “start from a Node.js image, copy my app files, install dependencies, and run `npm start`.”
+When you run an image, Docker creates a container. You can run the same image on your laptop, in a test environment, or on a production server, and it should behave the same way.
 
-Developers use Docker because it solves the classic “it works on my machine” problem. If everyone runs the same container image, they get the same environment. Docker also makes setup faster. Instead of manually installing PostgreSQL, Redis, or a specific language version, a developer can start containers with a command.
+Developers use Docker because it reduces “works on my machine” problems. It also makes onboarding easier: instead of installing many tools manually, a new developer can run a few Docker commands. Docker is also useful for running supporting services, such as databases. For example, you can start PostgreSQL in a container without installing PostgreSQL directly on your computer.
 
-Containers are also useful for deployment. A team can test the exact same container that later runs in production, reducing surprises. Containers are lighter than full virtual machines because they share the host operating system rather than including a complete one for every app.
+Containers are different from virtual machines. A virtual machine includes a full operating system, which makes it heavier. Containers share the host OS kernel, so they usually start faster and use fewer resources.
 
-**Key takeaways:** Docker packages apps with their dependencies, runs them in isolated containers, improves consistency across environments, speeds up setup, and makes deployment more reliable.
+**Key takeaways:** Docker packages apps with their dependencies, runs them in isolated containers, improves consistency across machines, simplifies setup, and helps developers run services reliably.
 ```
 
 ### 2. critique_0
@@ -56,7 +63,7 @@ Containers are also useful for deployment. A team can test the exact same contai
 - Response:
 
 ```markdown
-{"is_satisfied":false,"issues":["The draft appears to be under the requested 400–600 word range, so it does not meet the specified length requirement."]}
+{"is_satisfied":false,"issues":["The draft is under the requested 400–600 word range at roughly 350 words. It needs about 50–100 additional words while remaining concise. A good place to expand would be a brief explanation of images vs. containers, or a short note that containers are disposable and data/services may need volumes or configuration."]}
 ```
 
 ### 3. revise_0
@@ -72,25 +79,25 @@ Containers are also useful for deployment. A team can test the exact same contai
 - Response:
 
 ```markdown
-## How Containerization (Docker) Works and Why Developers Use It
+Containerization is a way to package an application together with everything it needs to run: code, runtime, libraries, command-line tools, and configuration. Docker is the most common tool developers use to create and run containers.
 
-Containerization is a way to package an application together with everything it needs to run: its code, runtime, libraries, tools, and configuration. Docker is the most common tool used for this. Instead of installing an app directly on your computer or server, you run it inside a **container**, which is an isolated environment that behaves like a small, self-contained system.
+A **container** is an isolated process on a computer. “Isolated” means it has its own view of files, environment variables, installed dependencies, and network settings, even though it shares the host machine’s operating system kernel. The **kernel** is the core part of the operating system that manages CPU, memory, files, and networking.
 
-A helpful comparison is a shipping container. Goods inside shipping containers can vary, but every container has the same standard shape, so ships, trucks, and cranes can handle them easily. Docker containers work similarly: once your app is packaged, it can run in the same way on a developer’s laptop, a test server, or a cloud platform.
+Imagine you build a Node.js app that requires Node 20, a specific version of `npm`, and certain system libraries. On your laptop, it works. But on a teammate’s laptop, it fails because they have Node 18 installed. On a server, it fails again because a required library is missing. Docker helps solve this by letting you define the environment once and run it consistently in different places.
 
-The main building block in Docker is an **image**. An image is a read-only package that acts like a blueprint for a container. It contains the files and instructions needed to create a running environment. For example, an image for a Node.js web app might include a small Linux base, Node.js, npm packages, and the app’s source code. When you start an image, Docker creates a running **container** from it.
+A Docker setup usually starts with a **Dockerfile**, which is a text file containing instructions for building an **image**. For example, a Dockerfile might say: start from a Node 20 base image, copy the app files, install dependencies, expose a port, and run `npm start`.
 
-Developers usually define images with a **Dockerfile**. A Dockerfile is a text file containing step-by-step instructions for building the image. For example, it might say: start from an official Node.js image, copy the app files into the image, install dependencies, expose a port, and run `npm start`. Because these steps are written down, the environment can be rebuilt consistently instead of relying on someone’s memory or a long setup document.
+An **image** is like a blueprint or template. It does not change while it is sitting on your machine. A **container** is a running instance of that image. This is similar to the difference between a class and an object in programming: the image defines what should exist, and the container is the actual running thing. You can start multiple containers from the same image if needed.
 
-Developers use Docker because it helps solve the classic “it works on my machine” problem. Without containers, one developer might have Node.js 18, another might have Node.js 20, and the production server might have different system libraries installed. These small differences can cause bugs that are hard to reproduce. With Docker, the team can agree on one image and run the app in the same environment everywhere.
+When you run an image, Docker creates a container. You can run the same image on your laptop, in a test environment, or on a production server, and it should behave the same way, assuming the needed configuration is provided.
 
-Docker also makes setup faster. Instead of manually installing services like PostgreSQL, Redis, or a specific language version, developers can start containers with simple commands. This is especially useful when joining a new project. Rather than spending hours configuring a machine, a new developer can run the provided Docker setup and begin working much sooner.
+Developers use Docker because it reduces “works on my machine” problems. It also makes onboarding easier: instead of installing many tools manually, a new developer can run a few Docker commands and get the same environment as the rest of the team. Docker is also useful for running supporting services, such as databases, caches, or message queues. For example, you can start PostgreSQL in a container without installing PostgreSQL directly on your computer.
 
-Containers are also useful for deployment. A team can test the exact same container image that later runs in production, which reduces surprises. If the container works in testing, there is a better chance it will behave the same way after release.
+Containers are meant to be easy to create, stop, remove, and recreate. Because of this, you usually should not treat a container itself as the permanent place to store important data. For things like database files, Docker can use **volumes**, which store data outside the container so it can survive when the container is replaced.
 
-Containers are lighter than full virtual machines because they share the host operating system instead of including a complete operating system for every app. This usually makes them faster to start and easier to run in larger numbers.
+Containers are different from virtual machines. A virtual machine includes a full operating system, which makes it heavier. Containers share the host OS kernel, so they usually start faster and use fewer resources.
 
-**Key takeaways:** Docker packages apps with their dependencies, runs them in isolated containers, improves consistency across environments, speeds up setup, and makes deployment more reliable.
+**Key takeaways:** Docker packages apps with their dependencies, runs them in isolated containers, improves consistency across machines, simplifies setup, and helps developers run services reliably.
 ```
 
 ### 4. critique_1
@@ -131,23 +138,23 @@ Stopped at round 1: critique satisfied.
 ## Final output
 
 ```markdown
-## How Containerization (Docker) Works and Why Developers Use It
+Containerization is a way to package an application together with everything it needs to run: code, runtime, libraries, command-line tools, and configuration. Docker is the most common tool developers use to create and run containers.
 
-Containerization is a way to package an application together with everything it needs to run: its code, runtime, libraries, tools, and configuration. Docker is the most common tool used for this. Instead of installing an app directly on your computer or server, you run it inside a **container**, which is an isolated environment that behaves like a small, self-contained system.
+A **container** is an isolated process on a computer. “Isolated” means it has its own view of files, environment variables, installed dependencies, and network settings, even though it shares the host machine’s operating system kernel. The **kernel** is the core part of the operating system that manages CPU, memory, files, and networking.
 
-A helpful comparison is a shipping container. Goods inside shipping containers can vary, but every container has the same standard shape, so ships, trucks, and cranes can handle them easily. Docker containers work similarly: once your app is packaged, it can run in the same way on a developer’s laptop, a test server, or a cloud platform.
+Imagine you build a Node.js app that requires Node 20, a specific version of `npm`, and certain system libraries. On your laptop, it works. But on a teammate’s laptop, it fails because they have Node 18 installed. On a server, it fails again because a required library is missing. Docker helps solve this by letting you define the environment once and run it consistently in different places.
 
-The main building block in Docker is an **image**. An image is a read-only package that acts like a blueprint for a container. It contains the files and instructions needed to create a running environment. For example, an image for a Node.js web app might include a small Linux base, Node.js, npm packages, and the app’s source code. When you start an image, Docker creates a running **container** from it.
+A Docker setup usually starts with a **Dockerfile**, which is a text file containing instructions for building an **image**. For example, a Dockerfile might say: start from a Node 20 base image, copy the app files, install dependencies, expose a port, and run `npm start`.
 
-Developers usually define images with a **Dockerfile**. A Dockerfile is a text file containing step-by-step instructions for building the image. For example, it might say: start from an official Node.js image, copy the app files into the image, install dependencies, expose a port, and run `npm start`. Because these steps are written down, the environment can be rebuilt consistently instead of relying on someone’s memory or a long setup document.
+An **image** is like a blueprint or template. It does not change while it is sitting on your machine. A **container** is a running instance of that image. This is similar to the difference between a class and an object in programming: the image defines what should exist, and the container is the actual running thing. You can start multiple containers from the same image if needed.
 
-Developers use Docker because it helps solve the classic “it works on my machine” problem. Without containers, one developer might have Node.js 18, another might have Node.js 20, and the production server might have different system libraries installed. These small differences can cause bugs that are hard to reproduce. With Docker, the team can agree on one image and run the app in the same environment everywhere.
+When you run an image, Docker creates a container. You can run the same image on your laptop, in a test environment, or on a production server, and it should behave the same way, assuming the needed configuration is provided.
 
-Docker also makes setup faster. Instead of manually installing services like PostgreSQL, Redis, or a specific language version, developers can start containers with simple commands. This is especially useful when joining a new project. Rather than spending hours configuring a machine, a new developer can run the provided Docker setup and begin working much sooner.
+Developers use Docker because it reduces “works on my machine” problems. It also makes onboarding easier: instead of installing many tools manually, a new developer can run a few Docker commands and get the same environment as the rest of the team. Docker is also useful for running supporting services, such as databases, caches, or message queues. For example, you can start PostgreSQL in a container without installing PostgreSQL directly on your computer.
 
-Containers are also useful for deployment. A team can test the exact same container image that later runs in production, which reduces surprises. If the container works in testing, there is a better chance it will behave the same way after release.
+Containers are meant to be easy to create, stop, remove, and recreate. Because of this, you usually should not treat a container itself as the permanent place to store important data. For things like database files, Docker can use **volumes**, which store data outside the container so it can survive when the container is replaced.
 
-Containers are lighter than full virtual machines because they share the host operating system instead of including a complete operating system for every app. This usually makes them faster to start and easier to run in larger numbers.
+Containers are different from virtual machines. A virtual machine includes a full operating system, which makes it heavier. Containers share the host OS kernel, so they usually start faster and use fewer resources.
 
-**Key takeaways:** Docker packages apps with their dependencies, runs them in isolated containers, improves consistency across environments, speeds up setup, and makes deployment more reliable.
+**Key takeaways:** Docker packages apps with their dependencies, runs them in isolated containers, improves consistency across machines, simplifies setup, and helps developers run services reliably.
 ```

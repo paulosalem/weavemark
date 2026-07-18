@@ -1,12 +1,15 @@
 # Changelog
 
-## Unreleased
+## 0.9.0
 
 ### Added
 
 - JSON, YAML, and YML input-variable files with strict object and duplicate-key
   validation.
 - Repository-wide Markdown rendering and local-link hygiene checks.
+- A safe, idempotent local installer for the bundled VS Code extension, with
+  VS Code/Insiders/VSCodium detection, atomic copy or development-link modes,
+  conflict protection, verification, and uninstall support.
 
 ### Changed
 
@@ -14,11 +17,46 @@
   `@execute`; redundant catalog runtime sidecars were removed.
 - Runtime config is reserved for explicit provider, policy, and host overrides.
   Promplet input data belongs in `--vars-file` or `--var`.
+- The programming library now focuses on the maintained local-first
+  TypeScript/Next.js/Prisma/SQLite stack. Unsupported Rust/Bevy, Android/Kotlin,
+  PostgreSQL, and generic SaaS fragments and their niche catalog examples were
+  removed.
+- The passive-income software example is now a local-first planning dashboard.
+- Added a news intelligence board that reuses the workflow-board module family
+  for durable event memory and material-update deduplication.
+- Removed unused generic writing and product-metaphor fragments while retaining
+  the decision, teaching, release, game-design, and work-intelligence layers
+  exercised by controlled studies.
+- Moved the household financial-resilience lens into the finance domain and made
+  the news board reuse the study-backed topic-intelligence monitor.
+- Generalized notifications beyond their former finance-specific examples,
+  added finance-safety boundaries to CompoundVision, and repaired controlled
+  game-study sources that referenced removed programming fragments.
+- The recurring news/events monitor now runs through the regular
+  `weavemark ... --run` path. Its promplet owns query planning, source
+  selection, crawling, ranking, deduplication, history comparison, and
+  synthesis; Python is limited to thin search/news/crawl bindings.
+- Single-call executables can now run matching `@tool`/`@bind` implementations
+  natively with explicit iteration and total tool-call budgets.
+- `@embed folder:` loads a bounded folder of Markdown reports, enabling
+  `@summarize`-based memory for recurring workflows.
+- Reflection-engine runtime values are no longer misclassified as missing user
+  inputs during batch preflight.
+- Compiler binding metadata is canonicalized across valid wire-name variants,
+  and one bounded protocol-repair retry handles malformed semantic-compiler JSON.
+- Markdown persistence normalizes trailing whitespace across CLI, Python, and
+  collaborative example artifacts.
 
 ### Fixed
 
 - GitHub README rendering around Quickstart protections and command examples.
 - Nested Markdown fences in generated execution traces.
+- Ambiguous short names for public library targets and stale pre-module paths in
+  catalog notes.
+- Broken comic reference-image paths and Python examples that depended on a
+  sibling source checkout instead of installed dependencies.
+- Dashboard guidance now prioritizes decisions, evidence, freshness, quiet and
+  attention states, and error/offline behavior rather than generic chart density.
 
 ## 0.8.0
 

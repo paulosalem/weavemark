@@ -11,6 +11,7 @@ mkdir -p \
   examples/batch-example-runs/static-prompts/outputs/multi-persona-debate \
   examples/batch-example-runs/static-prompts/outputs/prompt-refactoring-pipeline \
   examples/batch-example-runs/static-prompts/outputs/support-ticket-prompt-pack \
+  examples/batch-example-runs/static-prompts/outputs/news-intelligence-board \
   examples/batch-example-runs/static-prompts/outputs/creative-ideation-scamper \
   examples/batch-example-runs/static-prompts/outputs/creative-ideation-six-hats \
   examples/batch-example-runs/static-prompts/outputs/creative-ideation-reverse
@@ -32,6 +33,7 @@ artifact_summary() {
     examples/batch-example-runs/static-prompts/outputs/multi-persona-debate \
     examples/batch-example-runs/static-prompts/outputs/prompt-refactoring-pipeline \
     examples/batch-example-runs/static-prompts/outputs/support-ticket-prompt-pack \
+    examples/batch-example-runs/static-prompts/outputs/news-intelligence-board \
     examples/batch-example-runs/static-prompts/outputs/creative-ideation-scamper \
     examples/batch-example-runs/static-prompts/outputs/creative-ideation-six-hats \
     examples/batch-example-runs/static-prompts/outputs/creative-ideation-reverse \
@@ -110,8 +112,17 @@ weavemark library builtin:catalog/standalone/support-ticket-prompt-pack \
   --no-file-summary \
   --batch-only --verbose
 
-# 9. Semantic @refine mingling: one ideation spec, three reusable methods.
-section "9a. Semantic @refine mingling: SCAMPER"
+# 9. Large-scale module reuse: local memory, workflow board, and AI judgment.
+section "9. News intelligence board: web ingestion plus durable event memory"
+weavemark library builtin:catalog/standalone/news-intelligence-board \
+  --vars-file examples/batch-example-runs/static-prompts/inputs/news-intelligence-board.yaml \
+  --output examples/batch-example-runs/static-prompts/outputs/news-intelligence-board/compiled-prompt.md \
+  --show-output \
+  --no-file-summary \
+  --batch-only --verbose
+
+# 10. Semantic @refine mingling: one ideation spec, three reusable methods.
+section "10a. Semantic @refine mingling: SCAMPER"
 weavemark library builtin:catalog/standalone/creative-ideation \
   --vars-file examples/batch-example-runs/static-prompts/inputs/creative-ideation-scamper.json \
   --output examples/batch-example-runs/static-prompts/outputs/creative-ideation-scamper/compiled-prompt.md \
@@ -119,7 +130,7 @@ weavemark library builtin:catalog/standalone/creative-ideation \
   --no-file-summary \
   --batch-only --verbose
 
-section "9b. Semantic @refine mingling: Six Thinking Hats"
+section "10b. Semantic @refine mingling: Six Thinking Hats"
 weavemark library builtin:catalog/standalone/creative-ideation \
   --vars-file examples/batch-example-runs/static-prompts/inputs/creative-ideation-six-hats.json \
   --output examples/batch-example-runs/static-prompts/outputs/creative-ideation-six-hats/compiled-prompt.md \
@@ -127,7 +138,7 @@ weavemark library builtin:catalog/standalone/creative-ideation \
   --no-file-summary \
   --batch-only --verbose
 
-section "9c. Semantic @refine mingling: Reverse Brainstorming"
+section "10c. Semantic @refine mingling: Reverse Brainstorming"
 weavemark library builtin:catalog/standalone/creative-ideation \
   --vars-file examples/batch-example-runs/static-prompts/inputs/creative-ideation-reverse.json \
   --output examples/batch-example-runs/static-prompts/outputs/creative-ideation-reverse/compiled-prompt.md \

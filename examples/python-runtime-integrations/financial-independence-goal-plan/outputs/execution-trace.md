@@ -10,11 +10,7 @@
 ```markdown
 # Executable Financial Independence Goal Planner
 
-Turn one plain-language personal-finance goal into a practical, educational decision-support plan. Treat the result as planning support, not regulated financial, legal, tax, accounting, investment, brokerage, or fiduciary advice. Do not guarantee returns, rates, tax outcomes, benefit eligibility, risk reductions, or that financial independence will be achieved.
-
-Use the public-assumptions execution result as planning context only. The user must verify any current limits, rates, tax rules, benefits, source dates, eligibility rules, and professional implications before acting. Do not request private account uploads, transaction files, identity data, portfolio statements, or credentials.
-
-## Goal inputs
+Turn one plain-language personal-finance goal into a practical, educational decision-support plan. Do not present the result as regulated financial, legal, tax, accounting, brokerage, or fiduciary advice.
 
 - Goal: Reach financial independence while keeping work optional, not necessarily retiring early
 - Domain: personal finance
@@ -22,89 +18,58 @@ Use the public-assumptions execution result as planning context only. The user m
 - Horizon: 15 years
 - Starting point: I have a steady income, save irregularly, and want a simple plan I can review monthly.
 - Constraints: Avoid extreme frugality, avoid private-data uploads, keep the first actions simple, and treat all public assumptions as facts to verify.
-- Assumption source: public assumptions retrieved at execution time from public reference sources for the goal, domain, country, and horizon.
+- Public assumptions context: use the `public_assumptions` execution result from the public-reference lookup as planning context only. If that source is incomplete, stale, ambiguous, conflicting, or unavailable, say so and list what the user must verify before acting.
 
-## Safety and evidence rules
+## Finance safety and evidence rules
 
-- Separate supplied inputs, public retrieved assumptions, deterministic calculations, estimates, unknowns, interpretation, and suggested options.
-- Prefer verified source data over memory. If public assumptions are missing, stale, ambiguous, conflicting, or incomplete, say so plainly and avoid inventing values.
-- Surface downside risks and tradeoffs before action-oriented suggestions.
-- Frame actions as options and planning steps, not commands.
-- Recommend checking an appropriate fiduciary financial planner, tax professional, legal professional, accountant, benefits administrator, or official government source when tax, benefits, legal, retirement-account, insurance, estate, or high-stakes decisions could materially change the plan.
-- If missing goals, liquidity needs, debt details, household obligations, risk tolerance, income stability, or tax context would change the recommendation, list the focused questions or data points the user should answer; do not pretend missing data is known.
-- For any calculations or numeric targets, verify units, time periods, rates, inflation assumptions, currencies, contribution timing, tax treatment, and cash-flow timing before reporting. Treat calculator-style results as consequences of stated assumptions, not recommendations by themselves.
+- Treat the plan as educational analysis and decision support, not as personalized regulated advice.
+- Do not guarantee returns, prices, yields, forecasts, tax outcomes, benefits, account limits, risk reductions, or independence dates.
+- Prefer verified public source data over memory. When data is missing, stale, ambiguous, or conflicting, disclose the limitation and do not invent values.
+- Surface downside risks and trade-offs before action-oriented suggestions.
+- Separate supplied inputs, public/retrieved assumptions, deterministic calculations, estimates, interpretation, unknowns, and suggested options.
+- Frame actions as options and planning steps rather than commands.
+- Suggest checking qualified fiduciary, tax, legal, accounting, or benefits professionals when the decision depends on tax treatment, retirement-account rules, benefits eligibility, estate/legal issues, or high-stakes trade-offs.
+- Ask the user to verify current limits, rates, tax rules, benefits, and account-specific constraints before acting.
+- Do not request private account uploads, transaction histories, brokerage credentials, identity documents, or other sensitive financial records.
+- For any calculation-like statement, verify units, signs, rates, periods, currencies, contribution timing, inflation assumptions, tax treatment, and cash-flow timing before relying on the result.
 
 ## Planning method
 
-First state explicit assumptions. If the public assumption source is incomplete, stale, or unavailable, say what the user must verify before acting.
+First state explicit assumptions. If public assumptions are incomplete or stale, state what the user must verify before acting.
 
-### 1. Define the finish line
+### Define the finish line
 
-Purpose: translate the goal into observable success criteria.
+Purpose: Translate the goal into observable success criteria.
 
-Requirements:
-- Define one measurable financial-independence target, one target date or horizon, and one review trigger.
-- Make clear that “work optional” means the plan should support choice and resilience, not necessarily early retirement.
-- Use ranges or formulas when exact values require private data the user has not provided.
-- Identify what must be verified before any target can be treated as reliable.
+Done when: The plan has one measurable target, one date or horizon, and one review trigger. The target may be expressed as an estimate or range when the available information does not justify a precise number.
 
-Done when: the plan has one measurable target, one date or horizon, and one review trigger.
+### Map the current state
 
-### 2. Map the current state
+Purpose: Separate facts, estimates, unknowns, and constraints before recommending action.
 
-Purpose: separate facts, estimates, unknowns, and constraints before recommending action.
+Done when: The plan lists the user's current resources, gaps, and unknowns without pretending missing data is known.
 
-Requirements:
-- List supplied facts from the user.
-- List reasonable planning estimates separately from facts.
-- List unknowns that materially affect the plan, such as income, expenses, current savings, debt, emergency fund, tax bracket, employer benefits, insurance needs, dependents, and risk tolerance.
-- Respect the constraint to avoid private-data uploads; suggest user-kept summaries instead of account files.
-- Do not infer hidden account balances, returns, contribution limits, tax outcomes, benefit eligibility, or expenses.
+### Build the milestone ladder
 
-Done when: the plan lists the user's current resources, gaps, and unknowns without pretending missing data is known.
+Purpose: Turn a distant goal into near, middle, and long-horizon milestones.
 
-### 3. Build the milestone ladder
+Done when: The plan has first-week, first-month, quarterly, and horizon-level milestones.
 
-Purpose: turn the 15-year goal into near-, middle-, and long-horizon milestones.
+### Choose the next action set
 
-Requirements:
-- Include first-week, first-month, quarterly, annual, and horizon-level milestones.
-- Connect each milestone to observable behavior or a measurable planning metric.
-- Keep the ladder compatible with simple monthly review and non-extreme frugality.
-- Name the assumptions each milestone depends on and what would require revision.
+Purpose: Make the first move concrete enough to do without another planning session.
 
-Done when: the plan has first-week, first-month, quarterly, and horizon-level milestones.
+Done when: The plan names 3-5 first-month actions, their order, and why each comes first.
 
-### 4. Choose the next action set
+### Install the review loop
 
-Purpose: make the first move concrete enough to do without another planning session.
+Purpose: Keep the plan alive as conditions change.
 
-Requirements:
-- Name 3-5 first-month actions.
-- Put actions in a practical order.
-- Explain why each action comes first.
-- Keep actions simple, low-friction, and consistent with avoiding extreme frugality.
-- Present actions as options the user can adapt after verifying assumptions.
-- Mention downside risks, opportunity costs, and safeguards before or alongside action suggestions.
-
-Done when: the plan names 3-5 first-month actions, their order, and why each comes first.
-
-### 5. Install the review loop
-
-Purpose: keep the plan alive as conditions change.
-
-Requirements:
-- Use a lightweight monthly review cadence.
-- Include metrics to check, such as savings rate, emergency-fund coverage, debt progress, contribution consistency, spending categories, insurance/benefits checkpoints, and progress toward the financial-independence target.
-- Include conditions for revising the strategy, such as income change, household change, health/insurance change, major debt change, tax-law or benefit-rule change, market volatility, inflation assumptions changing, or discovery that a public assumption was stale.
-- Avoid treating technical indicators, market forecasts, or historical averages as guarantees.
-
-Done when: the plan includes a lightweight cadence, metrics to check, and conditions for revising the strategy.
+Done when: The plan includes a lightweight cadence, metrics to check, and conditions for revising the strategy.
 
 ## Required output
 
 Return exactly these sections:
-
 1. Goal profile
 2. Assumptions to verify
 3. Milestone ladder
@@ -113,13 +78,14 @@ Return exactly these sections:
 6. Failure modes and safeguards
 
 Within those sections:
-- State explicit assumptions before relying on them.
-- Use public assumptions only as context to verify.
-- Ask the user to verify current limits, rates, tax rules, benefits, and personal constraints before acting.
-- Include the phrase and content category “assumptions to verify.”
-- Include the phrase and content category “first-month actions.”
-- Do not request private account uploads.
-- Do not guarantee returns, outcomes, forecasts, tax results, benefit eligibility, or risk reductions.
+- Make the goal measurable without overclaiming precision.
+- Identify assumptions from public sources separately from facts supplied by the user.
+- Name gaps and unknowns plainly.
+- Include first-week, first-month, quarterly, and 15-year milestones.
+- Include 3-5 simple first-month actions, in order, with a short reason each comes first.
+- Include a monthly review cadence with metrics and revision triggers.
+- Include safeguards for stale public assumptions, tax or benefits rule changes, excessive risk, unrealistic savings expectations, liquidity shortfalls, burnout from extreme frugality, and overconfidence in forecasts.
+- Use public assumptions only as planning context; ask the user to verify current limits, rates, tax rules, benefits, and account-specific details before acting.
 ```
 
 ## Weave execution plan
@@ -134,14 +100,14 @@ Within those sections:
     ],
     "nodes": [
       {
-        "name": "lookup_public_goal_assumptions",
+        "id": "public_assumptions",
         "function": "lookup_public_goal_assumptions",
         "phase": "execute",
         "scope": "self",
         "returns": "value",
-        "effects": {
-          "web_search": "read"
-        },
+        "effects": [
+          "web_search:read"
+        ],
         "args": {
           "goal": "Reach financial independence while keeping work optional, not necessarily retiring early",
           "domain": "personal finance",
@@ -154,7 +120,7 @@ Within those sections:
   },
   "bindings": [
     {
-      "capability_name": "web_search",
+      "name": "web_search",
       "language": "python",
       "from": "./companions/public_finance_reference.py",
       "symbol": "lookup_public_goal_assumptions"
@@ -255,11 +221,7 @@ Within those sections:
 ````markdown
 # Executable Financial Independence Goal Planner
 
-Turn one plain-language personal-finance goal into a practical, educational decision-support plan. Treat the result as planning support, not regulated financial, legal, tax, accounting, investment, brokerage, or fiduciary advice. Do not guarantee returns, rates, tax outcomes, benefit eligibility, risk reductions, or that financial independence will be achieved.
-
-Use the public-assumptions execution result as planning context only. The user must verify any current limits, rates, tax rules, benefits, source dates, eligibility rules, and professional implications before acting. Do not request private account uploads, transaction files, identity data, portfolio statements, or credentials.
-
-## Goal inputs
+Turn one plain-language personal-finance goal into a practical, educational decision-support plan. Do not present the result as regulated financial, legal, tax, accounting, brokerage, or fiduciary advice.
 
 - Goal: Reach financial independence while keeping work optional, not necessarily retiring early
 - Domain: personal finance
@@ -267,89 +229,58 @@ Use the public-assumptions execution result as planning context only. The user m
 - Horizon: 15 years
 - Starting point: I have a steady income, save irregularly, and want a simple plan I can review monthly.
 - Constraints: Avoid extreme frugality, avoid private-data uploads, keep the first actions simple, and treat all public assumptions as facts to verify.
-- Assumption source: public assumptions retrieved at execution time from public reference sources for the goal, domain, country, and horizon.
+- Public assumptions context: use the `public_assumptions` execution result from the public-reference lookup as planning context only. If that source is incomplete, stale, ambiguous, conflicting, or unavailable, say so and list what the user must verify before acting.
 
-## Safety and evidence rules
+## Finance safety and evidence rules
 
-- Separate supplied inputs, public retrieved assumptions, deterministic calculations, estimates, unknowns, interpretation, and suggested options.
-- Prefer verified source data over memory. If public assumptions are missing, stale, ambiguous, conflicting, or incomplete, say so plainly and avoid inventing values.
-- Surface downside risks and tradeoffs before action-oriented suggestions.
-- Frame actions as options and planning steps, not commands.
-- Recommend checking an appropriate fiduciary financial planner, tax professional, legal professional, accountant, benefits administrator, or official government source when tax, benefits, legal, retirement-account, insurance, estate, or high-stakes decisions could materially change the plan.
-- If missing goals, liquidity needs, debt details, household obligations, risk tolerance, income stability, or tax context would change the recommendation, list the focused questions or data points the user should answer; do not pretend missing data is known.
-- For any calculations or numeric targets, verify units, time periods, rates, inflation assumptions, currencies, contribution timing, tax treatment, and cash-flow timing before reporting. Treat calculator-style results as consequences of stated assumptions, not recommendations by themselves.
+- Treat the plan as educational analysis and decision support, not as personalized regulated advice.
+- Do not guarantee returns, prices, yields, forecasts, tax outcomes, benefits, account limits, risk reductions, or independence dates.
+- Prefer verified public source data over memory. When data is missing, stale, ambiguous, or conflicting, disclose the limitation and do not invent values.
+- Surface downside risks and trade-offs before action-oriented suggestions.
+- Separate supplied inputs, public/retrieved assumptions, deterministic calculations, estimates, interpretation, unknowns, and suggested options.
+- Frame actions as options and planning steps rather than commands.
+- Suggest checking qualified fiduciary, tax, legal, accounting, or benefits professionals when the decision depends on tax treatment, retirement-account rules, benefits eligibility, estate/legal issues, or high-stakes trade-offs.
+- Ask the user to verify current limits, rates, tax rules, benefits, and account-specific constraints before acting.
+- Do not request private account uploads, transaction histories, brokerage credentials, identity documents, or other sensitive financial records.
+- For any calculation-like statement, verify units, signs, rates, periods, currencies, contribution timing, inflation assumptions, tax treatment, and cash-flow timing before relying on the result.
 
 ## Planning method
 
-First state explicit assumptions. If the public assumption source is incomplete, stale, or unavailable, say what the user must verify before acting.
+First state explicit assumptions. If public assumptions are incomplete or stale, state what the user must verify before acting.
 
-### 1. Define the finish line
+### Define the finish line
 
-Purpose: translate the goal into observable success criteria.
+Purpose: Translate the goal into observable success criteria.
 
-Requirements:
-- Define one measurable financial-independence target, one target date or horizon, and one review trigger.
-- Make clear that “work optional” means the plan should support choice and resilience, not necessarily early retirement.
-- Use ranges or formulas when exact values require private data the user has not provided.
-- Identify what must be verified before any target can be treated as reliable.
+Done when: The plan has one measurable target, one date or horizon, and one review trigger. The target may be expressed as an estimate or range when the available information does not justify a precise number.
 
-Done when: the plan has one measurable target, one date or horizon, and one review trigger.
+### Map the current state
 
-### 2. Map the current state
+Purpose: Separate facts, estimates, unknowns, and constraints before recommending action.
 
-Purpose: separate facts, estimates, unknowns, and constraints before recommending action.
+Done when: The plan lists the user's current resources, gaps, and unknowns without pretending missing data is known.
 
-Requirements:
-- List supplied facts from the user.
-- List reasonable planning estimates separately from facts.
-- List unknowns that materially affect the plan, such as income, expenses, current savings, debt, emergency fund, tax bracket, employer benefits, insurance needs, dependents, and risk tolerance.
-- Respect the constraint to avoid private-data uploads; suggest user-kept summaries instead of account files.
-- Do not infer hidden account balances, returns, contribution limits, tax outcomes, benefit eligibility, or expenses.
+### Build the milestone ladder
 
-Done when: the plan lists the user's current resources, gaps, and unknowns without pretending missing data is known.
+Purpose: Turn a distant goal into near, middle, and long-horizon milestones.
 
-### 3. Build the milestone ladder
+Done when: The plan has first-week, first-month, quarterly, and horizon-level milestones.
 
-Purpose: turn the 15-year goal into near-, middle-, and long-horizon milestones.
+### Choose the next action set
 
-Requirements:
-- Include first-week, first-month, quarterly, annual, and horizon-level milestones.
-- Connect each milestone to observable behavior or a measurable planning metric.
-- Keep the ladder compatible with simple monthly review and non-extreme frugality.
-- Name the assumptions each milestone depends on and what would require revision.
+Purpose: Make the first move concrete enough to do without another planning session.
 
-Done when: the plan has first-week, first-month, quarterly, and horizon-level milestones.
+Done when: The plan names 3-5 first-month actions, their order, and why each comes first.
 
-### 4. Choose the next action set
+### Install the review loop
 
-Purpose: make the first move concrete enough to do without another planning session.
+Purpose: Keep the plan alive as conditions change.
 
-Requirements:
-- Name 3-5 first-month actions.
-- Put actions in a practical order.
-- Explain why each action comes first.
-- Keep actions simple, low-friction, and consistent with avoiding extreme frugality.
-- Present actions as options the user can adapt after verifying assumptions.
-- Mention downside risks, opportunity costs, and safeguards before or alongside action suggestions.
-
-Done when: the plan names 3-5 first-month actions, their order, and why each comes first.
-
-### 5. Install the review loop
-
-Purpose: keep the plan alive as conditions change.
-
-Requirements:
-- Use a lightweight monthly review cadence.
-- Include metrics to check, such as savings rate, emergency-fund coverage, debt progress, contribution consistency, spending categories, insurance/benefits checkpoints, and progress toward the financial-independence target.
-- Include conditions for revising the strategy, such as income change, household change, health/insurance change, major debt change, tax-law or benefit-rule change, market volatility, inflation assumptions changing, or discovery that a public assumption was stale.
-- Avoid treating technical indicators, market forecasts, or historical averages as guarantees.
-
-Done when: the plan includes a lightweight cadence, metrics to check, and conditions for revising the strategy.
+Done when: The plan includes a lightweight cadence, metrics to check, and conditions for revising the strategy.
 
 ## Required output
 
 Return exactly these sections:
-
 1. Goal profile
 2. Assumptions to verify
 3. Milestone ladder
@@ -358,13 +289,14 @@ Return exactly these sections:
 6. Failure modes and safeguards
 
 Within those sections:
-- State explicit assumptions before relying on them.
-- Use public assumptions only as context to verify.
-- Ask the user to verify current limits, rates, tax rules, benefits, and personal constraints before acting.
-- Include the phrase and content category “assumptions to verify.”
-- Include the phrase and content category “first-month actions.”
-- Do not request private account uploads.
-- Do not guarantee returns, outcomes, forecasts, tax results, benefit eligibility, or risk reductions.
+- Make the goal measurable without overclaiming precision.
+- Identify assumptions from public sources separately from facts supplied by the user.
+- Name gaps and unknowns plainly.
+- Include first-week, first-month, quarterly, and 15-year milestones.
+- Include 3-5 simple first-month actions, in order, with a short reason each comes first.
+- Include a monthly review cadence with metrics and revision triggers.
+- Include safeguards for stale public assumptions, tax or benefits rule changes, excessive risk, unrealistic savings expectations, liquidity shortfalls, burnout from extreme frugality, and overconfidence in forecasts.
+- Use public assumptions only as planning context; ask the user to verify current limits, rates, tax rules, benefits, and account-specific details before acting.
 
 # Runtime public assumptions
 

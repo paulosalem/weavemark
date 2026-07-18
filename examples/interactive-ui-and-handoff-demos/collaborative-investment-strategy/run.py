@@ -20,7 +20,7 @@ Usage:
         --spec promplets/catalog/executable/collaborative-writer.weavemark.md \
         --vars examples/interactive-ui-and-handoff-demos/collaborative-writer/inputs/vars.json
 
-Requires: OPENAI_API_KEY set, promplet installed (pip install -e '.[all,dev]')
+Requires: OPENAI_API_KEY set, WeaveMark installed (pip install -e '.[all,dev]')
 """
 
 from __future__ import annotations
@@ -51,7 +51,10 @@ from ellements.execution import (
     FileEditCallback,
     StepRecord,
 )
-from weavemark_example_progress import weavemark_verbose_event
+from weavemark_example_progress import (
+    normalize_generated_markdown,
+    weavemark_verbose_event,
+)
 
 from weavemark.controller import WeaveMarkConfig, WeaveMarkController
 from weavemark.engines.base import RuntimeConfig
@@ -227,21 +230,23 @@ async def run(
     banner("EXECUTING — Collaborative Editing")
     engine = CollaborativeEngine()
     exec_result = await engine.execute(result, config=config, on_step=on_step)
+    composed_prompt = normalize_generated_markdown(result.composed_prompt)
+    final_output = normalize_generated_markdown(exec_result.output)
     execution_path = output_dir / "execution-output.md"
     steps_path = output_dir / "execution-steps.json"
     trace_path = output_dir / "execution-trace.md"
 
     # Show final output
     banner("FINAL OUTPUT")
-    print(exec_result.output)
+    print(final_output)
     print()
 
-    compiled_path.write_text(result.composed_prompt, encoding="utf-8")
-    execution_path.write_text(exec_result.output, encoding="utf-8")
+    compiled_path.write_text(composed_prompt, encoding="utf-8")
+    execution_path.write_text(final_output, encoding="utf-8")
     steps_path.write_text(
         json.dumps(
             execution_result_to_dict(
-                output=exec_result.output,
+                output=final_output,
                 steps=exec_result.steps,
                 metadata=exec_result.metadata,
             ),
@@ -255,7 +260,7 @@ async def run(
             spec=display_path(spec_path),
             model="gpt-5.5",
             engine="collaborative",
-            output=exec_result.output,
+            output=final_output,
             steps=exec_result.steps,
             metadata=exec_result.metadata,
         ),

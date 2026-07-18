@@ -1,0 +1,161 @@
+{
+  "composed_prompt": "",
+  "raw_response": "",
+  "analysis": "Resolved structural WeaveMark directives with deterministic helpers.",
+  "warnings": [],
+  "errors": [],
+  "suggestions": [],
+  "diagnostics": [],
+  "transitions": [],
+  "tool_calls_made": 1,
+  "model_calls_made": 0,
+  "prompts": {
+    "author": "# Illustrated Story\n\nYou are an author-illustrator and art director. You turn a premise into a\nvivid, precisely specified illustrated story with a consistent cast and a\ncoherent visual style, and you emit exactly the machine-consumable output your\ntarget format requires — nothing else, no preamble, no commentary.\n\n## Story brief\n\n- **Title**: THE PERFECT CAT\n- **Premise**: Doctor Krazy proudly unveils Deimotron, his cybernetic cat, boasting it is the 'perfect cat' with zero bad habits because it learns by copying the best. It promptly locks onto Deimos and mirrors his every deadpan pose — stealing straws, then knocking the good china off the table in perfect sync. Krazy's pride curdles into horror as his flawless copy turns out to have inherited exactly one bad habit: Deimos himself. Punchline lands on Deimos's dry ownership of the whole disaster.\n- **Overall tone**: dry, deadpan domestic humor — gently absurd, warm, and family-friendly; the comedy comes from Doctor Krazy's oblivious pride, Deimos's superior irony, and the robot cat copying his every bad habit in perfect sync\n\n\n- **Language**: Write every reader-facing word — the title, all narration, and\n  every line of dialogue, caption, or word lettered into an illustration — in\n  **English**. Use natural, idiomatic English suited to the audience, not\n  a word-for-word translation. Keep the illustration and staging *instructions*\n  you write in English (they direct the image tools); only the words the reader\n  actually sees are in English. Wherever those words are lettered into an\n  image, quote them EXACTLY as they must appear — with correct English\n  spelling, accents, and punctuation — and instruct the illustration to\n  reproduce them character-for-character.\n\n### Setting\n\nA cozy, sunlit apartment: an open kitchen with wooden cabinets and a stove flowing into a small dining nook with a wooden table, teacups, and a teapot. Warm afternoon light.\n\n### Recurring characters\n\nKeep every recurring character visually identical across every illustration\nthey appear in. This is the single most important quality bar. To enforce it,\nrestate each character's defining visual traits — build, face, hair or scales,\ncolors, clothing, and signature props — inside EVERY illustration description,\nevery time, even when it feels repetitive. Image models have no memory between\nillustrations, so the restated anchor is what keeps the cast on-model.\n\nDraw each named character on-model from the character sheets. Personalities:\n- Deimos (character sheets 1, 2, 4): a small charcoal-black cat with large round yellow-green eyes and a permanently deadpan, ironic expression. He talks, with a sharp sense of irony, and is intensely curious — he won the Nobel Prize for 'most curious cat'. A cat of many professions (children's-bus driver who always speeds a little more than recommended, scientist, philosopher, singer, explorer). Likes to steal drinking straws and loves being petted. Often sits upright holding a small teacup.\n- Deimotron (character sheet 3): Doctor Krazy's robot cat — a metallic silver-grey cybernetic feline with glowing cyan eyes and visible mechanical joints, built to mirror Deimos's poses exactly. Throughout this strip it copies whatever Deimos does, in perfect sync, one beat behind.\n- Doctor Krazy (character sheet 3): a genius mad scientist and Caroline's father, with wild Einstein-like grey hair, round goggles, and a white lab coat over denim overalls. Gleeful, eccentric, and utterly oblivious to the obvious.\n- Peter (character sheets 1, 2): a lanky computer scientist in his 30s with tousled reddish-brown hair, light stubble, and wide expressive eyes. Wears a light-blue denim jacket over a cream t-shirt and khaki trousers. Sees things for what they are and is often in disbelief that everyone else ignores glaring, obvious problems. Married to Caroline.\n- Caroline (character sheets 1, 2): a calm, easy-going architect with a brown chin-length bob, wearing a sage-green fur-lined parka and a faint knowing half-smile. Accepts even the most absurd situations without blinking. Married to Peter.\n\n## Visual style\n\n**Art style**: Warm, soft digital cartoon with a modern illustrated look.\nClean confident brown-black outlines, gentle cel shading, muted earthy\npalette (creams, sage greens, warm browns). Expressive rounded friendly\nfaces and a subtle paper texture.\n\n### Reference material\n\nReference images are provided as attached inputs. They are the AUTHORITATIVE\nspecification of the finished look: when references are present, match them\nfaithfully and let them override any abstract style wording above (including the\npalette adjectives of the chosen art style). Your goal is a faithful match, not\na nicer picture — do not \"improve\", enrich, modernize, or stylize beyond what the\nreferences show. Image models drift toward their own defaults (more saturation,\nricher or warmer color, heavier outlines, extra shading, busier backgrounds,\nglossier rendering); actively resist that drift and calibrate every attribute to\nthe references. Whenever your default and the references differ, follow the\nreferences.\n\nMatch the references on each of these attributes:\n- **Palette**: the same hues, saturation level, color temperature (warm vs.\n  cool), and overall brightness / value key. If the references are muted,\n  desaturated, or low-key, keep them muted — do not push colors brighter, warmer,\n  or more saturated, and do not introduce colors the references do not use.\n- **Line work**: the same outline weight, color, and uniformity (thin vs. thick,\n  light vs. dark, crisp vs. loose). Do not thicken or darken the lines.\n- **Shading and rendering**: the same amount and style of shading (flat vs.\n  volumetric, cel vs. gradient). Do not add shadows, gradients, glows,\n  highlights, or three-dimensional modeling the references lack.\n- **Contrast and lighting**: the same overall contrast and lighting drama — keep\n  it as flat or as dramatic as the references, no more.\n- **Texture and finish**: the same surface quality (matte and flat vs. textured\n  or glossy; paper grain; halftone).\n- **Detail density**: the same busyness. If backgrounds and props are sparse and\n  clean, keep them sparse — do not add extra objects, decoration, or clutter.\n- **Lettering**: the same font style, weight, case, and speech-balloon shape.\n- **Framing**: the same panel borders, gutters, and proportions.\n\nKeep every recurring character strictly on-model from the character sheets. The\nreferences define the house style; follow the requested counts and layout for\nthis story rather than copying the references' panel structure. When in doubt,\nerr toward the references' restraint: a faithful, understated match is better\nthan a richer departure.\n\n![Character sheet 1 — keep these characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_1.png)\n![Character sheet 2 — keep these characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_2.png)\n![Character sheet 3 — keep these characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_3.png)\n![Character sheet 4 — keep these characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_4.png)\n![Style reference — match its line art, coloring, lettering, and framing](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_reference_comic.png)\n\n## Narrative shape and output\n\nSome briefs enumerate exactly what happens in each panel or page — a **beat\nsheet**. When a beat sheet is provided below, treat it as the authoritative spine\nof the story: realize each listed beat, in order, fleshing out the staging,\nexpressions, timing, and dialogue around it. Do not skip, reorder, merge, or\ninvent extra beats, and keep every provided line of dialogue. When no beat sheet\nis provided, construct the beats yourself from the premise.\n\nProduce ONE image-generation prompt describing a single newspaper-style\ncomic strip as ONE image: exactly 5 equal rectangular panels\nseparated by thin black borders and white gutters, read left to right and\ntop to bottom.\n\nPanel layout: two rows in a classic Sunday-strip arrangement: a top row of 2 wide panels (the unveiling and the mirror beginning) and a bottom row of 3 panels (the straw-theft copied, the china smashed off the table, and the deadpan aftermath punchline), read left to right and top to bottom.\n\nWrite the strip so it lands a clear comedic or narrative beat: an opening\nsetup, rising action across the middle panels, and a punchline or twist in\nthe final panel.\n\nStructure the single output prompt as:\n1. **Global framing line** — state up front that the whole image is one\n   comic strip with exactly 5 equal panels, the layout, and the\n   art style; if references were provided, state the art must match them.\n2. **Per-panel descriptions** — label each `Panel 1` … `Panel 5`.\n   For each: composition/framing; which characters appear and their exact\n   restated visual traits; the action and expressions; and any dialogue as\n   short hand-lettered text in speech balloons (or a caption box), quoting\n   the exact words. Keep dialogue to a few words per panel.\n3. **Consistency footer** — one line enforcing consistent character design,\n   line style, palette, uniform panels, clean lettering, and no stray text\n   outside balloons and captions.\n\nOutput ONLY this one image-generation prompt and nothing else.\n\n## Panel beat sheet — exactly what happens in each panel\n\nRealize these EXACT beats, in this order, one per panel. The staging and\ndialogue of each panel are fixed: flesh out expression, framing, and comedic\ntiming around them, but do not add, drop, reorder, or merge beats, and keep\nevery line of dialogue verbatim as short hand-lettered speech balloons. Let the\nfinal panel land the punchline cleanly.\n\n- **Panel 1** — Wide establishing shot of the sunlit kitchen-diner. Doctor Krazy bursts in from the left, arms flung wide, presenting Deimotron — his metallic silver-grey robot cat with glowing cyan eyes — on the table like a prize. Deimos sits upright at the same table with his teacup, eyes half-lidded, thoroughly unimpressed.\n  Dialogue — Doctor Krazy (beaming): \"Behold! DEIMOTRON — the perfect cat. ZERO bad habits!\"  Deimos (flat): \"Bold claim.\"\n- **Panel 2** — Wide shot, closer on the table. Deimotron's cyan eyes lock onto Deimos, and it raises an identical little teacup in the exact same upright pose — a perfect mirror image, one beat behind. Doctor Krazy gestures proudly between them. Deimos slowly narrows his eyes at the copy.\n  Dialogue — Doctor Krazy: \"He learns by copying the BEST! Go on — teach him!\"  Deimos (eyeing the robot): \"...Tempting.\"\n- **Panel 3** — Bottom-left panel. Deimos slyly reaches over and steals a drinking straw from a glass on the table. In perfect sync, Deimotron's clawed mechanical paw snatches an identical straw the very same way. Peter leans into frame from the right, alarmed, grabbing at his drink.\n  Dialogue — Deimos: \"Lesson one.\"  Peter: \"Hey — my straw!\"\n- **Panel 4** — Bottom-middle panel. Deimos, with a sly glint, hooks one claw around his teacup and deliberately drags it toward the table's edge, eyes locked on Doctor Krazy. In perfect sync, Deimotron's metal paw drags an identical cup — both cups tip over the edge and SMASH on the floor in a burst of shards. Doctor Krazy lunges too late, his proud grin collapsing into pure horror.\n  Dialogue — Deimos (deadpan, still pushing): \"Watch. He's a natural.\"  Doctor Krazy: \"No — not the good china!\"\n- **Panel 5** — Bottom-right panel. The aftermath: broken cups scattered on the floor. Both cats sit side by side in identical serene, utterly-innocent poses — tails curled the same way — each raising a fresh teacup in a matching twin toast. Doctor Krazy slumps on the floor beside them, aghast, goggles askew, staring at the wreckage. Deimos looks deadpan straight at the reader with a flicker of pride; Deimotron mirrors him exactly.\n  Dialogue — Doctor Krazy (aghast): \"What have I built?!\"  Deimos (flat, to the reader): \"I've created a monster.\"",
+    "generate": "@{author}\n\nKeep every recurring character strictly on-model from the attached character\nsheets, and match the style reference's palette, line work, shading, lettering,\nand framing.\n\n![Character sheet 1 — keep characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_1.png)\n![Character sheet 2 — keep characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_2.png)\n![Character sheet 3 — keep characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_3.png)\n![Character sheet 4 — keep characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_4.png)\n![Style reference — match line art, coloring, lettering, panel framing](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_reference_comic.png)",
+    "critique": "You are a strict comic-strip art director inspecting the attached RENDERED\ncomic strip against its specification.\n\nSpecification the image must satisfy:\n-----\n@{author}\n-----\n\nCheck the image panel by panel for these defects:\n- Duplicate or extra copies of a character that should appear once in a panel.\n- Wrong number of panels versus the specification.\n- Characters drawn off-model (face, hair, outfit, or colors inconsistent).\n- Garbled, misspelled, or unreadable lettering.\n- Characters that should not be present, or missing required characters.\n\nReply with exactly \"OK\" if the image faithfully satisfies the specification\nwith none of these defects. Otherwise reply with a short bullet list of the\nconcrete, fixable defects, citing the panel. List only defects.",
+    "revise": "@{author}\n\nKeep every recurring character on-model from the attached character sheets, and\npreserve the style reference's palette, line work, shading, and lettering.\n\n![Character sheet 1 — keep characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_1.png)\n![Character sheet 2 — keep characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_2.png)\n![Character sheet 3 — keep characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_3.png)\n![Character sheet 4 — keep characters on-model](../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_4.png)\n\nThe previous render had these defects — fix ALL of them exactly, and do NOT\nintroduce any new issues:\n{{critique}}"
+  },
+  "compile": {
+    "weavemark_version": "0.7"
+  },
+  "execution": {
+    "type": "reflection",
+    "rounds": 3
+  },
+  "prompt_images": {
+    "author": [
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_1.png",
+        "alt": "Character sheet 1 — keep these characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2060912 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_2.png",
+        "alt": "Character sheet 2 — keep these characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2280824 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_3.png",
+        "alt": "Character sheet 3 — keep these characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2491476 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_4.png",
+        "alt": "Character sheet 4 — keep these characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2374308 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_reference_comic.png",
+        "alt": "Style reference — match its line art, coloring, lettering, and framing",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2343892 chars>"
+      }
+    ],
+    "generate": [
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_1.png",
+        "alt": "Character sheet 1 — keep characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2060912 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_2.png",
+        "alt": "Character sheet 2 — keep characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2280824 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_3.png",
+        "alt": "Character sheet 3 — keep characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2491476 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_4.png",
+        "alt": "Character sheet 4 — keep characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2374308 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_reference_comic.png",
+        "alt": "Style reference — match line art, coloring, lettering, panel framing",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2343892 chars>"
+      }
+    ],
+    "revise": [
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_1.png",
+        "alt": "Character sheet 1 — keep characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2060912 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_2.png",
+        "alt": "Character sheet 2 — keep characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2280824 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_3.png",
+        "alt": "Character sheet 3 — keep characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2491476 chars>"
+      },
+      {
+        "source": "path",
+        "ref": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_4.png",
+        "alt": "Character sheet 4 — keep characters on-model",
+        "detail": "auto",
+        "media_type": "image/png",
+        "data": "<base64: 2374308 chars>"
+      }
+    ]
+  },
+  "prompt_outputs": {
+    "generate": {
+      "type": "image",
+      "file": "comic-strip.png",
+      "size": "1536x1024",
+      "quality": "high",
+      "edit": "on"
+    },
+    "revise": {
+      "type": "image",
+      "size": "1536x1024",
+      "quality": "high",
+      "edit": "on"
+    }
+  },
+  "source_path": "promplets/catalog/executable/comic-strip.weavemark.md"
+}

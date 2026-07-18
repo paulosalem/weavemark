@@ -210,7 +210,7 @@ hook for spec-heavy repos.
 
 ```bash
 # Single-file output:
-weavemark --batch-only -o out.md promplets/catalog/standalone/deep-summary.weavemark.md \
+weavemark --batch-only -o out.md promplets/catalog/standalone/deep-summary-prompt.weavemark.md \
   --var document="..." \
   --var audience="executive"
 

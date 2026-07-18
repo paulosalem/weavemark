@@ -156,7 +156,7 @@ async def test_ask_rounds_preserve_complete_compiler_metadata(
     assert result.compile == {"format": "json"}
     assert result.tools[0]["function"]["name"] == "lookup"
     assert result.bindings == [
-        {"capability": "lookup", "language": "python"}
+        {"name": "lookup", "language": "python"}
     ]
     assert result.execution == {"type": "single-call"}
     assert result.emits == {"system.md": "System context."}

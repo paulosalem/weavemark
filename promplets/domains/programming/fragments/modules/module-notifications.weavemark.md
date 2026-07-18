@@ -4,22 +4,44 @@
 
 # Notifications & Alerts Engine
 
-### Alert Rules
-- Users define alert rules with: condition, threshold, comparison operator, and action.
-- Example rule: "Notify me when spending in 'Dining' exceeds $500 this month."
-- Conditions evaluated after every relevant transaction is created.
-- Supported operators: `>`, `>=`, `<`, `<=`, `==`, `between`.
+## Alert rules
 
-### Notification Channels
-- **In-app**: toast notification + persistent notification center.
-- **Email**: daily or weekly digest (user preference), plus immediate for critical alerts.
-- **Push** (optional): web push via Service Worker + VAPID keys.
+- Users define rules with a triggering event or state transition, optional scope,
+  condition, threshold, comparison operator, severity, recipients, channel, and
+  cooldown.
+- Example: "Notify the release owner when a critical gate becomes blocked."
+- Evaluate rules after every relevant domain event and on scheduled checks when
+  time or aggregation affects the condition.
+- Numeric conditions may use `>`, `>=`, `<`, `<=`, `==`, and `between`; state
+  rules may match transitions such as `open -> blocked`.
+- Record which rule version, event, values, and evaluation time produced each
+  notification.
 
-### Deduplication
-- Same alert rule MUST NOT fire more than once per evaluation period.
-- Track last-fired timestamp per rule; suppress duplicates within cooldown window.
+## Notification channels
 
-### Templates
-- Notification content uses templates with variable substitution:
-  `"You've spent @{spent} of your @{budget} budget for @{category} this @{period}."`
-- Templates support locale-aware number and currency formatting.
+- **In-app:** transient feedback plus a persistent notification center.
+- **Email:** immediate delivery for critical alerts and configurable digests for
+  lower-priority updates.
+- **Push (optional):** web push through a Service Worker and VAPID keys.
+- Respect recipient preferences, quiet hours, disabled channels, and verified
+  delivery destinations.
+
+## Deduplication and delivery
+
+- The same semantic event MUST NOT notify the same recipient and channel more
+  than once within its cooldown or evaluation period.
+- Track stable deduplication keys, last-fired time, delivery state, attempts, and
+  terminal failure reason.
+- Retries MUST be bounded and MUST NOT create duplicate notifications.
+- Digests group related updates rather than replaying one message per event.
+
+## Templates
+
+- Templates use typed runtime fields such as subject, current state, threshold,
+  observed value, period, reason, and action URL.
+- Render only fields allowed for the chosen channel; never expose secrets or
+  sensitive attachment contents in previews.
+- Support locale-aware dates and numbers, plus currency formatting only when the
+  consuming domain supplies a currency.
+- Missing required fields fail validation instead of producing malformed
+  messages.

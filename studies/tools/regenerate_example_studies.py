@@ -117,7 +117,7 @@ EXAMPLES: tuple[ExampleSpec, ...] = (
     ExampleSpec(
         "deep-summary",
         "Deep Summary",
-        "promplets/catalog/standalone/deep-summary.weavemark.md",
+        "promplets/catalog/standalone/deep-summary-prompt.weavemark.md",
         "examples/terminal-output-only/deep-summary/inputs/vars.json",
         "examples/terminal-output-only/deep-summary/outputs/compiled-prompt.md",
         "Produce a deep-summary prompt that preserves structure and audience needs.",

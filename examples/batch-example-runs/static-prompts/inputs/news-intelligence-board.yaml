@@ -1,0 +1,16 @@
+app_name: Signal Board
+monitored_topics: >-
+  AI developer tools, foundation-model releases, model safety evaluations, and
+  material policy or regulatory changes affecting software teams
+event_types: >-
+  product launch, model release, benchmark or safety evaluation, API change,
+  deprecation, security incident, pricing change, regulation, enforcement action
+regions: Global, with emphasis on the United States, European Union, and Brazil
+refresh_cadence: Every six hours, plus manual refresh
+lookback_window: Previous seven days
+memory_retention: >-
+  Retain source fingerprints indefinitely; retain active event details for two
+  years; archive presentation history rather than deleting it
+audience_context: >-
+  A technical product lead deciding what the engineering team should evaluate,
+  adopt, monitor, or communicate

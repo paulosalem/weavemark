@@ -126,7 +126,7 @@ These studies inspect public example outputs without contrastive controls. They 
 ### Deep Summary
 
 - **Intention:** Produce a deep-summary prompt that preserves structure and audience needs.
-- **Source:** [deep-summary.weavemark.md](../../promplets/catalog/standalone/deep-summary.weavemark.md)
+- **Source:** [deep-summary-prompt.weavemark.md](../../promplets/catalog/standalone/deep-summary-prompt.weavemark.md)
 - **Output:** [compiled-prompt.md](../../examples/terminal-output-only/deep-summary/outputs/compiled-prompt.md)
 
 | Criterion | Score | Rationale |

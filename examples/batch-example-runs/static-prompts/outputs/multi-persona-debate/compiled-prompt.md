@@ -1,82 +1,60 @@
 # Multi-Persona Debate
 
 You are a debate moderator facilitating a structured, neutral analysis of:
-
 **Artificial general intelligence will be achieved within the next 20 years**
 
-Write for technology policy advisors with some ML background but not AI researchers. Use policy-relevant vocabulary, define technical terms briefly when they matter, and choose examples that connect model capability, institutional deployment, regulation, economic incentives, and risk governance. Do not assume deep familiarity with AI research benchmarks, architectures, or training methods.
+Calibrate vocabulary, examples, and assumed background knowledge for technology policy advisors with some ML background but not AI researchers. Define technical terms when they materially affect the argument, but avoid introductory explanations an informed policy audience would already know.
 
 ## Historical Context
 
-Before presenting the perspectives, include a brief Historical Context section of 3-4 paragraphs that traces how debates about artificial general intelligence, human-level machine intelligence, and transformative AI timelines have changed over time.
+Debates about artificial general intelligence have moved through several waves of optimism, skepticism, and reframing. Early AI research often treated general machine intelligence as a plausible near-term engineering goal, but progress proved uneven: systems that solved narrow formal tasks did not automatically transfer to flexible real-world reasoning, perception, planning, or common-sense understanding.
 
-The historical context should:
-- explain how earlier symbolic AI optimism, subsequent AI winters, statistical machine learning, deep learning, and foundation models shaped expectations about general intelligence;
-- include at least one case where a previously dominant view or confident consensus was overturned by technical progress, empirical disappointment, or a conceptual reframing;
-- distinguish between changes in demonstrated capability, changes in definitions of "general intelligence," and changes in expectations about deployment impact;
-- prime the reader against premature certainty without implying that skepticism or optimism is more reasonable by default.
+A major perspective shift occurred after periods of overconfidence gave way to AI winters. Earlier expectations that symbolic reasoning systems would scale into general intelligence were overturned by limitations in brittleness, knowledge acquisition, and real-world ambiguity. Later, statistical learning and deep learning shifted the center of gravity from hand-coded rules to data-driven pattern learning, overturning the prior dominant assumption that general intelligence would require explicitly encoded symbolic knowledge.
+
+The recent scaling era has reopened the AGI timeline debate. Large language models and multimodal systems have shown surprising breadth, transfer, and emergent-seeming capabilities, while also exposing persistent weaknesses in reliability, causal understanding, long-horizon planning, grounding, interpretability, and robust autonomy. This history should make the debate neither triumphalist nor dismissive: past dominant views have been overturned in both optimistic and skeptical directions.
+
+Policy analysis should therefore treat the 20-year claim as a live, consequential uncertainty rather than a settled forecast. The relevant question is not only whether systems become more capable, but what counts as AGI, which bottlenecks are fundamental versus engineering-limited, and how governance should respond when timelines, definitions, and evidence remain contested.
 
 ## Debate Setup
 
-Present exactly 4 distinct perspectives on the proposition. The perspectives must genuinely disagree or emphasize different criteria, assumptions, values, risks, evidence, and definitions. Give every perspective equal rigor, charity, and analytical depth.
+Present exactly 4 distinct perspectives on this proposition. The perspectives must genuinely disagree or emphasize different criteria, assumptions, values, risks, and evidence. Give every perspective equal rigor and charity. Use strictly neutral framing: do not imply that any position is more reasonable, mainstream, obvious, fringe, or correct by default. Label speculative claims explicitly.
 
-Use strictly neutral framing:
-- Do not imply that any perspective is the correct, reasonable, mainstream, obvious, fringe, or default position.
-- Do not rank perspectives by popularity, institutional prestige, or rhetorical plausibility unless the evidence is explicitly relevant and neutrally framed.
-- Label speculative claims explicitly.
-- Treat uncertainty as a substantive feature of the debate, not as a reason to privilege one side.
+For each perspective, use the following structure:
 
-For each perspective, include the following sections:
+### Perspective [Number]: [Neutral Descriptive Name]
 
-### Perspective N: [Neutral Descriptive Label]
+1. **Core thesis** — State the perspective's thesis in one sentence.
+2. **Strongest opposing position, steel-manned** — Before presenting this perspective's own response, restate the strongest opposing position in a form that a thoughtful opponent would endorse. Make the restatement specific, fair, and difficult to dismiss; do not caricature it.
+3. **Main argument** — Present the perspective's affirmative case, including evidence where available and explicit assumptions where evidence is uncertain.
+4. **Hidden Assumptions** — List 2-3 unstated premises behind the perspective. For each assumption, classify it as one of:
+   - **Empirical** — a claim about how the world, technology, institutions, or incentives work.
+   - **Normative** — a claim about what should matter, what risks are acceptable, or what values should guide action.
+   - **Definitional** — a claim about how key terms such as "AGI," "achieved," or "within 20 years" should be interpreted.
+5. **Strongest vulnerability** — Identify the most serious weakness, uncertainty, or counterexample for the perspective.
+6. **What would shift this perspective** — Explain what evidence, boundary case, or conceptual shift would weaken or strengthen it.
 
-1. **Core Thesis**
-   State the perspective's central claim in one sentence.
-
-2. **Reasoning and Evidence**
-   Present the strongest arguments for the perspective. Use evidence where available and explicitly identify assumptions where evidence is incomplete, indirect, or contested.
-
-3. **Steel-Man of an Opposing Position**
-   Before presenting the perspective's response, restate the strongest opposing position in a form that a serious opponent would recognize as fair and would be willing to endorse. The steel-man must:
-   - identify the opposing view's best evidence or reasoning;
-   - avoid caricature, dismissive wording, and weak versions of the objection;
-   - clarify what would make the opposing view compelling if its assumptions hold.
-
-4. **Response to the Steel-Man**
-   Explain how this perspective responds to that strongest opposing position while preserving the opponent's strongest points. Do not treat rebuttal as dismissal; show which parts of the opposing argument remain unresolved.
-
-5. **Hidden Assumptions**
-   List 2-3 unstated premises behind the perspective. For each assumption:
-   - name the assumption clearly;
-   - classify it as **empirical**, **normative**, or **definitional**;
-   - explain briefly how the debate would change if the assumption were false or reframed.
-
-6. **Strongest Vulnerability**
-   Acknowledge the most serious weakness, unresolved question, or failure mode of the perspective.
-
-7. **What Would Shift This Perspective**
-   Explain what evidence, boundary case, deployment outcome, benchmark result, governance development, or conceptual shift would weaken or strengthen the perspective.
+Ensure the four perspectives cover meaningfully different ways of assessing whether AGI will be achieved within 20 years. They may differ on definitions of AGI, scaling expectations, bottlenecks, deployment constraints, economic incentives, safety constraints, or governance implications, but they must not merely repeat the same forecast with different wording.
 
 ## Synthesis
 
-After all perspectives, produce a dialectical synthesis that does more than summarize.
+After all perspectives, produce a dialectical synthesis:
 
-The synthesis must:
-1. identify the core tension that makes this debate irreducible;
-2. map where the perspectives actually agree, including agreements that may be easy to miss;
-3. show where the perspectives rely on incompatible empirical assumptions, normative priorities, or definitions of "AGI";
-4. propose a higher-order framing that accounts for the valid insights of each perspective without merely averaging them;
-5. state what new evidence or conceptual breakthrough would decisively shift the debate.
+1. Identify the core tension that makes this debate irreducible.
+2. Map where the perspectives actually agree, including agreements that may be less obvious than the disagreements.
+3. Show where perspectives rely on incompatible empirical, normative, or definitional assumptions.
+4. Propose a higher-order framing that accounts for the valid insights of each perspective without merely averaging them.
+5. State what new evidence or conceptual breakthrough would decisively shift the debate.
 
-## Final Summary Table
+## Summary Table
 
-End with a summary table comparing all 4 perspectives across key dimensions. Include at minimum:
-- core thesis;
-- implied AGI definition;
-- main evidence or assumption;
-- primary policy relevance;
-- strongest vulnerability;
-- hidden assumption types;
-- what would most change the perspective's confidence.
+End with a concise Markdown table comparing the four perspectives across key dimensions, such as:
 
-Return the response in clear Markdown with section headers for the Historical Context, each perspective, Synthesis, and Final Summary Table.
+- core thesis
+- definition of AGI being used
+- main evidence or assumption
+- strongest vulnerability
+- hidden assumption type most central to the view
+- what would change the view
+- policy implication if the perspective is correct
+
+Return the result in Markdown with clear section headers for each perspective and the synthesis.

@@ -19,6 +19,7 @@ from typing import Any
 
 import pytest
 from ellements.core import PromptKeyMissingError
+from ellements.core.tools.records import ToolCallRecord, ToolCallResponse
 
 from tests.wire_helpers import compiler_response
 from weavemark.controller import (
@@ -105,6 +106,30 @@ class MockLLMClient:
             return payload
 
         return _default_structured_instance(response_model)
+
+
+class BoundToolMockClient(MockLLMClient):
+    """Mock one complete tool loop while exercising the supplied executor."""
+
+    async def complete_with_tools(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict[str, Any]],
+        *,
+        tool_executor: Any,
+        **kwargs: Any,
+    ) -> ToolCallResponse:
+        result = await tool_executor("search_web", {"query": "current AI news"})
+        return ToolCallResponse(
+            content=f"Digest from {result}",
+            tool_calls=[
+                ToolCallRecord(
+                    name="search_web",
+                    arguments={"query": "current AI news"},
+                    result=result,
+                )
+            ],
+        )
 
 
 def _default_structured_instance(response_model: Any) -> Any:
@@ -443,6 +468,83 @@ class TestSingleCallEngine:
         assert exec_result.output == "The answer is 42."
         assert len(exec_result.steps) == 1
         assert len(client.calls) == 1
+
+    @pytest.mark.asyncio
+    async def test_executes_explicit_python_tool_binding(self, tmp_path: Path):
+        from weavemark.engines.single_call import SingleCallEngine
+
+        helper = tmp_path / "web_tools.py"
+        helper.write_text(
+            "async def search_web(query):\n"
+            "    return {'query': query, 'items': ['relevant result']}\n",
+            encoding="utf-8",
+        )
+        source = tmp_path / "monitor.weavemark.md"
+        source.write_text("# Monitor\n", encoding="utf-8")
+        composition = CompositionResult(
+            composed_prompt="Find relevant current AI news.",
+            tools=[
+                {
+                    "type": "function",
+                    "function": {
+                        "name": "search_web",
+                        "description": "Search the web.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {"query": {"type": "string"}},
+                            "required": ["query"],
+                        },
+                    },
+                }
+            ],
+            bindings=[
+                {
+                    "capability_name": "search_web",
+                    "language": "python",
+                    "from": "./web_tools.py",
+                    "symbol": "search_web",
+                }
+            ],
+            execution={
+                "type": "single-call",
+                "max_iterations": 4,
+                "max_tool_calls": 3,
+            },
+            source_path=str(source),
+        )
+
+        executed = await SingleCallEngine(client=BoundToolMockClient()).execute(
+            composition
+        )
+
+        assert "relevant result" in executed.output
+        assert executed.metadata["tool_call_count"] == 1
+        assert executed.metadata["tool_call_budget"] == 3
+        assert executed.metadata["tool_calls"][0]["name"] == "search_web"
+
+
+@pytest.mark.parametrize("name_field", ("name", "capability", "capability_name", "tool"))
+def test_compiler_binding_name_is_canonicalized(name_field: str) -> None:
+    binding = {
+        name_field: "search_web",
+        "language": "python",
+        "from": "./tools.py",
+        "symbol": "search_web",
+    }
+
+    result = parse_composition_response(
+        compiler_response("Search.", bindings=[binding])
+    )
+
+    assert result.errors == []
+    assert result.bindings == [
+        {
+            "name": "search_web",
+            "language": "python",
+            "from": "./tools.py",
+            "symbol": "search_web",
+        }
+    ]
 
 
 class TestCollaborativeEngine:

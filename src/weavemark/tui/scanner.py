@@ -156,6 +156,8 @@ _INTERNAL_VARS = {
     "original_content",  # collaborative strategy
     "best_path",
     "state",  # tree-of-thought strategy
+    "response",
+    "issues",  # reflection strategy
 }
 
 # Loop built-ins the `chain` engine injects per repeated iteration.

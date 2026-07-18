@@ -1,20 +1,35 @@
-They should choose **A: a polished web app with limited features**, unless they have strong evidence that their paying customers are developers who prefer CLI/API access.
+They should **not build the feature-rich prototype**. Option **B** is too broad for 3 engineers in 6 weeks and is likely to produce something impressive-looking but hard to adopt, hard to sell, and unfinished.
 
-For maximizing chances of getting paying customers, the MVP should be narrow, usable, and easy to buy. A limited but polished web app is more likely to convert because customers can understand the value quickly, onboard with less friction, and pay without heavy hand-holding.
+The best default choice is:
 
-Allocate the 3 engineers as:
+## Choose C: CLI tool + API, aimed at technical early adopters
 
-1. **Engineer 1: Core product/backend logic**
-   Build the one or two features that deliver the main customer value.
+This maximizes the chance of getting paying customers **if the target customers can use developer-facing tools**.
 
-2. **Engineer 2: Web frontend and UX**
-   Make the product usable, clear, and polished enough that customers trust it.
+Allocate the 3 engineers as follows:
 
-3. **Engineer 3: Deployment, onboarding, payments, analytics, customer feedback loop**
-   Ensure users can sign up, use the product, pay, and give feedback.
+1. **Engineer 1: Core API / backend**
+   - Build the minimum valuable workflow.
+   - Focus on reliability, authentication, basic billing/pilot access, logging, and integration points.
+   - Avoid extra features.
 
-They should avoid **B**, because a feature-rich prototype with rough UX is likely to exceed their capacity and may fail to convert customers despite having more features.
+2. **Engineer 2: CLI / integration layer**
+   - Build a simple CLI that exposes the core value quickly.
+   - Make setup fast.
+   - Include examples, templates, and common use-case commands.
 
-If their target customers are specifically technical teams or developers, then **C** could be viable. But by default, the best choice for paying customer conversion is **A**.
+3. **Engineer 3: Activation, docs, onboarding, customer support**
+   - Write docs and quickstart guides.
+   - Create demo scripts and sample projects.
+   - Help early customers integrate.
+   - Collect feedback and convert pilots into paid usage.
 
-ANSWER: 1
+The goal should not be “ship the most product.” The goal should be:
+
+> Get a narrow group of customers to experience the core value quickly enough that they are willing to pay.
+
+If the startup’s customers are **nontechnical business users**, then option C is too high-friction. In that case, they should choose a very narrow version of **A**: one polished web workflow, not a broad product.
+
+But given the constraints and assuming technical early adopters are viable, the strongest allocation is **C: API + CLI + onboarding/docs**.
+
+ANSWER: 3

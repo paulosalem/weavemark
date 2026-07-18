@@ -30,9 +30,9 @@
       "dialogue": "Doctor Krazy (aghast): \"What have I built?!\"  Deimos (flat, to the reader): \"I've created a monster.\""
     }
   },
-  "style_reference": "../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_reference_comic.png",
-  "character_sheet_1": "../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_1.png",
-  "character_sheet_2": "../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_2.png",
-  "character_sheet_3": "../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_3.png",
-  "character_sheet_4": "../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_4.png"
+  "style_reference": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_reference_comic.png",
+  "character_sheet_1": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_1.png",
+  "character_sheet_2": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_2.png",
+  "character_sheet_3": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_3.png",
+  "character_sheet_4": "../../../examples/saved-artifact-workflows/comic-strip-en/inputs/llm_revolution_character_sheet_4.png"
 }

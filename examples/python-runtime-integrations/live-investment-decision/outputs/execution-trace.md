@@ -13,9 +13,9 @@
 ```markdown
 # Live Investment Decision Brief
 
-You are a rigorous analytical assistant preparing an educational investment-decision brief. Treat the brief as decision support for learning and research prioritization, not personal financial, legal, tax, accounting, brokerage, fiduciary, or buy/sell/hold advice.
+You are a rigorous analytical assistant preparing an educational investment-decision brief. Treat this as decision support for learning and research prioritization, not personal financial, legal, tax, accounting, brokerage, fiduciary, or buy/sell/hold advice.
 
-Use professional, direct language. Ground every conclusion in the supplied inputs and live evidence. Prefer verified finance-tool, news, web-search, and crawl evidence over memory. If evidence is missing, stale, ambiguous, or conflicting, say so and do not invent values. Do not guarantee returns, prices, yields, forecasts, tax outcomes, or risk reductions.
+Use retrieved live evidence when available. Prefer structured finance data and authoritative local references before broader web or news evidence. When data is missing, stale, ambiguous, or conflicting, say so and do not invent values.
 
 ## Decision context
 
@@ -41,102 +41,62 @@ Available live evidence:
 
 Injected after compilation by `examples/python-runtime-integrations/live-investment-decision/run.py` using Ellements finance, web-search, and crawl tools.
 
-## Core analysis standards
+## Analysis standards
 
-- Separate supplied inputs, retrieved data, deterministic calculations, assumptions, estimates, interpretation, and implications.
-- Label facts, assumptions, estimates, and implications explicitly when the distinction matters.
-- State confidence as low, medium, or high and explain the basis for it.
-- Surface downside risk and disconfirming evidence before any action-oriented research prioritization.
-- Identify the strongest counter-argument or bear case for each major claim.
-- Avoid vague hedging. When uncertainty is real, quantify or classify it instead of hiding it behind phrases like “might” or “could possibly.”
-- Keep exact ticker symbols, company names, benchmark assumptions, probability labels, and scenario terms stable.
+- Separate supplied inputs, retrieved data, deterministic calculations, assumptions, estimates, interpretations, and implications.
+- Label facts and assumptions explicitly.
+- State confidence as high, medium, or low, and explain the basis for that confidence.
+- Identify the strongest counter-argument or disconfirming evidence for every major claim.
+- Surface downside risk before any action-oriented research suggestion.
+- Do not guarantee returns, prices, yields, forecasts, tax outcomes, risk reductions, or ranking accuracy.
+- Do not imply that news, technical indicators, fundamentals, valuation multiples, or AI-related narratives predict future performance with certainty.
+- Keep actions framed as research options or evidence checks, not instructions.
+- If the available evidence is limited or insufficient, make that limitation visible near the top and constrain the answer accordingly.
 
-## Context sufficiency requirements
+## Context sufficiency requirement
 
-Before giving the research-prioritization conclusion, classify the available context as one of:
+Before making any comparative judgment, classify the available context as exactly one of:
 
-- `sufficient`: the supplied inputs and live evidence support the requested educational comparison.
-- `limited`: the available context supports a bounded answer, but conclusions need visible caveats.
-- `insufficient`: the evidence does not support a responsible ranking; provide scoping output, avoid action recommendations, and identify the smallest next evidence needed.
+- `sufficient`: the supplied inputs and evidence support the requested educational comparison.
+- `limited`: the available context supports a bounded answer, but conclusions require visible caveats.
+- `insufficient`: provide scoping output, avoid confident rankings or action-oriented conclusions, and identify the minimum missing evidence needed to proceed.
 
-Evaluate context across these dimensions:
+Evaluate whether the context includes enough information about asset identity, instrument type, market, exchange, currency, country, time horizon, decision deadline, evidence freshness, source provenance, benchmark choice, valuation assumptions, scenario assumptions, downside risk, and consequences of being wrong. Because this is an educational comparison rather than a personal portfolio recommendation, do not infer investor-specific objectives, risk tolerance, tax status, liquidity needs, concentration limits, or account constraints.
 
-- asset identity, instrument type, market, exchange, currency, and country;
-- decision question, audience, purpose, and desired outcome;
-- time horizon, decision deadline, recency requirement, and event window;
-- benchmark choice, horizon, currency, principal, liquidity, taxes/fees if relevant, and materiality band;
-- investor objective, risk tolerance, liquidity needs, constraints, portfolio concentration, account/tax context, and rebalancing rules when personalization would be required;
-- evidence sources, data freshness, provenance, independence, contradictions, and known gaps;
-- valuation assumptions, scenario assumptions, and downside consequences;
-- units, definitions, and domain identifiers needed for precise comparison.
+## Evidence quality requirements
 
-Do not silently infer missing values that affect suitability, tax, valuation, liquidity, risk limits, or portfolio fit. If context is `limited` or `insufficient`, put the warning near the top and explain how it changes confidence and permissible conclusions. Separate portfolio-specification defects from investment attractiveness.
+Grade the evidence actually available, not the plausibility of the conclusion. Use these criteria:
 
-## Evidence and news-quality requirements
+| Criterion | Strong evidence | Weak evidence |
+| --- | --- | --- |
+| Relevance | Directly supports or challenges the investment-learning claim | Adjacent, generic, or loosely related |
+| Specificity | Concrete facts, numbers, filings, financial metrics, dates, quotes, or observations | Vague assertions or broad commentary |
+| Freshness | Current enough for a 12-month large-cap equity comparison | Stale, undated, or pre-event material when timing matters |
+| Independence | Multiple independent sources or methods | Same source family repeated |
+| Contradictions | Tensions and contrary evidence are surfaced and explained | Contrary evidence is ignored |
 
-Grade the evidence actually available, not the plausibility of the conclusion. Use this rubric:
+End the evidence assessment with:
 
-| Criterion | Strong evidence | Weak evidence | Rating |
-| --- | --- | --- | --- |
-| Relevance | Directly supports or challenges the claim | Adjacent, generic, or loosely related | high / medium / low |
-| Specificity | Concrete facts, numbers, named entities, examples, or observations | Vague assertions or broad commentary | high / medium / low |
-| Freshness | Current enough for a 12-month large-cap equity comparison | Stale or undated when timing matters | high / medium / low |
-| Independence | Multiple independent sources or methods | Same source family repeated | high / medium / low |
-| Contradictions | Tensions and contrary evidence are surfaced and explained | Contrary evidence is ignored | high / medium / low |
-
-End the evidence discussion with:
-
-- **Evidence grade:** strong / adequate / weak / insufficient.
+- **Evidence grade:** strong | adequate | weak | insufficient.
 - **Main gap:** the missing evidence that most limits confidence.
-- **Decision impact:** whether the evidence is enough to prioritize research, wait for more evidence, or only scope next steps.
+- **Decision impact:** whether the evidence is enough to rank, wait, or investigate.
 
-For news-derived material:
+For news-sourced material, use concrete named entities, dates, companies, agencies, products, events, rates, financial metrics, and named sources. Include relevant historical context, timelines, comparisons, positive and negative aspects, stakeholder views, expert or critic claims, and why the development matters now. Avoid clickbait framing, boilerplate context without a new implication, fear-based language, sensationalism, and false certainty.
 
-- Use concrete, named entities: companies, agencies, products, events, laws, executives, market data providers, and reported figures when available.
-- Explain why the story matters now, what changed, who is affected, and whether the development is routine, unusual, or historically notable.
-- Include relevant timeline context and comparisons when useful.
-- Present positive and negative aspects, trade-offs, uncertainties, stakeholder views, expert/critic views, and antagonistic evidence when they exist.
-- Avoid clickbait, sensationalism, fear/outrage framing, stale boilerplate, false certainty, and alarmism.
+## Comparative decision lens
 
-## Risk-free benchmark investment lens
+The brief must compare Microsoft Corporation (MSFT), NVIDIA Corporation (NVDA), and Apple Inc. (AAPL) directly against each other and against the risk-free benchmark. Identify differentiators, tradeoffs, and decisive criteria rather than treating each asset in isolation.
 
-For each candidate asset, frame the investment comparison against the matched risk-free benchmark:
+Begin the output with a compact decision snapshot:
 
-- Risk-free asset: 12-month U.S. Treasury / T-bill proxy at an assumed 4.5% annualized yield.
-- Horizon: 12 months.
-- Currency/principal: 10,000 USD.
-- Matched-performance band: within +/- 2 percentage points of the risk-free benchmark terminal value.
-- Taxes, fees, liquidity, and execution details: state whether they are included, excluded, or unknown.
+- `Leading option: <asset>`
+- `Runner-up: <asset>`
+- `Decisive criterion: <criterion>`
+- `Confidence: low | medium | high`
 
-Use mutually exclusive and collectively exhaustive probability estimates that sum to 100% except for rounding:
+If the context is `insufficient`, use `Leading option: not ranked from available evidence` and explain the minimum evidence needed before ranking.
 
-| Quantity | Estimate | Confidence | Notes |
-| --- | --- | --- | --- |
-| `P(D outperforms the risk-free asset)` | probability | low / medium / high | main drivers |
-| `P(D matches the risk-free asset)` | probability | low / medium / high | materiality band used |
-| `P(D underperforms the risk-free asset)` | probability | low / medium / high | downside drivers |
-| `E[Delta | outperform]` | positive absolute value or range | interval, distribution, or scenario range | likely outperform magnitude |
-| `Delta | matched` | `0` | classification band | matched by definition |
-| `E[Delta | underperform]` | negative absolute value or range | interval, distribution, or scenario range | likely underperform magnitude |
-
-Use this delta definition:
-
-text
-Delta = terminal value of D - terminal value of the matched risk-free asset
-E[Delta | outperform] > 0
-Delta | matched = 0
-E[Delta | underperform] < 0
-When possible, express deltas in USD for the 10,000 USD comparison principal. Include a confidence interval, credible interval, scenario range, or distribution summary for outperform and underperform deltas. Optionally include the secondary derived quantity:
-
-text
-E[Delta] = P(outperform) * E[Delta | outperform] + P(underperform) * E[Delta | underperform]
-The matched term is omitted because its delta is `0`.
-
-Do not present these estimates as predictions or advice. They are scenario-weighted research judgments based on the available evidence and stated assumptions.
-
-## Comparative alternatives lens
-
-Treat the task as a direct comparison among MSFT, NVDA, and AAPL, emphasizing differentiators, trade-offs, and decisive criteria. The brief must include a compact comparison table:
+Include a compact comparison table:
 
 | Criterion | MSFT | NVDA | AAPL | Winner | Why it matters |
 | --- | --- | --- | --- | --- | --- |
@@ -145,67 +105,83 @@ Treat the task as a direct comparison among MSFT, NVDA, and AAPL, emphasizing di
 | Valuation risk | assessment | assessment | assessment | asset | decision relevance |
 | Competitive position | assessment | assessment | assessment | asset | decision relevance |
 | Margin durability | assessment | assessment | assessment | asset | decision relevance |
-| Credible downside evidence | assessment | assessment | assessment | asset | decision relevance |
-| Benchmark-relative risk/reward | assessment | assessment | assessment | asset | decision relevance |
+| Downside evidence | assessment | assessment | assessment | asset | decision relevance |
 
 Also include:
 
-- `Leading option: option`
-- `Runner-up: option`
-- `Decisive criterion: criterion`
-- `Confidence: low | medium | high`
-- **Best if:** when each candidate would be the right first research priority.
-- **Avoid if:** when each candidate would be the wrong first research priority.
+- **Best if:** when each asset would be the most appropriate candidate for deeper research.
+- **Avoid if:** when each asset would be the wrong first research priority.
 - **Ranking trigger:** what evidence or constraint would change the order.
+
+## Risk-free benchmark lens
+
+State the benchmark assumptions clearly: 12-month U.S. Treasury / T-bill proxy, assumed 4.5% annualized yield, 12-month horizon, USD, 10,000 USD principal, no tax or fee adjustment unless the live evidence supplies it, and a matched-performance materiality band of within +/- 2 percentage points of the risk-free benchmark terminal value.
+
+For each asset, estimate the benchmark-relative distribution using this structure:
+
+| Quantity | Estimate | Confidence | Notes |
+| --- | --- | --- | --- |
+| `P(D outperforms the risk-free asset)` | probability | low/medium/high | main drivers |
+| `P(D matches the risk-free asset)` | probability | low/medium/high | materiality band used |
+| `P(D underperforms the risk-free asset)` | probability | low/medium/high | downside drivers |
+| `E[Delta | outperform]` | positive absolute value | interval/distribution | likely outperform magnitude |
+| `Delta | matched` | `0` | classification band | matched by definition |
+| `E[Delta | underperform]` | negative absolute value | interval/distribution | likely underperform magnitude |
+
+The three probabilities must be mutually exclusive, collectively exhaustive, and sum to 100% except for rounding.
+
+Use this delta definition:
+
+```text
+Delta = terminal value of D - terminal value of the matched risk-free asset
+E[Delta | outperform] > 0
+Delta | matched = 0
+E[Delta | underperform] < 0
+```
+
+Use absolute USD deltas for the 10,000 USD comparison principal where possible. Include a confidence interval, credible interval, scenario range, or distribution summary for outperform and underperform deltas. If useful, add the unconditional expected delta as a secondary derived quantity:
+
+```text
+E[Delta] = P(outperform) * E[Delta | outperform] + P(underperform) * E[Delta | underperform]
+```
+
+The matched term is omitted because its delta is `0`.
 
 ## Explainability requirements
 
-Start each major conclusion with the finding, then show the reasoning chain. Include a traceable table where useful:
+Start each major conclusion with the answer, then show the reasoning chain. Include a traceability table:
 
 | Step | Claim or inference | Evidence or basis | Confidence |
 | --- | --- | --- | --- |
-| 1 | claim | source, calculation, assumption, or observation | low / medium / high |
+| 1 | claim | source, calculation, assumption, or observation | low/medium/high |
 
-Include:
+Then include:
 
 - **Key assumptions:** assumptions the conclusion depends on.
-- **Checks performed:** finance data checks, news checks, web/crawl checks, calculations, comparisons, and source-quality checks actually used.
-- **Limits:** what remains uncertain, unverified, stale, outside scope, or not personalized.
+- **Checks performed:** calculations, comparisons, source checks, or benchmark comparisons actually used.
+- **Limits:** what remains uncertain, unverified, stale, conflicting, or outside scope.
 - **Simplest explanation:** a plain-language version a non-specialist can inspect quickly.
 
 ## Required output
 
-Write a concise, source-grounded investment-learning brief with these sections, in this order:
+Write a concise, source-grounded investment-learning brief with these sections:
 
-1. **Context status** — classify the context as `sufficient`, `limited`, or `insufficient` for this educational comparison. State why near the top. Include the highest-impact missing inputs, how the gaps affect confidence, what can still be said responsibly, and the smallest next evidence that would improve the answer.
-
-2. **Evidence base** — summarize which finance, news, web, and crawled sources were used. Grade the evidence as strong, adequate, weak, or insufficient. Apply the relevance, specificity, freshness, independence, and contradiction rubric. Name the main evidence gap and decision impact.
-
-3. **Candidate comparison** — compare MSFT, NVDA, and AAPL against the risk-free benchmark and against each other. Use the comparative table above. Identify the decisive criteria and explain why they matter for a 12-month educational comparison.
-
-4. **Risk-free benchmark lens** — for each asset, estimate:
+1. **Decision snapshot** — provide `Leading option`, `Runner-up`, `Decisive criterion`, and `Confidence`. If evidence does not justify a ranking, say so.
+2. **Context status** — classify the context as `sufficient`, `limited`, or `insufficient` for this educational comparison, and state why.
+3. **Evidence base** — summarize which finance, news, web, and crawled sources were used. Grade the evidence as strong, adequate, weak, or insufficient. State the main gap and decision impact.
+4. **Candidate comparison** — compare MSFT, NVDA, and AAPL against the risk-free benchmark and against each other. Identify decisive criteria using the comparison table.
+5. **Risk-free benchmark lens** — for each asset, estimate:
    - `P(outperform)`
    - `P(match)`
    - `P(underperform)`
    - scenario-conditional delta magnitudes versus the risk-free benchmark
-   - confidence and the assumptions behind the estimate
+   - confidence and assumptions behind the estimate
+6. **Leading research candidate** — name the asset that most deserves deeper research first, the runner-up, the decisive criterion, and what evidence would change the ranking.
+7. **Downside and disconfirming evidence** — surface the strongest bear case, contradiction, or missing evidence for each candidate.
+8. **Next research steps** — list the smallest high-value evidence checks a learner should perform next.
+9. **Reasoning trace and limits** — provide the traceability table, key assumptions, checks performed, limits, and simplest explanation.
 
-   Ensure the three probabilities for each asset sum to 100% except for rounding. Keep retrieved facts, assumptions, estimates, and implications separate.
-
-5. **Leading research candidate** — name the asset that most deserves deeper research first, the runner-up, the decisive criterion, and what evidence would change the ranking. Include:
-   - `Leading option: option`
-   - `Runner-up: option`
-   - `Decisive criterion: criterion`
-   - `Confidence: low | medium | high`
-   - **Best if:** for each candidate
-   - **Avoid if:** for each candidate
-   - **Ranking trigger:** evidence or constraints that would change the order
-
-6. **Downside and disconfirming evidence** — surface the strongest bear case, contrary evidence, or missing evidence for each candidate. Do this before implying that any candidate deserves deeper research.
-
-7. **Next research steps** — list the smallest high-value evidence checks a learner should perform next. Frame them as research options, not instructions to trade. Prioritize checks that would reduce the largest uncertainty or test the leading bear case.
-
-Do not issue a buy, sell, or hold recommendation. Do not imply certainty. Do not personalize the conclusion to an investor’s portfolio, tax situation, liquidity needs, legal constraints, or risk tolerance. Keep facts, retrieved data, assumptions, estimates, and implications separate.
+Do not issue a buy, sell, or hold recommendation. Do not imply certainty. Keep facts, retrieved data, assumptions, estimates, and implications separate.
 ```
 
 ## Companion runtime result summary
@@ -219,21 +195,21 @@ Do not issue a buy, sell, or hold recommendation. Do not imply certainty. Do not
       "ticker": "MSFT",
       "company_name": "Microsoft Corporation",
       "crawled_urls": [
-        "https://www.nasdaq.com/market-activity/stocks/msft/earnings"
+        "https://www.microsoft.com/en-us?msockid=065def345b566f5c0230f8ae5ac36ee7"
       ]
     },
     {
       "ticker": "NVDA",
       "company_name": "NVIDIA Corporation",
       "crawled_urls": [
-        "https://investor.nvidia.com/financial-info/quarterly-results/default.aspx"
+        "https://en.wikipedia.org/wiki/Nvidia"
       ]
     },
     {
       "ticker": "AAPL",
       "company_name": "Apple Inc.",
       "crawled_urls": [
-        "https://quartr.com/companies/apple-inc_4742"
+        "https://en.m.wikipedia.org/wiki/Apple_Inc."
       ]
     }
   ]
@@ -243,291 +219,330 @@ Do not issue a buy, sell, or hold recommendation. Do not imply certainty. Do not
 ## Final response
 
 ```markdown
-## 1. **Context status** — `limited`
+## 1. Decision snapshot
 
-**Finding: The context is sufficient for a bounded educational research-prioritization, but `limited` for any investment action.**
-Reasoning: asset identity, tickers, market, currency, horizon, benchmark, principal, and materiality band are specified. However, the evidence base lacks complete official recent earnings filings for all three companies, verified AI revenue attribution, investor-specific constraints, tax treatment, trading costs, liquidity needs, portfolio concentration, and rebalancing rules.
+- `Leading option: NVDA`
+- `Runner-up: MSFT`
+- `Decisive criterion: direct AI platform exposure plus the largest 12-month uncertainty worth researching first`
+- `Confidence: medium-low`
 
-**What can still be said responsibly:**
-A comparative research ranking can be made using the supplied live finance snapshots, retrieved web/news context, crawled source material, and deterministic benchmark math. It should be treated as an educational prioritization only, not a buy/sell/hold recommendation.
-
-**Highest-impact missing inputs:**
-
-| Missing input | Why it matters | Effect on confidence |
-|---|---:|---|
-| Complete latest 10-Q / earnings releases for MSFT, NVDA, and AAPL | Needed to verify segment revenue, AI monetization, margins, cash flow, capex, and guidance | Reduces confidence in earnings-quality comparisons |
-| AI-specific revenue, backlog, customer concentration, and capex economics | Needed to distinguish “AI exposure” from profitable AI monetization | Material for MSFT vs NVDA ranking |
-| Forward valuation based on consensus EPS/FCF and scenario multiples | Needed to judge whether growth expectations are already priced in | Material for 12-month risk/reward |
-| Implied volatility / options market / drawdown history | Needed for probability estimates versus a 12-month Treasury benchmark | Keeps probability estimates low-to-medium confidence |
-| Taxes, fees, execution costs, account type | Needed for real-world terminal value | Excluded from this brief |
-
-**Smallest next evidence that would improve the answer:**
-Retrieve and compare the latest official quarterly earnings releases / 10-Qs for MSFT, NVDA, and AAPL, with segment revenue growth, operating income, gross margin, capex, free cash flow, and management guidance.
+**Answer:** NVIDIA deserves deeper research first for this educational comparison, not because it is “safer,” but because it has the clearest direct AI infrastructure exposure, the strongest retrieved growth/margin metrics, and the most material downside questions versus a 4.5% T-bill benchmark. Microsoft is the runner-up because it offers broader, more diversified AI platform exposure with lower valuation and volatility risk in the retrieved data. Apple ranks third for this specific AI-platform research question because its AI monetization evidence is less direct while its retrieved valuation appears demanding.
 
 ---
 
-## 2. **Evidence base**
+## 2. Context status
 
-**Finding: The evidence base is adequate for prioritizing research, but not strong enough for a high-confidence investment conclusion.**
+`limited`
 
-### Sources used
+**Why:** The context is sufficient to make a bounded educational research-priority ranking, but not sufficient for a confident investment conclusion.
 
-**Finance data provider:**
-- Ellements / Yahoo Finance snapshots for MSFT, NVDA, and AAPL: current price, market cap, P/E, forward P/E, PEG, price/sales, EV/EBITDA, margins, growth, beta, dividend yield, balance-sheet metrics, and analyst targets.
+**Included context:**
 
-**Crawled / searched sources:**
+- Asset identities: MSFT, NVDA, AAPL.
+- Instrument type: U.S.-listed common equities.
+- Market/exchange/currency: NASDAQ/NMS, USD.
+- Country: United States for all three.
+- Horizon: 12 months.
+- Benchmark: assumed 12-month U.S. Treasury / T-bill proxy at 4.5%.
+- Principal: 10,000 USD.
+- Materiality band: within ±2 percentage points of the benchmark terminal value.
+- Finance data: current price, market cap, margins, growth, valuation multiples, beta, analyst ratings from Ellements/Yahoo Finance runtime.
 
-| Asset | Source type | Source / URL | Use in brief |
-|---|---|---|---|
-| MSFT | Finance snapshot | Ellements Yahoo Finance | Valuation, growth, margins, beta, analyst targets |
-| MSFT | Web search | Nasdaq earnings page: https://www.nasdaq.com/market-activity/stocks/msft/earnings | Official earnings-calendar context; crawl did not provide useful earnings figures |
-| MSFT | Web search | Seeking Alpha snippet; Insider Monkey snippet | Recent market/news color; treated as lower-quality because not official |
-| NVDA | Finance snapshot | Ellements Yahoo Finance | Valuation, growth, margins, beta, analyst targets |
-| NVDA | Official IR search/crawl | https://investor.nvidia.com/financial-info/quarterly-results/default.aspx | Official investor-relations location; search snippet reported Q1 FY2027 revenue of $81.6B, up 20% sequentially and 85% YoY, but crawl page itself was sparse |
-| NVDA | News search | Blockonomi DeepSeek custom AI chip article; Yahoo Finance / MSN / Wedbush-related snippets | AI-chip competition and sentiment context; source quality mixed |
-| AAPL | Finance snapshot | Ellements Yahoo Finance | Valuation, growth, margins, beta, analyst targets |
-| AAPL | Crawled source | Quartr Apple investor-relations material: https://quartr.com/companies/apple-inc_4742 | Q2 2026 revenue, EPS, margin, guidance, services margin, CEO-transition note |
-| AAPL | News search | Yahoo Finance, USA Today, 24/7 Wall St., 9to5Mac snippets | Demand, component-cost, AI-caution, valuation, and legal-risk context; source quality mixed |
+**Limitations near the top:**
 
-### Evidence-quality rubric
-
-| Criterion | Rating | Basis |
-|---|---:|---|
-| Relevance | High | Inputs directly cover the requested assets, benchmark, horizon, AI exposure, earnings, valuation, margins, and downside risks |
-| Specificity | Medium-high | Finance metrics are specific; crawled Apple data is specific; MSFT and NVDA official crawls were less complete |
-| Freshness | Medium-high | Runtime data appears current for the 2026-07-16 session; some search snippets are current, but retrieval timestamps and full article verification are incomplete |
-| Independence | Medium | Finance data plus web/crawl/search sources; however, many news snippets are syndicated or secondary |
-| Contradictions | Medium | Analyst targets are positive for MSFT/NVDA but AAPL mean target is below current price; AI enthusiasm conflicts with valuation and competition risks |
-
-**Evidence grade:** adequate.
-**Main gap:** complete official recent earnings filings and AI-specific monetization / capex data for all three companies.
-**Decision impact:** evidence is enough to prioritize research, not enough to make an investment recommendation or personalized portfolio decision.
+- No official 10-Q/10-K, earnings release, or transcript was successfully crawled for any company.
+- Web/crawl evidence quality is uneven: Microsoft crawl returned mostly a cookie notice; NVIDIA and Apple crawls relied on Wikipedia pages, not filings.
+- The runtime did not provide a timestamp for the market snapshot.
+- No options-implied distributions, consensus forward revenue by segment, capex commitments, customer concentration data, or official AI monetization disclosures were provided.
+- The probability estimates below are scenario assumptions, not statistical forecasts.
 
 ---
 
-## 3. **Candidate comparison**
+## 3. Evidence base
 
-**Finding: NVDA has the strongest direct AI-platform exposure and earnings-growth signal; MSFT has the more balanced platform-and-margin durability profile; AAPL has the weakest AI-platform evidence relative to valuation.**
+### Sources actually used
 
-### Deterministic benchmark setup
+**Structured finance data — primary evidence**
 
-- **Risk-free benchmark assumption:** 12-month U.S. Treasury / T-bill proxy at **4.5% annualized yield**.
-- **Principal:** 10,000 USD.
-- **Risk-free terminal value:**
-  \[
-  10{,}000 \times 1.045 = 10{,}450
-  \]
-- **Matched-performance band:** within +/- 2 percentage points of the benchmark return.
-  - Match range: **2.5% to 6.5% total return**
-  - Terminal-value range: **10,250 USD to 10,650 USD**
-  - Delta range versus benchmark: **-200 USD to +200 USD**
-- **Taxes, fees, bid/ask spreads, and execution costs:** excluded / unknown.
+Provider: `ellements.domain_specific.finance.yahoo_finance`
+
+Used for:
+
+- Current prices.
+- Market capitalization.
+- P/E, forward P/E, PEG, price/sales, EV/revenue, EV/EBITDA.
+- Gross, operating, and profit margins.
+- Revenue and earnings growth.
+- Beta.
+- Analyst recommendation means and price targets.
+
+**Web search evidence — secondary / contextual**
+
+Used search results included:
+
+- Microsoft quote/news context via Yahoo Finance search result: https://finance.yahoo.com/quote/MSFT/
+- NVIDIA recent AI/Blackwell and DeepSeek-related news snippets, including Blockonomi article on DeepSeek custom AI chip and NVDA stock reaction: https://blockonomi.com/deepseek-develops-custom-ai-chip-as-nvidia-nvda-stock-falls-2/
+- Apple recent rally / HSBC upgrade article via Yahoo Finance: https://finance.yahoo.com/markets/stocks/articles/aapl-stock-hits-fresh-record-022034847.html
+- Apple bear-case search result discussing iPhone saturation, upgrade cycles, Greater China competition, and regulatory pressure: https://finance.yahoo.com/news/apple-inc-aapl-bear-case-143700790.html?fr=sycsrp_catchall
+
+**Crawled evidence**
+
+- Microsoft official site crawl: https://www.microsoft.com/en-us — low usefulness; returned cookie notice rather than investor information.
+- NVIDIA Wikipedia crawl: https://en.wikipedia.org/wiki/Nvidia — useful for broad company/product context, CUDA, AI/GPU history, and stated GPU market share, but not a primary financial source.
+- Apple Wikipedia crawl: https://en.m.wikipedia.org/wiki/Apple_Inc. — useful for broad company identity and product/services context, but not a primary financial source.
+
+### Evidence assessment
+
+| Criterion | Assessment |
+|---|---|
+| Relevance | Adequate for valuation, margins, growth, analyst sentiment, and AI exposure. Weak for official recent earnings quality. |
+| Specificity | Strong for retrieved finance metrics; weak-to-adequate for web snippets. |
+| Freshness | Market data appears live/current but lacks explicit timestamp. Web snippets include recent-looking items, but dates are inconsistent and not independently verified. |
+| Independence | Moderate: Yahoo Finance structured data plus web search/crawl, but official filings were not retrieved. |
+| Contradictions | Some contradictions surfaced: Apple has a record-high/rally narrative but analyst mean target below current price; NVIDIA has exceptional growth but higher beta and AI-chip substitution risk; Microsoft has strong analyst support but multiple-compression concerns in search snippets. |
+
+- **Evidence grade:** adequate
+- **Main gap:** official latest earnings releases / 10-Qs, segment growth, capex, AI revenue contribution, and management commentary for all three.
+- **Decision impact:** enough to rank for research priority; not enough to make a buy/sell/hold or high-confidence return ranking.
+
+---
+
+## 4. Candidate comparison
+
+### Benchmark facts and deterministic calculation
+
+**Supplied benchmark assumption:** 12-month U.S. Treasury / T-bill proxy, 4.5% annualized yield, USD, 10,000 USD principal, no tax or fee adjustment.
+
+**Calculation:**
+
+- Risk-free terminal value = `10,000 × 1.045 = 10,450 USD`
+- Matched-performance materiality band = ±2 percentage points around benchmark return.
+- Matched terminal value band = approximately `10,250 USD to 10,650 USD`
+- Matched delta band versus risk-free = `-200 USD to +200 USD`
 
 ### Compact comparison table
 
 | Criterion | MSFT | NVDA | AAPL | Winner | Why it matters |
 |---|---|---|---|---|---|
-| AI platform exposure | Broad enterprise AI platform via Azure, Microsoft 365 Copilot, GitHub, cloud infrastructure, and AI partnerships noted in company profile | Most direct AI infrastructure exposure; company profile describes data-center scale AI infrastructure, accelerated computing, networking, AI software | AI exposure is more ecosystem / on-device / services-adjacent; less direct evidence of AI platform monetization in supplied data | **NVDA** | Direct AI revenue sensitivity is highest for NVDA, making it the cleanest AI-platform research case |
-| Recent earnings quality | Finance snapshot shows revenue growth **18.3%**, earnings growth **23.4%**, operating margin **46.3%**, profit margin **39.3%** | Finance snapshot shows revenue growth **85.2%**, earnings growth **214.5%**, gross margin **74.1%**, operating margin **65.6%**; NVDA IR search snippet reports Q1 FY2027 revenue **$81.6B**, up **85% YoY** | Quartr crawl reports Q2 2026 revenue **$111.2B**, up **17% YoY**, diluted EPS **$2.01**, up **22% YoY**, gross margin **49.3%** | **NVDA** | Highest recent growth and margins create the strongest case to test whether AI growth is durable or peaking |
-| Valuation risk | P/E **24.1**, forward P/E **20.9**, PEG **1.19**, P/S **9.43**, EV/EBITDA **16.2** | P/E **31.7**, forward P/E **16.2**, PEG **0.65**, but P/S **19.8**, EV/EBITDA **30.8**, beta **2.21** | P/E **40.2**, forward P/E **34.5**, PEG **2.54**, P/S **10.8**, EV/EBITDA **30.2** | **MSFT** | MSFT has the best balance of valuation, profitability, and diversification; AAPL has the most obvious multiple risk |
-| Competitive position | Strong enterprise distribution, cloud scale, productivity-suite lock-in, developer ecosystem | Strongest AI accelerator ecosystem in supplied data; major beneficiary of AI infrastructure buildout | Strong consumer ecosystem and services base, but AI differentiation is less supported by supplied evidence | **NVDA / MSFT** | NVDA wins direct AI infrastructure; MSFT wins enterprise distribution breadth |
-| Margin durability | Gross margin **68.3%**, operating margin **46.3%**; software/cloud mix supports durability | Gross margin **74.1%**, operating margin **65.6%**, but semiconductor cyclicality and customer capex sensitivity are key risks | Gross margin **47.9%** in finance snapshot; Quartr Q2 gross margin **49.3%**, Services margin **76.7%**; hardware cost pressure noted in news | **MSFT** | Durable margins matter against a certain 4.5% Treasury return; MSFT’s software mix reduces cyclicality relative to NVDA |
-| Credible downside evidence | AI execution, capex economics, cloud competition, and valuation compression risk; official earnings crawl incomplete | High beta **2.21**, high sales/EBITDA multiples, custom-chip competition headlines including DeepSeek chip article, and AI-cycle concentration | Mean analyst target **$315.79** is below current price **$332.03**; high P/E/PEG; iPhone saturation and component-cost/margin concerns in searched news | **MSFT** | “Winner” here means least severe downside evidence among the three, not absence of risk |
-| Benchmark-relative risk/reward | Moderate upside probability with less extreme downside than NVDA | Highest upside probability and highest downside dispersion | Weakest benchmark-relative setup due high valuation and analyst mean target below current price | **NVDA, risk-adjusted runner-up MSFT** | NVDA is the highest-information AI research case; MSFT is the steadier comparison |
+| AI platform exposure | Broad enterprise AI exposure through Azure, Microsoft 365, Copilot, GitHub, cloud, and enterprise software stack. | Most direct AI infrastructure exposure: GPUs, accelerated computing, networking, CUDA/software ecosystem; profile describes data-center-scale AI infrastructure. | Consumer device/services ecosystem with potential on-device AI leverage, but retrieved evidence gives less direct AI monetization detail. | NVDA | The question is specifically about large-cap AI platform exposure; NVDA is most directly tied to AI compute demand. |
+| Recent earnings quality | Retrieved metrics: revenue growth 18.3%, earnings growth 23.4%, operating margin 46.3%, profit margin 39.3%. High-quality, diversified, but official recent earnings not crawled. | Retrieved metrics: revenue growth 85.2%, earnings growth 214.5%, gross margin 74.1%, operating margin 65.6%, profit margin 63.0%. Strongest, but cyclicality/concentration risk is high. | Retrieved metrics: revenue growth 16.6%, earnings growth 21.8%, operating margin 32.3%, profit margin 27.2%. Solid, but weaker than NVDA/MSFT on margin/growth mix. | NVDA | Earnings quality matters because the equity must beat a certain 4.5% benchmark; growth durability is central. |
+| Valuation risk | P/E 23.5, forward P/E 20.3, P/S 9.2, EV/EBITDA 16.1. Lowest apparent valuation risk among the three. | P/E 31.1, forward P/E 15.8, P/S 19.4, EV/EBITDA 29.4. High sales multiple; forward P/E assumes growth durability. | P/E 40.5, forward P/E 34.6, P/S 10.9, EV/EBITDA 30.7. Most demanding relative to retrieved growth profile. | MSFT | Multiple compression can overwhelm good fundamentals over 12 months. |
+| Competitive position | Strong enterprise distribution, cloud, productivity, developer, security, and AI integration channels. | Strong AI accelerator and CUDA ecosystem position; crawled NVIDIA page describes CUDA and AI/high-performance compute role. | Strong consumer ecosystem, brand, installed base, App Store/services, devices. | NVDA/MSFT tie | NVDA leads direct AI infrastructure; MSFT leads enterprise platform breadth. |
+| Margin durability | Gross margin 68.3%, operating margin 46.3%; diversified software/cloud mix supports durability, though AI capex could pressure returns. | Gross margin 74.1%, operating margin 65.6%; exceptional but vulnerable to competition, export restrictions, mix shift, hyperscaler bargaining power, and supply dynamics. | Gross margin 47.9%, operating margin 32.3%; durable ecosystem but more hardware-cycle exposed. | MSFT | NVDA’s margins are higher, but MSFT’s may be more durable across scenarios. |
+| Downside evidence | Multiple compression risk, AI capex return uncertainty, cloud competition, Copilot adoption uncertainty. | High beta 2.21, high P/S, customer/capex-cycle risk, custom AI chip competition such as DeepSeek-related news: https://blockonomi.com/deepseek-develops-custom-ai-chip-as-nvidia-nvda-stock-falls-2/ | Highest P/E among the three, analyst mean target below current price, iPhone saturation/regulatory/China bear-case evidence: https://finance.yahoo.com/news/apple-inc-aapl-bear-case-143700790.html?fr=sycsrp_catchall | MSFT | For downside resilience, MSFT has the best balance of valuation, margin, and diversification in retrieved data. |
 
-### Traceable reasoning chain
+### Direct comparison implication
+
+**Answer:** NVDA is the first research candidate because it has the most direct AI-platform upside and the largest uncertainty.
+**Reasoning:** Its retrieved revenue growth, earnings growth, gross margin, operating margin, and analyst sentiment are strongest, but its valuation, beta, and AI infrastructure concentration create the biggest need for verification.
+**Counter-argument:** If the research objective prioritizes downside control over AI-platform purity, MSFT should be first.
+
+---
+
+## 5. Risk-free benchmark lens
+
+### Shared assumptions for all three estimates
+
+**Facts:**
+
+- Benchmark terminal value: 10,450 USD.
+- Match band: terminal value between 10,250 USD and 10,650 USD.
+- Outperform means materially above benchmark: delta greater than +200 USD.
+- Match means within ±200 USD of benchmark.
+- Underperform means materially below benchmark: delta less than -200 USD.
+
+**Estimates:** The probabilities below are subjective scenario weights based on retrieved valuation, growth, margin, beta, analyst-target dispersion, and downside evidence. They are not forecasts and are low-confidence.
+
+---
+
+### MSFT versus 12-month T-bill proxy
+
+| Quantity | Estimate | Confidence | Notes |
+|---|---:|---|---|
+| `P(D outperforms the risk-free asset)` | 42% | Low | Supported by strong margins, 18.3% revenue growth, 23.4% earnings growth, diversified AI/cloud platform, strong analyst recommendation mean of 1.32. |
+| `P(D matches the risk-free asset)` | 10% | Low | Match band is narrow: equity terminal value must land between about 10,250 and 10,650 USD. |
+| `P(D underperforms the risk-free asset)` | 48% | Low | Downside drivers: multiple compression, AI capex uncertainty, cloud competition, beta 1.13, and 12-month equity volatility. |
+| `E[Delta \| outperform]` | +1,600 USD | Low; scenario range +300 to +4,000 USD | Requires material price appreciation and/or dividend contribution above the 4.5% benchmark. |
+| `Delta \| matched` | 0 USD | Classification band | Matched by definition within ±200 USD. |
+| `E[Delta \| underperform]` | -1,500 USD | Low; scenario range -300 to -4,000 USD | Could occur through modest drawdown, valuation reset, or AI/cloud spending disappointment. |
+
+**Secondary derived estimate:**
+`E[Delta] ≈ 0.42×1,600 + 0.48×(-1,500) = -48 USD`
+
+**Interpretation:** MSFT appears closest to a balanced risk/reward research case versus the T-bill benchmark, but the expected delta estimate is essentially noise.
+
+---
+
+### NVDA versus 12-month T-bill proxy
+
+| Quantity | Estimate | Confidence | Notes |
+|---|---:|---|---|
+| `P(D outperforms the risk-free asset)` | 49% | Low | Supported by strongest retrieved AI exposure, 85.2% revenue growth, 214.5% earnings growth, 74.1% gross margin, 65.6% operating margin, and analyst recommendation mean of 1.30. |
+| `P(D matches the risk-free asset)` | 6% | Low | High beta 2.21 makes a narrow match band less likely. |
+| `P(D underperforms the risk-free asset)` | 45% | Low | Downside drivers: high P/S 19.4, EV/EBITDA 29.4, customer/capex-cycle exposure, export/regulatory risks, custom AI-chip competition, and higher volatility. |
+| `E[Delta \| outperform]` | +3,400 USD | Low; scenario range +600 to +8,000 USD | NVDA has the widest upside scenario range because earnings leverage and sentiment can move valuation sharply. |
+| `Delta \| matched` | 0 USD | Classification band | Matched by definition within ±200 USD. |
+| `E[Delta \| underperform]` | -3,200 USD | Low; scenario range -600 to -7,000 USD | High valuation and beta increase downside magnitude if AI demand expectations reset. |
+
+**Secondary derived estimate:**
+`E[Delta] ≈ 0.49×3,400 + 0.45×(-3,200) = +226 USD`
+
+**Interpretation:** NVDA has the highest estimated upside and downside magnitude. That makes it the most important research candidate, not the lowest-risk candidate.
+
+---
+
+### AAPL versus 12-month T-bill proxy
+
+| Quantity | Estimate | Confidence | Notes |
+|---|---:|---|---|
+| `P(D outperforms the risk-free asset)` | 34% | Low | Supported by brand/ecosystem durability, 16.6% revenue growth, 21.8% earnings growth, and recent rally/upgrade context from Yahoo Finance article: https://finance.yahoo.com/markets/stocks/articles/aapl-stock-hits-fresh-record-022034847.html |
+| `P(D matches the risk-free asset)` | 10% | Low | Beta 1.10 is lower than NVDA, but equity volatility still makes exact matching unlikely. |
+| `P(D underperforms the risk-free asset)` | 56% | Low | Downside drivers: highest retrieved P/E 40.5, forward P/E 34.6, EV/EBITDA 30.7, analyst mean target of 318.25 below current price 333.74, iPhone-cycle and China/regulatory risks. |
+| `E[Delta \| outperform]` | +1,500 USD | Low; scenario range +300 to +3,500 USD | Requires successful AI/device upgrade-cycle narrative or continued multiple expansion. |
+| `Delta \| matched` | 0 USD | Classification band | Matched by definition within ±200 USD. |
+| `E[Delta \| underperform]` | -2,000 USD | Low; scenario range -400 to -4,500 USD | High valuation leaves less room for disappointment. |
+
+**Secondary derived estimate:**
+`E[Delta] ≈ 0.34×1,500 + 0.56×(-2,000) = -610 USD`
+
+**Interpretation:** AAPL has strong business quality, but for this AI-platform comparison it has the weakest benchmark-relative setup in the retrieved evidence.
+
+---
+
+## 6. Leading research candidate
+
+### Leading candidate: NVDA
+
+**Downside first:** NVDA has the largest credible downside range in this comparison. Its beta is 2.21, its price/sales multiple is 19.4, and its AI infrastructure revenue depends on hyperscaler capex, supply chains, export rules, and competitive/custom silicon risk. A DeepSeek-related search result specifically flags custom AI chip development as a potential pressure point for NVIDIA shares: https://blockonomi.com/deepseek-develops-custom-ai-chip-as-nvidia-nvda-stock-falls-2/
+
+**Why research it first:** NVDA is the cleanest test case for the AI-platform question. If the learner wants to understand whether AI infrastructure economics can beat a 4.5% short-duration Treasury over 12 months, NVDA is the highest-signal candidate.
+
+### Runner-up: MSFT
+
+**Why:** Microsoft has less direct AI hardware leverage than NVDA, but it has broader platform integration across Azure, Microsoft 365, Copilot, GitHub, enterprise security, and developer workflows. It also has lower retrieved valuation risk than both NVDA and AAPL.
+
+### What would change the ranking?
+
+- **MSFT moves to first** if the learner prioritizes downside resilience, valuation discipline, recurring revenue, and margin durability over direct AI-infrastructure exposure.
+- **AAPL moves higher** if official evidence shows AI features are accelerating iPhone upgrades, services attach rates, or gross margin while valuation normalizes.
+- **NVDA falls behind MSFT** if official filings show slowing data-center growth, margin compression, rising inventory risk, customer concentration, export-control damage, or declining return on AI capex.
+
+---
+
+## 7. Downside and disconfirming evidence
+
+### MSFT
+
+**Bear case:** Microsoft may be a high-quality company whose stock still underperforms a 4.5% T-bill if valuation multiples compress or AI monetization does not justify capex and operating expense growth.
+
+- Retrieved valuation: P/E 23.5, forward P/E 20.3, P/S 9.2.
+- Risk: AI revenue may be harder to isolate than AI costs.
+- Search snippets included “multiple compression” concerns for Microsoft.
+- Cloud competition from Amazon Web Services and Google Cloud remains relevant.
+
+**Strongest counter-argument to MSFT leadership:** Microsoft’s lower valuation and diversification may make it the better first research candidate if the learning objective is risk-adjusted resilience rather than AI-platform purity.
+
+---
+
+### NVDA
+
+**Bear case:** NVIDIA may have the best AI exposure but also the most crowded expectations. A small slowdown in AI capex, gross margin, export access, or hyperscaler demand could create large downside because the market is already pricing exceptional growth.
+
+- Retrieved beta: 2.21.
+- Retrieved P/S: 19.4.
+- Retrieved EV/EBITDA: 29.4.
+- Retrieved gross margin: 74.1%, which is excellent but may be difficult to sustain.
+- DeepSeek/custom AI chip risk appeared in search results: https://blockonomi.com/deepseek-develops-custom-ai-chip-as-nvidia-nvda-stock-falls-2/
+- NVIDIA Wikipedia crawl supports its CUDA/GPU/AI platform role but does not validate current financial durability: https://en.wikipedia.org/wiki/Nvidia
+
+**Strongest counter-argument to NVDA leadership:** If hyperscaler AI spending remains strong and NVIDIA’s software/networking ecosystem sustains pricing power, current valuation risk may be less important than earnings growth.
+
+---
+
+### AAPL
+
+**Bear case:** Apple’s retrieved valuation is demanding relative to its growth and less direct AI platform evidence. The analyst mean price target of 318.25 is below the retrieved current price of 333.74, and AAPL’s P/E of 40.5 is the highest among the three.
+
+- Retrieved forward P/E: 34.6.
+- Retrieved EV/EBITDA: 30.7.
+- Retrieved dividend yield: 0.32%, offering little benchmark offset.
+- Yahoo Finance search result noted a fresh record/high and HSBC upgrade to a 366 price target, but the broader analyst mean target remained below current price: https://finance.yahoo.com/markets/stocks/articles/aapl-stock-hits-fresh-record-022034847.html
+- Bear-case source highlights iPhone saturation, upgrade cycles, China competition, and regulatory pressure: https://finance.yahoo.com/news/apple-inc-aapl-bear-case-143700790.html?fr=sycsrp_catchall
+
+**Strongest counter-argument to AAPL under-ranking:** Apple’s installed base, ecosystem control, services revenue, and potential on-device AI cycle could surprise positively if official results show upgrade acceleration.
+
+---
+
+## 8. Best if / avoid if / ranking trigger
+
+| Asset | Best if | Avoid as first research priority if | Ranking trigger |
+|---|---|---|---|
+| MSFT | The learner wants a diversified enterprise AI platform with lower valuation risk and durable margins. | The learner wants the purest AI infrastructure exposure. | Moves to first if NVDA margin/growth durability weakens or if risk control is the decisive constraint. |
+| NVDA | The learner wants the clearest AI compute/platform exposure and is studying high-upside/high-downside dispersion. | The learner wants lower volatility, lower valuation risk, or more diversified revenue. | Falls behind MSFT if data-center growth slows, gross margin compresses, or custom silicon/export risks intensify. |
+| AAPL | The learner wants to study consumer AI adoption, device upgrade cycles, and ecosystem monetization. | The learner wants direct AI infrastructure/platform exposure or valuation support from current analyst targets. | Moves higher if official evidence shows AI-driven iPhone/services acceleration and valuation becomes less stretched. |
+
+---
+
+## 9. Next research steps
+
+Smallest high-value evidence checks:
+
+1. **Retrieve latest official quarterly earnings releases and 10-Qs** for MSFT, NVDA, and AAPL.
+2. **Separate AI-linked revenue from AI-linked cost/capex** where disclosed.
+3. **For NVDA:** check data-center revenue growth, gross margin trend, customer concentration, export-control exposure, inventory, and Blackwell supply/demand commentary.
+4. **For MSFT:** check Azure growth, Copilot adoption metrics, AI capex, operating margin impact, and whether AI is expanding or cannibalizing existing software economics.
+5. **For AAPL:** check iPhone unit/revenue trends, Greater China performance, services growth, App Store/regulatory risk, and any measurable Apple Intelligence upgrade-cycle evidence.
+6. **Compare valuation to forward consensus revisions**, not just trailing metrics.
+7. **Check options-implied volatility or historical drawdown distributions** to improve the benchmark-relative probability estimates.
+8. **Validate the current 12-month Treasury yield** rather than relying only on the assumed 4.5%.
+
+---
+
+## 10. Reasoning trace and limits
+
+### Traceability table
 
 | Step | Claim or inference | Evidence or basis | Confidence |
-|---:|---|---|---|
-| 1 | NVDA is the cleanest direct AI-platform research candidate | Company profile describes data-center scale AI infrastructure; finance snapshot shows 85.2% revenue growth and 214.5% earnings growth | Medium |
-| 2 | MSFT offers more balanced AI platform exposure | Azure, Microsoft 365, Copilot, GitHub, and enterprise software distribution in profile; margins and valuation less extreme than AAPL/NVDA | Medium |
-| 3 | AAPL’s AI-platform case is least supported by the supplied evidence | Profile emphasizes hardware, services, App Store, subscriptions; supplied evidence lacks AI revenue or platform metrics | Medium |
-| 4 | AAPL has the clearest valuation-risk warning | P/E 40.2, forward P/E 34.5, PEG 2.54; mean analyst target below current price | Medium-high |
-| 5 | NVDA deserves deeper research first, but with explicit downside testing | Highest AI exposure and earnings momentum; also highest beta and AI-cycle risk | Medium |
+|---|---|---|---|
+| 1 | The context supports a bounded ranking but not a confident investment conclusion. | Finance data is structured; official filings/transcripts were not retrieved. | High |
+| 2 | Risk-free terminal value is 10,450 USD. | Calculation: 10,000 × 1.045. | High |
+| 3 | Match band is approximately 10,250 to 10,650 USD. | ±2 percentage points around benchmark return. | High |
+| 4 | NVDA has the strongest direct AI platform exposure. | Company profile describes data-center-scale AI infrastructure; NVIDIA crawl describes GPUs/CUDA/AI role: https://en.wikipedia.org/wiki/Nvidia | Medium |
+| 5 | NVDA has strongest retrieved growth and margins. | Yahoo Finance runtime: revenue growth 85.2%, earnings growth 214.5%, gross margin 74.1%, operating margin 65.6%. | Medium |
+| 6 | NVDA also has the largest downside dispersion. | Beta 2.21, P/S 19.4, high AI expectations, custom-chip risk source: https://blockonomi.com/deepseek-develops-custom-ai-chip-as-nvidia-nvda-stock-falls-2/ | Medium-low |
+| 7 | MSFT is the best balanced runner-up. | Yahoo Finance runtime: P/E 23.5, forward P/E 20.3, operating margin 46.3%, revenue growth 18.3%, enterprise/cloud/AI profile. | Medium |
+| 8 | AAPL is weaker for this specific AI-platform comparison. | Retrieved P/E 40.5, forward P/E 34.6, analyst mean target below current price, less direct AI monetization evidence. | Medium-low |
+| 9 | Probability estimates are low-confidence scenario weights. | No options-implied distribution, official guidance, or complete analyst model set supplied. | High |
+| 10 | NVDA deserves deeper research first. | Highest AI-platform signal plus highest uncertainty and consequence of being wrong. | Medium-low |
 
----
+### Key assumptions
 
-## 4. **Risk-free benchmark lens**
+- The 4.5% T-bill yield is accepted as supplied and not independently verified.
+- No taxes, transaction costs, bid/ask spreads, or dividend reinvestment effects are applied.
+- The comparison is educational, not investor-specific.
+- The ranking prioritizes “which stock deserves deeper research first,” not “which stock is safest” or “which stock should be bought.”
+- Scenario probabilities are judgmental and based only on retrieved data.
 
-**Finding: Against a 10,450 USD Treasury terminal value, NVDA has the highest estimated upside probability and widest downside range; MSFT has the more balanced distribution; AAPL has the weakest benchmark-relative distribution in the supplied evidence.**
+### Checks performed
 
-These are **scenario-weighted research judgments**, not predictions or advice.
+- Calculated risk-free terminal value: 10,450 USD.
+- Calculated matched-performance band: 10,250 to 10,650 USD.
+- Compared valuation multiples across MSFT, NVDA, and AAPL.
+- Compared revenue growth, earnings growth, gross margin, operating margin, profit margin, and beta.
+- Compared analyst recommendation means and mean price targets.
+- Reviewed available web/crawl context for AI exposure and downside evidence.
+- Flagged source weaknesses and missing official filings.
 
-### Assumptions used for probability estimates
+### Limits
 
-- 12-month comparison period.
-- 10,000 USD notional allocation to each stock, compared separately against the Treasury proxy.
-- Dividends are considered qualitatively using stated dividend yields, but exact payment timing and reinvestment are not modeled.
-- Taxes, fees, slippage, and liquidity frictions are excluded.
-- “Match” means stock total return ends within **2.5% to 6.5%**, equivalent to terminal value **10,250 USD to 10,650 USD**.
-- Probabilities are judgmental because no options-implied distribution, full consensus model, or official complete forward guidance set was provided.
+- No official recent earnings documents were available in the retrieved evidence.
+- No segment-level AI revenue or capex return data was provided.
+- No valuation model, DCF, or consensus estimate history was provided.
+- No options market distribution was provided.
+- News snippets may be incomplete, stale, promotional, or non-independent.
+- The ranking could change materially after reviewing official filings and current Treasury yields.
 
-### MSFT — Microsoft Corporation
+### Simplest explanation
 
-**Retrieved facts:**
-Current price **$404.085**; market cap about **$3.00T**; P/E **24.1**; forward P/E **20.9**; PEG **1.19**; revenue growth **18.3%**; earnings growth **23.4%**; gross margin **68.3%**; operating margin **46.3%**; profit margin **39.3%**; beta **1.13**; dividend yield **0.92%**; analyst mean target **$558.66**, median **$550**, low **$400**, high **$870**.
-
-| Quantity | Estimate | Confidence | Notes |
-|---|---:|---|---|
-| `P(MSFT outperforms the risk-free asset)` | **48%** | Medium-low | Supported by strong margins, enterprise AI/cloud exposure, positive earnings growth, and analyst target upside |
-| `P(MSFT matches the risk-free asset)` | **14%** | Low | Large-cap equity volatility makes exact 2.5%-6.5% total return band relatively narrow |
-| `P(MSFT underperforms the risk-free asset)` | **38%** | Medium-low | Main risks: valuation compression, AI monetization disappointment, cloud competition, capex burden |
-| `E[Delta \| outperform]` | **+$900 to +$2,700** | Scenario range | Equivalent to ending roughly $900-$2,700 above the 10,450 Treasury terminal value |
-| `Delta \| matched` | **0** | Classification band | Matched by definition |
-| `E[Delta \| underperform]` | **-$700 to -$2,400** | Scenario range | Includes modest derating through larger drawdown scenarios |
-| Optional `E[Delta]` | **about +$275** | Low | Uses midpoint of scenario ranges; not a forecast |
-
-**Interpretation:** MSFT’s case is balanced: less direct AI torque than NVDA, but stronger margin durability and lower valuation risk than AAPL.
-
-**Strongest counter-argument:** AI enthusiasm may already be reflected in the multiple, while incremental AI revenue may require heavy infrastructure spending that pressures free cash flow or margins.
-
----
-
-### NVDA — NVIDIA Corporation
-
-**Retrieved facts:**
-Current price **$206.90**; market cap about **$5.01T**; P/E **31.7**; forward P/E **16.2**; PEG **0.65**; P/S **19.8**; EV/EBITDA **30.8**; revenue growth **85.2%**; earnings growth **214.5%**; gross margin **74.1%**; operating margin **65.6%**; profit margin **63.0%**; beta **2.21**; dividend yield **0.47%**; analyst mean target **$301.97**, median **$294**, low **$180**, high **$500**. NVDA IR search result reported Q1 FY2027 revenue of **$81.6B**, up **20% sequentially** and **85% YoY** at https://investor.nvidia.com/financial-info/quarterly-results/default.aspx, though the crawl itself did not expose the full release details.
-
-| Quantity | Estimate | Confidence | Notes |
-|---|---:|---|---|
-| `P(NVDA outperforms the risk-free asset)` | **54%** | Medium-low | Driven by direct AI infrastructure exposure, very high revenue/earnings growth, high margins, and positive analyst targets |
-| `P(NVDA matches the risk-free asset)` | **8%** | Low | High beta and growth-stock volatility make a narrow match band less likely |
-| `P(NVDA underperforms the risk-free asset)` | **38%** | Medium-low | Main risks: AI capex cycle slowdown, custom-chip competition, export/geopolitical risk, multiple compression, customer digestion |
-| `E[Delta \| outperform]` | **+$1,500 to +$5,500** | Scenario range | Highest upside dispersion among the three |
-| `Delta \| matched` | **0** | Classification band | Matched by definition |
-| `E[Delta \| underperform]` | **-$1,800 to -$4,500** | Scenario range | Wide downside due beta 2.21 and high sales/EBITDA multiples |
-| Optional `E[Delta]` | **about +$690** | Low | Uses midpoint of scenario ranges; not a forecast |
-
-**Interpretation:** NVDA has the strongest AI-platform signal and highest information value for deeper research, but also the most severe downside distribution.
-
-**Strongest counter-argument:** The market may be extrapolating peak AI infrastructure demand; if hyperscaler spending slows or internal ASICs gain traction, NVDA’s multiple and margins could compress sharply. A searched Blockonomi article cited DeepSeek developing a proprietary AI inference chip as a negative catalyst for NVDA shares.
-
----
-
-### AAPL — Apple Inc.
-
-**Retrieved facts:**
-Current price **$332.03**; market cap about **$4.88T**; P/E **40.2**; forward P/E **34.5**; PEG **2.54**; P/S **10.8**; EV/EBITDA **30.2**; revenue growth **16.6%**; earnings growth **21.8%**; gross margin **47.9%**; operating margin **32.3%**; profit margin **27.2%**; beta **1.10**; dividend yield **0.33%**; analyst mean target **$315.79**, median **$315**, low **$215**, high **$400**.
-
-Crawled Quartr Apple material at https://quartr.com/companies/apple-inc_4742 reported Q2 2026 revenue **$111.2B**, up **17% YoY**, diluted EPS **$2.01**, up **22% YoY**, gross margin **49.3%**, Services gross margin **76.7%**, and June-quarter revenue growth guidance of **14%-17% YoY**. It also noted supply constraints, rising component costs, and a CEO transition.
-
-| Quantity | Estimate | Confidence | Notes |
-|---|---:|---|---|
-| `P(AAPL outperforms the risk-free asset)` | **30%** | Medium-low | Supported by ecosystem strength, services margin, buyback potential, and recent revenue/EPS growth |
-| `P(AAPL matches the risk-free asset)` | **12%** | Low | Narrow match band; equity volatility remains material |
-| `P(AAPL underperforms the risk-free asset)` | **58%** | Medium-low | High P/E/PEG, analyst mean target below current price, weaker direct AI-platform evidence, hardware demand/margin risks |
-| `E[Delta \| outperform]` | **+$600 to +$2,000** | Scenario range | Upside depends on continued pricing power and services strength |
-| `Delta \| matched` | **0** | Classification band | Matched by definition |
-| `E[Delta \| underperform]` | **-$900 to -$3,500** | Scenario range | Multiple compression or iPhone demand weakness would dominate |
-| Optional `E[Delta]` | **about -$885** | Low | Uses midpoint of scenario ranges; not a forecast |
-
-**Interpretation:** AAPL is high quality operationally, but the supplied data does not show enough direct AI-platform leverage to offset its valuation risk in this specific comparison.
-
-**Strongest counter-argument:** Apple’s ecosystem, services gross margin, installed base, and pricing power may allow it to monetize AI later with less capex intensity than competitors.
-
----
-
-## 5. **Leading research candidate**
-
-**Finding: NVDA deserves deeper research first, with MSFT as runner-up.**
-Reasoning: the decision question emphasizes AI platform exposure over a 12-month educational comparison. NVDA has the cleanest direct AI-infrastructure exposure, the strongest recent growth and margin profile in the supplied data, and the widest divergence between bull and bear outcomes. That makes it the highest-information research priority. MSFT is the better balanced comparison candidate because it combines AI platform exposure with more diversified enterprise software economics and lower valuation risk.
-
-- **Leading option:** **NVDA**
-- **Runner-up:** **MSFT**
-- **Decisive criterion:** **Direct AI-platform exposure plus recent earnings-quality strength, tested against valuation and downside dispersion**
-- **Confidence:** **medium**
-
-### Best if / avoid if
-
-| Candidate | Best if | Avoid if |
-|---|---|---|
-| **MSFT** | The learner wants a broad AI platform case with enterprise software, cloud, productivity distribution, margin durability, and lower valuation stress than AAPL/NVDA | The research objective is the purest AI-infrastructure sensitivity or maximum upside/downside learning |
-| **NVDA** | The learner wants the most direct AI infrastructure platform, highest growth signal, and clearest test of whether AI capex is durable or overextended | The learner cannot tolerate high downside dispersion, semiconductor cyclicality, geopolitical/export risk, or valuation compression risk |
-| **AAPL** | The learner wants to study whether a consumer ecosystem can monetize AI defensively through devices, services, and pricing power | The goal is direct AI-platform exposure or benchmark-relative valuation discipline; AAPL’s supplied valuation and analyst-target evidence are less favorable |
-
-### Ranking trigger
-
-Evidence that would change the order:
-
-1. **MSFT over NVDA:** verified Microsoft AI revenue / Copilot adoption / Azure AI gross profit accelerates while NVDA order growth slows or margins compress.
-2. **NVDA more decisively first:** official NVDA filings confirm sustained data-center growth, backlog visibility, stable gross margins, and limited customer digestion risk.
-3. **AAPL moves up:** Apple provides credible AI monetization metrics, stronger-than-expected services/device AI adoption, or valuation falls materially while earnings estimates rise.
-4. **AAPL moves down further:** confirmation that product price hikes are hurting demand, component costs are pressuring margins, or regulatory/legal risks impair services economics.
-
----
-
-## 6. **Downside and disconfirming evidence**
-
-**Finding: The leading-candidate conclusion is provisional because each stock has credible downside evidence, and NVDA’s downside range is the widest.**
-
-### MSFT — strongest bear case
-
-**Bear case:** MSFT’s AI investment cycle may require sustained infrastructure spending before monetization is proven at scale. If Copilot adoption, Azure AI demand, or enterprise software upsell disappoints, the stock could derate despite strong margins.
-
-**Evidence / basis:**
-- Forward P/E **20.9** and P/S **9.43** are not distressed valuations.
-- Gross margin **68.3%** and operating margin **46.3%** are high, leaving room for market disappointment if AI capex dilutes returns.
-- Web search returned only limited official MSFT earnings detail; the Nasdaq crawl did not provide usable recent earnings figures at https://www.nasdaq.com/market-activity/stocks/msft/earnings.
-
-**Counter-argument to bear case:** MSFT has diversified revenue streams, enterprise distribution, high recurring software exposure, and lower beta than NVDA, which may reduce downside severity relative to a pure AI-infrastructure stock.
-
----
-
-### NVDA — strongest bear case
-
-**Bear case:** NVDA may be the best AI platform story but also the most exposed to a reversal in AI infrastructure expectations. If hyperscaler capex slows, customers digest inventory, competitors’ custom chips gain traction, or export controls tighten, NVDA could underperform the Treasury benchmark by a wide margin.
-
-**Evidence / basis:**
-- Beta **2.21**, the highest among the three.
-- P/S **19.8** and EV/EBITDA **30.8** imply high expectations.
-- News search included a Blockonomi article on DeepSeek developing a proprietary AI inference chip, framed as a negative catalyst for NVDA shares.
-- Searched skeptical sources referenced regulatory, manufacturing, competition, geopolitical, and AI-bubble risks, though several were lower-quality secondary sources.
-
-**Counter-argument to bear case:** NVDA’s growth and profitability are exceptional in the supplied data: revenue growth **85.2%**, earnings growth **214.5%**, gross margin **74.1%**, operating margin **65.6%**, and analyst mean target materially above current price.
-
----
-
-### AAPL — strongest bear case
-
-**Bear case:** AAPL’s valuation looks stretched relative to the supplied AI-platform evidence. The stock trades at a higher P/E and PEG than MSFT or NVDA, while its analyst mean target is below the current price.
-
-**Evidence / basis:**
-- P/E **40.2**, forward P/E **34.5**, PEG **2.54**.
-- Current price **$332.03** versus analyst mean target **$315.79** and median target **$315**.
-- Quartr crawl reported rising component costs and supply constraints in the June-quarter context: https://quartr.com/companies/apple-inc_4742.
-- News search cited margin and demand debate around product price hikes, including Yahoo Finance and USA Today snippets.
-
-**Counter-argument to bear case:** Apple still shows strong reported Q2 2026 performance in the Quartr crawl: revenue up **17% YoY**, EPS up **22% YoY**, gross margin **49.3%**, and Services gross margin **76.7%**. Its ecosystem and pricing power may support delayed AI monetization.
-
----
-
-## 7. **Next research steps**
-
-**Finding: The highest-value next work is to test NVDA’s AI-demand durability and MSFT’s AI monetization quality before spending much time on AAPL as an AI-platform candidate.**
-
-Research options, not trading instructions:
-
-1. **Retrieve official latest quarterly filings for all three.**
-   Compare revenue growth, operating income, gross margin, free cash flow, capex, and guidance from SEC filings or company IR releases.
-
-2. **For NVDA, test the AI-cycle bear case first.**
-   Check data-center revenue growth, backlog / demand commentary, gross margin guidance, customer concentration, export-control exposure, and management comments on custom ASIC competition.
-
-3. **For MSFT, test AI monetization rather than AI narrative.**
-   Look for Azure growth acceleration, AI services contribution, Copilot adoption, incremental gross margin, capex growth, and return-on-invested-capital implications.
-
-4. **For AAPL, verify whether AI is economically material.**
-   Look for Apple Intelligence / on-device AI adoption metrics, Services growth durability, iPhone upgrade-cycle evidence, China trends, component-cost pressure, and regulatory impact on App Store / default-search economics.
-
-5. **Build a simple 12-month scenario model.**
-   Use three cases for each stock: multiple expansion, base-case earnings growth, and multiple compression. Compare each terminal value to **10,450 USD** and the **10,250-10,650 USD** match band.
-
-6. **Add market-implied risk evidence.**
-   Pull 12-month options-implied volatility or historical drawdown data for MSFT, NVDA, and AAPL. This would materially improve the probability estimates.
-
-7. **Check analyst dispersion, not only mean targets.**
-   NVDA has a wide target range; AAPL’s mean target is below current price; MSFT has a favorable mean target but still needs estimate-revision verification.
-
-**Simplest explanation:**
-NVDA should be researched first because it is the purest and most informative AI-platform case. MSFT is the safer-looking comparison candidate because its AI exposure is broad and its margins/valuation are more balanced. AAPL is a high-quality company, but the supplied evidence shows less direct AI-platform leverage and more valuation risk for this specific 12-month Treasury-benchmark comparison.
+NVIDIA is the first stock to research because it is the clearest AI infrastructure platform among the three and has the biggest upside/downside uncertainty versus a 4.5% T-bill. Microsoft is the more balanced AI platform candidate with lower valuation risk. Apple is a great business, but the retrieved evidence shows less direct AI-platform monetization and a more stretched valuation for this specific comparison. This is a research-priority ranking only, not a buy/sell/hold recommendation.
 ```

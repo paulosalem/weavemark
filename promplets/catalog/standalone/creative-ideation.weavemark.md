@@ -13,11 +13,11 @@
 
   Each method is defined in its own pure-method spec under `promplets/stdlib/fragments/ideation/`:
 
-  - `../library/ideation/scamper.weavemark.md` — Substitute, Combine, Adapt, Modify, Put to
+  - `module:weavemark.std.ideation.scamper` — Substitute, Combine, Adapt, Modify, Put to
     another use, Eliminate, Reverse / Rearrange (Eberle 1971; Osborn 1953).
-  - `../library/ideation/six-thinking-hats.weavemark.md` — White, Red, Black, Yellow, Green,
+  - `module:weavemark.std.ideation.six_thinking_hats` — White, Red, Black, Yellow, Green,
     Blue parallel-thinking modes (de Bono 1985).
-  - `../library/ideation/reverse-brainstorming.weavemark.md` — invert the goal, brainstorm
+  - `module:weavemark.std.ideation.reverse_brainstorming` — invert the goal, brainstorm
     ways to cause failure, then flip each reverse idea into a positive
     proposal (Osborn 1953; Klein 2007 for the pre-mortem variant).
 

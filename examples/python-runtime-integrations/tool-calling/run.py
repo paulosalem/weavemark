@@ -22,7 +22,10 @@ sys.path.insert(0, str(REPO_ROOT / "src"))
 sys.path.insert(0, str(REPO_ROOT / "examples" / "_lib"))
 
 from ellements.core import LLMClient, ToolRegistry, ToolSpec
-from weavemark_example_progress import weavemark_verbose_event
+from weavemark_example_progress import (
+    normalize_generated_markdown,
+    weavemark_verbose_event,
+)
 
 from weavemark.controller import WeaveMarkConfig, WeaveMarkController
 from weavemark.defaults import DEFAULT_MODEL
@@ -197,7 +200,6 @@ async def main() -> None:
     response = await client.complete_with_tools(
         [{"role": "user", "content": result.composed_prompt}],
         tools=ToolRegistry([tool]),
-        temperature=0.0,
     )
     if not response.tool_calls:
         raise RuntimeError("The model returned without calling the calculate tool.")
@@ -211,8 +213,9 @@ async def main() -> None:
         )
     )
 
+    final_output = normalize_generated_markdown(response.content)
     _section("Final response")
-    print(response.content)
+    print(final_output)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     compiled_path = OUTPUT_DIR / "compiled-prompt.json"
@@ -221,7 +224,7 @@ async def main() -> None:
         encoding="utf-8",
     )
     output_path = OUTPUT_DIR / "execution-output.md"
-    output_path.write_text(response.content, encoding="utf-8")
+    output_path.write_text(final_output, encoding="utf-8")
     calls_path = OUTPUT_DIR / "tool-calls.json"
     calls_path.write_text(
         json.dumps(
@@ -237,7 +240,7 @@ async def main() -> None:
             prompt=result.composed_prompt,
             tools=result.tools,
             tool_calls=response.tool_calls,
-            output=response.content,
+            output=final_output,
         ),
         encoding="utf-8",
     )

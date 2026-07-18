@@ -46,8 +46,8 @@ Example for the software-spec README example:
 
 ```bash
 weavemark implement \
-  outputs/examples/compiled-prompt-snapshots/passive-income-android-app/compiled-prompt.md \
-  --name passive-income-android-app
+  outputs/examples/compiled-prompt-snapshots/passive-income-planning-dashboard/compiled-prompt.md \
+  --name passive-income-planning-dashboard
 ```
 
 The command copies the compiled spec to a name-derived snapshot and

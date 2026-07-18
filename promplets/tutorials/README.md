@@ -16,7 +16,7 @@ these promplets and links back here so readers can run the exact source.
 
 The goal-planning tutorial ([`tutorial-advanced.html`](../../docs/tutorial-advanced.html))
 uses already-catalogued promplets:
-[`financial-independence-goal-plan.weavemark.md`](../catalog/standalone/financial-independence-goal-plan.weavemark.md),
+[`financial-independence-goal-plan-prompt.weavemark.md`](../catalog/standalone/financial-independence-goal-plan-prompt.weavemark.md),
 its executable variant in
 [`catalog/executable/`](../catalog/executable/financial-independence-goal-plan.weavemark.md),
 and the [`weavemark.std.planning.goals`](../stdlib/definitions/planning/goals.weavemark.md) module.

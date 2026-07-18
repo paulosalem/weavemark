@@ -511,6 +511,7 @@ def parse_composition_response(
     """Parse one strict semantic-compiler JSON response."""
     try:
         wire = parse_wire_result(raw)
+        bindings = _canonicalize_bindings(wire.bindings)
     except CompilerProtocolError as exc:
         return CompositionResult(
             composed_prompt="",
@@ -544,7 +545,7 @@ def parse_composition_response(
         analysis=wire.analysis,
         compile=compile_options,
         tools=[tool.model_dump() for tool in wire.tools],
-        bindings=wire.bindings,
+        bindings=bindings,
         execution=wire.execution,
         emits=wire.emits,
         packages=[package.package_dict() for package in wire.packages],
@@ -555,6 +556,41 @@ def parse_composition_response(
         errors=wire.errors,
         suggestions=wire.suggestions,
     )
+
+
+def _canonicalize_bindings(
+    bindings: list[dict[str, str]],
+) -> list[dict[str, str]]:
+    """Normalize semantic-compiler binding names to the public ``name`` field."""
+
+    canonical: list[dict[str, str]] = []
+    for binding in bindings:
+        name = next(
+            (
+                binding[key]
+                for key in ("name", "capability", "capability_name", "tool")
+                if binding.get(key)
+            ),
+            None,
+        )
+        if name is None:
+            raise CompilerProtocolError(
+                "compiler binding metadata is missing name/capability."
+            )
+        normalized = {
+            key: value
+            for key, value in binding.items()
+            if key not in {"name", "capability", "capability_name", "tool"}
+        }
+        canonical.append({"name": name, **normalized})
+    return canonical
+
+
+def _compiler_protocol_errors(result: CompositionResult) -> list[str]:
+    """Return semantic compiler protocol failures from a parsed result."""
+
+    prefix = "Compiler response protocol error:"
+    return [error for error in result.errors if error.startswith(prefix)]
 
 
 async def _cleanup_litellm_logging_worker() -> None:
@@ -1382,8 +1418,65 @@ class WeaveMarkController:
                 await _cleanup_litellm_logging_worker()
 
             result = parse_composition_response(response.content, settings)
+            compiler_tool_calls = len(response.tool_calls)
+            protocol_errors = _compiler_protocol_errors(result)
+            if protocol_errors:
+                repair_budget_error = budget.consume_model_call(
+                    "semantic compiler protocol repair"
+                )
+                if repair_budget_error is not None:
+                    result.errors.append(repair_budget_error)
+                else:
+                    repair_messages = [
+                        *messages,
+                        {"role": "assistant", "content": response.content},
+                        {
+                            "role": "user",
+                            "content": (
+                                "Your previous final compiler response violated the "
+                                "required JSON protocol:\n- "
+                                + "\n- ".join(protocol_errors)
+                                + "\n\nReturn one corrected compiler response now. "
+                                "It must match the response schema exactly, contain "
+                                "no duplicate keys, and preserve the intended prompt "
+                                "and metadata. You may call the available tools again "
+                                "if needed."
+                            ),
+                        },
+                    ]
+                    try:
+                        repaired_response: ToolCallResponse = (
+                            await client.complete_with_tools(
+                                messages=repair_messages,
+                                tools=tools,
+                                tool_executor=tool_executor,
+                                model=self.config.model,
+                                temperature=self.config.temperature,
+                                max_iterations=max_iterations,
+                                response_format=compiler_response_format(),
+                            )
+                        )
+                    except MaxToolIterationsError as exc:
+                        result.errors.append(
+                            "Compiler protocol repair did not converge: " + str(exc)
+                        )
+                        compiler_tool_calls += len(exc.tool_calls_made)
+                    else:
+                        compiler_tool_calls += len(repaired_response.tool_calls)
+                        repaired = parse_composition_response(
+                            repaired_response.content,
+                            settings,
+                        )
+                        if not _compiler_protocol_errors(repaired):
+                            repaired.warnings.append(
+                                "The semantic compiler required one protocol-repair "
+                                "retry."
+                            )
+                        result = repaired
+                    finally:
+                        await _cleanup_litellm_logging_worker()
             result.errors = [*ask_tool_errors, *result.errors]
-            result.tool_calls_made = len(response.tool_calls)
+            result.tool_calls_made = compiler_tool_calls
             result.transitions = transitions
             result.ask_history = list(ask_history)
             result.iteration_history = list(iteration_history)
@@ -2110,6 +2203,15 @@ class WeaveMarkController:
         installed.  Falls back to a helpful error otherwise.
         """
         settings = settings or builtin_weavemark_settings()
+        if file_name.startswith("directory:"):
+            folder_name = file_name.removeprefix("directory:").strip()
+            return WeaveMarkController._read_markdown_directory(
+                folder_name,
+                base_dir,
+                settings,
+                protection,
+                declared=declared,
+            )
         if file_name.startswith("module:"):
             module_name = file_name.removeprefix("module:").strip()
             result = resolve_module_body(module_name, base_dir, settings=settings)
@@ -2140,6 +2242,58 @@ class WeaveMarkController:
             raise
         except Exception as exc:
             return f"Error reading '{file_name}': {exc}"
+
+    @staticmethod
+    def _read_markdown_directory(
+        folder_name: str,
+        base_dir: Path,
+        settings: WeaveMarkSettings,
+        protection: ProtectionContext | None,
+        *,
+        declared: bool,
+    ) -> str:
+        """Read a bounded, deterministic set of Markdown reports from a directory."""
+
+        protection = protection or ProtectionContext.create(
+            settings.protections,
+            entrypoint_dir=base_dir,
+        )
+        access_root = WeaveMarkController._file_access_root(base_dir)
+        candidates = [
+            (base_dir / folder_name).resolve(),
+            (access_root / folder_name).resolve(),
+        ]
+        directory = next((path for path in candidates if path.is_dir()), None)
+        if directory is None:
+            return f"Error: directory '{folder_name}' not found."
+
+        reports = sorted(directory.rglob("*.md"))
+        if not reports:
+            return f"Error: directory '{folder_name}' contains no Markdown reports."
+        if len(reports) > 20:
+            return (
+                f"Error: directory '{folder_name}' contains {len(reports)} Markdown "
+                "reports; the maximum is 20."
+            )
+
+        sections: list[str] = []
+        total_chars = 0
+        for path in reports:
+            authorized = protection.authorize_read(
+                path,
+                reason=f"Markdown report folder {folder_name!r}",
+                declared=declared,
+            )
+            text = authorized.read_text(encoding="utf-8")
+            total_chars += len(text)
+            if total_chars > 120_000:
+                return (
+                    f"Error: Markdown reports in '{folder_name}' exceed the "
+                    "120000-character limit."
+                )
+            relative = path.relative_to(directory)
+            sections.append(f"## {relative.as_posix()}\n\n{text.strip()}")
+        return "\n\n".join(sections)
 
     @staticmethod
     def _resolve_read_path(

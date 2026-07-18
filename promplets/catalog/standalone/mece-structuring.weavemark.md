@@ -8,9 +8,9 @@
 # MECE Structuring
 
 @note
-  This spec turns the smaller `../library/analysis/mece-core.weavemark.md` methodology
-  layer into a standalone analysis prompt. Specs that only need the abstract
-  method should refine `../library/analysis/mece-core.weavemark.md` directly.
+  This spec turns `module:weavemark.std.analysis.mece_core` into a standalone
+  analysis prompt. Specs that only need the abstract method should refine that
+  module directly.
 
   Background reference:
   - Barbara Minto, "The Pyramid Principle."

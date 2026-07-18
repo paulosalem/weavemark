@@ -2,11 +2,11 @@
 
 # Self-improving image (reflection)
 
-# Artifact-aware reflection: the image is rendered, a vision model inspects the
-# RENDERED result against the critique, and the strip is re-rendered with the
-# fixes — stopping early when the critique is satisfied. This is the
-# execution-phase counterpart of @iterate (it improves the output, not just the
-# prompt).
+@note
+  Artifact-aware reflection renders the image, asks a vision model to inspect
+  the rendered result, and re-renders with concrete fixes until the critique is
+  satisfied. This is the execution-phase counterpart of @iterate: it improves
+  the output rather than only the prompt.
 
 @execute reflection
   rounds: 3

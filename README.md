@@ -171,16 +171,16 @@ fragments (`passive-income-capital-growth`, `passive-income-forecasting`):
 - [`financial-independence-decision.weavemark.md`](promplets/catalog/standalone/financial-independence-decision.weavemark.md)
   adds reasoning, finance guidelines, and decision lenses → a **decision-analysis
   prompt**.
-- [`passive-income-android-app.weavemark.md`](promplets/catalog/standalone/passive-income-android-app.weavemark.md)
-  adds an Android type, a Kotlin/Compose stack, and a dashboard module → a
-  **build-ready app specification**.
+- [`passive-income-planning-dashboard.weavemark.md`](promplets/catalog/standalone/passive-income-planning-dashboard.weavemark.md)
+  adds a local-first web stack, decision-oriented dashboard, and SQLite
+  persistence → a **build-ready app specification**.
 
 Improve one finance fragment and both get better the next time they compile.
 Then take the app spec one step further:
 
 ```bash
 # 1) Compile the software promplet into a plain specification.
-weavemark library passive-income-android-app \
+weavemark library passive-income-planning-dashboard \
   --var app_name=Fathom --batch-only --output outputs/fathom/compiled-spec.md
 
 # 2) Hand it to a headless programming agent to build a runnable project.
@@ -195,7 +195,9 @@ this way — with `package.json`, a test suite, and run instructions.
 
 Some promplets do not just produce prompt text — they declare an execution
 engine. Reflection, self-consistency, and tree-of-thought are reproduced as
-runnable specs:
+runnable specs. Bound-tool promplets can also run model-directed tools directly;
+the recurring monitor keeps all research logic in WeaveMark and binds only
+individual web search/news/crawl calls:
 
 ```bash
 export OPENAI_API_KEY="..."
@@ -203,6 +205,10 @@ export OPENAI_API_KEY="..."
 weavemark library tree-of-thought-solver \
   --vars-file examples/batch-example-runs/execution-engines/inputs/tree-of-thought-solver-example.json \
   --run --batch-only
+
+weavemark library recurring-topic-monitor \
+  --vars-file examples/batch-example-runs/execution-engines/inputs/recurring-topic-monitor-ai-news.json \
+  --run
 ```
 
 ## Explore the library
@@ -265,7 +271,7 @@ weavemark library module:weavemark.std.reasoning.base_analyst --scan
 | [`creative-ideation.weavemark.md`](promplets/catalog/standalone/creative-ideation.weavemark.md) | Dispatches among reusable ideation methods such as SCAMPER, Six Thinking Hats, and reverse brainstorming. |
 | [`tree-of-thought-solver.weavemark.md`](promplets/catalog/executable/tree-of-thought-solver.weavemark.md) | Makes an execution strategy explicit with separate generation, evaluation, and synthesis prompts. |
 | [`react-agent.weavemark.md`](promplets/catalog/executable/react-agent.weavemark.md) | A compact ReAct agent with tools declared beside the prompt and behavior varied by research depth. |
-| [`voidborne-roguelike.weavemark.md`](promplets/catalog/standalone/voidborne-roguelike.weavemark.md) | Turns a named 2D roguelike idea into an implementation-ready Rust/Bevy specification. |
+| [`news-intelligence-board.weavemark.md`](promplets/catalog/standalone/news-intelligence-board.weavemark.md) | Reuses the workflow-board modules for a local-first news/event monitor with durable memory and material-update deduplication. |
 | [`adaptive-interview.weavemark.md`](promplets/catalog/standalone/adaptive-interview.weavemark.md) | Nested `@match`, `@if`, `@compress`, and `@generate_examples` adapt one protocol by role, seniority, and format. |
 
 ## WeaveMark Processor quick reference
@@ -313,9 +319,10 @@ options.
 ## Tooling
 
 - **VS Code extension** — directive, variable, match-case, and Markdown-aware
-  highlighting plus WeaveMark Dark/Light themes for `.weavemark.md` files. Until it
-  is on the marketplace, symlink [`vscode-extension/`](vscode-extension/README.md)
-  into your VS Code extensions folder.
+  highlighting plus WeaveMark Dark/Light themes for `.weavemark.md` files. Until
+  it is on the marketplace, run
+  `python scripts/install_vscode_extension.py`; see
+  [`vscode-extension/`](vscode-extension/README.md).
 
 ## Author
 
@@ -336,14 +343,14 @@ software. Update the version if you are citing a specific release.
   title = {{WeaveMark}: An Experimental Language for Readable, Reusable, and Composable Prompts},
   year = {2026},
   url = {https://github.com/paulosalem/weavemark},
-  note = {Version 0.8.0; computer software}
+  note = {Version 0.9.0; computer software}
 }
 ```
 
 **APA**
 
 Salem, P. (2026). *WeaveMark: An experimental language for readable, reusable, and
-composable prompts* (Version 0.8.0) [Computer software]. GitHub.
+composable prompts* (Version 0.9.0) [Computer software]. GitHub.
 https://github.com/paulosalem/weavemark
 
 ## For AI agents
@@ -449,6 +456,13 @@ Not quite: our final "program" is the prompts to be used, woven from abstract,
 readable prose. Under a liberal reading of "program" as "instructions to be
 executed," WeaveMark is a kind of literate programming for natural-language
 instructions — call it "programmatic prompting" if you prefer.
+
+### Don't you have an actual job and a family to feed?
+
+Why, yes — but what's the problem? Some people watch the World Cup. Others
+spend a full waking day every week doomscrolling Instagram. Still others feed
+the poor. I do this. It is my idea of fun — and of contributing to the
+community.
 
 ## Learn more
 

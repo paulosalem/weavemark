@@ -2,10 +2,8 @@
 
 @refine programming/foundations/software-spec
 @refine programming/types/web-based-game
-@refine programming/types/type-2d-game
 @refine game-design/production/playability-readability
 @refine game-design/production/progression-balance-model
-@refine programming/assets/generative-2d-sprites
 @refine programming/validation/playwright-mcp-browser-validation
 
 Use this implementation-ready specification to build **Orbital Drift**, a browser
@@ -14,6 +12,11 @@ fields, gravity wells, propulsion challenges, and lap-based racing.
 
 The first build must be playable in one browser page, teach the controls quickly,
 support restart without reload, and include a browser validation plan.
+
+Use a focused 2D game-state and systems architecture for craft movement,
+ordered gates, laps, hazards, collisions, effects, HUD, and restart. Define an
+original visual system and asset manifest with dimensions, states, ownership,
+loading behavior, and validation; do not depend on unlicensed art.
 
 Key source concepts to expand:
 

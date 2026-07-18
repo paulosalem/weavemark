@@ -12,7 +12,14 @@
 ```json
 {
   "rounds_completed": 1,
-  "max_rounds": 4
+  "max_rounds": 4,
+  "call_settings": {
+    "model": "gpt-5.5",
+    "modality": "text",
+    "prompt_key": "default",
+    "stage": "default",
+    "model_source": "built-in text default"
+  }
 }
 ```
 
@@ -34,242 +41,216 @@
 ```markdown
 ## 1. Executive Summary
 
-This strategy targets long-term growth over a 20-year horizon, aiming to grow a portfolio from **$150,000 plus $3,000/month contributions** to approximately **$2 million by age 55**. At a 4% safe withdrawal rate, a $2 million portfolio could support roughly **$80,000/year before taxes and fees**, subject to market conditions and personal spending needs.
+This strategy is designed for a 35-year-old dual-income investor targeting early retirement at age 55, with a 20-year investment horizon, moderate-aggressive risk tolerance, and a preference for low-cost diversified index funds with ESG considerations where practical.
 
-Given the investor’s **moderate-aggressive risk tolerance**, long horizon, stable dual-income household, and preference for low-cost index funds, the recommended approach is a diversified, equity-heavy portfolio with a modest bond allocation for stability.
+**Recommended strategy:** a growth-oriented, globally diversified index portfolio with approximately **85% equities / 15% defensive assets**. This level of equity exposure is appropriate for a 20-year horizon and the investor’s willingness to accept volatility, while the bond/cash allocation provides some stability and future rebalancing capital.
 
-### Target Portfolio Profile
+**Target portfolio value:** $2 million by age 55.
+**Starting capital:** $150,000.
+**Ongoing contributions:** $3,000/month, or $36,000/year.
 
-- **Growth-oriented allocation:** Approximately **85% equities / 15% bonds**
-- **Global diversification:** U.S., international developed, and emerging markets exposure
-- **Low-cost index fund implementation**
-- **ESG preference incorporated where practical**
-- **No crypto and no individual stock picking**
-- **Annual or threshold-based rebalancing**
+At a roughly **7% annualized nominal return**, the current capital plus monthly contributions could reach approximately **$2.0M over 20 years**. This is achievable but not guaranteed; lower returns may require higher savings, delayed retirement, or a lower withdrawal rate.
 
-To reach the $2 million target, the portfolio likely needs an approximate long-term annualized return of **6.5%–7% before inflation**, assuming consistent monthly contributions. This is achievable but not guaranteed, and success depends heavily on contribution discipline, market returns, fees, taxes, and avoiding emotional selling during downturns.
+A 4% safe withdrawal rate on $2M implies roughly **$80,000/year before taxes**. If the $2M target is intended in today’s purchasing power rather than future nominal dollars, the required portfolio target would likely need to be higher due to inflation.
 
 ---
 
 ## 2. Asset Allocation
 
-### Recommended Long-Term Allocation
+### Recommended Target Allocation
 
 | Asset Class | Allocation | Purpose |
 |---|---:|---|
-| U.S. Equities | 45% | Core growth engine, exposure to large and mid-cap U.S. companies |
-| International Equities | 25% | Global diversification across developed and emerging markets |
-| U.S. Small-Cap / Factor-Tilted Equities | 10% | Additional long-term growth potential and diversification |
-| Real Estate / REITs | 5% | Inflation sensitivity, income, diversification |
-| Bonds / Fixed Income | 15% | Volatility reduction, liquidity, rebalancing source during downturns |
+| U.S. equities, ESG-oriented | **50%** | Core long-term growth engine |
+| International equities, ESG-oriented | **25%** | Global diversification outside the U.S. |
+| U.S. small/mid-cap or extended market equities | **10%** | Additional growth and diversification |
+| Core investment-grade bonds | **10%** | Stability, volatility reduction, rebalancing source |
+| Short-term Treasuries / TIPS / cash-like reserves | **5%** | Liquidity, inflation sensitivity, downside buffer |
 | **Total** | **100%** |  |
 
-### High-Level Allocation Summary
+### Broad Allocation Summary
 
-- **Total equities:** 80%
-- **Real estate equities / REITs:** 5%
-- **Total growth assets:** 85%
-- **Bonds / defensive assets:** 15%
+| Category | Allocation |
+|---|---:|
+| Equities | **85%** |
+| Bonds / cash-like defensive assets | **15%** |
 
-This is suitable for a 20-year horizon and moderate-aggressive investor. The portfolio will experience meaningful volatility. A temporary drawdown of **30%–40%** during severe bear markets is possible, so maintaining discipline is essential.
+This is a moderate-aggressive portfolio. It should be expected to experience meaningful drawdowns, potentially **30%+ during severe bear markets**, but it is positioned for long-term growth.
 
 ---
 
 ## 3. Specific Instrument Recommendations
 
-The following examples assume access to U.S.-listed ETFs or mutual funds. Equivalent low-cost funds from Vanguard, Fidelity, Schwab, iShares, or other providers may be used.
+The following are examples of low-cost ETFs/index funds. Exact fund choice may depend on account type, brokerage platform, tax situation, and availability.
 
-### Core Portfolio Recommendation
+### Core Portfolio Implementation
 
-| Allocation | Asset Class | Preferred ESG Option | Standard Low-Cost Alternative |
+| Allocation | Asset Class | Example ETF / Fund Options | Notes |
 |---:|---|---|---|
-| 45% | U.S. Total Market / ESG U.S. Equity | **ESGV** – Vanguard ESG U.S. Stock ETF or **ESGU** – iShares ESG Aware MSCI USA ETF | **VTI**, **ITOT**, or **SCHB** |
-| 25% | International Equity | **VSGX** – Vanguard ESG International Stock ETF or **ESGD/ESGE** combination | **VXUS**, **IXUS**, or **SCHF + SCHE** |
-| 10% | U.S. Small-Cap / Factor Tilt | **VBR** – Vanguard Small-Cap Value ETF or **AVUV** – Avantis U.S. Small Cap Value ETF | **VB** or **IJR** |
-| 5% | Real Estate / REITs | ESG REIT options are limited; consider broad REIT exposure if acceptable | **VNQ** or **SCHH** |
-| 15% | Bonds / Fixed Income | **EAGG** – iShares ESG Aware U.S. Aggregate Bond ETF | **BND**, **AGG**, **VGIT**, or **SCHZ** |
+| **50%** | U.S. ESG equities | **ESGV** – Vanguard ESG U.S. Stock ETF; or **ESGU** – iShares ESG Aware MSCI USA ETF | Broad U.S. equity exposure with ESG screening. ESGV is more exclusionary; ESGU is broader. |
+| **25%** | International ESG equities | **VSGX** – Vanguard ESG International Stock ETF | Covers developed and emerging markets outside the U.S. with ESG screening. |
+| **10%** | U.S. extended market / small-mid cap equities | **VXF** – Vanguard Extended Market ETF; or **VB** – Vanguard Small-Cap ETF | Adds exposure beyond large-cap U.S. companies. If ESG purity is a priority, this 10% could instead be added to ESGV. |
+| **10%** | Core bonds | **BND** – Vanguard Total Bond Market ETF; or **AGG** – iShares Core U.S. Aggregate Bond ETF | Broad investment-grade U.S. bond exposure. |
+| **3%** | Short-term TIPS | **VTIP** – Vanguard Short-Term Inflation-Protected Securities ETF; or **SCHP** – Schwab U.S. TIPS ETF | Provides some inflation-linked bond exposure. |
+| **2%** | Treasury bills / cash-like allocation | **SGOV** – iShares 0-3 Month Treasury Bond ETF; money market fund; high-yield savings | Liquidity and volatility buffer. |
 
-### Suggested Implementation
+### Dollar Allocation of Initial $150,000
 
-#### Initial $150,000 Lump Sum
-
-Invest according to the target allocation:
-
-| Asset Class | Allocation | Dollar Amount |
+| Asset Class | Allocation | Initial Investment |
 |---|---:|---:|
-| U.S. Equities | 45% | $67,500 |
-| International Equities | 25% | $37,500 |
-| U.S. Small-Cap / Factor Tilt | 10% | $15,000 |
-| REITs | 5% | $7,500 |
-| Bonds | 15% | $22,500 |
+| U.S. ESG equities | 50% | **$75,000** |
+| International ESG equities | 25% | **$37,500** |
+| U.S. extended/small-mid cap equities | 10% | **$15,000** |
+| Core bonds | 10% | **$15,000** |
+| Short-term TIPS | 3% | **$4,500** |
+| Treasury bills / cash-like reserves | 2% | **$3,000** |
 | **Total** | **100%** | **$150,000** |
 
-If the investor is comfortable with market volatility, a lump-sum investment is reasonable. Historically, lump-sum investing often outperforms dollar-cost averaging because markets rise over time.
-
-However, if investing the full $150,000 at once feels emotionally difficult, use a structured deployment plan:
-
-- Invest **50% immediately**
-- Invest the remaining **50% over 3–6 months**
-- Do not pause the plan based on short-term headlines
-
-#### Monthly $3,000 Contributions
-
-Allocate monthly contributions in the same proportions:
+### Monthly Contribution Plan: $3,000/month
 
 | Asset Class | Allocation | Monthly Contribution |
 |---|---:|---:|
-| U.S. Equities | 45% | $1,350 |
-| International Equities | 25% | $750 |
-| U.S. Small-Cap / Factor Tilt | 10% | $300 |
-| REITs | 5% | $150 |
-| Bonds | 15% | $450 |
+| U.S. ESG equities | 50% | **$1,500** |
+| International ESG equities | 25% | **$750** |
+| U.S. extended/small-mid cap equities | 10% | **$300** |
+| Core bonds | 10% | **$300** |
+| Short-term TIPS | 3% | **$90** |
+| Treasury bills / cash-like reserves | 2% | **$60** |
 | **Total** | **100%** | **$3,000** |
 
-Monthly contributions should be automated to reduce behavioral risk and improve consistency.
+### Simpler Alternative: 3-Fund ESG-Oriented Portfolio
+
+For easier management, the investor could simplify to:
+
+| Allocation | Instrument Type | Example |
+|---:|---|---|
+| **60%** | U.S. ESG equities | ESGV or ESGU |
+| **25%** | International ESG equities | VSGX |
+| **15%** | Bonds / short-term Treasuries | BND + VTIP/SGOV |
+
+This version sacrifices some small/mid-cap tilt but is easier to maintain.
 
 ---
 
 ## 4. Risk Management & Rebalancing Plan
 
-### Rebalancing Policy
+### A. Rebalancing Rules
 
-Rebalance the portfolio using one of the following methods:
+Rebalance using a disciplined, rules-based process:
 
-1. **Annual rebalancing:** Review and rebalance once per year.
-2. **Threshold rebalancing:** Rebalance when any asset class drifts more than **5 percentage points** from its target.
-3. **Contribution-based rebalancing:** Direct new monthly contributions toward underweight asset classes before selling existing holdings.
+1. **Review quarterly**, but do not trade unnecessarily.
+2. **Rebalance at least annually**.
+3. Rebalance if any major asset class drifts by more than **5 percentage points** from target.
+   - Example: U.S. equities target 50%; rebalance if it rises above 55% or falls below 45%.
+4. Use new monthly contributions first to buy underweight assets before selling anything.
+5. In taxable accounts, avoid unnecessary capital gains where possible.
 
-For taxable accounts, prioritize rebalancing through new contributions to minimize taxable gains.
+### B. Glide Path Toward Retirement
 
-### Glide Path Toward Retirement
-
-At age 35 with 20 years until the target retirement age, an **85% growth / 15% bond** allocation is appropriate. As retirement approaches, gradually reduce risk.
+The current 85/15 allocation is appropriate for the accumulation phase, but the portfolio should become more conservative as retirement approaches.
 
 Suggested glide path:
 
-| Age | Equity / Growth Assets | Bonds / Defensive Assets |
+| Age | Equity Allocation | Defensive Allocation |
 |---:|---:|---:|
-| 35–44 | 85% | 15% |
-| 45–49 | 80% | 20% |
-| 50–54 | 70%–75% | 25%–30% |
-| 55+ | 60%–70% | 30%–40% |
+| 35–45 | **85%** | **15%** |
+| 45–50 | **80%** | **20%** |
+| 50–55 | **70–75%** | **25–30%** |
+| At retirement | **60–70%** | **30–40%** |
 
-This helps reduce sequence-of-returns risk as withdrawals approach.
+Because the goal is early retirement, sequence-of-returns risk becomes important near age 55. The investor should avoid entering retirement with an overly aggressive portfolio unless they have flexibility to reduce withdrawals during market downturns.
 
-### Emergency Fund
+### C. Retirement Bucket Planning
 
-Before investing aggressively, maintain an emergency fund of at least:
+By age 55, consider structuring the retirement portfolio into liquidity buckets:
 
-- **6 months of core expenses**, or
-- **9–12 months** if income is variable, employment risk is high, or early retirement plans are firm
+| Bucket | Target Size | Purpose |
+|---|---:|---|
+| Cash / Treasury bills | 1–2 years of expenses | Spending stability |
+| Short/intermediate bonds | 3–5 years of expenses | Buffer during equity downturns |
+| Equities | Remainder | Long-term growth |
 
-This emergency fund should remain outside the investment portfolio in cash, high-yield savings, money market funds, or short-term Treasury funds.
+If expected spending is $80,000/year, a practical retirement buffer could include **$80,000–$160,000 in cash/T-bills** and several additional years of expenses in high-quality bonds.
 
-### Tax-Efficient Account Placement
+### D. Emergency Fund
 
-If available, prioritize contributions in the following order:
+The investment portfolio should not replace an emergency fund. Maintain a separate emergency reserve of at least **6 months of household expenses**, preferably in:
 
-1. **Employer retirement plan up to the match**
-2. **Health Savings Account**, if eligible
-3. **Tax-advantaged retirement accounts**, such as 401(k), IRA, Roth IRA, backdoor Roth IRA if applicable
-4. **Taxable brokerage account**
+- High-yield savings account
+- Treasury bills
+- Money market fund
+- Short-term Treasury ETF
 
-Suggested asset placement:
+Given dual income and no dependents, 6 months may be sufficient, but 9–12 months is reasonable if job income is volatile or highly concentrated in the tech sector.
 
-| Account Type | Best Assets to Hold |
-|---|---|
-| Taxable brokerage | Broad U.S. equity ETFs, international equity ETFs, ESG equity ETFs |
-| Traditional retirement accounts | Bonds, REITs, higher-income funds |
-| Roth accounts | Highest-growth assets, such as U.S. and international equity funds |
-| HSA | Long-term growth assets if medical costs can be paid from cash flow |
+### E. Tax-Efficient Account Placement
 
-### Downside Risk Expectations
+Where possible:
 
-With this allocation, the investor should expect:
+- Maximize tax-advantaged accounts first: 401(k), 403(b), IRA, backdoor Roth IRA if eligible, HSA if available.
+- Hold broad equity ETFs in taxable accounts because they are generally tax-efficient.
+- Hold bond funds in tax-advantaged accounts when possible, since bond interest is taxed less favorably.
+- Use tax-loss harvesting during market declines if investing through taxable brokerage accounts.
+- Avoid high-turnover funds and expensive active funds.
 
-- Normal annual volatility
-- Periodic declines of **10%–20%**
-- Severe bear-market drawdowns of **30% or more**
-- Multi-year periods of weak or negative returns
+### F. ESG Considerations
 
-The strategy depends on continuing contributions during downturns and avoiding panic selling.
+ESG funds can be useful but may differ meaningfully from the total market. Important considerations:
 
-### Withdrawal Risk Planning
+- ESG funds may underweight or exclude energy, defense, tobacco, firearms, or certain industrial sectors.
+- Performance may diverge from broad market indexes.
+- Expense ratios may be slightly higher than non-ESG alternatives.
+- ESG methodology varies by provider.
 
-At retirement, a $2 million portfolio with a 4% withdrawal rate implies:
-
-- **$80,000/year initial withdrawal**
-- Adjusted annually for inflation
-- Before taxes, healthcare costs, and investment fees
-
-Because retirement at age 55 could last 35–40 years, the investor may want to use a flexible withdrawal strategy rather than a fixed 4% rule. For example:
-
-- Start with 3.5%–4.0%
-- Reduce withdrawals after poor market years
-- Increase withdrawals after strong market years
-- Maintain 1–2 years of planned spending in cash or short-term bonds near retirement
+If ESG is a preference rather than a strict requirement, the recommended approach is to use ESG funds for the core equity exposure while keeping bonds and smaller satellite allocations in broad low-cost index funds.
 
 ---
 
 ## 5. Key Assumptions & Disclaimers
 
-### Return Assumptions
+### Key Planning Assumptions
 
-This plan assumes:
+This strategy assumes:
 
-- Starting capital: **$150,000**
-- Monthly contributions: **$3,000**
-- Investment horizon: **20 years**
-- Target value: **$2 million**
-- Required annualized return: approximately **6.5%–7% nominal**
-- Consistent contributions and long-term discipline
+- 20-year investment horizon.
+- $150,000 initial investment.
+- $3,000/month ongoing contributions.
+- Long-term nominal portfolio return of approximately **6.5%–7.5% annually**.
+- Continued employment income sufficient to maintain contributions.
+- No major withdrawals before retirement.
+- Portfolio costs remain low, ideally below **0.20%–0.30% weighted average expense ratio**.
+- Investor can tolerate substantial market volatility without abandoning the plan.
 
-Actual returns may be higher or lower. A globally diversified equity-heavy portfolio has historically been capable of achieving returns in this range over long periods, but there is no guarantee.
+### Goal Feasibility
 
-### Fee Assumptions
+Approximate projected outcomes after 20 years:
 
-Use low-cost funds where possible. Ideally:
+| Annualized Return | Estimated Portfolio Value |
+|---:|---:|
+| 5% | ~$1.6M |
+| 6% | ~$1.8M |
+| 7% | ~$2.05M |
+| 8% | ~$2.3M+ |
 
-- Broad equity ETF expense ratios: **0.03%–0.20%**
-- ESG ETF expense ratios: often **0.09%–0.25%**
-- Bond ETF expense ratios: **0.03%–0.15%**
-- Avoid high-fee active funds unless there is a specific reason
+The $2M target is realistic but return-sensitive. If markets underperform, the investor may need to:
 
-Costs matter significantly over 20 years.
+- Increase monthly contributions.
+- Extend retirement age beyond 55.
+- Reduce expected retirement spending.
+- Use a lower withdrawal rate, such as 3.5%.
+- Maintain part-time or consulting income during early retirement.
 
-### ESG Considerations
+### Inflation Note
 
-ESG funds vary widely in methodology. Some exclude certain industries, while others simply overweight companies with stronger ESG ratings.
+A $2M portfolio in 20 years will not have the same purchasing power as $2M today. At 2.5% annual inflation, $2M in 20 years is equivalent to roughly **$1.2M in today’s dollars**. If the investor wants $2M in today’s purchasing power, the target should be materially higher.
 
-The investor should review:
+### Withdrawal Rate Disclaimer
 
-- Fund holdings
-- ESG screening methodology
-- Expense ratio
-- Tracking difference versus standard index funds
+The 4% rule is a historical guideline, not a guarantee. For early retirement at age 55, the withdrawal period may be 40+ years, which may justify a more conservative withdrawal rate, such as **3.25%–3.75%**, especially if retiring into a weak market.
 
-ESG investing may result in performance that differs from broad-market indexes, either positively or negatively.
+### General Disclaimer
 
-### Important Disclaimers
-
-This document is for educational and planning purposes only and does not constitute personalized financial, tax, or legal advice. The investor should consult a qualified financial planner, tax professional, or investment adviser before implementing the strategy, especially regarding tax optimization, retirement account rules, and early retirement planning.
-
----
-
-## Recommended Starting Portfolio
-
-A simple actionable version would be:
-
-| Fund Type | Example ETF | Allocation |
-|---|---|---:|
-| U.S. ESG Equity | ESGV or ESGU | 45% |
-| International ESG Equity | VSGX | 25% |
-| U.S. Small-Cap Value | VBR or AVUV | 10% |
-| U.S. REITs | VNQ or SCHH | 5% |
-| U.S. Aggregate Bonds | EAGG or BND | 15% |
-| **Total** |  | **100%** |
-
-This portfolio is diversified, growth-oriented, low-cost, rules-based, ESG-aware where practical, and aligned with the stated goal of early retirement at age 55.
+This document is an educational investment strategy draft, not individualized financial, legal, or tax advice. Before implementation, the investor should review the plan with a qualified financial planner or tax professional, especially regarding retirement account strategy, tax optimization, insurance, and early retirement withdrawal planning.
 ```
 
 ### 2. user_edit_0
@@ -288,242 +269,216 @@ This portfolio is diversified, growth-oriented, low-cost, rules-based, ESG-aware
 ```markdown
 ## 1. Executive Summary
 
-This strategy targets long-term growth over a 20-year horizon, aiming to grow a portfolio from **$150,000 plus $3,000/month contributions** to approximately **$2 million by age 55**. At a 4% safe withdrawal rate, a $2 million portfolio could support roughly **$80,000/year before taxes and fees**, subject to market conditions and personal spending needs.
+This strategy is designed for a 35-year-old dual-income investor targeting early retirement at age 55, with a 20-year investment horizon, moderate-aggressive risk tolerance, and a preference for low-cost diversified index funds with ESG considerations where practical.
 
-Given the investor’s **moderate-aggressive risk tolerance**, long horizon, stable dual-income household, and preference for low-cost index funds, the recommended approach is a diversified, equity-heavy portfolio with a modest bond allocation for stability.
+**Recommended strategy:** a growth-oriented, globally diversified index portfolio with approximately **85% equities / 15% defensive assets**. This level of equity exposure is appropriate for a 20-year horizon and the investor’s willingness to accept volatility, while the bond/cash allocation provides some stability and future rebalancing capital.
 
-### Target Portfolio Profile
+**Target portfolio value:** $2 million by age 55.
+**Starting capital:** $150,000.
+**Ongoing contributions:** $3,000/month, or $36,000/year.
 
-- **Growth-oriented allocation:** Approximately **85% equities / 15% bonds**
-- **Global diversification:** U.S., international developed, and emerging markets exposure
-- **Low-cost index fund implementation**
-- **ESG preference incorporated where practical**
-- **No crypto and no individual stock picking**
-- **Annual or threshold-based rebalancing**
+At a roughly **7% annualized nominal return**, the current capital plus monthly contributions could reach approximately **$2.0M over 20 years**. This is achievable but not guaranteed; lower returns may require higher savings, delayed retirement, or a lower withdrawal rate.
 
-To reach the $2 million target, the portfolio likely needs an approximate long-term annualized return of **6.5%–7% before inflation**, assuming consistent monthly contributions. This is achievable but not guaranteed, and success depends heavily on contribution discipline, market returns, fees, taxes, and avoiding emotional selling during downturns.
+A 4% safe withdrawal rate on $2M implies roughly **$80,000/year before taxes**. If the $2M target is intended in today’s purchasing power rather than future nominal dollars, the required portfolio target would likely need to be higher due to inflation.
 
 ---
 
 ## 2. Asset Allocation
 
-### Recommended Long-Term Allocation
+### Recommended Target Allocation
 
 | Asset Class | Allocation | Purpose |
 |---|---:|---|
-| U.S. Equities | 45% | Core growth engine, exposure to large and mid-cap U.S. companies |
-| International Equities | 25% | Global diversification across developed and emerging markets |
-| U.S. Small-Cap / Factor-Tilted Equities | 10% | Additional long-term growth potential and diversification |
-| Real Estate / REITs | 5% | Inflation sensitivity, income, diversification |
-| Bonds / Fixed Income | 15% | Volatility reduction, liquidity, rebalancing source during downturns |
+| U.S. equities, ESG-oriented | **50%** | Core long-term growth engine |
+| International equities, ESG-oriented | **25%** | Global diversification outside the U.S. |
+| U.S. small/mid-cap or extended market equities | **10%** | Additional growth and diversification |
+| Core investment-grade bonds | **10%** | Stability, volatility reduction, rebalancing source |
+| Short-term Treasuries / TIPS / cash-like reserves | **5%** | Liquidity, inflation sensitivity, downside buffer |
 | **Total** | **100%** |  |
 
-### High-Level Allocation Summary
+### Broad Allocation Summary
 
-- **Total equities:** 80%
-- **Real estate equities / REITs:** 5%
-- **Total growth assets:** 85%
-- **Bonds / defensive assets:** 15%
+| Category | Allocation |
+|---|---:|
+| Equities | **85%** |
+| Bonds / cash-like defensive assets | **15%** |
 
-This is suitable for a 20-year horizon and moderate-aggressive investor. The portfolio will experience meaningful volatility. A temporary drawdown of **30%–40%** during severe bear markets is possible, so maintaining discipline is essential.
+This is a moderate-aggressive portfolio. It should be expected to experience meaningful drawdowns, potentially **30%+ during severe bear markets**, but it is positioned for long-term growth.
 
 ---
 
 ## 3. Specific Instrument Recommendations
 
-The following examples assume access to U.S.-listed ETFs or mutual funds. Equivalent low-cost funds from Vanguard, Fidelity, Schwab, iShares, or other providers may be used.
+The following are examples of low-cost ETFs/index funds. Exact fund choice may depend on account type, brokerage platform, tax situation, and availability.
 
-### Core Portfolio Recommendation
+### Core Portfolio Implementation
 
-| Allocation | Asset Class | Preferred ESG Option | Standard Low-Cost Alternative |
+| Allocation | Asset Class | Example ETF / Fund Options | Notes |
 |---:|---|---|---|
-| 45% | U.S. Total Market / ESG U.S. Equity | **ESGV** – Vanguard ESG U.S. Stock ETF or **ESGU** – iShares ESG Aware MSCI USA ETF | **VTI**, **ITOT**, or **SCHB** |
-| 25% | International Equity | **VSGX** – Vanguard ESG International Stock ETF or **ESGD/ESGE** combination | **VXUS**, **IXUS**, or **SCHF + SCHE** |
-| 10% | U.S. Small-Cap / Factor Tilt | **VBR** – Vanguard Small-Cap Value ETF or **AVUV** – Avantis U.S. Small Cap Value ETF | **VB** or **IJR** |
-| 5% | Real Estate / REITs | ESG REIT options are limited; consider broad REIT exposure if acceptable | **VNQ** or **SCHH** |
-| 15% | Bonds / Fixed Income | **EAGG** – iShares ESG Aware U.S. Aggregate Bond ETF | **BND**, **AGG**, **VGIT**, or **SCHZ** |
+| **50%** | U.S. ESG equities | **ESGV** – Vanguard ESG U.S. Stock ETF; or **ESGU** – iShares ESG Aware MSCI USA ETF | Broad U.S. equity exposure with ESG screening. ESGV is more exclusionary; ESGU is broader. |
+| **25%** | International ESG equities | **VSGX** – Vanguard ESG International Stock ETF | Covers developed and emerging markets outside the U.S. with ESG screening. |
+| **10%** | U.S. extended market / small-mid cap equities | **VXF** – Vanguard Extended Market ETF; or **VB** – Vanguard Small-Cap ETF | Adds exposure beyond large-cap U.S. companies. If ESG purity is a priority, this 10% could instead be added to ESGV. |
+| **10%** | Core bonds | **BND** – Vanguard Total Bond Market ETF; or **AGG** – iShares Core U.S. Aggregate Bond ETF | Broad investment-grade U.S. bond exposure. |
+| **3%** | Short-term TIPS | **VTIP** – Vanguard Short-Term Inflation-Protected Securities ETF; or **SCHP** – Schwab U.S. TIPS ETF | Provides some inflation-linked bond exposure. |
+| **2%** | Treasury bills / cash-like allocation | **SGOV** – iShares 0-3 Month Treasury Bond ETF; money market fund; high-yield savings | Liquidity and volatility buffer. |
 
-### Suggested Implementation
+### Dollar Allocation of Initial $150,000
 
-#### Initial $150,000 Lump Sum
-
-Invest according to the target allocation:
-
-| Asset Class | Allocation | Dollar Amount |
+| Asset Class | Allocation | Initial Investment |
 |---|---:|---:|
-| U.S. Equities | 45% | $67,500 |
-| International Equities | 25% | $37,500 |
-| U.S. Small-Cap / Factor Tilt | 10% | $15,000 |
-| REITs | 5% | $7,500 |
-| Bonds | 15% | $22,500 |
+| U.S. ESG equities | 50% | **$75,000** |
+| International ESG equities | 25% | **$37,500** |
+| U.S. extended/small-mid cap equities | 10% | **$15,000** |
+| Core bonds | 10% | **$15,000** |
+| Short-term TIPS | 3% | **$4,500** |
+| Treasury bills / cash-like reserves | 2% | **$3,000** |
 | **Total** | **100%** | **$150,000** |
 
-If the investor is comfortable with market volatility, a lump-sum investment is reasonable. Historically, lump-sum investing often outperforms dollar-cost averaging because markets rise over time.
-
-However, if investing the full $150,000 at once feels emotionally difficult, use a structured deployment plan:
-
-- Invest **50% immediately**
-- Invest the remaining **50% over 3–6 months**
-- Do not pause the plan based on short-term headlines
-
-#### Monthly $3,000 Contributions
-
-Allocate monthly contributions in the same proportions:
+### Monthly Contribution Plan: $3,000/month
 
 | Asset Class | Allocation | Monthly Contribution |
 |---|---:|---:|
-| U.S. Equities | 45% | $1,350 |
-| International Equities | 25% | $750 |
-| U.S. Small-Cap / Factor Tilt | 10% | $300 |
-| REITs | 5% | $150 |
-| Bonds | 15% | $450 |
+| U.S. ESG equities | 50% | **$1,500** |
+| International ESG equities | 25% | **$750** |
+| U.S. extended/small-mid cap equities | 10% | **$300** |
+| Core bonds | 10% | **$300** |
+| Short-term TIPS | 3% | **$90** |
+| Treasury bills / cash-like reserves | 2% | **$60** |
 | **Total** | **100%** | **$3,000** |
 
-Monthly contributions should be automated to reduce behavioral risk and improve consistency.
+### Simpler Alternative: 3-Fund ESG-Oriented Portfolio
+
+For easier management, the investor could simplify to:
+
+| Allocation | Instrument Type | Example |
+|---:|---|---|
+| **60%** | U.S. ESG equities | ESGV or ESGU |
+| **25%** | International ESG equities | VSGX |
+| **15%** | Bonds / short-term Treasuries | BND + VTIP/SGOV |
+
+This version sacrifices some small/mid-cap tilt but is easier to maintain.
 
 ---
 
 ## 4. Risk Management & Rebalancing Plan
 
-### Rebalancing Policy
+### A. Rebalancing Rules
 
-Rebalance the portfolio using one of the following methods:
+Rebalance using a disciplined, rules-based process:
 
-1. **Annual rebalancing:** Review and rebalance once per year.
-2. **Threshold rebalancing:** Rebalance when any asset class drifts more than **5 percentage points** from its target.
-3. **Contribution-based rebalancing:** Direct new monthly contributions toward underweight asset classes before selling existing holdings.
+1. **Review quarterly**, but do not trade unnecessarily.
+2. **Rebalance at least annually**.
+3. Rebalance if any major asset class drifts by more than **5 percentage points** from target.
+   - Example: U.S. equities target 50%; rebalance if it rises above 55% or falls below 45%.
+4. Use new monthly contributions first to buy underweight assets before selling anything.
+5. In taxable accounts, avoid unnecessary capital gains where possible.
 
-For taxable accounts, prioritize rebalancing through new contributions to minimize taxable gains.
+### B. Glide Path Toward Retirement
 
-### Glide Path Toward Retirement
-
-At age 35 with 20 years until the target retirement age, an **85% growth / 15% bond** allocation is appropriate. As retirement approaches, gradually reduce risk.
+The current 85/15 allocation is appropriate for the accumulation phase, but the portfolio should become more conservative as retirement approaches.
 
 Suggested glide path:
 
-| Age | Equity / Growth Assets | Bonds / Defensive Assets |
+| Age | Equity Allocation | Defensive Allocation |
 |---:|---:|---:|
-| 35–44 | 85% | 15% |
-| 45–49 | 80% | 20% |
-| 50–54 | 70%–75% | 25%–30% |
-| 55+ | 60%–70% | 30%–40% |
+| 35–45 | **85%** | **15%** |
+| 45–50 | **80%** | **20%** |
+| 50–55 | **70–75%** | **25–30%** |
+| At retirement | **60–70%** | **30–40%** |
 
-This helps reduce sequence-of-returns risk as withdrawals approach.
+Because the goal is early retirement, sequence-of-returns risk becomes important near age 55. The investor should avoid entering retirement with an overly aggressive portfolio unless they have flexibility to reduce withdrawals during market downturns.
 
-### Emergency Fund
+### C. Retirement Bucket Planning
 
-Before investing aggressively, maintain an emergency fund of at least:
+By age 55, consider structuring the retirement portfolio into liquidity buckets:
 
-- **6 months of core expenses**, or
-- **9–12 months** if income is variable, employment risk is high, or early retirement plans are firm
+| Bucket | Target Size | Purpose |
+|---|---:|---|
+| Cash / Treasury bills | 1–2 years of expenses | Spending stability |
+| Short/intermediate bonds | 3–5 years of expenses | Buffer during equity downturns |
+| Equities | Remainder | Long-term growth |
 
-This emergency fund should remain outside the investment portfolio in cash, high-yield savings, money market funds, or short-term Treasury funds.
+If expected spending is $80,000/year, a practical retirement buffer could include **$80,000–$160,000 in cash/T-bills** and several additional years of expenses in high-quality bonds.
 
-### Tax-Efficient Account Placement
+### D. Emergency Fund
 
-If available, prioritize contributions in the following order:
+The investment portfolio should not replace an emergency fund. Maintain a separate emergency reserve of at least **6 months of household expenses**, preferably in:
 
-1. **Employer retirement plan up to the match**
-2. **Health Savings Account**, if eligible
-3. **Tax-advantaged retirement accounts**, such as 401(k), IRA, Roth IRA, backdoor Roth IRA if applicable
-4. **Taxable brokerage account**
+- High-yield savings account
+- Treasury bills
+- Money market fund
+- Short-term Treasury ETF
 
-Suggested asset placement:
+Given dual income and no dependents, 6 months may be sufficient, but 9–12 months is reasonable if job income is volatile or highly concentrated in the tech sector.
 
-| Account Type | Best Assets to Hold |
-|---|---|
-| Taxable brokerage | Broad U.S. equity ETFs, international equity ETFs, ESG equity ETFs |
-| Traditional retirement accounts | Bonds, REITs, higher-income funds |
-| Roth accounts | Highest-growth assets, such as U.S. and international equity funds |
-| HSA | Long-term growth assets if medical costs can be paid from cash flow |
+### E. Tax-Efficient Account Placement
 
-### Downside Risk Expectations
+Where possible:
 
-With this allocation, the investor should expect:
+- Maximize tax-advantaged accounts first: 401(k), 403(b), IRA, backdoor Roth IRA if eligible, HSA if available.
+- Hold broad equity ETFs in taxable accounts because they are generally tax-efficient.
+- Hold bond funds in tax-advantaged accounts when possible, since bond interest is taxed less favorably.
+- Use tax-loss harvesting during market declines if investing through taxable brokerage accounts.
+- Avoid high-turnover funds and expensive active funds.
 
-- Normal annual volatility
-- Periodic declines of **10%–20%**
-- Severe bear-market drawdowns of **30% or more**
-- Multi-year periods of weak or negative returns
+### F. ESG Considerations
 
-The strategy depends on continuing contributions during downturns and avoiding panic selling.
+ESG funds can be useful but may differ meaningfully from the total market. Important considerations:
 
-### Withdrawal Risk Planning
+- ESG funds may underweight or exclude energy, defense, tobacco, firearms, or certain industrial sectors.
+- Performance may diverge from broad market indexes.
+- Expense ratios may be slightly higher than non-ESG alternatives.
+- ESG methodology varies by provider.
 
-At retirement, a $2 million portfolio with a 4% withdrawal rate implies:
-
-- **$80,000/year initial withdrawal**
-- Adjusted annually for inflation
-- Before taxes, healthcare costs, and investment fees
-
-Because retirement at age 55 could last 35–40 years, the investor may want to use a flexible withdrawal strategy rather than a fixed 4% rule. For example:
-
-- Start with 3.5%–4.0%
-- Reduce withdrawals after poor market years
-- Increase withdrawals after strong market years
-- Maintain 1–2 years of planned spending in cash or short-term bonds near retirement
+If ESG is a preference rather than a strict requirement, the recommended approach is to use ESG funds for the core equity exposure while keeping bonds and smaller satellite allocations in broad low-cost index funds.
 
 ---
 
 ## 5. Key Assumptions & Disclaimers
 
-### Return Assumptions
+### Key Planning Assumptions
 
-This plan assumes:
+This strategy assumes:
 
-- Starting capital: **$150,000**
-- Monthly contributions: **$3,000**
-- Investment horizon: **20 years**
-- Target value: **$2 million**
-- Required annualized return: approximately **6.5%–7% nominal**
-- Consistent contributions and long-term discipline
+- 20-year investment horizon.
+- $150,000 initial investment.
+- $3,000/month ongoing contributions.
+- Long-term nominal portfolio return of approximately **6.5%–7.5% annually**.
+- Continued employment income sufficient to maintain contributions.
+- No major withdrawals before retirement.
+- Portfolio costs remain low, ideally below **0.20%–0.30% weighted average expense ratio**.
+- Investor can tolerate substantial market volatility without abandoning the plan.
 
-Actual returns may be higher or lower. A globally diversified equity-heavy portfolio has historically been capable of achieving returns in this range over long periods, but there is no guarantee.
+### Goal Feasibility
 
-### Fee Assumptions
+Approximate projected outcomes after 20 years:
 
-Use low-cost funds where possible. Ideally:
+| Annualized Return | Estimated Portfolio Value |
+|---:|---:|
+| 5% | ~$1.6M |
+| 6% | ~$1.8M |
+| 7% | ~$2.05M |
+| 8% | ~$2.3M+ |
 
-- Broad equity ETF expense ratios: **0.03%–0.20%**
-- ESG ETF expense ratios: often **0.09%–0.25%**
-- Bond ETF expense ratios: **0.03%–0.15%**
-- Avoid high-fee active funds unless there is a specific reason
+The $2M target is realistic but return-sensitive. If markets underperform, the investor may need to:
 
-Costs matter significantly over 20 years.
+- Increase monthly contributions.
+- Extend retirement age beyond 55.
+- Reduce expected retirement spending.
+- Use a lower withdrawal rate, such as 3.5%.
+- Maintain part-time or consulting income during early retirement.
 
-### ESG Considerations
+### Inflation Note
 
-ESG funds vary widely in methodology. Some exclude certain industries, while others simply overweight companies with stronger ESG ratings.
+A $2M portfolio in 20 years will not have the same purchasing power as $2M today. At 2.5% annual inflation, $2M in 20 years is equivalent to roughly **$1.2M in today’s dollars**. If the investor wants $2M in today’s purchasing power, the target should be materially higher.
 
-The investor should review:
+### Withdrawal Rate Disclaimer
 
-- Fund holdings
-- ESG screening methodology
-- Expense ratio
-- Tracking difference versus standard index funds
+The 4% rule is a historical guideline, not a guarantee. For early retirement at age 55, the withdrawal period may be 40+ years, which may justify a more conservative withdrawal rate, such as **3.25%–3.75%**, especially if retiring into a weak market.
 
-ESG investing may result in performance that differs from broad-market indexes, either positively or negatively.
+### General Disclaimer
 
-### Important Disclaimers
-
-This document is for educational and planning purposes only and does not constitute personalized financial, tax, or legal advice. The investor should consult a qualified financial planner, tax professional, or investment adviser before implementing the strategy, especially regarding tax optimization, retirement account rules, and early retirement planning.
-
----
-
-## Recommended Starting Portfolio
-
-A simple actionable version would be:
-
-| Fund Type | Example ETF | Allocation |
-|---|---|---:|
-| U.S. ESG Equity | ESGV or ESGU | 45% |
-| International ESG Equity | VSGX | 25% |
-| U.S. Small-Cap Value | VBR or AVUV | 10% |
-| U.S. REITs | VNQ or SCHH | 5% |
-| U.S. Aggregate Bonds | EAGG or BND | 15% |
-| **Total** |  | **100%** |
-
-This portfolio is diversified, growth-oriented, low-cost, rules-based, ESG-aware where practical, and aligned with the stated goal of early retirement at age 55.
+This document is an educational investment strategy draft, not individualized financial, legal, or tax advice. Before implementation, the investor should review the plan with a qualified financial planner or tax professional, especially regarding retirement account strategy, tax optimization, insurance, and early retirement withdrawal planning.
 ```
 
 ## Final output
@@ -531,240 +486,214 @@ This portfolio is diversified, growth-oriented, low-cost, rules-based, ESG-aware
 ```markdown
 ## 1. Executive Summary
 
-This strategy targets long-term growth over a 20-year horizon, aiming to grow a portfolio from **$150,000 plus $3,000/month contributions** to approximately **$2 million by age 55**. At a 4% safe withdrawal rate, a $2 million portfolio could support roughly **$80,000/year before taxes and fees**, subject to market conditions and personal spending needs.
+This strategy is designed for a 35-year-old dual-income investor targeting early retirement at age 55, with a 20-year investment horizon, moderate-aggressive risk tolerance, and a preference for low-cost diversified index funds with ESG considerations where practical.
 
-Given the investor’s **moderate-aggressive risk tolerance**, long horizon, stable dual-income household, and preference for low-cost index funds, the recommended approach is a diversified, equity-heavy portfolio with a modest bond allocation for stability.
+**Recommended strategy:** a growth-oriented, globally diversified index portfolio with approximately **85% equities / 15% defensive assets**. This level of equity exposure is appropriate for a 20-year horizon and the investor’s willingness to accept volatility, while the bond/cash allocation provides some stability and future rebalancing capital.
 
-### Target Portfolio Profile
+**Target portfolio value:** $2 million by age 55.
+**Starting capital:** $150,000.
+**Ongoing contributions:** $3,000/month, or $36,000/year.
 
-- **Growth-oriented allocation:** Approximately **85% equities / 15% bonds**
-- **Global diversification:** U.S., international developed, and emerging markets exposure
-- **Low-cost index fund implementation**
-- **ESG preference incorporated where practical**
-- **No crypto and no individual stock picking**
-- **Annual or threshold-based rebalancing**
+At a roughly **7% annualized nominal return**, the current capital plus monthly contributions could reach approximately **$2.0M over 20 years**. This is achievable but not guaranteed; lower returns may require higher savings, delayed retirement, or a lower withdrawal rate.
 
-To reach the $2 million target, the portfolio likely needs an approximate long-term annualized return of **6.5%–7% before inflation**, assuming consistent monthly contributions. This is achievable but not guaranteed, and success depends heavily on contribution discipline, market returns, fees, taxes, and avoiding emotional selling during downturns.
+A 4% safe withdrawal rate on $2M implies roughly **$80,000/year before taxes**. If the $2M target is intended in today’s purchasing power rather than future nominal dollars, the required portfolio target would likely need to be higher due to inflation.
 
 ---
 
 ## 2. Asset Allocation
 
-### Recommended Long-Term Allocation
+### Recommended Target Allocation
 
 | Asset Class | Allocation | Purpose |
 |---|---:|---|
-| U.S. Equities | 45% | Core growth engine, exposure to large and mid-cap U.S. companies |
-| International Equities | 25% | Global diversification across developed and emerging markets |
-| U.S. Small-Cap / Factor-Tilted Equities | 10% | Additional long-term growth potential and diversification |
-| Real Estate / REITs | 5% | Inflation sensitivity, income, diversification |
-| Bonds / Fixed Income | 15% | Volatility reduction, liquidity, rebalancing source during downturns |
+| U.S. equities, ESG-oriented | **50%** | Core long-term growth engine |
+| International equities, ESG-oriented | **25%** | Global diversification outside the U.S. |
+| U.S. small/mid-cap or extended market equities | **10%** | Additional growth and diversification |
+| Core investment-grade bonds | **10%** | Stability, volatility reduction, rebalancing source |
+| Short-term Treasuries / TIPS / cash-like reserves | **5%** | Liquidity, inflation sensitivity, downside buffer |
 | **Total** | **100%** |  |
 
-### High-Level Allocation Summary
+### Broad Allocation Summary
 
-- **Total equities:** 80%
-- **Real estate equities / REITs:** 5%
-- **Total growth assets:** 85%
-- **Bonds / defensive assets:** 15%
+| Category | Allocation |
+|---|---:|
+| Equities | **85%** |
+| Bonds / cash-like defensive assets | **15%** |
 
-This is suitable for a 20-year horizon and moderate-aggressive investor. The portfolio will experience meaningful volatility. A temporary drawdown of **30%–40%** during severe bear markets is possible, so maintaining discipline is essential.
+This is a moderate-aggressive portfolio. It should be expected to experience meaningful drawdowns, potentially **30%+ during severe bear markets**, but it is positioned for long-term growth.
 
 ---
 
 ## 3. Specific Instrument Recommendations
 
-The following examples assume access to U.S.-listed ETFs or mutual funds. Equivalent low-cost funds from Vanguard, Fidelity, Schwab, iShares, or other providers may be used.
+The following are examples of low-cost ETFs/index funds. Exact fund choice may depend on account type, brokerage platform, tax situation, and availability.
 
-### Core Portfolio Recommendation
+### Core Portfolio Implementation
 
-| Allocation | Asset Class | Preferred ESG Option | Standard Low-Cost Alternative |
+| Allocation | Asset Class | Example ETF / Fund Options | Notes |
 |---:|---|---|---|
-| 45% | U.S. Total Market / ESG U.S. Equity | **ESGV** – Vanguard ESG U.S. Stock ETF or **ESGU** – iShares ESG Aware MSCI USA ETF | **VTI**, **ITOT**, or **SCHB** |
-| 25% | International Equity | **VSGX** – Vanguard ESG International Stock ETF or **ESGD/ESGE** combination | **VXUS**, **IXUS**, or **SCHF + SCHE** |
-| 10% | U.S. Small-Cap / Factor Tilt | **VBR** – Vanguard Small-Cap Value ETF or **AVUV** – Avantis U.S. Small Cap Value ETF | **VB** or **IJR** |
-| 5% | Real Estate / REITs | ESG REIT options are limited; consider broad REIT exposure if acceptable | **VNQ** or **SCHH** |
-| 15% | Bonds / Fixed Income | **EAGG** – iShares ESG Aware U.S. Aggregate Bond ETF | **BND**, **AGG**, **VGIT**, or **SCHZ** |
+| **50%** | U.S. ESG equities | **ESGV** – Vanguard ESG U.S. Stock ETF; or **ESGU** – iShares ESG Aware MSCI USA ETF | Broad U.S. equity exposure with ESG screening. ESGV is more exclusionary; ESGU is broader. |
+| **25%** | International ESG equities | **VSGX** – Vanguard ESG International Stock ETF | Covers developed and emerging markets outside the U.S. with ESG screening. |
+| **10%** | U.S. extended market / small-mid cap equities | **VXF** – Vanguard Extended Market ETF; or **VB** – Vanguard Small-Cap ETF | Adds exposure beyond large-cap U.S. companies. If ESG purity is a priority, this 10% could instead be added to ESGV. |
+| **10%** | Core bonds | **BND** – Vanguard Total Bond Market ETF; or **AGG** – iShares Core U.S. Aggregate Bond ETF | Broad investment-grade U.S. bond exposure. |
+| **3%** | Short-term TIPS | **VTIP** – Vanguard Short-Term Inflation-Protected Securities ETF; or **SCHP** – Schwab U.S. TIPS ETF | Provides some inflation-linked bond exposure. |
+| **2%** | Treasury bills / cash-like allocation | **SGOV** – iShares 0-3 Month Treasury Bond ETF; money market fund; high-yield savings | Liquidity and volatility buffer. |
 
-### Suggested Implementation
+### Dollar Allocation of Initial $150,000
 
-#### Initial $150,000 Lump Sum
-
-Invest according to the target allocation:
-
-| Asset Class | Allocation | Dollar Amount |
+| Asset Class | Allocation | Initial Investment |
 |---|---:|---:|
-| U.S. Equities | 45% | $67,500 |
-| International Equities | 25% | $37,500 |
-| U.S. Small-Cap / Factor Tilt | 10% | $15,000 |
-| REITs | 5% | $7,500 |
-| Bonds | 15% | $22,500 |
+| U.S. ESG equities | 50% | **$75,000** |
+| International ESG equities | 25% | **$37,500** |
+| U.S. extended/small-mid cap equities | 10% | **$15,000** |
+| Core bonds | 10% | **$15,000** |
+| Short-term TIPS | 3% | **$4,500** |
+| Treasury bills / cash-like reserves | 2% | **$3,000** |
 | **Total** | **100%** | **$150,000** |
 
-If the investor is comfortable with market volatility, a lump-sum investment is reasonable. Historically, lump-sum investing often outperforms dollar-cost averaging because markets rise over time.
-
-However, if investing the full $150,000 at once feels emotionally difficult, use a structured deployment plan:
-
-- Invest **50% immediately**
-- Invest the remaining **50% over 3–6 months**
-- Do not pause the plan based on short-term headlines
-
-#### Monthly $3,000 Contributions
-
-Allocate monthly contributions in the same proportions:
+### Monthly Contribution Plan: $3,000/month
 
 | Asset Class | Allocation | Monthly Contribution |
 |---|---:|---:|
-| U.S. Equities | 45% | $1,350 |
-| International Equities | 25% | $750 |
-| U.S. Small-Cap / Factor Tilt | 10% | $300 |
-| REITs | 5% | $150 |
-| Bonds | 15% | $450 |
+| U.S. ESG equities | 50% | **$1,500** |
+| International ESG equities | 25% | **$750** |
+| U.S. extended/small-mid cap equities | 10% | **$300** |
+| Core bonds | 10% | **$300** |
+| Short-term TIPS | 3% | **$90** |
+| Treasury bills / cash-like reserves | 2% | **$60** |
 | **Total** | **100%** | **$3,000** |
 
-Monthly contributions should be automated to reduce behavioral risk and improve consistency.
+### Simpler Alternative: 3-Fund ESG-Oriented Portfolio
+
+For easier management, the investor could simplify to:
+
+| Allocation | Instrument Type | Example |
+|---:|---|---|
+| **60%** | U.S. ESG equities | ESGV or ESGU |
+| **25%** | International ESG equities | VSGX |
+| **15%** | Bonds / short-term Treasuries | BND + VTIP/SGOV |
+
+This version sacrifices some small/mid-cap tilt but is easier to maintain.
 
 ---
 
 ## 4. Risk Management & Rebalancing Plan
 
-### Rebalancing Policy
+### A. Rebalancing Rules
 
-Rebalance the portfolio using one of the following methods:
+Rebalance using a disciplined, rules-based process:
 
-1. **Annual rebalancing:** Review and rebalance once per year.
-2. **Threshold rebalancing:** Rebalance when any asset class drifts more than **5 percentage points** from its target.
-3. **Contribution-based rebalancing:** Direct new monthly contributions toward underweight asset classes before selling existing holdings.
+1. **Review quarterly**, but do not trade unnecessarily.
+2. **Rebalance at least annually**.
+3. Rebalance if any major asset class drifts by more than **5 percentage points** from target.
+   - Example: U.S. equities target 50%; rebalance if it rises above 55% or falls below 45%.
+4. Use new monthly contributions first to buy underweight assets before selling anything.
+5. In taxable accounts, avoid unnecessary capital gains where possible.
 
-For taxable accounts, prioritize rebalancing through new contributions to minimize taxable gains.
+### B. Glide Path Toward Retirement
 
-### Glide Path Toward Retirement
-
-At age 35 with 20 years until the target retirement age, an **85% growth / 15% bond** allocation is appropriate. As retirement approaches, gradually reduce risk.
+The current 85/15 allocation is appropriate for the accumulation phase, but the portfolio should become more conservative as retirement approaches.
 
 Suggested glide path:
 
-| Age | Equity / Growth Assets | Bonds / Defensive Assets |
+| Age | Equity Allocation | Defensive Allocation |
 |---:|---:|---:|
-| 35–44 | 85% | 15% |
-| 45–49 | 80% | 20% |
-| 50–54 | 70%–75% | 25%–30% |
-| 55+ | 60%–70% | 30%–40% |
+| 35–45 | **85%** | **15%** |
+| 45–50 | **80%** | **20%** |
+| 50–55 | **70–75%** | **25–30%** |
+| At retirement | **60–70%** | **30–40%** |
 
-This helps reduce sequence-of-returns risk as withdrawals approach.
+Because the goal is early retirement, sequence-of-returns risk becomes important near age 55. The investor should avoid entering retirement with an overly aggressive portfolio unless they have flexibility to reduce withdrawals during market downturns.
 
-### Emergency Fund
+### C. Retirement Bucket Planning
 
-Before investing aggressively, maintain an emergency fund of at least:
+By age 55, consider structuring the retirement portfolio into liquidity buckets:
 
-- **6 months of core expenses**, or
-- **9–12 months** if income is variable, employment risk is high, or early retirement plans are firm
+| Bucket | Target Size | Purpose |
+|---|---:|---|
+| Cash / Treasury bills | 1–2 years of expenses | Spending stability |
+| Short/intermediate bonds | 3–5 years of expenses | Buffer during equity downturns |
+| Equities | Remainder | Long-term growth |
 
-This emergency fund should remain outside the investment portfolio in cash, high-yield savings, money market funds, or short-term Treasury funds.
+If expected spending is $80,000/year, a practical retirement buffer could include **$80,000–$160,000 in cash/T-bills** and several additional years of expenses in high-quality bonds.
 
-### Tax-Efficient Account Placement
+### D. Emergency Fund
 
-If available, prioritize contributions in the following order:
+The investment portfolio should not replace an emergency fund. Maintain a separate emergency reserve of at least **6 months of household expenses**, preferably in:
 
-1. **Employer retirement plan up to the match**
-2. **Health Savings Account**, if eligible
-3. **Tax-advantaged retirement accounts**, such as 401(k), IRA, Roth IRA, backdoor Roth IRA if applicable
-4. **Taxable brokerage account**
+- High-yield savings account
+- Treasury bills
+- Money market fund
+- Short-term Treasury ETF
 
-Suggested asset placement:
+Given dual income and no dependents, 6 months may be sufficient, but 9–12 months is reasonable if job income is volatile or highly concentrated in the tech sector.
 
-| Account Type | Best Assets to Hold |
-|---|---|
-| Taxable brokerage | Broad U.S. equity ETFs, international equity ETFs, ESG equity ETFs |
-| Traditional retirement accounts | Bonds, REITs, higher-income funds |
-| Roth accounts | Highest-growth assets, such as U.S. and international equity funds |
-| HSA | Long-term growth assets if medical costs can be paid from cash flow |
+### E. Tax-Efficient Account Placement
 
-### Downside Risk Expectations
+Where possible:
 
-With this allocation, the investor should expect:
+- Maximize tax-advantaged accounts first: 401(k), 403(b), IRA, backdoor Roth IRA if eligible, HSA if available.
+- Hold broad equity ETFs in taxable accounts because they are generally tax-efficient.
+- Hold bond funds in tax-advantaged accounts when possible, since bond interest is taxed less favorably.
+- Use tax-loss harvesting during market declines if investing through taxable brokerage accounts.
+- Avoid high-turnover funds and expensive active funds.
 
-- Normal annual volatility
-- Periodic declines of **10%–20%**
-- Severe bear-market drawdowns of **30% or more**
-- Multi-year periods of weak or negative returns
+### F. ESG Considerations
 
-The strategy depends on continuing contributions during downturns and avoiding panic selling.
+ESG funds can be useful but may differ meaningfully from the total market. Important considerations:
 
-### Withdrawal Risk Planning
+- ESG funds may underweight or exclude energy, defense, tobacco, firearms, or certain industrial sectors.
+- Performance may diverge from broad market indexes.
+- Expense ratios may be slightly higher than non-ESG alternatives.
+- ESG methodology varies by provider.
 
-At retirement, a $2 million portfolio with a 4% withdrawal rate implies:
-
-- **$80,000/year initial withdrawal**
-- Adjusted annually for inflation
-- Before taxes, healthcare costs, and investment fees
-
-Because retirement at age 55 could last 35–40 years, the investor may want to use a flexible withdrawal strategy rather than a fixed 4% rule. For example:
-
-- Start with 3.5%–4.0%
-- Reduce withdrawals after poor market years
-- Increase withdrawals after strong market years
-- Maintain 1–2 years of planned spending in cash or short-term bonds near retirement
+If ESG is a preference rather than a strict requirement, the recommended approach is to use ESG funds for the core equity exposure while keeping bonds and smaller satellite allocations in broad low-cost index funds.
 
 ---
 
 ## 5. Key Assumptions & Disclaimers
 
-### Return Assumptions
+### Key Planning Assumptions
 
-This plan assumes:
+This strategy assumes:
 
-- Starting capital: **$150,000**
-- Monthly contributions: **$3,000**
-- Investment horizon: **20 years**
-- Target value: **$2 million**
-- Required annualized return: approximately **6.5%–7% nominal**
-- Consistent contributions and long-term discipline
+- 20-year investment horizon.
+- $150,000 initial investment.
+- $3,000/month ongoing contributions.
+- Long-term nominal portfolio return of approximately **6.5%–7.5% annually**.
+- Continued employment income sufficient to maintain contributions.
+- No major withdrawals before retirement.
+- Portfolio costs remain low, ideally below **0.20%–0.30% weighted average expense ratio**.
+- Investor can tolerate substantial market volatility without abandoning the plan.
 
-Actual returns may be higher or lower. A globally diversified equity-heavy portfolio has historically been capable of achieving returns in this range over long periods, but there is no guarantee.
+### Goal Feasibility
 
-### Fee Assumptions
+Approximate projected outcomes after 20 years:
 
-Use low-cost funds where possible. Ideally:
+| Annualized Return | Estimated Portfolio Value |
+|---:|---:|
+| 5% | ~$1.6M |
+| 6% | ~$1.8M |
+| 7% | ~$2.05M |
+| 8% | ~$2.3M+ |
 
-- Broad equity ETF expense ratios: **0.03%–0.20%**
-- ESG ETF expense ratios: often **0.09%–0.25%**
-- Bond ETF expense ratios: **0.03%–0.15%**
-- Avoid high-fee active funds unless there is a specific reason
+The $2M target is realistic but return-sensitive. If markets underperform, the investor may need to:
 
-Costs matter significantly over 20 years.
+- Increase monthly contributions.
+- Extend retirement age beyond 55.
+- Reduce expected retirement spending.
+- Use a lower withdrawal rate, such as 3.5%.
+- Maintain part-time or consulting income during early retirement.
 
-### ESG Considerations
+### Inflation Note
 
-ESG funds vary widely in methodology. Some exclude certain industries, while others simply overweight companies with stronger ESG ratings.
+A $2M portfolio in 20 years will not have the same purchasing power as $2M today. At 2.5% annual inflation, $2M in 20 years is equivalent to roughly **$1.2M in today’s dollars**. If the investor wants $2M in today’s purchasing power, the target should be materially higher.
 
-The investor should review:
+### Withdrawal Rate Disclaimer
 
-- Fund holdings
-- ESG screening methodology
-- Expense ratio
-- Tracking difference versus standard index funds
+The 4% rule is a historical guideline, not a guarantee. For early retirement at age 55, the withdrawal period may be 40+ years, which may justify a more conservative withdrawal rate, such as **3.25%–3.75%**, especially if retiring into a weak market.
 
-ESG investing may result in performance that differs from broad-market indexes, either positively or negatively.
+### General Disclaimer
 
-### Important Disclaimers
-
-This document is for educational and planning purposes only and does not constitute personalized financial, tax, or legal advice. The investor should consult a qualified financial planner, tax professional, or investment adviser before implementing the strategy, especially regarding tax optimization, retirement account rules, and early retirement planning.
-
----
-
-## Recommended Starting Portfolio
-
-A simple actionable version would be:
-
-| Fund Type | Example ETF | Allocation |
-|---|---|---:|
-| U.S. ESG Equity | ESGV or ESGU | 45% |
-| International ESG Equity | VSGX | 25% |
-| U.S. Small-Cap Value | VBR or AVUV | 10% |
-| U.S. REITs | VNQ or SCHH | 5% |
-| U.S. Aggregate Bonds | EAGG or BND | 15% |
-| **Total** |  | **100%** |
-
-This portfolio is diversified, growth-oriented, low-cost, rules-based, ESG-aware where practical, and aligned with the stated goal of early retirement at age 55.
+This document is an educational investment strategy draft, not individualized financial, legal, or tax advice. Before implementation, the investor should review the plan with a qualified financial planner or tax professional, especially regarding retirement account strategy, tax optimization, insurance, and early retirement withdrawal planning.
 ```

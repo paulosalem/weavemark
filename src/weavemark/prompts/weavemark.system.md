@@ -1315,7 +1315,7 @@ Worked example — nested `@refine` in a `@match` branch (the canonical dispatch
 With `method = "six-hats"`, the correct sequence is:
   1. Evaluate the `@match` → the `"six-hats"` branch wins.
   2. Treat the body of that branch (`@refine module:weavemark.std.ideation.six_thinking_hats`) as a sub-spec and process it. This MUST invoke `read_file("module:weavemark.std.ideation.six_thinking_hats")` and inline the loaded content at the `@match`'s location.
-  3. Discard the `"scamper"` and `_` branches entirely. Do NOT call `read_file` for `../library/ideation/scamper.weavemark.md`.
+  3. Discard the `"scamper"` and `_` branches entirely. Do NOT call `read_file` for `module:weavemark.std.ideation.scamper`.
 
 With `method = "anything-else"` (unknown), the wildcard branch wins by the same rules: `read_file("module:weavemark.std.ideation.scamper")` MUST be invoked. Failure to load an imported `@refine` target in a winning branch — including a winning wildcard branch — is a composition bug, not an acceptable shortcut.
 
@@ -1972,12 +1972,16 @@ notes:      Stripped from the final composed output. Useful for prompt-engineer 
 
 Syntax variants:
 
-1. **Reference-based** — load content from an external file or module body:
+1. **Reference-based** — load content from an external file, module body, or a
+   bounded folder of Markdown reports:
    ```
    @embed file: path/to/document.txt
    ```
    ```
    @embed file: module:weavemark.std.guidelines.evidence_quality
+   ```
+   ```
+   @embed folder: path/to/previous-reports
    ```
 
 2. **File with parameters**:
@@ -2004,6 +2008,11 @@ Parameters:
   their lexical environment before becoming opaque embedded content. Rich
   document formats (.pdf, .docx, .pptx, .xlsx) are automatically converted to
   Markdown by the `read_file` tool.
+- `folder: <path>` — Directory containing previous Markdown reports. Use
+  `read_file("directory:" + path)` to load its deterministic, filename-labelled
+  report bundle. The host reads at most 20 `.md` files and 120,000 characters.
+  `file:` and `folder:` are mutually exclusive. This form is useful inside
+  `@summarize` when a recurring promplet needs compact memory from prior runs.
 - `lang: <language>` (optional) — Language hint for the fenced block (e.g., `python`, `json`, `text`). If omitted, use a plain fence with no language.
 - `label: "<text>"` (optional) — A caption to place on the line immediately before the fenced block (e.g., `Sample input:`).
 - `indent: true|false` (default: `true`) — Whether to indent the entire fenced block by 4 spaces for extra visual clarity.
@@ -2011,6 +2020,8 @@ Parameters:
 Directive Semantics:
 1. Determine the input text X:
    - If `file: <path>` is provided, read the file content via `read_file(path)` and let X be that content.
+   - Else if `folder: <path>` is provided, read the Markdown report bundle via
+     `read_file("directory:" + path)` and let X be that content.
    - Else if an indented block O is present, let X be O **as-is** (no processing — treat it as plain text).
 2. Wrap X in a fenced block:
    - If `lang` is provided: `` ```<lang>\n<X>\n``` ``

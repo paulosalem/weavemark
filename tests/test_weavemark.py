@@ -502,16 +502,26 @@ class TestWeaveMarkImports:
             PROMPLETS_DIR / "catalog/standalone/live-investment-decision-brief.weavemark.md"
         ).is_file()
         assert (
-            PROMPLETS_DIR / "catalog/standalone/financial-independence-goal-plan.weavemark.md"
+            PROMPLETS_DIR
+            / "catalog/standalone/financial-independence-goal-plan-prompt.weavemark.md"
         ).is_file()
         assert (PROMPLETS_DIR / "catalog/standalone/messy-notes-action-plan.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/deep-summary.weavemark.md").is_file()
+        assert (
+            PROMPLETS_DIR / "catalog/standalone/deep-summary-prompt.weavemark.md"
+        ).is_file()
         assert (PROMPLETS_DIR / "catalog/standalone/decision-advisor.weavemark.md").is_file()
         assert (PROMPLETS_DIR / "catalog/standalone/learning-tutor.weavemark.md").is_file()
         assert (PROMPLETS_DIR / "catalog/standalone/research-brief.weavemark.md").is_file()
         assert (PROMPLETS_DIR / "catalog/standalone/prompt-refiner.weavemark.md").is_file()
         assert (
             PROMPLETS_DIR / "catalog/standalone/program-debugging-assistant.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR / "catalog/standalone/news-intelligence-board.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR
+            / "catalog/standalone/passive-income-planning-dashboard.weavemark.md"
         ).is_file()
         assert (
             PROMPLETS_DIR
@@ -527,10 +537,14 @@ class TestWeaveMarkImports:
         assert (PROMPLETS_DIR / "stdlib/fragments/guidelines/research-rigor.weavemark.md").is_file()
         assert (PROMPLETS_DIR / "stdlib/fragments/guidelines/prompt-quality.weavemark.md").is_file()
         assert (
-            PROMPLETS_DIR / "stdlib/fragments/guidelines/release-evidence-quality.weavemark.md"
+            PROMPLETS_DIR / "stdlib/fragments/analysis/strategic-problem-analysis.weavemark.md"
         ).is_file()
         assert (
-            PROMPLETS_DIR / "domains/research/fragments/recurring-topic-monitor.weavemark.md"
+            PROMPLETS_DIR / "stdlib/fragments/reasoning/learner-model.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR
+            / "domains/research/fragments/recurring-topic-monitor-core.weavemark.md"
         ).is_file()
         assert (
             PROMPLETS_DIR / "domains/research/fragments/deep-web-source-discovery.weavemark.md"
@@ -584,12 +598,56 @@ class TestWeaveMarkImports:
             PROMPLETS_DIR
             / "domains/programming/fragments/validation/release-validation-matrix.weavemark.md"
         ).is_file()
-        assert (
-            PROMPLETS_DIR / "domains/product/fragments/release-artifact-readiness.weavemark.md"
-        ).is_file()
+        removed_programming_promplets = (
+            "catalog/standalone/fieldpulse-iot-agriculture.weavemark.md",
+            "catalog/standalone/mintlite-finance-app.weavemark.md",
+            "catalog/standalone/passive-income-android-app.weavemark.md",
+            "catalog/standalone/voidborne-roguelike.weavemark.md",
+            "domains/programming/fragments/assets/generative-2d-sprites.weavemark.md",
+            "domains/programming/fragments/models/model-finance.weavemark.md",
+            "domains/programming/fragments/modules/module-mobile-financial-dashboard.weavemark.md",
+            "domains/programming/fragments/stacks/stack-android-kotlin-compose.weavemark.md",
+            "domains/programming/fragments/stacks/stack-python-fastapi-postgres.weavemark.md",
+            "domains/programming/fragments/stacks/stack-rust-bevy.weavemark.md",
+            "domains/programming/fragments/stacks/stack-typescript-nextjs-prisma.weavemark.md",
+            "domains/programming/fragments/types/type-2d-game.weavemark.md",
+            "domains/programming/fragments/types/type-android-app.weavemark.md",
+            "domains/programming/fragments/types/type-saas-webapp.weavemark.md",
+        )
+        assert all(not (PROMPLETS_DIR / relative).exists() for relative in removed_programming_promplets)
         assert (
             PROMPLETS_DIR / "domains/product/fragments/release-readiness-gate.weavemark.md"
         ).is_file()
+        assert (
+            PROMPLETS_DIR / "domains/finance/fragments/financial-resilience-lens.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR / "stdlib/fragments/decision/forecast-uncertainty.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR / "stdlib/fragments/decision/strategy-selection.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR / "stdlib/fragments/decision/values-tradeoff.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR / "stdlib/fragments/guidelines/release-evidence-quality.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR / "stdlib/fragments/teaching/mastery-practice-loop.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR / "domains/product/fragments/release-artifact-readiness.weavemark.md"
+        ).is_file()
+        removed_reusable_fragments = (
+            "stdlib/fragments/writing/collaborative-writing-protocol.weavemark.md",
+            "stdlib/fragments/writing/revision-critique-loop.weavemark.md",
+            "domains/product/fragments/metaphor-to-product.weavemark.md",
+        )
+        assert all(
+            not (PROMPLETS_DIR / relative).exists()
+            for relative in removed_reusable_fragments
+        )
         assert (
             PROMPLETS_DIR / "catalog/executable/recurring-topic-monitor.weavemark.md"
         ).is_file()
@@ -616,6 +674,11 @@ class TestWeaveMarkImports:
         ).is_file()
         static_inputs_dir = EXAMPLES_DIR / "batch-example-runs/static-prompts/inputs"
         assert (static_inputs_dir / "market-research-example.json").is_file()
+        assert (static_inputs_dir / "news-intelligence-board.yaml").is_file()
+        assert (
+            EXAMPLES_DIR
+            / "batch-example-runs/static-prompts/outputs/news-intelligence-board/compiled-prompt.md"
+        ).is_file()
         assert (
             EXAMPLES_DIR / "terminal-output-only/program-review-checklist/inputs/vars.json"
         ).is_file()
@@ -723,10 +786,15 @@ class TestWeaveMarkImports:
             / "python-runtime-integrations/financial-independence-goal-plan/run.py"
         ).is_file()
         recurring_monitor_inputs = (
-            EXAMPLES_DIR / "python-runtime-integrations/recurring-topic-monitor/inputs"
+            EXAMPLES_DIR / "batch-example-runs/execution-engines/inputs"
         )
-        assert (recurring_monitor_inputs / "ai-news.json").is_file()
-        assert (recurring_monitor_inputs / "child-events.json").is_file()
+        assert (recurring_monitor_inputs / "recurring-topic-monitor-ai-news.json").is_file()
+        assert (
+            recurring_monitor_inputs / "recurring-topic-monitor-child-events.json"
+        ).is_file()
+        assert not (
+            EXAMPLES_DIR / "python-runtime-integrations/recurring-topic-monitor/run.py"
+        ).exists()
 
     def test_html_weavemark_snippets_are_syntax_highlighted(self):
         """HTML docs must color WeaveMark syntax in code snippets."""
@@ -897,6 +965,22 @@ class TestWeaveMarkImports:
         assert '"prompt"' in content
         assert '"packages"' in content
 
+    def test_discovery_prompt_is_internal_and_packaged(self):
+        from weavemark.app import (
+            DISCOVERY_SYSTEM_PROMPT,
+            _load_discovery_system_prompt,
+        )
+
+        prompt = _load_discovery_system_prompt()
+
+        assert DISCOVERY_SYSTEM_PROMPT.is_file()
+        assert "search_catalog" in prompt
+        assert "@promplet" not in prompt
+        assert "@tool" not in prompt
+        assert not (
+            PROMPLETS_DIR / "catalog/executable/spec-discovery.weavemark.md"
+        ).exists()
+
     def test_malformed_metadata_response_is_rejected(self, caplog):
         from weavemark.controller import parse_composition_response
 
@@ -1060,132 +1144,12 @@ def _load_recurring_topic_monitor_companion():
 
 
 class TestRecurringTopicMonitorCompanion:
-    def test_sao_paulo_child_query_plan_uses_local_official_sources(self):
+    def test_companion_contains_only_thin_web_bindings(self):
         module = _load_recurring_topic_monitor_companion()
-        settings = module.MonitorSettings(
-            topic="things to do with my 6 y.o. child",
-            monitor_mode="events",
-            cadence="weekly",
-            lookback_window="next 7 days",
-            region="São Paulo, Brazil",
-            audience="a parent",
-            research_depth="deep",
-            max_results_per_query=7,
-            max_first_level_sources=6,
-            max_second_level_sources=4,
-            age="6",
-            user_constraints="Prefer safe activities.",
-            seed_urls=(),
-        )
 
-        queries = " ".join(item["query"] for item in module._build_query_plan(settings))
-
-        assert "programação infantil" in queries
-        assert "site:sescsp.org.br/programacao" in queries
-        assert "site:cataventocultural.org.br" in queries
-        assert "site:capital.sp.gov.br" in queries
-        assert "things to do with my" not in queries
-
-    def test_event_url_selection_prioritizes_crawlable_official_sources(self):
-        module = _load_recurring_topic_monitor_companion()
-        payloads = [
-            {
-                "query_family": "official_calendars",
-                "query_tool": "search_web",
-                "results": [
-                    {
-                        "title": "Events & Activities To Do In São Paulo Tomorrow",
-                        "url": "https://allevents.in/são-paulo/tomorrow",
-                        "snippet": "Upcoming events in São Paulo.",
-                    },
-                    {
-                        "title": "Ideias ao Vento: Museu Catavento",
-                        "url": (
-                            "https://www.sescsp.org.br/programacao/"
-                            "ideias-ao-vento-36a-bienal-de-sao-paulo-e-museu-catavento/"
-                        ),
-                        "snippet": "Programação infantil para crianças.",
-                    },
-                    {
-                        "title": "Museu Catavento",
-                        "url": (
-                            "https://www.tripadvisor.com.br/"
-                            "Attraction_Review-g303631-d14157091-Reviews-"
-                            "Museu_Catavento-Sao_Paulo_State_of_Sao_Paulo.html"
-                        ),
-                        "snippet": "Venue background.",
-                    },
-                ],
-            }
-        ]
-
-        urls = module._select_urls(payloads, limit=2, mode="events")
-
-        assert urls[0].startswith("https://www.sescsp.org.br/programacao/")
-        assert all("allevents.in" not in url for url in urls)
-
-    def test_ai_news_monitor_seeds_primary_source_indexes(self):
-        module = _load_recurring_topic_monitor_companion()
-        settings = module.MonitorSettings(
-            topic="LLM Generative AI news",
-            monitor_mode="news",
-            cadence="weekly",
-            lookback_window="past week",
-            region="global",
-            audience="technical reader",
-            research_depth="deep",
-            max_results_per_query=7,
-            max_first_level_sources=6,
-            max_second_level_sources=4,
-            age="",
-            user_constraints="Prefer primary sources.",
-            seed_urls=(),
-        )
-
-        seeds = module._seed_urls(settings)
-
-        assert "https://openai.com/news" in seeds
-        assert "https://www.anthropic.com/news" in seeds
-        assert "https://deepmind.google/discover/blog" in seeds
-
-    def test_user_seed_urls_are_normalized_and_preserved_first(self):
-        module = _load_recurring_topic_monitor_companion()
-        prepared = module.compile_variables(
-            {
-                "topic": "LLM Generative AI news",
-                "seed_urls": [
-                    "https://example.com/source#section",
-                    "https://example.com/source",
-                ],
-            }
-        )
-
-        assert prepared["seed_urls"] == ["https://example.com/source"]
-        assert prepared["seed_urls_summary"] == "- https://example.com/source"
-
-    def test_second_level_selection_skips_assets_and_anchor_duplicates(self):
-        module = _load_recurring_topic_monitor_companion()
-        sources = [
-            {
-                "links": json.dumps(
-                    [
-                        "https://allevents.in/favicon.ico",
-                        "https://openai.com/news/#main",
-                        "https://openai.com/favicon.ico",
-                        "https://openai.com/index/introducing-genebench-pro/",
-                    ]
-                )
-            }
-        ]
-
-        urls = module._select_second_level_urls(
-            sources,
-            already_seen={"https://openai.com/news/"},
-            limit=2,
-            mode="news",
-        )
-
-        assert urls == ["https://openai.com/index/introducing-genebench-pro"]
+        assert module.__all__ == ["crawl_url", "search_news", "search_web"]
+        assert not hasattr(module, "MonitorSettings")
+        assert not hasattr(module, "compile_variables")
 
 
 class TestResponseParsing:

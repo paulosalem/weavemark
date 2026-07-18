@@ -8,8 +8,8 @@
 # Issue Tree Analysis
 
 @note
-  This standalone prompt applies the reusable
-  `../library/analysis/issue-tree-core.weavemark.md` method to caller-provided problem
+  This standalone prompt applies
+  `module:weavemark.std.analysis.issue_tree_core` to caller-provided problem
   context and starting points.
 
   Related reference:

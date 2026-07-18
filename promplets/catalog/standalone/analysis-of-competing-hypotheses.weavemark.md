@@ -7,8 +7,8 @@
 # Analysis of Competing Hypotheses (ACH)
 
 @note
-  This standalone prompt applies the reusable
-  `../library/analysis/ach-core.weavemark.md` method to caller-provided hypotheses and
+  This standalone prompt applies
+  `module:weavemark.std.analysis.ach_core` to caller-provided hypotheses and
   evidence.
 
   References:

@@ -31,21 +31,41 @@ Language and execution support for [WeaveMark](../README.md) promplets
 
 ## Installation
 
-### From Source (Development)
+### From source
 
-1. Copy or symlink this directory into your VSCode extensions folder:
+From the repository root:
 
-   ```bash
-   # macOS / Linux
-   ln -s "$(pwd)" ~/.vscode/extensions/weavemark
+```bash
+python scripts/install_vscode_extension.py
+```
 
-   # Windows (PowerShell, run as admin)
-   New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.vscode\extensions\weavemark" -Target (Get-Location)
-   ```
+The installer:
 
-2. Reload VSCode (`Cmd+Shift+P` → "Developer: Reload Window")
+- runs the extension tests and consistency checks first;
+- detects VS Code, VS Code Insiders, and VSCodium installations;
+- atomically copies only runtime extension files;
+- safely updates installs it previously created;
+- refuses to overwrite unrelated directories.
 
-3. Open any `.weavemark.md` file — syntax highlighting activates automatically
+Copy mode is the default and remains valid if the repository moves. For live
+extension development, install a symlink instead:
+
+```bash
+python scripts/install_vscode_extension.py --mode link
+```
+
+Choose a specific editor or remove an installation explicitly:
+
+```bash
+python scripts/install_vscode_extension.py --target code-insiders
+python scripts/install_vscode_extension.py --target code-insiders --uninstall
+```
+
+Use `--extensions-dir PATH` for portable/custom installations. `--force` may
+replace an unowned destination and should be used only after inspecting it.
+
+After installation, reload the editor window (`Cmd+Shift+P` or `Ctrl+Shift+P` →
+**Developer: Reload Window**) and open a `.weavemark.md` file.
 
 ### Theme Activation
 

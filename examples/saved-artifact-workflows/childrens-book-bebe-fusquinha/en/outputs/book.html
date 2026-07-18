@@ -11,13 +11,14 @@
 
     html,
     body {
-      width: 1536px;
       margin: 0;
       padding: 0;
-      background: #ffffff;
+      width: 1536px;
+      background: #fff;
     }
 
-    body {
+    * {
+      box-sizing: border-box;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -35,15 +36,15 @@
       position: relative;
     }
 
-    section.page:last-of-type {
+    section.page:last-child {
       page-break-after: auto;
       break-after: auto;
     }
 
     section.page img {
       display: block;
-      width: 100%;
-      height: 100%;
+      width: 1536px;
+      height: 1024px;
       margin: 0;
       padding: 0;
       border: 0;

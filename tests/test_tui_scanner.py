@@ -404,6 +404,27 @@ class TestScanSpec:
         assert "edited_content" not in names
         assert "original_content" not in names
 
+    def test_reflection_filters_internal_vars(self):
+        source = """
+@execute reflection
+  max_rounds: 3
+
+Topic: @{topic}
+
+@prompt generate
+  Draft about @{topic}.
+
+@prompt critique
+  Review @{response}.
+
+@prompt revise
+  Revise @{response} using @{issues}.
+"""
+
+        meta = scan_spec(source)
+
+        assert [item.name for item in meta.inputs] == ["topic"]
+
     def test_description_extraction(self):
         meta = scan_spec(SPEC_SIMPLE)
         assert "simple spec" in meta.description.lower()

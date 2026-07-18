@@ -57,7 +57,7 @@
         and the <em>same</em> blocks can compile into completely different
         artifacts. In this lesson two real specs pull in the same finance
         fragments &mdash; one produces a <strong>decision analysis</strong>, the
-        other a <strong>native-app specification</strong>.
+        other a <strong>local-first dashboard specification</strong>.
       </p>
     </header>
 
@@ -80,7 +80,7 @@
       <h2>In the repository</h2>
       <div class="repo-resources-links">
         <a class="repo-link" href="../promplets/catalog/standalone/financial-independence-decision.weavemark.md"><span class="repo-tag">Spec</span> financial-independence-decision.weavemark.md</a>
-        <a class="repo-link" href="../promplets/catalog/standalone/passive-income-android-app.weavemark.md"><span class="repo-tag">Spec</span> passive-income-android-app.weavemark.md</a>
+        <a class="repo-link" href="../promplets/catalog/standalone/passive-income-planning-dashboard.weavemark.md"><span class="repo-tag">Spec</span> passive-income-planning-dashboard.weavemark.md</a>
         <a class="repo-link" href="../promplets/domains/finance/fragments/passive-income-forecasting.weavemark.md"><span class="repo-tag">Library</span> passive-income-forecasting.weavemark.md</a>
         <a class="repo-link" href="../promplets/catalog/standalone/"><span class="repo-tag">Folder</span> standalone catalog/</a>
       </div>
@@ -218,25 +218,25 @@ JSON</code></pre>
           <h2>Output B &mdash; an app specification</h2>
           <p>
             The second spec is a <strong>software</strong> promplet. It refines an
-            Android app type, a Kotlin/Compose stack, a dashboard module, and the
+            a local-first web stack, durable SQLite storage, a dashboard module, and the
             <em>same two finance fragments</em>.
           </p>
           <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.android_app
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.android_kotlin_compose
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.mobile_financial_dashboard
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.local_first_webapp
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.dashboard
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.passive_income_capital_growth
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.passive_income_forecasting
 
-# Passive-income Android app specification
+# Passive-Income Planning Dashboard
 
-<span class="syntax-var">@{app_name}</span> is a native Android app for people pursuing financial
+Design <span class="syntax-var">@{app_name}</span>, a local-first web application for people pursuing financial
 independence through passive income and disciplined capital growth ...</code></pre>
           <p class="snippet-source">
-            From <a href="../promplets/catalog/standalone/passive-income-android-app.weavemark.md">passive-income-android-app.weavemark.md</a>.
+            From <a href="../promplets/catalog/standalone/passive-income-planning-dashboard.weavemark.md">passive-income-planning-dashboard.weavemark.md</a>.
           </p>
-          <pre><code>weavemark library builtin:catalog/standalone/passive-income-android-app \
+          <pre><code>weavemark library builtin:catalog/standalone/passive-income-planning-dashboard \
   --batch-only \
   --var app_name=Fathom \
   --output outputs/reuse/app-spec.md</code></pre>
@@ -276,7 +276,7 @@ independence through passive income and disciplined capital growth ...</code></p
                 <tr>
                   <td><strong>Plus</strong></td>
                   <td>reasoning, finance guidelines, decision lenses</td>
-                  <td>Android type, Kotlin/Compose stack, dashboard module</td>
+                  <td>local-first web stack, SQLite storage, dashboard module</td>
                 </tr>
                 <tr>
                   <td><strong>Compiles into</strong></td>

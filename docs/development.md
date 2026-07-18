@@ -14,10 +14,13 @@ A syntax highlighting extension for `.weavemark.md` files is included in [`vscod
 **Quick install:**
 
 ```bash
-ln -s "$(pwd)/vscode-extension" ~/.vscode/extensions/weavemark
+python scripts/install_vscode_extension.py
 ```
 
-Then reload VSCode. See [`vscode-extension/README.md`](../vscode-extension/README.md) for details.
+The installer checks the extension, detects local editor variants, and performs
+an atomic owned copy by default. Use `--mode link` for live development or
+`--target code-insiders` for one editor. Then reload VS Code. See
+[`vscode-extension/README.md`](../vscode-extension/README.md) for details.
 
 ## Architecture
 

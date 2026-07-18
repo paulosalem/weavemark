@@ -1,6 +1,7 @@
 @promplet version: 0.7
 @refine module:weavemark.domains.programming.foundations.software_spec mingle: true
 @refine module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite mingle: true
+@refine module:weavemark.domains.programming.validation.release_validation_matrix mingle: true
 @refine module:weavemark.domains.product.release_readiness_gate mingle: true
 @refine module:weavemark.domains.product.product_validation_surface mingle: true
 

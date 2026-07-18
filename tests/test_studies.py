@@ -120,6 +120,21 @@ def test_contrastive_score_registry_covers_every_study():
         assert all(score.rationale for score in scores)
 
 
+def test_controlled_study_sources_do_not_refine_removed_fragments():
+    removed_refinements = (
+        "programming/assets/generative-2d-sprites",
+        "programming/types/type-2d-game",
+    )
+
+    for source_path in CONTROLLED_STUDIES_DIR.glob("**/specs/*.weavemark.md"):
+        source = source_path.read_text(encoding="utf-8")
+        for refinement in removed_refinements:
+            assert refinement not in source, (
+                f"{source_path.relative_to(REPO_ROOT)} still refines removed "
+                f"fragment {refinement}"
+            )
+
+
 def test_blind_summary_uses_current_run_marker():
     generator = _load_report_generator()
 

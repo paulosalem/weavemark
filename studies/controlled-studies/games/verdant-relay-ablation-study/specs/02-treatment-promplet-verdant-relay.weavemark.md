@@ -41,9 +41,8 @@
   @refine game-design/mechanics/ecosystem-simulation
     Ecosystem state changes defense decisions, card value, recovery, and failure.
 
-  @refine programming/types/type-2d-game
-    Adapt components/systems to tiles, lanes, cards, ecosystem, waves, overlays,
-    and animation.
+  Use focused 2D component and system boundaries for tiles, lanes, cards,
+  ecosystem state, waves, overlays, animation, and restart.
 
   ## Player readability, progression, and tuning
 
@@ -58,7 +57,9 @@
     Prove load, start, card draw/play, placement/upgrade, wave, ecosystem
     feedback, leak/win, pause/resume, and restart in a real browser.
 
-  @refine programming/assets/generative-2d-sprites
+  Define an original visual direction and asset manifest covering dimensions,
+  variants, gameplay states, animation, ownership, loading, and validation.
+  Do not depend on unlicensed art.
   @refine product/product-validation-surface
 
   ## Required output

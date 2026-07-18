@@ -16,24 +16,20 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 EXAMPLE_ROOT = REPO_ROOT / "examples" / "python-runtime-integrations" / "market-snapshot"
-WORKSPACE_ROOT = REPO_ROOT.parent
-ELLEMENTS_ROOT = WORKSPACE_ROOT / "ellements"
-
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(line_buffering=True)
 
 for path in [
     REPO_ROOT / "src",
     REPO_ROOT / "examples" / "_lib",
-    ELLEMENTS_ROOT / "ellements-core" / "src",
-    ELLEMENTS_ROOT / "ellements-domain-specific" / "src",
-    ELLEMENTS_ROOT / "ellements-reporting" / "src",
-    ELLEMENTS_ROOT / "ellements-standard-tools" / "src",
 ]:
     sys.path.insert(0, str(path))
 
 from ellements.core import LLMClient
-from weavemark_example_progress import weavemark_verbose_event
+from weavemark_example_progress import (
+    normalize_generated_markdown,
+    weavemark_verbose_event,
+)
 
 from weavemark.controller import WeaveMarkConfig, WeaveMarkController
 from weavemark.defaults import DEFAULT_MODEL
@@ -132,14 +128,14 @@ async def main() -> None:
     if os.environ.get("OPENAI_API_KEY"):
         _section(f"Synthesizing final learning brief with {DEFAULT_MODEL}")
         synthesis_prompt = _synthesis_prompt(result.composed_prompt, companion_results)
-        response = await LLMClient(model=DEFAULT_MODEL).complete(
-            synthesis_prompt,
-            temperature=0.2,
-        )
+        response = await LLMClient(model=DEFAULT_MODEL).complete(synthesis_prompt)
     else:
         _section("Synthesizing final learning brief without an LLM")
         model_label = f"{DEFAULT_MODEL} (not invoked; OPENAI_API_KEY unavailable)"
         response = _fallback_companion_summary(variables, companion_results)
+
+    response = normalize_generated_markdown(response)
+    composed_prompt = normalize_generated_markdown(result.composed_prompt)
 
     _section("Final response")
     print(response)
@@ -151,7 +147,7 @@ async def main() -> None:
     output_path = OUTPUT_DIR / "execution-output.md"
     trace_path = OUTPUT_DIR / "execution-trace.md"
 
-    compiled_prompt_path.write_text(result.composed_prompt, encoding="utf-8")
+    compiled_prompt_path.write_text(composed_prompt, encoding="utf-8")
     compiled_plan_path.write_text(
         json.dumps(result.to_dict(), indent=2, ensure_ascii=False, default=str),
         encoding="utf-8",
@@ -164,7 +160,7 @@ async def main() -> None:
     trace_path.write_text(
         _render_trace(
             model_label=model_label,
-            composed_prompt=result.composed_prompt,
+            composed_prompt=composed_prompt,
             execution_plan=result.execution,
             bindings=result.bindings,
             companion_results=companion_results,

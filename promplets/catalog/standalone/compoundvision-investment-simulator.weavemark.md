@@ -4,7 +4,8 @@
 # CompoundVision — Interactive Compound Interest & Investment Simulator
 
 @refine module:weavemark.domains.programming.foundations.base_spec_author
-@refine module:weavemark.domains.programming.stacks.typescript_nextjs_prisma
+@refine module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite
+@refine module:weavemark.domains.finance.finance_safety mingle: true
 @refine module:weavemark.domains.programming.modules.auth
 @refine module:weavemark.domains.programming.modules.dashboard
 
@@ -20,6 +21,11 @@ real-world conditions: market volatility, inflation erosion, tax drag, fee
 compounding, dollar-cost averaging, and Monte Carlo scenarios. The goal is to
 help users build intuition about how small changes in rate, fees, or
 contribution timing create enormous differences over decades.
+
+Treat every result as educational scenario analysis, not personalized financial,
+tax, legal, or investment advice. Show assumptions, data sources and freshness,
+uncertainty ranges, downside cases, fees, taxes, and model limitations alongside
+results. Never present simulated or historical returns as guaranteed outcomes.
 
 ## Core Calculation Engine
 

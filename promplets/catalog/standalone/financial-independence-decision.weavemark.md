@@ -7,7 +7,7 @@
 @refine module:weavemark.std.guidelines.evidence_quality mingle: true
 @refine module:weavemark.std.analysis.strategic_problem_analysis
 @refine module:weavemark.std.analysis.optionality_decision
-@refine module:weavemark.std.analysis.financial_resilience_lens
+@refine module:weavemark.domains.finance.financial_resilience_lens
 @refine module:weavemark.domains.finance.passive_income_capital_growth
 @refine module:weavemark.domains.finance.passive_income_forecasting
 @refine module:weavemark.std.analysis.mece_core

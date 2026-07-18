@@ -642,6 +642,39 @@ Use the `@tool` directive to define tools/functions that the composed prompt's c
 `@bind`; inline implementation parameters such as `@tool search impl: python`
 are rejected.
 
+When a `single-call` executable declares both `@tool` and matching Python
+`@bind` entries, `weavemark ... --run` executes the complete multi-turn tool
+loop directly. The model chooses calls from the declared schemas; the bound
+functions implement only those calls. Use `max_iterations` and
+`max_tool_calls` under `@execute single-call` to bound the loop. Python binding
+imports remain subject to WeaveMark protections.
+
+```markdown
+@execute single-call
+  max_iterations: 12
+  max_tool_calls: 20
+
+@bind search_web language: python from: "./tools/web.py" symbol: search_web
+
+@tool search_web
+  Search the web.
+  - query: string (required) - Focused query
+```
+
+For recurring workflows, a promplet may embed a bounded folder of prior
+Markdown reports and summarize it into comparison memory:
+
+```markdown
+@if use_previous_reports
+  @summarize
+    Keep only story identity, decisive facts, status, and material changes.
+    @embed folder: "@{previous_reports}" label: "Previous reports"
+```
+
+Folder embedding reads sorted `.md` files only, with a maximum of 20 files and
+120,000 characters. Keep execution traces outside the history folder so memory
+contains reports rather than raw logs.
+
 Tools compose naturally with control-flow directives:
 
 ```markdown
