@@ -11,7 +11,7 @@ section() {
   printf '%s\n\n' "================================================================================"
 }
 
-# Stage 0 — Inspect the compiled pipeline. comic-strip.weavemark.md is an
+# Stage 0 — Inspect the compiled pipeline as structured JSON. comic-strip.weavemark.md is an
 # @execute reflection spec (a production chain followed by a critique -> revise
 # loop). The `author` stage @refines the shared illustrated-story core
 # (promplets/domains/creative/fragments/illustrated-story-core.weavemark.md, comic-strip format,
@@ -21,8 +21,8 @@ section() {
 section "Comic strip: compiled pipeline"
 weavemark library builtin:catalog/executable/comic-strip \
   --vars-file examples/saved-artifact-workflows/comic-strip-en/inputs/vars.json \
-  --output "$OUT/compiled-prompt.md" \
-  --show-output \
+  --format json \
+  --output "$OUT/compiled-chain.json" \
   --no-file-summary \
   --batch-only
 

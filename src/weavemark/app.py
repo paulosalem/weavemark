@@ -1453,7 +1453,11 @@ async def run_execute(
     """Compile + execute: compose the spec, then run through an engine."""
     from ellements.execution import StepRecord
 
-    from weavemark.engines import RuntimeConfig, resolve_engine
+    from weavemark.engines import (
+        RuntimeConfig,
+        resolve_engine,
+        resolve_runtime_engine_name,
+    )
 
     # Load runtime config
     runtime_config = RuntimeConfig()
@@ -1557,12 +1561,7 @@ async def run_execute(
         return 1
     output_format = _resolve_output_format(result, args, printer, settings)
 
-    # Determine engine
-    engine_name = "single-call"
-    if runtime_config and runtime_config.engine:
-        engine_name = runtime_config.engine
-    elif result.execution and result.execution.get("type"):
-        engine_name = result.execution["type"]
+    engine_name = resolve_runtime_engine_name(runtime_config, result)
 
     logger.info("execute start: engine=%s", engine_name)
     printer.status(f"Executing with engine: {engine_name}…")

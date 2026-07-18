@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
 import subprocess
 from html.parser import HTMLParser
@@ -20,6 +21,20 @@ PUBLIC_TREES = (
     "vscode-extension",
 )
 PUBLIC_ROOT_FILES = ("CHANGELOG.md", "LICENSE", "README.md")
+GITHUB_REPOSITORY_URL = "https://github.com/paulosalem/weavemark"
+REPOSITORY_LINK_PATTERN = re.compile(
+    r'href="\.\./(?P<path>(?:examples|outputs|promplets|src|studies|vscode-extension)/[^"#]*)"'
+)
+LIVE_DEMOS: dict[str, tuple[str, tuple[str, ...]]] = {
+    "orbital-drift": (
+        "outputs/implementations/orbital-drift",
+        ("index.html", "styles.css", "favicon.svg", "src/engine.js", "src/main.js"),
+    ),
+    "transit-city-swarm": (
+        "outputs/implementations/transit-city-swarm",
+        ("index.html", "styles.css", "src/app.js", "src/simulation.js"),
+    ),
+}
 CONFIDENTIAL_MARKERS = (
     b"prompting" + b" adventures",
     b"/users/" + b"paulo" + b"salem",
@@ -72,12 +87,13 @@ def tracked_paths(root: Path = ROOT) -> list[Path]:
         capture_output=True,
         check=True,
     )
+    paths = (
+        root / raw.decode("utf-8")
+        for raw in completed.stdout.split(b"\0")
+        if raw
+    )
     return sorted(
-        (
-            root / raw.decode("utf-8")
-            for raw in completed.stdout.split(b"\0")
-            if raw
-        ),
+        (path for path in paths if path.is_file()),
         key=lambda path: str(path.relative_to(root)),
     )
 
@@ -125,6 +141,8 @@ def build_site(destination: Path, root: Path = ROOT) -> list[Path]:
 
     (destination / "index.html").write_text(ROOT_REDIRECT, encoding="utf-8")
     (destination / ".nojekyll").touch()
+    _publish_live_demos(destination, root, set(paths), lfs)
+    _rewrite_repository_links(destination / "docs", root)
     _inject_favicon(destination / "docs")
     return copied
 
@@ -205,6 +223,40 @@ def _inject_favicon(docs_directory: Path) -> None:
         if 'rel="icon"' not in text:
             text = text.replace("</head>", f"{FAVICON_LINK}</head>", 1)
             html_path.write_text(text, encoding="utf-8")
+
+
+def _publish_live_demos(
+    destination: Path,
+    root: Path,
+    tracked: set[Path],
+    lfs: set[Path],
+) -> None:
+    for slug, (source_directory, assets) in LIVE_DEMOS.items():
+        for relative_asset in assets:
+            source = root / source_directory / relative_asset
+            if source not in tracked:
+                raise FileNotFoundError(f"Live demo asset is not tracked: {source}")
+            if source in lfs:
+                raise ValueError(f"Live demo asset cannot use Git LFS: {source}")
+            target = destination / "demos" / slug / relative_asset
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
+
+
+def _rewrite_repository_links(docs_directory: Path, root: Path) -> None:
+    def replace(match: re.Match[str]) -> str:
+        relative = Path(match.group("path").rstrip("/"))
+        source = root / relative
+        if not source.exists():
+            raise FileNotFoundError(f"Documentation source link is missing: {source}")
+        kind = "tree" if source.is_dir() else "blob"
+        return f'href="{GITHUB_REPOSITORY_URL}/{kind}/main/{relative.as_posix()}"'
+
+    for html_path in docs_directory.glob("*.html"):
+        text = html_path.read_text(encoding="utf-8")
+        rewritten = REPOSITORY_LINK_PATTERN.sub(replace, text)
+        if rewritten != text:
+            html_path.write_text(rewritten, encoding="utf-8")
 
 
 def _within(path: Path, root: Path) -> bool:

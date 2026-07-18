@@ -81,7 +81,11 @@
         <a class="repo-link" href="../promplets/catalog/standalone/financial-independence-goal-plan.weavemark.md"><span class="repo-tag">Spec</span> financial-independence-goal-plan.weavemark.md</a>
         <a class="repo-link" href="../promplets/stdlib/definitions/planning/goals.weavemark.md"><span class="repo-tag">Module</span> goals.weavemark.md</a>
         <a class="repo-link" href="../examples/python-runtime-integrations/financial-independence-goal-plan/run.py"><span class="repo-tag">Example</span> run.py</a>
+        <a class="repo-link" href="../examples/python-runtime-integrations/financial-independence-goal-plan/"><span class="repo-tag">Folder</span> financial-independence-goal-plan/</a>
       </div>
+      <p class="repo-resources-note">
+        Source and folder links open GitHub. Commands assume the repository-root setup from <a href="tutorial.html#setup">Tutorial 1</a>.
+      </p>
     </section>
 
     <main class="shell page-grid">
@@ -197,19 +201,22 @@ mkdir -p outputs/tutorial-goal/planning outputs/tutorial-goal/companions</code><
 <span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
 <span class="syntax-directive">@use</span> weavemark.std.planning.goals exposing goal_plan
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.finance_safety <span class="syntax-key">mingle:</span> true
 
 # Financial independence goal-to-plan prompt
 
-<span class="syntax-directive">@goal_plan</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"@{goal}"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"@{horizon}"</span> <span class="syntax-key">starting_point:</span> <span class="syntax-string">"@{starting_point}"</span> <span class="syntax-key">constraints:</span> <span class="syntax-string">"@{constraints}"</span> <span class="syntax-key">assumption_source:</span> <span class="syntax-string">"User will verify current public assumptions."</span>
+<span class="syntax-directive">@goal_plan</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"@{goal}"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"@{horizon}"</span> <span class="syntax-key">starting_point:</span> <span class="syntax-string">"@{starting_point}"</span> <span class="syntax-key">constraints:</span> <span class="syntax-string">"@{constraints}"</span> <span class="syntax-key">assumption_source:</span> <span class="syntax-string">"@{public_assumptions}"</span>
 
 Treat the result as planning support, not financial, tax,
-legal, or investment advice.</code></pre>
+legal, or investment advice. Keep the first actions simple enough for
+someone with no transaction upload, portfolio upload, or spreadsheet model.</code></pre>
           <pre><code>weavemark outputs/tutorial-goal/fi-goal-plan.weavemark.md \
   --batch-only \
   --var goal="Reach financial independence while keeping work optional" \
   --var horizon="15 years" \
   --var starting_point="I save irregularly and want a monthly reviewable plan" \
   --var constraints="No extreme frugality, no private-data uploads" \
+  --var public_assumptions="Use current public sources; verify rates and thresholds before acting." \
   --output outputs/tutorial-goal/compiled-prompt.md</code></pre>
           <div class="callout">
             <strong>What to do with the output:</strong>

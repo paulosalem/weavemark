@@ -150,6 +150,37 @@ async def test_execute_file_merges_runtime_variables_and_accepts_engine_object(
     assert result.execution.metadata == {"engine_config": {"trace": True}}
 
 
+@pytest.mark.asyncio
+async def test_execute_text_honors_source_declared_engine_by_default(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    resolved: list[str] = []
+
+    def fake_resolve_engine(name: str, **_: Any) -> EchoEngine:
+        resolved.append(name)
+        return EchoEngine()
+
+    monkeypatch.setattr("weavemark.api.resolve_engine", fake_resolve_engine)
+    result = await execute_text(
+        textwrap.dedent("""
+        @execute reflection
+          rounds: 2
+
+        @prompt generate
+          Draft.
+
+        @prompt critique
+          Critique @{generate}.
+
+        @prompt revise
+          Revise @{generate} using @{critique}.
+        """).strip(),
+    )
+
+    assert resolved == ["reflection"]
+    assert result.engine == "reflection"
+
+
 def test_format_compiled_output_renders_primary_formats() -> None:
     result = CompositionResult(composed_prompt="Hello", compile={"format": "markdown"})
 

@@ -82,7 +82,11 @@
         <a class="repo-link" href="../promplets/catalog/standalone/investment-brief.weavemark.md"><span class="repo-tag">Promplet</span> investment-brief.weavemark.md</a>
         <a class="repo-link" href="../promplets/domains/finance/fragments/investment-decision.weavemark.md"><span class="repo-tag">Library</span> investment-decision.weavemark.md</a>
         <a class="repo-link" href="../examples/saved-artifact-workflows/investment-brief/outputs/compiled-prompt.md"><span class="repo-tag out">Output</span> compiled-prompt.md</a>
+        <a class="repo-link" href="../examples/saved-artifact-workflows/investment-brief/"><span class="repo-tag">Folder</span> investment-brief/</a>
       </div>
+      <p class="repo-resources-note">
+        Source and folder links open GitHub. The setup below starts from a repository clone.
+      </p>
     </section>
 
     <main class="shell page-grid">
@@ -226,6 +230,8 @@ mkdir -p outputs/tutorial-investment/prompts</code></pre>
   --var audience="portfolio committee" \
   --var time_horizon="12 months" \
   --var source_notes="Revenue growth is strong, margins are elevated, valuation risk is material." \
+  --var depth=committee \
+  --var include_watchlist=true \
   --output outputs/tutorial-investment/brief.md</code></pre>
           <p>
             Open <code>outputs/tutorial-investment/brief.md</code>. The output

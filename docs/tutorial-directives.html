@@ -82,8 +82,11 @@
         <a class="repo-link" href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md"><span class="repo-tag">Spec</span> prompt-refactoring-pipeline.weavemark.md</a>
         <a class="repo-link" href="../promplets/catalog/standalone/multi-persona-debate.weavemark.md"><span class="repo-tag">Spec</span> multi-persona-debate.weavemark.md</a>
         <a class="repo-link" href="../promplets/catalog/standalone/knowledge-base-article.weavemark.md"><span class="repo-tag">Spec</span> knowledge-base-article.weavemark.md</a>
-        <a class="repo-link" href="../promplets/catalog/standalone/"><span class="repo-tag">More</span> prompts/</a>
+        <a class="repo-link" href="../promplets/catalog/standalone/"><span class="repo-tag">Folder</span> standalone catalog/</a>
       </div>
+      <p class="repo-resources-note">
+        Source and folder links open GitHub. Commands assume the repository-root setup from <a href="tutorial.html#setup">Tutorial 1</a>.
+      </p>
     </section>
 
     <main class="shell page-grid">
@@ -323,11 +326,25 @@
 <span class="syntax-directive">@assert</span> The prompt contains no contradictory instructions. <span class="syntax-key">severity:</span> error
 
 <span class="syntax-directive">@polish</span> <span class="syntax-string">"Harmonize the assembled sections into one coherent final prompt."</span></code></pre>
+          <p>
+            Create a deliberately rough input prompt so the pipeline has something
+            concrete to improve:
+          </p>
+          <pre><code>mkdir -p outputs/tutorial-directives
+cat &gt; outputs/tutorial-directives/messy-prompt.md &lt;&lt;'PROMPT'
+Write an onboarding guide. Keep it short but explain every internal detail.
+Use a friendly tone. Never ask questions. If requirements are ambiguous,
+ask one clarifying question before proceeding. Return Markdown.
+PROMPT</code></pre>
           <pre><code>weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline \
-  --var raw_prompt="$(cat messy-prompt.md)" \
+  --var raw_prompt="$(cat outputs/tutorial-directives/messy-prompt.md)" \
   --var revision_instruction="Add a section on handling ambiguous input." \
-  --batch-only \
-  --output outputs/refactored-prompt.md</code></pre>
+            --var add_section=true \
+            --var new_section_content="Handling ambiguous input: ask one focused clarifying question before proceeding." \
+            --var remove_section=false \
+            --var contraction_instruction="Preserve every required section." \
+            --batch-only \
+            --output outputs/tutorial-directives/refactored-prompt.md</code></pre>
         </section>
 
         <section id="finish" class="article-section">

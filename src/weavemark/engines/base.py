@@ -173,7 +173,7 @@ class PromptConfig:
 class RuntimeConfig:
     """Runtime configuration loaded from a .weavemark.yaml file."""
 
-    engine: str = "single-call"
+    engine: str | None = None
     model: str | None = None
     image_model: str | None = None
     temperature: float | None = None
@@ -190,8 +190,8 @@ class RuntimeConfig:
     @classmethod
     def from_mapping(cls, data: Mapping[str, Any]) -> "RuntimeConfig":
         """Validate and load runtime configuration from a mapping."""
-        engine = data.get("engine", "single-call")
-        if not isinstance(engine, str) or not engine:
+        engine = data.get("engine")
+        if engine is not None and (not isinstance(engine, str) or not engine):
             raise ValueError("Runtime config 'engine' must be a non-empty string.")
 
         prompts_data = _runtime_mapping(data.get("prompts"), "prompts")
@@ -265,6 +265,20 @@ class RuntimeConfig:
         if not isinstance(data, Mapping):
             raise ValueError("Runtime config root must be an object.")
         return cls.from_mapping(data)
+
+
+def resolve_runtime_engine_name(
+    config: RuntimeConfig | None,
+    result: CompositionResult,
+) -> str:
+    """Resolve explicit runtime config, source declaration, then safe default."""
+
+    if config is not None and config.engine:
+        return config.engine
+    declared = result.execution.get("type") if result.execution else None
+    if isinstance(declared, str) and declared:
+        return declared
+    return "single-call"
 
 
 def _runtime_mapping(value: Any, label: str) -> Mapping[str, Any]:

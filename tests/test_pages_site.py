@@ -46,6 +46,34 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         assert 'rel="icon" href="weavemark_logo.png"' not in html
     root_html = (destination / "index.html").read_text(encoding="utf-8")
     assert 'rel="icon" href="docs/weavemark_favicon.png"' in root_html
+    assert (destination / "demos" / "orbital-drift" / "index.html").is_file()
+    assert (destination / "demos" / "orbital-drift" / "src" / "main.js").is_file()
+    assert (destination / "demos" / "transit-city-swarm" / "index.html").is_file()
+    assert (
+        destination / "demos" / "transit-city-swarm" / "src" / "simulation.js"
+    ).is_file()
+    tutorial_html = (destination / "docs" / "tutorial.html").read_text(
+        encoding="utf-8"
+    )
+    assert "github.com/paulosalem/weavemark/blob/main/promplets/" in tutorial_html
+    assert "github.com/paulosalem/weavemark/tree/main/examples/" in tutorial_html
+    assert 'href="../promplets/' not in tutorial_html
+    games_html = (destination / "docs" / "tutorial-games.html").read_text(
+        encoding="utf-8"
+    )
+    assert 'href="../demos/transit-city-swarm/"' in games_html
+    assert (
+        "github.com/paulosalem/weavemark/tree/main/outputs/implementations/"
+        "transit-city-swarm"
+    ) in games_html
+    implement_html = (destination / "docs" / "tutorial-implement.html").read_text(
+        encoding="utf-8"
+    )
+    assert 'href="../demos/orbital-drift/"' in implement_html
+    assert (
+        "github.com/paulosalem/weavemark/tree/main/outputs/implementations/"
+        "orbital-drift"
+    ) in implement_html
     assert not (
         destination
         / "examples"
@@ -73,3 +101,21 @@ def test_pages_artifact_contains_no_private_context(tmp_path: Path) -> None:
 
     assert not any("private context" in error for error in errors)
     assert not any("Git LFS pointer" in error for error in errors)
+
+
+def test_all_tutorial_source_links_resolve_to_github(tmp_path: Path) -> None:
+    builder = _load_builder()
+    destination = tmp_path / "site"
+    builder.build_site(destination, ROOT)
+
+    for tutorial_path in (destination / "docs").glob("tutorial*.html"):
+        html = tutorial_path.read_text(encoding="utf-8")
+        for root_name in (
+            "examples",
+            "outputs",
+            "promplets",
+            "src",
+            "studies",
+            "vscode-extension",
+        ):
+            assert f'href="../{root_name}/' not in html

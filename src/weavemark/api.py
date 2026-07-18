@@ -31,6 +31,7 @@ from weavemark.engines import (
     RuntimeConfig,
     call_engine_execute,
     resolve_engine,
+    resolve_runtime_engine_name,
 )
 from weavemark.logging_setup import new_client
 from weavemark.protection import ProtectionContext
@@ -404,7 +405,7 @@ def _resolve_execution_engine(
     client: LLMClientProtocol | None,
 ) -> tuple[Engine, str]:
     if engine is None:
-        engine_name = _engine_name_from_result(runtime_config, compiled)
+        engine_name = resolve_runtime_engine_name(runtime_config, compiled)
         return (
             resolve_engine(
                 engine_name,
@@ -423,18 +424,6 @@ def _resolve_execution_engine(
             engine,
         )
     return engine, engine.__class__.__name__
-
-
-def _engine_name_from_result(
-    runtime_config: RuntimeConfig | None,
-    compiled: CompositionResult,
-) -> str:
-    if runtime_config is not None and runtime_config.engine:
-        return str(runtime_config.engine)
-    declared = compiled.execution.get("type") if compiled.execution else None
-    if isinstance(declared, str) and declared:
-        return declared
-    return "single-call"
 
 
 def _runtime_config_from_mapping(data: Mapping[str, Any]) -> RuntimeConfig:

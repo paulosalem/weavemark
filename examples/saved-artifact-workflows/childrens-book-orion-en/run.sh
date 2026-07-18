@@ -11,7 +11,7 @@ section() {
   printf '%s\n\n' "================================================================================"
 }
 
-# Stage 0 — Inspect the compiled chain. childrens-book.weavemark.md is an
+# Stage 0 — Inspect the compiled chain as structured JSON. childrens-book.weavemark.md is an
 # @execute chain: an `author` stage @refines the shared illustrated-story core
 # (promplets/domains/creative/fragments/illustrated-story-core.weavemark.md, picture-book
 # format) to emit a strict JSON book, then a `page` stage is REPEATED once per
@@ -21,8 +21,8 @@ section() {
 section "Children's book: compiled authoring chain"
 weavemark library builtin:catalog/executable/childrens-book \
   --vars-file examples/saved-artifact-workflows/childrens-book-orion-en/inputs/vars.json \
-  --output "$OUT/compiled-prompt.md" \
-  --show-output \
+  --format json \
+  --output "$OUT/compiled-chain.json" \
   --no-file-summary \
   --batch-only
 

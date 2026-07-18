@@ -13,7 +13,8 @@ section() {
   printf '%s\n\n' "================================================================================"
 }
 
-# Stage 0 — Inspect the compiled chain. bebe-fusquinha-biblioteca-das-perguntas.weavemark.md
+# Stage 0 — Inspect the compiled chain as structured JSON.
+# bebe-fusquinha-biblioteca-das-perguntas.weavemark.md
 # is an @execute chain whose `author` stage @refines the shared illustrated-story-core
 # (picture-book format), the local named Bebê Fusquinha universe module, and a local
 # path fragment in the example's flat promplets folder.
@@ -25,8 +26,8 @@ section() {
 section "Bebê Fusquinha (PT): compiled authoring chain"
 weavemark library book-pt --library-dir "$PROMPLETS" \
   --vars-file "$ROOT/pt/inputs/vars.json" \
-  --output "$OUT/compiled-prompt.md" \
-  --show-output \
+  --format json \
+  --output "$OUT/compiled-chain.json" \
   --no-file-summary \
   --batch-only
 

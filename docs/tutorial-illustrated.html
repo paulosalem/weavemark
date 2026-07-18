@@ -84,11 +84,15 @@
         <a class="repo-link" href="../promplets/domains/creative/fragments/illustrated-story-core.weavemark.md"><span class="repo-tag">Library</span> illustrated-story-core.weavemark.md</a>
         <a class="repo-link" href="https://github.com/paulosalem/weavemark/blob/main/examples/saved-artifact-workflows/comic-strip-en/outputs/comic-strip.png"><span class="repo-tag out">Output</span> comic-strip.png</a>
         <a class="repo-link" href="https://github.com/paulosalem/weavemark/blob/main/examples/saved-artifact-workflows/childrens-book-orion-en/outputs/book.pdf"><span class="repo-tag out">Output</span> book.pdf</a>
+        <a class="repo-link" href="../examples/saved-artifact-workflows/comic-strip-en/"><span class="repo-tag">Folder</span> comic-strip-en/</a>
+        <a class="repo-link" href="../examples/saved-artifact-workflows/childrens-book-orion-en/"><span class="repo-tag">Folder</span> childrens-book-orion-en/</a>
       </div>
       <p class="repo-resources-note">
-        The page previews below are optimized site images. Full-resolution
-        generated PNG/PDF outputs are curated with Git LFS; install Git LFS or
-        use <code>git lfs pull</code> in a clone to retrieve the originals.
+        Source and folder links open GitHub. The page previews below are optimized
+        site images. Full-resolution generated PNG/PDF outputs are curated with
+        Git LFS; install Git LFS or use <code>git lfs pull</code> in a clone to
+        retrieve the originals. Commands assume the repository-root setup from
+        <a href="tutorial.html#setup">Tutorial 1</a>.
       </p>
     </section>
 
@@ -118,8 +122,9 @@
 export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's key</span></code></pre>
           <div class="callout">
             <strong>Heads up:</strong> these pipelines call real image models, so
-            they take a little time and incur usage cost. Everything is deterministic
-            in structure &mdash; only the pixels come from the model.
+            they take time and incur usage cost. Pipeline structure and artifact
+            paths are explicit; authored text, prompts, and pixels remain
+            model- and run-dependent.
           </div>
         </section>
 
@@ -169,6 +174,11 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
             and inspects its own output until it passes. Run it:
           </p>
           <pre><code>bash examples/saved-artifact-workflows/comic-strip-en/run.sh</code></pre>
+          <p>
+            The runner first writes <code>compiled-chain.json</code> so you can
+            inspect the prompts and reflection settings before reviewing the
+            generated image and its inspection trace.
+          </p>
           <p>
             Under the hood that is a single <code>weavemark --run</code> over one
             spec &mdash; no external script does the orchestration:
@@ -368,6 +378,11 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
             a complete, printable page. Run it:
           </p>
           <pre><code>bash examples/saved-artifact-workflows/childrens-book-orion-en/run.sh</code></pre>
+          <p>
+            The runner writes <code>compiled-chain.json</code> before execution,
+            then persists each rendered page as it becomes available and packages
+            the final HTML and PDF.
+          </p>
           <figure class="result-figure">
             <img
               src="tutorial-storybook-page.jpg"

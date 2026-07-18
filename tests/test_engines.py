@@ -402,13 +402,26 @@ class TestRuntimeConfig:
         Path(f.name).unlink()
 
     def test_defaults(self):
-        from weavemark.engines import RuntimeConfig
+        from weavemark.engines import RuntimeConfig, resolve_runtime_engine_name
 
         config = RuntimeConfig()
-        assert config.engine == "single-call"
+        assert config.engine is None
         assert config.engine_config == {}
         assert config.prompts == {}
         assert config.variables == {}
+        declared = CompositionResult(
+            composed_prompt="",
+            execution={"type": "reflection"},
+        )
+        assert resolve_runtime_engine_name(config, declared) == "reflection"
+        assert (
+            resolve_runtime_engine_name(RuntimeConfig(engine="chain"), declared)
+            == "chain"
+        )
+        assert (
+            resolve_runtime_engine_name(config, CompositionResult(composed_prompt="x"))
+            == "single-call"
+        )
 
 
 # ═══════════════════════════════════════════════════════════════════

@@ -12,6 +12,7 @@ from .base import (
     PromptConfig,
     RuntimeConfig,
     call_engine_execute,
+    resolve_runtime_engine_name,
 )
 from .collaborative import (
     AgentHandoffEditCallback,
@@ -45,4 +46,5 @@ __all__ = [
     "WeaveEngine",
     "call_engine_execute",
     "resolve_engine",
+    "resolve_runtime_engine_name",
 ]

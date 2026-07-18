@@ -82,7 +82,11 @@
         <a class="repo-link" href="../promplets/catalog/standalone/financial-independence-decision.weavemark.md"><span class="repo-tag">Spec</span> financial-independence-decision.weavemark.md</a>
         <a class="repo-link" href="../promplets/catalog/standalone/passive-income-android-app.weavemark.md"><span class="repo-tag">Spec</span> passive-income-android-app.weavemark.md</a>
         <a class="repo-link" href="../promplets/domains/finance/fragments/passive-income-forecasting.weavemark.md"><span class="repo-tag">Library</span> passive-income-forecasting.weavemark.md</a>
+        <a class="repo-link" href="../promplets/catalog/standalone/"><span class="repo-tag">Folder</span> standalone catalog/</a>
       </div>
+      <p class="repo-resources-note">
+        Source and folder links open GitHub. Commands assume the repository-root setup from <a href="tutorial.html#setup">Tutorial 1</a>.
+      </p>
     </section>
 
     <main class="shell page-grid">
@@ -172,12 +176,35 @@ resilience to reduce dependence on a high-pressure job ...</code></pre>
           <p class="snippet-source">
             From <a href="../promplets/catalog/standalone/financial-independence-decision.weavemark.md">financial-independence-decision.weavemark.md</a>.
           </p>
-          <p>Compile it into a pastable analysis prompt:</p>
+          <p>
+            The full decision promplet asks for a realistic household snapshot.
+            Save these example values as <code>outputs/reuse/decision-vars.json</code>,
+            then compile it into a pastable analysis prompt:
+          </p>
+          <pre><code>mkdir -p outputs/reuse
+cat &gt; outputs/reuse/decision-vars.json &lt;&lt;'JSON'
+{
+  "person_name": "Alex",
+  "age": "42",
+  "invested_assets": "$1.4M",
+  "annual_income": "$240k",
+  "annual_spending": "$95k",
+  "annual_investments": "$60k",
+  "target_spending": "$70k",
+  "emergency_fund": "12 months",
+  "real_return": "4%",
+  "reduced_hours_income": "$120k/year",
+  "lower_pressure_income": "$90k/year",
+  "expected_monthly_passive_income": "$4,500",
+  "confirmed_monthly_passive_income": "$3,200",
+  "monthly_reinvestment_target": "$1,500",
+  "monthly_tax_reserve": "$800",
+  "principal_drawdown_preference": "Avoid principal drawdown"
+}
+JSON</code></pre>
           <pre><code>weavemark library builtin:catalog/standalone/financial-independence-decision \
   --batch-only \
-  --var person_name=Alex \
-  --var invested_assets="1.4M" \
-  --var target_spending="70k" \
+  --vars-file outputs/reuse/decision-vars.json \
   --output outputs/reuse/decision.md</code></pre>
           <div class="callout">
             <strong>What you get:</strong> a prompt that treats the situation as a
