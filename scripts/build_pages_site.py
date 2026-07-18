@@ -31,6 +31,7 @@ ROOT_REDIRECT = """<!doctype html>
     <meta charset="utf-8">
     <meta http-equiv="refresh" content="0; url=docs/index.html">
     <link rel="canonical" href="docs/index.html">
+    <link rel="icon" href="docs/weavemark_favicon.png" type="image/png">
     <title>WeaveMark</title>
   </head>
   <body>
@@ -38,7 +39,7 @@ ROOT_REDIRECT = """<!doctype html>
   </body>
 </html>
 """
-FAVICON_LINK = '    <link rel="icon" href="weavemark_logo.png" type="image/png">\n'
+FAVICON_LINK = '    <link rel="icon" href="weavemark_favicon.png" type="image/png">\n'
 
 
 class _LinkCollector(HTMLParser):

@@ -36,9 +36,16 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         encoding="utf-8"
     )
     assert (destination / "docs" / "tutorial-comic.jpg").is_file()
-    assert 'rel="icon"' in (destination / "docs" / "index.html").read_text(
-        encoding="utf-8"
-    )
+    favicon = destination / "docs" / "weavemark_favicon.png"
+    assert favicon.is_file()
+    source_favicon = ROOT / "docs" / "weavemark_favicon.png"
+    assert favicon.read_bytes() == source_favicon.read_bytes()
+    for html_path in (destination / "docs").glob("*.html"):
+        html = html_path.read_text(encoding="utf-8")
+        assert 'rel="icon" href="weavemark_favicon.png"' in html
+        assert 'rel="icon" href="weavemark_logo.png"' not in html
+    root_html = (destination / "index.html").read_text(encoding="utf-8")
+    assert 'rel="icon" href="docs/weavemark_favicon.png"' in root_html
     assert not (
         destination
         / "examples"
