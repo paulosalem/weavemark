@@ -208,4 +208,5 @@ python studies/tools/blind_analysis.py metric-pass
 python studies/tools/regenerate_reports.py --clear
 ```
 
-Then run structural scans and link checks as described in [AGENTS.md](AGENTS.md).
+Then run structural scans and link checks as described in
+[AGENTS.md](../../AGENTS.md).

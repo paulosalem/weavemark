@@ -8,6 +8,7 @@ import asyncio
 import importlib.util
 import inspect
 import json
+import re
 import sys
 from collections.abc import Awaitable
 from pathlib import Path
@@ -214,7 +215,12 @@ def _render_trace(
 
 
 def _fence(value: str, language: str = "") -> str:
-    return f"```{language}\n{value.rstrip()}\n```"
+    longest_run = max(
+        (len(match.group(0)) for match in re.finditer(r"`+", value)),
+        default=0,
+    )
+    marker = "`" * max(3, longest_run + 1)
+    return f"{marker}{language}\n{value.rstrip()}\n{marker}"
 
 
 if __name__ == "__main__":

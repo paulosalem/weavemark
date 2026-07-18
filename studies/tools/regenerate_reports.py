@@ -2713,7 +2713,8 @@ def write_consolidated_results(rows: list[dict[str, float | int | str]]) -> None
             "python studies/tools/regenerate_reports.py --clear",
             "```",
             "",
-            "Then run structural scans and link checks as described in [AGENTS.md](AGENTS.md).",
+            "Then run structural scans and link checks as described in",
+            "[AGENTS.md](../../AGENTS.md).",
         ]
     )
     report_path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")

@@ -252,7 +252,7 @@ Within those sections:
 
 ## Ready-to-paste final prompt
 
-```markdown
+````markdown
 # Executable Financial Independence Goal Planner
 
 Turn one plain-language personal-finance goal into a practical, educational decision-support plan. Treat the result as planning support, not regulated financial, legal, tax, accounting, investment, brokerage, or fiduciary advice. Do not guarantee returns, rates, tax outcomes, benefit eligibility, risk reductions, or that financial independence will be achieved.
@@ -454,4 +454,4 @@ Within those sections:
 ```
 
 Use these runtime assumptions as the `public_assumptions` context referenced above. Verify current limits, rates, tax rules, and benefits before acting.
-```
+````

@@ -93,7 +93,7 @@ npm run check
 
 WeaveMark files use the `.weavemark.md` extension. This keeps them recognizable as Markdown while enabling dedicated syntax highlighting.
 
-```
+```text
 promplets/
 ├── stdlib/fragments/reasoning/base-analyst.weavemark.md
 ├── catalog/standalone/market-research-brief.weavemark.md

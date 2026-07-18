@@ -123,8 +123,6 @@ This installs the `weavemark` command — formally, the **WeaveMark Processor**.
 Compile a promplet into a pastable prompt. By default the Processor asks for any
 missing inputs; add `--batch-only` for automation.
 
-```
-
 ### Experimental protections
 
 Protections are enabled by default. They constrain local reads and writes,
@@ -138,11 +136,13 @@ items are remembered in `~/.weavemark/protection-approvals.json`.
 > unrestricted trusted-promplet behavior for one invocation.
 
 See the [Processor reference](docs/usage-reference.md#experimental-protections)
-for policy keys, roots, batch behavior, and residual limitations.bash
+for policy keys, roots, batch behavior, and residual limitations.
 
 Debug logs are independently configurable and omit binary/base64 payloads by
 default while retaining normal variables and text. See
-[configurable debug logging](docs/usage-reference.md#configurable-debug-logging).bash
+[configurable debug logging](docs/usage-reference.md#configurable-debug-logging).
+
+```bash
 # Guided: the Processor asks for any missing inputs, then compiles.
 weavemark library tutorial-generator
 

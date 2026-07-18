@@ -50,7 +50,7 @@ For a language change, edit the system prompt first, update its EBNF/schema
 mirror, then update deterministic implementation and downstream documentation.
 Run `python scripts/check_grammar_sync.py` and the reference-authority tests.
 
-```
+```text
 weavemark/
 ├── pyproject.toml          # Package configuration & dependencies
 ├── examples/               # Self-contained example folders with run.*, inputs/, outputs/

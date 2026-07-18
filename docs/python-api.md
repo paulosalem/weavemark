@@ -30,7 +30,7 @@ you want a Unix-style command for files, scripts, demos, or CI.
 | `execute_text(source, variables=None, ...)` | You want to compile in-memory source and immediately run it through an engine | `WeaveMarkRunResult` |
 | `execute_file(path, variables=None, ...)` | You want to compile a spec file and run it through an engine | `WeaveMarkRunResult` |
 
-### Read the built-in promplet library
+## Read the built-in promplet library
 
 The canonical corpus remains visible at the repository root under `promplets/`.
 Wheel builds map that same tree into `weavemark/promplets`, so installed
@@ -64,7 +64,7 @@ project `./promplets`, user `~/.weavemark/promplets`, configured `library_dirs`,
 and `--library-dir`. Project and user sources precede built-ins for bare
 references; `project:`, `user:`, `extra:`, `builtin:`, and `module:` are explicit.
 
-### Compile a promplet file
+## Compile a promplet file
 
 ```python
 import asyncio
@@ -94,7 +94,7 @@ relative `@refine`, `@embed`, and `@image` paths work exactly as they do in the
 WeaveMark Processor. It also discovers `weavemark.json` from that location,
 including configured formats and implementation profiles.
 
-### Compile in-memory WeaveMark source
+## Compile in-memory WeaveMark source
 
 ```python
 from pathlib import Path
@@ -118,7 +118,7 @@ result = await compile_text(
 Use `compile_text()` when promplets live outside regular files: bundled package
 resources, notebooks, web editors, databases, or generated WeaveMark programs.
 
-### Control compilation
+## Control compilation
 
 ```python
 from weavemark import CompileOptions, compile_file
@@ -143,7 +143,7 @@ helpers. If a spec uses directives that require semantic interpretation,
 WeaveMark falls back to the LLM reference compilation path with the model
 settings above.
 
-### Answer compile-time `@ask` questions
+## Answer compile-time `@ask` questions
 
 Promplets that import `@ask` can ask host-mediated questions while they compile.
 Provide `ask_handler` to answer those questions from your app:
@@ -170,7 +170,7 @@ of the target body has been transformed. `CompileOptions.max_effect_rounds` and
 active `@ask` and no `ask_handler` is supplied, compilation returns an error
 instead of silently guessing.
 
-### Bound `@iterate` improvement loops
+## Bound `@iterate` improvement loops
 
 Promplets that use standard-library `@iterate` compile a target body through
 inside-out directive-application steps. Iteration 0 records a compilation trace;
@@ -192,7 +192,7 @@ available result with a warning. Runs expose `result.compilation_trace` and
 `result.iteration_history` for hosts that want to render progress, inspect step
 envelopes, or diagnose why a step was rerun.
 
-### Render WeaveMark Processor-style output
+## Render WeaveMark Processor-style output
 
 The library result exposes structured fields directly. When you need the same
 primary output shape as the WeaveMark Processor, use `format_compiled_output()`:
@@ -218,7 +218,7 @@ mustache_text = format_compiled_output(
 )
 ```
 
-### Execute a spec
+## Execute a spec
 
 `execute_file()` compiles first, then runs the compiled prompts through an
 engine. It raises `WeaveMarkCompilationError` if compilation produced errors,
@@ -252,7 +252,7 @@ Runtime config variables are merged before compilation. Explicit variables
 passed to `execute_file()` or `execute_text()` override config variables, matching
 CLI behavior.
 
-### Custom engines and callbacks
+## Custom engines and callbacks
 
 Apps can use built-in engines by name or pass an object implementing the
 `Engine` protocol:
@@ -280,7 +280,7 @@ Use `on_event` to observe compilation events (`composing`, `transition`,
 integrations can pass a custom `ellements` `LLMClient` through the `client`
 parameter for compilation.
 
-### Optional provenance and replay
+## Optional provenance and replay
 
 ```python
 from pathlib import Path
@@ -306,7 +306,7 @@ Use `manifest_path=` for metadata and hashes without full request/response
 recording. Run recordings are sensitive and strict replay never falls back to a
 live provider.
 
-### Diagnostics and errors
+## Diagnostics and errors
 
 Compilation returns diagnostics instead of throwing for normal spec problems:
 
