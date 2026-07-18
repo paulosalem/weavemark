@@ -247,7 +247,6 @@ compiled = await compile_file(
     {"topic": "battery recycling"},
     options=CompileOptions(
         model="gpt-5.5",
-        temperature=0.0,
         max_iterations=12,
         use_structural_helpers=True,
     ),
@@ -294,8 +293,8 @@ run = await execute_file(
     "promplets/tree-solver.weavemark.md",
     variables={"problem": "Design a retention strategy"},
     runtime_config=RuntimeConfig(
-        engine="tree-of-thought",
-        engine_config={"branching_factor": 3},
+        model="gpt-5.5",
+        allowed_models=("gpt-5.5",),
     ),
 )
 
@@ -305,8 +304,9 @@ print(run.compiled.prompts)
 print(run.execution.steps)</code></pre>
           <p>
             Runtime config may be a <code>RuntimeConfig</code> object, a mapping,
-            or a path to a JSON/YAML config file. Runtime variables are merged
-            before compilation; explicit call variables win.
+            or a path to a JSON/YAML config file. Pass promplet inputs through
+            <code>variables</code>; runtime config is reserved for optional host
+            and deployment overrides.
           </p>
         </section>
 

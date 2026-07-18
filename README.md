@@ -201,8 +201,8 @@ runnable specs:
 export OPENAI_API_KEY="..."
 
 weavemark library tree-of-thought-solver \
-  --run \
-  --config promplets/catalog/executable/tree-of-thought-solver.weavemark.yaml
+  --vars-file examples/batch-example-runs/execution-engines/inputs/tree-of-thought-solver-example.json \
+  --run --batch-only
 ```
 
 ## Explore the library
@@ -295,18 +295,20 @@ weavemark <promplet> --scan
 weavemark <promplet> --ui
 
 # Execute a spec through its engine (needs provider credentials).
-weavemark <executable-promplet> --run --config <promplet>.weavemark.yaml
+weavemark <executable-promplet> --run
 
 # Browse the built-in corpus and custom libraries.
 weavemark library list
 ```
 
-Use `--var KEY=VALUE` for a few inputs and `--vars-file vars.json` for reusable
-input sets (inline `--var` overrides file keys). `--batch-only` disables prompts
-and fails before compilation if any discovered input is missing. Structural
-composition runs locally; semantic directives such as `@refine` and `@summarize`
-call the configured LLM, so set provider credentials (e.g. `OPENAI_API_KEY`)
-first. Run `weavemark --help` for all options.
+Use `--var KEY=VALUE` for a few inputs and `--vars-file vars.json` or
+`--vars-file vars.yaml` for reusable input sets; YAML block scalars are especially
+comfortable for long text. Inline `--var` values override file keys.
+`--batch-only` disables prompts and fails before compilation if any discovered
+input is missing. Structural composition runs locally; semantic directives such
+as `@refine` and `@summarize` call the configured LLM, so set provider
+credentials (e.g. `OPENAI_API_KEY`) first. Run `weavemark --help` for all
+options.
 
 ## Tooling
 

@@ -132,7 +132,9 @@ class ReflectionEngine(BaseEngine):
         image_model = ""
 
         steps: list[StepRecord] = []
-        context: dict[str, Any] = dict(config.variables) if config else {}
+        context: dict[str, Any] = (
+            dict(config.execution_variables) if config else {}
+        )
         previous_text = ""
         previous_image: Optional[bytes] = None
         current_png: Optional[bytes] = None

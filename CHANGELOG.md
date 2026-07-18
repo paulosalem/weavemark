@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- JSON, YAML, and YML input-variable files with strict object and duplicate-key
+  validation.
+- Repository-wide Markdown rendering and local-link hygiene checks.
+
+### Changed
+
+- Executable promplets now carry their normal engine semantics entirely in
+  `@execute`; redundant catalog runtime sidecars were removed.
+- Runtime config is reserved for explicit provider, policy, and host overrides.
+  Promplet input data belongs in `--vars-file` or `--var`.
+
+### Fixed
+
+- GitHub README rendering around Quickstart protections and command examples.
+- Nested Markdown fences in generated execution traces.
+
 ## 0.8.0
 
 WeaveMark 0.8 is the first unified processor, language, extension, and

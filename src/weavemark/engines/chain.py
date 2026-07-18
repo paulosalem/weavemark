@@ -72,7 +72,9 @@ class ChainEngine(BaseEngine):
         on_step: Optional[OnStepCallback] = None,
         on_artifact: Optional[ArtifactCallback] = None,
     ) -> ExecutionResult:
-        base_vars: dict[str, Any] = dict(config.variables) if config else {}
+        base_vars: dict[str, Any] = (
+            dict(config.execution_variables) if config else {}
+        )
         stages = [name for name in result.prompts if name != "system"]
         if not stages:
             stages = ["default"]

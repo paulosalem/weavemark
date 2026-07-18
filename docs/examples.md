@@ -218,12 +218,13 @@ weavemark library builtin:catalog/standalone/passive-income-android-app \
 
 # Final prompt-refactoring prompt
 weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline \
-  --vars-file examples/batch-example-runs/static-prompts/inputs/prompt-refactoring-example.json \
+  --vars-file examples/batch-example-runs/static-prompts/inputs/prompt-refactoring-example.yaml \
   --batch-only --verbose
 
 # Executable prompt
 weavemark library builtin:catalog/executable/tree-of-thought-solver \
-  --run --config promplets/catalog/executable/tree-of-thought-solver.weavemark.yaml
+  --vars-file examples/batch-example-runs/execution-engines/inputs/tree-of-thought-solver-example.json \
+  --run --batch-only
 
 # Collaborative executable prompts with AI-agent-authored human/editor turns
 ./examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run-agent-handoff.sh
@@ -239,7 +240,6 @@ document to `turn-NNN-response.md`.
 python examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py \
   --spec promplets/catalog/executable/collaborative-writer.weavemark.md \
   --vars examples/interactive-ui-and-handoff-demos/collaborative-writer/inputs/vars.json \
-  --config promplets/catalog/executable/collaborative-writer.weavemark.yaml \
   --output-dir examples/interactive-ui-and-handoff-demos/collaborative-writer/outputs \
   --agent-collaborator
 ```

@@ -49,9 +49,43 @@ def test_malformed_vars_file_emits_json_diagnostic_without_traceback(
 
     assert completed.returncode == 2
     diagnostic = json.loads(completed.stderr)["diagnostics"][0]
-    assert diagnostic["code"] == "WM-INPUT-VARS-JSON"
+    assert diagnostic["code"] == "WM-INPUT-VARS-FORMAT"
     assert diagnostic["source"] == str(variables)
     assert diagnostic["line"] == 1
+    assert "Traceback" not in completed.stderr
+
+
+def test_malformed_yaml_vars_file_reports_source_line(tmp_path: Path) -> None:
+    repository_root = Path(__file__).parents[1]
+    promplet = tmp_path / "example.weavemark.md"
+    promplet.write_text("Hello @{name}.\n", encoding="utf-8")
+    variables = tmp_path / "variables.yaml"
+    variables.write_text("name: [unfinished\n", encoding="utf-8")
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "weavemark.app",
+            str(promplet),
+            "--vars-file",
+            str(variables),
+            "--format",
+            "json",
+            "--batch-only",
+        ],
+        cwd=tmp_path,
+        env=_environment(repository_root),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert completed.returncode == 2
+    diagnostic = json.loads(completed.stderr)["diagnostics"][0]
+    assert diagnostic["code"] == "WM-INPUT-VARS-FORMAT"
+    assert diagnostic["source"] == str(variables)
+    assert diagnostic["line"] == 2
     assert "Traceback" not in completed.stderr
 
 

@@ -128,7 +128,6 @@ result = await compile_file(
     variables={"topic": "battery recycling"},
     options=CompileOptions(
         model="gpt-5.5",
-        temperature=0.0,
         max_iterations=12,
         use_structural_helpers=True,
         max_effect_rounds=6,
@@ -231,8 +230,8 @@ run = await execute_file(
     "promplets/tree-solver.weavemark.md",
     variables={"problem": "Design a retention strategy"},
     runtime_config=RuntimeConfig(
-        engine="tree-of-thought",
-        engine_config={"branching_factor": 3},
+        model="gpt-5.5",
+        allowed_models=("gpt-5.5",),
     ),
 )
 
@@ -245,12 +244,11 @@ print(run.execution.steps)   # engine step trace
 Runtime config can be passed as:
 
 - a `RuntimeConfig` object;
-- a mapping with `engine`, `engine_config`, `prompts`, and `variables`;
+- a mapping with provider, policy, prompt-routing, and engine override fields;
 - a path to a `.json`, `.yaml`, or `.yml` runtime config file.
 
-Runtime config variables are merged before compilation. Explicit variables
-passed to `execute_file()` or `execute_text()` override config variables, matching
-CLI behavior.
+Pass promplet inputs through the `variables` argument. Runtime config does not
+contain variables; it is reserved for optional host/deployment overrides.
 
 ## Custom engines and callbacks
 

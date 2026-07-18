@@ -8,7 +8,6 @@ Launch with:
 from __future__ import annotations
 
 import asyncio
-import json
 from contextlib import suppress
 from pathlib import Path
 
@@ -35,6 +34,7 @@ from weavemark.tui.screens.input import InputForm
 from weavemark.tui.widgets.preview import PreviewPane
 from weavemark.tui.widgets.spec_info import SpecInfoPanel
 from weavemark.tui.widgets.step_log import StepLog
+from weavemark.variable_files import load_variables_file
 
 # Golden theme inspired by the @execute directive color (#FFD700)
 WEAVEMARK_THEME = Theme(
@@ -194,7 +194,8 @@ class WeaveMarkApp(App):
         try:
             from weavemark.controller import WeaveMarkController
 
-            config = self._build_config()
+            runtime_config = self._load_runtime_config()
+            config = self._build_config(runtime_config)
             controller = WeaveMarkController(config)
             result = await controller.compose(
                 self._spec_text,
@@ -226,10 +227,10 @@ class WeaveMarkApp(App):
         try:
             from weavemark.controller import WeaveMarkController
             from weavemark.engines import resolve_engine
-            from weavemark.engines.base import RuntimeConfig
             from weavemark.logging_setup import new_client
 
-            config = self._build_config()
+            runtime_config = self._load_runtime_config()
+            config = self._build_config(runtime_config)
             controller = WeaveMarkController(config)
 
             # Compose
@@ -243,8 +244,8 @@ class WeaveMarkApp(App):
             )
 
             # Determine engine
-            strategy = "single-call"
-            if self._metadata.execution:
+            strategy = runtime_config.engine or "single-call"
+            if runtime_config.engine is None and self._metadata.execution:
                 strategy = self._metadata.execution.get("type", "single-call")
 
             engine = resolve_engine(
@@ -259,12 +260,9 @@ class WeaveMarkApp(App):
                 protection=self._protection,
             )
 
-            # Build runtime config — inject TUI edit callback for collaborative
-            runtime_config = RuntimeConfig(
-                engine=strategy,
-                model=config.model,
-                protection=self._protection,
-            )
+            runtime_config.model = config.model
+            runtime_config.protection = self._protection
+            runtime_config.execution_variables = dict(values)
             if strategy == "collaborative":
                 from weavemark.tui.callbacks import TuiEditCallback
 
@@ -369,24 +367,36 @@ class WeaveMarkApp(App):
         form = self.query_one("#input-form", InputForm)
         return form.get_values()
 
-    def _build_config(self):
-        """Build a WeaveMarkConfig, optionally loading YAML config."""
-        from weavemark.controller import WeaveMarkConfig
+    def _load_runtime_config(self):
+        """Load an explicit runtime override when one was supplied."""
+        from weavemark.engines import RuntimeConfig
 
-        if self._config_path and self._config_path.exists():
-            return WeaveMarkConfig.from_yaml(self._config_path)
-        return WeaveMarkConfig()
+        if self._config_path is None:
+            return RuntimeConfig()
+        if not self._config_path.is_file():
+            raise FileNotFoundError(f"Runtime config not found: {self._config_path}")
+        return RuntimeConfig.from_file(self._config_path)
+
+    def _build_config(self, runtime_config=None):
+        """Build compiler settings from the optional runtime override."""
+        from weavemark.controller import WeaveMarkConfig
+        from weavemark.defaults import DEFAULT_MODEL
+
+        runtime = runtime_config or self._load_runtime_config()
+        return WeaveMarkConfig(
+            model=runtime.model or DEFAULT_MODEL,
+            temperature=(
+                runtime.temperature if runtime.temperature is not None else 0.3
+            ),
+        )
 
     @staticmethod
     def _load_vars(vars_path: Path | None) -> dict[str, str]:
-        """Load variables from a JSON file."""
-        if vars_path is None or not vars_path.exists():
+        """Load variables from a JSON or YAML file."""
+        if vars_path is None:
             return {}
-        try:
-            data = json.loads(vars_path.read_text())
-            return {k: str(v) for k, v in data.items()}
-        except Exception:
-            return {}
+        data = load_variables_file(vars_path)
+        return {key: str(value) for key, value in data.items()}
 
 
 def launch_tui(

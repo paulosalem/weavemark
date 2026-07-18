@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Literal, Optional, Protocol, runtime_checkable
 
 from ellements.core import LLMClient, MessageContent
+from ellements.core.llm import get_unsupported_parameters
 from ellements.execution import OnStepCallback, StepRecord, StrategyResult
 
 from ..compilation.multimodal import ImageRef
@@ -171,7 +172,7 @@ class PromptConfig:
 
 @dataclass
 class RuntimeConfig:
-    """Runtime configuration loaded from a .weavemark.yaml file."""
+    """Optional provider, policy, and host overrides for execution."""
 
     engine: str | None = None
     model: str | None = None
@@ -180,7 +181,11 @@ class RuntimeConfig:
     allowed_models: tuple[str, ...] = ()
     engine_config: Dict[str, Any] = field(default_factory=dict)
     prompts: Dict[str, PromptConfig] = field(default_factory=dict)
-    variables: Dict[str, Any] = field(default_factory=dict)
+    execution_variables: Dict[str, Any] = field(
+        default_factory=dict,
+        repr=False,
+        compare=False,
+    )
     protection: ProtectionContext | None = field(
         default=None,
         repr=False,
@@ -190,6 +195,21 @@ class RuntimeConfig:
     @classmethod
     def from_mapping(cls, data: Mapping[str, Any]) -> "RuntimeConfig":
         """Validate and load runtime configuration from a mapping."""
+        allowed_keys = {
+            "engine",
+            "model",
+            "image_model",
+            "temperature",
+            "allowed_models",
+            "engine_config",
+            "prompts",
+        }
+        if not all(isinstance(key, str) for key in data):
+            raise ValueError("Runtime config keys must be strings.")
+        unknown_keys = sorted(set(data) - allowed_keys)
+        if unknown_keys:
+            joined = ", ".join(str(key) for key in unknown_keys)
+            raise ValueError(f"Unknown runtime config keys: {joined}.")
         engine = data.get("engine")
         if engine is not None and (not isinstance(engine, str) or not engine):
             raise ValueError("Runtime config 'engine' must be a non-empty string.")
@@ -238,7 +258,6 @@ class RuntimeConfig:
                 _runtime_mapping(data.get("engine_config"), "engine_config")
             ),
             prompts=prompt_configs,
-            variables=dict(_runtime_mapping(data.get("variables"), "variables")),
         )
 
     @classmethod
@@ -248,10 +267,13 @@ class RuntimeConfig:
             import yaml
         except ImportError:
             raise ImportError(
-                "PyYAML is required for .weavemark.yaml config files. "
+                "PyYAML is required for YAML runtime config files. "
                 "Install it with: pip install pyyaml"
             ) from None
-        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        except yaml.YAMLError as exc:
+            raise ValueError(f"Invalid runtime YAML: {exc}") from exc
         if data is None:
             return cls()
         if not isinstance(data, Mapping):
@@ -265,6 +287,17 @@ class RuntimeConfig:
         if not isinstance(data, Mapping):
             raise ValueError("Runtime config root must be an object.")
         return cls.from_mapping(data)
+
+    @classmethod
+    def from_file(cls, path: Path) -> "RuntimeConfig":
+        """Load a runtime config selected by its explicit file extension."""
+
+        suffix = path.suffix.casefold()
+        if suffix in {".yaml", ".yml"}:
+            return cls.from_yaml(path)
+        if suffix == ".json":
+            return cls.from_json(path)
+        raise ValueError("Runtime config must use a .json, .yaml, or .yml extension.")
 
 
 def resolve_runtime_engine_name(
@@ -330,15 +363,17 @@ class EffectiveCallSettings:
 
     def metadata(self) -> dict[str, Any]:
         """Return serializable provenance for execution traces."""
-        return {
+        metadata = {
             "model": self.model,
-            "temperature": self.temperature,
             "modality": self.modality,
             "prompt_key": self.prompt_key,
             "stage": self.stage,
             "model_source": self.model_source,
-            "temperature_source": self.temperature_source,
         }
+        if self.temperature is not None:
+            metadata["temperature"] = self.temperature
+            metadata["temperature_source"] = self.temperature_source
+        return metadata
 
 
 def resolve_call_settings(
@@ -427,6 +462,14 @@ def resolve_call_settings(
             f"Resolved model {model!r} is not allowed by runtime policy "
             f"(allowed: {allowed})."
         )
+    if temperature is not None and "temperature" in get_unsupported_parameters(model):
+        if temperature_source != "built-in default":
+            raise ValueError(
+                f"Resolved model {model!r} does not support temperature "
+                f"from {temperature_source}."
+            )
+        temperature = None
+        temperature_source = "not supported by resolved model"
     return EffectiveCallSettings(
         model=model,
         temperature=(float(temperature) if temperature is not None else None),
@@ -570,14 +613,46 @@ class BaseEngine:
         config: RuntimeConfig | None,
     ) -> ExecutionResult:
         """Convert a strategy result to an ExecutionResult."""
-        metadata = dict(sr.metadata)
-        metadata["call_settings"] = resolve_call_settings(
+        call_settings = resolve_call_settings(
             result,
             config,
             prompt_key="default",
-        ).metadata()
+        )
+        metadata = _sanitize_unsupported_parameters(
+            dict(sr.metadata),
+            model=call_settings.model,
+        )
+        metadata["call_settings"] = call_settings.metadata()
         return ExecutionResult(
             output=sr.output,
-            steps=sr.steps,
+            steps=[
+                StepRecord(
+                    name=step.name,
+                    prompt_key=step.prompt_key,
+                    response=step.response,
+                    metadata=_sanitize_unsupported_parameters(
+                        step.metadata,
+                        model=call_settings.model,
+                    ),
+                )
+                for step in sr.steps
+            ],
             metadata=metadata,
         )
+
+
+def _sanitize_unsupported_parameters(value: Any, *, model: str) -> Any:
+    unsupported = get_unsupported_parameters(model)
+    if not unsupported:
+        return value
+    if isinstance(value, dict):
+        return {
+            key: _sanitize_unsupported_parameters(item, model=model)
+            for key, item in value.items()
+            if key not in unsupported
+        }
+    if isinstance(value, list):
+        return [
+            _sanitize_unsupported_parameters(item, model=model) for item in value
+        ]
+    return value

@@ -11,11 +11,5 @@
     },
     "max_steps": 2,
     "prompt_contract": "strict"
-  },
-  "prompts": {
-    "guard.has_answerable_question": { "temperature": 0.0 },
-    "invariant.answer_is_grounded": { "temperature": 0.0 },
-    "action.draft_answer": { "temperature": 0.2 },
-    "output.final_answer": { "temperature": 0.2 }
   }
 }

@@ -222,8 +222,8 @@ async def execute_text(
 ) -> WeaveMarkRunResult:
     """Compile WeaveMark source text, then execute it with an engine.
 
-    Runtime config variables are applied before compilation; explicit
-    ``variables`` override runtime config variables, matching the CLI.
+    Promplet inputs come only from ``variables``. Runtime config is reserved for
+    optional provider, policy, and host overrides.
 
     ``on_artifact`` receives each ``@output file:`` artifact record the moment an
     engine produces it (e.g. one per rendered page), enabling streaming
@@ -236,7 +236,7 @@ async def execute_text(
         resolved_runtime_config = RuntimeConfig(model=effective_options.model)
     elif resolved_runtime_config.model is None:
         resolved_runtime_config.model = effective_options.model
-    merged_variables = _merge_runtime_variables(resolved_runtime_config, variables)
+    merged_variables = dict(variables or {})
     compiled = await compile_text(
         spec_text,
         merged_variables,
@@ -252,6 +252,7 @@ async def execute_text(
     if compiled.errors:
         raise WeaveMarkCompilationError(compiled)
     resolved_runtime_config.protection = compiled.protection
+    resolved_runtime_config.execution_variables = dict(merged_variables)
 
     resolved_engine, engine_name = _resolve_execution_engine(
         engine,
@@ -326,9 +327,7 @@ def load_runtime_config(config: RuntimeConfigInput) -> RuntimeConfig | None:
         return config
     if isinstance(config, str | Path):
         path = _resolve_file(config)
-        if path.suffix in (".yaml", ".yml"):
-            return RuntimeConfig.from_yaml(path)
-        return RuntimeConfig.from_json(path)
+        return RuntimeConfig.from_file(path)
     return _runtime_config_from_mapping(config)
 
 
@@ -387,15 +386,6 @@ def _resolve_settings(
     if base_dir is None:
         return builtin_weavemark_settings()
     return load_weavemark_settings(Path(base_dir).expanduser().resolve()).settings
-
-
-def _merge_runtime_variables(
-    runtime_config: RuntimeConfig | None,
-    variables: Mapping[str, Any] | None,
-) -> dict[str, Any]:
-    merged = dict(runtime_config.variables) if runtime_config else {}
-    merged.update(dict(variables or {}))
-    return merged
 
 
 def _resolve_execution_engine(

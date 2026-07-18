@@ -37,7 +37,6 @@ weavemark library builtin:catalog/executable/tree-of-thought-solver \
 section "Tree of Thought: generate/evaluate/synthesize execution"
 weavemark library builtin:catalog/executable/tree-of-thought-solver \
   --vars-file examples/batch-example-runs/execution-engines/inputs/tree-of-thought-solver-example.json \
-  --config promplets/catalog/executable/tree-of-thought-solver.weavemark.yaml \
   --run \
   --output examples/batch-example-runs/execution-engines/outputs/tree-of-thought-solver/execution-output.md \
   --show-output \
@@ -58,7 +57,6 @@ weavemark library builtin:catalog/executable/self-consistency-solver \
 section "Self-consistency: sample/vote execution"
 weavemark library builtin:catalog/executable/self-consistency-solver \
   --vars-file examples/batch-example-runs/execution-engines/inputs/self-consistency-solver-example.json \
-  --config promplets/catalog/executable/self-consistency-solver.weavemark.yaml \
   --run \
   --output examples/batch-example-runs/execution-engines/outputs/self-consistency-solver/execution-output.md \
   --show-output \
@@ -79,7 +77,6 @@ weavemark library builtin:catalog/executable/reflection-writer \
 section "Reflection: generate/critique/revise execution"
 weavemark library builtin:catalog/executable/reflection-writer \
   --vars-file examples/batch-example-runs/execution-engines/inputs/reflection-writer-example.json \
-  --config promplets/catalog/executable/reflection-writer.weavemark.yaml \
   --run \
   --output examples/batch-example-runs/execution-engines/outputs/reflection-writer/execution-output.md \
   --show-output \
@@ -101,7 +98,6 @@ weavemark library builtin:catalog/executable/self-consistency-solver \
 section "JSON pipeline: execution output"
 weavemark library builtin:catalog/executable/self-consistency-solver \
   --vars-file examples/batch-example-runs/execution-engines/inputs/self-consistency-solver-example.json \
-  --config promplets/catalog/executable/self-consistency-solver.weavemark.yaml \
   --run \
   --format json \
   --output examples/batch-example-runs/execution-engines/outputs/self-consistency-solver-json/execution-output.json \

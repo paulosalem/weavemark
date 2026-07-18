@@ -295,11 +295,11 @@ class TestInputFormWidgets:
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Tests: Pre-filling from vars JSON
+# Tests: Pre-filling from variable files
 # ═══════════════════════════════════════════════════════════════════
 
 class TestVarsPrefill:
-    """Verify that JSON vars pre-fill the form correctly."""
+    """Verify that JSON/YAML vars pre-fill the form correctly."""
 
     @pytest.mark.asyncio
     async def test_text_prefill(self, tmp_path):
@@ -311,6 +311,19 @@ class TestVarsPrefill:
             place_input = app.query_one("#input-place", Input)
             assert name_input.value == "Alice"
             assert place_input.value == "Wonderland"
+
+    @pytest.mark.asyncio
+    async def test_yaml_multiline_prefill(self, tmp_path):
+        spec = _write_spec(tmp_path, SPEC_SIMPLE)
+        vars_file = tmp_path / "vars.yaml"
+        vars_file.write_text(
+            "name: Alice\nplace: |-\n  New\n  Wonderland\n",
+            encoding="utf-8",
+        )
+        app = _make_app(spec, vars_path=vars_file)
+        async with app.run_test():
+            assert app.query_one("#input-name", Input).value == "Alice"
+            assert app.query_one("#input-place", Input).value == "New\nWonderland"
 
     @pytest.mark.asyncio
     async def test_switch_prefill(self, tmp_path):
@@ -575,15 +588,11 @@ class TestEdgeCases:
 
     @pytest.mark.asyncio
     async def test_nonexistent_vars_file(self, tmp_path):
-        """Non-existent vars file should not crash, just use empty vars."""
+        """An explicitly requested missing vars file must fail visibly."""
         spec = _write_spec(tmp_path, SPEC_SIMPLE)
         fake_vars = tmp_path / "nope.json"
-        app = _make_app(spec, vars_path=fake_vars)
-        async with app.run_test() as pilot:
-            form = app.query_one("#input-form", InputForm)
-            values = form.get_values()
-            assert values["name"] == ""
-            assert values["place"] == ""
+        with pytest.raises(FileNotFoundError):
+            _make_app(spec, vars_path=fake_vars)
 
     @pytest.mark.asyncio
     async def test_spec_with_many_inputs(self, tmp_path):

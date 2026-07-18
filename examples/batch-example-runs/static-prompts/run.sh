@@ -95,7 +95,7 @@ weavemark library builtin:catalog/standalone/multi-persona-debate \
 # 7. Prompt refactoring as a semantic program transformation.
 section "7. Prompt refactoring as a semantic program transformation"
 weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline \
-  --vars-file examples/batch-example-runs/static-prompts/inputs/prompt-refactoring-example.json \
+  --vars-file examples/batch-example-runs/static-prompts/inputs/prompt-refactoring-example.yaml \
   --output examples/batch-example-runs/static-prompts/outputs/prompt-refactoring-pipeline/compiled-prompt.md \
   --show-output \
   --no-file-summary \

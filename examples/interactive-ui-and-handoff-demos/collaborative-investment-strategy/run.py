@@ -60,6 +60,7 @@ from weavemark.engines.collaborative import (
     CollaborativeEngine,
 )
 from weavemark.traces import execution_result_to_dict, render_execution_trace_markdown
+from weavemark.variable_files import load_variables_file
 
 # ── ANSI colours ─────────────────────────────────────────────────
 
@@ -161,7 +162,6 @@ class CLIEditCallback:
 async def run(
     spec_path: Path,
     vars_path: Path | None,
-    config_path: Path | None,
     output_dir: Path,
     interactive: bool,
     use_editor: bool,
@@ -169,21 +169,13 @@ async def run(
     agent_timeout_seconds: float,
     agent_poll_seconds: float,
 ) -> None:
-    # Load vars
-    variables = {}
-    if vars_path and vars_path.exists():
-        variables = json.loads(vars_path.read_text(encoding="utf-8"))
-
-    # Load config
-    config = None
-    if config_path and config_path.exists():
-        config = RuntimeConfig.from_yaml(config_path)
+    variables = load_variables_file(vars_path) if vars_path else {}
+    config = RuntimeConfig(execution_variables=variables)
 
     # Compose the spec
     banner("COMPOSING SPEC")
     print(f"{DIM}  Spec:   {spec_path}{RESET}")
     print(f"{DIM}  Vars:   {vars_path or '(none)'}{RESET}")
-    print(f"{DIM}  Config: {config_path or '(none)'}{RESET}")
     print()
 
     spec_text = spec_path.read_text(encoding="utf-8")
@@ -219,8 +211,6 @@ async def run(
         print(f"{DIM}    Handoff dir: {output_dir / 'agent-turns'}{RESET}\n")
     elif not interactive:
         callback = None
-        if config is None:
-            config = RuntimeConfig(engine="collaborative")
         print(f"{YELLOW}  ▸ Non-interactive smoke mode: auto-approving drafts{RESET}\n")
     elif use_editor:
         callback = FileEditCallback()
@@ -230,9 +220,6 @@ async def run(
         callback = CLIEditCallback()
         print(f"{YELLOW}  ▸ Interactive CLI mode: you'll edit inline{RESET}\n")
 
-    # Inject callback into config
-    if config is None:
-        config = RuntimeConfig(engine="collaborative")
     if callback is not None:
         config.engine_config["edit_callback"] = callback
 
@@ -312,17 +299,7 @@ def main() -> None:
         / "collaborative-investment-strategy"
         / "inputs"
         / "vars.json",
-        help="Path to the variables JSON file",
-    )
-    parser.add_argument(
-        "--config",
-        type=Path,
-        default=REPO_ROOT
-        / "promplets"
-        / "catalog"
-        / "executable"
-        / "collaborative-investment-strategy.weavemark.yaml",
-        help="Path to the runtime YAML config",
+        help="Path to the variables JSON/YAML file",
     )
     parser.add_argument(
         "--output-dir",
@@ -377,7 +354,6 @@ def main() -> None:
         run(
             spec_path=args.spec,
             vars_path=args.vars,
-            config_path=args.config,
             output_dir=args.output_dir,
             interactive=not args.non_interactive and not args.agent_collaborator,
             use_editor=args.editor,

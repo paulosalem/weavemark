@@ -593,9 +593,18 @@ class TestWeaveMarkImports:
         assert (
             PROMPLETS_DIR / "catalog/executable/recurring-topic-monitor.weavemark.md"
         ).is_file()
-        assert (
-            PROMPLETS_DIR / "catalog/executable/recurring-topic-monitor.weavemark.yaml"
-        ).is_file()
+        assert not list(
+            (PROMPLETS_DIR / "catalog/executable").glob("*.weavemark.yaml")
+        )
+        for runtime_name in (
+            "fslm-support-triage.runtime.json",
+            "fslm-support-triage-sugared.runtime.json",
+        ):
+            runtime_path = PROMPLETS_DIR / "experimental/fslm" / runtime_name
+            runtime = json.loads(runtime_path.read_text(encoding="utf-8"))
+            assert runtime["engine"] == "fslm"
+            assert "variables" not in runtime
+            assert "prompts" not in runtime
         assert (
             PROMPLETS_DIR / "catalog/executable/companions/recurring_topic_monitor.py"
         ).is_file()
@@ -700,7 +709,7 @@ class TestWeaveMarkImports:
         assert (PROMPLETS_DIR / "catalog/standalone/api-docs-generator.vars.json").is_file()
         assert (static_inputs_dir / "multi-persona-debate-agi.json").is_file()
         assert (static_inputs_dir / "adaptive-interview-senior-backend.json").is_file()
-        assert (static_inputs_dir / "prompt-refactoring-example.json").is_file()
+        assert (static_inputs_dir / "prompt-refactoring-example.yaml").is_file()
         assert (
             EXAMPLES_DIR
             / "python-runtime-integrations/live-investment-decision/inputs/vars.json"
@@ -1503,6 +1512,7 @@ class TestResponseParsing:
         assert "# WeaveMark Execution Trace" in trace_md
         assert "sample_0" in trace_md
         assert "ANSWER: 42" in trace_md
+        assert "  \n" not in trace_md
 
     def test_execution_trace_elides_base64_image_payloads(self):
         """Image-step base64 payloads are elided so traces stay readable."""
@@ -1597,6 +1607,8 @@ class TestResponseParsing:
         trace = trace_path.read_text(encoding="utf-8")
         assert "Draft response" in trace
         assert "Final response" in trace
+        assert "| Spec | `traceable.weavemark.md` |" in trace
+        assert str(tmp_path) not in trace
 
     @pytest.mark.asyncio
     async def test_run_execute_show_output_prints_final_before_file_summary(

@@ -6,7 +6,7 @@ Composes prompts from promplet files containing directives (@refine, @if,
 Usage:
     weavemark spec.md                                    # guided interactive compile
     weavemark spec.md --var key=value                    # prefill one input
-    weavemark spec.md --vars-file v.json                 # prefill many inputs
+    weavemark spec.md --vars-file v.yaml                 # prefill many inputs
     weavemark spec.md --batch-only --var k=v             # strict non-interactive batch
     weavemark spec.md --output result.md                 # write primary to file
     weavemark spec.md --output-dir out/                  # write artifacts to dir
@@ -99,6 +99,7 @@ from weavemark.settings import (
 )
 from weavemark.surfaces import lower_weavemark_surface
 from weavemark.traces import execution_result_to_dict, render_execution_trace_markdown
+from weavemark.variable_files import VariablesFileError, load_variables_file
 from weavemark.version import LANGUAGE_VERSION, PROCESSOR_VERSION
 
 if TYPE_CHECKING:
@@ -324,7 +325,7 @@ def create_parser() -> argparse.ArgumentParser:
             "  weavemark library tutorial-generator\n"
             "  weavemark library investment-brief --var ticker=MSFT\n"
             "  weavemark library list finance --source all\n"
-            "  weavemark promplets/catalog/executable/tree-of-thought-solver.weavemark.md --run --config promplets/catalog/executable/tree-of-thought-solver.weavemark.yaml\n"
+            "  weavemark library tree-of-thought-solver --vars-file examples/batch-example-runs/execution-engines/inputs/tree-of-thought-solver-example.json --run --batch-only\n"
             "  weavemark implement compiled-spec.md --name my-app --dry-run\n"
             "  weavemark promplets/catalog/standalone/ai-kanban-board.weavemark.md --implement --implementation-name ai-kanban --implementation-dry-run\n"
         ),
@@ -363,7 +364,10 @@ def create_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--vars-file",
         type=Path,
-        help="Load input values from a JSON object. Missing values are still prompted in default mode.",
+        help=(
+            "Load input values from a JSON or YAML object. Missing values are "
+            "still prompted in default mode."
+        ),
     )
 
     # Output
@@ -492,7 +496,11 @@ def create_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--config",
         type=Path,
-        help="Runtime config for --run: engine, prompt settings, tool bindings, and variables.",
+        help=(
+            "Optional runtime override for --run: model routing, allowed models, "
+            "and engine-specific host settings. Promplet inputs belong in "
+            "--vars-file."
+        ),
     )
     parser.add_argument(
         "--implementation-name",
@@ -650,8 +658,7 @@ def _parse_variables(printer: CliPrinter, args: argparse.Namespace) -> dict[str,
 
     if args.vars_file:
         try:
-            with open(args.vars_file, encoding="utf-8") as handle:
-                loaded = json.load(handle)
+            loaded = load_variables_file(args.vars_file)
         except OSError as exc:
             raise UserDiagnosticError(
                 Diagnostic(
@@ -661,26 +668,20 @@ def _parse_variables(printer: CliPrinter, args: argparse.Namespace) -> dict[str,
                     parameter="--vars-file",
                 )
             ) from exc
-        except json.JSONDecodeError as exc:
+        except VariablesFileError as exc:
             raise UserDiagnosticError(
                 Diagnostic(
-                    code="WM-INPUT-VARS-JSON",
-                    message=exc.msg,
+                    code="WM-INPUT-VARS-FORMAT",
+                    message=str(exc),
                     source=str(args.vars_file),
-                    line=exc.lineno,
+                    line=exc.line,
                     parameter="--vars-file",
-                    suggestion="Provide one valid JSON object.",
+                    suggestion=(
+                        "Provide one valid JSON, YAML, or YML object with unique "
+                        "string keys."
+                    ),
                 )
             ) from exc
-        if not isinstance(loaded, dict):
-            raise UserDiagnosticError(
-                Diagnostic(
-                    code="WM-INPUT-VARS-SHAPE",
-                    message="Variables file must contain one JSON object.",
-                    source=str(args.vars_file),
-                    parameter="--vars-file",
-                )
-            )
         variables.update(loaded)
 
     if args.var:
@@ -965,6 +966,16 @@ def _write_emit_targets(
 def _source_path_from_args(args: argparse.Namespace) -> Path | None:
     spec_file = getattr(args, "spec_file", None)
     return Path(spec_file).resolve() if spec_file else None
+
+
+def _portable_source_label(args: argparse.Namespace) -> str:
+    source = _source_path_from_args(args)
+    if source is None:
+        return "stdin"
+    try:
+        return source.relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        return source.name
 
 
 def _run_compiled_implementation(
@@ -1466,10 +1477,7 @@ async def run_execute(
             printer.error(f"Config file [bright_cyan]'{args.config}'[/] not found.")
             return 1
         try:
-            if args.config.suffix in (".yaml", ".yml"):
-                runtime_config = RuntimeConfig.from_yaml(args.config)
-            else:
-                runtime_config = RuntimeConfig.from_json(args.config)
+            runtime_config = RuntimeConfig.from_file(args.config)
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             raise UserDiagnosticError(
                 Diagnostic(
@@ -1502,9 +1510,6 @@ async def run_execute(
     config = WeaveMarkConfig(model=runtime_config.model)
     controller = WeaveMarkController(config)
 
-    # Merge config variables (CLI overrides config)
-    variables = {**runtime_config.variables, **variables}
-
     missing_inputs = missing_user_inputs(spec_text, variables, base_dir)
     if missing_inputs:
         if args.batch_only:
@@ -1523,6 +1528,7 @@ async def run_execute(
         if prompted_variables is None:
             return 1
         variables = prompted_variables
+    runtime_config.execution_variables = dict(variables)
 
     printer.header(
         {"Spec": args.spec_file or "stdin", "Model": args.model, "Mode": "run"}
@@ -1719,7 +1725,7 @@ async def run_execute(
 
     if args.trace_output:
         trace = render_execution_trace_markdown(
-            spec=str(args.spec_file or "stdin"),
+            spec=_portable_source_label(args),
             model=args.model,
             engine=engine_name,
             output=exec_result.output,

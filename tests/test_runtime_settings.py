@@ -53,6 +53,27 @@ def test_runtime_override_has_highest_precedence_and_provenance() -> None:
     assert settings.temperature_source == "runtime.temperature"
 
 
+def test_gpt5_omits_unsupported_builtin_temperature() -> None:
+    settings = resolve_call_settings(
+        _result(),
+        RuntimeConfig(model="gpt-5.5"),
+        prompt_key="default",
+    )
+
+    assert settings.temperature is None
+    assert "temperature" not in settings.metadata()
+    assert "temperature_source" not in settings.metadata()
+
+
+def test_gpt5_rejects_explicit_temperature_override() -> None:
+    with pytest.raises(ValueError, match="does not support temperature"):
+        resolve_call_settings(
+            _result(),
+            RuntimeConfig(model="gpt-5.5", temperature=0.2),
+            prompt_key="default",
+        )
+
+
 @pytest.mark.parametrize(
     ("config", "execution", "expected_model", "expected_source"),
     (
@@ -161,6 +182,16 @@ def test_runtime_mapping_rejects_invalid_setting_types(
 ) -> None:
     with pytest.raises(ValueError, match="Runtime config"):
         load_runtime_config(config)
+
+
+def test_runtime_config_file_requires_explicit_supported_extension(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "deployment.config"
+    path.write_text("model: gpt-5.5\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match=r"\.json, \.yaml, or \.yml"):
+        load_runtime_config(path)
 
 
 def test_cli_model_flags_are_explicit_overrides() -> None:

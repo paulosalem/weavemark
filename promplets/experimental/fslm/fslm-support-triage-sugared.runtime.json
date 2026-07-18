@@ -12,12 +12,5 @@
     },
     "max_steps": 1,
     "prompt_contract": "strict"
-  },
-  "prompts": {
-    "guard.triage.gather_evidence.needs_more_evidence": { "temperature": 0.0 },
-    "guard.triage.ask_clarification.user_input_required": { "temperature": 0.0 },
-    "guard.triage.draft_answer.has_enough_evidence": { "temperature": 0.0 },
-    "action.triage.gather_evidence.summarize_evidence": { "temperature": 0.2 },
-    "action.triage.draft_answer.draft_answer": { "temperature": 0.2 }
   }
 }

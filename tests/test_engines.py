@@ -356,10 +356,9 @@ class TestRuntimeConfig:
             "engine": "tree-of-thought",
             "engine_config": {"branching_factor": 3},
             "prompts": {
-                "generate": {"model": "gpt-5.5", "temperature": 0.9},
-                "evaluate": {"model": "gpt-5.5", "temperature": 0.1},
+                "generate": {"model": "gpt-4.1-mini", "temperature": 0.9},
+                "evaluate": {"model": "gpt-4.1-mini", "temperature": 0.1},
             },
-            "variables": {"problem": "test"},
         }
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             json.dump(config_data, f)
@@ -368,10 +367,9 @@ class TestRuntimeConfig:
 
         assert config.engine == "tree-of-thought"
         assert config.engine_config == {"branching_factor": 3}
-        assert config.prompts["generate"].model == "gpt-5.5"
+        assert config.prompts["generate"].model == "gpt-4.1-mini"
         assert config.prompts["generate"].temperature == 0.9
         assert config.prompts["evaluate"].temperature == 0.1
-        assert config.variables == {"problem": "test"}
         Path(f.name).unlink()
 
     def test_from_yaml(self):
@@ -384,10 +382,8 @@ class TestRuntimeConfig:
             "  aggregation: majority_vote\n"
             "prompts:\n"
             "  default:\n"
-            "    model: gpt-5.5\n"
+            "    model: gpt-4.1-mini\n"
             "    temperature: 0.8\n"
-            "variables:\n"
-            "  topic: testing\n"
         )
         with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
             f.write(yaml_text)
@@ -396,9 +392,8 @@ class TestRuntimeConfig:
 
         assert config.engine == "self-consistency"
         assert config.engine_config["samples"] == 5
-        assert config.prompts["default"].model == "gpt-5.5"
+        assert config.prompts["default"].model == "gpt-4.1-mini"
         assert config.prompts["default"].temperature == 0.8
-        assert config.variables["topic"] == "testing"
         Path(f.name).unlink()
 
     def test_defaults(self):
@@ -408,7 +403,7 @@ class TestRuntimeConfig:
         assert config.engine is None
         assert config.engine_config == {}
         assert config.prompts == {}
-        assert config.variables == {}
+        assert config.execution_variables == {}
         declared = CompositionResult(
             composed_prompt="",
             execution={"type": "reflection"},
@@ -764,7 +759,7 @@ class TestBaseEngineConfigMerge:
         engine = BaseEngine()
         result = CompositionResult(composed_prompt="x")
         config = engine._build_strategy_config(result)
-        assert config == {"model": "gpt-5.5", "temperature": 0.7}
+        assert config == {"model": "gpt-5.5"}
 
 
 # ═══════════════════════════════════════════════════════════════════

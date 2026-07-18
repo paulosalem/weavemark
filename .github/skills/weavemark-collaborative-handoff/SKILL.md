@@ -38,7 +38,6 @@ Important files:
 - `examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py`
 - `examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run-agent-handoff.sh`
 - `promplets/catalog/executable/collaborative-*.weavemark.md`
-- `promplets/catalog/executable/collaborative-*.weavemark.yaml`
 - `tests/test_engines.py::TestCollaborativeEngine`
 
 ## Always start with the cheap path
@@ -52,12 +51,11 @@ source ~/.zshrc 2>/dev/null || true
 python examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py \
   --spec promplets/catalog/executable/collaborative-investment-strategy.weavemark.md \
   --vars examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/inputs/vars.json \
-  --config promplets/catalog/executable/collaborative-investment-strategy.weavemark.yaml \
   --output-dir examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/outputs \
   --non-interactive
 ```
 
-This proves composition, runtime config, engine dispatch, trace writing, and
+This proves composition, source-declared engine dispatch, trace writing, and
 artifact paths without requiring a live editing turn.
 
 ## Acting as the AI collaborator
@@ -71,7 +69,6 @@ source ~/.zshrc 2>/dev/null || true
 python examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py \
   --spec promplets/catalog/executable/collaborative-writer.weavemark.md \
   --vars examples/interactive-ui-and-handoff-demos/collaborative-writer/inputs/vars.json \
-  --config promplets/catalog/executable/collaborative-writer.weavemark.yaml \
   --output-dir examples/interactive-ui-and-handoff-demos/collaborative-writer/outputs \
   --agent-collaborator
 ```
@@ -136,28 +133,19 @@ Supported handoff keys:
 Invalid values should raise explicit errors. Do not silence timeouts or replace
 them with success-shaped defaults.
 
-## Runtime config pattern
+## Configuration pattern
 
-Sidecar configs are `.weavemark.yaml` files:
+Keep collaborative semantics in the promplet:
 
-```yaml
-engine: collaborative
-
-engine_config:
+```weavemark
+@execute collaborative
   max_rounds: 4
-
-prompts:
-  generate:
-    model: gpt-5.5
-    temperature: 0.8
-  continue:
-    model: gpt-5.5
-    temperature: 0.6
 ```
 
-For demos, keep models explicit and current (`gpt-5.5` unless the user is
-testing another model). For reproducible tests, lower temperatures and cap
-rounds.
+Keep run inputs in the example's JSON/YAML vars file. The Python runner creates
+an in-memory runtime config only to inject the selected edit callback; it does
+not load a sidecar config. Use an explicit `.runtime.json` or `.runtime.yaml`
+only when a host genuinely needs provider policy or model routing overrides.
 
 ## Artifacts to inspect
 

@@ -6,6 +6,5 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/_lib/example-env.sh"
 python examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py \
   --spec promplets/catalog/executable/collaborative-writer.weavemark.md \
   --vars examples/interactive-ui-and-handoff-demos/collaborative-writer/inputs/vars.json \
-  --config promplets/catalog/executable/collaborative-writer.weavemark.yaml \
   --output-dir examples/interactive-ui-and-handoff-demos/collaborative-writer/outputs \
   --agent-collaborator

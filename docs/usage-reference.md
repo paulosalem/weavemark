@@ -286,9 +286,12 @@ the promplet without an LLM call, shows a compact guided-input panel when values
 are missing, collects those values, compiles, prints the result, and then offers
 the follow-up refinement prompt.
 
-Use `--vars-file vars.json` to load a JSON object of reusable values. Inline
-`--var KEY=VALUE` values override the JSON file. Boolean Processor values accept
-`true`/`false`, `yes`/`no`, and `1`/`0`.
+Use `--vars-file vars.json`, `--vars-file vars.yaml`, or `--vars-file vars.yml`
+to load one object of reusable values. YAML block scalars (`|`) are convenient
+for long prompts and source text. Inline `--var KEY=VALUE` values override the
+file. Boolean Processor values accept `true`/`false`, `yes`/`no`, and `1`/`0`.
+Variable files are input data only: model and engine selection remain explicit
+runtime concerns.
 
 ### Batch mode (with `--batch-only`)
 
@@ -817,15 +820,17 @@ WeaveMark can **compile and execute** specs in one step. Use `--run` to invoke a
 ```bash
 # Compile + execute with Tree of Thought
 weavemark library builtin:catalog/executable/tree-of-thought-solver \
-  --run --config promplets/catalog/executable/tree-of-thought-solver.weavemark.yaml
+  --vars-file examples/batch-example-runs/execution-engines/inputs/tree-of-thought-solver-example.json \
+  --run --batch-only
 
 # Self-consistency with 5 samples + majority vote
 weavemark library builtin:catalog/executable/self-consistency-solver \
-  --run --config promplets/catalog/executable/self-consistency-solver.weavemark.yaml
+  --vars-file examples/batch-example-runs/execution-engines/inputs/self-consistency-solver-example.json \
+  --run --batch-only
 ```
 
 `--run` uses the same input rules as compilation: missing values from the spec
-or runtime config are prompted in human-facing mode. Add `--batch-only` to make
+are prompted in human-facing mode. Add `--batch-only` to make
 execution strict and fail before compilation when any required input is missing.
 
 **The `@execute` directive — bridging specification and execution.**
@@ -926,7 +931,7 @@ Run the included demo with:
 
 ```bash
 weavemark library builtin:experimental/fslm/fslm-support-triage \
-  --run --config promplets/experimental/fslm/fslm-support-triage.weavemark.json
+  --run --config promplets/experimental/fslm/fslm-support-triage.runtime.json
 ```
 
 Inline FSLM sugar keeps the machine next to its prompts:
@@ -966,21 +971,25 @@ validation. Tool actions automatically receive transition `@input` values whose
 names match the tool schema. See
 [`promplets/experimental/fslm/fslm-support-triage-sugared.weavemark.md`](../promplets/experimental/fslm/fslm-support-triage-sugared.weavemark.md).
 
-**Runtime config** (`.weavemark.yaml` or `.json`) controls global and per-prompt
-provider settings, model residency, and engine parameters:
+**Runtime config** is an optional, explicit host/deployment override. Use a
+descriptive `.runtime.yaml` or `.runtime.json` file when a deployment needs
+model routing, model residency policy, or runtime-only engine input that does
+not belong in the promplet. Runtime config is never auto-discovered and does not
+contain promplet variables:
 
 ```yaml
-engine: tree-of-thought
 model: gpt-5.5
-image_model: gpt-image-1
-temperature: 0.3
-allowed_models: [gpt-5.5, gpt-image-1]
-engine_config:
-  branching_factor: 3
+image_model: gpt-image-2
+allowed_models: [gpt-5.5, gpt-4.1-mini, gpt-image-2]
 prompts:
-  generate: { model: gpt-5.5, temperature: 0.9 }
-  evaluate: { model: gpt-5.5, temperature: 0.1 }
+  evaluate:
+    model: gpt-4.1-mini
 ```
+
+Keep normal execution semantics in `@execute` and run inputs in
+`--vars-file`. A variable named `model` is ordinary promplet data; it does not
+silently change provider behavior. Use `--model`, `--image-model`, the Python
+API, or an explicit runtime config for that.
 
 For each provider call, precedence is: explicit CLI/API runtime override, named
 prompt config, engine/stage config, the promplet's task/output declaration, then

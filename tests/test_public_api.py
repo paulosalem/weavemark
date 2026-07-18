@@ -121,7 +121,7 @@ async def test_compile_file_uses_project_format_settings(tmp_path: Path) -> None
 
 
 @pytest.mark.asyncio
-async def test_execute_file_merges_runtime_variables_and_accepts_engine_object(
+async def test_execute_file_passes_explicit_variables_to_engine_context(
     tmp_path: Path,
 ) -> None:
     spec = _write(
@@ -133,7 +133,6 @@ async def test_execute_file_merges_runtime_variables_and_accepts_engine_object(
         """,
     )
     runtime = RuntimeConfig(
-        variables={"name": "runtime"},
         engine_config={"trace": True},
     )
 
@@ -147,6 +146,7 @@ async def test_execute_file_merges_runtime_variables_and_accepts_engine_object(
     assert result.engine == "EchoEngine"
     assert result.output == "Hello explicit."
     assert result.runtime_config is runtime
+    assert result.runtime_config.execution_variables == {"name": "explicit"}
     assert result.execution.metadata == {"engine_config": {"trace": True}}
 
 
@@ -194,8 +194,9 @@ def test_load_runtime_config_from_mapping() -> None:
         {
             "engine": "reflection",
             "engine_config": {"max_iterations": 2},
-            "prompts": {"generate": {"model": "gpt-5.5", "temperature": 0.8}},
-            "variables": {"topic": "public API"},
+            "prompts": {
+                "generate": {"model": "gpt-4.1-mini", "temperature": 0.8}
+            },
         }
     )
 
@@ -203,7 +204,11 @@ def test_load_runtime_config_from_mapping() -> None:
     assert runtime.engine == "reflection"
     assert runtime.engine_config == {"max_iterations": 2}
     assert runtime.prompts["generate"].temperature == 0.8
-    assert runtime.variables == {"topic": "public API"}
+
+
+def test_runtime_config_rejects_promplet_variables() -> None:
+    with pytest.raises(ValueError, match="Unknown runtime config keys: variables"):
+        load_runtime_config({"variables": {"topic": "wrong layer"}})
 
 
 @pytest.mark.asyncio

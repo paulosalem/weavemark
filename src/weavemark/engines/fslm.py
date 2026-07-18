@@ -1024,7 +1024,7 @@ def _initial_variables(
     config: RuntimeConfig | None,
     engine_config: Mapping[str, Any],
 ) -> dict[str, Any]:
-    variables = dict(config.variables) if config is not None else {}
+    variables = dict(config.execution_variables) if config is not None else {}
     for key in ("initial_variables", "snapshot_variables", "variables"):
         value = engine_config.get(key)
         if isinstance(value, Mapping):

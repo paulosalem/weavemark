@@ -30,7 +30,7 @@ language version.
 
 - Protections are enabled by default. Use `--no-protections` only for a
   deliberately trusted promplet.
-- Invalid `--var`, variables JSON, runtime configuration, output formats, and
+- Invalid `--var`, JSON/YAML variables files, runtime configuration, output formats, and
   numeric inline-FSLM options now fail with stable diagnostics.
 - Debug logging is independently configurable; binary/base64 payloads are
   omitted by default while normal text and variables remain available.

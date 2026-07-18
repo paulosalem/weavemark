@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from textual.app import ComposeResult
-from textual.containers import Horizontal, Vertical
+from textual.containers import Vertical
 from textual.widgets import (
     Input,
     Select,
@@ -115,7 +115,7 @@ class InputForm(Vertical):
         return values
 
     def set_values(self, values: dict[str, str]) -> None:
-        """Pre-fill form widgets with values (e.g. from a JSON vars file)."""
+        """Pre-fill form widgets with values from a JSON/YAML vars file."""
         for name, val in values.items():
             widget = self._widgets.get(name)
             if widget is None:

@@ -142,6 +142,7 @@ def _json_dumps(value: Any) -> str:
 
 
 def _fence(content: str, language: str) -> str:
+    content = "\n".join(line.rstrip() for line in content.splitlines()).rstrip()
     fence = "```"
     while fence in content:
         fence += "`"
