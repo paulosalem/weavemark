@@ -39,3 +39,39 @@ def test_home_hero_selector_has_mobile_grid_fallback() -> None:
     assert "grid-template-columns: repeat(2, minmax(0, 1fr));" in css
     assert ".carousel-tab[data-carousel-index=\"4\"]" in css
     assert "grid-column: 1 / -1;" in css
+
+
+def test_site_navigation_has_constant_width_and_right_links() -> None:
+    css = (ROOT / "docs" / "site.css").read_text(encoding="utf-8")
+    html = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+
+    assert "home-page" not in html
+    assert ".home-page" not in css
+    assert "--site-chrome-max: var(--max);" not in css
+    assert "--site-chrome-max: var(--home-hero-max);" in css
+    assert "width: min(var(--site-chrome-max), calc(100% - 40px));" in css
+
+    brand_hidden_rule = re.search(
+        r"\.site-nav\.brand-hidden \.site-nav-inner\s*\{(?P<body>.*?)\n\s*\}",
+        css,
+        re.S,
+    )
+    assert brand_hidden_rule is not None
+    assert "justify-content: flex-end;" in brand_hidden_rule.group("body")
+
+    brand_hidden_links_rule = re.search(
+        r"\.site-nav\.brand-hidden \.nav-links\s*\{(?P<body>.*?)\n\s*\}",
+        css,
+        re.S,
+    )
+    assert brand_hidden_links_rule is not None
+    assert "justify-content: flex-end;" in brand_hidden_links_rule.group("body")
+
+    base_links_rule = re.search(
+        r"^\s{6}\.nav-links\s*\{(?P<body>.*?)\n\s{6}\}",
+        css,
+        re.S | re.M,
+    )
+    assert base_links_rule is not None
+    assert "justify-content: flex-end;" in base_links_rule.group("body")
+    assert "justify-content: center;" not in base_links_rule.group("body")
