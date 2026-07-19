@@ -5,6 +5,8 @@
 # WeaveMark
 **A specification language for readable, reusable, and composable prompts.**
 
+**Website:** [https://paulosalem.github.io/weavemark/](https://paulosalem.github.io/weavemark/)
+
 > [!WARNING]
 > WeaveMark is highly experimental. The notation, Processor
 > behavior, examples, and public interfaces are still evolving, so expect rough
@@ -23,25 +25,6 @@ decides how to realize it. A directive like `@refine` declares *what* should sha
 a prompt; the processor works out *how* to weave it into concrete text. You get
 software-grade reuse, composition, and versioning, while the source stays readable
 prose.
-
-> [!IMPORTANT]
-> **Foundational principle — language is a tool for thought.**
->
-> Prompts are often treated as blobs of unstructured information. But natural
-> language is already richly structured through hierarchy, sequence, scope,
-> contrast, reference, and argument. WeaveMark's computational abstractions help
-> expose, compose, and more fully leverage that structure without replacing
-> language as the primary medium.
->
-> Prompting is not merely the phrasing of a request. It is the work of
-> formulating a way of thinking: what to notice, how to frame and decompose a
-> problem, which perspectives and reasoning methods to apply, how to test
-> conclusions, and what form an answer should take. WeaveMark makes those
-> cognitive structures explicit, readable, reusable, and composable. A promplet
-> structures not just prompt text, but the thinking the prompt is intended to
-> elicit.
->
-> See the [WeaveMark principles](docs/principles.html) for the fuller argument.
 
 The readable, reusable units you write in WeaveMark are called **promplets**. A
 promplet is plain Markdown with a few directives; it can stand alone as one
@@ -265,9 +248,22 @@ weavemark library recurring-topic-monitor \
 
 ## Explore the library
 
-A few promplets worth opening. The full catalog is in
-[`docs/examples.md`](docs/examples.md), and the reusable building blocks live in
-[`promplets/stdlib/`](promplets/stdlib) and
+Start with the showcase promplets: they demonstrate WeaveMark as more than a
+single prompt template. The best examples combine reusable domain modules,
+execution plans, tool bindings, media artifacts, or app-scale specifications.
+
+| Showcase | Why it is worth exploring |
+| --- | --- |
+| [`childrens-book.weavemark.md`](promplets/catalog/executable/childrens-book.weavemark.md) | A full children's picture-book pipeline: author the page-by-page story, render one image per page, then package the result into print-ready HTML and PDF deliverables. |
+| [`recurring-topic-monitor.weavemark.md`](promplets/catalog/executable/recurring-topic-monitor.weavemark.md) | An executable news/topic monitor with trusted Python tool bindings for web search, news search, and source crawling. It clusters new vs. repeated vs. materially changed findings from live evidence. |
+| [`news-intelligence-board.weavemark.md`](promplets/catalog/standalone/news-intelligence-board.weavemark.md) | A local-first news and events intelligence board specification with durable source memory, event clustering, material-update resurfacing, and workflow-board views. |
+| [`storyboard-chain.weavemark.md`](promplets/catalog/executable/storyboard-chain.weavemark.md) | A compact text-to-image chaining demo: one prompt writes a shot list, then a repeated image stage renders frame-by-frame story continuity. |
+| [`prompt-refactoring-pipeline.weavemark.md`](promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md) | Treats a messy prompt as a semantic artifact to refactor with `@extract`, `@normalize`, `@revise`, `@expand`, `@polish`, and `@assert`. |
+| [`tree-of-thought-solver.weavemark.md`](promplets/catalog/executable/tree-of-thought-solver.weavemark.md) | Makes a reasoning execution strategy explicit with separate generation, evaluation, and synthesis prompts. |
+| [`react-agent.weavemark.md`](promplets/catalog/executable/react-agent.weavemark.md) | A compact ReAct agent with tools declared beside the prompt and behavior varied by research depth. |
+
+The full catalog is in [`docs/examples.md`](docs/examples.md), and the reusable
+building blocks live in [`promplets/stdlib/`](promplets/stdlib) and
 [`promplets/domains/`](promplets/domains).
 
 The complete root [`promplets/`](promplets) tree is the canonical source and is
@@ -315,16 +311,20 @@ weavemark library builtin:catalog/standalone/investment-brief
 weavemark library module:weavemark.std.reasoning.base_analyst --scan
 ```
 
-| WeaveMark | Why it is worth exploring |
-| --- | --- |
-| [`investment-brief.weavemark.md`](promplets/catalog/standalone/investment-brief.weavemark.md) | A pastable analysis prompt with explicit evidence, uncertainty, and safety boundaries. |
-| [`prompt-refactoring-pipeline.weavemark.md`](promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md) | Treats a messy prompt as a spec to refactor: `@extract`, `@normalize`, `@revise`, `@expand`, and `@assert`. |
-| [`multi-persona-debate.weavemark.md`](promplets/catalog/standalone/multi-persona-debate.weavemark.md) | Uses semantic `@expand` and `@revise` to build a balanced debate prompt with synthesis modes. |
-| [`creative-ideation.weavemark.md`](promplets/catalog/standalone/creative-ideation.weavemark.md) | Dispatches among reusable ideation methods such as SCAMPER, Six Thinking Hats, and reverse brainstorming. |
-| [`tree-of-thought-solver.weavemark.md`](promplets/catalog/executable/tree-of-thought-solver.weavemark.md) | Makes an execution strategy explicit with separate generation, evaluation, and synthesis prompts. |
-| [`react-agent.weavemark.md`](promplets/catalog/executable/react-agent.weavemark.md) | A compact ReAct agent with tools declared beside the prompt and behavior varied by research depth. |
-| [`news-intelligence-board.weavemark.md`](promplets/catalog/standalone/news-intelligence-board.weavemark.md) | Reuses the workflow-board modules for a local-first news/event monitor with durable memory and material-update deduplication. |
-| [`adaptive-interview.weavemark.md`](promplets/catalog/standalone/adaptive-interview.weavemark.md) | Nested `@match`, `@if`, `@compress`, and `@generate_examples` adapt one protocol by role, seniority, and format. |
+Other strong examples:
+
+- [`investment-brief.weavemark.md`](promplets/catalog/standalone/investment-brief.weavemark.md)
+  is a pastable analysis prompt with explicit evidence, uncertainty, and safety
+  boundaries.
+- [`multi-persona-debate.weavemark.md`](promplets/catalog/standalone/multi-persona-debate.weavemark.md)
+  uses semantic `@expand` and `@revise` to build a balanced debate prompt with
+  synthesis modes.
+- [`creative-ideation.weavemark.md`](promplets/catalog/standalone/creative-ideation.weavemark.md)
+  dispatches among reusable ideation methods such as SCAMPER, Six Thinking Hats,
+  and reverse brainstorming.
+- [`adaptive-interview.weavemark.md`](promplets/catalog/standalone/adaptive-interview.weavemark.md)
+  uses nested `@match`, `@if`, `@compress`, and `@generate_examples` to adapt one
+  protocol by role, seniority, and format.
 
 ## WeaveMark Processor quick reference
 

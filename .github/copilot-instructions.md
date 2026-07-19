@@ -40,7 +40,11 @@ Apply this routine for: `weavemark --run`, `weavemark --batch-only` (when the sp
 
 ## Rule Synchronization Directive
 
-- Whenever updating either Copilot instruction files or `CLAUDE.md`, always update the counterpart file(s) as part of the same change so behavior rules stay synchronized across assistants.
+- `AGENTS.md` is the canonical repository instruction file. `CLAUDE.md` imports
+  it with `@AGENTS.md`.
+- Whenever updating either Copilot instruction files or `AGENTS.md`, always
+  update the counterpart file(s) as part of the same change so behavior rules
+  stay synchronized across assistants.
 
 ## Reference authority
 
