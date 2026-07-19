@@ -9,6 +9,8 @@
 - Language 0.9 source references: block and inline `@reference`, Claude-style
   `@path` shorthand, compiler-only or retained context, recursive resolution,
   provenance metadata, and deterministic Reference Appendices.
+- Tag-triggered PyPI Trusted Publishing and GitHub release automation, guarded
+  by synchronized version and finalized-changelog validation.
 
 ### Changed
 

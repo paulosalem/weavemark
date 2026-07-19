@@ -73,6 +73,7 @@ jobs:
             scripts/check_distribution_artifact.py \
             scripts/build_pages_site.py \
             scripts/check_markdown_hygiene.py \
+            scripts/check_release.py \
             tests/test_provenance.py \
             tests/test_diagnostics.py \
             tests/test_reference_authority.py \
@@ -83,6 +84,7 @@ jobs:
             tests/test_public_claims.py \
             tests/test_pages_site.py \
             tests/test_markdown_hygiene.py \
+            tests/test_release.py \
             tests/test_tutorial_followability.py \
             tests/test_variable_files.py
 
@@ -98,7 +100,8 @@ jobs:
             src/weavemark/settings.py \
             src/weavemark/variable_files.py
           mypy --follow-imports=skip \
-            scripts/build_pages_site.py
+            scripts/build_pages_site.py \
+            scripts/check_release.py
 
       - name: Check language and repository artifacts
         run: |

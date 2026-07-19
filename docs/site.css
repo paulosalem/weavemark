@@ -29,6 +29,8 @@
         --shadow-soft: 0 24px 80px rgba(24, 48, 96, 0.13);
         --shadow-card: 0 18px 55px rgba(24, 48, 96, 0.09);
         --max: 1180px;
+        --site-chrome-max: 1440px;
+        --home-hero-max: 1280px;
       }
 
       * {
@@ -103,7 +105,7 @@
         position: sticky;
         top: 14px;
         z-index: 20;
-        width: min(var(--max), calc(100% - 40px));
+        width: min(var(--site-chrome-max), calc(100% - 28px));
         margin: 14px auto 0;
         border: 1px solid rgba(var(--accent-bright-rgb), 0.16);
         border-radius: 999px;
@@ -113,6 +115,7 @@
       }
 
       .site-nav-inner {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -133,9 +136,36 @@
       }
 
       .site-nav.brand-hidden .brand {
+        position: absolute;
+        left: 18px;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
+      }
+
+      .site-nav.brand-hidden .site-nav-inner {
+        justify-content: center;
+        padding-left: 10px;
+      }
+
+      .site-nav.brand-hidden .nav-links {
+        justify-content: center;
+      }
+
+      @media (min-width: 921px) {
+        .site-nav-inner {
+          justify-content: center;
+          padding-left: 10px;
+        }
+
+        .brand {
+          position: absolute;
+          left: 18px;
+        }
+
+        .nav-links {
+          justify-content: center;
+        }
       }
 
       .brand-mark {
@@ -283,13 +313,23 @@
       .shell.hero {
         position: relative;
         display: grid;
-        width: min(1280px, calc(100vw - 40px));
+        width: min(var(--home-hero-max), calc(100vw - 40px));
         max-width: none;
-        margin-inline: calc((100% - min(1280px, calc(100vw - 40px))) / 2);
-        grid-template-columns: minmax(0, 0.76fr) minmax(520px, 1.24fr);
+        margin-inline: calc((100% - min(var(--home-hero-max), calc(100vw - 40px))) / 2);
+        grid-template-columns: minmax(0, 0.96fr) minmax(540px, 1.04fr);
         align-items: center;
         gap: clamp(28px, 3.6vw, 58px);
         padding: 70px 0 64px;
+      }
+
+      .experimental-banner.shell {
+        width: min(var(--site-chrome-max), calc(100% - 28px));
+      }
+
+      @media (min-width: 1180px) {
+        .shell.hero {
+          grid-template-columns: minmax(0, 1.04fr) minmax(620px, 0.96fr);
+        }
       }
 
       .hero > * {
@@ -467,7 +507,7 @@
       .button-link {
         display: inline-flex;
         align-items: center;
-        gap: 7px;
+        gap: 4px;
         min-height: 48px;
         padding: 0 8px;
         color: var(--accent-deep);
@@ -544,7 +584,7 @@
         color: #d6e5ef;
         background: linear-gradient(90deg, rgba(var(--accent-bright-rgb), 0.08), rgba(var(--spark-rgb), 0.04));
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 0.82rem;
+        font-size: clamp(0.74rem, 0.78vw, 0.82rem);
       }
 
       .terminal-top [data-carousel-title] {
@@ -603,7 +643,7 @@
       }
 
       .hero-slide {
-        height: clamp(230px, 22vw, 260px);
+        height: clamp(270px, 24vw, 320px);
         min-height: 0;
         overflow-x: auto;
         overflow-y: auto;
@@ -663,13 +703,13 @@
       }
 
       .carousel-tab {
-        padding: 0 10px;
+        padding: 0 clamp(7px, 0.62vw, 10px);
       }
 
       .carousel-arrow {
         display: grid;
         place-items: center;
-        width: 32px;
+        width: 28px;
         color: white;
         background: linear-gradient(135deg, var(--accent-deep), var(--accent));
         box-shadow: 0 10px 24px rgba(var(--accent-rgb), 0.18);
@@ -3011,7 +3051,7 @@
         .shell,
         .site-nav,
         .tutorial-nav {
-          width: min(100% - 28px, var(--max));
+          width: min(100% - 28px, var(--site-chrome-max));
         }
 
         .proof-strip {

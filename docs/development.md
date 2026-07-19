@@ -121,6 +121,62 @@ storybook and comic examples. Site previews, source, tests, prompts, text
 outputs, and normal documentation stay in ordinary Git. Dependency trees,
 caches, and generated package archives belong in neither.
 
+### Release automation
+
+Ordinary pushes to `main` run CI and deploy GitHub Pages; they do not publish a
+package. A pushed `vMAJOR.MINOR.PATCH` tag triggers
+`.github/workflows/release.yml`, which:
+
+1. requires the tagged commit to belong to `main`;
+2. validates all version authorities and the changelog;
+3. runs the test and repository gates;
+4. builds and checks the wheel and source distribution;
+5. publishes to PyPI with Trusted Publishing (OIDC);
+6. creates the matching GitHub release and attaches both distributions.
+
+The workflow carries no PyPI API token. Configure its trust relationship once:
+
+1. In the GitHub repository, create an environment named `pypi`. Optional
+   required reviewers can provide a manual publication approval.
+2. In the `weavemark` project on PyPI, open **Publishing**, add a GitHub trusted
+   publisher, and set:
+   - owner: `paulosalem`
+   - repository: `weavemark`
+   - workflow: `release.yml`
+   - environment: `pypi`
+
+Prepare a release by synchronizing the same version in:
+
+- `pyproject.toml`;
+- the source-checkout fallback in `src/weavemark/version.py`;
+- `vscode-extension/package.json`;
+- the wheel-version assertion in `.github/workflows/ci.yml`.
+
+Move every entry from `## Unreleased` into a non-empty
+`## X.Y.Z - YYYY-MM-DD` section, leaving `Unreleased` empty. Validate locally:
+
+```bash
+python scripts/check_release.py --tag vX.Y.Z --notes /tmp/release-notes.md
+python -m build
+twine check --strict dist/*
+```
+
+After the release commit is on `main` and CI is green:
+
+```bash
+git tag -a vX.Y.Z -m "WeaveMark X.Y.Z"
+git push origin vX.Y.Z
+```
+
+PyPI versions are immutable. If publication succeeds but the later GitHub
+release job fails, use GitHub Actions' **Re-run failed jobs** action so the
+successful PyPI job is not repeated. The GitHub job recovers an existing draft,
+replaces its assets, and explicitly publishes it. Do not rerun the entire
+workflow after PyPI has accepted the version.
+
+Publishing the VS Code extension to its marketplace remains a separate process;
+the release contract only verifies that its version matches.
+
 ### Debug logging
 
 Logging is enabled by default. Application events and policy-filtered LLM JSONL
