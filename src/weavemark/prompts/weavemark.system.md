@@ -900,7 +900,7 @@ Semantics:
 
 Semantic phases:
 - `compile` functions run while composing the WeaveMark. They may inspect or transform prompt text only through declared compile effects.
-- `execute` functions are inert during ordinary composition. Under `@execute weave`, surviving execute-phase calls become execution nodes with immutable `as:` result bindings.
+- `execute` functions are inert during ordinary composition. Under `@execute functional`, surviving execute-phase calls become execution nodes with immutable `as:` result bindings.
 
 Scopes:
 - `self`: may replace only the directive call/block.
@@ -921,7 +921,7 @@ Rules:
 - `as:` names an immutable execution result.
 - Reusing the same `as:` name is an error.
 - Execution results share the normal `@{name}` interpolation syntax and shadow external variables after they are produced.
-- `uses: [name1, name2]` declares graph dependencies for `@execute weave scheduler: graph|graph-strict`.
+- `uses: [name1, name2]` declares graph dependencies for `@execute functional scheduler: graph|graph-strict`.
 
 ```promplet-schema
 directive:  @define
@@ -1653,7 +1653,7 @@ The `@execute` directive is a **special bridging directive** that connects the s
 
 This makes `@execute` fundamentally different from the rest of the directive language. While directives like `@include`, `@match`, and imported compile-phase semantic functions operate within prompt composition, `@execute` reaches across the boundary into the execution phase, telling the engine *what strategy to use* and *with what parameters*. It is the single point where a spec author can influence runtime behavior declaratively.
 
-`@execute` can select ordinary prompt engines (`single-call`, `self-consistency`, `tree-of-thought`, `reflection`, `chain`, etc.), finite-state linguistic-machine mode `fslm`, or the executable-document mode `weave`.
+`@execute` can select ordinary prompt engines (`single-call`, `self-consistency`, `tree-of-thought`, `reflection`, `chain`, etc.), finite-state linguistic-machine mode `fslm`, or the executable-document mode `functional`.
 
 Syntax:
 ```
@@ -1664,7 +1664,7 @@ Syntax:
 
 Directive Semantics:
 1. The `@execute` directive does NOT modify the prompt text S. It contributes metadata to the output.
-2. `<strategy_type>` is a string identifying the execution strategy (e.g., `single-call`, `self-consistency`, `tree-of-thought`, `reflection`, `chain`, `fslm`, `weave`).
+2. `<strategy_type>` is a string identifying the execution strategy (e.g., `single-call`, `self-consistency`, `tree-of-thought`, `reflection`, `chain`, `fslm`, `functional`).
 3. Indented key-value pairs below `@execute` are strategy configuration parameters.
 4. The entire directive is emitted as a JSON object in the `execution` section of the output JSON.
 5. If no `@execute` directive is present, the `execution` section should contain an empty JSON object `{}`.
@@ -1677,8 +1677,8 @@ Directive Semantics:
    - `chain`: the spec's named `@prompt` blocks are the pipeline stages; they run **in source order**, and there are no fixed required names. Each stage sees prior outputs as runtime context — `@{previous}` (the immediately preceding output) and `@{<stage_name>}` (a completed stage's output) — and carries its own `@output` (a stage may produce text or an image; an image stage with `edit: on` also receives the previous image as an edit base, giving visual carry). A stage may be repeated a data-driven number of times via `@execute chain` config `repeat: <stage_name>` + `count: <int|@{var}>`; the repeated stage runs `count` times with `@{index}` (1..N), `@{count}`, and `@{previous}` available. This is the general "prompt chaining / iterate-a-production-over-a-sequence" pattern (multi-section documents, image sequences, storyboards, one-panel/page-after-the-other), not specialized to any domain.
    - `fslm`: required prompts are discovered from the external `ellements.fslm` machine before execution starts. Natural-language guards require `guard.<id>`, invariants require `invariant.<id>`, actions require `action.<name>`, and outputs require `output.<type>`, unless the machine item declares `metadata.prompt_key`. State prompts are optional unless a state declares `metadata.prompt_key`; if present, the conventional state prompt is `state.<state_name>`.
 8. `@execute fslm` requires either `machine: <path-or-module>` for an external machine or `machine: <inline-name>` paired with an inline `@machine` supplied by explicitly importing `weavemark.experimental.fslm`. It also requires `initial_event:` or runtime-config `events:`. The engine is event-driven and does not synthesize autonomous events. It injects runtime context into each prompt at execution time (machine, state, snapshot variables, event payload, candidate/selected transitions, previous actions/outputs, and compact history); do not use compile-time `@{...}` variables for per-step FSLM state.
-9. `@execute weave` treats the compiled Markdown document as an executable document. Surviving execute-phase semantic-function calls become execution nodes. They do not run during ordinary composition; they run only when the host executes the weave plan and grants the requested effects.
-10. Weave scheduler values:
+9. `@execute functional` treats the compiled Markdown document as an executable functional document. Surviving execute-phase semantic-function calls become execution nodes. They do not run during ordinary composition; they run only when the host executes the functional plan and grants the requested effects.
+10. Functional scheduler values:
    - `sequential`: execute surviving nodes top-to-bottom. This is the safest default.
    - `graph`: build a dependency DAG from `uses:` edges; independent nodes may run in parallel.
    - `graph-strict`: same as `graph`, but unknown `uses:` dependencies or undeclared effects are errors.
@@ -1701,9 +1701,9 @@ Produces:
 }
 ```
 
-Example with executable weave mode:
+Example with functional mode:
 ```
-@execute weave scheduler: sequential
+@execute functional scheduler: sequential
   allow_effects: [web_search, write_file]
   output_dir: outputs/investment-review
 ```
@@ -1838,7 +1838,7 @@ directive:  @execute
 positional:
   - strategy: IDENT (required)
 body-mode:  dsl:execute-kv
-notes:      The body is one `key: value` pair per line; values are emitted into the compiled execution object. Strategy types include single-call, self-consistency, tree-of-thought, simplified-tree-of-thought, reflection, collaborative, chain, fslm, and weave. `chain` runs named @prompt stages in order (each sees @{previous}/@{stage}); supports repeat:<stage>+count:<n> for data-driven iteration. `reflection` reserves `critique`/`revise` as loop roles and runs every other @prompt stage as a production chain (source order, @{previous}/@{stage}); the last production stage's artifact enters the critique→revise loop (rounds:/max_rounds:). `fslm` supports machine, initial_event/events, max_steps, and prompt_contract. `weave` supports scheduler sequential|graph|graph-strict. Duplicate @execute declarations are errors.
+notes:      The body is one `key: value` pair per line; values are emitted into the compiled execution object. Strategy types include single-call, self-consistency, tree-of-thought, simplified-tree-of-thought, reflection, collaborative, chain, fslm, and functional. `chain` runs named @prompt stages in order (each sees @{previous}/@{stage}); supports repeat:<stage>+count:<n> for data-driven iteration. `reflection` reserves `critique`/`revise` as loop roles and runs every other @prompt stage as a production chain (source order, @{previous}/@{stage}); the last production stage's artifact enters the critique→revise loop (rounds:/max_rounds:). `fslm` supports machine, initial_event/events, max_steps, and prompt_contract. `functional` supports scheduler sequential|graph|graph-strict. Duplicate @execute declarations are errors.
 ```
 
 

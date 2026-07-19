@@ -118,7 +118,7 @@ const DIRECTIVES = {
     documentation:
       "Used inside a `@define` block to declare when the semantic function runs.\n\n" +
       "- `compile` — Runs during LLM composition (may read files, modify prompt text).\n" +
-      "- `execute` — Runs when the document is executed under `@execute weave`.\n\n" +
+      "- `execute` — Runs when the document is executed under `@execute functional`.\n\n" +
       "**Example:**\n```\n@define check_style\n  @phase compile\n  @scope body\n  @returns diagnostics\n  @param text\n    Text to inspect.\n  @effect inspect_text read\n  @body\n    Check style of @{text}.\n```",
     snippet: "@phase ${1|compile,execute|}",
     params: {},
@@ -601,14 +601,14 @@ const DIRECTIVES = {
       "- `chain` — Run named prompt stages sequentially with `@{previous}` context\n" +
       "- `collaborative` — LLM generates → human edits → LLM continues\n" +
       "- `fslm` — Run an ellements finite-state linguistic machine with WeaveMark-backed NL guards, invariants, actions, and outputs\n" +
-      "- `weave` — Execute effectful semantic functions as a data-flow graph or sequential pipeline\n\n" +
+      "- `functional` — Execute effectful semantic functions as a data-flow graph or sequential pipeline\n\n" +
       "**FSLM-specific parameters:**\n" +
       "- `machine: <path-or-module>` — YAML, JSON, Python, or module reference for the machine\n" +
       "- `initial_event: <type>` — First event type when no runtime event object is supplied\n" +
       "- `max_steps: <number>` — Maximum machine steps\n" +
       "- `prompt_contract: strict` — Fail before execution if required prompts are missing\n\n" +
-      "**Weave-specific parameters:**\n" +
-      "- `scheduler: sequential|graph|graph-strict` — Execution order for weave nodes\n" +
+      "**Functional-specific parameters:**\n" +
+      "- `scheduler: sequential|graph|graph-strict` — Execution order for functional nodes\n" +
       "  - `sequential` — Run nodes top-to-bottom in source order\n" +
       "  - `graph` — Topological sort based on `uses:` dependencies; unrelated nodes may run in parallel\n" +
       "  - `graph-strict` — Same as `graph` but treats undeclared `uses:` as an error\n\n" +
@@ -619,9 +619,9 @@ const DIRECTIVES = {
       "- `samples: <number>` — Sample count for self-consistency\n" +
       "- `max_rounds: <number>` — Edit rounds for collaborative\n\n" +
       "**Example (FSLM):**\n```\n@execute fslm\n  machine: support-triage.fslm.yaml\n  initial_event: user_message\n```\n\n" +
-      "**Example (weave):**\n```\n@execute weave\n  scheduler: graph\n```\n\n" +
+      "**Example (functional):**\n```\n@execute functional\n  scheduler: graph\n```\n\n" +
       "**Example (reflection):**\n```\n@execute reflection\n  depth: 2\n```",
-    snippet: "@execute ${1|single-call,self-consistency,tree-of-thought,simplified-tree-of-thought,reflection,chain,collaborative,fslm,weave|}",
+    snippet: "@execute ${1|single-call,self-consistency,tree-of-thought,simplified-tree-of-thought,reflection,chain,collaborative,fslm,functional|}",
     params: {
       mode: ["minimal", "full"],
       scheduler: ["sequential", "graph", "graph-strict"],
@@ -798,7 +798,7 @@ const DEBUG_DIRECTIVES = {
 };
 
 // Execution strategy names (valid values for @execute)
-const EXECUTION_STRATEGIES = ["single-call", "self-consistency", "tree-of-thought", "simplified-tree-of-thought", "reflection", "chain", "collaborative", "fslm", "weave"];
+const EXECUTION_STRATEGIES = ["single-call", "self-consistency", "tree-of-thought", "simplified-tree-of-thought", "reflection", "chain", "collaborative", "fslm", "functional"];
 
 const IMPORT_CLAUSES = ["exposing", "as"];
 

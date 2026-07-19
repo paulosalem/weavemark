@@ -183,11 +183,14 @@
             terminology; with <code>scope: semantic</code> it resolves
             cross-references and contradictions.
           </p>
-          <pre><code><span class="syntax-directive">@normalize</span> <span class="syntax-string">"Normalize headings, lists, and terminology without changing meaning."</span> <span class="syntax-key">scope:</span> syntactic
-  <span class="syntax-var">@{raw_prompt}</span>
+          <pre><code><span class="syntax-directive">@normalize</span> <span class="syntax-string">"Resolve cross-references and contradictions while preserving intent."</span> <span class="syntax-key">scope:</span> semantic
+  Requirements inventory:
+  <span class="syntax-directive">@extract</span> <span class="syntax-string">"All hard requirements and output-format constraints."</span> <span class="syntax-key">format:</span> bullets
+    <span class="syntax-var">@{raw_prompt}</span>
 
-<span class="syntax-directive">@normalize</span> <span class="syntax-string">"Resolve cross-references and contradictions while preserving intent."</span> <span class="syntax-key">scope:</span> semantic
-  <span class="syntax-var">@{raw_prompt}</span></code></pre>
+  Draft to normalize:
+  <span class="syntax-directive">@normalize</span> <span class="syntax-string">"Normalize headings, lists, and terminology without changing meaning."</span> <span class="syntax-key">scope:</span> syntactic
+    <span class="syntax-var">@{raw_prompt}</span></code></pre>
           <p>
             <code>@revise</code> edits a body against an instruction — surgically
             adding or removing requirements while preserving the rest.
@@ -232,9 +235,12 @@
           <p>
             <code>@polish</code> is a final presentation pass: it unifies structure
             and smooths transitions <strong>without adding or removing substantive
-            information</strong>. With no body, it applies to the enclosing scope.
+            information</strong>. With a body, it wraps the fully transformed target;
+            with no body, it applies to the enclosing scope.
           </p>
-          <pre><code><span class="syntax-directive">@polish</span> <span class="syntax-string">"Harmonize the assembled sections into one coherent final prompt without adding or removing requirements."</span></code></pre>
+          <pre><code><span class="syntax-directive">@polish</span> <span class="syntax-string">"Harmonize the fully transformed prompt into one coherent final prompt without adding or removing requirements."</span>
+  <span class="syntax-directive">@revise</span> <span class="syntax-string">"Remove standalone format labels such as `json`, `text`, or `markdown`."</span> <span class="syntax-key">mode:</span> editorial
+    ...</code></pre>
           <p class="snippet-source">
             From <a href="../promplets/tutorials/adaptive-tutor.weavemark.md">adaptive-tutor.weavemark.md</a>
             and <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>.
@@ -303,32 +309,34 @@
             compiler pass refactors a program. The checked-in
             <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>
             extracts obligations, resolves contradictions, revises wording, enforces
-            structure, and polishes the whole — automatically:
+            structure, and polishes the whole. The transformation directives are
+            nested so the raw prompt flows through the passes one by one:
           </p>
           <pre><code><span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.prompt_quality <span class="syntax-key">mingle:</span> true
 <span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.prompt_refinement_core <span class="syntax-key">mingle:</span> true
 
 # Prompt refactoring pipeline
 
-<span class="syntax-directive">@extract</span> <span class="syntax-string">"All hard requirements (MUST, SHOULD, NEVER) and output-format constraints."</span> <span class="syntax-key">format:</span> bullets
-  <span class="syntax-var">@{raw_prompt}</span>
+<span class="syntax-directive">@polish</span> <span class="syntax-string">"Harmonize the fully transformed prompt into one coherent final prompt without adding or removing requirements."</span>
+  <span class="syntax-directive">@revise</span> <span class="syntax-string">"Remove standalone format labels such as `json`, `text`, or `markdown`; describe JSON fields as bullets or a table instead."</span> <span class="syntax-key">mode:</span> editorial
+    <span class="syntax-directive">@structural_constraints</span> <span class="syntax-key">strict:</span> true
+      Required sections in order:
+      1. Role and Identity
+      2. Core Requirements
+      3. Constraints and Prohibitions
+      4. Output Format
 
-<span class="syntax-directive">@normalize</span> <span class="syntax-string">"Resolve cross-references and contradictions while preserving intent."</span> <span class="syntax-key">scope:</span> semantic
-  <span class="syntax-var">@{raw_prompt}</span>
+      <span class="syntax-directive">@revise</span> <span class="syntax-string">"If a Removal instruction block appears after the draft, apply it to the draft."</span> <span class="syntax-key">mode:</span> editorial
+        <span class="syntax-directive">@revise</span> <span class="syntax-string">"If an Additional section block appears after the draft, integrate it into the draft."</span> <span class="syntax-key">mode:</span> editorial
+          <span class="syntax-directive">@revise</span> <span class="syntax-string">"@{revision_instruction}"</span> <span class="syntax-key">mode:</span> editorial
+            <span class="syntax-directive">@normalize</span> <span class="syntax-string">"Resolve cross-references and contradictions while preserving intent."</span> <span class="syntax-key">scope:</span> semantic
+              Requirements inventory:
+              <span class="syntax-directive">@extract</span> <span class="syntax-string">"All hard requirements and output-format constraints."</span> <span class="syntax-key">format:</span> bullets
+                <span class="syntax-var">@{raw_prompt}</span>
 
-<span class="syntax-directive">@revise</span> <span class="syntax-string">"@{revision_instruction}"</span> <span class="syntax-key">mode:</span> editorial
-  <span class="syntax-var">@{raw_prompt}</span>
-
-<span class="syntax-directive">@structural_constraints</span> <span class="syntax-key">strict:</span> true
-  Required sections in order:
-  1. Role and Identity
-  2. Core Requirements
-  3. Constraints and Prohibitions
-  4. Output Format
-
-<span class="syntax-directive">@assert</span> The prompt contains no contradictory instructions. <span class="syntax-key">severity:</span> error
-
-<span class="syntax-directive">@polish</span> <span class="syntax-string">"Harmonize the assembled sections into one coherent final prompt."</span></code></pre>
+              Draft to normalize:
+              <span class="syntax-directive">@normalize</span> <span class="syntax-string">"Normalize headings, lists, and terminology without changing meaning."</span> <span class="syntax-key">scope:</span> syntactic
+                <span class="syntax-var">@{raw_prompt}</span></code></pre>
           <p>
             Create a deliberately rough input prompt so the pipeline has something
             concrete to improve:

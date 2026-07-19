@@ -88,12 +88,12 @@ Within those sections:
 - Use public assumptions only as planning context; ask the user to verify current limits, rates, tax rules, benefits, and account-specific details before acting.
 ```
 
-## Weave execution plan
+## Functional execution plan
 
 ```json
 {
   "execution": {
-    "type": "weave",
+    "type": "functional",
     "scheduler": "graph-strict",
     "allow_effects": [
       "web_search"

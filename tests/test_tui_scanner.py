@@ -221,7 +221,7 @@ SPEC_BINDINGS = """\
 @bind web_search language: python from: "./tools/search.py" symbol: search
 """
 
-SPEC_WEAVE = """\
+SPEC_FUNCTIONAL = """\
 @promplet version: 0.6
 
 @define fetch_market_snapshot
@@ -239,7 +239,7 @@ SPEC_WEAVE = """\
 
 @bind market_data language: python from: "./tools/market.py" symbol: fetch
 
-@execute weave scheduler: graph-strict
+@execute functional scheduler: graph-strict
   allow_effects: [market_data]
 
 @fetch_market_snapshot ticker: "@{ticker}" as: market_snapshot
@@ -363,10 +363,10 @@ class TestScanSpec:
         assert meta.tool_names == ["web_search"]
         assert meta.binding_names == ["web_search"]
 
-    def test_weave_generated_values_are_not_user_inputs(self):
-        meta = scan_spec(SPEC_WEAVE)
+    def test_functional_generated_values_are_not_user_inputs(self):
+        meta = scan_spec(SPEC_FUNCTIONAL)
         assert meta.execution == {
-            "type": "weave",
+            "type": "functional",
             "scheduler": "graph-strict",
             "allow_effects": ["market_data"],
         }

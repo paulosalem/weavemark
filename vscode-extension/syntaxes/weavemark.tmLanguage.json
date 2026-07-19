@@ -91,7 +91,7 @@
     },
 
     "directive-execute": {
-      "match": "^(\\s*)(@execute)(\\s+)(single-call|self-consistency|tree-of-thought|simplified-tree-of-thought|reflection|chain|collaborative|fslm|weave)(.*)",
+      "match": "^(\\s*)(@execute)(\\s+)(single-call|self-consistency|tree-of-thought|simplified-tree-of-thought|reflection|chain|collaborative|fslm|functional)(.*)",
       "captures": {
         "2": { "name": "keyword.control.execute.weavemark" },
         "4": { "name": "entity.name.type.strategy.weavemark" },

@@ -72,7 +72,7 @@ async def main() -> None:
     _section("WeaveMark compiled executable goal-plan prompt")
     print(result.composed_prompt)
 
-    _section("Weave execution plan emitted by WeaveMark")
+    _section("Functional execution plan emitted by WeaveMark")
     print(
         json.dumps(
             {"execution": result.execution, "bindings": result.bindings},
@@ -197,7 +197,7 @@ def _render_trace(
             "",
             _fence(composed_prompt, "markdown"),
             "",
-            "## Weave execution plan",
+            "## Functional execution plan",
             "",
             _fence(
                 json.dumps(

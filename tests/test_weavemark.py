@@ -814,6 +814,55 @@ class TestWeaveMarkImports:
             EXAMPLES_DIR / "python-runtime-integrations/recurring-topic-monitor/run.py"
         ).exists()
 
+    def test_prompt_refactoring_pipeline_uses_nested_transform_chain(self):
+        """The refactoring example must thread one transform into the next."""
+
+        source = (
+            PROMPLETS_DIR
+            / "catalog/standalone/prompt-refactoring-pipeline.weavemark.md"
+        ).read_text(encoding="utf-8")
+        lines = source.splitlines()
+
+        def find_line(fragment: str, start: int = 0) -> tuple[int, int]:
+            for index in range(start, len(lines)):
+                line = lines[index]
+                if fragment in line:
+                    return index, len(line) - len(line.lstrip())
+            raise AssertionError(f"Missing expected pipeline fragment: {fragment}")
+
+        chain = [
+            '@polish "Harmonize the fully transformed prompt',
+            '@revise "Remove standalone format labels',
+            "@structural_constraints strict: true",
+            '@revise "If a Removal instruction block appears',
+            '@revise "If an Additional section block appears',
+            '@revise "@{revision_instruction}" mode: editorial',
+            '@normalize "Resolve cross-references and contradictions',
+            '@normalize "Normalize headings, lists, and terminology',
+        ]
+        previous_index = 0
+        previous_indent = -1
+        for fragment in chain:
+            line_index, indent = find_line(fragment, previous_index)
+            assert indent > previous_indent
+            previous_index = line_index + 1
+            previous_indent = indent
+
+        semantic_index, semantic_indent = find_line(
+            '@normalize "Resolve cross-references and contradictions'
+        )
+        extract_index, extract_indent = find_line("@extract", semantic_index + 1)
+        assert extract_index > semantic_index
+        assert extract_indent > semantic_indent
+
+        for line in lines:
+            stripped = line.lstrip()
+            if stripped.startswith(("@extract", "@normalize", "@revise")):
+                assert len(line) > len(stripped), (
+                    "Transform directives in the prompt-refactoring pipeline must "
+                    "stay nested under @polish so each pass feeds the next."
+                )
+
     def test_html_weavemark_snippets_are_syntax_highlighted(self):
         """HTML docs must color WeaveMark syntax in code snippets."""
         weavemark_tokens = (

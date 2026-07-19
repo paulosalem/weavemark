@@ -53,7 +53,7 @@
 @bind web_search language: python from: "./companions/market_data.py" symbol: search_asset_context
 @bind web_crawl language: python from: "./companions/market_data.py" symbol: crawl_asset_sources
 
-@execute weave scheduler: graph-strict
+@execute functional scheduler: graph-strict
   allow_effects: [finance_data, web_search, web_crawl]
 
 # Executable Stock Learning Snapshot

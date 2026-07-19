@@ -33,7 +33,6 @@ from weavemark.compile_options import (
 )
 from weavemark.fragments import is_explicit_file_reference, resolve_fragment_reference
 from weavemark.settings import WeaveMarkSettings, builtin_weavemark_settings
-from weavemark.version import LANGUAGE_VERSION
 from weavemark.variable_paths import (
     MISSING as _MISSING_VARIABLE,
 )
@@ -41,6 +40,7 @@ from weavemark.variable_paths import (
     resolve_variable_path,
     variable_is_defined,
 )
+from weavemark.version import LANGUAGE_VERSION
 
 ReadFile = Callable[[str, Path], str]
 
@@ -158,7 +158,7 @@ _VARIABLE_RE = re.compile(r"@\{\s*([A-Za-z_][\w.-]*)\s*\}")
 _ASSERTION_CHECK_OPTIONS = {"contains", "not_contains", "section", "variable"}
 _COMPILE_OPTIONS = {"format", "context", "images"}
 _WEAVEMARK_VERSION = LANGUAGE_VERSION
-_WEAVE_SCHEDULERS = {"sequential", "graph", "graph-strict"}
+_FUNCTIONAL_SCHEDULERS = {"sequential", "graph", "graph-strict"}
 _EMBED_VARIABLE_OPEN_SENTINEL = "__WEAVEMARK_EMBED_VARIABLE_OPEN__"
 
 
@@ -724,28 +724,28 @@ def _collect_execution_node(
         state.execution_result_names.add(result_name)
 
 
-def _weave_node_id(node: dict[str, Any]) -> str:
+def _functional_node_id(node: dict[str, Any]) -> str:
     return str(node.get("id") or node.get("as") or node["directive"])
 
 
-def _topological_weave_levels(
+def _topological_functional_levels(
     nodes: list[dict[str, Any]],
     state: _StructuralCompileState,
 ) -> list[list[str]] | None:
     produced: dict[str, str] = {
-        str(node["as"]): _weave_node_id(node) for node in nodes if node.get("as")
+        str(node["as"]): _functional_node_id(node) for node in nodes if node.get("as")
     }
-    node_ids = [_weave_node_id(node) for node in nodes]
+    node_ids = [_functional_node_id(node) for node in nodes]
     dependencies: dict[str, set[str]] = {node_id: set() for node_id in node_ids}
     dependents: dict[str, set[str]] = {node_id: set() for node_id in node_ids}
 
     for node in nodes:
-        node_id = _weave_node_id(node)
+        node_id = _functional_node_id(node)
         for dependency_name in node.get("uses", []):
             dependency_id = produced.get(str(dependency_name))
             if dependency_id is None:
                 state.errors.append(
-                    f"@execute weave node {node_id} uses unknown result: "
+                    f"@execute functional node {node_id} uses unknown result: "
                     f"{dependency_name}"
                 )
                 continue
@@ -773,14 +773,16 @@ def _topological_weave_levels(
     if len(processed) != len(node_ids):
         cyclic = [node_id for node_id in node_ids if node_id not in processed]
         state.errors.append(
-            "@execute weave dependency cycle detected: " + " -> ".join(cyclic) + "."
+            "@execute functional dependency cycle detected: "
+            + " -> ".join(cyclic)
+            + "."
         )
         return None
 
     return levels
 
 
-def _validate_weave_execution_plan(state: _StructuralCompileState) -> None:
+def _validate_functional_execution_plan(state: _StructuralCompileState) -> None:
     nodes = state.execution_nodes
     scheduler = state.execution.get("scheduler", "sequential")
     allowed_effects = state.execution.get("allow_effects")
@@ -795,17 +797,17 @@ def _validate_weave_execution_plan(state: _StructuralCompileState) -> None:
             disallowed = sorted(requested - allowed)
             if disallowed:
                 state.errors.append(
-                    f"@execute weave node {_weave_node_id(node)} requests "
+                    f"@execute functional node {_functional_node_id(node)} requests "
                     "effect(s) not listed in allow_effects: "
                     + ", ".join(disallowed)
                     + "."
                 )
 
-    levels = _topological_weave_levels(nodes, state)
+    levels = _topological_functional_levels(nodes, state)
     if levels is None:
         return
     if scheduler == "sequential":
-        levels = [[_weave_node_id(node)] for node in nodes]
+        levels = [[_functional_node_id(node)] for node in nodes]
     state.execution["plan"] = {
         "scheduler": scheduler,
         "order": [node_id for level in levels for node_id in level],
@@ -864,11 +866,11 @@ def _parse_execute_directive(
         execution[key.strip()] = _parse_scalar(
             _substitute_variables(value, variables)
         )
-    if execution.get("type") == "weave":
+    if execution.get("type") == "functional":
         scheduler = execution.get("scheduler", "sequential")
-        if scheduler not in _WEAVE_SCHEDULERS:
+        if scheduler not in _FUNCTIONAL_SCHEDULERS:
             state.errors.append(
-                "@execute weave scheduler must be sequential, graph, or "
+                "@execute functional scheduler must be sequential, graph, or "
                 f"graph-strict; got {scheduler}."
             )
         execution["scheduler"] = scheduler
@@ -2239,10 +2241,12 @@ def try_apply_structural_helpers(
         return None
 
     if state.execution_nodes:
-        if state.execution.get("type") != "weave":
-            state.errors.append("Execution semantic functions require @execute weave.")
+        if state.execution.get("type") != "functional":
+            state.errors.append(
+                "Execution semantic functions require @execute functional."
+            )
         else:
-            _validate_weave_execution_plan(state)
+            _validate_functional_execution_plan(state)
             state.execution["nodes"] = state.execution_nodes
             state.execution["bindings"] = list(state.bindings)
     _attach_fslm_machine_spec(state)

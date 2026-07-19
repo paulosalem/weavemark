@@ -268,12 +268,12 @@ class TestEngineProtocol:
     def test_builtin_engines_satisfy_protocol(self):
         from weavemark.engines import (
             Engine,
+            FunctionalEngine,
             ReflectionEngine,
             SelfConsistencyEngine,
             SimplifiedTreeOfThoughtEngine,
             SingleCallEngine,
             TreeOfThoughtEngine,
-            WeaveEngine,
         )
 
         assert isinstance(SingleCallEngine(), Engine)
@@ -281,7 +281,7 @@ class TestEngineProtocol:
         assert isinstance(TreeOfThoughtEngine(), Engine)
         assert isinstance(SimplifiedTreeOfThoughtEngine(), Engine)
         assert isinstance(ReflectionEngine(), Engine)
-        assert isinstance(WeaveEngine(), Engine)
+        assert isinstance(FunctionalEngine(), Engine)
 
     def test_custom_class_satisfies_protocol(self):
         from weavemark.engines import Engine, ExecutionResult
@@ -294,6 +294,7 @@ class TestEngineProtocol:
 
     def test_resolve_builtin_names(self):
         from weavemark.engines import resolve_engine
+        from weavemark.engines.functional import FunctionalEngine
         from weavemark.engines.reflection import ReflectionEngine
         from weavemark.engines.self_consistency import SelfConsistencyEngine
         from weavemark.engines.single_call import SingleCallEngine
@@ -301,7 +302,6 @@ class TestEngineProtocol:
             SimplifiedTreeOfThoughtEngine,
             TreeOfThoughtEngine,
         )
-        from weavemark.engines.weave import WeaveEngine
 
         assert isinstance(resolve_engine("single-call"), SingleCallEngine)
         assert isinstance(resolve_engine("self-consistency"), SelfConsistencyEngine)
@@ -310,7 +310,7 @@ class TestEngineProtocol:
             resolve_engine("simplified-tree-of-thought"), SimplifiedTreeOfThoughtEngine
         )
         assert isinstance(resolve_engine("reflection"), ReflectionEngine)
-        assert isinstance(resolve_engine("weave"), WeaveEngine)
+        assert isinstance(resolve_engine("functional"), FunctionalEngine)
 
     def test_custom_engine_import_requires_python_approval(self, tmp_path: Path):
         from weavemark.engines import resolve_engine
@@ -337,14 +337,14 @@ class TestEngineProtocol:
             resolve_engine("nonexistent-engine")
 
     @pytest.mark.asyncio
-    async def test_weave_engine_materializes_plan(self):
+    async def test_functional_engine_materializes_plan(self):
         from weavemark.controller import CompositionResult
-        from weavemark.engines.weave import WeaveEngine
+        from weavemark.engines.functional import FunctionalEngine
 
         result = CompositionResult(
             composed_prompt="Use @{market_data}.",
             execution={
-                "type": "weave",
+                "type": "functional",
                 "scheduler": "sequential",
                 "nodes": [{"directive": "fetch", "as": "market_data"}],
             },
@@ -358,11 +358,11 @@ class TestEngineProtocol:
             ],
         )
 
-        executed = await WeaveEngine().execute(result)
+        executed = await FunctionalEngine().execute(result)
 
         assert executed.output == "Use @{market_data}."
         assert executed.metadata["status"] == "planned"
-        assert executed.metadata["execution"]["type"] == "weave"
+        assert executed.metadata["execution"]["type"] == "functional"
         assert executed.metadata["bindings"] == result.bindings
 
 

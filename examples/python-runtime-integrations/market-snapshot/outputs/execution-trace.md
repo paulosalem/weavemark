@@ -37,12 +37,12 @@ personal financial advice.
 
 ```
 
-## Weave execution plan
+## Functional execution plan
 
 ```json
 {
   "execution": {
-    "type": "weave",
+    "type": "functional",
     "scheduler": "graph-strict",
     "allow_effects": [
       "finance_data",

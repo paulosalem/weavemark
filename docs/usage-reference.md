@@ -932,7 +932,7 @@ execution strict and fail before compilation when any required input is missing.
 **The `@execute` directive — bridging specification and execution.**
 Most WeaveMark directives operate within the *specification* domain: they transform, compose, and annotate prompt text. The `@execute` directive is a special case — it bridges the spec domain with the *execution* domain, declaring *how* the runtime should orchestrate LLM calls rather than *what* the prompt says. It is metadata only and never modifies prompt content.
 
-Today `@execute` selects multi-step reasoning strategies (Tree of Thought, Self-Consistency, Reflection), finite-state linguistic-machine execution with `fslm`, and the executable-document `weave` planner. In the future, it may be extended to declare other runtime concerns — caching policies, evaluation harnesses, or integration with external orchestration systems.
+Today `@execute` selects multi-step reasoning strategies (Tree of Thought, Self-Consistency, Reflection), finite-state linguistic-machine execution with `fslm`, and the executable-document `functional` planner. In the future, it may be extended to declare other runtime concerns — caching policies, evaluation harnesses, or integration with external orchestration systems.
 
 **Built-in engines** (backed by internal WeaveMark strategies):
 
@@ -943,7 +943,7 @@ Today `@execute` selects multi-step reasoning strategies (Tree of Thought, Self-
 | `tree-of-thought` | Generate → Evaluate → Synthesize | Explores multiple reasoning paths, evaluates, synthesizes the best |
 | `reflection` | Generate → Critique → Revise | Iterative self-improvement loop until critique finds no issues |
 | `fslm` | Finite-State Linguistic Machine | Runs an `ellements.fslm` machine and backs NL guards, invariants, actions, and outputs with named WeaveMark prompts |
-| `weave` | Execute semantic functions | Validates and runs effectful semantic-function nodes |
+| `functional` | Execute semantic functions | Validates and runs effectful semantic-function nodes |
 
 **Multi-prompt promplets** use the `@prompt` directive to define stage-specific prompts:
 
@@ -963,7 +963,7 @@ You are a problem solver.  # ← shared context (prepended to all prompts)
   Elaborate the best approach: @{best_approach}
 ```
 
-**Executable weave specs** collect execute-phase semantic-function calls into a
+**Functional execution specs** collect execute-phase semantic-function calls into a
 validated plan. The current built-in engine materializes the plan; authorized
 host runtimes are responsible for actually running companion implementations bound with
 `@bind`.
@@ -981,7 +981,7 @@ host runtimes are responsible for actually running companion implementations bou
 
 @bind finance_data language: python from: "./companions/market_data.py" symbol: fetch_asset_snapshot
 
-@execute weave scheduler: graph-strict
+@execute functional scheduler: graph-strict
   allow_effects: [finance_data]
 
 @fetch_asset_snapshot ticker: "@{ticker}" as: asset_snapshot

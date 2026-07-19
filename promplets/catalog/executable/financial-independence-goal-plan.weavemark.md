@@ -6,7 +6,7 @@
 
 @bind web_search language: python from: "./companions/public_finance_reference.py" symbol: lookup_public_goal_assumptions
 
-@execute weave
+@execute functional
   scheduler: graph-strict
   allow_effects: [web_search]
 

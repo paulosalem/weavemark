@@ -363,13 +363,13 @@
                 <td>External machines use <code>guard.&lt;id&gt;</code>, <code>invariant.&lt;id&gt;</code>, <code>action.&lt;name&gt;</code>, and <code>output.&lt;type&gt;</code> unless <code>metadata.prompt_key</code> overrides them. Inline sugar records collision-safe state/transition-qualified keys.</td>
               </tr>
               <tr>
-                <td><code>weave</code></td>
+                <td><code>functional</code></td>
                 <td>Validate and execute effectful semantic-function nodes.</td>
                 <td>Execute-phase semantic-function calls with <code>as:</code> bindings.</td>
               </tr>
             </tbody>
           </table>
-          <h3>Weave scheduler values</h3>
+          <h3>Functional scheduler values</h3>
           <ul>
             <li><code>sequential</code>: execute surviving nodes top-to-bottom.</li>
             <li><code>graph</code>: build a dependency DAG from <code>uses:</code> edges.</li>

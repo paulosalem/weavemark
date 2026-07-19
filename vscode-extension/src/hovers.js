@@ -30,9 +30,9 @@ const PARAMETER_DOCS = {
   language: "Host implementation language for a `@bind` companion.",
   from: "Relative companion implementation file for `@bind`.",
   symbol: "Exported function/class symbol in the companion implementation.",
-  scheduler: "Weave scheduler: `sequential`, `graph`, or `graph-strict`.",
-  uses: "Weave dependency list naming earlier result bindings used by this node.",
-  allow_effects: "Effects authorized for an executable weave spec.",
+  scheduler: "Functional scheduler: `sequential`, `graph`, or `graph-strict`.",
+  uses: "Functional dependency list naming earlier result bindings used by this node.",
+  allow_effects: "Effects authorized for a functional executable spec.",
   initial: "Initial state for an inline FSLM `@machine`.",
   target: "Target state for an FSLM transition.",
   to: "Alias for `target:` on an FSLM transition.",
@@ -122,7 +122,7 @@ class WeaveMarkHoverProvider {
           "chain": "Runs named prompt stages in source order. Each stage can use `@{previous}` and prior stage outputs; text and image output contracts may be mixed.",
           "collaborative": "Human-in-the-loop generation/edit/continuation flow for collaborative drafting.",
           "fslm": "Runs an ellements finite-state linguistic machine. Inline sugar generates collision-safe prompt keys with state and transition context, such as `guard.<state>.<transition>.<id>` and `action.<state>.<transition>.<name>`.",
-          "weave": "Executable-document strategy that materializes effectful semantic-function calls into a validated execution plan.",
+          "functional": "Executable-document strategy that materializes effectful semantic-function calls into a validated execution plan.",
         };
         const md = new vscode.MarkdownString();
         md.appendMarkdown(`### Strategy: \`${strategyName}\`\n\n`);

@@ -1267,14 +1267,14 @@ class TestReferenceCompilation:
         assert missing_returns.errors == ["Semantic @define fetch requires @returns."]
 
     @pytest.mark.asyncio
-    async def test_execute_weave_collects_semantic_nodes_and_bindings(
+    async def test_execute_functional_collects_semantic_nodes_and_bindings(
         self,
         tmp_path: Path,
     ) -> None:
         helper = tmp_path / "search.py"
         helper.write_text("def search(query):\n    return []\n", encoding="utf-8")
         spec_path = _write(
-            tmp_path / "weave.weavemark.md",
+            tmp_path / "functional.weavemark.md",
             """
             @define fetch
               @phase execute
@@ -1291,7 +1291,7 @@ class TestReferenceCompilation:
 
             @bind web_search language: python from: "./search.py" symbol: search
 
-            @execute weave scheduler: graph-strict
+            @execute functional scheduler: graph-strict
               allow_effects: [web_search]
 
             # Market Workbench
@@ -1321,7 +1321,7 @@ class TestReferenceCompilation:
                 "symbol": "search",
             }
         ]
-        assert result.execution["type"] == "weave"
+        assert result.execution["type"] == "functional"
         assert result.execution["scheduler"] == "graph-strict"
         assert result.execution["allow_effects"] == ["web_search"]
         assert result.execution["nodes"][0]["as"] == "market_data"
@@ -1393,14 +1393,14 @@ class TestReferenceCompilation:
         assert result.composed_prompt == "# Versioned"
 
     @pytest.mark.asyncio
-    async def test_execute_weave_preserves_result_binding_shadowing(
+    async def test_execute_functional_preserves_result_binding_shadowing(
         self,
         tmp_path: Path,
     ) -> None:
         helper = tmp_path / "search.py"
         helper.write_text("def search(query):\n    return []\n", encoding="utf-8")
         spec_path = _write(
-            tmp_path / "weave-shadow.weavemark.md",
+            tmp_path / "functional-shadow.weavemark.md",
             """
             @define fetch
               @phase execute
@@ -1412,7 +1412,7 @@ class TestReferenceCompilation:
 
             @bind web_search language: python from: "./search.py" symbol: search
 
-            @execute weave scheduler: sequential
+            @execute functional scheduler: sequential
 
             @fetch as: market_data
 
@@ -1431,14 +1431,14 @@ class TestReferenceCompilation:
         assert result.composed_prompt == "@{market_data}\n\nUse @{market_data}."
 
     @pytest.mark.asyncio
-    async def test_execute_weave_rejects_unknown_dependencies_and_effects(
+    async def test_execute_functional_rejects_unknown_dependencies_and_effects(
         self,
         tmp_path: Path,
     ) -> None:
         helper = tmp_path / "search.py"
         helper.write_text("def search(query):\n    return []\n", encoding="utf-8")
         spec_path = _write(
-            tmp_path / "bad-weave.weavemark.md",
+            tmp_path / "bad-functional.weavemark.md",
             """
             @define fetch
               @phase execute
@@ -1450,7 +1450,7 @@ class TestReferenceCompilation:
 
             @bind web_search language: python from: "./search.py" symbol: search
 
-            @execute weave scheduler: graph-strict
+            @execute functional scheduler: graph-strict
               allow_effects: [read_file]
 
             @fetch as: market_data uses: missing_snapshot
@@ -1465,23 +1465,23 @@ class TestReferenceCompilation:
         )
 
         assert (
-            "@execute weave node market_data uses unknown result: missing_snapshot"
+            "@execute functional node market_data uses unknown result: missing_snapshot"
             in result.errors
         )
         assert (
-            "@execute weave node market_data requests effect(s) not listed in "
+            "@execute functional node market_data requests effect(s) not listed in "
             "allow_effects: web_search." in result.errors
         )
 
     @pytest.mark.asyncio
-    async def test_execute_weave_detects_dependency_cycles(
+    async def test_execute_functional_detects_dependency_cycles(
         self,
         tmp_path: Path,
     ) -> None:
         helper = tmp_path / "search.py"
         helper.write_text("def search(query):\n    return []\n", encoding="utf-8")
         spec_path = _write(
-            tmp_path / "cyclic-weave.weavemark.md",
+            tmp_path / "cyclic-functional.weavemark.md",
             """
             @define fetch
               @phase execute
@@ -1493,7 +1493,7 @@ class TestReferenceCompilation:
 
             @bind web_search language: python from: "./search.py" symbol: search
 
-            @execute weave scheduler: graph
+            @execute functional scheduler: graph
 
             @fetch as: first uses: second
             @fetch as: second uses: first
@@ -1508,7 +1508,7 @@ class TestReferenceCompilation:
         )
 
         assert any(
-            error.startswith("@execute weave dependency cycle detected:")
+            error.startswith("@execute functional dependency cycle detected:")
             for error in result.errors
         )
 

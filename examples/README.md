@@ -222,7 +222,7 @@ Useful entry points:
 - `python-runtime-integrations/financial-independence-goal-plan/run.py` compiles
   the advanced goal-to-plan macro example, runs the bound public-reference
   lookup companion, and saves a ready-to-paste financial-independence planning
-  prompt plus the weave plan and runtime assumptions.
+  prompt plus the functional plan and runtime assumptions.
 - `benchmark-runners/strategy-comparison/run.sh` compares reasoning strategies on
   a tiny benchmark slice.
 

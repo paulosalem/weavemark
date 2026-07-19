@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # ruff: noqa: E402
-"""Compile and execute the stock-learning Weave market snapshot example."""
+"""Compile and execute the stock-learning functional market snapshot example."""
 
 from __future__ import annotations
 
@@ -65,10 +65,10 @@ async def main() -> None:
     if result.errors:
         raise RuntimeError("\n".join(result.errors))
 
-    _section("WeaveMark compiled Weave prompt")
+    _section("WeaveMark compiled functional prompt")
     print(result.composed_prompt)
 
-    _section("Weave execution plan emitted by WeaveMark")
+    _section("Functional execution plan emitted by WeaveMark")
     print(
         json.dumps(
             {"execution": result.execution, "bindings": result.bindings},
@@ -240,7 +240,7 @@ def _render_trace(
             "",
             _fence(composed_prompt, "markdown"),
             "",
-            "## Weave execution plan",
+            "## Functional execution plan",
             "",
             _fence(
                 json.dumps(
