@@ -9,6 +9,8 @@ ROOT = Path(__file__).parents[1]
 def test_home_hero_examples_show_current_artifacts() -> None:
     html = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
 
+    assert "processor-strip" not in html
+
     assert "news-intelligence-board.weavemark.md" not in html
     assert ">News board</button>" not in html
 
