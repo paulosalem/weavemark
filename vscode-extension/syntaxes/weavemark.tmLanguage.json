@@ -3,7 +3,7 @@
   "name": "WeaveMark",
   "scopeName": "text.markdown.weavemark",
   "fileTypes": ["weavemark.md"],
-  "firstLineMatch": "^\\s*@(?:promplet|define|module|use|include|bind|refine|ask|iterate|note|match|if|else_if|compile|execute|prompt|emit|output|package|tool|embed|body|machine|state|transition|input|guard|action)\\b",
+  "firstLineMatch": "^\\s*@(?:promplet|define|module|use|include|bind|refine|reference|ask|iterate|note|match|if|else_if|compile|execute|prompt|emit|output|package|tool|embed|body|machine|state|transition|input|guard|action)\\b",
   "patterns": [
     { "include": "#escaped-at" },
     { "include": "#note-block" },
@@ -29,6 +29,7 @@
     { "include": "#directive-bind" },
     { "include": "#directive-include" },
     { "include": "#directive-refine" },
+    { "include": "#directive-reference" },
     { "include": "#directive-ask" },
     { "include": "#directive-iterate" },
     { "include": "#directive-embed" },
@@ -40,6 +41,8 @@
     { "include": "#directive-with-string" },
     { "include": "#directive-with-kv" },
     { "include": "#directive-keyword" },
+    { "include": "#inline-reference" },
+    { "include": "#path-reference" },
     { "include": "#inline-variable-braced" },
     { "include": "#mustache-triple-braced" },
     { "include": "#mustache-braced" },
@@ -249,6 +252,38 @@
         "2": { "name": "keyword.control.import.weavemark" },
         "4": { "name": "entity.name.filename.weavemark" },
         "5": { "patterns": [{ "include": "#kv-pair" }] }
+      }
+    },
+
+    "directive-reference": {
+      "match": "^(\\s*)(@reference)(\\s+)(\\S+)(.*)",
+      "captures": {
+        "2": { "name": "keyword.control.reference.weavemark" },
+        "4": { "name": "string.unquoted.path.reference.weavemark" },
+        "5": { "patterns": [{ "include": "#kv-pair" }, { "include": "#quoted-string" }] }
+      }
+    },
+
+    "inline-reference": {
+      "match": "(@reference)(\\()([^)]*)(\\))",
+      "captures": {
+        "1": { "name": "support.function.reference.weavemark" },
+        "2": { "name": "punctuation.definition.parameters.begin.weavemark" },
+        "3": {
+          "patterns": [
+            { "include": "#kv-pair" },
+            { "include": "#quoted-string" }
+          ]
+        },
+        "4": { "name": "punctuation.definition.parameters.end.weavemark" }
+      }
+    },
+
+    "path-reference": {
+      "match": "(?<![A-Za-z0-9_@])(@)((?:(?:\\.{0,2}/|~/|/)[A-Za-z0-9_./~+-]*[A-Za-z0-9_+-])|(?:README|AGENTS|CLAUDE)(?:\\.md)?|[A-Za-z0-9_+-]+(?:\\.[A-Za-z0-9_+-]+)+)(?=$|[\\s.,;:!?])",
+      "captures": {
+        "1": { "name": "punctuation.definition.reference.weavemark" },
+        "2": { "name": "string.unquoted.path.reference.weavemark" }
       }
     },
 

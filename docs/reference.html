@@ -20,6 +20,7 @@
         <div class="nav-links" aria-label="Site pages">
           <a href="index.html">Home</a>
           <a href="introduction.html">Intro</a>
+          <a href="principles.html">Principles</a>
           <a href="tutorial.html">Tutorial</a>
           <a href="python-api.html">API</a>
           <a href="reference.html" aria-current="page">Ref</a>
@@ -163,6 +164,11 @@
                 <td>Create named prompt stages or emitted files.</td>
               </tr>
               <tr>
+                <td>Source context</td>
+                <td><code>@reference</code></td>
+                <td>Use recursively resolved files during compilation and optionally retain them in a deterministic Reference Appendix.</td>
+              </tr>
+              <tr>
                 <td>Execution</td>
                 <td><code>@execute</code>, <code>@tool</code>, <code>@bind</code></td>
                 <td>Declare runtime strategy, function schemas, and companion implementation metadata.</td>
@@ -184,6 +190,13 @@
             <code>@use</code> makes definitions available; it does not inject the
             module body. Use <code>@refine module:&lt;name&gt;</code> to
             semantically compose reusable body content.
+          </p>
+          <p>
+            File references are separate from modules. Use
+            <code>@reference path keep:true|false</code> when source material
+            should inform compilation; retained references are appended after a
+            document break, while compilation-only references are omitted from
+            generated prompt artifacts.
           </p>
           <p>
             <strong>Module discovery is deterministic.</strong> Every effective
@@ -599,6 +612,14 @@ Critique each claim.</code></pre>
           <a href="tutorial.html">Tutorial</a> |
           <a href="python-api.html">Python API</a> |
           <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+        <div class="footer-meta">
+          <p>
+            WeaveMark is authored by Dr. Paulo Salem. Learn more at
+            <a href="https://www.paulosalem.com">www.paulosalem.com</a> or connect
+            on <a href="https://www.linkedin.com/in/paulosalem/">LinkedIn</a>.
+          </p>
+          <p>Copyright (c) 2026 Paulo Salem</p>
         </div>
       </div>
     </footer>

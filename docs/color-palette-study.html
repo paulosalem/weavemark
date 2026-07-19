@@ -562,7 +562,8 @@
 
       .footer-card {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
         justify-content: space-between;
         gap: 20px;
         margin: 0 auto 34px;
@@ -575,6 +576,23 @@
 
       .footer-card strong {
         color: var(--ink);
+      }
+
+      .footer-meta {
+        flex: 1 1 100%;
+        padding-top: 16px;
+        border-top: 1px solid rgba(var(--logo-bright-rgb), 0.12);
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+
+      .footer-meta p {
+        margin: 0;
+      }
+
+      .footer-meta p + p {
+        margin-top: 4px;
       }
 
       @supports not (color: color-mix(in srgb, red, transparent)) {
@@ -942,6 +960,14 @@ Review <span class="syntax-var">@{program}</span></code></pre>
         <div>
           <a href="index.html">Home</a> ·
           <a href="reference.html">Reference</a>
+        </div>
+        <div class="footer-meta">
+          <p>
+            WeaveMark is authored by Dr. Paulo Salem. Learn more at
+            <a href="https://www.paulosalem.com">www.paulosalem.com</a> or connect
+            on <a href="https://www.linkedin.com/in/paulosalem/">LinkedIn</a>.
+          </p>
+          <p>Copyright (c) 2026 Paulo Salem</p>
         </div>
       </div>
     </footer>

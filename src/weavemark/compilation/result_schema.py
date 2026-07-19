@@ -128,6 +128,7 @@ class CompositionWireResult(_StrictModel):
     emits: dict[str, str]
     outputs: dict[str, OutputPayload]
     packages: list[PackagePayload]
+    references: dict[str, str]
     directives: list[DirectivePayload]
     analysis: str
     warnings: list[str]

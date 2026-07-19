@@ -453,6 +453,17 @@ Topic: @{topic}
         assert meta.include_modules == ["presentation"]
         assert meta.macro_names == ["checklist"]
 
+    def test_reference_metadata(self):
+        meta = scan_spec(
+            "@reference terminology.md keep:false\n"
+            'See @reference("guide.md" keep:true) and @./facts.json.'
+        )
+        assert meta.reference_files == [
+            "terminology.md",
+            "guide.md",
+            "./facts.json",
+        ]
+
     def test_complex_spec_coverage(self):
         """A complex spec should discover all input types."""
         meta = scan_spec(SPEC_COMPLEX)

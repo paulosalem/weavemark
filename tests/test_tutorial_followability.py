@@ -49,6 +49,15 @@ def test_batch_tutorial_commands_supply_all_documented_inputs() -> None:
     advanced = _tutorial("tutorial-advanced.html")
     assert "--var public_assumptions=" in advanced
 
+    executable = _tutorial("tutorial-executable.html")
+    for argument in (
+        "--run",
+        "--no-protections",
+        "--trace-output",
+        "--vars-file examples/saved-artifact-workflows/recurring-topic-monitor/inputs/ai-news.json",
+    ):
+        assert argument in executable
+
 
 def test_illustrated_runners_write_inspectable_chain_json() -> None:
     runners = (
@@ -134,3 +143,44 @@ def test_weavemark_tutorial_snippets_do_not_fake_hash_comments() -> None:
     assert _tutorial("tutorial-implement.html").count(
         '<span class="syntax-comment">#'
     ) == 3
+
+
+def test_tutorial_track_includes_executable_tool_binding_lesson() -> None:
+    tutorial_paths = sorted((ROOT / "docs").glob("tutorial*.html"))
+    assert tutorial_paths
+
+    for path in tutorial_paths:
+        html = path.read_text(encoding="utf-8")
+        assert '<a href="tutorial-executable.html"' in html, path
+        assert "<span>8</span> Tool bindings" in html, path
+        assert "<span>9</span> Spec to app" in html, path
+        assert "<span>10</span> Illustrated stories" in html, path
+
+    executable = _tutorial("tutorial-executable.html")
+    assert "recurring-topic-monitor.weavemark.md" in executable
+    assert "recurring_topic_monitor.py" in executable
+    assert "@execute</span> single-call" in executable
+    assert "@bind</span> search_news" in executable
+    assert "@tool</span> search_news" in executable
+    assert "child-events.json" in executable
+    assert "execution-output.md" in executable
+    assert "execution-trace.md" in executable
+
+
+def test_tutorials_end_with_explicit_output_use_step() -> None:
+    tutorial_paths = sorted((ROOT / "docs").glob("tutorial*.html"))
+    assert tutorial_paths
+
+    for path in tutorial_paths:
+        html = path.read_text(encoding="utf-8")
+        assert '<a href="#use-output">Final step: Use the output</a>' in html
+        output_section = '<section id="use-output" class="article-section">'
+        output_index = html.index(output_section)
+        assert "<h2>Final step: Use the output</h2>" in html[output_index:]
+        assert (
+            "<strong>What to do with the output:</strong>" in html[output_index:]
+        )
+
+        finish_index = html.find('<section id="finish"', output_index)
+        next_index = html.find('<section id="next"', output_index)
+        assert finish_index > output_index or next_index > output_index

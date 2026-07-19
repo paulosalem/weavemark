@@ -31,6 +31,7 @@ CORE_DIRECTIVES = frozenset(
         "phase",
         "promplet",
         "prompt",
+        "reference",
         "returns",
         "scope",
         "structure?",

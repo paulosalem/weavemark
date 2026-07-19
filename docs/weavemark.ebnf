@@ -69,7 +69,10 @@ body              ::= INDENT line+ DEDENT       # a body is itself a sub-spec
 # first non-whitespace token is "@@" is content (the un-escape pass will
 # render it as a leading "@" character).
 
-content_line      ::= (TEXT | ESC_AT | variable_ref)+ NEWLINE
+content_line      ::= (TEXT | ESC_AT | variable_ref | inline_directive | path_reference)+ NEWLINE
+
+inline_directive  ::= "@" directive_name "(" arg_list? ")"
+path_reference    ::= "@" PATH_TOKEN
 
 # ---------- inline arguments ----------
 # Ordered choice resolves the flag/positional/kv ambiguity:
@@ -94,6 +97,10 @@ variable_ref      ::= "@{" SP? IDENT SP? "}"    # recognised in content and in n
                                                 # segment descends one nesting level — a mapping
                                                 # key or an integer list index. Exact flat key
                                                 # wins first; an unresolved path is left intact.
+# inline_directive is delimited by parentheses. Directive metadata decides
+# whether a name supports the inline surface; in 0.9 only @reference does.
+# path_reference is resolved only after escapes, variables, inline calls, and
+# registered line-leading directives have taken precedence.
 # ESC_AT is a lexical terminal; semantically it renders as "@" exactly
 # once, AFTER all directive processing, and ONLY outside opaque carriers.
 
@@ -110,6 +117,7 @@ variable_ref      ::= "@{" SP? IDENT SP? "}"    # recognised in content and in n
 
 IDENT             ::= /[A-Za-z_][A-Za-z0-9_.\-]*/
 bareword          ::= /[A-Za-z0-9_./%\-]+/
+PATH_TOKEN        ::= /[A-Za-z0-9_./~+\-]+/
 STRING            ::= /"([^"\\\n]|\\["\\])*"/
 NUMBER            ::= /-?[0-9]+(\.[0-9]+)?/
 BOOL              ::= "true" | "false"
@@ -518,6 +526,16 @@ notes:      Companion-program binding metadata. Never executed during compositio
 directive:  @note
 body-mode:  opaque
 notes:      Stripped from the final composed output. Useful for prompt-engineer annotations.
+```
+
+```promplet-schema
+directive:  @reference
+positional:
+  - file_path: PATH (required)
+params:
+  - keep: BOOL = true
+body-mode:  none
+notes:      Supports line-leading and inline call surfaces. Claude-style @path is shorthand for inline @reference(path keep:true). Referenced source is recursively processed; kept source is materialized by the host in a deterministic final appendix.
 ```
 
 ```promplet-schema

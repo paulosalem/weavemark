@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeaveMark Principles</title>
+    <meta
+      name="description"
+      content="The philosophy behind WeaveMark: cognitive structuring, LLMs as a power source, programming as conveyed intent, and specification through implication-preserving refinement."
+    >
+    <link rel="stylesheet" href="site.css?v=20260718-principles">
+    <link rel="icon" href="weavemark_favicon.png" type="image/png">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary">
+      <div class="site-nav-inner">
+        <a class="brand" href="index.html" aria-label="WeaveMark home">
+          <img src="weavemark_logo.png" alt="WeaveMark" class="brand-logo">
+        </a>
+        <div class="nav-links" aria-label="Site pages">
+          <a href="index.html">Home</a>
+          <a href="introduction.html">Intro</a>
+          <a href="principles.html" aria-current="page">Principles</a>
+          <a href="tutorial.html">Tutorial</a>
+          <a href="python-api.html">API</a>
+          <a href="reference.html">Ref</a>
+          <a class="nav-repo-link" href="https://github.com/paulosalem/weavemark" aria-label="WeaveMark repository on GitHub"><span class="ic ic-github" aria-hidden="true"></span><span>Repo</span></a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="experimental-banner shell" role="note">
+      <span class="ic ic-alert" aria-hidden="true"></span>
+      <span><strong>Highly experimental.</strong> These principles describe the direction of WeaveMark, not a claim that every experiment has already succeeded.</span>
+    </div>
+
+    <header class="shell page-hero principles-hero">
+      <p class="eyebrow">Philosophy and design commitments</p>
+      <h1>
+        The ideas behind
+        <span class="gradient-text">WeaveMark.</span>
+      </h1>
+      <p class="hero-copy">
+        WeaveMark is not only a notation. It is a proposal about the relationship
+        between <strong>language, cognition, and computation</strong>: prompts can
+        formulate ways of thinking, and prompting can be understood as a practice
+        of <strong>cognitive structuring</strong>. Natural language already carries
+        rich structure; careful abstractions can help us inspect and compose that
+        structure without displacing language itself.
+      </p>
+    </header>
+
+    <div class="shell page-summary" aria-label="Principles at a glance">
+      <div class="summary-card">
+        <strong>Think</strong>
+        <span>Prompts structure cognition through attention, framing, reasoning, and judgment.</span>
+      </div>
+      <div class="summary-card">
+        <strong>Structure</strong>
+        <span>Natural language is richly organized, not an inert text blob.</span>
+      </div>
+      <div class="summary-card">
+        <strong>Compose</strong>
+        <span>Computational abstractions make cognitive structure reusable.</span>
+      </div>
+    </div>
+
+    <main>
+      <section class="shell thought-principle" aria-labelledby="thought-principle-title">
+        <div class="thought-principle-sigil" aria-hidden="true">
+          <span class="thought-orbit thought-orbit-outer"></span>
+          <span class="thought-orbit thought-orbit-inner"></span>
+          <span class="thought-core">Aa</span>
+        </div>
+        <div class="thought-principle-copy">
+          <p class="thought-principle-label">Foundational principle</p>
+          <h2 id="thought-principle-title">Language is a tool for thought.</h2>
+          <p>
+            Prompts are often treated as blobs of unstructured information. But
+            natural language is already richly structured through hierarchy,
+            sequence, scope, contrast, reference, and argument. WeaveMark&rsquo;s
+            computational abstractions help expose, compose, and more fully
+            leverage that structure without replacing language as the primary
+            medium.
+          </p>
+          <p>
+            Prompting is not merely the phrasing of a request. It is the work of
+            <strong>formulating a way of thinking</strong>: what to notice, how to
+            frame and decompose a problem, which perspectives and reasoning
+            methods to apply, how to test conclusions, and what form an answer
+            should take. In that sense, WeaveMark is a language for
+            <strong>cognitive structuring</strong>: a way to structure cognition
+            through readable prompt specifications.
+          </p>
+        </div>
+      </section>
+
+      <section class="shell principles-section" aria-labelledby="commitments-title">
+        <div class="principles-section-head">
+          <p class="section-kicker">Design commitments</p>
+          <h2 id="commitments-title">What follows from that premise.</h2>
+          <p>
+            These commitments keep WeaveMark from becoming either a pile of
+            prompt tricks or a conventional programming language wearing a
+            Markdown costume.
+          </p>
+        </div>
+
+        <div class="principle-ledger">
+          <article class="principle-row">
+            <span class="principle-number">01</span>
+            <div>
+              <p class="principle-name">Language stays primary</p>
+              <h3>Reveal structure without burying the prose.</h3>
+            </div>
+            <p>
+              A promplet should remain readable before compilation. Directives
+              mark meaningful seams&mdash;reuse, transformation, branching,
+              contracts, execution&mdash;while ordinary language carries the
+              purpose, argument, nuance, and domain knowledge.
+            </p>
+          </article>
+
+          <article class="principle-row">
+            <span class="principle-number">02</span>
+            <div>
+              <p class="principle-name">Cognitive structuring is composable</p>
+              <h3>Reuse ways of thinking, not only strings.</h3>
+            </div>
+            <p>
+              To structure cognition is to shape attention, decomposition,
+              perspective, inference, criticism, and expression. Evidence
+              standards, issue trees, teaching moves, adversarial checks,
+              personas, and output disciplines capture parts of that structure.
+              WeaveMark gives them names and boundaries so they can shape many
+              promplets without being copied into each one.
+            </p>
+          </article>
+
+          <article class="principle-row">
+            <span class="principle-number">03</span>
+            <div>
+              <p class="principle-name">Semantics before plumbing</p>
+              <h3>Meaning can be a computational operation.</h3>
+            </div>
+            <p>
+              Operations such as refining, revising, normalizing, compressing,
+              or changing style are transformations of meaning, not merely
+              string substitution. WeaveMark lets authors declare those moves
+              and uses a language model to realize them in context.
+            </p>
+          </article>
+
+          <article class="principle-row">
+            <span class="principle-number">04</span>
+            <div>
+              <p class="principle-name">Formality serves meaning</p>
+              <h3>Add machinery only where it clarifies thought.</h3>
+            </div>
+            <p>
+              Formal structure is valuable when it makes an important boundary
+              visible, checkable, or reusable. It should not turn a readable
+              cognitive artifact into incidental plumbing. WeaveMark aims for
+              the smallest computational surface that genuinely improves
+              expression and understanding.
+            </p>
+          </article>
+
+          <article class="principle-row">
+            <span class="principle-number">05</span>
+            <div>
+              <p class="principle-name">Power remains accountable</p>
+              <h3>Interpretation and action should stay inspectable.</h3>
+            </div>
+            <p>
+              Semantic compilation involves judgment, and runtime interpretation
+              can produce effects. Neither should disappear behind a magical
+              interface. Authors and reviewers should be able to inspect what was
+              written, what was compiled, how it was interpreted, what was
+              produced, and what may act.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="shell principles-section principles-layers-section" aria-labelledby="layers-title">
+        <div class="principles-section-head">
+          <p class="section-kicker">Three kinds of structure</p>
+          <h2 id="layers-title">A promplet holds them together.</h2>
+          <p>
+            WeaveMark connects structures that are often discussed separately,
+            while keeping each one visible.
+          </p>
+        </div>
+        <div class="principles-layers" aria-label="The three kinds of structure in a promplet">
+          <article>
+            <span>01</span>
+            <h3>Linguistic</h3>
+            <p>Hierarchy, sequence, scope, reference, contrast, argument, and examples already organize natural language.</p>
+          </article>
+          <i aria-hidden="true"></i>
+          <article>
+            <span>02</span>
+            <h3>Cognitive</h3>
+            <p>Attention, framing, decomposition, perspective, evidence, criticism, synthesis, and expression organize thought.</p>
+          </article>
+          <i aria-hidden="true"></i>
+          <article>
+            <span>03</span>
+            <h3>Computational</h3>
+            <p>Composition, variables, branching, transformation, contracts, and explicit effects make structures operable.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="shell principles-section" aria-labelledby="power-title">
+        <div class="principles-section-head">
+          <p class="section-kicker">Power needs machinery</p>
+          <h2 id="power-title">An LLM is a power source, not the whole machine.</h2>
+          <p>
+            Its generative and interpretive capacity becomes useful when language
+            gives it shape and computation gives it controlled paths into the world.
+          </p>
+        </div>
+
+        <div class="power-system" aria-label="How language and computation transform LLM power">
+          <article class="power-source">
+            <p>Source</p>
+            <h3>LLM power</h3>
+            <span>Generative capacity, interpretation, synthesis, and adaptation.</span>
+          </article>
+          <article class="power-machinery">
+            <p>Transforming machinery</p>
+            <div>
+              <h3>Language</h3>
+              <span>Shapes meaning, context, constraints, criteria, and intent.</span>
+            </div>
+            <div>
+              <h3>Computation</h3>
+              <span>Sequences, checks, stores, branches, binds tools, and governs effects.</span>
+            </div>
+          </article>
+          <article class="power-outcomes">
+            <p>Useful work</p>
+            <h3>Actions &amp; artifacts</h3>
+            <span>Answers, decisions, files, programs, images, tool calls, and durable systems.</span>
+          </article>
+        </div>
+        <p class="principles-annotation">
+          Electricity without machinery is only potential. Likewise, an LLM&rsquo;s
+          capability is not yet a workflow, a decision, or a trustworthy artifact.
+          Promplets, processors, engines, tools, and output contracts transform
+          that power into work that can be understood and inspected.
+        </p>
+      </section>
+
+      <section class="shell principles-section" aria-labelledby="programming-title">
+        <div class="programming-thesis">
+          <div class="programming-thesis-statement">
+            <p class="section-kicker">Programming after AI agents</p>
+            <h2 id="programming-title">Programming is not typing syntax. It is conveying intricate intent to machines.</h2>
+          </div>
+          <div class="programming-thesis-body">
+            <p>
+              Saying that programming is over because Copilot CLI, Claude Code,
+              and similar agents can write most of today&rsquo;s code confuses the
+              current medium with the enduring task. Formal programming languages
+              are one extraordinarily successful way to communicate intent. They
+              are not the definition of programming.
+            </p>
+            <p>
+              An agent still cannot build what a person needs unless it can
+              understand that person&rsquo;s intent: goals, distinctions, constraints,
+              tradeoffs, evidence, quality bars, and acceptable effects. As agents
+              absorb more implementation work, this act of specification becomes
+              <strong>more central, not less</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="intent-scaffolding">
+          <article>
+            <p>Natural language</p>
+            <h3>Expressive, living material.</h3>
+            <span>
+              It carries nuance and domain knowledge, but long instructions can
+              become ambiguous, repetitive, difficult to compare, and hard to reuse.
+            </span>
+          </article>
+          <article>
+            <p>Formal structure</p>
+            <h3>Beams for a house; bones for an animal.</h3>
+            <span>
+              Variables, composition, branches, contracts, and explicit execution
+              give prose enough structure to bear weight without replacing it.
+            </span>
+          </article>
+          <article>
+            <p>Promplets</p>
+            <h3>Shared artifacts for human&ndash;AI cooperation.</h3>
+            <span>
+              Even when an AI agent writes the promplet, the user gains a clear
+              artifact for reviewing, correcting, and progressively refining intent.
+            </span>
+          </article>
+        </div>
+        <p class="programming-alive">Programming is not disappearing. It is moving upward into new languages of intent.</p>
+      </section>
+
+      <section class="shell principles-section" aria-labelledby="specification-title">
+        <div class="principles-section-head">
+          <p class="section-kicker">Specification and refinement</p>
+          <h2 id="specification-title">Abstract enough to leave choices open. Strong enough to preserve what matters.</h2>
+          <p>
+            WeaveMark is not a formal method, but it takes substantial inspiration
+            from formal methods&mdash;especially their disciplined notion of
+            specification.
+          </p>
+        </div>
+
+        <div class="specification-definition">
+          <div>
+            <p class="principle-name">A precise vocabulary</p>
+            <p>
+              Let <code>Spec</code> be an abstract description of required
+              properties, and let <code>Imp</code> be a more concrete description
+              of an implementation. Read both as predicates over possible
+              behaviors or outcomes.
+            </p>
+            <p>
+              A correct implementation or refinement must add enough detail to
+              become useful <em>without violating any obligation in the
+              specification</em>.
+            </p>
+          </div>
+          <div class="specification-logic" aria-label="Logical relationship between implementation and specification">
+            <div><code>Imp &rArr; Spec</code><span>Every behavior that satisfies <code>Imp</code> also satisfies <code>Spec</code>.</span></div>
+            <div><code>Spec &nRightarrow; Imp</code><span>A behavior can satisfy <code>Spec</code> without satisfying this particular <code>Imp</code>.</span></div>
+            <div><code>&#10214;Imp&#10215; &sube; &#10214;Spec&#10215;</code><span>The set allowed by <code>Imp</code> is narrower because implementation adds detail.</span></div>
+          </div>
+        </div>
+
+        <div class="refinement-diagram" aria-label="Refinement from specification to implementation">
+          <article>
+            <p>Specification <code>Spec</code></p>
+            <h3>Required properties</h3>
+            <span>Abstract; many valid realizations remain possible.</span>
+          </article>
+          <div class="refinement-arrow">
+            <strong>Refinement</strong>
+            <span>Add decisions and detail</span>
+            <span>Preserve every obligation</span>
+          </div>
+          <article>
+            <p>Implementation <code>Imp</code></p>
+            <h3>A stronger description</h3>
+            <span>Concrete enough to build, run, or otherwise realize.</span>
+          </article>
+        </div>
+
+        <div class="formal-inspiration">
+          <p>
+            This gives refinement a clear direction: a refinement is not merely a
+            rewrite, an expansion, or a stylistic improvement. It
+            <strong>strengthens</strong> a description by making choices and adding
+            detail while preserving everything the more abstract description
+            requires.
+          </p>
+          <p>
+            That idea informs WeaveMark&rsquo;s <code>@refine</code> directive and
+            its broader compile-to-implementation workflows. But the relationship
+            is a <strong>design obligation, not a machine-checked theorem</strong>:
+            model-based compilation can fail to preserve intent, so the resulting
+            artifact remains visible for inspection, testing, and further
+            refinement.
+          </p>
+        </div>
+      </section>
+
+      <section class="shell principles-section principles-questions" aria-labelledby="questions-title">
+        <div class="principles-question-bridge">
+
+          <div>
+            <p>
+              Why use LLM-based compilation? Why not only templates? Is this
+              literate programming?
+            </p>
+            <a href="introduction.html#faq">Continue to the FAQ <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell principles-next" aria-labelledby="principles-next-title">
+        <div>
+          <p class="section-kicker">From philosophy to practice</p>
+          <h2 id="principles-next-title">See the model, then write one.</h2>
+        </div>
+        <div class="principles-next-actions">
+          <a class="button secondary" href="introduction.html">Understand the language</a>
+          <a class="button" href="tutorial.html">Build your first promplet</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="shell footer">
+      <div class="footer-card">
+        <div>
+          <strong>WeaveMark principles</strong><br>
+          The philosophy behind readable, structured prompt systems.
+        </div>
+        <div>
+          <a href="introduction.html">Introduction</a> |
+          <a href="tutorial.html">Tutorial</a> |
+          <a href="reference.html">Reference</a>
+        </div>
+        <div class="footer-meta">
+          <p>
+            WeaveMark is authored by Dr. Paulo Salem. Learn more at
+            <a href="https://www.paulosalem.com">www.paulosalem.com</a> or connect
+            on <a href="https://www.linkedin.com/in/paulosalem/">LinkedIn</a>.
+          </p>
+          <p>Copyright (c) 2026 Paulo Salem</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

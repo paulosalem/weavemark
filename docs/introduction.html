@@ -8,7 +8,7 @@
       name="description"
       content="A conceptual introduction to WeaveMark: promplets, the WeaveMark Processor, mental model, principles, language pieces, output shapes, and execution boundary."
     >
-    <link rel="stylesheet" href="site.css?v=20260712">
+    <link rel="stylesheet" href="site.css?v=20260718-thought">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
   </head>
   <body>
@@ -20,6 +20,7 @@
         <div class="nav-links" aria-label="Site pages">
           <a href="index.html">Home</a>
           <a href="introduction.html" aria-current="page">Intro</a>
+          <a href="principles.html">Principles</a>
           <a href="tutorial.html">Tutorial</a>
           <a href="python-api.html">API</a>
           <a href="reference.html">Ref</a>
@@ -63,9 +64,22 @@
       </div>
       <div class="summary-card">
         <strong>Use</strong>
-        <span>Compiled artifacts can be pasted, handed to agents, or executed.</span>
+        <span>Artifacts can be pasted, handed to agents, or interpreted through engines.</span>
       </div>
     </div>
+
+    <aside class="shell principle-teaser principle-teaser-compact" aria-labelledby="intro-principle-title">
+      <span class="principle-teaser-mark" aria-hidden="true">Aa</span>
+      <div>
+        <p class="principle-teaser-label">Underlying philosophy</p>
+        <h2 id="intro-principle-title">Prompts formulate ways of thinking.</h2>
+        <p>
+          WeaveMark treats language as structured cognition, then adds
+          computational abstractions for making more of that structure explicit.
+        </p>
+      </div>
+      <a class="principle-teaser-link" href="principles.html">Read the principles <span aria-hidden="true">&rarr;</span></a>
+    </aside>
 
     <main class="shell page-grid">
       <aside class="sidebar" aria-label="Introduction sections">
@@ -73,11 +87,10 @@
         <a href="#what-is-it">What is WeaveMark?</a>
         <a href="#what-is-a-promplet">What is a promplet?</a>
         <a href="#processor">What is the WeaveMark Processor?</a>
-        <a href="#principles">Design principles</a>
         <a href="#compile-model">Compilation model</a>
+        <a href="#interpret-model">Interpretation model</a>
         <a href="#language-pieces">Language pieces</a>
         <a href="#output-shapes">Output shapes</a>
-        <a href="#execution-boundary">Execution boundary</a>
         <a href="#workflow">Workflow</a>
         <a href="#faq">FAQ</a>
         <a href="#citation-author">Citation and author</a>
@@ -122,6 +135,14 @@
             personas, policies, reasoning methods, domain constraints, tool
             definitions, and output structures. The idea is that the final prompt
             is made out of several <i>little prompts</i>.
+          </p>
+          <p>
+            The word <strong>specification</strong> is deliberate: a promplet
+            states properties that its realized prompt or system should preserve
+            while leaving implementation choices open. Refinement adds detail and
+            narrows those choices without discarding the original obligations.
+            The <a href="principles.html#specification-title">Principles page</a>
+            gives this relationship a precise definition.
           </p>
           <figure class="diagram-figure">
             <svg viewBox="0 0 840 738" role="img" aria-labelledby="pd-title pd-desc" xmlns="http://www.w3.org/2000/svg">
@@ -359,48 +380,6 @@
           </div>
         </section>
 
-        <section id="principles" class="article-section">
-          <h2><span class="ic ic-target" aria-hidden="true"></span>Design principles</h2>
-          <div class="grid two">
-            <article class="card">
-              <span class="badge">1</span>
-              <h3>Markdown stays primary</h3>
-              <p>
-                The prompt should remain <strong>readable before compilation</strong>.
-                Directives exist to clarify structure, not to bury intent in a
-                programming language.
-              </p>
-            </article>
-            <article class="card">
-              <span class="badge">2</span>
-              <h3>Semantics beat string concatenation</h3>
-              <p>
-                A directive can describe a <strong>transformation in natural language</strong>:
-                tighten the style of the subspec in its body, normalize wording,
-                revise a draft, assert an invariant, or generate examples.
-              </p>
-            </article>
-            <article class="card">
-              <span class="badge">3</span>
-              <h3>Structure is checkable where possible</h3>
-              <p>
-                <strong>Indentation, directive boundaries, module imports, output
-                shapes, execution dependencies, and error reporting should be
-                machine-checkable.</strong>
-              </p>
-            </article>
-            <article class="card">
-              <span class="badge">4</span>
-              <h3>Execution is explicit</h3>
-              <p>
-                <strong>Runtime behavior is explicit:</strong> it is described by <code>@execute</code>,
-                <code>@tool</code>, and <code>@bind</code>. Composition does not
-                secretly run helper programs.
-              </p>
-            </article>
-          </div>
-        </section>
-
         <section id="compile-model" class="article-section">
           <h2><span class="ic ic-wand" aria-hidden="true"></span>The compilation model</h2>
           <p>
@@ -471,6 +450,119 @@
           </div>
         </section>
 
+        <section id="interpret-model" class="article-section">
+          <h2><span class="ic ic-bolt" aria-hidden="true"></span>The interpretation model</h2>
+          <p>
+            Every run starts with successful compilation, but the compiled
+            artifact is not yet the final answer. An execution engine
+            <strong>interprets that artifact as a runtime plan</strong>: it assigns
+            roles to named prompts, orchestrates model and tool calls, carries
+            intermediate results forward, and produces an execution record.
+            The model supplies semantic power; the engine provides the machinery
+            that directs it.
+          </p>
+          <div class="model-contrast" aria-label="Compilation and interpretation compared">
+            <div>
+              <span>Compilation</span>
+              <strong>Promplet source &rarr; structured prompt artifact</strong>
+            </div>
+            <div>
+              <span>Interpretation</span>
+              <strong>Structured artifact &rarr; engine run &rarr; result</strong>
+            </div>
+          </div>
+          <div class="timeline" aria-label="Interpretation steps">
+            <article class="step">
+              <span class="step-number">1</span>
+              <div>
+                <h3>Start from the compiled artifact</h3>
+                <p>
+                  The engine receives the compiled prompts, tools, bindings,
+                  output contracts, image inputs, and execution metadata. It
+                  does not reinterpret the raw source notation.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">2</span>
+              <div>
+                <h3>Resolve the engine and runtime</h3>
+                <p>
+                  An explicit caller choice wins, followed by runtime
+                  configuration, the promplet&rsquo;s <code>@execute</code>
+                  declaration, and finally the safe <code>single-call</code>
+                  default. Runtime settings resolve models, temperatures, policy,
+                  and engine-specific options.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">3</span>
+              <div>
+                <h3>Validate the engine contract</h3>
+                <p>
+                  Each strategy expects particular prompt roles and capabilities.
+                  Missing roles or unsupported modalities fail explicitly before
+                  the engine proceeds.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">4</span>
+              <div>
+                <h3>Interpret through runtime steps</h3>
+                <p>
+                  The selected engine performs one or more model, image, or tool
+                  calls according to its pattern. Intermediate outputs may feed
+                  later stages, searches, votes, critiques, revisions, or state
+                  transitions.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">5</span>
+              <div>
+                <h3>Return output with an execution record</h3>
+                <p>
+                  The run returns the final output, ordered step records,
+                  metadata and call-setting provenance, plus any streamed
+                  artifacts. The public result retains both the compiled artifact
+                  and its interpretation.
+                </p>
+              </div>
+            </article>
+          </div>
+
+          <div class="interpretation-boundary">
+            <div>
+              <p class="section-kicker">The boundary stays explicit</p>
+              <p>
+                Most directives transform or organize the specification.
+                <code>@execute</code> declares when the artifact may cross into
+                runtime interpretation and which orchestration pattern should
+                govern it.
+              </p>
+              <p>
+                Advanced engines can also interpret finite-state linguistic
+                machines whose guards, actions, and outputs are named prompts.
+                Required roles are validated before execution.
+              </p>
+            </div>
+            <pre><code><span class="syntax-directive">@execute</span> tree-of-thought
+  branching_factor: 3
+  max_depth: 2
+
+<span class="syntax-directive">@prompt</span> generate
+  Generate candidate solutions to <span class="syntax-var">@{problem}</span>.
+
+<span class="syntax-directive">@prompt</span> evaluate
+  Evaluate the candidates.
+
+<span class="syntax-directive">@prompt</span> synthesize
+  Produce the final answer.</code></pre>
+          </div>
+        </section>
+
         <section id="language-pieces" class="article-section">
           <h2><span class="ic ic-code" aria-hidden="true"></span>The main language pieces</h2>
           <table class="reference-table">
@@ -486,6 +578,11 @@
                 <td><code>@{variable}</code></td>
                 <td>External input supplied by the caller or CLI.</td>
                 <td><code>@{company}</code></td>
+              </tr>
+              <tr>
+                <td>Source references</td>
+                <td>Files used during compilation, optionally retained in a final appendix.</td>
+                <td><code>@reference terminology.md keep:false</code></td>
               </tr>
               <tr>
                 <td>Core directives</td>
@@ -555,35 +652,6 @@
               </p>
             </article>
           </div>
-        </section>
-
-        <section id="execution-boundary" class="article-section">
-          <h2><span class="ic ic-bolt" aria-hidden="true"></span>The execution boundary</h2>
-          <p>
-            Most directives in a promplet operate in the specification domain:
-            they transform, compose, or annotate prompt text. The
-            <code>@execute</code> directive crosses into the execution domain by
-            declaring how the runtime should orchestrate calls.
-          </p>
-          <pre><code><span class="syntax-directive">@execute</span> tree-of-thought
-  branching_factor: 3
-  max_depth: 2
-
-<span class="syntax-directive">@prompt</span> generate
-  Generate three candidate solutions to <span class="syntax-var">@{problem}</span>.
-
-<span class="syntax-directive">@prompt</span> evaluate
-  Evaluate the candidates.
-
-<span class="syntax-directive">@prompt</span> synthesize
-  Produce the final answer.</code></pre>
-
-          <p>
-            More advanced runtimes can load finite-state linguistic machines:
-            state machines whose guards, actions, and outputs are written as
-            named prompts in a promplet. The engine fails before execution if any
-            required prompt is missing.
-          </p>
         </section>
 
         <section id="workflow" class="article-section">
@@ -758,8 +826,13 @@
           <p>
             Why, yes — but what's the problem? Some people watch the World Cup.
             Others spend a full waking day every week doomscrolling Instagram.
-            Still others feed the poor. I do this. It is my idea of fun — and
-            of contributing to the community.
+            Still others feed the poor. And who sleeps before midnight anyway?
+            I do this. It is my idea of fun - and of contributing to the community.
+          </p>
+
+          <h3>Is this a harness?</h3>
+          <p>
+            As much as a car is a "fuel harness".
           </p>
         </section>
 
@@ -802,9 +875,18 @@
         </div>
         <div>
           <a href="tutorial.html">Tutorial</a> |
+          <a href="principles.html">Principles</a> |
           <a href="python-api.html">Python API</a> |
           <a href="reference.html">Reference</a> |
           <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+        <div class="footer-meta">
+          <p>
+            WeaveMark is authored by Dr. Paulo Salem. Learn more at
+            <a href="https://www.paulosalem.com">www.paulosalem.com</a> or connect
+            on <a href="https://www.linkedin.com/in/paulosalem/">LinkedIn</a>.
+          </p>
+          <p>Copyright (c) 2026 Paulo Salem</p>
         </div>
       </div>
     </footer>

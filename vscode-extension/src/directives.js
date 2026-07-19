@@ -183,6 +183,19 @@ const DIRECTIVES = {
     params: { mingle: ["true", "false"] },
     category: "Composition",
   },
+  reference: {
+    label: "@reference",
+    detail: "Load source context and optionally retain it in a final appendix",
+    documentation:
+      "Loads one file as active compilation context. Referenced WeaveMark source and nested references are resolved recursively.\n\n" +
+      "**Parameters:**\n" +
+      "- First positional argument: file path\n" +
+      "- `keep: true|false` — Retain resolved content in the final Reference Appendix (default: `true`)\n\n" +
+      "The explicit inline form is `@reference(\"path\" keep:true)`. Claude-style `@path` shorthand always uses `keep:true`.",
+    snippet: "@reference ${1:file.md} keep:${2|true,false|}",
+    params: { keep: ["true", "false"] },
+    category: "Composition",
+  },
   ask: {
     label: "@ask",
     detail: "Ask compile-time questions while a scoped body is being composed",

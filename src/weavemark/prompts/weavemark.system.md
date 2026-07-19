@@ -37,6 +37,8 @@ Every field is mandatory, including empty collections:
 - `outputs`: output contracts keyed by prompt name (`default` for root output).
 - `packages`: package instructions, each with `file` and exactly one of
   `template` or `from`.
+- `references`: resolved reference bodies keyed by the host-supplied `Rn`
+  identifier; empty when no referenced source context was supplied.
 - `directives`: concrete directive applications for step-local envelopes.
 - `analysis`: brief high-level rationale.
 - `warnings`, `errors`, `suggestions`: arrays of complete diagnostic strings.
@@ -64,6 +66,13 @@ These rules are non-negotiable. The presence or absence of these tool calls is o
 The English phrase "the composer loaded the file" and the action of actually invoking `read_file(path)` are **not interchangeable**. The only way to load a file's content is to call the `read_file` tool. Reasoning *about* the loading process is not the same as *performing* it.
 
 You do not have access to the contents of any file referenced by standard-library `@refine` or `@embed file:` until you have actually invoked `read_file` and received the tool's response. Spec text that mentions a file path tells you that the file *exists* and is referenced; it does not tell you what is *inside* the file.
+
+`@reference` is different: the host resolves those files before this model turn
+and supplies them in `Referenced Source Context`. Do not call `read_file` for a
+host-supplied reference unless another surviving directive independently asks
+for that same path. When such a nested directive uses a relative path, pass the
+containing context's `Rn` value as `reference_id` to `read_file`; this preserves
+the referenced file's lexical base and disambiguates identical child filenames.
 
 Therefore:
 
@@ -103,7 +112,7 @@ Treat a 5-line spec with the same procedural rigor as a 500-line spec. The compo
 Input spec (5 logical lines):
 
 ```
-@promplet version: 0.8
+@promplet version: 0.9
 
 # Router
 
@@ -151,6 +160,7 @@ Example output:
   "emits": {},
   "outputs": {},
   "packages": [],
+  "references": {},
   "directives": [],
   "analysis": "High-level rationale for what changed and why.",
   "warnings": [],
@@ -171,6 +181,8 @@ A promplet specification is a Markdown text that may contain:
 
 - **Directives** (`@directive_name`): reusable components and logic/control-flow building blocks that can transform a prompt (e.g., `@if`, `@match`, `@note`, imported semantic definitions such as `@refine`). A line is treated as a directive only when `@...` appears at the start of a logical line (after indentation).
 - **Variables** (`@{variable_name}`): WeaveMark placeholders that should be replaced with the appropriate value. The variable name should be descriptive of the kind of value expected. A name may be a **dotted path** that navigates nested (JSON) values — each `.`-separated segment descends one level: a mapping key or an integer index into a list (e.g. `@{book.title}`, `@{panels.0.dialogue}`, `@{xs.-1}`). An exact flat key that literally contains a dot resolves first; otherwise the dotted path is walked. A path that cannot be fully resolved is left intact (the placeholder is preserved, never blanked), and `@if`/`@match` may also test a dotted path. Mustache syntax (`{{...}}`, including sections such as `{{#items}}...{{/items}}`) is ordinary prompt/template content and must be preserved unless an explicit directive transforms that surrounding text.
+- **Inline directive calls** (`@name(...)`): delimited directive expressions inside ordinary content. In language 0.9, only `@reference(...)` supports this surface; all other directives remain line-leading and must report a surface error if called inline.
+- **Path references** (`@path/to/file`, `@README.md`): Claude-style shorthand for inline `@reference(path keep:true)`. They are recognised outside code spans/fences after registered directive, variable, and escape syntax has taken precedence.
 - **Definition/module declarations** (`@define`, `@module`, `@use`, `@include`): compile-time abstractions resolved before ordinary directive evaluation. `@define` without `@effect` declares a deterministic macro; `@define` with `@effect` declares a semantic function.
 - **Markdown comments** (`<!-- ... -->`): purely lexical author annotations stripped before parsing. They may be inline or span lines; comment-like text inside inline code or fenced code remains literal. `#` is always a Markdown heading marker, never a WeaveMark comment.
 
@@ -186,15 +198,15 @@ Syntax:
 
 Semantics:
 - The version is informational metadata for the composer. Emit it as part of `compile` under the key `"weavemark_version"` (e.g., `{"weavemark_version": "0.7"}`).
-- If the declared version is **newer** than the version this composer was authored against, emit a warning (e.g., "declared version 0.8 is newer than supported 0.7; behaviour may differ") and proceed best-effort.
+- If the declared version is **newer** than the version this composer was authored against, emit a warning (e.g., "declared version 1.0 is newer than supported 0.9; behaviour may differ") and proceed best-effort.
 - If no `@promplet` directive is present, assume the latest version supported by the composer.
 - A `@promplet` directive appearing anywhere other than as the first non-blank, non-comment line MUST be reported as an error.
-- The current version of WeaveMark is **0.7**.
+- The current version of WeaveMark is **0.9**.
 - The optional `surface:` parameter declares a surface adapter (see **Surface Adapters** below). Supported values: `canonical` (default), `markdown`.  When a surface adapter is declared, source lowering is performed deterministically before the composer sees the text, so the composer always receives canonical WeaveMark.
 
 Example:
 ```
-@promplet version: 0.8
+@promplet version: 0.9
 
 # My Spec
 ...
@@ -202,7 +214,7 @@ Example:
 
 Example with Markdown surface adapter:
 ```
-@promplet version: 0.8 surface: markdown
+@promplet version: 0.9 surface: markdown
 
 ## @prompt extract role: user
 
@@ -226,7 +238,7 @@ WeaveMark supports optional *surface adapters* that let programmers write specs 
 A surface adapter is activated by the `surface:` key on the `@promplet` pragma:
 
 ```
-@promplet version: 0.8 surface: markdown
+@promplet version: 0.9 surface: markdown
 ```
 
 Supported surfaces:
@@ -457,7 +469,10 @@ body              ::= INDENT line+ DEDENT       # a body is itself a sub-spec
 # first non-whitespace token is "@@" is content (the un-escape pass will
 # render it as a leading "@" character).
 
-content_line      ::= (TEXT | ESC_AT | variable_ref)+ NEWLINE
+content_line      ::= (TEXT | ESC_AT | variable_ref | inline_directive | path_reference)+ NEWLINE
+
+inline_directive  ::= "@" directive_name "(" arg_list? ")"
+path_reference    ::= "@" PATH_TOKEN
 
 # ---------- inline arguments ----------
 # Ordered choice resolves the flag/positional/kv ambiguity:
@@ -482,6 +497,10 @@ variable_ref      ::= "@{" SP? IDENT SP? "}"    # recognised in content and in n
                                                 # segment descends one nesting level — a mapping
                                                 # key or an integer list index. Exact flat key
                                                 # wins first; an unresolved path is left intact.
+# inline_directive is delimited by parentheses. Directive metadata decides
+# whether a name supports the inline surface; in 0.9 only @reference does.
+# path_reference is resolved only after escapes, variables, inline calls, and
+# registered line-leading directives have taken precedence.
 # ESC_AT is a lexical terminal; semantically it renders as "@" exactly
 # once, AFTER all directive processing, and ONLY outside opaque carriers.
 
@@ -498,6 +517,7 @@ variable_ref      ::= "@{" SP? IDENT SP? "}"    # recognised in content and in n
 
 IDENT             ::= /[A-Za-z_][A-Za-z0-9_.\-]*/
 bareword          ::= /[A-Za-z0-9_./%\-]+/
+PATH_TOKEN        ::= /[A-Za-z0-9_./~+\-]+/
 STRING            ::= /"([^"\\\n]|\\["\\])*"/
 NUMBER            ::= /-?[0-9]+(\.[0-9]+)?/
 BOOL              ::= "true" | "false"
@@ -1966,6 +1986,66 @@ Semantics:
 directive:  @note
 body-mode:  opaque
 notes:      Stripped from the final composed output. Useful for prompt-engineer annotations.
+```
+
+
+### Referenced Source: `@reference` and `@path`
+
+`@reference` loads a source file as active compilation context. The referenced
+text is recursively processed as WeaveMark source, including nested references.
+It is not a separately executed promplet: all resolved source contributes to one
+coherent parent compilation.
+
+Canonical block form:
+
+```weavemark
+@reference README.md
+@reference terminology.md keep:false
+```
+
+Explicit inline form:
+
+```weavemark
+See @reference("README.md" keep:true) for the project overview.
+```
+
+Claude-style `@path` shorthand always means `keep:true`. Inline retained
+references are replaced by stable anchors such as `[Reference R1]`. Block
+references register context without inserting an anchor.
+
+Parameters:
+- positional `file_path` (required): one source file, resolved relative to the
+  containing source file;
+- `keep: true|false` (default `true`): whether the host deterministically retains
+  the fully resolved reference in the final prompt.
+
+Compiler semantics:
+1. The host supplies every reference in the `Referenced Source Context` section,
+   with a stable id, original path, keep mode, and recursively lowered source.
+2. Process each reference body under normal WeaveMark semantics. Preserve every
+   `[Reference Rn]` anchor exactly. For nested `@refine` / `@embed file:` reads,
+   call `read_file` with the containing `Rn` as `reference_id`.
+3. Return every fully resolved reference body in the required top-level
+   `references` object, keyed by `Rn`.
+4. Do not append source bodies yourself. After semantic compilation, the host
+   appends kept references deterministically after `\n\n***\n\n`, under one
+   `# Reference Appendix` heading with path, media type, and hash metadata.
+5. `keep:false` source informs compilation but is not mechanically retained.
+   This is not a confidentiality boundary: compilation may still reflect or
+   paraphrase information from that context.
+6. Code spans, fenced code, comments, `@@` escapes, and `@{variables}` take
+   precedence over path-reference recognition.
+7. Only `@reference(...)` supports inline directive-call syntax in language 0.9.
+   Other `@name(...)` forms are surface errors.
+
+```promplet-schema
+directive:  @reference
+positional:
+  - file_path: PATH (required)
+params:
+  - keep: BOOL = true
+body-mode:  none
+notes:      Supports line-leading and inline call surfaces. Claude-style @path is shorthand for inline @reference(path keep:true). Referenced source is recursively processed; kept source is materialized by the host in a deterministic final appendix.
 ```
 
 

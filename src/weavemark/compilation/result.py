@@ -35,6 +35,12 @@ class CompositionResult:
     execution: dict[str, Any] = field(default_factory=dict)
     emits: dict[str, str] = field(default_factory=dict)
     packages: list[dict[str, str]] = field(default_factory=list)
+    references: list[dict[str, Any]] = field(default_factory=list)
+    reference_contents: dict[str, str] = field(
+        default_factory=dict,
+        repr=False,
+        compare=False,
+    )
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     suggestions: list[str] = field(default_factory=list)
@@ -102,6 +108,7 @@ class CompositionResult:
             ("execution", self.execution),
             ("emits", self.emits),
             ("packages", self.packages),
+            ("references", self.references),
             ("ask_history", self.ask_history),
             ("iteration_history", self.iteration_history),
             ("partial_messages", self.partial_messages),

@@ -2315,6 +2315,7 @@ def cli() -> None:
             "include_modules": meta.include_modules,
             "macro_names": meta.macro_names,
             "refine_files": meta.refine_files,
+            "reference_files": meta.reference_files,
             "embed_files": meta.embed_files,
             "emit_files": meta.emit_files,
             "surface": (

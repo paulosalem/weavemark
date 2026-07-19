@@ -1,0 +1,14 @@
+{
+  "topic": "family-friendly children's events, workshops, exhibits, and performances",
+  "monitor_mode": "events",
+  "cadence": "weekly",
+  "lookback_window": "next 30 days",
+  "region": "Sao Paulo, Brazil",
+  "audience": "parents planning weekend activities for young children",
+  "research_depth": "standard",
+  "run_date": "2026-07-18",
+  "user_constraints": "Prioritize practical details: date, time, location, cost, booking link, age fit, language, cancellation risk, and whether an adult must accompany the child.",
+  "seed_urls": [],
+  "use_previous_reports": false,
+  "previous_reports": ""
+}

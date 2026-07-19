@@ -57,6 +57,7 @@ def test_complete_metadata_round_trip_includes_packages_and_outputs() -> None:
         emits={"artifact.md": "Artifact"},
         outputs={"stage": {"type": "text", "file": "stage.md"}},
         packages=[{"file": "book.html", "template": "template.weavemark.md"}],
+        references={"R1": "Resolved reference."},
         analysis="Analysis",
         warnings=["Warning"],
         suggestions=["Suggestion"],
@@ -75,6 +76,7 @@ def test_complete_metadata_round_trip_includes_packages_and_outputs() -> None:
     assert result.packages == [
         {"file": "book.html", "template": "template.weavemark.md"}
     ]
+    assert result.reference_contents == {"R1": "Resolved reference."}
     assert result.warnings == ["Warning"]
     assert result.suggestions == ["Suggestion"]
 
@@ -207,6 +209,7 @@ def test_provider_schema_is_guidance_while_local_validation_stays_strict() -> No
         "emits",
         "outputs",
         "packages",
+        "references",
         "directives",
         "analysis",
         "warnings",

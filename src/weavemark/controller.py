@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import inspect
 import json
 import logging
@@ -25,7 +26,10 @@ from weavemark.compilation.ask import (
     find_ask_directives,
     format_ask_directives_for_prompt,
 )
-from weavemark.compilation.directive_registry import validate_directive_names
+from weavemark.compilation.directive_registry import (
+    CORE_DIRECTIVES,
+    validate_directive_names,
+)
 from weavemark.compilation.iterate import (
     IterateAskPrelude,
     IterateDirective,
@@ -49,6 +53,11 @@ from weavemark.compilation.provenance import (
     record_resource,
     validate_replay_context,
 )
+from weavemark.compilation.reference_artifacts import (
+    format_reference_context,
+    materialize_reference_appendices,
+)
+from weavemark.compilation.references import resolve_references
 from weavemark.compilation.result import CompositionResult
 from weavemark.compilation.result_schema import (
     CompilerProtocolError,
@@ -82,7 +91,9 @@ from weavemark.settings import (
     builtin_weavemark_settings,
     load_weavemark_settings,
 )
+from weavemark.source_comments import strip_markdown_comments
 from weavemark.surfaces import lower_weavemark_surface
+from weavemark.version import LANGUAGE_VERSION
 
 logger = logging.getLogger(__name__)
 
@@ -90,6 +101,32 @@ logger = logging.getLogger(__name__)
 _SYSTEM_PROMPT_PATH = (
     Path(__file__).resolve().parent / "prompts" / "weavemark.system.md"
 )
+_PROMPLET_VERSION_RE = re.compile(
+    r"^[ \t]*@promplet\s+version:\s*(?P<version>[0-9]+\.[0-9]+)(?:\s|$)",
+    re.MULTILINE,
+)
+_REFERENCE_LANGUAGE_VERSION = (0, 9)
+
+
+def _language_version_tuple(value: str) -> tuple[int, int] | None:
+    try:
+        major, minor = value.split(".", 1)
+        return int(major), int(minor)
+    except (TypeError, ValueError):
+        return None
+
+
+def _reference_syntax_enabled(source: str) -> bool:
+    uncommented = strip_markdown_comments(source).text
+    first_line = next(
+        (line for line in uncommented.splitlines() if line.strip()),
+        "",
+    )
+    match = _PROMPLET_VERSION_RE.match(first_line)
+    version = match.group("version") if match is not None else LANGUAGE_VERSION
+    parsed = _language_version_tuple(version)
+    return parsed is not None and parsed >= _REFERENCE_LANGUAGE_VERSION
+
 
 # Tool definitions in OpenAI function-calling format
 TOOLS: list[dict[str, Any]] = [
@@ -121,7 +158,15 @@ TOOLS: list[dict[str, Any]] = [
                             "Fragment references use alias:path, or a bare path when "
                             "exactly one fragment alias is configured."
                         ),
-                    }
+                    },
+                    "reference_id": {
+                        "type": "string",
+                        "description": (
+                            "When the requested path appears inside host-supplied "
+                            "Referenced Source Context, pass that context's Rn id so "
+                            "relative paths resolve against the correct containing file."
+                        ),
+                    },
                 },
                 "required": ["file_name"],
             },
@@ -204,19 +249,53 @@ AskHandler = Callable[[AskPrompt], str | Awaitable[str]]
 
 
 def _source_declares_reference(source: str, reference: str) -> bool:
-    """Whether the active promplet explicitly names a requested resource."""
+    """Whether a parsed file-reading directive names *reference*."""
 
     normalized = reference.strip()
     if not normalized:
         return False
-    return any(
-        token in source
-        for token in (
-            normalized,
-            f'"{normalized}"',
-            f"'{normalized}'",
+    stripped = strip_markdown_comments(source).text
+    fence_marker: str | None = None
+    opaque_indent: int | None = None
+    for line in stripped.splitlines():
+        content = line.lstrip()
+        indent = len(line) - len(content)
+        fence = re.match(r"^(`{3,}|~{3,})", content)
+        if fence_marker is not None:
+            if (
+                fence is not None
+                and fence.group(1)[0] == fence_marker[0]
+                and len(fence.group(1)) >= len(fence_marker)
+            ):
+                fence_marker = None
+            continue
+        if fence is not None:
+            fence_marker = fence.group(1)
+            continue
+        if opaque_indent is not None:
+            if not content or indent > opaque_indent:
+                continue
+            opaque_indent = None
+
+        refine = re.match(r"^@refine\s+(\"[^\"]+\"|'[^']+'|\S+)", content)
+        embed = re.match(
+            r"^@embed\b[^\n]*\bfile:\s*(\"[^\"]+\"|'[^']+'|\S+)",
+            content,
         )
-    )
+        match = refine or embed
+        if match is not None and match.group(1).strip("\"'") == normalized:
+            return True
+        directive = re.match(r"^@([A-Za-z_][\w.-]*)\b", content)
+        if directive is not None and directive.group(1) in {
+            "embed",
+            "execute",
+            "note",
+            "output",
+            "package",
+            "tool",
+        }:
+            opaque_indent = indent
+    return False
 
 
 def _format_variable_for_prompt(value: Any) -> str:
@@ -549,6 +628,7 @@ def parse_composition_response(
         execution=wire.execution,
         emits=wire.emits,
         packages=[package.package_dict() for package in wire.packages],
+        reference_contents=wire.references,
         directives=directives_from_json(
             [directive.model_dump() for directive in wire.directives]
         ),
@@ -785,6 +865,7 @@ class WeaveMarkController:
             settings_result.settings.protections,
             entrypoint_dir=base_dir,
         )
+        compilation_access_root = self._file_access_root(base_dir)
         replaying = provenance is not None and provenance.replay_dir is not None
         live_client = self.client
         if live_client is None and not replaying:
@@ -857,8 +938,80 @@ class WeaveMarkController:
                 },
             )
             return result
-        directive_errors = validate_directive_names(
+
+        def _read_reference(reference: str, directory: Path) -> tuple[str, Path] | str:
+            path = self._resolve_read_path(
+                reference,
+                directory,
+                settings,
+                protection,
+                declared=True,
+            )
+            if isinstance(path, str):
+                return f"Error: {path}"
+            content = self._read_file(
+                reference,
+                directory,
+                settings,
+                protection,
+                declared=True,
+            )
+            if content.startswith("Error:"):
+                return content
+            resource_key = _resource_key(path)
+            record_resource(
+                resources,
+                reference=resource_key,
+                content=content,
+            )
+            return content, path
+
+        def _resource_key(path: Path) -> str:
+            try:
+                return path.relative_to(compilation_access_root).as_posix()
+            except ValueError:
+                path_digest = hashlib.sha256(str(path).encode("utf-8")).hexdigest()[:12]
+                return f"external:{path.name}:{path_digest}"
+
+        reference_result = resolve_references(
             preprocess_result.text,
+            base_dir,
+            reader=_read_reference,
+            known_directives=frozenset(
+                {*CORE_DIRECTIVES, *preprocess_result.semantic_definitions}
+            ),
+            enabled=_reference_syntax_enabled(preprocess_result.text),
+        )
+        if reference_result.errors:
+            result = CompositionResult(
+                composed_prompt="",
+                analysis="WeaveMark reference resolution failed.",
+                warnings=[
+                    *settings_result.warnings,
+                    *preprocess_result.warnings,
+                    *reference_result.warnings,
+                ],
+                errors=reference_result.errors,
+                references=[
+                    reference.metadata() for reference in reference_result.references
+                ],
+                source_path=str(source_path) if source_path is not None else None,
+            )
+            if on_event:
+                for issue in result.diagnostics:
+                    on_event("issue", issue)
+                on_event(
+                    "done",
+                    {
+                        "tool_calls_made": 0,
+                        "model_calls_made": 0,
+                        "diagnostics_count": len(result.diagnostics),
+                        "output_length": 0,
+                    },
+                )
+            return result
+        directive_errors = validate_directive_names(
+            reference_result.text,
             preprocess_result.semantic_definitions,
         )
         if directive_errors:
@@ -868,6 +1021,7 @@ class WeaveMarkController:
                 warnings=[
                     *settings_result.warnings,
                     *preprocess_result.warnings,
+                    *reference_result.warnings,
                 ],
                 errors=directive_errors,
                 source_path=str(source_path) if source_path is not None else None,
@@ -886,7 +1040,8 @@ class WeaveMarkController:
                 )
             return result
 
-        original_spec_text = preprocess_result.text
+        references = reference_result.references
+        original_spec_text = reference_result.text
 
         # Collect transitions from log_transition tool calls across compile-effect rounds.
         transitions: list[str] = []
@@ -908,6 +1063,20 @@ class WeaveMarkController:
                 str(source_path) if source_path is not None else None
             )
             accumulated_state.apply_to(result)
+            result.references = [reference.metadata() for reference in references]
+            if references and not result.errors:
+                composed_prompt, prompts, reference_errors = (
+                    materialize_reference_appendices(
+                        result.composed_prompt,
+                        result.prompts,
+                        references,
+                        result.reference_contents,
+                    )
+                )
+                result.composed_prompt = composed_prompt
+                result.prompts = prompts
+                result.errors.extend(reference_errors)
+            result.tool_calls_made += len(references)
             result.model_calls_made = budget.model_calls_used
             finalize_provenance(
                 options=provenance,
@@ -951,9 +1120,20 @@ class WeaveMarkController:
                 declared=declared,
             )
             if not content.startswith("Error:"):
+                resolved = self._resolve_read_path(
+                    reference,
+                    directory,
+                    settings,
+                    protection,
+                    declared=declared,
+                )
                 record_resource(
                     resources,
-                    reference=reference,
+                    reference=(
+                        _resource_key(resolved)
+                        if isinstance(resolved, Path)
+                        else reference
+                    ),
                     content=content,
                 )
             return content
@@ -965,6 +1145,7 @@ class WeaveMarkController:
                 warnings=[
                     *settings_result.warnings,
                     *preprocess_result.warnings,
+                    *reference_result.warnings,
                     *iterate_warnings,
                 ],
                 errors=errors,
@@ -983,6 +1164,7 @@ class WeaveMarkController:
                 warnings=[
                     *settings_result.warnings,
                     *preprocess_result.warnings,
+                    *reference_result.warnings,
                     *iterate_warnings,
                 ],
                 errors=errors,
@@ -1011,6 +1193,7 @@ class WeaveMarkController:
             semantic_defs_section = _format_semantic_definitions_for_prompt(
                 preprocess_result.semantic_definitions,
             )
+            references_section = format_reference_context(references)
             ask_directives_section = format_ask_directives_for_prompt(active_asks)
             ask_answers_section = ask_history_for_prompt(ask_history)
             ask_contract = ""
@@ -1054,6 +1237,8 @@ class WeaveMarkController:
                 f"{vars_section}\n\n"
                 "## Imported Semantic Definitions\n\n"
                 f"{semantic_defs_section}\n\n"
+                "## Referenced Source Context\n\n"
+                f"{references_section}\n\n"
                 f"{ask_contract}"
                 f"{guidance_section}"
                 "## Pre-flight Checklist (do this BEFORE writing the output)\n\n"
@@ -1082,6 +1267,14 @@ class WeaveMarkController:
                 "`@note`, `@prompt`, `@compile`, `@execute`, `@tool`, `@bind`, "
                 "`@emit`, `@embed`, `@output`, `@module`, `@use`, `@include`, "
                 "and `@define`, plus imported semantic definitions listed above. "
+                "Resolve every referenced source context recursively as WeaveMark "
+                "source. For a nested relative `@refine` or `@embed file:` read, "
+                "pass its containing `Rn` as `reference_id` to `read_file`. Preserve "
+                "each `[Reference Rn]` anchor exactly. Return the "
+                "fully resolved body of every listed reference in the required "
+                "`references` result object, keyed by its `Rn` identifier. Do not "
+                "append reference bodies to prompt text; the host materializes kept "
+                "appendices deterministically after compilation. "
                 "Pure standard-library macros must have already expanded before "
                 "this LLM composition path. "
                 "For every imported `@refine` / `@embed file:` in a "
@@ -1157,7 +1350,9 @@ class WeaveMarkController:
                 "directives, analysis, warnings, errors, and suggestions. Do not add "
                 "a code fence, preamble, trailing commentary, or extra fields. Prompt "
                 "values are objects with text and nullable role. Package entries require "
-                "file plus exactly one of template or from."
+                "file plus exactly one of template or from. The `references` object "
+                "must contain every supplied reference id mapped to its fully resolved "
+                "content, or be empty when no references were supplied."
             )
 
         async def _ask_user(args: dict[str, Any], *, round_index: int) -> str:
@@ -1257,12 +1452,59 @@ class WeaveMarkController:
             async def tool_executor(name: str, args: dict[str, Any]) -> str:
                 _emit("tool_call", {"name": name, "args": args})
                 if name == "read_file":
+                    file_name = str(args["file_name"])
+                    reference_id = str(args.get("reference_id", "")).strip()
+                    root_declared = _source_declares_reference(
+                        original_spec_text,
+                        file_name,
+                    )
+                    declaring_references = [
+                        reference
+                        for reference in references
+                        if _source_declares_reference(reference.content, file_name)
+                    ]
+                    nested_reference = next(
+                        (
+                            reference
+                            for reference in declaring_references
+                            if reference.id == reference_id
+                        ),
+                        None,
+                    )
+                    if reference_id and nested_reference is None:
+                        return (
+                            f"Error: reference_id {reference_id!r} does not declare "
+                            f"{file_name!r}."
+                        )
+                    if (
+                        not reference_id
+                        and not root_declared
+                        and len(declaring_references) == 1
+                    ):
+                        nested_reference = declaring_references[0]
+                    if (
+                        not reference_id
+                        and not root_declared
+                        and len(declaring_references) > 1
+                    ):
+                        choices = ", ".join(
+                            reference.id for reference in declaring_references
+                        )
+                        return (
+                            f"Error: {file_name!r} is declared by multiple referenced "
+                            f"sources ({choices}); retry read_file with reference_id."
+                        )
+                    resource_dir = (
+                        nested_reference.resolved_path.parent
+                        if nested_reference is not None
+                        else base_dir
+                    )
                     result_str = _read_compiler_resource(
-                        args["file_name"],
-                        base_dir,
-                        declared=_source_declares_reference(
-                            current_spec_text,
-                            str(args["file_name"]),
+                        file_name,
+                        resource_dir,
+                        declared=(
+                            root_declared
+                            or nested_reference is not None
                         ),
                     )
                     _emit(
@@ -1304,7 +1546,7 @@ class WeaveMarkController:
                 },
             )
 
-            if self.config.use_structural_helpers:
+            if self.config.use_structural_helpers and not references:
                 structural_helper_result = try_apply_structural_helpers(
                     current_spec_text,
                     variables,
@@ -1326,6 +1568,7 @@ class WeaveMarkController:
                 result.warnings = [
                     *settings_result.warnings,
                     *preprocess_result.warnings,
+                    *reference_result.warnings,
                     *iterate_warnings,
                     *result.warnings,
                 ]
@@ -2318,11 +2561,16 @@ class WeaveMarkController:
                 )
 
         access_root = WeaveMarkController._file_access_root(base_dir)
-        candidate_paths = [
-            (base_dir / file_name).resolve(),
-            (access_root / "promplets" / file_name).resolve(),
-            (access_root / file_name).resolve(),
-        ]
+        expanded_path = Path(file_name).expanduser()
+        candidate_paths = (
+            [expanded_path.resolve()]
+            if expanded_path.is_absolute()
+            else [
+                (base_dir / expanded_path).resolve(),
+                (access_root / "promplets" / expanded_path).resolve(),
+                (access_root / expanded_path).resolve(),
+            ]
+        )
         for candidate in candidate_paths:
             if candidate.is_file():
                 return protection.authorize_read(

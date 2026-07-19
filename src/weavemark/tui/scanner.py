@@ -72,6 +72,7 @@ class SpecMetadata:
     include_modules: list[str] = field(default_factory=list)
     macro_names: list[str] = field(default_factory=list)
     refine_files: list[str] = field(default_factory=list)
+    reference_files: list[str] = field(default_factory=list)
     embed_files: list[str] = field(default_factory=list)
     emit_files: list[str] = field(default_factory=list)
     assertions: list[str] = field(default_factory=list)
@@ -113,6 +114,17 @@ _EXECUTION_RESULT_AS = re.compile(
     re.MULTILINE,
 )
 _REFINE_DIRECTIVE = re.compile(r"^[ \t]*@refine\s+(\S+)", re.MULTILINE)
+_REFERENCE_DIRECTIVE = re.compile(
+    r"^[ \t]*@reference\s+(\"[^\"]+\"|'[^']+'|\S+)",
+    re.MULTILINE,
+)
+_INLINE_REFERENCE = re.compile(
+    r"@reference\(\s*(\"[^\"]+\"|'[^']+'|[A-Za-z0-9_./~+-]+)"
+)
+_PATH_REFERENCE = re.compile(
+    r"(?<![A-Za-z0-9_@])@((?:\.{0,2}/|~/|/)"
+    r"[A-Za-z0-9_./~+-]+|[A-Za-z0-9_+-]+\.[A-Za-z0-9_.+-]+)"
+)
 _EMBED_FILE = re.compile(r"^[ \t]*@embed\s+file:\s*(\S+)", re.MULTILINE)
 _EMIT_FILE = re.compile(
     r"^[ \t]*@emit\s+(?:file:\s*|file=)(\"[^\"]+\"|'[^']+'|\S+)",
@@ -275,6 +287,13 @@ def scan_spec(
     for path in _REFINE_DIRECTIVE.findall(spec_text):
         if not _is_variable(path):
             meta.refine_files.append(path)
+
+    # ── @reference and Claude-style source references ──────────
+    for pattern in (_REFERENCE_DIRECTIVE, _INLINE_REFERENCE, _PATH_REFERENCE):
+        for path in pattern.findall(spec_text):
+            cleaned = path.strip("\"'").rstrip(".,;:!?")
+            if cleaned not in meta.reference_files:
+                meta.reference_files.append(cleaned)
 
     # ── @emit (static output files) ─────────────────────────────
     for path in _EMIT_FILE.findall(spec_text):

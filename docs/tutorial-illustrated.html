@@ -20,6 +20,7 @@
         <div class="nav-links" aria-label="Site pages">
           <a href="index.html">Home</a>
           <a href="introduction.html">Intro</a>
+          <a href="principles.html">Principles</a>
           <a href="tutorial.html" aria-current="page">Tutorial</a>
           <a href="python-api.html">API</a>
           <a href="reference.html">Ref</a>
@@ -41,8 +42,9 @@
       <a href="tutorial-games.html"><span>5</span> Game specs</a>
       <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
       <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
-      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
-      <a href="tutorial-illustrated.html" aria-current="page"><span>9</span> Illustrated stories</a>
+      <a href="tutorial-executable.html"><span>8</span> Tool bindings</a>
+      <a href="tutorial-implement.html"><span>9</span> Spec to app</a>
+      <a href="tutorial-illustrated.html" aria-current="page"><span>10</span> Illustrated stories</a>
     </nav>
 
     <header class="shell page-hero mini-hero">
@@ -106,6 +108,7 @@
         <a href="#beats">4. Per-frame beat sheets</a>
         <a href="#book">5. Run the storybook</a>
         <a href="#package">6. Package to print</a>
+        <a href="#use-output">Final step: Use the output</a>
         <a href="#finish">What you learned</a>
       </aside>
 
@@ -442,6 +445,25 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
           </p>
         </section>
 
+        <section id="use-output" class="article-section">
+          <h2>Final step: Use the output</h2>
+          <p>
+            These examples are not just prompt generators. When you run the
+            scripts with a configured image-capable model, the WeaveMark pipeline
+            executes and writes the finished media artifacts.
+          </p>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            open <code>comic-strip.png</code> to review or share the finished
+            comic, and open <code>book.html</code> or <code>book.pdf</code> to
+            review, print, or distribute the picture book. Use
+            <code>compiled-chain.json</code> and the inspection logs to audit the
+            prompts and model decisions; they are not files you need to paste into
+            ChatGPT unless you are debugging or asking another assistant for
+            critique.
+          </div>
+        </section>
+
         <section id="finish" class="article-section">
           <h2>What you learned</h2>
           <ul>
@@ -472,6 +494,14 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
           <a href="tutorial.html">Tutorial track</a> |
           <a href="tutorial-implement.html">Spec to app</a> |
           <a href="reference.html">Reference</a>
+        </div>
+        <div class="footer-meta">
+          <p>
+            WeaveMark is authored by Dr. Paulo Salem. Learn more at
+            <a href="https://www.paulosalem.com">www.paulosalem.com</a> or connect
+            on <a href="https://www.linkedin.com/in/paulosalem/">LinkedIn</a>.
+          </p>
+          <p>Copyright (c) 2026 Paulo Salem</p>
         </div>
       </div>
     </footer>

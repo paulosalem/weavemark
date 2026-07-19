@@ -20,6 +20,7 @@
         <div class="nav-links" aria-label="Site pages">
           <a href="index.html">Home</a>
           <a href="introduction.html">Intro</a>
+          <a href="principles.html">Principles</a>
           <a href="tutorial.html" aria-current="page">Tutorial</a>
           <a href="python-api.html">API</a>
           <a href="reference.html">Ref</a>
@@ -41,8 +42,9 @@
       <a href="tutorial-games.html"><span>5</span> Game specs</a>
       <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
       <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
-      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
-      <a href="tutorial-illustrated.html"><span>9</span> Illustrated stories</a>
+      <a href="tutorial-executable.html"><span>8</span> Tool bindings</a>
+      <a href="tutorial-implement.html"><span>9</span> Spec to app</a>
+      <a href="tutorial-illustrated.html"><span>10</span> Illustrated stories</a>
     </nav>
 
     <header class="shell page-hero mini-hero">
@@ -92,6 +94,7 @@
         <a href="#compose">2. Compose it</a>
         <a href="#adapt">3. Adapt it</a>
         <a href="#emit">4. Emit artifacts</a>
+        <a href="#use-output">Final step: Use the output</a>
         <a href="#next">Next</a>
       </aside>
 
@@ -289,6 +292,25 @@ Critical release risk: <span class="syntax-var">@{release_risk}</span>
           </div>
         </section>
 
+        <section id="use-output" class="article-section">
+          <h2>Final step: Use the output</h2>
+          <p>
+            The package splits product work into artifacts with different
+            consumers. Use each file for its intended role instead of handing the
+            whole folder to one person or tool without context.
+          </p>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            read <code>product-brief.md</code> with stakeholders,
+            give <code>implementation-spec.md</code> to a programming agent such
+            as GitHub Copilot, Claude Code, Cursor, or
+            <code>weavemark implement</code>, and keep
+            <code>acceptance-checklist.md</code> as the human/agent review gate
+            for the finished application. These Markdown files are handoff
+            artifacts; they do not execute on their own.
+          </div>
+        </section>
+
         <section id="next" class="article-section">
           <h2>Next</h2>
           <p>
@@ -311,6 +333,14 @@ Critical release risk: <span class="syntax-var">@{release_risk}</span>
           <a href="tutorial-games.html">Game specs</a> |
           <a href="tutorial-advanced.html">Advanced macros</a> |
           <a href="reference.html">Reference</a>
+        </div>
+        <div class="footer-meta">
+          <p>
+            WeaveMark is authored by Dr. Paulo Salem. Learn more at
+            <a href="https://www.paulosalem.com">www.paulosalem.com</a> or connect
+            on <a href="https://www.linkedin.com/in/paulosalem/">LinkedIn</a>.
+          </p>
+          <p>Copyright (c) 2026 Paulo Salem</p>
         </div>
       </div>
     </footer>

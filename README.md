@@ -24,6 +24,25 @@ a prompt; the processor works out *how* to weave it into concrete text. You get
 software-grade reuse, composition, and versioning, while the source stays readable
 prose.
 
+> [!IMPORTANT]
+> **Foundational principle — language is a tool for thought.**
+>
+> Prompts are often treated as blobs of unstructured information. But natural
+> language is already richly structured through hierarchy, sequence, scope,
+> contrast, reference, and argument. WeaveMark's computational abstractions help
+> expose, compose, and more fully leverage that structure without replacing
+> language as the primary medium.
+>
+> Prompting is not merely the phrasing of a request. It is the work of
+> formulating a way of thinking: what to notice, how to frame and decompose a
+> problem, which perspectives and reasoning methods to apply, how to test
+> conclusions, and what form an answer should take. WeaveMark makes those
+> cognitive structures explicit, readable, reusable, and composable. A promplet
+> structures not just prompt text, but the thinking the prompt is intended to
+> elicit.
+>
+> See the [WeaveMark principles](docs/principles.html) for the fuller argument.
+
 The readable, reusable units you write in WeaveMark are called **promplets**. A
 promplet is plain Markdown with a few directives; it can stand alone as one
 concrete prompt, or be built from other promplets: shared personas, policies,
@@ -37,6 +56,13 @@ it as concrete prompt text, while parsing, variables, branching, and emission
 stay deterministic. Prose stays central; directives just mark the seams for
 composition, checks, reuse, and emission. Compiling *language* with a *language
 model* is a deliberate experiment — see the FAQ for why.
+
+Compilation and interpretation are distinct. **Compilation** turns readable
+source and abstract directives into a structured prompt artifact.
+**Interpretation** begins when that artifact is run: an execution engine treats
+its named prompts, tools, contracts, and execution metadata as a runtime plan,
+then records the model calls, tool use, intermediate steps, artifacts, and final
+result.
 
 ## At a glance
 
@@ -57,6 +83,10 @@ model* is a deliberate experiment — see the FAQ for why.
 - **Semantic compilation, not templating.** `@refine`, `@style`, `@summarize`,
   and friends operate on *meaning*, so a base spec can be abstract and still
   compile into a concrete, coherent prompt.
+- **Power with machinery.** An LLM supplies generative and interpretive power;
+  language shapes that power, while computation sequences, checks, stores, and
+  binds it to tools. Together they turn capability into useful actions and
+  artifacts.
 - **Batteries included.** A library of **50+** reusable methods ships in
   [`promplets/`](promplets): MECE, issue trees, ACH, SCAMPER, Six
   Thinking Hats, chain-of-thought, finance lenses, programming stacks and
@@ -67,9 +97,16 @@ model* is a deliberate experiment — see the FAQ for why.
 - **Specs that become software.** A software promplet compiles into a build-ready
   spec that `weavemark implement` hands to a programming agent — producing a real,
   runnable project (see [`outputs/implementations/orbital-drift/`](outputs/implementations/orbital-drift/README.md)).
+- **Programming is still intent.** Agents may write the code—or even draft the
+  promplet—but they still need intricate intent. A readable specification gives
+  people and agents a durable artifact for negotiating, correcting, and refining
+  that intent.
 - **Explicit and inspectable.** Structural directives (`@if`, `@match`,
   `@prompt`, `@emit`, `@assert`) resolve locally and deterministically; only the
   semantic directives call the model. You always see the compiled artifact.
+- **Source context with a retention choice.** `@reference` can use another file
+  during compilation and either retain its resolved content in a deterministic
+  Reference Appendix or omit the source from the generated artifact.
 - **Multimodal.** Markdown image references (`![alt](chart.png)`) are sent to
   vision models as image inputs, and `@output type: image` turns a promplet into
   an image generator — toggle image lifting with `@compile images: on|off`.
@@ -99,6 +136,21 @@ The Processor resolves refinements, variables, branches, emitted files, tools,
 and assertions into a structured result. Semantic refinement goes beyond
 templating: the base prompt is abstract, and compilation decides how to realize
 it here.
+
+The word **specification** is deliberate. An abstract `Spec` states properties
+that any realization must preserve; a more concrete `Imp` adds decisions and
+detail. Correct refinement means `Imp ⇒ Spec`, while generally `Spec ⇏ Imp`
+because one specification permits many implementations. WeaveMark takes
+inspiration from that discipline without claiming formal verification. See the
+[Principles](docs/principles.html) for the precise model.
+
+Use `@reference path/to/file keep:true|false` for source context. Retained
+references are appended after a `***` document break; compilation-only
+references are not mechanically copied into the generated prompt. The explicit
+inline form is `@reference("path/to/file" keep:true)`. Language 0.9 also accepts
+Claude-style path shorthand outside code spans and fences; the checked-in
+[reference-context example](examples/terminal-output-only/reference-context/promplets/reference-aware-release-note.weavemark.md)
+contains the project’s only shorthand demonstration.
 
 ## Installation
 
@@ -457,15 +509,21 @@ readable prose. Under a liberal reading of "program" as "instructions to be
 executed," WeaveMark is a kind of literate programming for natural-language
 instructions — call it "programmatic prompting" if you prefer.
 
+### Is this a harness?
+
+As much as a car is a "fuel harness".
+
 ### Don't you have an actual job and a family to feed?
 
-Why, yes — but what's the problem? Some people watch the World Cup. Others
-spend a full waking day every week doomscrolling Instagram. Still others feed
-the poor. I do this. It is my idea of fun — and of contributing to the
-community.
+Why, yes — but what's the problem? Some people watch the World Cup.
+Others spend a full waking day every week doomscrolling Instagram.
+Still others feed the poor. And who sleeps before midnight anyway?
+I do this. It is my idea of fun - and of contributing to the community.
 
 ## Learn more
 
+- [Introduction](docs/introduction.html) — the mental model, Processor, compilation stages, and execution boundary.
+- [Principles](docs/principles.html) — language as a tool for thought and the design commitments that follow.
 - [Public tutorial track](docs/tutorial.html) — hands-on lessons from your first promplet to reuse, the semantic toolbox, and spec-to-app.
 - [Python API](docs/python-api.md) — async library usage, execution, custom engines, and diagnostics.
 - [WeaveMark Processor and language reference](docs/usage-reference.md) — batch mode, output formats, emissions, tools, assertions, execution engines, modules, and config.

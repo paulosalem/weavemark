@@ -56,6 +56,10 @@ class SpecInfoPanel(Static):
         if m.refine_files:
             lines.append(f"🔗 Deps: {', '.join(m.refine_files)}")
 
+        if m.reference_files:
+            unique = list(dict.fromkeys(m.reference_files))
+            lines.append(f"📚 References: {', '.join(unique)}")
+
         if m.embed_files:
             unique = list(dict.fromkeys(m.embed_files))
             lines.append(f"📎 Embedded: {', '.join(unique)}")

@@ -6,6 +6,13 @@
 
 - Markdown-native `<!-- ... -->` author comments, stripped before WeaveMark
   parsing while remaining literal inside inline and fenced code.
+- Language 0.9 source references: block and inline `@reference`, Claude-style
+  `@path` shorthand, compiler-only or retained context, recursive resolution,
+  provenance metadata, and deterministic Reference Appendices.
+
+### Changed
+
+- The current WeaveMark language version is 0.9.
 
 ### Fixed
 

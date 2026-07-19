@@ -20,6 +20,7 @@
         <div class="nav-links" aria-label="Site pages">
           <a href="index.html">Home</a>
           <a href="introduction.html">Intro</a>
+          <a href="principles.html">Principles</a>
           <a href="tutorial.html" aria-current="page">Tutorial</a>
           <a href="python-api.html">API</a>
           <a href="reference.html">Ref</a>
@@ -41,8 +42,9 @@
       <a href="tutorial-games.html"><span>5</span> Game specs</a>
       <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
       <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
-      <a href="tutorial-implement.html"><span>8</span> Spec to app</a>
-      <a href="tutorial-illustrated.html"><span>9</span> Illustrated stories</a>
+      <a href="tutorial-executable.html"><span>8</span> Tool bindings</a>
+      <a href="tutorial-implement.html"><span>9</span> Spec to app</a>
+      <a href="tutorial-illustrated.html"><span>10</span> Illustrated stories</a>
     </nav>
 
     <header class="shell page-hero mini-hero">
@@ -98,6 +100,7 @@
         <a href="#refine">2. Add finance lenses</a>
         <a href="#compose">3. Compose</a>
         <a href="#branch">4. Add branching</a>
+        <a href="#use-output">Final step: Use the output</a>
         <a href="#finish">What you learned</a>
       </aside>
 
@@ -277,6 +280,22 @@ mkdir -p outputs/tutorial-investment/prompts</code></pre>
           </p>
         </section>
 
+        <section id="use-output" class="article-section">
+          <h2>Final step: Use the output</h2>
+          <p>
+            The tutorial output is a <strong>compiled prompt</strong>, not the
+            finished investment analysis. WeaveMark has assembled the instruction;
+            a downstream assistant still has to carry it out.
+          </p>
+          <div class="callout">
+            <strong>What to do with the output:</strong>
+            open <code>outputs/tutorial-investment/brief.md</code> or the
+            completed example's <code>compiled-prompt.md</code>, paste it into
+            ChatGPT, Claude, Gemini, Copilot Chat, or another LLM assistant, and
+            ask that assistant to produce the investment brief.
+          </div>
+        </section>
+
         <section id="finish" class="article-section">
           <h2>What you learned</h2>
           <ul>
@@ -306,6 +325,14 @@ mkdir -p outputs/tutorial-investment/prompts</code></pre>
           <a href="python-api.html">Python API</a> |
           <a href="reference.html">Reference</a> |
           <a href="../src/weavemark/prompts/weavemark.system.md">Language contract</a>
+        </div>
+        <div class="footer-meta">
+          <p>
+            WeaveMark is authored by Dr. Paulo Salem. Learn more at
+            <a href="https://www.paulosalem.com">www.paulosalem.com</a> or connect
+            on <a href="https://www.linkedin.com/in/paulosalem/">LinkedIn</a>.
+          </p>
+          <p>Copyright (c) 2026 Paulo Salem</p>
         </div>
       </div>
     </footer>

@@ -8,7 +8,7 @@
       name="description"
       content="WeaveMark is a Markdown-native specification language for promplets: you specify abstract intent and the WeaveMark Processor compiles, inspects, and executes it."
     >
-    <link rel="stylesheet" href="site.css?v=20260712-notation2">
+    <link rel="stylesheet" href="site.css?v=20260718-thought">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
   </head>
   <body>
@@ -20,6 +20,7 @@
         <div class="nav-links" aria-label="Site pages">
           <a href="index.html" aria-current="page">Home</a>
           <a href="introduction.html">Intro</a>
+          <a href="principles.html">Principles</a>
           <a href="tutorial.html">Tutorial</a>
           <a href="python-api.html">API</a>
           <a href="reference.html">Ref</a>
@@ -90,18 +91,36 @@
     <span class="syntax-string">"advanced"</span> ==&gt; add canvas, terminal, forms.
   <span class="syntax-directive">@if</span> realtime_updates
     Stream agent progress without losing board stability.</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="news-intelligence-board.weavemark.md" data-href="../promplets/catalog/standalone/news-intelligence-board.weavemark.md" data-stat-a-title="event memory" data-stat-a-text="sources, clusters, presentations" data-stat-b-title="material updates" data-stat-b-text="resurface only when meaning changes" data-stat-c-title="local-first" data-stat-c-text="durable SQLite history" hidden><code><span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.workflow_board
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.local_sqlite_storage
-<span class="syntax-directive">@refine</span> module:weavemark.domains.research.recurring_topic_monitor
+              <pre class="hero-slide" data-carousel-slide data-title="recurring-topic-monitor.weavemark.md" data-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-stat-a-title="bound tools" data-stat-a-text="search, crawl, then synthesize" data-stat-b-title="event memory" data-stat-b-text="new, repeat, material update" data-stat-c-title="saved run" data-stat-c-text="digest plus execution trace" hidden><code><span class="syntax-directive">@execute</span> single-call
+  <span class="syntax-key">max_tool_calls:</span> 30
 
-# News Intelligence Board
+<span class="syntax-directive">@bind</span> search_news <span class="syntax-key">language:</span> python <span class="syntax-key">from:</span> <span class="syntax-string">"./companions/recurring_topic_monitor.py"</span>
+<span class="syntax-directive">@bind</span> crawl_url <span class="syntax-key">language:</span> python <span class="syntax-key">from:</span> <span class="syntax-string">"./companions/recurring_topic_monitor.py"</span>
 
-Search configured topics and event types.
-Cluster many articles into one durable event.
+# Recurring Topic Monitor
 
-Exact duplicate: store retrieval metadata; never show again.
-Material update: resurface the existing event card
-with a visible “What changed” diff.</code></pre>
+Topic: <span class="syntax-var">@{topic}</span>
+Cadence: <span class="syntax-var">@{cadence}</span>
+Lookback window: <span class="syntax-var">@{lookback_window}</span>
+
+Cluster duplicate coverage.
+Resurface only new or materially changed findings.</code></pre>
+              <pre class="hero-slide" data-carousel-slide data-title="childrens-book.weavemark.md" data-href="../promplets/catalog/executable/childrens-book.weavemark.md" data-stat-a-title="image chain" data-stat-a-text="author once, render every page" data-stat-b-title="output files" data-stat-b-text="pages, book.html, book.pdf" data-stat-c-title="story data" data-stat-c-text="dotted-path page beats" hidden><code><span class="syntax-directive">@execute</span> chain
+  <span class="syntax-key">repeat:</span> page
+  <span class="syntax-key">count:</span> <span class="syntax-var">@{page_count}</span>
+
+<span class="syntax-directive">@prompt</span> author
+  <span class="syntax-directive">@refine</span> module:weavemark.domains.creative.illustrated_story_core
+    <span class="syntax-key">with</span> story_format: <span class="syntax-string">"picture-book"</span>
+
+  Page 1: <span class="syntax-var">@{pages.1.scene}</span>
+  Narration: <span class="syntax-var">@{pages.1.text}</span>
+
+<span class="syntax-directive">@prompt</span> page
+  <span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image <span class="syntax-key">file:</span> pages/page-<span class="syntax-var">@{index}</span>.png
+
+<span class="syntax-directive">@package</span> <span class="syntax-key">template:</span> module:weavemark.domains.creative.picture_book_html <span class="syntax-key">file:</span> book.html
+<span class="syntax-directive">@package</span> <span class="syntax-key">from:</span> book.html <span class="syntax-key">file:</span> book.pdf</code></pre>
               <pre class="hero-slide" data-carousel-slide data-title="creative-ideation.weavemark.md" data-href="../promplets/catalog/standalone/creative-ideation.weavemark.md" data-stat-a-title="@match method" data-stat-a-text="SCAMPER, Six Hats, Reverse" data-stat-b-title="@refine mingle" data-stat-b-text="method becomes local structure" data-stat-c-title="constraints" data-stat-c-text="limits stay visible" hidden><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 <span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst <span class="syntax-key">mingle:</span> true
 
@@ -139,9 +158,10 @@ decision-relevant questions or drivers.
           <div class="carousel-controls" aria-label="WeaveMark example selector">
             <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Previous example">&lt;</button>
             <button class="carousel-tab is-active" type="button" data-carousel-index="0" aria-pressed="true">Kanban</button>
-            <button class="carousel-tab" type="button" data-carousel-index="1" aria-pressed="false">News board</button>
-            <button class="carousel-tab" type="button" data-carousel-index="2" aria-pressed="false">Ideas</button>
-            <button class="carousel-tab" type="button" data-carousel-index="3" aria-pressed="false">Issue tree</button>
+            <button class="carousel-tab" type="button" data-carousel-index="1" aria-pressed="false">Topic monitor</button>
+            <button class="carousel-tab" type="button" data-carousel-index="2" aria-pressed="false">Storybook</button>
+            <button class="carousel-tab" type="button" data-carousel-index="3" aria-pressed="false">Ideas</button>
+            <button class="carousel-tab" type="button" data-carousel-index="4" aria-pressed="false">Issue tree</button>
             <button class="carousel-arrow" type="button" data-carousel-next aria-label="Next example">&gt;</button>
           </div>
         </div>
@@ -161,6 +181,19 @@ decision-relevant questions or drivers.
         </div>
       </div>
     </header>
+
+    <aside class="shell principle-teaser" aria-labelledby="home-principle-title">
+      <span class="principle-teaser-mark" aria-hidden="true">Aa</span>
+      <div>
+        <p class="principle-teaser-label">Our premise</p>
+        <h2 id="home-principle-title">Language is a tool for thought.</h2>
+        <p>
+          Prompts formulate ways of thinking. WeaveMark helps make their rich
+          linguistic and cognitive structure explicit and composable.
+        </p>
+      </div>
+      <a class="principle-teaser-link" href="principles.html">Explore the principles <span aria-hidden="true">&rarr;</span></a>
+    </aside>
 
     <main>
       <section class="shell proof-strip" aria-label="WeaveMark at a glance">
@@ -186,20 +219,6 @@ decision-relevant questions or drivers.
         </div>
       </section>
 
-      <section class="shell">
-        <div class="compile-callout" role="note">
-          <span class="ic ic-wand" aria-hidden="true"></span>
-          <p>
-            <strong>Compilation is mostly a language model at work.</strong>
-            Deterministic parsing handles variables, branches, and emission, but the
-            meaning-level moves — refining, restyling, condensing, realizing abstract
-            intent — are performed by an LLM. That is deliberate: WeaveMark is an
-            experiment in <strong>using language models to compile language</strong>.
-            <a href="introduction.html#faq">Why compile this way &rarr;</a>
-          </p>
-        </div>
-      </section>
-
       <section id="why-promplet" class="shell">
         <div class="section-head">
           <div>
@@ -216,61 +235,32 @@ decision-relevant questions or drivers.
 
         <div class="grid three">
           <article class="card">
-            <span class="badge">Read</span>
-            <h3>Readable by design.</h3>
+            <span class="badge">Read &amp; evolve</span>
+            <h3>Readable source that can mature.</h3>
             <p>
               The syntax stays <strong>minimally intrusive in Markdown</strong>.
-              Most of the source is still prose, lists, headings, and examples
-              that humans can skim and edit.
+              Keep important prompts in files, review changes, and track how
+              behavior evolves without sacrificing readable prose.
             </p>
           </article>
 
           <article class="card">
-            <span class="badge">Intent</span>
-            <h3>High intent density.</h3>
+            <span class="badge">Compose &amp; vary</span>
+            <h3>Reuse structure without copy-paste.</h3>
             <p>
-              Directives such as <code>@expand</code>, <code>@ask</code>, and
-              <code>@iterate</code> capture transformations you would otherwise
-              explain manually to an assistant.
+              Refine shared reasoning methods and constraints, then branch with
+              <code>@if</code> or <code>@match</code> when one source needs
+              controlled variations.
             </p>
           </article>
 
           <article class="card">
-            <span class="badge">Evolve</span>
-            <h3>Prompt evolution and versioning.</h3>
+            <span class="badge">Inspect &amp; ship</span>
+            <h3>Artifacts with an explicit destination.</h3>
             <p>
-              Treat important prompts like source: keep them in files, review
-              changes, reuse shared pieces, and track how behavior evolves over
-              time.
-            </p>
-          </article>
-
-          <article class="card">
-            <span class="badge">Reuse</span>
-            <h3>Reusable constraints.</h3>
-            <p>
-              Use <code>@refine</code> when evidence standards, teaching moves,
-              product obligations, or safety rules should shape many prompt
-              programs without being pasted everywhere.
-            </p>
-          </article>
-
-          <article class="card">
-            <span class="badge">Vary</span>
-            <h3>Controlled variation.</h3>
-            <p>
-              Branch with <code>@if</code> and <code>@match</code> so one source
-              can compile into several concrete prompts while staying readable.
-            </p>
-          </article>
-
-          <article class="card">
-            <span class="badge">Ship</span>
-            <h3>Outputs with a destination.</h3>
-            <p>
-              Compile pastable prompts, role-separated prompt packs,
-              programming-agent specifications, or executable promplets
-              from the same language.
+              See the compiled result, validate its contract, then produce a
+              pastable prompt, prompt pack, agent specification, emitted file,
+              or executable promplet.
             </p>
           </article>
         </div>
@@ -554,17 +544,6 @@ Preserve decisions, risks, evidence, gaps, and next actions.</code></pre>
             </article>
 
             <article class="snippet-card">
-              <span class="snippet-label">Concept expansion</span>
-              <p class="snippet-note">
-                <code>@expand</code> elaborates a specific concept the rest of the
-                spec builds on — not a way to inflate a one-liner into a whole spec.
-              </p>
-              <pre><code><span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention <span class="syntax-key">length:</span> 70%
-  Make the <a class="code-link" href="../promplets/catalog/standalone/multi-persona-debate.weavemark.md">steel-manning</a> requirement operational: each
-  perspective restates the strongest opposing view fairly.</code></pre>
-            </article>
-
-            <article class="snippet-card">
               <span class="snippet-label">Output contract</span>
               <p class="snippet-note">
                 Assertions keep required content visible in the source before
@@ -578,18 +557,6 @@ Preserve decisions, risks, evidence, gaps, and next actions.</code></pre>
 Name the risk, missing information, and next step.</code></pre>
             </article>
 
-            <article class="snippet-card">
-              <span class="snippet-label">One source, many surfaces</span>
-              <p class="snippet-note">
-                <code>@emit</code> keeps companion artifacts aligned with the
-                same readable source.
-              </p>
-              <pre><code><span class="syntax-directive">@emit</span> <span class="syntax-key">file:</span> <span class="syntax-string">"agent.system.md"</span>
-  # Agent operating brief
-
-  Use the refined prompt as the system instruction.
-  Keep the emitted file aligned with the source promplet.</code></pre>
-            </article>
           </div>
         </div>
       </section>
@@ -618,8 +585,8 @@ Name the risk, missing information, and next step.</code></pre>
               self-consistency, or reflection, each modeled on established
               prompting patterns from the literature (Yao et al. 2023, Wang et al.
               2022, Shinn &amp; Madaan 2023). The readable document stays the
-              specification everyone can inspect; the WeaveMark Processor runs it
-              when execution is requested.
+              specification everyone can inspect; when execution is requested,
+              the selected engine interprets the compiled artifact at runtime.
             </p>
           </div>
           <div class="code-card">
@@ -680,45 +647,15 @@ Problem: <span class="syntax-var">@{problem}</span>
               <strong>Mental model</strong>
               <small>The language in plain terms.</small>
             </a>
-            <a class="path-link" href="tutorial-reuse.html">
-              <span>2</span>
-              <strong>Reuse &amp; refine</strong>
-              <small>One library, many outputs &mdash; the superpower.</small>
+            <a class="path-link" href="principles.html">
+              <span>Why</span>
+              <strong>Principles</strong>
+              <small>The philosophy and design commitments.</small>
             </a>
-            <a class="path-link" href="tutorial-refine.html">
-              <span>3</span>
-              <strong>Adaptive tutor</strong>
-              <small>Use <code>@refine</code> and <code>@ask</code>.</small>
-            </a>
-            <a class="path-link" href="tutorial-products.html">
-              <span>4</span>
-              <strong>Product promplets</strong>
-              <small>Compose product and programming layers.</small>
-            </a>
-            <a class="path-link" href="tutorial-games.html">
-              <span>5</span>
-              <strong>Game promplets</strong>
-              <small>Use <code>@iterate</code> to improve expansion.</small>
-            </a>
-            <a class="path-link" href="tutorial-directives.html">
-              <span>6</span>
-              <strong>Semantic toolbox</strong>
-              <small>Tour <code>@refine</code>, <code>@expand</code>, <code>@revise</code>, and more.</small>
-            </a>
-            <a class="path-link" href="tutorial-advanced.html">
-              <span>7</span>
-              <strong>Advanced macros</strong>
-              <small>Write <code>@define</code> macros and runtime functions.</small>
-            </a>
-            <a class="path-link" href="tutorial-implement.html">
-              <span>8</span>
-              <strong>Spec to app</strong>
-              <small>Turn a compiled spec into a running project.</small>
-            </a>
-            <a class="path-link" href="tutorial-illustrated.html">
-              <span>9</span>
-              <strong>Illustrated stories</strong>
-              <small>Images in and out: a comic and a printable storybook.</small>
+            <a class="path-link" href="tutorial.html">
+              <span>Learn</span>
+              <strong>Tutorial track</strong>
+              <small>Nine connected lessons, from first prompt to running app.</small>
             </a>
             <a class="path-link" href="python-api.html">
               <span>API</span>
@@ -776,6 +713,14 @@ Problem: <span class="syntax-var">@{problem}</span>
         <div>
           Authoritative language contract:
           <a href="../src/weavemark/prompts/weavemark.system.md">weavemark.system.md</a>.
+        </div>
+        <div class="footer-meta">
+          <p>
+            WeaveMark is authored by Dr. Paulo Salem. Learn more at
+            <a href="https://www.paulosalem.com">www.paulosalem.com</a> or connect
+            on <a href="https://www.linkedin.com/in/paulosalem/">LinkedIn</a>.
+          </p>
+          <p>Copyright (c) 2026 Paulo Salem</p>
         </div>
       </div>
     </footer>

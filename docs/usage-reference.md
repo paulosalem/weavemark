@@ -22,6 +22,36 @@ Use `@note` when the annotation is compiler-facing guidance rather than a purely
 lexical comment. Its indented body can inform compilation diagnostics, but is
 still excluded from the composed prompt.
 
+## Referenced source context
+
+`@reference` loads one file as active compilation context:
+
+```weavemark
+@reference project-overview.md
+@reference terminology.md keep:false
+```
+
+`keep:true` is the default. The resolved source is available during compilation
+and then retained after a blank-line `***` blank-line document break under
+`# Reference Appendix`, with its source path, media type, and content hash.
+`keep:false` makes the source available to compilation without mechanically
+copying it into generated prompts. It is not a confidentiality boundary: the
+compiler may still reflect information learned from that context.
+
+The explicit inline call is `@reference("project-overview.md" keep:true)`.
+Language 0.9 also accepts bare path references outside code spans and fences,
+using the same notation as
+[Claude Code memory imports](https://code.claude.com/docs/en/memory#import-additional-files);
+bare paths always use `keep:true`. Registered directives, `@{variables}`, `@@`
+escapes, inline code, and fenced code take precedence. Referenced source is
+resolved recursively relative to each containing file, with cycle, depth, size,
+protection, and provenance checks.
+
+Inline retained references become stable `[Reference Rn]` anchors. A line-leading
+`@reference` contributes no anchor. Other directives do not yet support inline
+call syntax; `@name(...){...}` remains reserved for future scoped inline
+transformations.
+
 ## Live demo
 
 Start with a plain single-spec run when you want the normal user experience:
@@ -582,6 +612,13 @@ the compiled result, but the final prompt should read as one concrete
 specification rather than pasted fragments. Add an indented body when a specific
 refinement needs local guidance:
 
+The name follows the refinement discipline described in the
+[Principles](principles.html#specification-title): a refinement should add
+constraints or detail while preserving the obligations already present. In
+logical shorthand, the more concrete result should imply the abstract
+specification. WeaveMark treats this as an authoring and inspection obligation,
+not as a formally verified theorem.
+
 ```markdown
 @refine teaching/socratic-tutoring
   Use this refinement to shape the interaction loop and feedback behavior.
@@ -868,6 +905,13 @@ each improvement pass, and the final convergence or exhaustion result.
 ### Execution Engines (`--run`)
 
 WeaveMark can **compile and execute** specs in one step. Use `--run` to invoke an execution engine that orchestrates multi-step strategies like Tree of Thought, Self-Consistency, and Reflection.
+
+**Compilation and interpretation are separate phases.** Compilation turns
+WeaveMark source into a structured artifact containing prompts, tools, bindings,
+contracts, and execution metadata. Runtime **interpretation** begins after that:
+the selected engine reads the artifact as an orchestration plan, performs the
+required model and tool calls, threads intermediate results through its strategy,
+and returns a final output with step records and metadata.
 
 ```bash
 # Compile + execute with Tree of Thought

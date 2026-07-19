@@ -17,12 +17,14 @@ The category names set expectations:
 
 - `terminal-output-only/` — one real-use `weavemark --verbose` command that
   shows processing progress and prints the composed prompt in the terminal.
-- `saved-artifact-workflows/` — one richer workflow, often compile + execute,
-  with saved artifacts under that example's `outputs/` folder.
+- `saved-artifact-workflows/` — one richer workflow, often compile + execute
+  or a native bound-tool run, with saved artifacts under that example's
+  `outputs/` folder.
 - `batch-example-runs/` — curated batches that run many examples in sequence.
-- `python-runtime-integrations/` — Python examples that pair WeaveMark programs
-  with companion runtime components such as tool registries, finance APIs, web
-  search, or crawl helpers.
+- `python-runtime-integrations/` — Python examples that intentionally expose
+  companion runtime components such as tool registries, finance APIs, web
+  search, or crawl helpers. Prefer a shell runner in `saved-artifact-workflows/`
+  when the regular `weavemark ... --run` path is enough.
 - `interactive-ui-and-handoff-demos/` — TUI, discovery, and human/agent handoff
   demos.
 - `benchmark-runners/` — benchmark runners.
@@ -57,8 +59,10 @@ run. After that, set `HF_DATASETS_OFFLINE=1` when you deliberately want a
 cache-only run.
 
 Set the provider credentials required by the model named in the visible runner
-command. Every runner works from any current directory, uses default protections
-without `--no-protections`, and writes only beneath its own `outputs/` folder.
+command. Every runner works from any current directory and writes only beneath
+its own `outputs/` folder. Most runners use default protections; checked-in
+bound-tool examples may pass `--no-protections` so the trusted local Python
+bindings run without an interactive prompt.
 Start with a no-cost structural check when evaluating a local setup:
 
 ```bash
@@ -163,6 +167,9 @@ Useful entry points:
 
 - `terminal-output-only/program-review-checklist/run.sh` runs one concrete spec
   with a vars file, showing verbose processing before the composed prompt.
+- `terminal-output-only/reference-context/run.sh` compiles one release-note
+  promplet with compiler-only terminology guidance and one retained source
+  reference, demonstrating the language 0.9 reference appendix.
 - `saved-artifact-workflows/investment-brief/run.sh` compiles the completed
   investment-brief spec used by the hands-on tutorial and saves the compiled
   prompt for inspection.
@@ -180,8 +187,11 @@ Useful entry points:
   `creative-ideation` examples that show one source spec semantically mingling
   three reusable ideation methods through `@refine`.
 - `batch-example-runs/execution-engines/run.sh` runs Tree-of-Thought,
-  Self-Consistency, Reflection, JSON, and the native bound-tool recurring monitor
-  with saved traces.
+  Self-Consistency, Reflection, JSON, and one batch copy of the native
+  bound-tool recurring monitor with saved traces.
+- `saved-artifact-workflows/recurring-topic-monitor/run.sh` is the simple
+  standalone recurring-monitor entry point. It runs the catalog promplet directly
+  through `weavemark ... --run` with local `ai-news` and `child-events` presets.
 - `saved-artifact-workflows/crisis-strategy/run.sh` runs one tool-enabled
   strategy-analysis spec, saving the compiled prompt and executed result.
 - `saved-artifact-workflows/program-review-json/run.sh` shows the
@@ -203,10 +213,12 @@ Useful entry points:
   relevance ranking, deduplication, previous-report comparison, and synthesis
   live in the promplet; its Python companion only binds one web search, news
   search, or crawl call at a time.
-- `python-runtime-integrations/market-snapshot/run.py` compiles the experimental
-  Weave stock snapshot, executes the bound Ellements finance/search/crawl tools
-  through companion runtime components, and saves the tool results plus a
-  `gpt-5.5` learning brief.
+- `saved-artifact-workflows/market-snapshot/run.sh` is the simple standalone
+  market-snapshot entry point. It runs the experimental Weave stock snapshot
+  promplet directly through `weavemark ... --run`.
+- `python-runtime-integrations/market-snapshot/run.py` is the lower-level Python
+  companion transcript for people who want to inspect or customize the
+  finance/search/crawl calls and saved intermediate tool results directly.
 - `python-runtime-integrations/financial-independence-goal-plan/run.py` compiles
   the advanced goal-to-plan macro example, runs the bound public-reference
   lookup companion, and saves a ready-to-paste financial-independence planning

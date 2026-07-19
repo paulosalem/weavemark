@@ -450,6 +450,7 @@ class TestWeaveMarkOutputQuality:
             "emits",
             "outputs",
             "packages",
+            "references",
             "directives",
             "analysis",
             "warnings",
@@ -699,6 +700,23 @@ class TestWeaveMarkImports:
         assert (
             EXAMPLES_DIR
             / "saved-artifact-workflows/investment-brief/outputs/compiled-prompt.md"
+        ).is_file()
+        assert (
+            EXAMPLES_DIR / "saved-artifact-workflows/recurring-topic-monitor/run.sh"
+        ).is_file()
+        assert (
+            EXAMPLES_DIR
+            / "saved-artifact-workflows/recurring-topic-monitor/inputs/ai-news.json"
+        ).is_file()
+        assert (
+            EXAMPLES_DIR
+            / "saved-artifact-workflows/recurring-topic-monitor/inputs/child-events.json"
+        ).is_file()
+        assert (
+            EXAMPLES_DIR / "saved-artifact-workflows/market-snapshot/run.sh"
+        ).is_file()
+        assert (
+            EXAMPLES_DIR / "saved-artifact-workflows/market-snapshot/inputs/vars.json"
         ).is_file()
         assert (
             EXAMPLES_DIR / "terminal-output-only/decision-advisor/inputs/vars.json"

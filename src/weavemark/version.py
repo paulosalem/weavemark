@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from importlib.metadata import PackageNotFoundError, version
 
-LANGUAGE_VERSION = "0.8"
+LANGUAGE_VERSION = "0.9"
 
 try:
     __version__ = version("weavemark")
