@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.9.0 - 2026-07-19
+
 ### Added
 
 - Markdown-native `<!-- ... -->` author comments, stripped before WeaveMark
@@ -11,20 +13,6 @@
   provenance metadata, and deterministic Reference Appendices.
 - Tag-triggered PyPI Trusted Publishing and GitHub release automation, guarded
   by synchronized version and finalized-changelog validation.
-
-### Changed
-
-- The current WeaveMark language version is 0.9.
-
-### Fixed
-
-- Tutorial snippets no longer present Markdown `#` headings as WeaveMark
-  comments.
-
-## 0.9.0
-
-### Added
-
 - JSON, YAML, and YML input-variable files with strict object and duplicate-key
   validation.
 - Repository-wide Markdown rendering and local-link hygiene checks.
@@ -34,6 +22,7 @@
 
 ### Changed
 
+- The current WeaveMark language version is 0.9.
 - Executable promplets now carry their normal engine semantics entirely in
   `@execute`; redundant catalog runtime sidecars were removed.
 - Runtime config is reserved for explicit provider, policy, and host overrides.
@@ -70,6 +59,8 @@
 
 ### Fixed
 
+- Tutorial snippets no longer present Markdown `#` headings as WeaveMark
+  comments.
 - GitHub README rendering around Quickstart protections and command examples.
 - Nested Markdown fences in generated execution traces.
 - Ambiguous short names for public library targets and stale pre-module paths in
