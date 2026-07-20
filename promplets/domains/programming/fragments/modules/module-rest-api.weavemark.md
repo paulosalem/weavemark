@@ -11,14 +11,16 @@
   `?status=active&sort=-created_at&page=1&per_page=20`
 
 ### Request/Response Format
-- Content-Type: `application/json` for all endpoints.
-- Envelope: responses MUST use `{"data": ..., "meta": {...}}` for collections
-  and `{"data": ...}` for single resources.
+- Successful JSON resource responses use `Content-Type: application/json`.
+- Success envelope: collections MUST use `{"data": [...], "meta": {...}}`;
+  single resources MUST use `{"data": ...}`. Problem responses do not use this
+  success envelope.
 - Pagination meta: `{"total": N, "page": P, "per_page": S, "total_pages": T}`.
 - Empty collections return `{"data": [], "meta": {"total": 0, ...}}` — never 404.
 
 ### Error Responses
-- MUST follow RFC 7807 Problem Details:
+- Errors MUST follow RFC 7807 Problem Details and use
+  `Content-Type: application/problem+json`:
   ```json
   {
     "type": "https://api.example.com/errors/validation",

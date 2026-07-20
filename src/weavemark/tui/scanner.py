@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import re
 import shlex
+import textwrap
 from contextlib import suppress
 from dataclasses import dataclass, field
 
@@ -133,7 +134,26 @@ _EMIT_FILE = re.compile(
 _EXECUTE_LINE_RE = re.compile(r"^[ \t]*@execute\b", re.MULTILINE)
 _ASSERT_DIRECTIVE = re.compile(r"^[ \t]*@assert\s+(.*)", re.MULTILINE)
 _NOTE_BLOCK = re.compile(r"^[ \t]*@note\s*\n((?:[ \t]+.*\n?)*)", re.MULTILINE)
-_HEADING = re.compile(r"^#\s+(.+)", re.MULTILINE)
+_TOP_LEVEL_H1 = re.compile(r"^#\s+(.+)")
+_DIRECTIVE_NAME = re.compile(r"^@([A-Za-z_][\w.-]*)\b")
+_PRIVATE_BODY_DIRECTIVES = {
+    "assert",
+    "bind",
+    "compile",
+    "define",
+    "execute",
+    "inspect",
+    "module",
+    "note",
+    "output",
+    "package",
+    "param",
+    "prompt",
+    "refine",
+    "tool",
+    "use",
+}
+_NON_PRIMARY_TITLE_DIRECTIVES = {"emit"}
 
 # File directives that accept file: @{var} patterns
 _FILE_DIRECTIVES = [
@@ -162,14 +182,12 @@ _MULTILINE_HINTS = {
     "output_text",
 }
 
-# Strategy-internal variables injected at runtime (not user inputs)
-_INTERNAL_VARS = {
-    "edited_content",
-    "original_content",  # collaborative strategy
-    "best_path",
-    "state",  # tree-of-thought strategy
-    "response",
-    "issues",  # reflection strategy
+# Strategy-internal variables injected at runtime (not user inputs).
+_STRATEGY_INTERNAL_VARS = {
+    "collaborative": {"edited_content", "original_content"},
+    "reflection": {"response", "issues", "previous"},
+    "tree-of-thought": {"state", "best_path"},
+    "simplified-tree-of-thought": {"candidates", "best_approach"},
 }
 
 # Loop built-ins the `chain` engine injects per repeated iteration.
@@ -193,16 +211,14 @@ def scan_spec(
     """
     meta = SpecMetadata()
     input_scan_text = _strip_define_blocks(spec_text)
-    internal_vars = set(_INTERNAL_VARS)
+    internal_vars: set[str] = set()
     internal_vars.update(_EXECUTION_RESULT_AS.findall(spec_text))
 
-    # ── Title (first # heading) ──────────────────────────────────
-    heading_match = _HEADING.search(spec_text)
-    if heading_match:
-        meta.title = heading_match.group(1).strip()
+    # ── Title (first top-level # heading) ────────────────────────
+    title_line_index, meta.title = _extract_title(spec_text)
 
-    # ── Description (text before first directive or heading) ─────
-    meta.description = _extract_description(spec_text)
+    # ── Description (text after title, before next top-level block)
+    meta.description = _extract_description(spec_text, title_line_index)
 
     # ── Notes ────────────────────────────────────────────────────
     note_blocks = _NOTE_BLOCK.findall(spec_text)
@@ -261,10 +277,9 @@ def scan_spec(
     # each production stage's output forward as @{previous}.
     internal_vars.update(meta.prompt_names)
     engine_type = str((meta.execution or {}).get("type", ""))
+    internal_vars.update(_STRATEGY_INTERNAL_VARS.get(engine_type, set()))
     if engine_type == "chain":
         internal_vars.update(_CHAIN_LOOP_VARS)
-    elif engine_type == "reflection":
-        internal_vars.add("previous")
 
     # ── @module / @use / @include / @define ─────────────────────
     module_match = _MODULE_DIRECTIVE.search(spec_text)
@@ -335,6 +350,10 @@ def scan_spec(
     # ── Collect all inputs ───────────────────────────────────────
     seen_names: set[str] = set()
     inputs: list[SpecInput] = []
+    interpolated_roots = {
+        match.group(1).split(".", 1)[0]
+        for match in _WEAVEMARK_VAR.finditer(input_scan_text)
+    }
 
     # 1. @match variables → select dropdowns
     for m in _MATCH_DIRECTIVE.finditer(input_scan_text):
@@ -343,7 +362,7 @@ def scan_spec(
             continue
         seen_names.add(var_name)
         # Extract case values from the block following the @match
-        cases = _extract_match_cases(input_scan_text, m.end())
+        cases = _extract_match_cases(input_scan_text, m)
         inputs.append(
             SpecInput(
                 name=var_name,
@@ -357,7 +376,7 @@ def scan_spec(
     # 2. @if variables → boolean toggles
     for m in _IF_DIRECTIVE.finditer(input_scan_text):
         var_name = m.group(1)
-        if var_name in seen_names:
+        if var_name in seen_names or var_name in interpolated_roots:
             continue
         seen_names.add(var_name)
         inputs.append(
@@ -519,36 +538,111 @@ def _parse_inline_params(text: str) -> dict[str, str]:
     return params
 
 
-def _extract_description(spec_text: str) -> str:
-    """Extract free text before the first directive or second heading."""
-    lines = spec_text.splitlines()
-    desc_lines: list[str] = []
-    past_title = False
-    for line in lines:
-        stripped = line.strip()
-        # Skip the title heading
-        if not past_title and stripped.startswith("# "):
-            past_title = True
+def find_authored_title(spec_text: str) -> tuple[int | None, str]:
+    """Find the first document H1, including one wrapped by a public body."""
+
+    containers: list[tuple[int, bool, bool]] = []
+    fallback: tuple[int | None, str] = (None, "")
+    fenced = False
+    for index, line in enumerate(spec_text.splitlines()):
+        stripped = line.lstrip(" \t")
+        if stripped.startswith(("```", "~~~")):
+            fenced = not fenced
             continue
-        # Stop at first directive or next heading
-        if stripped.startswith("@") or (past_title and stripped.startswith("#")):
-            break
-        if past_title:
+        if fenced or not stripped:
+            continue
+
+        indent = len(line) - len(stripped)
+        while containers and indent <= containers[-1][0]:
+            containers.pop()
+
+        directive = _DIRECTIVE_NAME.match(stripped)
+        if directive:
+            name = directive.group(1).casefold()
+            is_public = name not in _PRIVATE_BODY_DIRECTIVES
+            is_primary = name not in _NON_PRIMARY_TITLE_DIRECTIVES
+            containers.append((indent, is_public, is_primary))
+            continue
+
+        heading = _TOP_LEVEL_H1.match(stripped)
+        if heading and (
+            (indent == 0 and not containers)
+            or (
+                containers
+                and containers[0][0] == 0
+                and all(container[1] for container in containers)
+            )
+        ):
+            title = heading.group(1).strip()
+            if containers and not all(container[2] for container in containers):
+                if fallback[0] is None:
+                    fallback = (index, title)
+                continue
+            return index, title
+    return fallback
+
+
+def _extract_title(spec_text: str) -> tuple[int | None, str]:
+    """Return the authored title location and text."""
+
+    return find_authored_title(spec_text)
+
+
+def _extract_description(spec_text: str, title_line_index: int | None) -> str:
+    """Extract free text owned by the authored title's indentation scope."""
+    if title_line_index is None:
+        return ""
+
+    lines = spec_text.splitlines()
+    title_line = lines[title_line_index]
+    title_indent = len(title_line) - len(title_line.lstrip(" \t"))
+    desc_lines: list[str] = []
+    fenced = False
+    for line in lines[title_line_index + 1 :]:
+        stripped = line.lstrip(" \t")
+        if stripped.startswith(("```", "~~~")):
+            fenced = not fenced
             desc_lines.append(line)
-    return "\n".join(desc_lines).strip()
+            continue
+        indent = len(line) - len(stripped)
+        if not fenced and stripped:
+            if indent < title_indent:
+                break
+            if indent == title_indent and (
+                _DIRECTIVE_NAME.match(stripped) or stripped.startswith("#")
+            ):
+                break
+        desc_lines.append(line)
+    return textwrap.dedent("\n".join(desc_lines)).strip()
 
 
-def _extract_match_cases(spec_text: str, start_pos: int) -> list[str]:
-    """Extract case values from a @match block starting after the directive."""
-    # Look at the text following the @match directive
-    remaining = spec_text[start_pos:]
+def _extract_match_cases(
+    spec_text: str,
+    directive_match: re.Match[str],
+) -> list[str]:
+    """Extract only named cases owned by one ``@match`` directive."""
+
+    line_start = spec_text.rfind("\n", 0, directive_match.start()) + 1
+    line_end = spec_text.find("\n", line_start)
+    if line_end < 0:
+        line_end = len(spec_text)
+    directive_line = spec_text[line_start:line_end]
+    directive_indent = len(directive_line) - len(directive_line.lstrip(" \t"))
+    remaining = spec_text[directive_match.end() :]
     cases: list[str] = []
-    for m in _MATCH_CASE.finditer(remaining):
-        cases.append(m.group(1))
-        # Stop if we hit another top-level directive
-    # Also check for _ wildcard (default case)
-    if re.search(r"^[ \t]*_\s*==>", remaining, re.MULTILINE):
-        cases.append("_")
+    case_indent: int | None = None
+    for line in remaining.splitlines()[1:]:
+        if not line.strip():
+            continue
+        indent = len(line) - len(line.lstrip(" \t"))
+        if indent <= directive_indent:
+            break
+        match = _MATCH_CASE.match(line)
+        if match:
+            if case_indent is None:
+                case_indent = indent
+            if indent == case_indent:
+                cases.append(match.group(1))
     return cases
 
 

@@ -36,5 +36,5 @@
       5. Practice ladder
       6. Review plan
 
-    @assert includes: "Diagnostic question"
-    @assert includes: "Misconception repair"
+    @assert contains: "Diagnostic question"
+    @assert contains: "Misconception repair"

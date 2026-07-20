@@ -894,7 +894,7 @@ Semantics:
 5. A definition may have at most one implicit body parameter.
 6. Definitions cannot override core primitives.
 7. Macro expansion cycles MUST be detected before LLM composition.
-8. Definitions with `@effect` are semantic functions. They do not source-expand. Instead, their definition metadata is retained so the compile/runtime phase can execute or plan them according to their declared phase, scope, return kind, and effects.
+8. Definitions with `@effect` are semantic functions. They do not source-expand. Instead, their definition metadata is retained so the compile/runtime phase can execute them according to their declared phase, scope, return kind, and effects.
 9. Semantic functions MUST declare `@phase compile` or `@phase execute`, at least one `@effect`, and `@returns`.
 10. Effects are host-owned capabilities. The LLM may request only declared effects, and the host validates every effect call.
 
@@ -919,9 +919,11 @@ Use @{market_snapshot} later in the executable document.
 
 Rules:
 - `as:` names an immutable execution result.
+- Execution result names are simple identifiers matching
+  `[A-Za-z_][A-Za-z0-9_]*`; dots are reserved for reading paths inside a result.
 - Reusing the same `as:` name is an error.
 - Execution results share the normal `@{name}` interpolation syntax and shadow external variables after they are produced.
-- `uses: [name1, name2]` declares graph dependencies for `@execute functional scheduler: graph|graph-strict`.
+- `uses: [name1, name2]` declares graph dependencies for `@execute functional scheduler: graph|graph-strict`. Under `graph-strict`, every produced-result placeholder referenced in a node's positional arguments, options, or body (including dotted paths such as `@{name.path}`) requires its root result name in `uses:`.
 
 ```promplet-schema
 directive:  @define
@@ -1004,9 +1006,10 @@ Semantic, presentation, and FSLM helper directives live in standard-library modu
 
 Names such as `@refine`, `@ask`, `@iterate`, `@expand`, `@assert`, `@inspect`, `@style`, `@polish`, `@normalize`, `@revise`, `@summarize`, `@extract`, and `@structural_constraints` are not core directives; they are definitions supplied by default-loaded modules.
 
-The standard library currently defines:
-- pure presentation and extraction macros such as `@style`, `@polish`, `@normalize`, `@revise`, `@compress`, `@summarize`, `@extract`, `@generate_examples`, and `@structural_constraints`;
-- compile-phase semantic functions such as `@refine`, `@ask`, `@iterate`, `@expand`, `@assert`, and `@inspect`.
+The standard library currently defines compile-phase semantic functions such as
+`@refine`, `@ask`, `@iterate`, `@expand`, `@assert`, `@inspect`, `@style`,
+`@polish`, `@normalize`, `@revise`, `@compress`, `@summarize`, and `@extract`,
+plus deterministic definitions such as `@structural_constraints`.
 
 `@ask <question type> detail_level:<percentage>` is a host-mediated compile
 effect. While its target body or enclosing scope is being compiled, the composer
@@ -1050,8 +1053,10 @@ notes:      The header carries expansion intent/options; the indented body is th
 
 `@style`, `@polish`, `@normalize`, `@revise`, and `@compress` are scoped semantic
 transformations. Their header carries the operation instruction and any options;
-their indented body is the target subspec to transform. The body is not extra
-criteria for modifying unrelated surrounding text.
+each call MUST provide a non-empty indented body containing the target subspec to
+transform. A bodyless call is an authoring error: these directives never infer an
+enclosing target. The body is not extra criteria for modifying unrelated
+surrounding text.
 
 ```promplet-schema
 directive:  @style
@@ -1059,7 +1064,7 @@ positional:
   - instruction: STRING (required)
 body-mode:  subspec
 seam:       <LLM: style-transform>
-notes:      Applies the requested style to the indented target subspec.
+notes:      Requires and applies the requested style to the non-empty indented target subspec; a bodyless call is an error.
 ```
 
 ```promplet-schema
@@ -1068,7 +1073,7 @@ positional:
   - instruction: STRING
 body-mode:  subspec
 seam:       <LLM: polish-transform>
-notes:      Polishes presentation and organization of the target subspec without adding or removing substantive information.
+notes:      Requires a non-empty indented target subspec and polishes its presentation and organization without adding or removing substantive information; a bodyless call is an error.
 ```
 
 ```promplet-schema
@@ -1079,7 +1084,7 @@ params:
   - scope: IDENT
 body-mode:  subspec
 seam:       <LLM: normalize-transform>
-notes:      Normalizes the indented target subspec according to the inline instruction.
+notes:      Requires and normalizes the non-empty indented target subspec according to the inline instruction; a bodyless call is an error.
 ```
 
 ```promplet-schema
@@ -1090,7 +1095,7 @@ params:
   - mode: IDENT
 body-mode:  subspec
 seam:       <LLM: revise-transform>
-notes:      Revises the indented target subspec according to the inline instruction.
+notes:      Requires and revises the non-empty indented target subspec according to the inline instruction; a bodyless call is an error.
 ```
 
 ```promplet-schema
@@ -1099,7 +1104,7 @@ positional:
   - instruction: STRING (required)
 body-mode:  subspec
 seam:       <LLM: compress-transform>
-notes:      Compresses the indented target subspec while preserving the obligations named in the instruction.
+notes:      Requires and compresses the non-empty indented target subspec while preserving the obligations named in the instruction; a bodyless call is an error.
 ```
 
 `@summarize`, `@extract`, and `@generate_examples` transform their own bodies
@@ -1228,15 +1233,14 @@ notes:      Declares structural obligations that the composed prompt should pres
 
 ```promplet-schema
 directive:  @assert
-positional:
-  - assertion: STRING
 params:
   - contains: STRING
   - not_contains: STRING
+  - section: STRING
   - variable: STRING
   - severity: ENUM(error|warning)
 body-mode:  none
-notes:      Declares a compile-time or authoring assertion. Failed assertions should be reported with their severity.
+notes:      Declares deterministic compile-time checks. At least one nonempty contains, not_contains, section, or variable check is required; severity defaults to error. Positional/free-text assertions, bodies, and unknown parameters are errors.
 ```
 
 
@@ -1672,18 +1676,36 @@ Directive Semantics:
 7. **`@execute` implies required `@prompt` directives for prompt-engine strategies.** Each prompt-engine strategy type depends on specific named prompts being present in the spec. If the required `@prompt` blocks are missing, execution will fail. The required prompts per strategy are:
    - `single-call`: `default` (the root prompt text — no `@prompt` directive needed)
    - `self-consistency`: `default` (the root prompt text — no `@prompt` directive needed)
-   - `tree-of-thought`: **`generate`**, **`evaluate`**, **`synthesize`** (all three `@prompt` blocks are required)
+   - `tree-of-thought`: **`thought_step`**, **`evaluate_step`**, **`synthesize`** (all three `@prompt` blocks are required)
+   - `simplified-tree-of-thought`: **`generate`**, **`evaluate`**, **`synthesize`** (all three `@prompt` blocks are required)
    - `reflection`: **`critique`** and **`revise`** are the reserved *loop roles*; the artifact is produced by a **production chain** — every other `@prompt` block (in source order), threading `@{previous}` and `@{<stage_name>}` exactly like `chain`. The **last** production stage yields the artifact; a lone `generate` block is just the degenerate production chain of length one (so the classic `generate`/`critique`/`revise` shape is unchanged). **Artifact-aware:** when the last production stage declares an image output (`@output type: image`), reflection runs a *produce → inspect → revise* loop over the RENDERED image — the `critique` prompt receives the produced image as a vision input and lists defects (or replies `OK`), and `revise` re-renders with the fixes (via `@{critique}`), stopping early when satisfied or after `rounds:`/`max_rounds:`. If the `revise` stage sets `@output type: image edit: on`, the loop *edits the previous render in place* instead of re-rolling, keeping composition stable across rounds. Production stages carry their own `@output` (a stage may produce text or an image; a text/vision stage sees any attached image inputs, and an image stage with `edit: on` conditions on its embedded reference images), so a spec can, e.g., let an authoring stage read reference images and write the prompt the render stage then draws. This is the execution-phase counterpart of `@iterate`: it improves the produced output, not just the prompt.
    - `chain`: the spec's named `@prompt` blocks are the pipeline stages; they run **in source order**, and there are no fixed required names. Each stage sees prior outputs as runtime context — `@{previous}` (the immediately preceding output) and `@{<stage_name>}` (a completed stage's output) — and carries its own `@output` (a stage may produce text or an image; an image stage with `edit: on` also receives the previous image as an edit base, giving visual carry). A stage may be repeated a data-driven number of times via `@execute chain` config `repeat: <stage_name>` + `count: <int|@{var}>`; the repeated stage runs `count` times with `@{index}` (1..N), `@{count}`, and `@{previous}` available. This is the general "prompt chaining / iterate-a-production-over-a-sequence" pattern (multi-section documents, image sequences, storyboards, one-panel/page-after-the-other), not specialized to any domain.
    - `fslm`: required prompts are discovered from the external `ellements.fslm` machine before execution starts. Natural-language guards require `guard.<id>`, invariants require `invariant.<id>`, actions require `action.<name>`, and outputs require `output.<type>`, unless the machine item declares `metadata.prompt_key`. State prompts are optional unless a state declares `metadata.prompt_key`; if present, the conventional state prompt is `state.<state_name>`.
-8. `@execute fslm` requires either `machine: <path-or-module>` for an external machine or `machine: <inline-name>` paired with an inline `@machine` supplied by explicitly importing `weavemark.experimental.fslm`. It also requires `initial_event:` or runtime-config `events:`. The engine is event-driven and does not synthesize autonomous events. It injects runtime context into each prompt at execution time (machine, state, snapshot variables, event payload, candidate/selected transitions, previous actions/outputs, and compact history); do not use compile-time `@{...}` variables for per-step FSLM state.
-9. `@execute functional` treats the compiled Markdown document as an executable functional document. Surviving execute-phase semantic-function calls become execution nodes. They do not run during ordinary composition; they run only when the host executes the functional plan and grants the requested effects.
+8. `@execute fslm` requires either `machine: <path-or-module>` for an external machine or `machine: <inline-name>` paired with an inline `@machine` supplied by explicitly importing `weavemark.experimental.fslm`. It also requires `initial_event:` or runtime-config `events:`. The engine is event-driven and does not synthesize autonomous events. It injects runtime context into each prompt at execution time (machine, state, snapshot variables, event payload, candidate/selected transitions, previous actions/outputs, and compact history); do not use compile-time `@{...}` variables for per-step FSLM state. Host `ToolRegistry` actions take precedence; only when the selected tool is absent there may the engine load and authorize that one promplet-local `@bind`, which is then cached. Unselected local bindings MUST NOT be imported or authorized.
+9. `@execute functional` treats the compiled Markdown document as an executable
+   functional document. Surviving execute-phase semantic-function calls become
+   validated execution nodes and do not run during ordinary composition. The
+   built-in `FunctionalEngine` executes those nodes through trusted Python
+   capabilities supplied by `@bind`; every executable node currently MUST declare
+   exactly one bound effect.
 10. Functional scheduler values:
    - `sequential`: execute surviving nodes top-to-bottom. This is the safest default.
    - `graph`: build a dependency DAG from `uses:` edges; independent nodes may run in parallel.
-   - `graph-strict`: same as `graph`, but unknown `uses:` dependencies or undeclared effects are errors.
+   - `graph-strict`: same as `graph`, but every produced-result placeholder referenced anywhere in a node's positional arguments, options, or body MUST name its root result in `uses:`; unknown `uses:` dependencies or undeclared effects are errors.
    The host MUST validate the DAG deterministically: duplicate `as:` names are errors, unknown `uses:` names are errors, cycles are errors, and any requested effect not listed in `allow_effects` (when present) is an error.
-11. When emitting `@execute` in the output, also emit a `warnings` entry if any statically knowable required `@prompt` blocks for a prompt-engine strategy are missing from the spec. For `fslm`, exact prompt validation happens at execution time after loading the machine.
+11. Functional dependencies, external execution variables, and prior node results
+   resolve to native runtime values. An exact placeholder such as
+   `@{market_snapshot}` passes the underlying value rather than a stringified
+   representation. A call's indented body maps to its declared implicit
+   parameter.
+12. Effect execution respects both `allow_effects` and host protection policy.
+   Loading a Python binding is protection-gated, and a missing, disallowed, or
+   unauthorized effect is an execution error.
+13. After nodes execute, result placeholders are rendered into the Markdown
+   document. If the resulting document contains non-placeholder instructions,
+   the configured LLM completes that document; otherwise the rendered result is
+   returned directly.
+14. When emitting `@execute` in the output, also emit a `warnings` entry if any statically knowable required `@prompt` blocks for a prompt-engine strategy are missing from the spec. For `fslm`, exact prompt validation happens at execution time after loading the machine.
 
 Example:
 ```
@@ -1838,7 +1860,7 @@ directive:  @execute
 positional:
   - strategy: IDENT (required)
 body-mode:  dsl:execute-kv
-notes:      The body is one `key: value` pair per line; values are emitted into the compiled execution object. Strategy types include single-call, self-consistency, tree-of-thought, simplified-tree-of-thought, reflection, collaborative, chain, fslm, and functional. `chain` runs named @prompt stages in order (each sees @{previous}/@{stage}); supports repeat:<stage>+count:<n> for data-driven iteration. `reflection` reserves `critique`/`revise` as loop roles and runs every other @prompt stage as a production chain (source order, @{previous}/@{stage}); the last production stage's artifact enters the critique→revise loop (rounds:/max_rounds:). `fslm` supports machine, initial_event/events, max_steps, and prompt_contract. `functional` supports scheduler sequential|graph|graph-strict. Duplicate @execute declarations are errors.
+notes:      The body is one `key: value` pair per line; values are emitted into the compiled execution object. Strategy types include single-call, self-consistency, tree-of-thought, simplified-tree-of-thought, reflection, collaborative, chain, fslm, and functional. Full tree-of-thought requires thought_step/evaluate_step/synthesize prompts; simplified tree-of-thought requires generate/evaluate/synthesize. `chain` runs named @prompt stages in order (each sees @{previous}/@{stage}); supports repeat:<stage>+count:<n> for data-driven iteration. `reflection` reserves `critique`/`revise` as loop roles and runs every other @prompt stage as a production chain (source order, @{previous}/@{stage}); the last production stage's artifact enters the critique→revise loop (rounds:/max_rounds:). `fslm` supports machine, initial_event/events, max_steps, and prompt_contract. `functional` supports scheduler sequential|graph|graph-strict and executes validated nodes through authorized Python @bind capabilities before rendering results into the final document. Duplicate @execute declarations are errors.
 ```
 
 
@@ -1867,7 +1889,9 @@ Parameter modifiers (all optional, order-independent before the ` - ` descriptio
 - `enum: [val1, val2, ...]` - restricts allowed values.
 - `default: <value>` - documents the default value.
 
-Note: the separator between a parameter's type/modifiers and its description is a single ASCII hyphen-minus surrounded by spaces (` - `), NOT an em-dash. This keeps the mini-DSL trivially copy-pasteable across editors and renders identically in monospace fonts.
+Parameters are optional by default; `(optional)` is not a supported modifier.
+The separator between a parameter's type/modifiers and its description is a
+single ASCII hyphen-minus surrounded by spaces (` - `), NOT an em dash.
 
 Directive Semantics:
 1. The `@tool` directive does NOT modify the prompt text S. Instead it contributes a tool definition to a separate tool registry maintained during composition.
@@ -1891,7 +1915,7 @@ Directive Semantics:
    - Inside `@if`: the tool is only included when the condition is true.
    - Inside `@match`: different tool sets can be defined per case.
    - Inside standard-library `@refine`: refined specs can contribute additional tools.
-5. If two `@tool` directives define the same function name, the later definition wins and a warning is emitted.
+5. Two `@tool` directives with the same case-insensitive function name are an authoring error.
 6. A tool implementation may be bound with `@bind <function_name> ...`; that binding is metadata during composition and is available only to an execution runtime that authorizes it.
 
 Example - simple tools:
@@ -1931,7 +1955,7 @@ directive:  @tool
 positional:
   - function_name: IDENT (required)
 body-mode:  dsl:tool-params
-notes:      The body is `description...` followed by one parameter per line in the form `- <name>: <type> [modifiers] - <description>`. Supported parameter types: string, integer, number, boolean, array, object. Description separator is ` - ` (ASCII hyphen-minus surrounded by spaces). Duplicate function names are errors.
+notes:      The body is `description...` followed by one parameter per line in the form `- <name>: <type> [modifiers] - <description>`. Supported parameter types: string, integer, number, boolean, array, object. Parameters are optional by default; `(required)` is supported and `(optional)` is invalid. Description separator is ` - ` (ASCII hyphen-minus surrounded by spaces). Duplicate function names are errors.
 ```
 
 #### `@bind`
@@ -1960,7 +1984,7 @@ params:
   - from: PATH (required)
   - symbol: IDENT (required)
 body-mode:  none
-notes:      Companion-program binding metadata. Never executed during composition; emitted in the compiled bindings list for authorized execution runtimes.
+notes:      Companion-program binding metadata. Never executed during composition; emitted in the compiled bindings list for authorized execution runtimes. The built-in FunctionalEngine currently executes authorized Python bindings.
 ```
 
 

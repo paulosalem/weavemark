@@ -67,15 +67,18 @@
           Removal instruction block:
           @{contraction_instruction}
 
-@assert The prompt contains no contradictory instructions. severity: error
-@assert The prompt specifies what to do when input is ambiguous. severity: warning
-@assert Every MUST requirement has a clear success criterion. severity: warning
-
 @output enforce: strict
   The refactored prompt must be ready to use as-is with an LLM.
   No meta-commentary, no "here's what I changed" notes — just
   the clean, final prompt.
+  Resolve cross-references and contradictory instructions.
+  Specify what to do when input is ambiguous.
+  Give every MUST requirement a clear success criterion.
   When the prompt includes JSON schemas or examples, render them as proper
-  fenced `json` blocks. Do not write a standalone `json` label.
+  fenced `json` blocks. Do not write standalone `json`, `text`, or `markdown`
+  labels.
 
-@assert The final prompt contains no standalone `json`, `text`, or `markdown` labels. severity: warning
+@assert contains: "Resolve cross-references and contradictory instructions."
+@assert contains: "Specify what to do when input is ambiguous." severity: warning
+@assert contains: "every MUST requirement a clear success criterion." severity: warning
+@assert contains: "Do not write standalone `json`, `text`, or `markdown`" severity: warning

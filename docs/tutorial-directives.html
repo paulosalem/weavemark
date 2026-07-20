@@ -211,7 +211,7 @@
             requirements.
           </p>
           <pre><code><span class="syntax-directive">@extract</span> <span class="syntax-string">"key_concepts"</span>
-  From the topic <span class="syntax-string">"@{topic}"</span>, identify the 3–5 most important concepts.
+  From the topic <span class="syntax-string">"<span class="syntax-var">@{topic}</span>"</span>, identify the 3–5 most important concepts.
 
 <span class="syntax-directive">@summarize</span>
   Compare <span class="syntax-var">@{topic}</span> against its main alternatives:
@@ -235,8 +235,8 @@
           <p>
             <code>@polish</code> is a final presentation pass: it unifies structure
             and smooths transitions <strong>without adding or removing substantive
-            information</strong>. With a body, it wraps the fully transformed target;
-            with no body, it applies to the enclosing scope.
+            information</strong>. It requires a non-empty indented target body;
+            a bodyless call is an error.
           </p>
           <pre><code><span class="syntax-directive">@polish</span> <span class="syntax-string">"Harmonize the fully transformed prompt into one coherent final prompt without adding or removing requirements."</span>
   <span class="syntax-directive">@revise</span> <span class="syntax-string">"Remove standalone format labels such as `json`, `text`, or `markdown`."</span> <span class="syntax-key">mode:</span> editorial
@@ -293,10 +293,13 @@
   3. Constraints and Prohibitions
   4. Output Format
 
-<span class="syntax-directive">@assert</span> The prompt contains no contradictory instructions. <span class="syntax-key">severity:</span> error
-
 <span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
-  The refactored prompt must be ready to use as-is with an LLM.</code></pre>
+  The refactored prompt must be ready to use as-is with an LLM.
+  Resolve cross-references and contradictory instructions.
+  Specify what to do when input is ambiguous.
+
+<span class="syntax-directive">@assert</span> <span class="syntax-key">contains:</span> <span class="syntax-string">"Resolve cross-references and contradictory instructions."</span>
+<span class="syntax-directive">@assert</span> <span class="syntax-key">contains:</span> <span class="syntax-string">"Specify what to do when input is ambiguous."</span> <span class="syntax-key">severity:</span> warning</code></pre>
           <p class="snippet-source">
             From <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>.
           </p>
@@ -328,7 +331,7 @@
 
       <span class="syntax-directive">@revise</span> <span class="syntax-string">"If a Removal instruction block appears after the draft, apply it to the draft."</span> <span class="syntax-key">mode:</span> editorial
         <span class="syntax-directive">@revise</span> <span class="syntax-string">"If an Additional section block appears after the draft, integrate it into the draft."</span> <span class="syntax-key">mode:</span> editorial
-          <span class="syntax-directive">@revise</span> <span class="syntax-string">"@{revision_instruction}"</span> <span class="syntax-key">mode:</span> editorial
+          <span class="syntax-directive">@revise</span> <span class="syntax-string">"<span class="syntax-var">@{revision_instruction}</span>"</span> <span class="syntax-key">mode:</span> editorial
             <span class="syntax-directive">@normalize</span> <span class="syntax-string">"Resolve cross-references and contradictions while preserving intent."</span> <span class="syntax-key">scope:</span> semantic
               Requirements inventory:
               <span class="syntax-directive">@extract</span> <span class="syntax-string">"All hard requirements and output-format constraints."</span> <span class="syntax-key">format:</span> bullets

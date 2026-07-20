@@ -15,7 +15,10 @@
   under time pressure.
 
 @refine module:weavemark.std.reasoning.chain_of_thought
+  with problem: "@{situation}"
 @refine module:weavemark.std.strategy.indirect_strategy_principles
+
+@bind search_web language: python from: "./companions/recurring_topic_monitor.py" symbol: search_web
 
 You are a senior crisis strategist and decision analyst. Your task is to
 analyze a problem or threatening situation with clarity, rigor, and
@@ -112,14 +115,9 @@ estimates.
 
   @tool search_web
     Search the web for current information relevant to the crisis.
-    - query: string (required) — The search query
-    - max_results: integer default: 5 — Maximum results to return
-    - date_range: string enum: [past_day, past_week, past_month, past_year, any] default: past_month — Filter by recency
-
-  @tool read_url
-    Read the full content of a web page for detailed analysis.
-    - url: string (required) — The URL to read
-    - extract_mode: string enum: [full, summary, tables] default: summary — What to extract
+    - query: string (required) - The search query
+    - max_results: integer default: 7 - Maximum results to return
+    - time_range: string enum: [d, w, m, y, any] default: w - Filter by recency
 
 @output enforce: strict
   Structure your response as follows:

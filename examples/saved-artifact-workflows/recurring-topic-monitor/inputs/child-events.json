@@ -6,7 +6,7 @@
   "region": "Sao Paulo, Brazil",
   "audience": "parents planning weekend activities for young children",
   "research_depth": "standard",
-  "run_date": "2026-07-18",
+  "run_date": "2026-07-19",
   "user_constraints": "Prioritize practical details: date, time, location, cost, booking link, age fit, language, cancellation risk, and whether an adult must accompany the child.",
   "seed_urls": [],
   "use_previous_reports": false,

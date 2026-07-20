@@ -162,6 +162,23 @@ is provided, construct the beats yourself from the premise.
 
 @match story_format
   "comic-strip" ==>
+    @output enforce: strict
+      Return only one plain-text image-generation prompt, with no JSON, Markdown
+      fence, preamble, or commentary. It MUST specify exactly @{panel_count}
+      panels and contain ordered, individually labeled descriptions `Panel 1`
+      through `Panel @{panel_count}` plus the global framing and consistency
+      footer required below. Do not add, omit, merge, or relabel panels.
+  "picture-book" ==>
+    @output enforce: strict
+      Return only one valid JSON object with exactly the top-level keys `title`
+      (string) and `pages` (array), with no Markdown fence, preamble, commentary,
+      or trailing text. `pages` MUST contain exactly @{page_count} ordered
+      objects. Every page object MUST contain exactly `page` (the consecutive
+      integer 1 through @{page_count}), `illustration` (string), and `text`
+      (an array of one or two strings). Do not add, omit, merge, or reorder pages.
+
+@match story_format
+  "comic-strip" ==>
     Produce ONE image-generation prompt describing a single newspaper-style
     comic strip as ONE image: exactly @{panel_count} equal rectangular panels
     separated by thin black borders and white gutters, read left to right and

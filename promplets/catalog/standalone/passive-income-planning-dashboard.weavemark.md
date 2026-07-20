@@ -96,7 +96,7 @@ evidence.
   8. Privacy, safety, and advice boundaries
   9. Testing and acceptance criteria
 
-@assert includes: "safe-to-use"
-@assert includes: "confirmed"
-@assert includes: "principal drawdown"
-@assert includes: "Local-first"
+@assert contains: "safe-to-use"
+@assert contains: "confirmed"
+@assert contains: "principal drawdown"
+@assert contains: "Local-first"

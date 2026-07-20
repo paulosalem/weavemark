@@ -6,7 +6,7 @@
   "region": "São Paulo, Brazil",
   "audience": "a parent looking for practical, age-appropriate activities",
   "research_depth": "deep",
-  "run_date": "2026-07-18",
+  "run_date": "2026-07-19",
   "user_constraints": "Prefer safe, age-appropriate, not-too-expensive activities. Include booking, weather, location, cost, and age-fit caveats when available.",
   "seed_urls": [
     "https://www.sescsp.org.br/programacao/",

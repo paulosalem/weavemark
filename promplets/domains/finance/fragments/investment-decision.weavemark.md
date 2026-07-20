@@ -16,7 +16,10 @@ probability-weighted comparison against a matched risk-free asset.
 
 State the benchmark assumptions: risk-free asset, horizon, currency, principal
 or unit size, liquidity, taxes/fees if relevant, and the materiality band for
-"matched" performance. The matched scenario has `Delta = 0` by definition.
+"matched" performance. Define a symmetric materiality threshold `epsilon > 0`:
+outperformance is `Delta > epsilon`, matched performance is
+`-epsilon <= Delta <= epsilon`, and underperformance is `Delta < -epsilon`.
+Matched outcomes may therefore have a nonzero delta.
 
 ## Required output
 
@@ -26,7 +29,7 @@ or unit size, liquidity, taxes/fees if relevant, and the materiality band for
 | `P(D matches the risk-free asset)` | probability | low/medium/high | materiality band used |
 | `P(D underperforms the risk-free asset)` | probability | low/medium/high | downside drivers |
 | `E[Delta | outperform]` | positive absolute value | interval/distribution | likely outperform magnitude |
-| `Delta | matched` | `0` | classification band | matched by definition |
+| `E[Delta | matched]` | signed value within the materiality band | interval/distribution | residual matched magnitude |
 | `E[Delta | underperform]` | negative absolute value | interval/distribution | likely underperform magnitude |
 
 The three probabilities must be mutually exclusive, collectively exhaustive,
@@ -38,9 +41,9 @@ Report scenario-conditional deltas:
 
 ```text
 Delta = terminal value of D - terminal value of the matched risk-free asset
-E[Delta | outperform] > 0
-Delta | matched = 0
-E[Delta | underperform] < 0
+E[Delta | outperform] > epsilon
+-epsilon <= E[Delta | matched] <= epsilon
+E[Delta | underperform] < -epsilon
 ```
 
 Use absolute currency units when possible. If principal is unknown, report per
@@ -48,13 +51,16 @@ Use absolute currency units when possible. If principal is unknown, report per
 interval, scenario range, or distribution summary for the outperform and
 underperform deltas.
 
-Optionally add the unconditional expected delta as a secondary derived quantity:
+Add the unconditional expected delta as a secondary derived quantity, using
+probabilities as fractions:
 
 ```text
-E[Delta] = P(outperform) * E[Delta | outperform] + P(underperform) * E[Delta | underperform]
+E[Delta] = P(outperform) * E[Delta | outperform]
+         + P(matched) * E[Delta | matched]
+         + P(underperform) * E[Delta | underperform]
 ```
 
-The matched term is omitted because its delta is `0`.
+Do not omit the weighted matched term merely because the band is narrow.
 
 Separate facts, assumptions, estimates, and implications. Call out missing
 information that could materially change the probabilities or conditional

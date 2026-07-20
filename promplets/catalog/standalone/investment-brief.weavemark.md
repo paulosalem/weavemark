@@ -50,7 +50,8 @@ Use the following notes as source material:
   4. Alternatives
   5. Open questions
   6. Decision trigger
+  End with the exact sentence: "This is educational analysis, not financial advice."
 
-@assert includes: "Risks"
-@assert includes: "Open questions"
-@assert includes: "not financial advice"
+@assert contains: "Risks"
+@assert contains: "Open questions"
+@assert contains: "not financial advice"

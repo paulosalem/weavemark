@@ -51,6 +51,21 @@ class TestExtractTitle:
     def test_skips_non_h1(self):
         assert _extract_title("## Not H1\n# Real Title") == "Real Title"
 
+    def test_skips_h1_inside_leading_note(self):
+        source = "@note\n  # Citation heading\n\n# Executable Title\n\n@execute chain"
+
+        assert _extract_title(source) == "Executable Title"
+
+    def test_keeps_h1_inside_public_semantic_wrapper(self):
+        source = (
+            "@ask clarifying question\n"
+            "  @note\n"
+            "    # Private heading\n\n"
+            "  # Authored wrapped title\n"
+        )
+
+        assert _extract_title(source) == "Authored wrapped title"
+
 
 class TestContentHash:
     def test_deterministic(self):

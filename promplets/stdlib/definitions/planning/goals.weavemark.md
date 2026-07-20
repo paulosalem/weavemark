@@ -74,8 +74,8 @@
       5. Review cadence
       6. Failure modes and safeguards
 
-    @assert includes: "first-month actions"
-    @assert includes: "assumptions to verify"
+    @assert contains: "First-month actions"
+    @assert contains: "Assumptions to verify"
 
 @define lookup_public_goal_assumptions
   @phase execute

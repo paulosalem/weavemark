@@ -228,11 +228,6 @@ When a card moves to a column, the system fires a hook:
 - Drag cards between columns. Drag to reorder within column.
 - Card quick-filter: type to filter visible cards by title (instant, no submit).
 
-@assert "Every output surface type must specify its data schema and rendering behavior"
-@assert "The WebSocket protocol must define all event types with payload schemas"
-@assert "Card lifecycle hooks must specify exactly what the AI does at each stage"
-@assert "Local SQLite storage must define schema, migrations, transactions, backup, restore, export, and import behavior"
-
 @output "markdown"
   Structure the output as:
   1. Architecture Overview (system components, data flow)
@@ -244,3 +239,8 @@ When a card moves to a column, the system fires a hook:
   6. Frontend Pages (board view, card detail, dashboards — component breakdown)
   7. Agent Integration (protocol, local API keys, lifecycle)
   8. Testing Strategy
+
+@assert contains: "Data Models (cards, surfaces, agents, events — full schemas)"
+@assert contains: "WebSocket Protocol (all event types with JSON schemas)"
+@assert contains: "Agent Integration (protocol, local API keys, lifecycle)"
+@assert contains: "backups, export/import, and transaction rules"

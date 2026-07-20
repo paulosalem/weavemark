@@ -314,15 +314,14 @@ class TestToolDirectiveE2E:
                 "audience": "business executives",
                 "depth": "standard",
                 "include_citations": True,
-                "include_code_tools": False,
             },
             base_dir=SPECS_DIR,
         )
         assert r.composed_prompt, "Should produce a prompt"
-        assert len(r.tools) >= 3, f"Expected at least 3 tools, got {len(r.tools)}"
+        assert len(r.tools) >= 2, f"Expected at least 2 tools, got {len(r.tools)}"
         names = [t["function"]["name"] for t in r.tools]
         assert "search_web" in names
-        assert "read_url" in names
         assert "calculate" in names
-        # run_python should NOT be included since include_code_tools=False
+        assert "read_url" not in names
+        # Arbitrary Python execution is not part of the catalog surface.
         assert "run_python" not in names

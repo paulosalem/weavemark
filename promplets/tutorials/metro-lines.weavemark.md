@@ -31,5 +31,5 @@ Visual mood: @{visual_mood}
   scoring, accessibility, failure states, browser validation steps,
   and first-build scope.
 
-@assert includes: "first-build scope"
-@assert includes: "browser validation"
+@assert contains: "first-build scope"
+@assert contains: "browser validation"

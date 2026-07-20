@@ -272,7 +272,7 @@ positional:
   - instruction: STRING (required)
 body-mode:  subspec
 seam:       <LLM: style-transform>
-notes:      Applies the requested style to the indented target subspec.
+notes:      Requires and applies the requested style to the non-empty indented target subspec; a bodyless call is an error.
 ```
 
 ```promplet-schema
@@ -281,7 +281,7 @@ positional:
   - instruction: STRING
 body-mode:  subspec
 seam:       <LLM: polish-transform>
-notes:      Polishes presentation and organization of the target subspec without adding or removing substantive information.
+notes:      Requires a non-empty indented target subspec and polishes its presentation and organization without adding or removing substantive information; a bodyless call is an error.
 ```
 
 ```promplet-schema
@@ -292,7 +292,7 @@ params:
   - scope: IDENT
 body-mode:  subspec
 seam:       <LLM: normalize-transform>
-notes:      Normalizes the indented target subspec according to the inline instruction.
+notes:      Requires and normalizes the non-empty indented target subspec according to the inline instruction; a bodyless call is an error.
 ```
 
 ```promplet-schema
@@ -303,7 +303,7 @@ params:
   - mode: IDENT
 body-mode:  subspec
 seam:       <LLM: revise-transform>
-notes:      Revises the indented target subspec according to the inline instruction.
+notes:      Requires and revises the non-empty indented target subspec according to the inline instruction; a bodyless call is an error.
 ```
 
 ```promplet-schema
@@ -312,7 +312,7 @@ positional:
   - instruction: STRING (required)
 body-mode:  subspec
 seam:       <LLM: compress-transform>
-notes:      Compresses the indented target subspec while preserving the obligations named in the instruction.
+notes:      Requires and compresses the non-empty indented target subspec while preserving the obligations named in the instruction; a bodyless call is an error.
 ```
 
 ```promplet-schema
@@ -370,15 +370,14 @@ notes:      Declares structural obligations that the composed prompt should pres
 
 ```promplet-schema
 directive:  @assert
-positional:
-  - assertion: STRING
 params:
   - contains: STRING
   - not_contains: STRING
+  - section: STRING
   - variable: STRING
   - severity: ENUM(error|warning)
 body-mode:  none
-notes:      Declares a compile-time or authoring assertion. Failed assertions should be reported with their severity.
+notes:      Declares deterministic compile-time checks. At least one nonempty contains, not_contains, section, or variable check is required; severity defaults to error. Positional/free-text assertions, bodies, and unknown parameters are errors.
 ```
 
 ```promplet-schema
@@ -425,7 +424,7 @@ directive:  @execute
 positional:
   - strategy: IDENT (required)
 body-mode:  dsl:execute-kv
-notes:      The body is one `key: value` pair per line; values are emitted into the compiled execution object. Strategy types include single-call, self-consistency, tree-of-thought, simplified-tree-of-thought, reflection, collaborative, chain, fslm, and functional. `chain` runs named @prompt stages in order (each sees @{previous}/@{stage}); supports repeat:<stage>+count:<n> for data-driven iteration. `reflection` reserves `critique`/`revise` as loop roles and runs every other @prompt stage as a production chain (source order, @{previous}/@{stage}); the last production stage's artifact enters the critique→revise loop (rounds:/max_rounds:). `fslm` supports machine, initial_event/events, max_steps, and prompt_contract. `functional` supports scheduler sequential|graph|graph-strict. Duplicate @execute declarations are errors.
+notes:      The body is one `key: value` pair per line; values are emitted into the compiled execution object. Strategy types include single-call, self-consistency, tree-of-thought, simplified-tree-of-thought, reflection, collaborative, chain, fslm, and functional. Full tree-of-thought requires thought_step/evaluate_step/synthesize prompts; simplified tree-of-thought requires generate/evaluate/synthesize. `chain` runs named @prompt stages in order (each sees @{previous}/@{stage}); supports repeat:<stage>+count:<n> for data-driven iteration. `reflection` reserves `critique`/`revise` as loop roles and runs every other @prompt stage as a production chain (source order, @{previous}/@{stage}); the last production stage's artifact enters the critique→revise loop (rounds:/max_rounds:). `fslm` supports machine, initial_event/events, max_steps, and prompt_contract. `functional` supports scheduler sequential|graph|graph-strict and executes validated nodes through authorized Python @bind capabilities before rendering results into the final document. Duplicate @execute declarations are errors.
 ```
 
 ```promplet-schema
@@ -507,7 +506,7 @@ directive:  @tool
 positional:
   - function_name: IDENT (required)
 body-mode:  dsl:tool-params
-notes:      The body is `description...` followed by one parameter per line in the form `- <name>: <type> [modifiers] - <description>`. Supported parameter types: string, integer, number, boolean, array, object. Description separator is ` - ` (ASCII hyphen-minus surrounded by spaces). Duplicate function names are errors.
+notes:      The body is `description...` followed by one parameter per line in the form `- <name>: <type> [modifiers] - <description>`. Supported parameter types: string, integer, number, boolean, array, object. Parameters are optional by default; `(required)` is supported and `(optional)` is invalid. Description separator is ` - ` (ASCII hyphen-minus surrounded by spaces). Duplicate function names are errors.
 ```
 
 ```promplet-schema
@@ -519,7 +518,7 @@ params:
   - from: PATH (required)
   - symbol: IDENT (required)
 body-mode:  none
-notes:      Companion-program binding metadata. Never executed during composition; emitted in the compiled bindings list for authorized execution runtimes.
+notes:      Companion-program binding metadata. Never executed during composition; emitted in the compiled bindings list for authorized execution runtimes. The built-in FunctionalEngine currently executes authorized Python bindings.
 ```
 
 ```promplet-schema

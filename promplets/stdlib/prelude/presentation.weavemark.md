@@ -19,8 +19,7 @@
     other style guidance.
 
   @param body implicit: true mode: subspec
-    Optional WeaveMark content governed by the style guidance. If omitted, the
-    directive applies to the current enclosing specification scope.
+    Required non-empty WeaveMark content governed by the style guidance.
 
   @effect transform_text write
   @effect diagnostics write
@@ -28,6 +27,5 @@
   @body
     Rewrite or constrain the selected presentation text using this style
     guidance: @{description}. Integrate the guidance directly into the resulting
-    prompt text. If @{body} is omitted, apply the style to the current enclosing
-    specification scope. Return only the styled prompt content; do not emit this
-    policy or operation labels.
+    prompt text. @{body} is the explicit target. Return only the styled prompt
+    content; do not emit this policy or operation labels.

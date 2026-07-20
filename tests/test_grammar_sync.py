@@ -37,9 +37,7 @@ sys.path.insert(0, str(_REPO_ROOT / "scripts"))
 from check_grammar_sync import (  # noqa: E402  (sys.path tweak above)
     BODY_MODE_LEXICON,
     TYPE_LEXICON,
-    Schema,
     SchemaField,
-    SyncError,
     check_sync,
     extract_directive_headings,
     extract_kernel_grammar,
@@ -162,6 +160,23 @@ def test_real_repo_is_in_sync() -> None:
     assert report.ok, report.render()
 
 
+def test_assert_schema_has_only_canonical_parameters() -> None:
+    prompt = (
+        _REPO_ROOT / "src" / "weavemark" / "prompts" / "weavemark.system.md"
+    ).read_text(encoding="utf-8")
+    schemas = extract_schemas(prompt, source="weavemark.system.md")
+
+    assertion = next(schema for schema in schemas if schema.directive == "assert")
+    assert assertion.positional == []
+    assert {field.name for field in assertion.params} == {
+        "contains",
+        "not_contains",
+        "section",
+        "variable",
+        "severity",
+    }
+
+
 def test_main_returns_zero_on_real_repo() -> None:
     """``python scripts/check_grammar_sync.py`` (no args) exits 0."""
     assert main([]) == 0
@@ -178,18 +193,18 @@ def test_type_lexicon_is_closed() -> None:
     Closed lexicons keep specs portable across implementations (LLM and
     structural validator both know the full set).
     """
-    assert TYPE_LEXICON == frozenset({
+    assert frozenset({
         "STRING", "IDENT", "BAREWORD", "SLUG", "PATH", "PROMPLET_REF",
         "RESOURCE_REF", "URL",
         "INT", "NUMBER", "BOOL", "ANY",
-    })
+    }) == TYPE_LEXICON
 
 
 def test_body_mode_lexicon_is_closed() -> None:
     """Body modes are closed except for the open extension ``dsl:<name>``."""
-    assert BODY_MODE_LEXICON == frozenset({
+    assert frozenset({
         "none", "subspec", "free-text", "opaque",
-    })
+    }) == BODY_MODE_LEXICON
 
 
 # ---------------------------------------------------------------------------

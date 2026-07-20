@@ -14,7 +14,7 @@
   @param mingle default: true
     Whether to editorially merge the target spec with surrounding content.
 
-  @param body implicit: true mode: subspec
+  @param body default: "" implicit: true mode: subspec
     Optional guidance for how to perform semantic mingling when mingle is true.
 
   @effect read_file read
@@ -82,7 +82,7 @@
     How deeply the compiler should clarify the selected body before continuing.
     Must be a percentage greater than 0% and no greater than 100%.
 
-  @param body implicit: true mode: subspec
+  @param body default: "" implicit: true mode: subspec
     Optional sub-spec whose ambiguities should be clarified. If omitted, the
     directive applies to the current enclosing specification scope.
 
@@ -161,25 +161,29 @@
   @scope metadata
   @returns diagnostics
 
-  @param condition default: unspecified
-    Natural-language invariant to check.
+  @param contains default: ""
+    Exact text that the composed prompt must contain.
+
+  @param not_contains default: ""
+    Exact text that the composed prompt must not contain.
+
+  @param section default: ""
+    Markdown section heading that the composed prompt must contain.
+
+  @param variable default: ""
+    Variable name that must resolve.
 
   @param severity default: error
     Diagnostic severity: error or warning.
-
-  @param body implicit: true mode: text
-    Optional assertion explanation.
 
   @effect inspect_text read
   @effect diagnostics write
 
   @body
-    Check that the composed prompt satisfies the requested invariant.
-    Deterministic structural assertions may be evaluated directly; semantic
-    assertions should emit diagnostics according to severity @{severity}.
-
-    @{condition}
-    @{body}
+    Check the deterministic constraints requested by non-empty @{contains},
+    @{not_contains}, @{section}, and @{variable} parameters. At least one check
+    parameter is required. Emit failed checks according to severity @{severity}.
+    Unknown parameters are authoring errors.
 
 @define revise
   @phase compile
@@ -193,16 +197,14 @@
     Revision mode: minimal or editorial.
 
   @param body implicit: true mode: subspec
-    Optional WeaveMark target to revise. If omitted, the directive applies to
-    the current enclosing specification scope.
+    Required non-empty WeaveMark target to revise.
 
   @effect transform_text write
   @effect diagnostics write
 
   @body
-    Revise the selected prompt text according to @{instruction}. The body is the
-    target sub-spec to revise; if @{body} is omitted, apply the revision to the
-    current enclosing specification scope. Mode @{mode} controls aggressiveness:
+    Revise @{body} according to @{instruction}. The body is the explicit target
+    sub-spec to revise. Mode @{mode} controls aggressiveness:
     minimal means make only the required change; editorial means rewrite enough
     surrounding text to remove contradictions and preserve coherence. Return
     only the revised prompt text. Do not emit this policy, operation labels, or
@@ -266,16 +268,14 @@
     Semantic rewrite intensity: low, medium, or high.
 
   @param body implicit: true mode: subspec
-    Optional WeaveMark target to normalize. If omitted, the directive applies
-    to the current enclosing specification scope.
+    Required non-empty WeaveMark target to normalize.
 
   @effect transform_text write
   @effect diagnostics write
 
   @body
-    Normalize the selected prompt text using this guidance: @{guidance}. The
-    body is the target sub-spec to normalize; if @{body} is omitted, apply the
-    normalization to the current enclosing specification scope. Scope @{scope}
+    Normalize @{body} using this guidance: @{guidance}. The body is the explicit
+    target sub-spec to normalize. Scope @{scope}
     controls syntactic, semantic, or combined normalization. Headings:
     @{headings}; lists: @{lists}; terminology: @{terminology}; intensity:
     @{intensity}. Resolve contradictions when scope includes semantic. Return
@@ -291,8 +291,7 @@
     presentation constraints to follow.
 
   @param body implicit: true mode: subspec
-    Optional WeaveMark content governed by the style guidance. If omitted, the
-    directive applies to the current enclosing specification scope.
+    Required non-empty WeaveMark content governed by the style guidance.
 
   @effect transform_text write
   @effect diagnostics write
@@ -300,9 +299,8 @@
   @body
     Rewrite or constrain the selected prompt text so it follows this style
     guidance: @{description}. Integrate the guidance directly into the prompt's
-    requirements. If @{body} is omitted, apply the style to the current enclosing
-    specification scope. Return only the styled prompt text; do not emit this
-    policy or operation labels.
+    requirements. @{body} is the explicit target. Return only the styled prompt
+    text; do not emit this policy or operation labels.
 
 @define polish
   @phase compile
@@ -313,16 +311,14 @@
     Optional final-pass presentation and organization guidance.
 
   @param body implicit: true mode: subspec
-    Optional WeaveMark target to polish. If omitted, the directive applies to
-    the current enclosing specification scope.
+    Required non-empty WeaveMark target to polish.
 
   @effect transform_text write
   @effect diagnostics write
 
   @body
-    Polish the selected prompt text using this guidance: @{guidance}. The body
-    is the target sub-spec to polish; if @{body} is omitted, apply the polish to
-    the current enclosing specification scope. Do not add new substantive
+    Polish @{body} using this guidance: @{guidance}. The body is the explicit
+    target sub-spec to polish. Do not add new substantive
     information. Do not remove existing substantive information. Preserve all
     obligations, constraints, examples-as-rules, output contracts, exact
     identifiers, field names, API paths, validation gates, and important
@@ -380,9 +376,9 @@
     Balanced may remove low-value rationale, examples, or repetition first.
 
   @param body implicit: true mode: subspec
-    Sub-spec or content to compress. Put the specification content here; put
-    compression preferences in parameters such as goal, target, budget, and
-    preserve.
+    Required non-empty sub-spec or content to compress. Put the specification
+    content here; put compression preferences in parameters such as goal,
+    target, budget, and preserve.
 
   @effect transform_text write
   @effect diagnostics write

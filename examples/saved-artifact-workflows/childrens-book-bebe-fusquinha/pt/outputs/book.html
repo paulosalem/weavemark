@@ -1,67 +1,84 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=1536, height=1024">
-  <title>O Bebê Fusquinha e a Biblioteca Perdida das Perguntas</title>
-  <style>
-    @page {
-      size: 1536px 1024px;
-      margin: 0;
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 1536px;
-      background: #ffffff;
-    }
-
-    section.page {
-      width: 1536px;
-      height: 1024px;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      page-break-inside: avoid;
-      break-inside: avoid;
-      page-break-after: always;
-      break-after: page;
-    }
-
-    section.page:last-of-type {
-      page-break-after: auto;
-      break-after: auto;
-    }
-
-    section.page img {
-      display: block;
-      width: 1536px;
-      height: 1024px;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      object-fit: cover;
-    }
-  </style>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; script-src 'none'; object-src 'none'; frame-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>O Bebê Fusquinha e a Biblioteca Perdida das Perguntas</title>
+<style>
+@page { size: 1536px 1024px; margin: 0; }
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 1536px;
+  background: #ffffff;
+}
+section.page {
+  width: 1536px;
+  height: 1024px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  page-break-before: auto;
+  page-break-after: always;
+  break-before: auto;
+  break-after: page;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  background: #ffffff;
+}
+section.page:last-of-type {
+  page-break-after: auto;
+  break-after: auto;
+}
+section.page img {
+  display: block;
+  width: 1536px;
+  height: 1024px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  object-fit: cover;
+}
+@media print {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 1536px;
+  }
+  section.page {
+    width: 1536px;
+    height: 1024px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  section.page img {
+    width: 1536px;
+    height: 1024px;
+  }
+}
+</style>
 </head>
 <body>
-  <section class="page cover"><img src="cover.png" alt=""></section>
-  <section class="page"><img src="pages/page-1.png" alt=""></section>
-  <section class="page"><img src="pages/page-2.png" alt=""></section>
-  <section class="page"><img src="pages/page-3.png" alt=""></section>
-  <section class="page"><img src="pages/page-4.png" alt=""></section>
-  <section class="page"><img src="pages/page-5.png" alt=""></section>
-  <section class="page"><img src="pages/page-6.png" alt=""></section>
-  <section class="page"><img src="pages/page-7.png" alt=""></section>
-  <section class="page"><img src="pages/page-8.png" alt=""></section>
-  <section class="page"><img src="pages/page-9.png" alt=""></section>
-  <section class="page"><img src="pages/page-10.png" alt=""></section>
-  <section class="page"><img src="pages/page-11.png" alt=""></section>
-  <section class="page"><img src="pages/page-12.png" alt=""></section>
-  <section class="page"><img src="pages/page-13.png" alt=""></section>
-  <section class="page"><img src="pages/page-14.png" alt=""></section>
-  <section class="page"><img src="pages/page-15.png" alt=""></section>
+<section class="page cover"><img src="cover.png" alt=""></section>
+<section class="page"><img src="pages/page-1.png" alt=""></section>
+<section class="page"><img src="pages/page-2.png" alt=""></section>
+<section class="page"><img src="pages/page-3.png" alt=""></section>
+<section class="page"><img src="pages/page-4.png" alt=""></section>
+<section class="page"><img src="pages/page-5.png" alt=""></section>
+<section class="page"><img src="pages/page-6.png" alt=""></section>
+<section class="page"><img src="pages/page-7.png" alt=""></section>
+<section class="page"><img src="pages/page-8.png" alt=""></section>
+<section class="page"><img src="pages/page-9.png" alt=""></section>
+<section class="page"><img src="pages/page-10.png" alt=""></section>
+<section class="page"><img src="pages/page-11.png" alt=""></section>
+<section class="page"><img src="pages/page-12.png" alt=""></section>
+<section class="page"><img src="pages/page-13.png" alt=""></section>
+<section class="page"><img src="pages/page-14.png" alt=""></section>
+<section class="page"><img src="pages/page-15.png" alt=""></section>
 </body>
 </html>

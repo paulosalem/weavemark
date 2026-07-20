@@ -23,6 +23,7 @@ from .base import (
     RuntimeConfig,
     resolve_call_settings,
 )
+from .bindings import BoundCallable, load_binding_callables
 
 _MACHINE_CONFIG_KEY = "machine"
 _DEFAULT_MAX_STEPS = 12
@@ -242,6 +243,15 @@ class _PromptBackedFSLMRuntime:
         self.result = result
         self.engine_config = engine_config
         self.tool_schemas = _tool_schemas_by_name(tools)
+        registry_tools = self.definition.bindings.tools
+        host_tool_names = set(registry_tools) if registry_tools else set()
+        self.local_binding_names = {
+            str(binding.get("name", ""))
+            for binding in result.bindings
+            if binding.get("name") in self.tool_schemas
+            and binding.get("name") not in host_tool_names
+        }
+        self.bound_tools: dict[str, BoundCallable] = {}
         self.on_step = on_step
         self.steps: list[StepRecord] = []
         self.history: list[dict[str, Any]] = []
@@ -350,7 +360,12 @@ class _PromptBackedFSLMRuntime:
             )
             return _action_from_payload(self.api, action, payload)
 
-        if action.kind == "tool" and action.tool and self.definition.bindings.tools:
+        if (
+            action.kind == "tool"
+            and action.tool
+            and self.definition.bindings.tools
+            and action.tool in self.definition.bindings.tools
+        ):
             arguments = self._tool_arguments(action, event)
             ctx = self._fsm_context(snapshot, event)
             output = await ctx.call_tool(action.tool, **arguments)
@@ -359,6 +374,23 @@ class _PromptBackedFSLMRuntime:
                 tool=action.tool,
                 status="executed",
                 output=output if isinstance(output, dict) else {"value": output},
+            )
+
+        if action.kind == "tool" and action.tool in self.local_binding_names:
+            if action.tool not in self.bound_tools:
+                self.bound_tools[action.tool] = load_binding_callables(
+                    self.result, [action.tool]
+                )[action.tool]
+            arguments = self._tool_arguments(action, event)
+            output = self.bound_tools[action.tool](**arguments)
+            if inspect.isawaitable(output):
+                output = await output
+            return self.api.ActionResult(
+                action_name=_action_name(action),
+                tool=action.tool,
+                status="executed",
+                output=output if isinstance(output, dict) else {"value": output},
+                message="executed through the promplet's explicit @bind implementation",
             )
 
         if action.kind == "tool" and action.tool:

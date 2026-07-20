@@ -17,7 +17,7 @@
   Also supports DFS (depth-first with backtracking) via search_type: dfs.
 
   Note: This strategy is significantly more expensive than the simplified
-  variant (~90 LLM calls vs ~5). Use simplified-tree-of-thought for
+  variant (~43 LLM calls vs ~5). Use simplified-tree-of-thought for
   cost-sensitive applications.
 
   References:
@@ -70,4 +70,4 @@ Problem: @{problem}
 
   End with:
 
-  ANSWER: [number]
+  ANSWER: [final numeric value, text answer, or labeled choice]

@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # ruff: noqa: E402
-"""Benchmark WeaveMark strategies against LLM benchmarks.
+"""Benchmark WeaveMark strategies against generation-based LLM benchmarks.
 
 Composes one or more WeaveMark files (with @execute directives), then evaluates
-each strategy against standard benchmarks (GSM8K, MMLU, etc.) via
-lm-evaluation-harness.  Outputs a beautiful comparison table.
+each strategy against ``lm-evaluation-harness`` tasks whose request method is
+``generate_until``. GSM8K is supported. Tasks that require ``loglikelihood`` or
+``loglikelihood_rolling`` are rejected before evaluation because the current
+chat-strategy adapter cannot produce valid token likelihoods.
 
 Usage:
     python examples/benchmark-runners/strategy-comparison/runner.py \\
@@ -26,9 +28,10 @@ import logging
 import sys
 import time
 import warnings
+from collections.abc import Mapping
 from contextlib import suppress
 from pathlib import Path
-from typing import Any
+from typing import Any, Never
 
 # Suppress litellm's "coroutine was never awaited" noise from its
 # async logging worker when we run strategies in fresh event loops.
@@ -71,6 +74,89 @@ def _get_console():
 
 
 CONSOLE = _get_console()
+DEFAULT_PARALLEL_SAMPLES = 2
+MAX_PARALLEL_SAMPLES = 2
+SUPPORTED_REQUEST_METHOD = "generate_until"
+
+
+class UnsupportedBenchmarkTaskError(ValueError):
+    """Raised when an lm-eval task needs a non-generation request method."""
+
+
+class UnsupportedBenchmarkRequestError(RuntimeError):
+    """Raised if lm-eval sends a non-generation request to the adapter."""
+
+
+def _validated_parallelism(value: int) -> int:
+    if not 1 <= value <= MAX_PARALLEL_SAMPLES:
+        raise ValueError(
+            f"parallel samples must be between 1 and {MAX_PARALLEL_SAMPLES}; "
+            f"the safety cap is {MAX_PARALLEL_SAMPLES}"
+        )
+    return value
+
+
+def _parallelism_argument(value: str) -> int:
+    try:
+        return _validated_parallelism(int(value))
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(str(exc)) from exc
+
+
+def _task_output_type(task: object) -> str | None:
+    output_type = getattr(task, "OUTPUT_TYPE", None)
+    if output_type is None:
+        output_type = getattr(getattr(task, "config", None), "output_type", None)
+    return str(output_type) if output_type is not None else None
+
+
+def _task_name(key: object) -> str:
+    return str(getattr(key, "group", key))
+
+
+def _task_methods(
+    task_dict: Mapping[object, object],
+    prefix: tuple[str, ...] = (),
+) -> list[tuple[str, str | None]]:
+    methods: list[tuple[str, str | None]] = []
+    for key, value in task_dict.items():
+        path = (*prefix, _task_name(key))
+        if isinstance(value, Mapping):
+            methods.extend(_task_methods(value, path))
+        else:
+            methods.append(("/".join(path), _task_output_type(value)))
+    return methods
+
+
+def _validate_generation_only_tasks(task_dict: Mapping[object, object]) -> None:
+    """Reject tasks that cannot use this adapter's generation-only contract."""
+
+    unsupported = [
+        (name, method)
+        for name, method in _task_methods(task_dict)
+        if method != SUPPORTED_REQUEST_METHOD
+    ]
+    if not unsupported:
+        return
+    details = ", ".join(
+        f"{name} ({method or 'unknown request method'})"
+        for name, method in unsupported
+    )
+    raise UnsupportedBenchmarkTaskError(
+        "This WeaveMark benchmark runner supports generation-only lm-eval tasks "
+        f"using {SUPPORTED_REQUEST_METHOD!r}. Unsupported task(s): {details}. "
+        "Tasks requiring 'loglikelihood' or 'loglikelihood_rolling' cannot be "
+        "scored by the current chat-strategy adapter; no results were produced."
+    )
+
+
+def _reject_unsupported_request_method(method: str) -> Never:
+    raise UnsupportedBenchmarkRequestError(
+        "This WeaveMark benchmark runner is generation-only and supports only "
+        f"{SUPPORTED_REQUEST_METHOD!r} requests. Received {method!r}; valid token "
+        "likelihoods are unavailable from the current chat-strategy path, so no "
+        "zero-valued placeholder scores will be returned."
+    )
 
 
 def _quiet_benchmark_libraries() -> None:
@@ -89,6 +175,17 @@ def _quiet_benchmark_libraries() -> None:
         hub_logging.set_verbosity_error()
 
 
+def _preflight_generation_tasks(tasks: list[str]) -> Any:
+    """Resolve lm-eval tasks and enforce the generation-only contract."""
+
+    from lm_eval.tasks import TaskManager, get_task_dict
+
+    task_manager = TaskManager()
+    resolved_tasks = get_task_dict(tasks, task_manager=task_manager)
+    _validate_generation_only_tasks(resolved_tasks)
+    return task_manager
+
+
 def print_banner():
     if CONSOLE:
         from rich.panel import Panel
@@ -96,7 +193,7 @@ def print_banner():
 
         title = Text("⚡ WeaveMark Benchmark Runner", style="bold bright_yellow")
         sub = Text(
-            "Evaluate prompting strategies against standard LLM benchmarks",
+            "Evaluate prompting strategies on generation-only lm-eval tasks",
             style="dim",
         )
         CONSOLE.print(
@@ -188,12 +285,13 @@ def create_benchmark_model(
     execution_config: dict[str, Any],
     model: str,
     placeholder: str = "__WEAVEMARK_BENCHMARK_PROBLEM__",
-    max_workers: int = 8,
+    max_workers: int = DEFAULT_PARALLEL_SAMPLES,
 ):
     """Create a BenchmarkModel that uses composed WeaveMark prompts."""
     from ellements.core import LLMClient
     from lm_eval.api.model import LM
 
+    max_workers = _validated_parallelism(max_workers)
     model_name = model.split("/")[-1] if "/" in model else model
 
     # Resolve the strategy
@@ -299,8 +397,7 @@ def create_benchmark_model(
                 # Run ALL strategy samples through a single event loop with
                 # a semaphore for concurrency control.  This shares aiohttp
                 # connections properly and avoids socket/FD exhaustion.
-                effective_workers = min(max_workers, 2)
-                max_workers_actual = min(effective_workers, total)
+                max_workers_actual = min(max_workers, total)
 
                 async def _run_all_strategy():
                     sem = asyncio.Semaphore(max_workers_actual)
@@ -385,10 +482,10 @@ def create_benchmark_model(
             return results
 
         def loglikelihood(self, requests: list) -> list[tuple[float, bool]]:
-            return [(0.0, False) for _ in requests]
+            return _reject_unsupported_request_method("loglikelihood")
 
         def loglikelihood_rolling(self, requests: list) -> list[float]:
-            return [0.0 for _ in requests]
+            return _reject_unsupported_request_method("loglikelihood_rolling")
 
     return WeaveMarkBenchmarkModel()
 
@@ -404,20 +501,20 @@ def run_benchmarks(
     model: str,
     limit: int | None = None,
     num_fewshot: int | None = None,
-    max_workers: int = 8,
+    max_workers: int = DEFAULT_PARALLEL_SAMPLES,
 ) -> dict[str, dict[str, Any]]:
-    """Run lm-eval benchmarks for each composed spec."""
+    """Run generation-only lm-eval benchmarks for each composed spec."""
     _quiet_benchmark_libraries()
 
     from lm_eval.evaluator import simple_evaluate
-    from lm_eval.tasks import TaskManager
 
     _quiet_benchmark_libraries()
+    max_workers = _validated_parallelism(max_workers)
 
     all_results: dict[str, dict[str, Any]] = {}
 
     # Reuse a single TaskManager so datasets are loaded/cached once
-    task_manager = TaskManager()
+    task_manager = _preflight_generation_tasks(tasks)
 
     for i, spec_info in enumerate(specs, 1):
         name = spec_info["name"]
@@ -533,9 +630,11 @@ def print_results_table(
 # ---------------------------------------------------------------------------
 
 
-def parse_args():
+def parse_args(argv: list[str] | None = None):
     parser = argparse.ArgumentParser(
-        description="Benchmark WeaveMark strategies against standard LLM benchmarks.",
+        description=(
+            "Benchmark WeaveMark strategies on generation-only lm-eval tasks."
+        ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""\
 Examples:
@@ -567,7 +666,10 @@ Examples:
         "-t",
         nargs="+",
         required=True,
-        help="Benchmark tasks (e.g., gsm8k, mmlu, hellaswag)",
+        help=(
+            "Generation-only lm-eval tasks whose request method is "
+            "'generate_until' (for example: gsm8k)"
+        ),
     )
     parser.add_argument(
         "--model",
@@ -599,12 +701,15 @@ Examples:
     parser.add_argument(
         "--parallel",
         "-p",
-        type=int,
-        default=8,
-        help="Max parallel samples per strategy (default: 8). Set to 1 for sequential.",
+        type=_parallelism_argument,
+        default=DEFAULT_PARALLEL_SAMPLES,
+        help=(
+            "Parallel samples per strategy: 1 or 2 "
+            "(default: 2; intentional safety cap: 2)"
+        ),
     )
 
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
 async def _compose_all_specs(
@@ -629,6 +734,12 @@ def main():
     args = parse_args()
 
     print_banner()
+
+    try:
+        _preflight_generation_tasks(args.tasks)
+    except UnsupportedBenchmarkTaskError as exc:
+        print_step("❌", str(exc), "bold red")
+        raise SystemExit(2) from None
 
     # Validate specs exist
     for spec_path in args.specs:

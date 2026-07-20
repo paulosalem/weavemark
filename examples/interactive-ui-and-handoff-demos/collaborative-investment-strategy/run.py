@@ -30,6 +30,7 @@ import asyncio
 import json
 import os
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
@@ -232,6 +233,17 @@ async def run(
     exec_result = await engine.execute(result, config=config, on_step=on_step)
     composed_prompt = normalize_generated_markdown(result.composed_prompt)
     final_output = normalize_generated_markdown(exec_result.output)
+    normalized_steps = [
+        replace(
+            step,
+            response=normalize_generated_markdown(step.response),
+        )
+        for step in exec_result.steps
+    ]
+    if normalized_steps and normalized_steps[-1].response != final_output:
+        raise RuntimeError(
+            "Collaborative engine output does not match its final execution step."
+        )
     execution_path = output_dir / "execution-output.md"
     steps_path = output_dir / "execution-steps.json"
     trace_path = output_dir / "execution-trace.md"
@@ -247,7 +259,7 @@ async def run(
         json.dumps(
             execution_result_to_dict(
                 output=final_output,
-                steps=exec_result.steps,
+                steps=normalized_steps,
                 metadata=exec_result.metadata,
             ),
             indent=2,
@@ -261,7 +273,7 @@ async def run(
             model="gpt-5.5",
             engine="collaborative",
             output=final_output,
-            steps=exec_result.steps,
+            steps=normalized_steps,
             metadata=exec_result.metadata,
         ),
         encoding="utf-8",

@@ -171,9 +171,9 @@ Include deterministic fixtures for:
 - provider outage, partial crawl, and offline browsing;
 - restart persistence, migration, backup/restore, and duplicate ingestion races.
 
-Evaluate clustering and resurface quality on a labeled event corpus. Report false
-new-event and missed-material-update rates separately; do not collapse them into
-one accuracy score.
+Evaluate clustering and resurface quality on a labeled event corpus. Report
+false new-event and missed-material-update rates separately; do not collapse
+them into one accuracy score.
 
 @output enforce: strict
   Return:
@@ -188,7 +188,7 @@ one accuracy score.
   9. Security, privacy, source, and provider boundaries
   10. Testing, labeled evaluation, and acceptance criteria
 
-@assert includes: "material update"
-@assert includes: "presentation history"
-@assert includes: "What changed"
-@assert includes: "false new-event"
+@assert contains: "material update"
+@assert contains: "presentation history"
+@assert contains: "What changed"
+@assert contains: "false new-event"

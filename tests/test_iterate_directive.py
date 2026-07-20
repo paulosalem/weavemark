@@ -226,6 +226,7 @@ class TestStepDiscovery:
             @expand mode: intention
               compact idea
             @style "For engineers: crisp."
+              existing draft
             Outro.
             """,
             tmp_path,

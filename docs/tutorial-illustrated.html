@@ -215,8 +215,8 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
           <p>
             And here is the finished strip. Notice how those exact traits &mdash;
             Krazy&rsquo;s hair, goggles and coat, Deimotron&rsquo;s glowing eyes and
-            mechanical joints &mdash; carry straight from the sheet into
-            <em>every</em> panel:
+            mechanical joints &mdash; carry straight from the sheet into the
+            rendered panels where each character appears:
           </p>
           <figure class="result-figure">
             <img
@@ -229,7 +229,9 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
             <figcaption>
               <strong>Result out.</strong> The finished strip, produced entirely
               from the specification and its reference images. Deimotron mirrors
-              Deimos&rsquo;s every bad habit; Doctor Krazy takes the fall.
+              Deimos&rsquo;s every bad habit; Doctor Krazy takes the fall. This
+              preview is a resized JPEG of
+              <code>examples/saved-artifact-workflows/comic-strip-en/outputs/comic-strip.png</code>.
             </figcaption>
           </figure>
           <p>
@@ -255,24 +257,42 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
 
 <span class="syntax-directive">@prompt</span> author
   <span class="syntax-directive">@refine</span> module:weavemark.domains.creative.illustrated_story_core
-    <span class="syntax-key">with</span> story_format: <span class="syntax-string">"comic-strip"</span>
-    <span class="syntax-key">with</span> references: true
-  <span class="syntax-comment">&lt;!-- ... a per-panel beat sheet (see next step) ... --&gt;</span>
+    <span class="syntax-key">with</span> <span class="syntax-key">story_format:</span> <span class="syntax-string">"comic-strip"</span>
+    <span class="syntax-key">with</span> <span class="syntax-key">references:</span> true
 
 <span class="syntax-directive">@prompt</span> generate
   <span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image
     <span class="syntax-key">file:</span> comic-strip.png
+    <span class="syntax-key">size:</span> 1536x1024
+    <span class="syntax-key">quality:</span> high
     <span class="syntax-key">edit:</span> on
   <span class="syntax-var">@{author}</span>
-  ![Style reference](<span class="syntax-var">@{style_reference}</span>)
+  <span class="syntax-directive">@if</span> style_reference
+    ![Style reference &mdash; match line art, coloring, lettering, panel framing](<span class="syntax-var">@{style_reference}</span>)
 
 <span class="syntax-directive">@prompt</span> critique
-  Inspect the RENDERED strip against the spec. Reply OK or list defects.
+  You are a strict comic-strip art director inspecting the attached RENDERED
+  comic strip against its specification.
+
+  Specification the image must satisfy:
+  -----
+  <span class="syntax-var">@{author}</span>
+  -----
+
+  Reply with exactly <span class="syntax-string">"OK"</span> if the image faithfully satisfies the specification
+  with none of these defects. Otherwise reply with a short bullet list of the
+  concrete, fixable defects, citing the panel. List only defects.
 
 <span class="syntax-directive">@prompt</span> revise
   <span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image
+    <span class="syntax-key">size:</span> 1536x1024
+    <span class="syntax-key">quality:</span> high
     <span class="syntax-key">edit:</span> on
-  Fix these defects exactly: {{critique}}</code></pre>
+  <span class="syntax-var">@{author}</span>
+
+  The previous render had these defects &mdash; fix ALL of them exactly, and do NOT
+  introduce any new issues:
+  {{critique}}</code></pre>
           <div class="grid two">
             <article class="card">
               <h3>Author sees the references</h3>
@@ -315,33 +335,37 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
         </section>
 
         <section id="beats" class="article-section">
-          <h2>4. Direct each frame with a beat sheet</h2>
+          <h2>4. Direct every frame with a dynamic beat sheet</h2>
           <p>
             The story is not improvised. The concrete spec carries a
-            <strong>beat sheet</strong> and reads it with <strong>dotted-path
-            variables</strong>: a name like <code>@{panels.1.dialogue}</code>
-            navigates nested JSON &mdash; each segment descends one level (a key,
-            or an integer list index).
+            <strong>dynamic beat sheet</strong>. Instead of enumerating a fixed
+            number of dotted paths in the promplet, the author stage receives the
+            complete <code>@{panels}</code> object and requires exactly
+            <code>@{panel_count}</code> ordered entries.
           </p>
-          <pre><code><span class="syntax-comment">&lt;!-- In the author stage of comic-strip.weavemark.md --&gt;</span>
-- **Panel 1** &mdash; <span class="syntax-var">@{panels.1.staging}</span>
-  Dialogue &mdash; <span class="syntax-var">@{panels.1.dialogue}</span>
-- **Panel 2** &mdash; <span class="syntax-var">@{panels.2.staging}</span>
-  Dialogue &mdash; <span class="syntax-var">@{panels.2.dialogue}</span>
-  <span class="syntax-comment">&lt;!-- ... one entry per panel ... --&gt;</span></code></pre>
+          <pre><code>## Panel beat sheet &mdash; exactly what happens in each panel
+
+Realize these EXACT beats, in this order, one per panel. The staging and
+dialogue of each panel are fixed: flesh out expression, framing, and comedic
+timing around them, but do not add, drop, reorder, or merge beats, and keep
+every line of dialogue verbatim as short hand-lettered speech balloons. Let the
+final panel land the punchline cleanly. Use all <span class="syntax-var">@{panel_count}</span> supplied entries
+and preserve every staging beat and dialogue string exactly.
+
+Supplied `panels` beat sheet:
+
+<span class="syntax-var">@{panels}</span></code></pre>
           <p>
             The panels themselves live in the companion variables, so rewriting the
-            story never touches the spec &mdash; you edit data:
+            story never touches the spec &mdash; you edit data. This valid JSON
+            reduction keeps one exact panel entry:
           </p>
-          <pre><code><span class="syntax-comment">// comic-strip/inputs/vars.json</span>
-<span class="syntax-key">"panels"</span>: {
-  <span class="syntax-key">"1"</span>: {
-    <span class="syntax-key">"staging"</span>: <span class="syntax-string">"Doctor Krazy presents his robot cat like a prize..."</span>,
-    <span class="syntax-key">"dialogue"</span>: <span class="syntax-string">"Krazy: \"Behold! ZERO bad habits!\"  Deimos: \"Bold claim.\""</span>
-  },
-  <span class="syntax-key">"5"</span>: {
-    <span class="syntax-key">"staging"</span>: <span class="syntax-string">"Aftermath: broken cups, Krazy slumped on the floor..."</span>,
-    <span class="syntax-key">"dialogue"</span>: <span class="syntax-string">"Krazy: \"What have I built?!\"  Deimos: \"I've created a monster.\""</span>
+          <pre><code>{
+  <span class="syntax-key">"panels"</span>: {
+    <span class="syntax-key">"1"</span>: {
+      <span class="syntax-key">"staging"</span>: <span class="syntax-string">"Wide establishing shot of the sunlit kitchen-diner. Doctor Krazy bursts in from the left, arms flung wide, presenting Deimotron — his metallic silver-grey robot cat with glowing cyan eyes — on the table like a prize. Deimos sits upright at the same table with his teacup, eyes half-lidded, thoroughly unimpressed."</span>,
+      <span class="syntax-key">"dialogue"</span>: <span class="syntax-string">"Doctor Krazy (beaming): \"Behold! DEIMOTRON — the perfect cat. ZERO bad habits!\"  Deimos (flat): \"Bold claim.\""</span>
+    }
   }
 }</code></pre>
           <div class="callout">
@@ -367,14 +391,30 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
 
 <span class="syntax-directive">@prompt</span> author
   <span class="syntax-directive">@refine</span> module:weavemark.domains.creative.illustrated_story_core
-    <span class="syntax-key">with</span> story_format: <span class="syntax-string">"picture-book"</span>
-  <span class="syntax-comment">&lt;!-- ... a per-page beat sheet: @{pages.1.scene} / @{pages.1.text} ... --&gt;</span>
+    <span class="syntax-key">with</span> <span class="syntax-key">story_format:</span> <span class="syntax-string">"picture-book"</span>
+
+  ## Page beat sheet &mdash; exactly what happens on each page
+
+  Build the book to this exact page-by-page spine, in order &mdash; one entry per page.
+  For each supplied entry, turn its `scene` into a full, on-model illustration
+  prompt (restating every character's visual anchor), and use its `text` as that
+  page's narration. Preserve the exact provided text and distinctive staging;
+  refine only surrounding illustration detail and read-aloud rhythm. Do not skip,
+  reorder, merge, truncate, or invent entries, and ensure all <span class="syntax-var">@{page_count}</span>
+  authored beats are represented.
+
+  Supplied `pages` beat sheet:
+
+  <span class="syntax-var">@{pages}</span>
 
 <span class="syntax-directive">@prompt</span> page
   <span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image
     <span class="syntax-key">file:</span> pages/page-<span class="syntax-var">@{index}</span>.png
     <span class="syntax-key">size:</span> <span class="syntax-var">@{image_size}</span>
-  Render page <span class="syntax-var">@{index}</span> of <span class="syntax-var">@{count}</span> from the authored book:
+  You are the illustrator for the picture book below. Render page <span class="syntax-var">@{index}</span> of
+  <span class="syntax-var">@{count}</span> as ONE finished illustration.
+
+  The full authored book (JSON), for story context and cross-page consistency:
   <span class="syntax-var">@{author}</span></code></pre>
           <p>
             With narration lettered directly into each illustration, every image is
@@ -389,15 +429,17 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
           <figure class="result-figure">
             <img
               src="tutorial-storybook-page.jpg"
-              alt="A bright storybook page: Orion, a small purple dragon, cradles his little orange bird friend Pip as a gentle golden flame appears at last. Lettered narration reads: He breathed a big warm breath, his heart aglow with kindness, and WHOOSH, a small golden flame! There was his spark all along."
+              alt="A bright storybook page: Orion, a small purple dragon, sits beside his little orange bird friend Pip as a gentle golden flame appears at last. Lettered narration reads: He breathed a big warm breath, his heart aglow with kindness, and WHOOSH, a small golden flame! There was his spark all along."
               width="1100"
               height="733"
               loading="lazy"
             >
             <figcaption>
-              One page of the generated book &mdash; &ldquo;Orion and the Hunt for
-              His Spark.&rdquo; The narration is rendered into the illustration, so
-              the page is ready to print. Twelve of these make the book.
+              Page 9 of the generated book &mdash; &ldquo;Orion and the Hunt for
+              His Spark.&rdquo; This preview is a resized JPEG of
+              <code>examples/saved-artifact-workflows/childrens-book-orion-en/outputs/pages/page-9.png</code>.
+              The narration is rendered into the illustration, so the page is
+              ready to print.
             </figcaption>
           </figure>
           <p class="snippet-source">
@@ -413,7 +455,7 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
             deliverable. The <code>@package</code> directive assembles produced
             artifacts after execution, entirely in the language:
           </p>
-          <pre><code><span class="syntax-directive">@package</span> <span class="syntax-key">template:</span> ../library/creative/picture-book-html.weavemark.md <span class="syntax-key">file:</span> book.html
+          <pre><code><span class="syntax-directive">@package</span> <span class="syntax-key">template:</span> module:weavemark.domains.creative.picture_book_html <span class="syntax-key">file:</span> book.html
 <span class="syntax-directive">@package</span> <span class="syntax-key">from:</span> book.html <span class="syntax-key">file:</span> book.pdf</code></pre>
           <div class="grid two">
             <article class="card">
@@ -454,13 +496,15 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
           </p>
           <div class="callout">
             <strong>What to do with the output:</strong>
-            open <code>comic-strip.png</code> to review or share the finished
-            comic, and open <code>book.html</code> or <code>book.pdf</code> to
-            review, print, or distribute the picture book. Use
-            <code>compiled-chain.json</code> and the inspection logs to audit the
-            prompts and model decisions; they are not files you need to paste into
-            ChatGPT unless you are debugging or asking another assistant for
-            critique.
+            open
+            <code>examples/saved-artifact-workflows/comic-strip-en/outputs/comic-strip.png</code>
+            to review or share the finished comic, and open
+            <code>examples/saved-artifact-workflows/childrens-book-orion-en/outputs/book.html</code>
+            or
+            <code>examples/saved-artifact-workflows/childrens-book-orion-en/outputs/book.pdf</code>
+            to review, print, or distribute the picture book. Use each
+            example&rsquo;s <code>compiled-chain.json</code> and inspection logs to
+            audit prompts and model decisions.
           </div>
         </section>
 
@@ -470,7 +514,7 @@ export OPENAI_API_KEY=sk-...   <span class="syntax-comment"># or your provider's
             <li>A Markdown image link becomes a real multimodal <strong>input</strong>; <code>@output type: image</code> makes a stage render an <strong>output</strong>.</li>
             <li><code>@execute reflection</code> is a production chain plus a critique &rarr; revise loop &mdash; the model inspects and repairs its own rendered artifact.</li>
             <li><code>@execute chain</code> with <code>repeat</code> renders a sequence (one page after another) and <code>@output file:</code> persists each one.</li>
-            <li>Dotted-path variables like <code>@{panels.1.dialogue}</code> read nested JSON, so a beat sheet directs each frame while the story stays as data.</li>
+            <li>Dynamic <code>@{panels}</code> and <code>@{pages}</code> objects let one source handle any declared panel or page count while every beat stays explicit data.</li>
             <li><code>@package</code> turns produced artifacts into deliverables (HTML, PDF) fully in the language &mdash; no glue script.</li>
             <li>One reusable core (<code>illustrated-story-core</code>) powers both the comic and the book; the concrete specs only pin what differs.</li>
           </ul>

@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
 # ruff: noqa: E402
-"""Compile the financial-independence goal planner and run its public lookup."""
+"""Compile and run the financial-independence goal planner integration."""
 
 from __future__ import annotations
 
 import asyncio
-import importlib.util
-import inspect
 import json
 import re
 import sys
-from collections.abc import Awaitable
 from pathlib import Path
-from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 EXAMPLE_ROOT = REPO_ROOT / "examples" / "python-runtime-integrations" / "financial-independence-goal-plan"
@@ -23,13 +19,17 @@ if hasattr(sys.stdout, "reconfigure"):
 sys.path.insert(0, str(REPO_ROOT / "src"))
 sys.path.insert(0, str(REPO_ROOT / "examples" / "_lib"))
 
+from ellements.core import LLMClient
 from weavemark_example_progress import (
     normalize_generated_markdown,
     weavemark_verbose_event,
 )
 
-from weavemark.controller import WeaveMarkConfig, WeaveMarkController
+from weavemark.api import CompileOptions, execute_file
 from weavemark.defaults import DEFAULT_MODEL
+from weavemark.engines import RuntimeConfig
+from weavemark.protection import ProtectionContext, ProtectionSettings
+from weavemark.traces import render_execution_trace_markdown
 
 SPEC_PATH = (
     REPO_ROOT
@@ -37,14 +37,6 @@ SPEC_PATH = (
     / "catalog"
     / "executable"
     / "financial-independence-goal-plan.weavemark.md"
-)
-COMPANION_PATH = (
-    REPO_ROOT
-    / "promplets"
-    / "catalog"
-    / "executable"
-    / "companions"
-    / "public_finance_reference.py"
 )
 VARS_PATH = EXAMPLE_ROOT / "inputs" / "vars.json"
 OUTPUT_DIR = EXAMPLE_ROOT / "outputs"
@@ -59,47 +51,49 @@ def _section(title: str) -> None:
 
 async def main() -> None:
     variables = json.loads(VARS_PATH.read_text(encoding="utf-8"))
-    controller = WeaveMarkController(WeaveMarkConfig(model=DEFAULT_MODEL))
-    result = await controller.compose(
-        SPEC_PATH.read_text(encoding="utf-8"),
-        variables=variables,
-        base_dir=SPEC_PATH.parent,
+    client = LLMClient(model=DEFAULT_MODEL)
+    run = await execute_file(
+        SPEC_PATH,
+        variables,
+        options=CompileOptions(model=DEFAULT_MODEL),
+        runtime_config=RuntimeConfig(model=DEFAULT_MODEL),
+        client=client,
         on_event=weavemark_verbose_event,
+        protection_context=ProtectionContext.create(
+            ProtectionSettings(enabled=False),
+            entrypoint_dir=SPEC_PATH.parent,
+            invocation_dir=REPO_ROOT,
+        ),
     )
-    if result.errors:
-        raise RuntimeError("\n".join(result.errors))
+    compiled = run.compiled
+    if compiled.errors:
+        raise RuntimeError("\n".join(compiled.errors))
+    composed_prompt = normalize_generated_markdown(compiled.composed_prompt)
+    assumptions = run.execution.metadata.get("results", {}).get(
+        "public_assumptions"
+    )
+    if not isinstance(assumptions, dict):
+        raise RuntimeError("Functional execution did not return public assumptions.")
+    final_output = normalize_generated_markdown(run.output)
 
     _section("WeaveMark compiled executable goal-plan prompt")
-    print(result.composed_prompt)
+    print(composed_prompt)
 
-    _section("Functional execution plan emitted by WeaveMark")
+    _section("Compiled functional plan")
     print(
         json.dumps(
-            {"execution": result.execution, "bindings": result.bindings},
+            {"execution": compiled.execution, "bindings": compiled.bindings},
             indent=2,
             ensure_ascii=False,
             default=str,
         )
     )
 
-    _section("Companion runtime public-reference lookup")
-    companion = _load_companion()
-    assumptions = await _maybe_await(
-        companion.lookup_public_goal_assumptions(
-            variables["goal"],
-            "personal finance",
-            variables["country"],
-            variables["horizon"],
-        )
-    )
+    _section("Bound public-reference result")
     print(json.dumps(assumptions, indent=2, ensure_ascii=False, default=str))
 
-    composed_prompt = normalize_generated_markdown(result.composed_prompt)
-    ready_prompt = normalize_generated_markdown(
-        _inject_assumptions(composed_prompt, assumptions)
-    )
-    _section("Ready-to-paste final prompt")
-    print(ready_prompt)
+    _section("Final financial-independence plan")
+    print(final_output)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     compiled_prompt_path = OUTPUT_DIR / "compiled-prompt.md"
@@ -109,22 +103,25 @@ async def main() -> None:
     trace_path = OUTPUT_DIR / "execution-trace.md"
 
     compiled_prompt_path.write_text(composed_prompt, encoding="utf-8")
+    compiled_payload = compiled.to_dict()
+    compiled_payload["source_path"] = str(SPEC_PATH.relative_to(REPO_ROOT))
     compiled_plan_path.write_text(
-        json.dumps(result.to_dict(), indent=2, ensure_ascii=False, default=str),
+        json.dumps(compiled_payload, indent=2, ensure_ascii=False, default=str),
         encoding="utf-8",
     )
     assumptions_path.write_text(
         json.dumps(assumptions, indent=2, ensure_ascii=False, default=str),
         encoding="utf-8",
     )
-    output_path.write_text(ready_prompt, encoding="utf-8")
+    output_path.write_text(final_output, encoding="utf-8")
     trace_path.write_text(
-        _render_trace(
-            composed_prompt=composed_prompt,
-            execution_plan=result.execution,
-            bindings=result.bindings,
-            assumptions=assumptions,
-            output=ready_prompt,
+        render_execution_trace_markdown(
+            spec=str(SPEC_PATH.relative_to(REPO_ROOT)),
+            model=DEFAULT_MODEL,
+            engine=run.engine,
+            output=final_output,
+            steps=run.execution.steps,
+            metadata=run.execution.metadata,
         ),
         encoding="utf-8",
     )
@@ -138,86 +135,6 @@ async def main() -> None:
         trace_path,
     ):
         print(f"Wrote {path.relative_to(REPO_ROOT)}")
-
-
-def _load_companion() -> Any:
-    spec = importlib.util.spec_from_file_location(
-        "public_finance_reference_companion",
-        COMPANION_PATH,
-    )
-    if spec is None or spec.loader is None:
-        raise RuntimeError(f"Could not load companion module from {COMPANION_PATH}")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
-
-
-async def _maybe_await(value: Awaitable[Any] | Any) -> Any:
-    if inspect.isawaitable(value):
-        return await value
-    return value
-
-
-def _inject_assumptions(composed_prompt: str, assumptions: dict[str, Any]) -> str:
-    rendered = json.dumps(assumptions, indent=2, ensure_ascii=False, default=str)
-    if "@{public_assumptions}" in composed_prompt:
-        return composed_prompt.replace("@{public_assumptions}", rendered)
-    return "\n\n".join(
-        [
-            composed_prompt.rstrip(),
-            "# Runtime public assumptions",
-            _fence(rendered, "json"),
-            (
-                "Use these runtime assumptions as the `public_assumptions` context "
-                "referenced above. Verify current limits, rates, tax rules, and "
-                "benefits before acting."
-            ),
-        ]
-    )
-
-
-def _render_trace(
-    *,
-    composed_prompt: str,
-    execution_plan: dict[str, Any],
-    bindings: list[dict[str, Any]],
-    assumptions: dict[str, Any],
-    output: str,
-) -> str:
-    return "\n".join(
-        [
-            "# Financial Independence Goal-Plan Runtime Trace",
-            "",
-            f"- Spec: `{SPEC_PATH.relative_to(REPO_ROOT)}`",
-            "- Reusable module: `promplets/stdlib/definitions/planning/goals.weavemark.md`",
-            "- Companion runtime: `promplets/catalog/executable/companions/public_finance_reference.py`",
-            "- Effect: `web_search read`",
-            "",
-            "## Compiled prompt",
-            "",
-            _fence(composed_prompt, "markdown"),
-            "",
-            "## Functional execution plan",
-            "",
-            _fence(
-                json.dumps(
-                    {"execution": execution_plan, "bindings": bindings},
-                    indent=2,
-                    ensure_ascii=False,
-                    default=str,
-                ),
-                "json",
-            ),
-            "",
-            "## Runtime public assumptions",
-            "",
-            _fence(json.dumps(assumptions, indent=2, ensure_ascii=False), "json"),
-            "",
-            "## Ready-to-paste final prompt",
-            "",
-            _fence(output, "markdown"),
-        ]
-    )
 
 
 def _fence(value: str, language: str = "") -> str:

@@ -114,7 +114,7 @@
             <code>promplets/catalog/executable/financial-independence-goal-plan.weavemark.md</code>.
           </p>
           <pre><code>cd weavemark
-mkdir -p outputs/tutorial-goal/planning outputs/tutorial-goal/companions</code></pre>
+mkdir -p outputs/tutorial-goal</code></pre>
         </section>
 
         <section id="macro" class="article-section">
@@ -125,7 +125,8 @@ mkdir -p outputs/tutorial-goal/planning outputs/tutorial-goal/companions</code><
             compact instruction into structure</strong>. Here the macro turns a
             goal into a planning specification.
           </p>
-          <pre><code><span class="syntax-comment">&lt;!-- Save as outputs/tutorial-goal/planning/goals.weavemark.md --&gt;</span>
+          <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+
 <span class="syntax-directive">@module</span> weavemark.std.planning.goals
 
 <span class="syntax-directive">@define</span> planning_checkpoint
@@ -159,32 +160,53 @@ mkdir -p outputs/tutorial-goal/planning outputs/tutorial-goal/companions</code><
     Brief description of the user's current situation.
 
   <span class="syntax-directive">@param</span> constraints
-    Boundaries and things the plan must avoid.
+    Boundaries, preferences, and things the plan must avoid.
 
   <span class="syntax-directive">@param</span> assumption_source
-    Runtime lookup result or user-verified assumptions.
+    Public assumptions, runtime lookup result, or user-verified reference material.
 
   <span class="syntax-directive">@body</span>
-    # Goal-to-plan promplet
+    # Goal-to-plan compiler
 
-    Goal: <span class="syntax-var">@{goal}</span>
-    Domain: <span class="syntax-var">@{domain}</span>
-    Horizon: <span class="syntax-var">@{horizon}</span>
-    Starting point: <span class="syntax-var">@{starting_point}</span>
-    Constraints: <span class="syntax-var">@{constraints}</span>
-    Assumption source: <span class="syntax-var">@{assumption_source}</span>
+    Turn one plain-language goal into a practical plan.
 
-    <span class="syntax-directive">@planning_checkpoint</span> name: <span class="syntax-string">"Define the finish line"</span> purpose: <span class="syntax-string">"Translate the goal into observable success criteria."</span> done_when: <span class="syntax-string">"The plan has one measurable target and one review trigger."</span>
+    - Goal: <span class="syntax-var">@{goal}</span>
+    - Domain: <span class="syntax-var">@{domain}</span>
+    - Horizon: <span class="syntax-var">@{horizon}</span>
+    - Starting point: <span class="syntax-var">@{starting_point}</span>
+    - Constraints: <span class="syntax-var">@{constraints}</span>
+    - Assumption source: <span class="syntax-var">@{assumption_source}</span>
 
-    <span class="syntax-directive">@planning_checkpoint</span> name: <span class="syntax-string">"Build the milestone ladder"</span> purpose: <span class="syntax-string">"Turn a distant goal into near, middle, and long-horizon milestones."</span> done_when: <span class="syntax-string">"The plan has first-week, first-month, quarterly, and horizon-level milestones."</span>
+    First state explicit assumptions. If the assumption source is incomplete or
+    stale, say what the user must verify before acting.
 
-    <span class="syntax-directive">@planning_checkpoint</span> name: <span class="syntax-string">"Install the review loop"</span> purpose: <span class="syntax-string">"Keep the plan alive as conditions change."</span> done_when: <span class="syntax-string">"The plan includes cadence, metrics, and revision triggers."</span>
+    <span class="syntax-directive">@planning_checkpoint</span> <span class="syntax-key">name:</span> <span class="syntax-string">"Define the finish line"</span> <span class="syntax-key">purpose:</span> <span class="syntax-string">"Translate the goal into observable success criteria."</span> <span class="syntax-key">done_when:</span> <span class="syntax-string">"The plan has one measurable target, one date or horizon, and one review trigger."</span>
+
+    <span class="syntax-directive">@planning_checkpoint</span> <span class="syntax-key">name:</span> <span class="syntax-string">"Map the current state"</span> <span class="syntax-key">purpose:</span> <span class="syntax-string">"Separate facts, estimates, unknowns, and constraints before recommending action."</span> <span class="syntax-key">done_when:</span> <span class="syntax-string">"The plan lists the user's current resources, gaps, and unknowns without pretending missing data is known."</span>
+
+    <span class="syntax-directive">@planning_checkpoint</span> <span class="syntax-key">name:</span> <span class="syntax-string">"Build the milestone ladder"</span> <span class="syntax-key">purpose:</span> <span class="syntax-string">"Turn a distant goal into near, middle, and long-horizon milestones."</span> <span class="syntax-key">done_when:</span> <span class="syntax-string">"The plan has first-week, first-month, quarterly, and horizon-level milestones."</span>
+
+    <span class="syntax-directive">@planning_checkpoint</span> <span class="syntax-key">name:</span> <span class="syntax-string">"Choose the next action set"</span> <span class="syntax-key">purpose:</span> <span class="syntax-string">"Make the first move concrete enough to do without another planning session."</span> <span class="syntax-key">done_when:</span> <span class="syntax-string">"The plan names 3-5 first-month actions, their order, and why each comes first."</span>
+
+    <span class="syntax-directive">@planning_checkpoint</span> <span class="syntax-key">name:</span> <span class="syntax-string">"Install the review loop"</span> <span class="syntax-key">purpose:</span> <span class="syntax-string">"Keep the plan alive as conditions change."</span> <span class="syntax-key">done_when:</span> <span class="syntax-string">"The plan includes a lightweight cadence, metrics to check, and conditions for revising the strategy."</span>
+
+    ## Required output
 
     <span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
-      Return: goal profile, assumptions to verify, milestone ladder,
-      first-month actions, review cadence, and safeguards.
+      Return exactly these sections:
+      1. Goal profile
+      2. Assumptions to verify
+      3. Milestone ladder
+      4. First-month actions
+      5. Review cadence
+      6. Failure modes and safeguards
 
-    <span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"first-month actions"</span></code></pre>
+    <span class="syntax-directive">@assert</span> <span class="syntax-key">contains:</span> <span class="syntax-string">"First-month actions"</span>
+    <span class="syntax-directive">@assert</span> <span class="syntax-key">contains:</span> <span class="syntax-string">"Assumptions to verify"</span></code></pre>
+          <p class="snippet-source">
+            Exact source:
+            <a href="../promplets/stdlib/definitions/planning/goals.weavemark.md">goals.weavemark.md</a>.
+          </p>
           <div class="callout">
             <strong>What is reusable?</strong> Nothing here is specific to
             financial independence. The same macro could plan learning a
@@ -200,20 +222,27 @@ mkdir -p outputs/tutorial-goal/planning outputs/tutorial-goal/companions</code><
             only supplies a goal, horizon, current starting point, and
             constraints.
           </p>
-          <pre><code><span class="syntax-comment">&lt;!-- Save as outputs/tutorial-goal/fi-goal-plan.weavemark.md --&gt;</span>
-<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+          <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
 <span class="syntax-directive">@use</span> weavemark.std.planning.goals exposing goal_plan
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.finance_safety <span class="syntax-key">mingle:</span> true
 
-# Financial independence goal-to-plan prompt
+# Financial Independence Goal-to-Plan Prompt
 
-<span class="syntax-directive">@goal_plan</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"@{goal}"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"@{horizon}"</span> <span class="syntax-key">starting_point:</span> <span class="syntax-string">"@{starting_point}"</span> <span class="syntax-key">constraints:</span> <span class="syntax-string">"@{constraints}"</span> <span class="syntax-key">assumption_source:</span> <span class="syntax-string">"@{public_assumptions}"</span>
+<span class="syntax-directive">@goal_plan</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"<span class="syntax-var">@{goal}</span>"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"<span class="syntax-var">@{horizon}</span>"</span> <span class="syntax-key">starting_point:</span> <span class="syntax-string">"<span class="syntax-var">@{starting_point}</span>"</span> <span class="syntax-key">constraints:</span> <span class="syntax-string">"<span class="syntax-var">@{constraints}</span>"</span> <span class="syntax-key">assumption_source:</span> <span class="syntax-string">"<span class="syntax-var">@{public_assumptions}</span>"</span>
 
-Treat the result as planning support, not financial, tax,
-legal, or investment advice. Keep the first actions simple enough for
-someone with no transaction upload, portfolio upload, or spreadsheet model.</code></pre>
-          <pre><code>weavemark outputs/tutorial-goal/fi-goal-plan.weavemark.md \
+Apply the resulting plan specifically to financial independence. Treat the
+result as planning support, not financial, tax, legal, or investment advice.
+Keep the first actions simple enough for someone with no transaction upload,
+portfolio upload, or spreadsheet model.</code></pre>
+          <p class="snippet-source">
+            Exact source:
+            <a href="../promplets/catalog/standalone/financial-independence-goal-plan-prompt.weavemark.md">financial-independence-goal-plan-prompt.weavemark.md</a>.
+            Save a scratch copy as
+            <code>outputs/tutorial-goal/financial-independence-goal-plan-prompt.weavemark.md</code> before
+            running the next command.
+          </p>
+          <pre><code>weavemark outputs/tutorial-goal/financial-independence-goal-plan-prompt.weavemark.md \
   --batch-only \
   --var goal="Reach financial independence while keeping work optional" \
   --var horizon="15 years" \
@@ -235,12 +264,13 @@ someone with no transaction upload, portfolio upload, or spreadsheet model.</cod
             A semantic function is different from the macro. It is not merely a
             prettier template. It declares a runtime capability: in this example,
             a <strong>read-only public web/reference lookup</strong>. The
-            WeaveMark Processor validates the executable prompt behavior; a
-            trusted host runtime decides whether and how to run the bound Python
-            companion.
+            WeaveMark Processor validates the executable graph. With
+            <code>--run</code>, the built-in <code>FunctionalEngine</code> loads
+            the authorized Python <code>@bind</code>, executes each validated
+            node, records evidence, substitutes its result, and renders the final
+            document. Composition alone never runs the companion.
           </p>
-          <pre><code><span class="syntax-comment">&lt;!-- Add this definition to weavemark.std.planning.goals --&gt;</span>
-<span class="syntax-directive">@define</span> lookup_public_goal_assumptions
+          <pre><code><span class="syntax-directive">@define</span> lookup_public_goal_assumptions
   <span class="syntax-directive">@phase</span> execute
   <span class="syntax-directive">@scope</span> self
   <span class="syntax-directive">@returns</span> value
@@ -260,24 +290,37 @@ someone with no transaction upload, portfolio upload, or spreadsheet model.</cod
   <span class="syntax-directive">@effect</span> web_search read
 
   <span class="syntax-directive">@body</span>
-    Search public reference sources for current, non-private assumptions.
-    Do not read private accounts, transactions, portfolios, or identity data.</code></pre>
-          <pre><code><span class="syntax-comment">&lt;!-- Save as outputs/tutorial-goal/fi-goal-plan-executable.weavemark.md --&gt;</span>
-<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+    Search public reference sources for current, non-private assumptions that
+    help plan <span class="syntax-var">@{goal}</span> in <span class="syntax-var">@{domain}</span> for <span class="syntax-var">@{country}</span> over <span class="syntax-var">@{horizon}</span>. Return source
+    titles, URLs, query terms, assumptions to verify, and caveats. Do not read
+    private accounts, transactions, portfolios, or identity data.</code></pre>
+          <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
 <span class="syntax-directive">@use</span> weavemark.std.planning.goals exposing goal_plan lookup_public_goal_assumptions
 
-<span class="syntax-directive">@bind</span> web_search language: python from: <span class="syntax-string">"./companions/public_finance_reference.py"</span> symbol: lookup_public_goal_assumptions
+<span class="syntax-directive">@include</span> weavemark.domains.finance.finance_safety
 
-<span class="syntax-directive">@execute</span> weave
+<span class="syntax-directive">@bind</span> web_search <span class="syntax-key">language:</span> python <span class="syntax-key">from:</span> <span class="syntax-string">"./companions/public_finance_reference.py"</span> <span class="syntax-key">symbol:</span> lookup_public_goal_assumptions
+
+<span class="syntax-directive">@execute</span> functional
   <span class="syntax-key">scheduler:</span> graph-strict
   <span class="syntax-key">allow_effects:</span> [web_search]
 
 # Executable Financial Independence Goal Planner
 
-<span class="syntax-directive">@lookup_public_goal_assumptions</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"@{goal}"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">country:</span> <span class="syntax-string">"@{country}"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"@{horizon}"</span> <span class="syntax-key">as:</span> public_assumptions
+<span class="syntax-directive">@lookup_public_goal_assumptions</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"<span class="syntax-var">@{goal}</span>"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">country:</span> <span class="syntax-string">"<span class="syntax-var">@{country}</span>"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"<span class="syntax-var">@{horizon}</span>"</span> <span class="syntax-key">as:</span> public_assumptions
 
-<span class="syntax-directive">@goal_plan</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"@{goal}"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"@{horizon}"</span> <span class="syntax-key">starting_point:</span> <span class="syntax-string">"@{starting_point}"</span> <span class="syntax-key">constraints:</span> <span class="syntax-string">"@{constraints}"</span> <span class="syntax-key">assumption_source:</span> <span class="syntax-string">"@{public_assumptions}"</span></code></pre>
+<span class="syntax-directive">@goal_plan</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"<span class="syntax-var">@{goal}</span>"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"personal finance"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"<span class="syntax-var">@{horizon}</span>"</span> <span class="syntax-key">starting_point:</span> <span class="syntax-string">"<span class="syntax-var">@{starting_point}</span>"</span> <span class="syntax-key">constraints:</span> <span class="syntax-string">"<span class="syntax-var">@{constraints}</span>"</span> <span class="syntax-key">assumption_source:</span> <span class="syntax-string">"<span class="syntax-var">@{public_assumptions}</span>"</span>
+
+Use the public assumptions only as planning context. Ask the user to verify any
+current limits, rates, tax rules, or benefits before acting. Do not request
+private account uploads.</code></pre>
+          <p class="snippet-source">
+            Exact sources:
+            <a href="../promplets/stdlib/definitions/planning/goals.weavemark.md">goals.weavemark.md</a>
+            and
+            <a href="../promplets/catalog/executable/financial-independence-goal-plan.weavemark.md">financial-independence-goal-plan.weavemark.md</a>.
+          </p>
           <div class="callout">
             <strong>The key distinction:</strong> <code>@goal_plan</code> expands
             structure at compile time. <code>@lookup_public_goal_assumptions</code>
@@ -290,8 +333,10 @@ someone with no transaction upload, portfolio upload, or spreadsheet model.</cod
           <h2>4. Run the checked-in example</h2>
           <p>
             The repository includes the full version and a small Python runtime
-            example. By default the companion uses a deterministic public-source
-            pack so the tutorial works offline. Set
+            integration. It executes the validated functional plan through the
+            public WeaveMark API, which loads the declared companion, passes its
+            result into final synthesis, and records every artifact. By default the companion uses
+            a deterministic public-source pack so the tutorial works offline. Set
             <code>WEAVEMARK_LIVE_WEB_SEARCH=1</code> to ask the companion to use
             the optional live Ellements web-search tools.
           </p>
@@ -300,18 +345,19 @@ someone with no transaction upload, portfolio upload, or spreadsheet model.</cod
             The runner writes:
           </p>
           <ul>
-            <li><code>outputs/compiled-prompt.md</code> - the compiled executable prompt.</li>
-            <li><code>outputs/compiled-plan.json</code> - WeaveMark's functional plan and bindings.</li>
-            <li><code>outputs/public-assumptions.json</code> - the runtime lookup result.</li>
-            <li><code>outputs/execution-output.md</code> - the final ready-to-paste prompt with public assumptions injected.</li>
-            <li><code>outputs/execution-trace.md</code> - a readable trace showing macro expansion, runtime plan, and runtime data.</li>
+            <li><code>examples/python-runtime-integrations/financial-independence-goal-plan/outputs/compiled-prompt.md</code> - the compiled executable prompt.</li>
+            <li><code>examples/python-runtime-integrations/financial-independence-goal-plan/outputs/compiled-plan.json</code> - WeaveMark's functional plan and bindings.</li>
+            <li><code>examples/python-runtime-integrations/financial-independence-goal-plan/outputs/public-assumptions.json</code> - the runtime lookup result.</li>
+            <li><code>examples/python-runtime-integrations/financial-independence-goal-plan/outputs/execution-output.md</code> - the final synthesized financial-independence plan.</li>
+            <li><code>examples/python-runtime-integrations/financial-independence-goal-plan/outputs/execution-trace.md</code> - the real functional-engine trace, including runtime plan and grounded result.</li>
           </ul>
           <div class="callout">
             <strong>What to do with the output:</strong>
-            paste <code>execution-output.md</code> into your preferred AI
-            assistant. The assistant writes the financial-independence plan, while
-            WeaveMark keeps the reusable macro, effect declaration, runtime
-            binding, and source assumptions visible.
+            review
+            <code>examples/python-runtime-integrations/financial-independence-goal-plan/outputs/execution-output.md</code>
+            as the completed educational plan. WeaveMark keeps the reusable macro,
+            effect declaration, runtime binding, and source assumptions visible in
+            the accompanying artifacts.
           </div>
         </section>
 
@@ -328,24 +374,31 @@ someone with no transaction upload, portfolio upload, or spreadsheet model.</cod
 # Language-learning plan
 
 <span class="syntax-directive">@goal_plan</span> <span class="syntax-key">goal:</span> <span class="syntax-string">"Reach conversational Spanish"</span> <span class="syntax-key">domain:</span> <span class="syntax-string">"learning"</span> <span class="syntax-key">horizon:</span> <span class="syntax-string">"9 months"</span> <span class="syntax-key">starting_point:</span> <span class="syntax-string">"I know basic phrases"</span> <span class="syntax-key">constraints:</span> <span class="syntax-string">"20 minutes per weekday"</span> <span class="syntax-key">assumption_source:</span> <span class="syntax-string">"No external lookup needed"</span></code></pre>
+          <p class="snippet-source">
+            Exact source:
+            <a href="../promplets/tutorials/language-learning-goal-plan.weavemark.md">language-learning-goal-plan.weavemark.md</a>.
+          </p>
         </section>
 
         <section id="use-output" class="article-section">
           <h2>Final step: Use the output</h2>
           <p>
-            This tutorial has both runtime artifacts and a final prompt. The
-            runtime lookup executes inside the example runner; the financial plan
-            itself is still produced by the assistant you give the prompt to.
+            This tutorial has both runtime artifacts and a completed financial
+            plan. The example runner executes the public-reference lookup and then
+            asks its configured model to synthesize the final six-section plan.
           </p>
           <div class="callout">
             <strong>What to do with the output:</strong>
-            paste <code>outputs/execution-output.md</code> into ChatGPT, Claude,
-            Gemini, Copilot Chat, or another LLM assistant to generate the
-            financial-independence plan. Keep
-            <code>outputs/public-assumptions.json</code>,
-            <code>outputs/compiled-plan.json</code>, and
-            <code>outputs/execution-trace.md</code> as provenance showing what the
-            runner executed and which public assumptions were injected.
+            open and review
+            <code>examples/python-runtime-integrations/financial-independence-goal-plan/outputs/execution-output.md</code>
+            as the completed financial-independence plan. Use it as decision
+            support, verify current assumptions before acting, and keep
+            <code>examples/python-runtime-integrations/financial-independence-goal-plan/outputs/public-assumptions.json</code>,
+            <code>examples/python-runtime-integrations/financial-independence-goal-plan/outputs/compiled-plan.json</code>,
+            and
+            <code>examples/python-runtime-integrations/financial-independence-goal-plan/outputs/execution-trace.md</code>
+            as provenance showing what the runner executed and which public
+            assumptions were injected.
           </div>
         </section>
 

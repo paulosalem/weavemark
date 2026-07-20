@@ -13,6 +13,7 @@ these promplets and links back here so readers can run the exact source.
 | [`metro-lines-pack.weavemark.md`](metro-lines-pack.weavemark.md) | [Game tutorial](../../docs/tutorial-games.html) — emission pack |
 | [`release-workbench.weavemark.md`](release-workbench.weavemark.md) | [Product tutorial](../../docs/tutorial-products.html) |
 | [`release-workbench-pack.weavemark.md`](release-workbench-pack.weavemark.md) | [Product tutorial](../../docs/tutorial-products.html) — emission pack |
+| [`language-learning-goal-plan.weavemark.md`](language-learning-goal-plan.weavemark.md) | [Advanced macros tutorial](../../docs/tutorial-advanced.html) |
 
 The goal-planning tutorial ([`tutorial-advanced.html`](../../docs/tutorial-advanced.html))
 uses already-catalogued promplets:
@@ -20,5 +21,7 @@ uses already-catalogued promplets:
 its executable variant in
 [`catalog/executable/`](../catalog/executable/financial-independence-goal-plan.weavemark.md),
 and the [`weavemark.std.planning.goals`](../stdlib/definitions/planning/goals.weavemark.md) module.
+The language-learning reuse example has its own canonical tutorial promplet
+listed above.
 
 Each promplet here is validated structurally with `weavemark <file> --scan`.

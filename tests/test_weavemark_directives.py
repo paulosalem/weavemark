@@ -356,7 +356,7 @@ class TestAssert:
         spec = (
             "## Output Format\nReturn JSON.\n\n"
             "Analyze sentiment.\n\n"
-            "@assert The prompt contains an Output Format section. severity: error\n"
+            '@assert section: "Output Format" severity: error\n'
         )
         r = await _compose(spec, {})
         assert "@assert" not in r.composed_prompt
@@ -368,7 +368,7 @@ class TestAssert:
         """@assert with unsatisfied condition emits an error."""
         spec = (
             "Analyze sentiment.\n\n"
-            "@assert The prompt contains an Output Format section. severity: error\n"
+            '@assert section: "Output Format" severity: error\n'
         )
         r = await _compose(spec, {})
         # Should emit an error since there's no Output Format section
@@ -380,7 +380,7 @@ class TestAssert:
         """@assert severity: warning emits warning instead of error."""
         spec = (
             "Analyze sentiment.\n\n"
-            "@assert The prompt specifies max response length. severity: warning\n"
+            '@assert contains: "max response length" severity: warning\n'
         )
         r = await _compose(spec, {})
         # Should emit a warning, not an error
@@ -552,9 +552,9 @@ class TestNestingAndComposition:
         spec = (
             "## Role\nYou are an analyst.\n\n"
             "## Output Format\nReturn JSON.\n\n"
-            "@assert The prompt contains a Role section. severity: error\n"
-            "@assert The prompt contains an Output Format section. severity: error\n"
-            "@assert The prompt specifies example outputs. severity: warning\n"
+            '@assert section: "Role" severity: error\n'
+            '@assert section: "Output Format" severity: error\n'
+            '@assert contains: "example outputs" severity: warning\n'
         )
         r = await _compose(spec, {})
         # First two asserts should pass

@@ -7,6 +7,9 @@
   max_steps: 4
   prompt_contract: strict
 
+@bind search_docs language: python from: "./companions/support_triage.py" symbol: search_docs
+@bind send_message language: python from: "./companions/support_triage.py" symbol: send_message
+
 # FSLM Support Triage with Inline Machine
 
 You are the language layer for a finite-state support triage machine.
@@ -15,12 +18,12 @@ plans, and event payload as the source of truth.
 
 @tool search_docs
   Search product documentation.
-  - query: string (required) — Search query.
-  - max_results: integer (optional) — Maximum results.
+  - query: string (required) - Search query.
+  - max_results: integer default: 5 - Maximum results.
 
 @tool send_message
   Send a message to the user.
-  - text: string (required) — Message body.
+  - text: string (required) - Message body.
 
 @machine support_triage initial: triage
   Prompt-backed support workflow with explicit event-driven transitions.

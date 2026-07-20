@@ -541,6 +541,12 @@ _BOOK_VARS = {
     "characters": "- Orion: a small round purple dragon.",
     "setting": "A sunny valley.",
     "lessons": "trying again after a wobble.",
+    "pages": [
+        {"scene": "Orion tries to fly from a low hill.", "text": "Up, up... wobble!"},
+        {"scene": "Orion asks a robin for help.", "text": "Show me how, please."},
+        {"scene": "Orion practices one careful wingbeat.", "text": "Slow and steady."},
+        {"scene": "Orion glides home beside the robin.", "text": "I did it!"},
+    ],
 }
 
 

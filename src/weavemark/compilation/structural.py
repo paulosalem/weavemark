@@ -11,6 +11,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 from weavemark.compilation.args import parse_header_args
 from weavemark.compilation.fslm_sugar import (
     is_fslm_machine_directive,
@@ -137,13 +139,12 @@ class _UnifiedSpec:
 class _StructuralAssertion:
     """A standard-library ``@assert`` call checked deterministically."""
 
-    condition: str
     options: dict[str, str]
-    block: str
 
 
 _DIRECTIVE_RE = re.compile(r"^@(?P<name>[A-Za-z_][\w.-]*\??)(?P<rest>(?:\s+.*)?)$")
 _IDENTIFIER_TOKEN_RE = re.compile(r"^[A-Za-z_][\w.-]*$")
+_EXECUTION_RESULT_NAME_RE = re.compile(r"^[A-Za-z_]\w*$")
 _EMIT_PROMPT_NAME_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z0-9_-]+)*$")
 _BRANCH_RE = re.compile(
     r"""^\s*(?P<quote>["'])(?P<value>.*?)(?P=quote)\s*==>\s*(?P<tail>.*)$"""
@@ -156,9 +157,11 @@ _TOOL_PARAM_RE = re.compile(
 )
 _VARIABLE_RE = re.compile(r"@\{\s*([A-Za-z_][\w.-]*)\s*\}")
 _ASSERTION_CHECK_OPTIONS = {"contains", "not_contains", "section", "variable"}
+_ASSERTION_OPTIONS = _ASSERTION_CHECK_OPTIONS | {"severity"}
 _COMPILE_OPTIONS = {"format", "context", "images"}
 _WEAVEMARK_VERSION = LANGUAGE_VERSION
 _FUNCTIONAL_SCHEDULERS = {"sequential", "graph", "graph-strict"}
+_TOOL_PARAMETER_TYPES = {"string", "integer", "number", "boolean", "array", "object"}
 _EMBED_VARIABLE_OPEN_SENTINEL = "__WEAVEMARK_EMBED_VARIABLE_OPEN__"
 
 
@@ -519,7 +522,7 @@ def _parse_tool_directive(
     state: _StructuralCompileState,
 ) -> dict[str, Any]:
     description_lines: list[str] = []
-    properties: dict[str, dict[str, str]] = {}
+    properties: dict[str, dict[str, Any]] = {}
     required: list[str] = []
 
     for line in block.splitlines():
@@ -529,21 +532,46 @@ def _parse_tool_directive(
         if param_match:
             param_name = param_match.group("name")
             param_type = param_match.group("type").lower()
-            rest = param_match.group("rest").strip()
+            rest = param_match.group("rest").rstrip()
+            if param_type not in _TOOL_PARAMETER_TYPES:
+                state.errors.append(
+                    f"Unsupported type {param_type!r} for parameter {param_name!r} "
+                    f"in @tool {name}."
+                )
+                continue
+            modifiers, separator, description = rest.partition(" - ")
+            if not separator:
+                state.errors.append(
+                    f"Malformed parameter {param_name!r} in @tool {name}: use the "
+                    "ASCII ' - ' separator before its description."
+                )
+                continue
             if param_name in properties:
                 state.errors.append(
                     f"Duplicate parameter {param_name!r} in @tool {name}."
                 )
                 continue
-            is_required = "(required)" in rest.lower()
-            description = re.sub(r"\(\s*required\s*\)", "", rest, flags=re.IGNORECASE)
-            description = description.lstrip(" -—:").strip()
+            parsed_modifiers = _parse_tool_parameter_modifiers(
+                modifiers,
+                parameter_name=param_name,
+                parameter_type=param_type,
+                tool_name=name,
+                state=state,
+            )
+            if parsed_modifiers is None:
+                continue
+            is_required = parsed_modifiers.pop("required", False)
             properties[param_name] = {
                 "type": param_type,
-                "description": description,
+                "description": description.strip(),
+                **parsed_modifiers,
             }
             if is_required:
                 required.append(param_name)
+        elif line.lstrip().startswith("-"):
+            state.errors.append(
+                f"Malformed parameter declaration in @tool {name}: {line.strip()}"
+            )
         else:
             description_lines.append(line.strip())
 
@@ -559,6 +587,156 @@ def _parse_tool_directive(
             },
         },
     }
+
+
+def _parse_tool_parameter_modifiers(
+    text: str,
+    *,
+    parameter_name: str,
+    parameter_type: str,
+    tool_name: str,
+    state: _StructuralCompileState,
+) -> dict[str, Any] | None:
+    modifiers: dict[str, Any] = {}
+    position = 0
+
+    def reject(message: str) -> None:
+        state.errors.append(
+            f"Malformed modifiers for parameter {parameter_name!r} in "
+            f"@tool {tool_name}: {message}"
+        )
+
+    while position < len(text):
+        while position < len(text) and text[position].isspace():
+            position += 1
+        if position >= len(text):
+            break
+
+        if text[position] == "(":
+            close = text.find(")", position + 1)
+            if close < 0:
+                reject("unterminated parenthesized modifier.")
+                return None
+            marker = text[position + 1 : close].strip().lower()
+            if marker == "optional":
+                state.errors.append(
+                    f"Unsupported (optional) modifier for parameter "
+                    f"{parameter_name!r} in @tool {tool_name}; parameters are "
+                    "optional unless marked (required)."
+                )
+                return None
+            if marker != "required":
+                reject(f"unsupported modifier ({marker}).")
+                return None
+            if "required" in modifiers:
+                reject("duplicate modifier 'required'.")
+                return None
+            modifiers["required"] = True
+            position = close + 1
+            continue
+
+        key_match = re.match(r"([A-Za-z_][\w-]*)\s*:", text[position:])
+        if key_match is None:
+            reject(f"unexpected text {text[position:]!r}.")
+            return None
+        key = key_match.group(1).lower()
+        if key not in {"enum", "default"}:
+            reject(f"unsupported modifier {key!r}.")
+            return None
+        if key in modifiers:
+            reject(f"duplicate modifier {key!r}.")
+            return None
+
+        position += key_match.end()
+        while position < len(text) and text[position].isspace():
+            position += 1
+        raw_value, position = _consume_tool_modifier_value(text, position)
+        if raw_value is None:
+            reject(f"{key}: requires a value.")
+            return None
+        try:
+            modifiers[key] = _parse_tool_modifier_value(
+                raw_value,
+                parameter_type=parameter_type,
+                require_list=key == "enum",
+            )
+        except ValueError as exc:
+            reject(f"{key}: {exc}")
+            return None
+
+    return modifiers
+
+
+def _consume_tool_modifier_value(
+    text: str,
+    position: int,
+) -> tuple[str | None, int]:
+    if position >= len(text):
+        return None, position
+    opener = text[position]
+    if opener == "[":
+        close = text.find("]", position + 1)
+        if close < 0:
+            return text[position:], len(text)
+        return text[position : close + 1], close + 1
+    if opener in {'"', "'"}:
+        escaped = False
+        for index in range(position + 1, len(text)):
+            char = text[index]
+            if char == opener and not escaped:
+                return text[position : index + 1], index + 1
+            escaped = char == "\\" and not escaped
+            if char != "\\":
+                escaped = False
+        return text[position:], len(text)
+    end = position
+    while end < len(text) and not text[end].isspace():
+        end += 1
+    return text[position:end], end
+
+
+def _parse_tool_modifier_value(
+    raw_value: str,
+    *,
+    parameter_type: str,
+    require_list: bool,
+) -> Any:
+    try:
+        value = yaml.safe_load(raw_value)
+    except yaml.YAMLError as exc:
+        raise ValueError(f"invalid value {raw_value!r}.") from exc
+
+    if require_list:
+        if not raw_value.startswith("[") or not raw_value.endswith("]"):
+            raise ValueError("must be a bracketed list.")
+        if not isinstance(value, list) or not value:
+            raise ValueError("must be a non-empty bracketed list.")
+        for item in value:
+            _validate_tool_modifier_type(item, parameter_type)
+        return value
+
+    if parameter_type == "string":
+        if raw_value.startswith(('"', "'")):
+            if not isinstance(value, str):
+                raise ValueError("must be a string.")
+            return value
+        return raw_value
+
+    _validate_tool_modifier_type(value, parameter_type)
+    return value
+
+
+def _validate_tool_modifier_type(value: Any, parameter_type: str) -> None:
+    valid = {
+        "string": isinstance(value, str),
+        "integer": isinstance(value, int) and not isinstance(value, bool),
+        "number": isinstance(value, (int, float)) and not isinstance(value, bool),
+        "boolean": isinstance(value, bool),
+        "array": isinstance(value, list),
+        "object": isinstance(value, dict),
+    }[parameter_type]
+    if not valid:
+        raise ValueError(f"value {value!r} does not match type {parameter_type!r}.")
 
 
 def _parse_tool_header(
@@ -683,14 +861,16 @@ def _collect_execution_node(
 
     node_id = f"{directive}_{len(state.execution_nodes) + 1}"
     if result_name is not None:
-        if not _IDENTIFIER_TOKEN_RE.fullmatch(result_name):
+        if not _EXECUTION_RESULT_NAME_RE.fullmatch(result_name):
             state.errors.append(f"Execution result name is invalid: {result_name}")
             return
         if result_name in state.execution_result_names:
             state.errors.append(f"Duplicate execution result name: {result_name}")
             return
         node_id = result_name
-    invalid_uses = [name for name in uses if not _IDENTIFIER_TOKEN_RE.fullmatch(name)]
+    invalid_uses = [
+        name for name in uses if not _EXECUTION_RESULT_NAME_RE.fullmatch(name)
+    ]
     if invalid_uses:
         state.errors.append(
             "Execution uses: has invalid result name(s): "
@@ -715,6 +895,15 @@ def _collect_execution_node(
                 "positional": positional,
                 "options": options,
             },
+            "params": [
+                {
+                    "name": param.name,
+                    "implicit": param.implicit,
+                    "mode": param.mode,
+                    **({"default": param.default} if param.default is not None else {}),
+                }
+                for param in definition.params
+            ],
             "body": body,
             **({"as": result_name} if result_name else {}),
             **({"uses": uses} if uses else {}),
@@ -726,6 +915,55 @@ def _collect_execution_node(
 
 def _functional_node_id(node: dict[str, Any]) -> str:
     return str(node.get("id") or node.get("as") or node["directive"])
+
+
+def _functional_result_references(
+    node: dict[str, Any],
+    produced_results: set[str],
+) -> set[str]:
+    references: set[str] = set()
+    args = node.get("args", {})
+    values = [
+        args.get("positional", []) if isinstance(args, dict) else [],
+        args.get("options", {}) if isinstance(args, dict) else {},
+        node.get("body", ""),
+    ]
+
+    def collect(value: Any) -> None:
+        if isinstance(value, str):
+            references.update(
+                match.group(1).split(".", 1)[0]
+                for match in _VARIABLE_RE.finditer(value)
+                if match.group(1).split(".", 1)[0] in produced_results
+            )
+        elif isinstance(value, dict):
+            for nested in value.values():
+                collect(nested)
+        elif isinstance(value, (list, tuple)):
+            for nested in value:
+                collect(nested)
+
+    for value in values:
+        collect(value)
+    return references
+
+
+def _validate_graph_strict_uses(
+    nodes: list[dict[str, Any]],
+    state: _StructuralCompileState,
+) -> None:
+    produced_results = {str(node["as"]) for node in nodes if node.get("as")}
+    for node in nodes:
+        referenced = _functional_result_references(node, produced_results)
+        declared = {str(name) for name in node.get("uses", [])}
+        missing = sorted(referenced - declared)
+        if missing:
+            state.errors.append(
+                f"@execute functional graph-strict node {_functional_node_id(node)} "
+                "references result(s) without explicit uses: "
+                + ", ".join(missing)
+                + "."
+            )
 
 
 def _topological_functional_levels(
@@ -802,6 +1040,9 @@ def _validate_functional_execution_plan(state: _StructuralCompileState) -> None:
                     + ", ".join(disallowed)
                     + "."
                 )
+
+    if scheduler == "graph-strict":
+        _validate_graph_strict_uses(nodes, state)
 
     levels = _topological_functional_levels(nodes, state)
     if levels is None:
@@ -1044,22 +1285,36 @@ def _parse_compile_directive(
             )
 
 
-def _unquote_condition(text: str) -> str:
-    text = text.strip()
-    if len(text) >= 2 and text[0] == text[-1] and text[0] in {"'", '"'}:
-        return text[1:-1]
-    return text
-
-
-def _parse_structural_assertion(rest: str, block: str) -> _StructuralAssertion | str | None:
+def _parse_structural_assertion(rest: str, block: str) -> _StructuralAssertion | str:
     positional, options, parse_errors = _parse_directive_options_with_errors(rest)
     if parse_errors:
         return "@assert: " + " ".join(parse_errors)
-    condition = _unquote_condition(" ".join(positional))
-    assertion = _StructuralAssertion(condition=condition, options=options, block=block)
-    if _assertion_checks(assertion) is None:
-        return None
-    return assertion
+    if positional:
+        return (
+            "@assert does not accept positional or free-text assertions; "
+            "use contains:, not_contains:, section:, or variable:."
+        )
+    if block.strip():
+        return (
+            "@assert does not accept a body; use contains:, not_contains:, "
+            "section:, or variable:."
+        )
+    unsupported = sorted(set(options) - _ASSERTION_OPTIONS)
+    if unsupported:
+        return (
+            "@assert has unknown structural parameter(s): "
+            + ", ".join(unsupported)
+            + "."
+        )
+    severity = options.get("severity")
+    if severity is not None and severity.lower() not in {"error", "warning"}:
+        return "@assert severity must be error or warning."
+    if not any(options.get(option, "").strip() for option in _ASSERTION_CHECK_OPTIONS):
+        return (
+            "@assert requires at least one nonempty canonical check: "
+            "contains:, not_contains:, section:, or variable:."
+        )
+    return _StructuralAssertion(options=options)
 
 
 def _assertion_checks(
@@ -1071,38 +1326,6 @@ def _assertion_checks(
         value = assertion.options.get(option)
         if value:
             checks.append((option, value))
-
-    condition = assertion.condition.strip()
-    if condition:
-        section_match = re.fullmatch(
-            r"(?i)(?:the\s+)?prompt\s+(?:includes|has|contains)\s+"
-            r"(?:(?:an|a|the)\s+)?(?P<section>.+?)\s+section\.?",
-            condition,
-        )
-        if section_match:
-            checks.append(("section", section_match.group("section").strip()))
-        else:
-            contains_match = re.fullmatch(
-                r"(?i)(?:the\s+)?prompt\s+contains\s+"
-                r"(?P<quote>['\"])(?P<text>.+?)(?P=quote)\.?",
-                condition,
-            )
-            variable_match = re.fullmatch(
-                r"(?i)variable\s+(?P<name>[A-Za-z_][\w.-]*)\s+exists\.?",
-                condition,
-            )
-            specifies_match = re.fullmatch(
-                r"(?i)(?:the\s+)?prompt\s+specifies\s+(?P<text>.+?)\.?",
-                condition,
-            )
-            if contains_match:
-                checks.append(("contains", contains_match.group("text")))
-            elif variable_match:
-                checks.append(("variable", variable_match.group("name")))
-            elif specifies_match:
-                checks.append(("contains", specifies_match.group("text").strip()))
-            else:
-                return None
 
     return checks or None
 
@@ -1149,8 +1372,6 @@ def _extract_heading_titles(text: str) -> list[str]:
 
 
 def _describe_assertion(assertion: _StructuralAssertion) -> str:
-    if assertion.condition:
-        return assertion.condition
     parts = [
         f"{key}: {assertion.options[key]}"
         for key in sorted(_ASSERTION_CHECK_OPTIONS)
@@ -1784,13 +2005,24 @@ def _compile_structural_text(
 
         if directive == "if":
             block, index = _collect_indented_block(lines, index + 1)
+            else_block = ""
+            else_index = index
+            while else_index < len(lines) and not lines[else_index].strip():
+                else_index += 1
+            if else_index < len(lines):
+                else_match = _directive_match(lines[else_index])
+                if else_match is not None and else_match.group("name") == "else":
+                    else_block, index = _collect_indented_block(
+                        lines, else_index + 1
+                    )
             condition = rest.split()[0] if rest else ""
             resolved = _resolve_variable_path(variables, condition)
             if resolved is _MISSING_VARIABLE:
                 resolved = None
-            if _coerce_bool(resolved):
+            selected = block if _coerce_bool(resolved) else else_block
+            if selected:
                 compiled = _compile_structural_text(
-                    block,
+                    selected,
                     variables,
                     base_dir,
                     state,
@@ -1800,6 +2032,11 @@ def _compile_structural_text(
                 if compiled is None:
                     return None
                 output_lines.append(compiled)
+            continue
+
+        if directive == "else":
+            state.errors.append("@else must immediately follow @if.")
+            _, index = _collect_indented_block(lines, index + 1)
             continue
 
         if directive == "match":
@@ -1921,8 +2158,6 @@ def _compile_structural_text(
             if isinstance(assertion, str):
                 state.errors.append(assertion)
                 continue
-            if assertion is None:
-                return None
             state.assertions.append(assertion)
             continue
 

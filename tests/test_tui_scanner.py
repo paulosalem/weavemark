@@ -1,5 +1,9 @@
 """Tests for weavemark.tui.scanner — spec metadata extraction."""
 
+from pathlib import Path
+
+import pytest
+
 from weavemark.tui.scanner import SpecInput, SpecMetadata, scan_spec
 
 # ═══════════════════════════════════════════════════════════════════
@@ -132,8 +136,8 @@ Solve @{problem}.
 SPEC_ASSERT = """\
 # Validated Spec
 
-@assert The response must include citations. severity: error
-@assert The response should be under 500 words. severity: warning
+@assert contains: "citations" severity: error
+@assert contains: "under 500 words" severity: warning
 
 Write about @{topic}.
 """
@@ -209,7 +213,7 @@ A real-world-like spec with many features.
 
 Analyze @{topic} with focus on @{description}.
 
-@assert Must include at least 3 examples. severity: error
+@assert contains: "at least 3 examples" severity: error
 """
 
 SPEC_BINDINGS = """\
@@ -299,8 +303,23 @@ class TestScanSpec:
         assert "python" in lang_input.options
         assert "typescript" in lang_input.options
         assert "rust" in lang_input.options
-        assert "_" in lang_input.options  # wildcard
+        assert "_" not in lang_input.options
         assert lang_input.source_directive == "@match"
+
+    def test_match_options_belong_only_to_their_selector(self):
+        meta = scan_spec("""
+@match language
+  "python" ==> Python.
+  _ ==> Other.
+
+@match layout
+  "grid" ==> Grid.
+  "list" ==> List.
+""")
+
+        inputs = {item.name: item for item in meta.inputs}
+        assert inputs["language"].options == ["python"]
+        assert inputs["layout"].options == ["grid", "list"]
 
     def test_if_directive(self):
         meta = scan_spec(SPEC_IF)
@@ -309,6 +328,34 @@ class TestScanSpec:
         assert "include_tests" in names
         assert "verbose_output" in names
         assert all(i.source_directive == "@if" for i in bools)
+
+    def test_interpolated_if_variables_keep_text_types(self):
+        meta = scan_spec("""
+@if title
+  Include the title.
+@if language
+  Localize the output.
+@if layout
+  Apply the layout.
+@if output_path
+  Mention the path.
+
+Title: @{title}
+Language: @{language}
+Layout: @{layout}
+Path: @{output_path}
+""")
+
+        inputs = {item.name: item for item in meta.inputs}
+        assert {
+            name: inputs[name].input_type
+            for name in ("title", "language", "layout", "output_path")
+        } == {
+            "title": "text",
+            "language": "text",
+            "layout": "text",
+            "output_path": "text",
+        }
 
     def test_compile_metadata(self):
         meta = scan_spec(SPEC_COMPILE)
@@ -425,9 +472,138 @@ Topic: @{topic}
 
         assert [item.name for item in meta.inputs] == ["topic"]
 
+    @pytest.mark.parametrize(
+        ("strategy", "internal_names"),
+        [
+            ("simplified-tree-of-thought", {"candidates", "best_approach"}),
+            ("tree-of-thought", {"state", "best_path"}),
+        ],
+    )
+    def test_tree_strategies_filter_runtime_variables(
+        self, strategy, internal_names
+    ):
+        source = f"""
+@execute {strategy}
+
+Solve @{{problem}}.
+Runtime: {' '.join(f'@{{{name}}}' for name in sorted(internal_names))}
+"""
+
+        meta = scan_spec(source)
+
+        assert [item.name for item in meta.inputs] == ["problem"]
+
     def test_description_extraction(self):
         meta = scan_spec(SPEC_SIMPLE)
         assert "simple spec" in meta.description.lower()
+
+    def test_title_and_description_follow_leading_note(self):
+        meta = scan_spec("""\
+@note
+  # Internal note heading
+  Context that is not the promplet description.
+
+# Public Title
+
+Public description.
+
+@execute chain
+""")
+
+        assert meta.title == "Public Title"
+        assert meta.description == "Public description."
+
+    def test_title_inside_top_level_semantic_body_is_authored_title(self):
+        meta = scan_spec("""\
+@ask clarifying question detail_level: 35%
+  @note
+    # Private note heading
+
+  # Wrapped public title
+
+  Public body.
+""")
+
+        assert meta.title == "Wrapped public title"
+
+    def test_wrapped_title_description_stops_at_sibling_directive_or_heading(self):
+        directive = scan_spec("""\
+@ask clarifying question detail_level: 35%
+  # Wrapped title
+
+  Public description.
+
+  @style "Direct"
+    Rest of semantic body.
+""")
+        heading = scan_spec("""\
+@ask clarifying question detail_level: 35%
+  # Wrapped title
+
+  Public description.
+
+  ## Next section
+  Rest of semantic body.
+""")
+
+        assert directive.description == "Public description."
+        assert heading.description == "Public description."
+
+    def test_wrapped_title_description_does_not_leak_root_prose(self):
+        meta = scan_spec("""\
+@ask clarifying question detail_level: 35%
+  # Wrapped title
+
+  Public description.
+
+Root prose owned by the outer document.
+""")
+
+        assert meta.description == "Public description."
+
+    def test_canonical_tutorial_wrapped_titles_are_preserved(self):
+        tutorials = Path(__file__).resolve().parents[1] / "promplets/tutorials"
+
+        guided = scan_spec(
+            (tutorials / "adaptive-tutor-guided.weavemark.md").read_text(
+                encoding="utf-8"
+            )
+        )
+        pack = scan_spec(
+            (tutorials / "release-workbench-pack.weavemark.md").read_text(
+                encoding="utf-8"
+            )
+        )
+
+        assert guided.title == "Guided adaptive learning tutor"
+        assert guided.description == ""
+        assert pack.title == "@{product_name} product brief"
+
+    def test_emit_body_heading_does_not_replace_primary_title(self):
+        meta = scan_spec("""
+@emit file: appendix.md
+  # Appendix
+
+# Main document
+
+Primary prompt.
+""")
+
+        assert meta.title == "Main document"
+
+    def test_nested_match_cases_do_not_leak_into_outer_options(self):
+        meta = scan_spec("""\
+@match outer_mode
+  "first" ==>
+    @match inner_mode
+      "nested-a" ==> A
+      "nested-b" ==> B
+  "second" ==> Second
+""")
+        inputs = {item.name: item for item in meta.inputs}
+
+        assert inputs["outer_mode"].options == ["first", "second"]
+        assert inputs["inner_mode"].options == ["nested-a", "nested-b"]
 
     def test_has_notes(self):
         meta = scan_spec(SPEC_NOTE_NEAR_VAR)
@@ -489,7 +665,7 @@ Topic: @{topic}
         assert meta.execution is None
 
     def test_input_priority_order(self):
-        """@match and @if are detected before generic @{vars} — no duplicates."""
+        """Directive and interpolation evidence merge without duplicate inputs."""
         spec = """\
 # Priority
 
@@ -505,7 +681,7 @@ Topic: @{topic}
         mode_input = next(i for i in meta.inputs if i.name == "mode")
         debug_input = next(i for i in meta.inputs if i.name == "debug")
         assert mode_input.input_type == "select"
-        assert debug_input.input_type == "boolean"
+        assert debug_input.input_type == "text"
         assert len([i for i in meta.inputs if i.name == "mode"]) == 1
         assert len([i for i in meta.inputs if i.name == "debug"]) == 1
 

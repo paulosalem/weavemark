@@ -30,13 +30,25 @@ results. Never present simulated or historical returns as guaranteed outcomes.
 ## Core Calculation Engine
 
 ### Fundamental Formula
-All calculations are based on discrete compounding with configurable frequency:
+Let `PV` be present value, `r` the annual decimal rate, `n` compounding periods
+per year, `t` years, `N = n × t` whole periods, `i = r / n`, and `PMT` the
+contribution each period. Implement these branches explicitly:
 
-```
-FV = PV × (1 + r/n)^(n×t) + PMT × [((1 + r/n)^(n×t) - 1) / (r/n)]
-```
-Where: PV = present value, r = annual rate, n = compounding periods/year,
-t = years, PMT = periodic contribution.
+- **Ordinary annuity (end-of-period contributions), `r != 0`:**
+  `FV = PV × (1 + i)^N + PMT × (((1 + i)^N - 1) / i)`.
+- **Annuity due (beginning-of-period contributions), `r != 0`:**
+  `FV = PV × (1 + i)^N + PMT × (((1 + i)^N - 1) / i) × (1 + i)`.
+- **Zero rate, `r = 0`:** both timing modes use the continuous limit
+  `FV = PV + PMT × N`. Never evaluate a formula that divides by `i`.
+- **Continuous compounding of a lump sum:** `FV = PV × exp(r × t)`. For a
+  continuous contribution flow of `C` currency units per year, use
+  `FV = PV × exp(r × t) + C × (exp(r × t) - 1) / r` when `r != 0`, and
+  `FV = PV + C × t` when `r = 0`.
+- **Continuous growth with discrete periodic contributions:** ordinary-annuity
+  deposits at times `k/n` use
+  `FV = PV × exp(r × t) + Σ(k=1..N) PMT × exp(r × (t - k/n))`; annuity-due
+  deposits at times `(k-1)/n` use
+  `FV = PV × exp(r × t) + Σ(k=1..N) PMT × exp(r × (t - (k-1)/n))`.
 
 Engine MUST support:
 - **Compounding frequencies**: daily (365), monthly (12), quarterly (4),
@@ -44,7 +56,8 @@ Engine MUST support:
 - **Contribution timing**: beginning of period (annuity due) or end (ordinary annuity).
 - **Variable rates**: different rates per year/period (for scenario modeling).
 - **All arithmetic in arbitrary precision** (use decimal.js or similar) —
-  never floating point for financial math.
+  never IEEE 754 floating point for financial math. Use arbitrary-precision
+  `pow` and `exp`, and round only at explicit display or settlement boundaries.
 
 ### Mark-to-Market Simulation
 
@@ -73,6 +86,8 @@ The real magic: show what compounding looks like under **actual market condition
     #### Monte Carlo Simulation
     - User specifies: expected annual return (μ), annual volatility (σ),
       assumed return distribution (normal or log-normal).
+    - Specify the random number generator, deterministic seed/replay policy, and
+      all distribution parameters.
     - Engine runs N simulations (default 10,000), each sampling returns from the distribution.
     - Output:
       - **Fan chart**: percentile bands (5th, 25th, 50th, 75th, 95th) over time.
@@ -143,6 +158,7 @@ The real magic: show what compounding looks like under **actual market condition
 
 All charts MUST be **interactive** — hover for exact values, click to drill down,
 pinch-to-zoom on mobile.
+For every chart, specify data inputs, axes, interactions, and accessibility features.
 
 ### Required Charts
 1. **Growth Curve**: primary visualization. Log scale toggle. Annotations for
@@ -170,30 +186,38 @@ pinch-to-zoom on mobile.
 ### Historical Returns Table
 | Field | Type | Constraints |
 |-------|------|-------------|
-| id | SERIAL | PK |
-| asset_class | VARCHAR(50) | NOT NULL, indexed |
-| year | INT | NOT NULL |
-| annual_return_pct | DECIMAL(8,4) | NOT NULL (e.g., 7.5000 = 7.5%) |
-| dividend_yield_pct | DECIMAL(8,4) | NULL |
-| inflation_pct | DECIMAL(8,4) | NULL (CPI for that year) |
+| id | INTEGER | PRIMARY KEY AUTOINCREMENT |
+| asset_class | TEXT | NOT NULL, indexed, length <= 50 |
+| year | INTEGER | NOT NULL |
+| annual_return_pct | TEXT | NOT NULL canonical decimal string (e.g., `7.5000`) |
+| dividend_yield_pct | TEXT | NULL canonical decimal string |
+| inflation_pct | TEXT | NULL canonical decimal string (CPI for that year) |
 
 **Unique**: `(asset_class, year)`. Pre-seeded with S&P 500 (1928–present),
 10-Year Treasury, CPI, Gold, NASDAQ (1971–), REIT (1972–).
 
+Never use SQLite `REAL` for monetary values, rates, fees, taxes, or calculated
+results. Persist them as canonical decimal `TEXT`, validate their syntax at the
+application boundary, and parse them directly into the arbitrary-precision
+decimal type without an intermediate JavaScript number.
+
 ### Saved Simulation
 | Field | Type | Constraints |
 |-------|------|-------------|
-| id | UUID | PK |
-| user_id | UUID | FK → users.id, NULL for anonymous |
-| title | VARCHAR(200) | NOT NULL |
-| parameters | JSONB | NOT NULL (all simulation inputs) |
-| share_token | VARCHAR(32) | UNIQUE, NULL (set when shared) |
-| created_at | TIMESTAMP | NOT NULL |
+| id | TEXT | PRIMARY KEY; UUID encoded as text |
+| user_id | TEXT | FK → users.id, NULL for anonymous |
+| title | TEXT | NOT NULL, length <= 200 |
+| parameters | TEXT | NOT NULL canonical JSON; `CHECK (json_valid(parameters))` |
+| share_token | TEXT | UNIQUE, NULL, length = 32 when set |
+| created_at | TEXT | NOT NULL ISO 8601 UTC timestamp |
 
-@assert "All financial calculations must use arbitrary-precision arithmetic, never IEEE 754 floats"
-@assert "Monte Carlo simulations must specify the random number generator and distribution parameters"
-@assert "Every chart type must specify its data inputs, axes, interactions, and accessibility features"
-@assert "The spec must include exact formulas for every calculation (compound interest, tax drag, fee erosion)"
+Include exact formulas for compound interest, tax drag, and fee erosion in the
+implementation specification.
+
+@assert contains: "arbitrary precision"
+@assert contains: "random number generator"
+@assert contains: "data inputs, axes, interactions, and accessibility features"
+@assert contains: "exact formulas for compound interest, tax drag, and fee erosion"
 
 @output "markdown"
   Structure the output as:

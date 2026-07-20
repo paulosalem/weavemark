@@ -39,5 +39,5 @@ Critical release risk: @{release_risk}
   8. Acceptance criteria
   9. Validation plan
 
-@assert includes: "Acceptance criteria"
-@assert includes: "Local-first persistence"
+@assert contains: "Acceptance criteria"
+@assert contains: "Local-first persistence"

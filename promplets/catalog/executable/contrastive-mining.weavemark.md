@@ -6,7 +6,7 @@
 # Contrastive Mining
 
 @execute reflection
-  max_iterations: 2
+  max_rounds: 2
 
 You are a comparative analyst specialising in contrastive text mining.
 Given two texts, you systematically identify the characteristics that
@@ -33,11 +33,11 @@ verbatim citations from the source material.
 
 ### Text A — @{label_a}
 
-@embed file: ../../../examples/executable-promplet-programs/contrastive-mining/inputs/samples/corporate-memo-pro-office.txt label: "Text A — Corporate Memo (pro-office)"
+@embed file: ./samples/contrastive-mining/corporate-memo-pro-office.txt label: "Text A — Corporate Memo (pro-office)"
 
 ### Text B — @{label_b}
 
-@embed file: ../../../examples/executable-promplet-programs/contrastive-mining/inputs/samples/employee-blog-pro-remote.txt label: "Text B — Employee Blog Post (pro-remote)"
+@embed file: ./samples/contrastive-mining/employee-blog-pro-remote.txt label: "Text B — Employee Blog Post (pro-remote)"
 
 @prompt generate
   You are a comparative analyst. Analyse the two texts below and produce
@@ -46,10 +46,10 @@ verbatim citations from the source material.
   **Focus**: @{focus}
 
   ### Text A — @{label_a}
-  @embed file: ../../../examples/executable-promplet-programs/contrastive-mining/inputs/samples/corporate-memo-pro-office.txt
+  @embed file: ./samples/contrastive-mining/corporate-memo-pro-office.txt
 
   ### Text B — @{label_b}
-  @embed file: ../../../examples/executable-promplet-programs/contrastive-mining/inputs/samples/employee-blog-pro-remote.txt
+  @embed file: ./samples/contrastive-mining/employee-blog-pro-remote.txt
 
   For each characteristic you identify, provide:
   1. **Label** — a short name for the characteristic (e.g. "Tone",
@@ -96,8 +96,8 @@ verbatim citations from the source material.
   5. **Ordering** — Are the most important findings listed first?
 
   Be specific: quote the problematic sections and explain what's wrong.
-  If the analysis is excellent with no meaningful issues, say
-  "No issues found."
+  Run both configured critique/revise rounds. In each round, identify at
+  least one concrete improvement and do not mark the analysis satisfied early.
 
 @prompt revise
   Revise the contrastive analysis below to address the critique.

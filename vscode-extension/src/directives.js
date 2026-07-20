@@ -11,10 +11,10 @@ const DIRECTIVES = {
     documentation:
       "Declares the WeaveMark language version and optional authoring surface. Must be the first directive if present.\n\n" +
       "**Parameters:**\n" +
-      "- `version: <major.minor>` — Language version (current: `0.7`)\n" +
+      "- `version: <major.minor>` — Language version (current: `0.9`)\n" +
       "- `surface: canonical|markdown` — Optional surface adapter. Use `markdown` for directive headings and WeaveMark callouts.\n\n" +
-      "**Example:**\n```\n@promplet version: 0.7 surface: markdown\n```",
-    snippet: "@promplet version: ${1:0.7} surface: ${2|canonical,markdown|}",
+      "**Example:**\n```\n@promplet version: 0.9 surface: markdown\n```",
+    snippet: "@promplet version: ${1:0.9} surface: ${2|canonical,markdown|}",
     params: { version: null, surface: ["canonical", "markdown"] },
     category: "Preamble",
   },
@@ -99,7 +99,7 @@ const DIRECTIVES = {
     label: "@bind",
     detail: "Attach a companion runtime implementation to a capability",
     documentation:
-      "Associates a host-language implementation (Python, JavaScript, …) with a named capability or tool. Used by `@tool` for runtime call dispatch and by compile-phase `@effect` declarations. Always use `@bind` to supply implementations — never inline them.\n\n" +
+      "Associates a host-language implementation with a named capability or tool. Used by `@tool` for runtime call dispatch and by `@effect` declarations. Always use `@bind` to supply implementations — never inline them. The built-in FunctionalEngine currently executes Python bindings.\n\n" +
       "**Parameters:**\n" +
       "- First positional argument: capability name\n" +
       "- `language: python|javascript|…` — Implementation language\n" +
@@ -248,11 +248,11 @@ const DIRECTIVES = {
     label: "@revise",
     detail: "Replace conflicting requirements with new ones",
     documentation:
-      "Applies the requested revision to its body. If the body is omitted, the revision applies to the current enclosing specification scope.\n\n" +
+      "Applies the requested revision to its required, non-empty indented target body. Bodyless calls are errors.\n\n" +
       "**Parameters:**\n" +
       "- First positional argument: revision instruction\n" +
       "- `mode: minimal|editorial` — How aggressively to revise\n\n" +
-      "**Examples:**\n```\n@revise \"Output must be JSON only, no markdown.\" mode: editorial\n\n@revise \"Remove contradictions.\" mode: minimal\n  Draft prompt text.\n```",
+      "**Example:**\n```\n@revise \"Remove contradictions.\" mode: minimal\n  Draft prompt text.\n```",
     snippet: "@revise \"${1:revision instruction}\" mode: ${2|minimal,editorial|}\n  ${3:target body}",
     params: { mode: ["minimal", "editorial"] },
     category: "Composition",
@@ -263,8 +263,8 @@ const DIRECTIVES = {
     label: "@normalize",
     detail: "Canonicalize structure and smooth wording",
     documentation:
-      "**Stdlib macro** — defined in the default-loaded `semantics` module.\n\n" +
-      "Applies the requested normalization to its body. If the body is omitted, normalization applies to the current enclosing specification scope.\n\n" +
+      "**Stdlib semantic function** — defined in the default-loaded `semantics` module.\n\n" +
+      "Applies the requested normalization to its required, non-empty indented target body. Bodyless calls are errors.\n\n" +
       "**Parameters:**\n" +
       "- First positional argument: normalization guidance\n" +
       "- `scope: syntactic|semantic|both`\n" +
@@ -272,7 +272,7 @@ const DIRECTIVES = {
       "- `lists: keep|normalize`\n" +
       "- `terminology: keep|normalize`\n" +
       "- `intensity: low|medium|high`\n\n" +
-      "**Examples:**\n```\n@normalize \"Clean up wording and headings.\" scope: both intensity: medium\n\n@normalize \"Use consistent terminology.\" scope: semantic\n  Draft instructions to clean up.\n```",
+      "**Example:**\n```\n@normalize \"Use consistent terminology.\" scope: semantic\n  Draft instructions to clean up.\n```",
     snippet: "@normalize \"${1:normalization guidance}\" scope: ${2|syntactic,semantic,both|} intensity: ${3|low,medium,high|}\n  ${4:target body}",
     params: {
       scope: ["syntactic", "semantic", "both"],
@@ -287,10 +287,10 @@ const DIRECTIVES = {
     label: "@style",
     detail: "Apply tone, voice, and formatting preferences",
     documentation:
-      "Applies the requested style to its body. If the body is omitted, the style applies to the current enclosing specification scope.\n\n" +
+      "Applies the requested style to its required, non-empty indented target body. Bodyless calls are errors.\n\n" +
       "**Parameters:**\n" +
       "- First positional argument: style description (tone, voice, register, formatting, audience, or presentation constraints)\n\n" +
-      "**Examples:**\n```\n@style \"Concise, direct, and friendly. Use bullet points.\"\n\n@style \"For senior engineers: precise and implementation-ready.\"\n  Draft the implementation prompt.\n```",
+      "**Example:**\n```\n@style \"For senior engineers: precise and implementation-ready.\"\n  Draft the implementation prompt.\n```",
     snippet: "@style \"${1:style description}\"\n  ${2:target body}",
     params: {},
     category: "Semantic Transform",
@@ -300,10 +300,10 @@ const DIRECTIVES = {
     detail: "Give assembled content a coherent final presentation",
     documentation:
       "**Stdlib semantic function** — defined in the default-loaded `semantics` module.\n\n" +
-      "Polishes its body into a coherent, presentation-ready prompt without adding or removing substantive information. If the body is omitted, polish applies to the current enclosing specification scope.\n\n" +
+      "Polishes its required, non-empty indented target body into a coherent, presentation-ready prompt without adding or removing substantive information. Bodyless calls are errors.\n\n" +
       "**Parameters:**\n" +
       "- First positional argument: optional presentation/organization guidance\n\n" +
-      "**Examples:**\n```\n@polish \"Harmonize terminology and remove duplication without dropping requirements.\"\n\n@polish \"Make the assembled sections read as one coherent final prompt.\"\n  Rough assembled prompt text.\n```",
+      "**Example:**\n```\n@polish \"Make the assembled sections read as one coherent final prompt.\"\n  Rough assembled prompt text.\n```",
     snippet: "@polish \"${1:polish guidance}\"\n  ${2:target body}",
     params: {},
     category: "Semantic Transform",
@@ -327,14 +327,14 @@ const DIRECTIVES = {
     label: "@compress",
     detail: "Reduce token footprint while preserving meaning",
     documentation:
-      "Aggressively reduces the prompt's size to fit token budgets.\n\n" +
+      "Aggressively reduces its required, non-empty indented target body to fit token budgets. Bodyless calls are errors.\n\n" +
       "**Parameters:**\n" +
-      "- `target: tokens|chars` — Unit of measurement\n" +
+      "- `target: tokens|chars|structure` — Unit of measurement\n" +
       "- `budget: <number>` — Target size\n" +
       "- `preserve: hard|balanced` — How strictly to keep key content\n\n" +
-      "**Example:**\n```\n@compress target: tokens budget: 800 preserve: balanced\n```",
-    snippet: "@compress ${1:target: tokens} ${2:budget: 800}",
-    params: { target: ["tokens", "chars"], preserve: ["hard", "balanced"] },
+      "**Example:**\n```\n@compress target: tokens budget: 800 preserve: balanced\n  Prompt text to compress.\n```",
+    snippet: "@compress target: ${1|tokens,chars,structure|} budget: ${2:800}\n  ${3:target body}",
+    params: { target: ["tokens", "chars", "structure"], budget: null, preserve: ["hard", "balanced"] },
     category: "Lossy Content",
   },
   extract: {
@@ -416,8 +416,9 @@ const DIRECTIVES = {
       "- `section:` — Require a section\n" +
       "- `variable:` — Require a resolved variable\n" +
       "- `severity: error|warning` — Whether violation blocks composition\n\n" +
-      "**Example:**\n```\n@assert severity: error The prompt must include an output schema.\n@assert severity: warning The prompt should mention error handling.\n```",
-    snippet: "@assert ${1:severity: error} ${2:condition}",
+      "At least one nonempty check is required. Positional/free-text assertions, bodies, and unknown parameters are errors.\n\n" +
+      "**Example:**\n```\n@assert contains: \"output schema\" severity: error\n@assert section: \"Error Handling\" severity: warning\n```",
+    snippet: "@assert contains: \"${1:required text}\" severity: ${2|error,warning|}",
     params: {
       contains: null,
       not_contains: null,
@@ -595,13 +596,13 @@ const DIRECTIVES = {
       "**Strategies:**\n" +
       "- `single-call` — One LLM call (default)\n" +
       "- `self-consistency` — Multiple samples, majority vote\n" +
-      "- `tree-of-thought` — Full BFS/DFS Tree of Thought (Yao et al. 2023)\n" +
-      "- `simplified-tree-of-thought` — Lightweight generate → evaluate → synthesise\n" +
+      "- `tree-of-thought` — Full BFS/DFS Tree of Thought; requires `thought_step`, `evaluate_step`, and `synthesize` prompts\n" +
+      "- `simplified-tree-of-thought` — Lightweight flow requiring `generate`, `evaluate`, and `synthesize` prompts\n" +
       "- `reflection` — Generate → Critique → Revise loop\n" +
       "- `chain` — Run named prompt stages sequentially with `@{previous}` context\n" +
       "- `collaborative` — LLM generates → human edits → LLM continues\n" +
       "- `fslm` — Run an ellements finite-state linguistic machine with WeaveMark-backed NL guards, invariants, actions, and outputs\n" +
-      "- `functional` — Execute effectful semantic functions as a data-flow graph or sequential pipeline\n\n" +
+      "- `functional` — Execute validated semantic nodes through authorized Python `@bind` capabilities. Render-only documents return directly; nonempty remaining instructions use the configured LLM\n\n" +
       "**FSLM-specific parameters:**\n" +
       "- `machine: <path-or-module>` — YAML, JSON, Python, or module reference for the machine\n" +
       "- `initial_event: <type>` — First event type when no runtime event object is supplied\n" +
@@ -609,6 +610,7 @@ const DIRECTIVES = {
       "- `prompt_contract: strict` — Fail before execution if required prompts are missing\n\n" +
       "**Functional-specific parameters:**\n" +
       "- `scheduler: sequential|graph|graph-strict` — Execution order for functional nodes\n" +
+      "- `allow_effects: [name, ...]` — Effect capabilities authorized for execution\n" +
       "  - `sequential` — Run nodes top-to-bottom in source order\n" +
       "  - `graph` — Topological sort based on `uses:` dependencies; unrelated nodes may run in parallel\n" +
       "  - `graph-strict` — Same as `graph` but treats undeclared `uses:` as an error\n\n" +
@@ -625,6 +627,7 @@ const DIRECTIVES = {
     params: {
       mode: ["minimal", "full"],
       scheduler: ["sequential", "graph", "graph-strict"],
+      allow_effects: null,
       repeat: null,
       count: null,
       rounds: null,
@@ -717,9 +720,10 @@ const DIRECTIVES = {
     detail: "Define a callable tool/function for the LLM",
     documentation:
       "Declares a function that the LLM can invoke. Parameters are listed as indented items.\n\n" +
-      "**Parameter syntax:** `- name: type (required|optional) — description`\n\n" +
-      "**Example:**\n```\n@tool search_web\n  Search the web for information.\n  - query: string (required) — The search query\n  - max_results: integer (optional) — Maximum results to return\n```",
-    snippet: "@tool ${1:function_name}\n  ${2:Description of the tool.}\n  - ${3:param}: ${4:string} (${5|required,optional|}) — ${6:description}",
+      "**Parameter syntax:** `- name: type [(required)] - description`\n\n" +
+      "Parameters are optional by default. Use `(required)` only when required; `(optional)` is invalid. The description separator is an ASCII ` - `, not an em dash.\n\n" +
+      "**Example:**\n```\n@tool search_web\n  Search the web for information.\n  - query: string (required) - The search query\n  - max_results: integer - Maximum results to return\n```",
+    snippet: "@tool ${1:function_name}\n  ${2:Description of the tool.}\n  - ${3:param}: ${4:string} - ${5:description}",
     params: {},
     category: "Tools",
   },

@@ -1,79 +1,101 @@
 # Consulting Proposal
 
-Act as a rigorous management consulting analyst preparing a board-ready proposal for **Meridian Health Systems**, a healthcare company seeking to **reduce patient wait times by 40% while improving staff satisfaction**.
+You are a rigorous analytical consulting assistant preparing a management consulting proposal for **Meridian Health Systems**, a healthcare company seeking to **reduce patient wait times by 40% while improving staff satisfaction**.
 
-Tailor the language, depth, and examples for **C-suite executives and board members**. Use an authoritative, structured, data-driven consulting style that is professional, direct, and actionable.
+Tailor the language, depth, and examples for C-suite executives and board members. Use an authoritative, structured, data-driven consulting style.
 
 ## Analytical Standards
 
-- Ground every recommendation in evidence, operational logic, or clearly labeled assumptions.
-- Separate facts from assumptions explicitly where the proposal relies on estimates or incomplete data.
-- When estimating impact, cost, timeline, or ROI, state the confidence level — high, medium, or low — and the basis for that confidence.
-- Identify the strongest counter-argument or implementation challenge for every major recommendation, then explain how it should be mitigated.
-- Avoid vague hedging. Where uncertainty exists, quantify it or describe the evidence needed to resolve it.
-- Organize each major section so it states the key finding or recommendation up front, then provides supporting evidence, reasoning, caveats, risks, and open questions.
+Ground every recommendation in evidence, clear reasoning, and practical actionability.
+
+- Separate facts from assumptions; label each explicitly where material.
+- When estimating impact, investment, timing, ROI, or risk, state the confidence level — high, medium, or low — and the basis for that confidence.
+- Identify the strongest counter-argument or implementation risk for each major claim or recommendation.
+- State the key finding or recommendation at the start of each section, then provide supporting evidence, reasoning, caveats, risks, and open questions.
+- Use professional, direct language. Avoid vague hedging; quantify uncertainty when genuine uncertainty exists.
 
 ## Engagement Context
 
 Meridian Health Systems is facing the following challenges:
 
-- Average ER wait time exceeds 4 hours, compared with an industry benchmark of 2.5 hours.
-- Staff turnover rate is 28%, compared with an 18% industry average.
-- Legacy scheduling system has no real-time capacity visibility.
-- Three recent acquisitions have created incompatible operational processes.
+- Average ER wait time exceeds 4 hours (industry benchmark: 2.5 hours)
+- Staff turnover rate of 28% (vs. 18% industry average)
+- Legacy scheduling system with no real-time capacity visibility
+- Three recent acquisitions with incompatible operational processes
 
-The engagement timeline is **6 months** and the expected budget range is **$1.5M–$2.5M**.
+The consulting engagement lasts **6 months** with an expected budget range of **$1.5M–$2.5M**. The implementation roadmap may extend beyond that engagement. Use the engagement to validate the diagnosis, mobilize governance, begin near-term work, and leave an owned roadmap for later phases; do not promise that the full transformation will be complete within the consulting timeline.
 
 ## Deliverable: Transformation Roadmap
 
-Produce a phased transformation roadmap to reduce patient wait times by 40% while improving staff satisfaction within the 6-month engagement window.
+Produce a phased transformation roadmap that explains how Meridian Health Systems can reduce patient wait times by 40% while improving staff satisfaction.
 
-### Phase 1: Quick Wins, 0–3 Months
+The roadmap must cover:
 
-Define low-effort, high-impact changes that build momentum and stakeholder confidence. Include:
+1. **Phase 1 — Quick Wins, 0–3 months**
+   - Identify low-effort, high-impact changes that build momentum and stakeholder confidence.
+   - Prioritize interventions that can begin during the 6-month consulting engagement.
+   - Tie quick wins directly to ER wait-time reduction, staff workload relief, scheduling visibility, and operational harmonization across acquired sites.
 
-- Immediate workstreams across patient intake, triage, scheduling, and discharge.
-- Named executive and operational owners for each workstream.
-- Dependencies and the critical path for rapid deployment.
-- Investment required and quantified ROI estimates, including operational savings, wait-time reduction, throughput improvement, or turnover reduction where applicable.
-- Specific, actionable risk mitigation strategies for adoption barriers, clinical workflow disruption, patient safety concerns, data limitations, and staff resistance.
+2. **Phase 2 — Foundation, 3–9 months**
+   - Define the infrastructure, process redesign, governance, and capability-building required for sustainable change.
+   - Address real-time capacity visibility, patient intake, triage, scheduling, discharge coordination, and cross-site operating-model standardization.
+   - Clarify which work must be completed during the consulting engagement and which work continues under client ownership afterward.
 
-### Phase 2: Foundation, 3–9 Months
+3. **Phase 3 — Scale, 9–18 months**
+   - Describe the full rollout, change management, performance management, and KPI tracking needed to sustain improvements.
+   - Specify how Meridian should scale common processes across the three recently acquired organizations without ignoring local operating constraints.
+   - Include mechanisms for ongoing staff feedback, adoption monitoring, and continuous improvement.
 
-Define the infrastructure, process redesign, and capability-building work required for sustainable change. Include:
+For each phase, specify:
 
-- Workstreams for real-time capacity visibility, scheduling modernization, standardized operating processes, workforce planning, governance, and change management.
-- Ownership across clinical operations, IT, HR, finance, and site leadership.
-- Dependencies between technology implementation, process redesign, acquisition integration, data readiness, and workforce adoption.
-- Investment required and quantified ROI estimates for each phase component, including confidence levels and assumptions.
-- Specific mitigation plans for system integration risk, implementation fatigue, budget pressure, data-quality gaps, and inconsistent execution across acquired sites.
+- Workstreams and accountable owners
+- Dependencies and critical path
+- Investment required and **quantified ROI estimates**
+- KPI targets, including patient wait time, throughput, schedule utilization, staff turnover, staff satisfaction, and patient experience
+- Risk factors with **specific, actionable mitigation strategies**
+- Evidence, assumptions, confidence level, and the strongest counter-argument or caveat
 
-### Phase 3: Scale, 9–18 Months
+## Required Consulting-Report Flow
 
-Define full rollout, change management, and performance measurement against KPIs. Include:
+Write the assembled proposal as one coherent consulting report. Use professional consulting report formatting with clear section numbering, an executive summary up front, and appendices for supporting data.
 
-- Workstreams for enterprise rollout, KPI governance, continuous improvement, training reinforcement, and cross-site standardization.
-- Ownership model for sustaining performance after the consulting engagement.
-- Dependencies and critical path from pilot validation to enterprise scaling.
-- Investment required versus expected ROI, with quantified estimates for patient-flow improvement, staff retention, productivity, capacity utilization, and financial return.
-- Specific mitigation strategies for scaling variance, local operating-model differences, leadership alignment, union or workforce constraints, and post-implementation regression.
+Use this structure:
 
-## Required Proposal Content
+1. **Executive Summary**
+   - State the recommended transformation path and why it is the right answer for Meridian Health Systems.
+   - Summarize expected impact, investment range, timing, risks, and the immediate decision required from leadership.
 
-The proposal must include:
+2. **Current Situation and Case for Change**
+   - Present the facts from the engagement context.
+   - Distinguish known facts from assumptions that require validation.
+   - Quantify the operational and financial consequences of inaction where possible.
 
-1. **Executive summary**: A concise board-level recommendation, expected impact, investment range, timeline, and decision required.
-2. **Current-state diagnosis**: Evidence-based interpretation of Meridian Health Systems’ wait-time, turnover, scheduling, and post-acquisition integration challenges.
-3. **Transformation roadmap**: A phased plan with workstreams, owners, milestones, dependencies, and critical path.
-4. **Financial case**: Quantified ROI estimates for each phase, including investment, expected benefits, payback logic, confidence level, and assumptions.
-5. **Risk assessment**: Probability-weighted implementation risks with specific, actionable mitigation strategies.
-6. **Governance model**: Decision rights, cadence, executive sponsorship, KPI ownership, and escalation path.
-7. **KPI framework**: Metrics for ER wait time, throughput, schedule utilization, staff satisfaction, turnover, patient experience, cost impact, and adoption.
-8. **Counter-arguments and caveats**: The strongest objections to the recommendation and how they should be addressed.
-9. **Next steps**: Immediate actions Meridian Health Systems can begin executing within **6 months**.
+3. **Transformation Ambition and Success Metrics**
+   - Translate the goal into measurable outcomes.
+   - Include patient wait-time reduction, staff satisfaction, staff retention, scheduling visibility, throughput, and post-acquisition process standardization.
 
-## Required Output Format
+4. **Phased Roadmap**
+   - Present the three phases with workstreams, owners, timing, dependencies, investment, quantified ROI estimates, and risk mitigations.
+   - Make clear what Meridian can begin executing during the 6-month engagement and what must continue afterward.
 
-Use professional consulting report formatting in **markdown** with clear section numbering, an executive summary up front, and appendices for supporting data. The final deliverable should read as one coherent consulting report, not as disconnected notes.
+5. **Governance and Operating Model**
+   - Recommend a governance structure for executive sponsorship, clinical leadership, operational decision-making, site-level adoption, and benefits tracking.
+   - Define ownership and escalation paths.
 
-Focus on delivering actionable, evidence-based recommendations that Meridian Health Systems can begin executing within **6 months**.
+6. **Financial Case and ROI Logic**
+   - Estimate costs, benefits, payback, and value drivers.
+   - State assumptions and confidence levels.
+   - Include sensitivity considerations where relevant.
+
+7. **Risks, Counter-Arguments, and Mitigation Plan**
+   - Identify the strongest counter-arguments to the proposed roadmap.
+   - Provide specific mitigation actions, owners, and decision triggers.
+
+8. **Implementation Milestones and Next Steps**
+   - Provide a practical 6-month engagement plan with milestones and immediate actions.
+   - Show how ownership transitions to Meridian for later phases.
+
+9. **Appendices**
+   - Include supporting data, assumptions, KPI definitions, dependency map, risk register, and any financial-model details needed for executive review.
+
+Focus on delivering actionable, evidence-based recommendations that Meridian Health Systems can begin executing during the **6 months** engagement, with clear ownership and milestones for implementation that continues afterward.

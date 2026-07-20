@@ -6,7 +6,6 @@
 - Tool providers:
   - `ellements.domain_specific.finance.yahoo_finance`
   - `ellements.standard_tools.web.search`
-  - `ellements.standard_tools.web.crawler`
 
 ## Compiled prompt
 
@@ -17,24 +16,24 @@
 
 @{web_context}
 
-@{source_readings}
-
 ## Draft Report
 
-Use @{asset_snapshot}, @{web_context}, and @{source_readings} to write a concise
-learning brief about Apple Inc. (AAPL).
+Use @{asset_snapshot} and @{web_context} to write a concise learning brief about
+Apple Inc. (AAPL). Ground news and outside-context claims only in the
+web-search result titles, snippets, source labels, and URLs. Clearly label search
+snippets as search-result evidence rather than full-page readings.
 
 Cover:
 
 1. What the company does and why the stock is currently interesting.
 2. Current market data and business fundamentals from the finance tools.
-3. Recent news, analyst opinion, and outside commentary from web search.
-4. Evidence from crawled sources, with source URLs.
-5. Key uncertainties a learner should investigate next.
+3. Recent news, analyst opinion, official context, and skeptical outside
+   commentary from web search, with source URLs.
+4. Agreements, tensions, and evidence gaps across the source-grounded results.
+5. Key uncertainties and primary sources a learner should investigate next.
 
 Do not make a buy/sell recommendation. Treat this as asset education, not
 personal financial advice.
-
 ```
 
 ## Functional execution plan
@@ -46,8 +45,7 @@ personal financial advice.
     "scheduler": "graph-strict",
     "allow_effects": [
       "finance_data",
-      "web_search",
-      "web_crawl"
+      "web_search"
     ],
     "bindings": [
       {
@@ -61,20 +59,13 @@ personal financial advice.
         "language": "python",
         "from": "./companions/market_data.py",
         "symbol": "search_asset_context"
-      },
-      {
-        "name": "web_crawl",
-        "language": "python",
-        "from": "./companions/market_data.py",
-        "symbol": "crawl_asset_sources"
       }
     ],
     "plan": {
       "scheduler": "graph-strict",
       "order": [
         "asset_snapshot",
-        "web_context",
-        "source_readings"
+        "web_context"
       ],
       "levels": [
         [
@@ -82,9 +73,6 @@ personal financial advice.
         ],
         [
           "web_context"
-        ],
-        [
-          "source_readings"
         ]
       ]
     },
@@ -108,6 +96,13 @@ personal financial advice.
             "ticker": "@{ticker}"
           }
         },
+        "params": [
+          {
+            "name": "ticker",
+            "implicit": false,
+            "mode": "text"
+          }
+        ],
         "body": "",
         "as": "asset_snapshot"
       },
@@ -132,33 +127,27 @@ personal financial advice.
             "focus": "@{research_focus}"
           }
         },
+        "params": [
+          {
+            "name": "ticker",
+            "implicit": false,
+            "mode": "text"
+          },
+          {
+            "name": "company_name",
+            "implicit": false,
+            "mode": "text"
+          },
+          {
+            "name": "focus",
+            "implicit": false,
+            "mode": "text"
+          }
+        ],
         "body": "",
         "as": "web_context",
         "uses": [
           "asset_snapshot"
-        ]
-      },
-      {
-        "id": "source_readings",
-        "directive": "crawl_asset_sources",
-        "definition": "crawl_asset_sources",
-        "phase": "execute",
-        "scope": "self",
-        "returns": "value",
-        "effects": [
-          {
-            "name": "web_crawl",
-            "mode": "read"
-          }
-        ],
-        "args": {
-          "positional": [],
-          "options": {}
-        },
-        "body": "Read the highest-signal URLs found in @{web_context}. Prioritize official\ncompany pages, recent news, analyst commentary, and skeptical outside views.",
-        "as": "source_readings",
-        "uses": [
-          "web_context"
         ]
       }
     ]
@@ -175,12 +164,6 @@ personal financial advice.
       "language": "python",
       "from": "./companions/market_data.py",
       "symbol": "search_asset_context"
-    },
-    {
-      "name": "web_crawl",
-      "language": "python",
-      "from": "./companions/market_data.py",
-      "symbol": "crawl_asset_sources"
     }
   ]
 }
@@ -201,14 +184,126 @@ personal financial advice.
     "recent_news",
     "skeptical_view"
   ],
-  "crawled_sources": [
+  "search_result_sources": [
     {
-      "url": "https://quartr.com/companies/apple-inc_4742",
-      "markdown_preview": "Apple\n![Logotype for Apple Inc](https://assets.quartr.com/_next/image?url=https%3A%2F%2Ffiles.quartr.com%2Fcompany-icons%2F86eed81e8008f0d5621a887f482ced47-2026-07-14-16-34-43.png%3Fref%3DZG90Y29t&w=96&q=100)\n# Apple (AAPL) investor relations material\n## Apple Q2 2026 earnings summary\nComplete event summary combining all related documents: earnings call transcript, report, and slide presentation.\n![Logotype for Apple Inc](https://assets.quartr.com/_next/image?url=https%3A%2F%2Ffiles.quartr.com%2Fcompany-icons%2F86eed81e8008f0d5621a887f482ced47-2026-07-14-16-34-43.png%3Fref%3DZG90Y29t&w=96&q=100)\nQ2 2026 earnings summary30 Apr, 2026\n* Revenue reached $111.2 billion, up 17% year-over-year, setting a March quarter record with double-digit growth across all geographic segments.\n* Net income was $29.6 billion and diluted EPS was $2.01, both up 22% year-over-year and setting March quarter records.\n* Growth was driven by strong iPhone and Services sales, with iPhone revenue hitting a March quarter record and Services revenue reaching an all-time high.\n* CEO transition announced: Tim Cook to become Executive Chairman on September 1st, with John Ternus to assume CEO role.\n### Financial high"
+      "group": "recent_news",
+      "title": "AAPL Stock Hits Fresh Record As July Rally Nears Best Month In Nearly 4 Years — HSBC Sees Another 10% Upside",
+      "url": "https://www.msn.com/en-us/money/top-stocks/aapl-stock-hits-fresh-record-as-july-rally-nears-best-month-in-nearly-4-years-hsbc-sees-another-10-upside/ar-AA285zea",
+      "snippet": "Apple shares have climbed over 15% this month, the second highest move among the Magnificent Seven stocks."
     },
     {
+      "group": "recent_news",
+      "title": "Why Did AAPL, ATAI, UNH Stocks Jump To 52-Week Highs Today?",
+      "url": "https://www.msn.com/en-us/money/topstocks/why-did-aapl-atai-unh-stocks-jump-to-52-week-highs-today/ar-AA2866OM",
+      "snippet": "Apple, AtaiBeckley and UnitedHealth Group jumped to yearly highs as positive company catalysts, Wall Street upgrades, and strong earnings pushed shares higher."
+    },
+    {
+      "group": "recent_news",
+      "title": "Apple stock's 12-day momentum triggers sell signal not seen since 2020",
+      "url": "https://seekingalpha.com/news/4614940-apple-stocks-12-day-momentum-triggers-sell-signal-not-seen-since-2020",
+      "snippet": "Apple Inc. has reached a rare short-term momentum milestone against the broader market, sparking discussions of profit rotation. Accordi"
+    },
+    {
+      "group": "recent_news",
+      "title": "Is Apple Stock a Buy After Its Recent Pullback? Here's What History Suggests.",
+      "url": "https://www.msn.com/en-us/money/topstocks/is-apple-stock-a-buy-after-its-recent-pullback-heres-what-history-suggests/ar-AA27nmLe",
+      "snippet": "Look for history to repeat itself with Apple's latest pullback."
+    },
+    {
+      "group": "recent_news",
+      "title": "Apple: The AI Upgrade Cycle Hasn't Arrived Yet, But Growth Has",
+      "url": "https://seekingalpha.com/article/4921791-apple-stock-ai-upgrade-cycle-growth",
+      "snippet": "Apple demonstrates renewed business momentum, with core offerings showing strength independent of AI catalysts. Read why AAPL stock is a buy."
+    },
+    {
+      "group": "analyst_opinion",
+      "title": "Apple Inc . ( AAPL ) Stock Price, News, Quote & History - Yahoo Finance",
+      "url": "https://finance.yahoo.com/quote/AAPL/",
+      "snippet": "Find the latest Apple Inc . ( AAPL ) stock quote, history, news and other vital information to help you with your stock trading and investing."
+    },
+    {
+      "group": "analyst_opinion",
+      "title": "Apple Stock Chart — NASDAQ: AAPL Stock Price — TradingView",
+      "url": "https://www.tradingview.com/symbols/NASDAQ-AAPL/",
+      "snippet": "View live Apple Inc chart to track its stock's price action. Find market predictions, AAPL financials and market news."
+    },
+    {
+      "group": "analyst_opinion",
+      "title": "Apple (NasdaqGS: AAPL ) Stock Forecast & Analyst ... - Simply Wall St",
+      "url": "https://simplywall.st/stocks/us/tech/nasdaq-aapl/apple/future",
+      "snippet": "Discover Apple 's earnings and revenue growth rates, forecasts, and the latest analyst predictions while comparing them to its industry peers."
+    },
+    {
+      "group": "analyst_opinion",
+      "title": "AAPL Stock | Apple Inc Price, Quote, News & Analysis - TipRanks.com",
+      "url": "https://www.tipranks.com/stocks/aapl",
+      "snippet": "Track AAPL Stock with real-time price updates, overview, analysis , insider insights, and Smart Score ratings. Get Apple Inc news, earnings , and stock analysis — all in one place at TipRanks."
+    },
+    {
+      "group": "analyst_opinion",
+      "title": "Apple Inc . ( AAPL ) Latest Stock Analysis | Seeking Alpha",
+      "url": "https://seekingalpha.com/symbol/AAPL/analysis",
+      "snippet": "Find the latest Apple Inc . ( AAPL ) stock analysis from Seeking Alpha’s top analysts : exclusive research and insights from bulls and bears. aapl Summary. Follow. 2.91M followers."
+    },
+    {
+      "group": "official_context",
+      "title": "Investor Relations - Apple",
+      "url": "https://investor.apple.com/investor-relations/default.aspx",
+      "snippet": "Apple ’s conference call to discuss third fiscal quarter results and business updates is scheduled for Thursday, July 30, 2026 at 2:00 p.m. PT / 5:00 p.m. ET. Listen to the conference call webcast."
+    },
+    {
+      "group": "official_context",
+      "title": "Apple (AAPL) Investor Relations, Earnings Summary & Outlook Apple reports fourth quarter results - Nasdaq Apple reports fourth quarter results - Business Wire Apple (AAPL) 10K Form and Latest SEC Filings 2026 - MarketBeat 10-Q Q1 2026, 12 Apple Inc. (AAPL) Q1 FY2026 earnings call transcript",
+      "url": "https://quartr.com/companies/apple-inc_4742",
+      "snippet": "On April 1, 1976, the college dropouts Steve Jobs, Steve Wozniak and Ronald Wayne founded Apple Computers Inc . Their vision was to change the way people interacted with computers, and they wanted to make the PC’s small enough to fit in people's homes or offices. Simply put, they wanted to create a user-friendly device. The three founders started bu... See full list on quartr.com On February 9, 1997, Apple finalized the acquisition of NeXT, which at the time was an American tech company speciali"
+    },
+    {
+      "group": "official_context",
+      "title": "Apple reports fourth quarter results - Nasdaq",
+      "url": "https://www.nasdaq.com/press-release/apple-reports-fourth-quarter-results-2025-10-30",
+      "snippet": "Oct 30, 2025 · Apple periodically provides information for investors on its corporate website, apple .com, and its investor relations website, investor . apple .com. This includes press releases and other ..."
+    },
+    {
+      "group": "official_context",
+      "title": "Apple reports fourth quarter results - Business Wire",
       "url": "https://www.businesswire.com/news/home/20251030333927/en/Apple-reports-fourth-quarter-results",
-      "markdown_preview": "# Page Unavailable\n* * *\nPlease be advised that this page is unavailable.\nCall +1.888.381.9473 for our Web Support team or open a support ticket if you need further assistance. \nReference Error ID: `0.62841402.1784403098.8eedba6a`\nClient IP: 179.100.0.247"
+      "snippet": "Oct 30, 2025 · CUPERTINO, Calif.-- (BUSINESS WIRE)-- Apple® today announced financial results for its fiscal 2025 fourth quarter ended September 27, 2025. The Company posted quarterly revenue of $102.5..."
+    },
+    {
+      "group": "official_context",
+      "title": "Apple (AAPL) 10K Form and Latest SEC Filings 2026 - MarketBeat",
+      "url": "https://www.marketbeat.com/stocks/NASDAQ/AAPL/sec-filings/",
+      "snippet": "2 days ago · MarketBeat offers Apple 's complete SEC filing history through 2026 — including 10-K annual reports, 10-Q quarterly filings, and 8-K current reports for NASDAQ: AAPL . Filter by form type and access 9+ years of filings."
+    },
+    {
+      "group": "skeptical_view",
+      "title": "Apple Inc . ( AAPL ): A Bear Case Theory - Yahoo Finance",
+      "url": "https://finance.yahoo.com/news/apple-inc-aapl-bear-case-143700790.html",
+      "snippet": "Sep 30, 2025 · Its historically dominant iPhone business, which generates over half of total revenue, is faltering due to market saturation, lengthening upgrade cycles, and fierce competition, particularly in..."
+    },
+    {
+      "group": "skeptical_view",
+      "title": "Apple Inc . ( AAPL ): A Bear Case Theory - InvestingChannel News",
+      "url": "https://news.investingchannel.com/article/698101/apple-inc-aapl-a-bear-case-theory",
+      "snippet": "Sep 30, 2025 · Taken together, Apple’s stagnant core business, failing innovation pipeline, and regulatory pressures reveal a stark disconnect between valuation and reality."
+    },
+    {
+      "group": "skeptical_view",
+      "title": "Apple Inc . ( AAPL ): A Bear Case Theory - Yahoo Finance",
+      "url": "https://finance.yahoo.com/news/apple-inc-aapl-bear-case-024129721.html",
+      "snippet": "Feb 5, 2026 · We came across a bearish thesis on Apple Inc. on CompoundingLab’s Substack. In this article, we will summarize the bears’ thesis on AAPL."
+    },
+    {
+      "group": "skeptical_view",
+      "title": "Apple Inc . ( AAPL ): A Bear Case Theory - FINVIZ.com",
+      "url": "https://finviz.com/news/179651/apple-inc-aapl-a-bear-case-theory",
+      "snippet": "Sep 30, 2025 · Its historically dominant iPhone business, which generates over half of total revenue, is faltering due to market saturation, lengthening upgrade cycles, and fierce competition, particularly in …"
+    },
+    {
+      "group": "skeptical_view",
+      "title": "Apple Inc . ( AAPL ): A Bear Case Theory - MSN",
+      "url": "https://www.msn.com/en-us/money/markets/apple-inc-aapl-a-bear-case-theory/ar-AA1NBjgO",
+      "snippet": "We came across a bearish thesis on Apple Inc. on Darius Dark Investing’s Substack. In this article, we will summarize the bulls’ thesis on AAPL."
     }
   ]
 }
@@ -217,26 +312,23 @@ personal financial advice.
 ## Final response
 
 ```markdown
-## Apple Inc. (AAPL) — Learning Brief
+# Apple Inc. (AAPL) Learning Brief
+*Asset education only — not personal financial advice or a buy/sell recommendation.*
 
-**Purpose:** Educational overview only, not personal financial advice or a buy/sell recommendation. Market data is point-in-time from the provided finance tools.
+## 1. What Apple does and why AAPL is interesting now
 
----
+Apple Inc. is a U.S.-based technology company in the **Consumer Electronics** industry. It designs, manufactures, and markets the **iPhone, Mac, iPad, Apple Watch, AirPods, Apple Vision Pro, Apple TV, HomePod, Beats products**, and related accessories. It also operates a large services ecosystem including the **App Store, AppleCare, iCloud/cloud services, Apple Music, Apple TV, Apple Arcade, Apple Fitness+, Apple News+, Apple Pay, Apple Card, advertising services, and licensing**.
 
-### 1. What Apple does and why AAPL is interesting now
+AAPL is currently interesting because the stock is trading near its **52-week high** and at a very large valuation multiple. Finance-tool data shows a current price of **$333.74**, only slightly below the **52-week high of $334.99**. Search-result evidence also points to strong recent momentum: an MSN result titled **“AAPL Stock Hits Fresh Record As July Rally Nears Best Month In Nearly 4 Years — HSBC Sees Another 10% Upside”** says Apple shares “have climbed over 15% this month” and mentions HSBC seeing additional upside.
+Source: https://www.msn.com/en-us/money/top-stocks/aapl-stock-hits-fresh-record-as-july-rally-nears-best-month-in-nearly-4-years-hsbc-sees-another-10-upside/ar-AA285zea
 
-Apple Inc. is a global consumer technology company best known for the **iPhone, Mac, iPad, Apple Watch, AirPods, Apple Vision Pro**, and a growing portfolio of **services** such as the App Store, iCloud, Apple Music, Apple TV, Apple Pay, AppleCare, advertising, and licensing. It serves consumers, businesses, education, enterprise, and government customers worldwide.
-
-AAPL is currently interesting because the stock is trading near a **52-week high**, with a market value approaching **$5 trillion**, while investors are weighing several competing narratives:
-
-- **Positive:** strong iPhone and Services growth, high margins, large cash generation, and potential AI-related device upgrade demand.
-- **Negative/uncertain:** rich valuation, competitive pressure, hardware demand cyclicality, rising component costs, regulatory risk around App Store/search economics, and questions about whether AI features will materially accelerate upgrades.
+At the same time, the stock’s valuation is demanding: the finance tools show a **trailing P/E of 40.5**, **forward P/E of 34.6**, and **price-to-sales of 10.86**. That creates a central learning question: whether Apple’s revenue growth, services strength, product cycle, and AI-related expectations can justify a premium valuation.
 
 ---
 
-### 2. Current market data and business fundamentals
+## 2. Current market data and business fundamentals
 
-From the finance snapshot:
+### Market snapshot from finance tools
 
 | Metric | Value |
 |---|---:|
@@ -244,38 +336,58 @@ From the finance snapshot:
 | Exchange | Nasdaq / NMS |
 | Current price | **$333.74** |
 | Previous close | $333.26 |
-| Day range | $329.00 – $334.98 |
-| 52-week range | **$201.50 – $334.99** |
-| Market capitalization | **~$4.90 trillion** |
-| Volume | 63.3 million shares |
-| Trailing P/E | **40.5x** |
-| Forward P/E | **34.6x** |
-| Price/sales | **10.86x** |
-| Price/book | **45.97x** |
-| EV/revenue | **10.89x** |
-| EV/EBITDA | **30.74x** |
-| Dividend yield | **0.32%** |
-| Dividend rate | $1.08/share |
-| Beta | 1.10 |
+| Day range | $329.0006 – $334.98 |
+| 52-week range | $201.50 – $334.99 |
+| Volume | 63,325,386 |
+| Market cap | **$4.90 trillion** |
+| Beta | 1.097 |
+| Dividend yield | 0.32% |
+| Dividend rate | $1.08 |
 
-Business fundamentals from the finance tools show Apple remains highly profitable:
+Apple is one of the largest public companies globally by market capitalization, with the snapshot showing roughly **$4.90 trillion** in equity value.
 
-- **Gross margin:** 47.9%
-- **Operating margin:** 32.3%
-- **Profit margin:** 27.2%
-- **Revenue growth:** 16.6%
-- **Earnings growth:** 21.8%
-- **Return on assets:** 26.2%
-- **Return on equity:** 141.5%
-- **Total cash:** $68.5 billion
-- **Total debt:** $84.7 billion
-- **Debt/equity:** 79.5%
-- **Current ratio:** 1.07
-- **EPS:** $8.24
+### Valuation and profitability
 
-Analyst data in the finance tools shows:
+| Metric | Value |
+|---|---:|
+| Trailing P/E | **40.50** |
+| Forward P/E | **34.63** |
+| PEG ratio | 2.69 |
+| Price/book | 45.97 |
+| Price/sales | 10.86 |
+| EV/revenue | 10.89 |
+| EV/EBITDA | 30.74 |
+| Gross margin | 47.86% |
+| Operating margin | 32.28% |
+| Profit margin | 27.15% |
+| ROA | 26.23% |
+| ROE | 141.47% |
 
-- Consensus recommendation: **Buy**
+Apple’s fundamentals remain highly profitable, with nearly **48% gross margin** and more than **27% profit margin**. However, valuation multiples are high, so expectations for durable growth and profitability appear important to the stock’s current pricing.
+
+### Growth, balance sheet, and capital structure
+
+| Metric | Value |
+|---|---:|
+| Revenue growth | **16.6%** |
+| Earnings growth | **21.8%** |
+| Revenue/share | $30.53 |
+| EPS | $8.24 |
+| Total cash | $68.51 billion |
+| Total debt | $84.71 billion |
+| Current ratio | 1.07 |
+| Quick ratio | 0.906 |
+| Debt/equity | 79.55 |
+| Payout ratio | 12.59% |
+| Shares outstanding | 14.69 billion |
+| Shares short | 140.53 million |
+| Short ratio | 2.11 |
+
+The finance snapshot indicates solid growth and high margins, with earnings growth above revenue growth. Apple also carries substantial cash and debt, and its dividend payout ratio is low, suggesting dividends are not the primary shareholder-return mechanism compared with buybacks, though buyback data was not provided in the tool output.
+
+### Analyst recommendations from finance tools
+
+- Consensus recommendation: **BUY**
 - Recommendation mean: **2.00** on a 1–5 scale, where 1 = Strong Buy and 5 = Sell
 - Number of analysts: **43**
 - Mean price target: **$318.25**
@@ -283,94 +395,142 @@ Analyst data in the finance tools shows:
 - High target: **$400.00**
 - Low target: **$215.00**
 
-A notable learning point: the current stock price of **$333.74** is above both the mean and median analyst price targets in the provided data, which may indicate that recent price momentum has moved ahead of some published analyst expectations.
+One notable tension: the finance-tool analyst consensus is “BUY,” but the **mean target of $318.25** and **median target of $325.00** are below the current price of **$333.74**. That may imply either targets are lagging the recent rally, analysts expect limited near-term upside on average, or the market is pricing in more optimistic outcomes than the average published target.
 
 ---
 
-### 3. Recent news, analyst opinion, and outside commentary
+## 3. Recent news, analyst opinion, official context, and skeptical commentary
 
-Recent web search results show a split between momentum-driven optimism and valuation/growth concerns.
+**Important note:** The following web items are based only on search-result titles, snippets, source labels, and URLs. They are **search-result evidence, not full-page readings**.
 
-**Bullish or constructive commentary:**
+### Recent momentum and market interest
 
-- Yahoo Finance reported that AAPL hit a fresh record and that **HSBC upgraded Apple to Buy from Hold** with a **$366 price target**, implying further upside from prior levels.
-  Source: https://finance.yahoo.com/markets/stocks/articles/aapl-stock-hits-fresh-record-022034847.html
+- Search-result evidence from MSN says Apple shares “have climbed over 15% this month” and that HSBC sees “another 10% upside,” in a result titled **“AAPL Stock Hits Fresh Record As July Rally Nears Best Month In Nearly 4 Years — HSBC Sees Another 10% Upside.”**
+  Source: https://www.msn.com/en-us/money/top-stocks/aapl-stock-hits-fresh-record-as-july-rally-nears-best-month-in-nearly-4-years-hsbc-sees-another-10-upside/ar-AA285zea
 
-- A Seeking Alpha article argued that Apple’s **AI upgrade cycle has not fully arrived yet**, but that business momentum has improved, with core offerings showing strength independent of AI catalysts.
-  Source: https://seekingalpha.com/article/4921791-apple-stock-ai-upgrade-cycle-growth
+- Another MSN search result titled **“Why Did AAPL, ATAI, UNH Stocks Jump To 52-Week Highs Today?”** says Apple and others reached yearly highs due to “positive company catalysts, Wall Street upgrades, and strong earnings.”
+  Source: https://www.msn.com/en-us/money/topstocks/why-did-aapl-atai-unh-stocks-jump-to-52-week-highs-today/ar-AA2866OM
 
-- Zacks commentary highlighted that Apple’s recent rally has been supported by **iPhone 17 demand, record Services revenue, and AI expectations**, while also noting valuation and memory-cost concerns.
-  Source: https://www.zacks.com/stock/news/2953775/apple-rises-20-in-3-months-buy-sell-or-hold-the-stock
-
-**More cautious commentary:**
-
-- KeyBanc reportedly downgraded Apple to **Underweight**, citing slowing hardware demand, weaker growth expectations, and valuation concerns.
-  Sources:
-  https://invezz.com/news/2026/07/14/apple-stock-falls-after-keybanc-downgrade-on-slowing-growth-concerns/
-  https://finance.yahoo.com/markets/stocks/articles/keybanc-downgrades-apple-growth-concerns-192613881.html
-
-- Seeking Alpha also noted that Apple’s strong short-term momentum triggered a rare technical “sell signal” discussion, suggesting some investors may consider profit rotation after the rally.
+- A Seeking Alpha search result titled **“Apple stock's 12-day momentum triggers sell signal not seen since 2020”** says Apple reached a “rare short-term momentum milestone” versus the broader market, raising discussion of “profit rotation.”
   Source: https://seekingalpha.com/news/4614940-apple-stocks-12-day-momentum-triggers-sell-signal-not-seen-since-2020
 
-The analyst picture is therefore mixed: the finance-tool consensus still shows **Buy**, but recent external commentary includes both upgrades and downgrades, with valuation becoming a central debate.
+Together, these search snippets suggest AAPL has had strong short-term momentum, but at least one outside commentary source frames that momentum as potentially stretched.
+
+### Growth and AI/product-cycle framing
+
+- A Seeking Alpha search result titled **“Apple: The AI Upgrade Cycle Hasn't Arrived Yet, But Growth Has”** says Apple has “renewed business momentum,” with core offerings showing strength “independent of AI catalysts.”
+  Source: https://seekingalpha.com/article/4921791-apple-stock-ai-upgrade-cycle-growth
+
+This aligns with the finance-tool growth data showing **16.6% revenue growth** and **21.8% earnings growth**, though the snippet does not provide detailed segment-level evidence.
+
+### Analyst and data platforms
+
+Search results point learners to major market-data and analyst-summary pages:
+
+- Yahoo Finance result: **“Apple Inc. (AAPL) Stock Price, News, Quote & History”** — snippet says it provides Apple stock quote, history, news, and other information.
+  Source: https://finance.yahoo.com/quote/AAPL/
+
+- TradingView result: **“Apple Stock Chart — NASDAQ: AAPL Stock Price”** — snippet says it provides live charting, price action, market predictions, financials, and market news.
+  Source: https://www.tradingview.com/symbols/NASDAQ-AAPL/
+
+- Simply Wall St result: **“Apple Stock Forecast & Analyst…”** — snippet says it covers earnings and revenue growth rates, forecasts, and analyst predictions compared with peers.
+  Source: https://simplywall.st/stocks/us/tech/nasdaq-aapl/apple/future
+
+- TipRanks result: **“AAPL Stock | Apple Inc Price, Quote, News & Analysis”** — snippet says it tracks real-time price updates, analysis, insider insights, Smart Score ratings, earnings, and stock analysis.
+  Source: https://www.tipranks.com/stocks/aapl
+
+- Seeking Alpha result: **“Apple Inc. (AAPL) Latest Stock Analysis”** — snippet says it includes analysis from bullish and bearish contributors.
+  Source: https://seekingalpha.com/symbol/AAPL/analysis
+
+These are useful secondary sources, but learners should verify estimates and assumptions against Apple’s own filings and investor materials.
+
+### Official context
+
+- Apple’s investor relations search result says the company’s conference call to discuss **third fiscal quarter results and business updates** is scheduled for **Thursday, July 30, 2026 at 2:00 p.m. PT / 5:00 p.m. ET**.
+  Source: https://investor.apple.com/investor-relations/default.aspx
+
+- A Business Wire search result titled **“Apple reports fourth quarter results”** says Apple announced fiscal 2025 fourth-quarter results for the quarter ended September 27, 2025 and posted quarterly revenue of **$102.5 billion**.
+  Source: https://www.businesswire.com/news/home/20251030333927/en/Apple-reports-fourth-quarter-results
+
+- A Nasdaq search result with the same title says Apple periodically provides investor information on its corporate website and investor relations website.
+  Source: https://www.nasdaq.com/press-release/apple-reports-fourth-quarter-results-2025-10-30
+
+- A MarketBeat search result says it offers Apple SEC filing history through 2026, including 10-K, 10-Q, and 8-K filings.
+  Source: https://www.marketbeat.com/stocks/NASDAQ/AAPL/sec-filings/
+
+### Skeptical outside commentary
+
+- A Yahoo Finance search result titled **“Apple Inc. (AAPL): A Bear Case Theory”** says Apple’s historically dominant iPhone business, which it says generates over half of total revenue, is “faltering due to market saturation, lengthening upgrade cycles, and fierce competition.”
+  Source: https://finance.yahoo.com/news/apple-inc-aapl-bear-case-143700790.html
+
+- An InvestingChannel search result with the same bear-case title says Apple faces a “stark disconnect between valuation and reality,” citing a “stagnant core business,” “failing innovation pipeline,” and regulatory pressures.
+  Source: https://news.investingchannel.com/article/698101/apple-inc-aapl-a-bear-case-theory
+
+- A FINVIZ search result repeats the concern that iPhone, described in the snippet as generating over half of total revenue, is pressured by saturation, longer upgrade cycles, and competition.
+  Source: https://finviz.com/news/179651/apple-inc-aapl-a-bear-case-theory
+
+These are bearish summaries from search snippets, not audited evidence. Still, they identify important topics to investigate: iPhone demand, replacement cycles, competitive pressure, innovation pace, and regulatory risk.
 
 ---
 
-### 4. Evidence from crawled sources
+## 4. Agreements, tensions, and evidence gaps
 
-The crawled Quartr investor-relations summary reported Apple’s **Q2 2026** results as follows:
+### Areas of agreement
 
-- Revenue of **$111.2 billion**, up **17% year over year**
-- Net income of **$29.6 billion**, up from $24.8 billion
-- Diluted EPS of **$2.01**, up **22% year over year**
-- Gross margin of **49.3%**
-- Services gross margin of **76.7%**
-- Operating cash flow above **$28 billion**
-- Growth driven by strong **iPhone** and **Services** performance
-- June-quarter revenue guidance of **14%–17% year-over-year growth**
-- Gross margin guidance of **47.5%–48.5%**
-- The source also flagged open questions around the **Google antitrust ruling**, Apple’s **AI investment focus**, and **rising memory costs**
+- **Momentum is strong.** Finance-tool data shows AAPL near its 52-week high, and search-result evidence says the stock recently hit records or yearly highs.
+- **Profitability is high.** Finance tools show strong gross, operating, and net margins.
+- **Valuation is elevated.** The finance snapshot shows high P/E, price/sales, EV/revenue, EV/EBITDA, and price/book ratios.
+- **The next official earnings update matters.** Apple’s investor relations search result points to a scheduled third-quarter results call on July 30, 2026.
 
-Source: https://quartr.com/companies/apple-inc_4742
+### Key tensions
 
-The crawler also attempted to access a Business Wire Apple results page, but the page was unavailable at crawl time, so it should not be relied on for substantive evidence here.
-Attempted source: https://www.businesswire.com/news/home/20251030333927/en/Apple-reports-fourth-quarter-results
+- **Bullish analyst stance vs. price targets:** The finance tool shows a “BUY” consensus, but the mean and median price targets are below the current stock price.
+- **Growth data vs. bear-case claims:** Finance tools show revenue growth of **16.6%** and earnings growth of **21.8%**, while bearish search snippets argue the core business is stagnant or under pressure.
+- **AI expectations vs. current growth:** One search snippet argues Apple’s growth has arrived even though the “AI upgrade cycle hasn’t arrived yet.” That raises the question of how much of the current valuation depends on future AI-driven device demand versus existing product/services momentum.
+- **Momentum vs. stretched technicals:** Search-result evidence includes both record-high momentum and a Seeking Alpha snippet about a rare momentum milestone triggering a “sell signal” and possible profit rotation.
 
-Apple’s official investor relations page was also identified in search results as the primary place to verify upcoming earnings calls and official financial releases.
-Source: https://investor.apple.com/investor-relations/default.aspx
+### Evidence gaps
 
----
+The provided data does **not** include:
 
-### 5. Key uncertainties for learners to investigate next
-
-1. **Valuation versus growth**
-   - AAPL trades at about **40.5x trailing earnings** and **34.6x forward earnings**. Learners should compare this with Apple’s expected revenue/EPS growth and with other mega-cap technology companies.
-
-2. **Durability of iPhone demand**
-   - Recent commentary points to strong iPhone momentum, but hardware cycles can be uneven. The key question is whether new iPhone demand is structural or mainly cycle-driven.
-
-3. **Services growth and margin sustainability**
-   - Services are high-margin and strategically important. Learners should investigate whether Services growth can remain strong amid regulatory scrutiny of App Store fees, search payments, and platform rules.
-
-4. **AI monetization**
-   - Apple’s AI opportunity may depend less on selling AI directly and more on stimulating device upgrades and ecosystem engagement. The timing and strength of any AI-driven upgrade cycle remain uncertain.
-
-5. **Regulatory and antitrust exposure**
-   - The Quartr source specifically flags the potential impact of a Google antitrust ruling. Apple’s search-related revenue arrangements and App Store economics are important areas to monitor.
-
-6. **Leadership transition**
-   - The Quartr summary states that Tim Cook is expected to become Executive Chairman and John Ternus to assume the CEO role. Learners should verify this through Apple’s official filings or investor relations materials and evaluate implications for strategy and execution.
-
-7. **Cost pressures**
-   - Rising memory and component costs could pressure gross margin, especially if Apple cannot fully pass costs to customers.
-
-8. **China and global competition**
-   - Apple faces competition from Samsung, Huawei, Xiaomi, Google, and others, with China remaining a key market to monitor for demand, regulation, and geopolitical risk.
+- Segment-level revenue trends for iPhone, Mac, iPad, Wearables, and Services.
+- Geographic performance, especially China and emerging markets.
+- Detailed App Store, regulatory, or antitrust exposure.
+- Unit sales, installed base metrics, or iPhone replacement-cycle data.
+- AI product adoption metrics or evidence of an AI-driven upgrade cycle.
+- Free cash flow, buyback pace, and net cash/debt trends over time.
+- Full analyst reports explaining the assumptions behind price targets.
 
 ---
 
-### Bottom line for learning purposes
+## 5. Key uncertainties and primary sources to investigate next
 
-Apple remains one of the world’s most profitable and influential technology companies, with a powerful hardware ecosystem and a high-margin Services business. The stock’s current interest comes from the tension between **strong recent growth and record-high share prices** on one side, and **valuation, regulatory, cost, and demand-cycle risks** on the other. A learner should focus next on whether Apple’s earnings growth can justify its premium valuation and whether AI, Services, and future device cycles can sustain momentum.
+A learner should focus on these questions:
 
+1. **Can Apple sustain growth at a valuation above 40x trailing earnings?**
+   Review revenue growth, EPS growth, margin trends, and management commentary.
+
+2. **Is iPhone demand accelerating, stable, or slowing?**
+   The bear-case snippets focus on saturation, longer upgrade cycles, and competition. Verify with Apple’s segment disclosures and management commentary.
+
+3. **How important is Services growth to the investment story?**
+   Apple’s services ecosystem can support margins and recurring revenue, but learners need official segment data to judge its scale and growth.
+
+4. **What is the real impact of AI on the next upgrade cycle?**
+   Search-result commentary suggests growth may be occurring before a full AI upgrade cycle. Learners should examine Apple’s product roadmap, developer announcements, and management commentary.
+
+5. **Are regulatory risks material?**
+   Bearish snippets mention regulatory pressure, but the search results do not provide specifics. SEC filings and legal-risk disclosures are the proper primary sources.
+
+6. **Why are average analyst targets below the current price despite a BUY consensus?**
+   This may reflect fast stock appreciation, stale targets, or mixed assumptions. Learners should compare recent target updates and estimate revisions.
+
+### Primary sources to check
+
+- Apple Investor Relations: https://investor.apple.com/investor-relations/default.aspx
+- Apple SEC filings via EDGAR or Apple IR; MarketBeat search result also points to filing history: https://www.marketbeat.com/stocks/NASDAQ/AAPL/sec-filings/
+- Apple quarterly earnings releases and call transcripts.
+- Apple Form 10-K and 10-Q filings, especially segment revenue, risk factors, capital returns, and liquidity disclosures.
+
+**Bottom line:** Apple remains a highly profitable global technology platform with strong recent stock momentum and substantial analyst coverage. The main learning issue is whether current growth, services strength, product demand, and possible AI-related upgrades can support a valuation that already prices in a great deal of optimism.
 ```

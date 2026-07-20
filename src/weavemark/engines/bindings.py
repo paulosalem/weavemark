@@ -7,7 +7,7 @@ import importlib.util
 import inspect
 import json
 import sys
-from collections.abc import Awaitable, Callable, Mapping
+from collections.abc import Awaitable, Callable, Iterable, Mapping
 from pathlib import Path
 from typing import Any, cast
 
@@ -16,6 +16,31 @@ from ellements.core.exceptions import LLMError
 from ..compilation.result import CompositionResult
 
 ToolExecutor = Callable[[str, dict[str, Any]], Awaitable[str]]
+BoundCallable = Callable[..., Any]
+
+
+def load_binding_callables(
+    result: CompositionResult,
+    names: Iterable[str],
+) -> dict[str, BoundCallable]:
+    """Load the requested declared bindings as trusted Python callables."""
+
+    source_path = result.source_path
+    if source_path is None:
+        raise ValueError("Bound implementations require a source promplet path.")
+    base_dir = Path(source_path).resolve().parent
+    bindings = {_binding_name(binding): binding for binding in result.bindings}
+    requested = list(dict.fromkeys(names))
+    missing = sorted(name for name in requested if name not in bindings)
+    if missing:
+        raise ValueError(
+            "Executable capabilities are missing @bind implementations: "
+            + ", ".join(missing)
+            + "."
+        )
+    return {
+        name: _load_binding(bindings[name], base_dir, result) for name in requested
+    }
 
 
 def load_tool_executor(
@@ -25,32 +50,12 @@ def load_tool_executor(
 ) -> ToolExecutor:
     """Load and return the executor for all declared bound tools."""
 
-    source_path = result.source_path
-    if source_path is None:
-        raise ValueError("Bound tools require a source promplet path.")
-    base_dir = Path(source_path).resolve().parent
-    bindings = {
-        _binding_name(binding): binding
-        for binding in result.bindings
-    }
     tool_names = {
         str(tool.get("function", {}).get("name", ""))
         for tool in result.tools
         if isinstance(tool, Mapping)
     }
-    missing = sorted(name for name in tool_names if name not in bindings)
-    if missing:
-        raise ValueError(
-            "Executable tools are missing @bind implementations: "
-            + ", ".join(missing)
-            + "."
-        )
-
-    callables = {
-        name: _load_binding(binding, base_dir, result)
-        for name, binding in bindings.items()
-        if name in tool_names
-    }
+    callables = load_binding_callables(result, tool_names)
     calls_made = 0
 
     async def execute(name: str, arguments: dict[str, Any]) -> str:
@@ -113,7 +118,7 @@ def _load_binding(
         result.protection.authorize_python(
             source,
             path=path,
-            reason=f"Executing bound tool {_binding_name(binding)!r}",
+            reason=f"Executing bound capability {_binding_name(binding)!r}",
         )
 
     module_name = (
@@ -148,4 +153,9 @@ def _binding_name(binding: Mapping[str, str]) -> str:
     return name
 
 
-__all__ = ["ToolExecutor", "load_tool_executor"]
+__all__ = [
+    "BoundCallable",
+    "ToolExecutor",
+    "load_binding_callables",
+    "load_tool_executor",
+]

@@ -1,5 +1,7 @@
 @promplet version: 0.7
 
+# Children's Picture Book
+
 @note
   Children's picture-book pipeline expressed FULLY in WeaveMark — authoring,
   per-page image rendering, AND packaging into print-ready deliverables, with no
@@ -21,11 +23,10 @@
 
   Companion vars set page_count, audience, art_style, characters, lessons, tone,
   text_in_image, and the image controls image_size / image_quality / image_model.
-  This spec also owns the book-specific `pages` beat sheet: `pages` is a JSON
-  object keyed by page number ("1".."@{page_count}"), each with a `.scene` (what
-  the illustration shows) and a `.text` (the narration to letter onto that page).
-  The author stage reads them via dotted paths (@{pages.1.scene}, @{pages.1.text},
-  …) so the whole arc is deliberately authored, page by page.
+  This spec also owns the book-specific `pages` beat sheet: `pages` is supplied
+  as JSON with one ordered entry per page, each carrying the exact scene and
+  narration. The author stage receives that complete value so any `page_count`
+  can be grounded without a fixed enumeration.
 
 @execute chain
   repeat: page
@@ -38,23 +39,16 @@
   ## Page beat sheet — exactly what happens on each page
 
   Build the book to this exact page-by-page spine, in order — one entry per page.
-  For each page, turn `.scene` into a full, on-model illustration prompt (restating
-  every character's visual anchor), and use `.text` as that page's narration —
-  keep its meaning and any distinctive words, refining only lightly for read-aloud
-  rhythm. Do not skip, reorder, merge, or invent pages.
+  For each supplied entry, turn its `scene` into a full, on-model illustration
+  prompt (restating every character's visual anchor), and use its `text` as that
+  page's narration. Preserve the exact provided text and distinctive staging;
+  refine only surrounding illustration detail and read-aloud rhythm. Do not skip,
+  reorder, merge, truncate, or invent entries, and ensure all @{page_count}
+  authored beats are represented.
 
-  - **Page 1** — scene: @{pages.1.scene} — narration: @{pages.1.text}
-  - **Page 2** — scene: @{pages.2.scene} — narration: @{pages.2.text}
-  - **Page 3** — scene: @{pages.3.scene} — narration: @{pages.3.text}
-  - **Page 4** — scene: @{pages.4.scene} — narration: @{pages.4.text}
-  - **Page 5** — scene: @{pages.5.scene} — narration: @{pages.5.text}
-  - **Page 6** — scene: @{pages.6.scene} — narration: @{pages.6.text}
-  - **Page 7** — scene: @{pages.7.scene} — narration: @{pages.7.text}
-  - **Page 8** — scene: @{pages.8.scene} — narration: @{pages.8.text}
-  - **Page 9** — scene: @{pages.9.scene} — narration: @{pages.9.text}
-  - **Page 10** — scene: @{pages.10.scene} — narration: @{pages.10.text}
-  - **Page 11** — scene: @{pages.11.scene} — narration: @{pages.11.text}
-  - **Page 12** — scene: @{pages.12.scene} — narration: @{pages.12.text}
+  Supplied `pages` beat sheet:
+
+  @{pages}
 
 @prompt page
   @output type: image

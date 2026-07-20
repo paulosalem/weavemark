@@ -18,8 +18,14 @@
 - Role-based access control (RBAC) with roles: `viewer`, `editor`, `admin`, `owner`.
 - Permissions are additive: each role inherits all permissions of roles below it.
 - Resource-level permissions: users MAY have different roles on different resources.
-- API endpoints MUST return 403 (not 404) when the user lacks permission — do not
-  leak resource existence through error codes.
+- Resource-denial responses MUST follow one documented, policy-aware concealment
+  rule consistently across status, body shape, headers, and observable behavior.
+  When policy requires concealing whether a resource exists, return the same
+  indistinguishable 404 response for missing and unauthorized resources; do not
+  reveal existence through response text, timing, cache behavior, or side channels.
+  Return 403 only when policy intentionally reveals that the resource exists and
+  tells an authenticated caller that access is forbidden. Never claim that either
+  status code categorically prevents existence disclosure.
 
 ### Session Management
 - Access tokens: JWT, 15-minute expiry, contain `sub` (user ID), `roles`, `iat`, `exp`.

@@ -8,7 +8,8 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-from ellements.core import LLMClient, PromptKeyMissingError
+from ellements.core import LLMClient, PromptKeyMissingError, ToolRegistry
+from ellements.fslm import RuntimeBindings
 
 from weavemark.api import compile_text, execute_text
 from weavemark.controller import CompositionResult
@@ -571,8 +572,8 @@ async def test_fslm_sugar_executes_inline_machine_with_multiple_actions() -> Non
 
 @tool search_docs
   Search documentation.
-  - query: string (required) — Search query.
-  - max_results: integer (optional) — Maximum results.
+  - query: string (required) - Search query.
+  - max_results: integer - Maximum results.
 
 @execute fslm
   machine: evidence_machine
@@ -643,6 +644,266 @@ async def test_fslm_sugar_executes_inline_machine_with_multiple_actions() -> Non
     }
     assert step["actions"][1]["output"]["text"] == "Summary after planned search"
     assert "Summary after planned search" in run.output
+
+
+@pytest.mark.asyncio
+async def test_sugared_demo_executes_both_explicit_local_tool_bindings(
+    tmp_path: Path,
+) -> None:
+    path = (
+        Path(__file__).resolve().parents[1]
+        / "promplets/experimental/fslm/fslm-support-triage-sugared.weavemark.md"
+    )
+    source = path.read_text(encoding="utf-8")
+    protection = ProtectionContext.create(
+        ProtectionSettings(enabled=False),
+        entrypoint_dir=path.parent,
+        invocation_dir=path.parent,
+        approvals_path=tmp_path / "approvals.json",
+    )
+
+    search_client = MockLLMClient(
+        responses=["Use the password-reset result."],
+        structured_responses=[
+            {
+                "id": "needs_more_evidence",
+                "allowed": True,
+                "confidence": 1.0,
+                "evidence": ["Documentation is required."],
+                "uncertainties": [],
+                "alternatives": [],
+            }
+        ],
+    )
+    search_run = await execute_text(
+        source,
+        base_dir=path.parent,
+        source_path=path,
+        engine=FSLMEngine(client=search_client),
+        runtime_config={
+            "engine": "fslm",
+            "engine_config": {
+                "initial_event": {
+                    "type": "user_message",
+                    "payload": {
+                        "query": "forgotten password reset",
+                        "max_results": 2,
+                    },
+                }
+            },
+        },
+        protection_context=protection,
+    )
+    search_action = search_run.execution.metadata["steps"][0]["actions"][0]
+    assert search_action["action_name"] == "search_product_docs"
+    assert search_action["status"] == "executed"
+    assert search_action["output"]["query"] == "forgotten password reset"
+    assert search_action["output"]["results"][0]["url"].startswith("local://docs/")
+
+    message_client = MockLLMClient(
+        structured_responses=[
+            {
+                "id": "needs_more_evidence",
+                "allowed": False,
+                "confidence": 1.0,
+                "evidence": [],
+                "uncertainties": ["The account identity is unknown."],
+                "alternatives": ["Ask the user."],
+            },
+            {
+                "id": "user_input_required",
+                "allowed": True,
+                "confidence": 1.0,
+                "evidence": ["Only the user can provide the account email."],
+                "uncertainties": [],
+                "alternatives": [],
+            },
+        ],
+    )
+    message_run = await execute_text(
+        source,
+        base_dir=path.parent,
+        source_path=path,
+        engine=FSLMEngine(client=message_client),
+        runtime_config={
+            "engine": "fslm",
+            "engine_config": {
+                "initial_event": {
+                    "type": "user_message",
+                    "payload": {"text": "Which email address is on the account?"},
+                }
+            },
+        },
+        protection_context=protection,
+    )
+    message_action = message_run.execution.metadata["steps"][0]["actions"][0]
+    assert message_action["action_name"] == "send_question"
+    assert message_action["status"] == "executed"
+    assert message_action["output"] == {
+        "delivered": True,
+        "channel": "local-demo",
+        "text": "Which email address is on the account?",
+    }
+
+
+@pytest.mark.asyncio
+async def test_fslm_registry_without_requested_tool_falls_back_to_local_bind(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from weavemark.engines import fslm as fslm_module
+
+    path = (
+        Path(__file__).resolve().parents[1]
+        / "promplets/experimental/fslm/fslm-support-triage-sugared.weavemark.md"
+    )
+    source = path.read_text(encoding="utf-8").replace(
+        '@bind send_message language: python from: "./companions/support_triage.py"',
+        '@bind send_message language: python from: "./missing.py"',
+    )
+    protection = ProtectionContext.create(
+        ProtectionSettings(enabled=False),
+        entrypoint_dir=path.parent,
+        invocation_dir=path.parent,
+        approvals_path=tmp_path / "approvals.json",
+    )
+
+    async def unrelated_tool(value: str) -> dict[str, str]:
+        return {"value": value}
+
+    real_loader = fslm_module.load_binding_callables
+    loaded_names: list[list[str]] = []
+
+    def track_loader(result: CompositionResult, names: list[str]):
+        loaded_names.append(names)
+        return real_loader(result, names)
+
+    monkeypatch.setattr(fslm_module, "load_binding_callables", track_loader)
+    run = await execute_text(
+        source,
+        base_dir=path.parent,
+        source_path=path,
+        engine=FSLMEngine(
+            client=MockLLMClient(
+                responses=["Use the local search result."],
+                structured_responses=[
+                    {
+                        "id": "needs_more_evidence",
+                        "allowed": True,
+                        "confidence": 1.0,
+                        "evidence": ["Documentation is required."],
+                        "uncertainties": [],
+                        "alternatives": [],
+                    }
+                ],
+            )
+        ),
+        runtime_config={
+            "engine": "fslm",
+            "engine_config": {
+                "bindings": RuntimeBindings(
+                    tools=ToolRegistry({"unrelated_tool": unrelated_tool})
+                ),
+                "initial_event": {
+                    "type": "user_message",
+                    "payload": {"query": "password reset", "max_results": 1},
+                },
+            },
+        },
+        protection_context=protection,
+    )
+
+    action = run.execution.metadata["steps"][0]["actions"][0]
+    assert action["action_name"] == "search_product_docs"
+    assert action["status"] == "executed"
+    assert action["output"]["query"] == "password reset"
+    assert action["message"] == (
+        "executed through the promplet's explicit @bind implementation"
+    )
+    assert loaded_names == [["search_docs"]]
+
+
+@pytest.mark.parametrize(
+    "binding_source",
+    ["./missing.py", "./companions/support_triage.py"],
+)
+@pytest.mark.asyncio
+async def test_fslm_registry_tool_skips_missing_or_unauthorized_local_bind(
+    tmp_path: Path,
+    binding_source: str,
+) -> None:
+    path = (
+        Path(__file__).resolve().parents[1]
+        / "promplets/experimental/fslm/fslm-support-triage-sugared.weavemark.md"
+    )
+    source = path.read_text(encoding="utf-8").replace(
+        "./companions/support_triage.py",
+        binding_source,
+    )
+
+    async def search_docs(query: str, max_results: int = 5) -> dict[str, Any]:
+        return {
+            "provider": "host-registry",
+            "query": query,
+            "max_results": max_results,
+        }
+
+    async def send_message(text: str) -> dict[str, Any]:
+        return {"provider": "host-registry", "text": text}
+
+    run = await execute_text(
+        source,
+        base_dir=path.parent,
+        source_path=path,
+        engine=FSLMEngine(
+            client=MockLLMClient(
+                responses=["Summarize the host result."],
+                structured_responses=[
+                    {
+                        "id": "needs_more_evidence",
+                        "allowed": True,
+                        "confidence": 1.0,
+                        "evidence": ["Documentation is required."],
+                        "uncertainties": [],
+                        "alternatives": [],
+                    }
+                ],
+            )
+        ),
+        runtime_config={
+            "engine": "fslm",
+            "engine_config": {
+                "bindings": RuntimeBindings(
+                    tools=ToolRegistry(
+                        {
+                            "search_docs": search_docs,
+                            "send_message": send_message,
+                        }
+                    )
+                ),
+                "initial_event": {
+                    "type": "user_message",
+                    "payload": {"query": "password reset", "max_results": 2},
+                },
+            },
+        },
+        protection_context=ProtectionContext.create(
+            ProtectionSettings(),
+            entrypoint_dir=path.parent,
+            invocation_dir=path.parent,
+            approvals_path=tmp_path / "approvals.json",
+        ),
+    )
+
+    action = run.execution.metadata["steps"][0]["actions"][0]
+    assert action["action_name"] == "search_product_docs"
+    assert action["status"] == "executed"
+    assert action["output"] == {
+        "provider": "host-registry",
+        "query": "password reset",
+        "max_results": 2,
+    }
+    assert "explicit @bind implementation" not in (action["message"] or "")
 
 
 @pytest.mark.integration

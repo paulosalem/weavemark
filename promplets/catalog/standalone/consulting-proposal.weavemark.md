@@ -21,8 +21,12 @@ authoritative, structured, data-driven consulting style.
 @{client_name} is facing the following challenges:
 @{challenges}
 
-The engagement timeline is **@{timeline}** and the expected budget
-range is **@{budget_range}**.
+The consulting engagement itself lasts **@{timeline}** and the expected budget
+range is **@{budget_range}**. The implementation roadmap may extend beyond that
+engagement. For transformation work, use the engagement to validate the
+diagnosis, mobilize governance, begin the near-term work, and leave an owned
+roadmap for later phases; do not promise that the full transformation will be
+complete within the consulting timeline.
 
 @match engagement_scope
   "diagnostic" ==>
@@ -51,11 +55,11 @@ range is **@{budget_range}**.
       For each phase, specify:
       - Workstreams and ownership
       - Dependencies and critical path
-      - Investment required vs. expected ROI
-      - Risk factors and mitigation strategies
+      - Investment required and quantified ROI estimates
+      - Risk factors with specific, actionable mitigation strategies
 
-    @assert "The proposal must include quantified ROI estimates for each phase."
-    @assert "Risk mitigation strategies must be specific and actionable."
+    @assert contains: "quantified ROI estimates"
+    @assert contains: "specific, actionable mitigation strategies"
 
   "strategy" ==>
     ### Deliverable: Strategic Options Paper
@@ -78,7 +82,9 @@ range is **@{budget_range}**.
   numbering, executive summary up front, and appendices for
   supporting data.
 
-@polish "Give the assembled proposal one coherent consulting-report flow without adding or removing substantive recommendations, evidence, risks, or financial details."
+Give the assembled proposal one coherent consulting-report flow without adding
+or removing substantive recommendations, evidence, risks, or financial details.
 
 Focus on delivering actionable, evidence-based recommendations that
-@{client_name} can begin executing within **@{timeline}**.
+@{client_name} can begin executing during the **@{timeline}** engagement, with
+clear ownership and milestones for implementation that continues afterward.

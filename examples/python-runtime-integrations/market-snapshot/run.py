@@ -103,26 +103,9 @@ async def main() -> None:
     search_groups = sorted(searches) if isinstance(searches, dict) else []
     print(f"   Search groups: {', '.join(search_groups) or '(none)'}")
 
-    print("3. Crawling selected web sources for source-grounded evidence...")
-    source_readings = await _maybe_await(
-        companion.crawl_asset_sources(
-            web_context,
-            instructions=(
-                "Prioritize recent, source-rich pages that explain the stock's "
-                "business context, current controversy, and open questions."
-            ),
-            max_sources=2,
-        )
-    )
-    crawled_sources = (
-        source_readings.get("sources", []) if isinstance(source_readings, dict) else []
-    )
-    print(f"   Crawled sources: {len(crawled_sources)}")
-
     companion_results = {
         "asset_snapshot": asset_snapshot,
         "web_context": web_context,
-        "source_readings": source_readings,
     }
     model_label = DEFAULT_MODEL
     if os.environ.get("OPENAI_API_KEY"):
@@ -208,8 +191,8 @@ def _synthesis_prompt(composed_prompt: str, companion_results: dict[str, Any]) -
             (
                 "Write the final learning brief now. Use the companion runtime "
                 "results as the concrete values for the WeaveMark placeholders. "
-                "Cite URLs from crawled or searched sources when making news or "
-                "opinion claims."
+                "Cite URLs from web-search results when making news or opinion "
+                "claims, and label snippets as search-result evidence."
             ),
         ]
     )
@@ -234,7 +217,6 @@ def _render_trace(
             "- Tool providers:",
             "  - `ellements.domain_specific.finance.yahoo_finance`",
             "  - `ellements.standard_tools.web.search`",
-            "  - `ellements.standard_tools.web.crawler`",
             "",
             "## Compiled prompt",
             "",
@@ -272,10 +254,6 @@ def _render_trace(
 
 
 def _summarize_companion_results(companion_results: dict[str, Any]) -> dict[str, Any]:
-    source_readings = companion_results.get("source_readings", {})
-    sources = (
-        source_readings.get("sources", []) if isinstance(source_readings, dict) else []
-    )
     return {
         "asset_snapshot_keys": sorted(
             companion_results.get("asset_snapshot", {}).keys()
@@ -283,14 +261,9 @@ def _summarize_companion_results(companion_results: dict[str, Any]) -> dict[str,
         "web_search_groups": sorted(
             companion_results.get("web_context", {}).get("searches", {})
         ),
-        "crawled_sources": [
-            {
-                "url": source.get("url", ""),
-                "markdown_preview": str(source.get("markdown", ""))[:1200],
-            }
-            for source in sources
-            if isinstance(source, dict)
-        ],
+        "search_result_sources": _search_result_sources(
+            companion_results.get("web_context")
+        ),
     }
 
 
@@ -305,15 +278,6 @@ def _fallback_companion_summary(
     metrics = _json_object(tools.get("financial_metrics"))
     analyst_recommendations = str(tools.get("analyst_recommendations", "")).strip()
     web_context = companion_results.get("web_context", {})
-    source_readings = companion_results.get("source_readings", {})
-    sources = (
-        source_readings.get("sources", []) if isinstance(source_readings, dict) else []
-    )
-    source_lines = [
-        f"- {source.get('url', '')}\n  {_evidence_excerpt(str(source.get('markdown', '')))}"
-        for source in sources
-        if isinstance(source, dict)
-    ]
     return "\n\n".join(
         [
             f"# Stock Learning Snapshot: {variables['company_name']} ({variables['ticker']})",
@@ -336,14 +300,8 @@ def _fallback_companion_summary(
             "## Analyst context",
             analyst_recommendations
             or "No analyst recommendation payload was returned.",
-            "## Recent news and outside context from Ellements web search",
+            "## Source-grounded search-result evidence",
             _search_result_summary(web_context),
-            "## Crawled source evidence",
-            (
-                "\n\n".join(source_lines)
-                if source_lines
-                else "No crawlable sources were returned."
-            ),
             "## Next questions for a learner",
             "\n".join(
                 [
@@ -403,24 +361,30 @@ def _search_result_summary(web_context: Any) -> str:
     return "\n\n".join(sections) if sections else "No search results were returned."
 
 
-def _evidence_excerpt(markdown: str, limit: int = 700) -> str:
-    keywords = (
-        "aapl",
-        "apple",
-        "earnings",
-        "financial",
-        "investor",
-        "revenue",
-        "services",
-        "stock",
-    )
-    lines = [
-        line.strip()
-        for line in markdown.splitlines()
-        if line.strip() and any(keyword in line.lower() for keyword in keywords)
-    ]
-    excerpt = " ".join(lines[:6]) or markdown[:limit].strip()
-    return excerpt[:limit].strip()
+def _search_result_sources(web_context: Any) -> list[dict[str, str]]:
+    if not isinstance(web_context, dict):
+        return []
+    searches = web_context.get("searches", {})
+    if not isinstance(searches, dict):
+        return []
+    sources: list[dict[str, str]] = []
+    for label, payload in searches.items():
+        parsed = _json_object(payload)
+        results = parsed.get("results", [])
+        if not isinstance(results, list):
+            continue
+        for result in results:
+            if not isinstance(result, dict):
+                continue
+            sources.append(
+                {
+                    "group": str(label),
+                    "title": str(result.get("title", "")),
+                    "url": str(result.get("url", "")),
+                    "snippet": str(result.get("snippet", ""))[:500],
+                }
+            )
+    return sources
 
 
 def _format_money(value: Any) -> str:

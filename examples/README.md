@@ -28,17 +28,18 @@ The category names set expectations:
 - `interactive-ui-and-handoff-demos/` — TUI, discovery, and human/agent handoff
   demos.
 - `benchmark-runners/` — benchmark runners.
-- `executable-promplet-programs/` — supporting inputs for executable
-  WeaveMark programs that are useful to inspect but do not currently need a
-  dedicated runner.
+- `executable-promplet-programs/` — focused executable WeaveMark programs with
+  direct runners, local inputs, and maintained compiled/executed outputs.
 
 Variable presets that support built-in catalog promplets directly live beside them as
 `promplets/catalog/standalone/<name>.vars.json`. Compiled prompt snapshots that are useful for
 inspection but are not owned by a runnable example live under
 `outputs/examples/compiled-prompt-snapshots/`.
 
-`_lib/example-env.sh` is the only shared helper; it just lets runners work from
-any current directory.
+`_lib/example-env.sh` lets shell runners work from any current directory.
+`_lib/weavemark_example_progress.py` provides concise progress formatting and
+Markdown whitespace normalization for Python runners. Neither helper wraps the
+visible WeaveMark command or owns example-specific orchestration.
 
 ## Reproducible setup
 
@@ -56,11 +57,15 @@ pip install -e ".[benchmarking]"
 
 The strategy benchmark downloads and caches its tiny GSM8K slice on the first
 run. After that, set `HF_DATASETS_OFFLINE=1` when you deliberately want a
-cache-only run.
+cache-only run. Its adapter is generation-only: supported lm-eval tasks must
+declare `OUTPUT_TYPE = "generate_until"`. GSM8K has that shape; tasks requiring
+`loglikelihood` or `loglikelihood_rolling` are rejected before evaluation.
 
-Set the provider credentials required by the model named in the visible runner
-command. Every runner works from any current directory and writes only beneath
-its own `outputs/` folder. Most runners use default protections; checked-in
+Set provider credentials for the model named in a runner when one is explicit.
+Commands without `--model` and Python integrations using `DEFAULT_MODEL` use the
+model configured by WeaveMark; verbose progress identifies it at runtime. Every
+runner works from any current directory and writes only beneath its own
+`outputs/` folder. Most runners use default protections; checked-in
 bound-tool examples may pass `--no-protections` so the trusted local Python
 bindings run without an interactive prompt.
 Start with a no-cost structural check when evaluating a local setup:
@@ -85,10 +90,10 @@ qualitative rather than price promises:
 | `interactive-ui-and-handoff-demos/*` | Human/agent interaction | Open-ended | Requests, responses, or TUI session |
 
 Run scripts are command transcripts, not hidden wrappers: inspect the script to
-see the exact model, variables, outputs, and optional dependencies before
-running it. A successful command exits zero; saved-artifact examples list or
-write the documented output files, while terminal-only examples intentionally
-leave no files.
+see its variables, outputs, optional dependencies, and whether it names a model
+or uses the configured default. A successful command exits zero;
+saved-artifact examples list or write the documented output files, while
+terminal-only examples intentionally leave no files.
 
 Output folders use stable names so generated artifacts can be inspected later.
 Compiled prompts are saved as `compiled-prompt.md` or `compiled-prompt.json`.
@@ -187,8 +192,8 @@ Useful entry points:
   `creative-ideation` examples that show one source spec semantically mingling
   three reusable ideation methods through `@refine`.
 - `batch-example-runs/execution-engines/run.sh` runs Tree-of-Thought,
-  Self-Consistency, Reflection, JSON, and one batch copy of the native
-  bound-tool recurring monitor with saved traces.
+  Self-Consistency, Reflection, JSON, and both visible recurring-monitor presets
+  through the native bound-tool path with saved traces.
 - `saved-artifact-workflows/recurring-topic-monitor/run.sh` is the simple
   standalone recurring-monitor entry point. It runs the catalog promplet directly
   through `weavemark ... --run` with local `ai-news` and `child-events` presets.
@@ -218,11 +223,13 @@ Useful entry points:
   promplet directly through `weavemark ... --run`.
 - `python-runtime-integrations/market-snapshot/run.py` is the lower-level Python
   companion transcript for people who want to inspect or customize the
-  finance/search/crawl calls and saved intermediate tool results directly.
+  finance and search calls and saved intermediate tool results directly.
 - `python-runtime-integrations/financial-independence-goal-plan/run.py` compiles
-  the advanced goal-to-plan macro example, runs the bound public-reference
-  lookup companion, and saves a ready-to-paste financial-independence planning
-  prompt plus the functional plan and runtime assumptions.
+  the advanced goal-to-plan macro example, runs its public-reference companion,
+  synthesizes the final document, and saves the resulting financial-independence
+  plan, execution trace, and grounded assumptions.
+- `executable-promplet-programs/contrastive-mining/run.sh` directly compiles and
+  runs the reflection-powered comparison of its two local sample texts.
 - `benchmark-runners/strategy-comparison/run.sh` compares reasoning strategies on
   a tiny benchmark slice.
 

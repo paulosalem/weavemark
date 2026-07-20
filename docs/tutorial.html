@@ -82,7 +82,7 @@
       <h2>In the repository</h2>
       <div class="repo-resources-links">
         <a class="repo-link" href="../promplets/catalog/standalone/investment-brief.weavemark.md"><span class="repo-tag">Promplet</span> investment-brief.weavemark.md</a>
-        <a class="repo-link" href="../promplets/domains/finance/fragments/investment-decision.weavemark.md"><span class="repo-tag">Library</span> investment-decision.weavemark.md</a>
+        <a class="repo-link" href="../promplets/domains/finance/fragments/finance-safety.weavemark.md"><span class="repo-tag">Library</span> finance-safety.weavemark.md</a>
         <a class="repo-link" href="../examples/saved-artifact-workflows/investment-brief/outputs/compiled-prompt.md"><span class="repo-tag out">Output</span> compiled-prompt.md</a>
         <a class="repo-link" href="../examples/saved-artifact-workflows/investment-brief/"><span class="repo-tag">Folder</span> investment-brief/</a>
       </div>
@@ -97,7 +97,7 @@
         <a href="#setup">0. Setup</a>
         <a href="#completed-example">Completed example</a>
         <a href="#first-spec">1. First spec</a>
-        <a href="#refine">2. Add finance lenses</a>
+        <a href="#refine">2. Add analysis lenses</a>
         <a href="#compose">3. Compose</a>
         <a href="#branch">4. Add branching</a>
         <a href="#use-output">Final step: Use the output</a>
@@ -157,34 +157,42 @@ mkdir -p outputs/tutorial-investment/prompts</code></pre>
           <h2>1. Write the first spec</h2>
           <p>
             Start with <strong>one readable Markdown prompt</strong>. The only
-            WeaveMark pieces are the version pragma, a style block, variables,
-            and an output contract.
+            WeaveMark pieces are the version pragma, variables, an output
+            contract, and deterministic assertions. This is a runnable reduction
+            of the checked-in investment brief; later steps add the omitted
+            refinements and branches. Save it as
+            <code>outputs/tutorial-investment/investment-brief.weavemark.md</code>.
           </p>
-          <pre><code><span class="syntax-comment">&lt;!-- Save as outputs/tutorial-investment/investment-brief.weavemark.md --&gt;</span>
-<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+          <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
 # Investment brief
 
-<span class="syntax-directive">@style</span> <span class="syntax-string">"Clear, sober, evidence-oriented. Avoid hype and unsupported certainty."</span>
-  Write an investment brief for <span class="syntax-var">@{ticker}</span>.
+Write in a clear, sober, evidence-oriented style. Avoid hype, unsupported
+certainty, and investment advice phrased as instructions to buy, sell, or hold.
 
-  Audience: <span class="syntax-var">@{audience}</span>
-  Time horizon: <span class="syntax-var">@{time_horizon}</span>
+Write an educational investment brief for <span class="syntax-var">@{ticker}</span>.
 
-  Use the following notes as source material:
+Audience: <span class="syntax-var">@{audience}</span>
 
-  <span class="syntax-var">@{source_notes}</span>
+Time horizon: <span class="syntax-var">@{time_horizon}</span>
 
-  <span class="syntax-directive">@output</span> enforce: strict
-    Return exactly these sections:
-    1. Thesis
-    2. Evidence
-    3. Risks
-    4. Open questions
-    5. Decision trigger
+Use the following notes as source material:
 
-  <span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"Risks"</span>
-  <span class="syntax-directive">@assert</span> <span class="syntax-key">includes:</span> <span class="syntax-string">"Open questions"</span></code></pre>
+<span class="syntax-var">@{source_notes}</span>
+
+<span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
+  Return exactly these sections:
+  1. Thesis
+  2. Evidence
+  3. Risks
+  4. Alternatives
+  5. Open questions
+  6. Decision trigger
+  End with the exact sentence: <span class="syntax-string">"This is educational analysis, not financial advice."</span>
+
+<span class="syntax-directive">@assert</span> <span class="syntax-key">contains:</span> <span class="syntax-string">"Risks"</span>
+<span class="syntax-directive">@assert</span> <span class="syntax-key">contains:</span> <span class="syntax-string">"Open questions"</span>
+<span class="syntax-directive">@assert</span> <span class="syntax-key">contains:</span> <span class="syntax-string">"not financial advice"</span></code></pre>
 
           <div class="callout">
             <strong>Why this is already useful:</strong> the document stays
@@ -196,26 +204,28 @@ mkdir -p outputs/tutorial-investment/prompts</code></pre>
         </section>
 
         <section id="refine" class="article-section">
-          <h2>2. Add reusable finance and evidence lenses</h2>
+          <h2>2. Add the reusable analysis lenses</h2>
           <p>
             Now make the investment brief more credible without pasting a giant
             checklist into the local source. Add these <code>@refine</code> lines
             directly below the version pragma.
           </p>
-          <pre><code><span class="syntax-comment">&lt;!-- Add directly below the @promplet line --&gt;</span>
+          <pre><code><span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.finance_safety <span class="syntax-key">mingle:</span> true
 <span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.evidence_quality <span class="syntax-key">mingle:</span> true
-<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.investment_decision <span class="syntax-key">mingle:</span> true</code></pre>
+<span class="syntax-directive">@refine</span> module:weavemark.std.lenses.comparative_alternatives <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.lenses.explainability <span class="syntax-key">mingle:</span> true</code></pre>
           <p>
             After this change, your local file still reads like a brief, but the
             compiled prompt can carry <strong>finance safety, evidence discipline,
             and decision framing</strong>.
           </p>
-          <pre><code><span class="syntax-comment">&lt;!-- The top of your spec now looks like this --&gt;</span>
-<span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+          <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.finance_safety <span class="syntax-key">mingle:</span> true
 <span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.evidence_quality <span class="syntax-key">mingle:</span> true
-<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.investment_decision <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.lenses.comparative_alternatives <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.lenses.explainability <span class="syntax-key">mingle:</span> true
 
 # Investment brief</code></pre>
         </section>
@@ -260,17 +270,19 @@ mkdir -p outputs/tutorial-investment/prompts</code></pre>
           </p>
           <pre><code><span class="syntax-directive">@match</span> depth
   <span class="syntax-string">"committee"</span> ==&gt;
-    Keep the memo concise. Focus on decision relevance, downside, and timing.
+    Keep the memo concise. Focus on decision relevance, downside, evidence
+    quality, timing, and the smallest useful next research step.
 
   <span class="syntax-string">"deep"</span> ==&gt;
-    Add detailed sections for unit economics, competitive dynamics,
-    management quality, and valuation sensitivity.
+    Add detailed sections for unit economics, competitive dynamics, management
+    quality, valuation sensitivity, and disconfirming evidence.
 
 <span class="syntax-directive">@if</span> include_watchlist
   Add a watchlist table with:
   - metric
   - current reading
-  - threshold that would change the recommendation</code></pre>
+  - threshold that would change the assessment
+  - evidence needed next</code></pre>
           <p>
             Compose again with <code>--var depth=deep</code> or
             <code>--var depth=committee</code>, and toggle

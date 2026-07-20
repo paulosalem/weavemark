@@ -58,7 +58,23 @@ Assess the following competencies, in priority order:
             and ask them to fill in the interactions.
 
       "senior" ==>
-        ### Architecture & Problem Decomposition (30 min)
+        Use this exact 60-minute allocation. Do not add overlapping or
+        unallocated interview sections:
+
+        - Opening and calibration: 5 minutes
+        - Architecture and problem decomposition: 25 minutes
+        @if include_system_design
+          - System design: 25 minutes
+        @else
+          - Applied architecture deep dive: 25 minutes
+        - Candidate questions and close: 5 minutes
+
+        ### Opening & Calibration (5 min)
+
+        Set expectations, introduce the company context, and invite clarifying
+        questions.
+
+        ### Architecture & Problem Decomposition (25 min)
 
         1. Present a real @{company} challenge (anonymized) and
            ask them to decompose it into sub-problems
@@ -66,12 +82,28 @@ Assess the following competencies, in priority order:
         3. Ask them to critique their own design
 
         @if include_system_design
-          ### System Design (30 min)
+          ### System Design (25 min)
           Design a production system from scratch. Evaluate:
           - Ability to navigate ambiguity (do they ask good questions?)
           - Trade-off articulation (consistency vs. availability, etc.)
           - Operational awareness (monitoring, deployment, failure modes)
           - Breadth vs. depth balance
+
+        @else
+          ### Applied Architecture Deep Dive (25 min)
+
+          Extend the candidate's decomposition with one production incident,
+          one changing requirement, and one explicit cost or operability
+          constraint. Ask them to revise their design, explain which decisions
+          remain reversible, and identify the evidence that would change their
+          approach. Evaluate trade-off clarity, debugging method, testing depth,
+          and ability to adapt without turning this into a second system-design
+          exercise.
+
+        ### Candidate Questions & Close (5 min)
+
+        Reserve the final five minutes for the candidate's questions and a
+        concise explanation of next steps.
 
       "staff_plus" ==>
         ### Technical Vision & Influence (30 min)
@@ -130,6 +162,7 @@ Assess the following competencies, in priority order:
     on a 1-5 scale with brief justification.
 
 Use this final tone: @{tone}.
+Avoid illegal or discriminatory interview questions.
 
-@assert The prompt includes specific evaluation criteria for each competency. severity: warning
-@assert The prompt avoids illegal or discriminatory interview questions. severity: warning
+@assert contains: "evaluation criteria" severity: warning
+@assert contains: "illegal or discriminatory interview questions" severity: warning

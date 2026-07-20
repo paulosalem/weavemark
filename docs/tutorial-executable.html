@@ -162,9 +162,9 @@ weavemark --help</code></pre>
 <span class="syntax-directive">@tool</span> search_news
   Search current news. Use for fresh announcements, reporting, changes,
   cancellations, and independent coverage.
-  - query: string (required) - Focused news query.
-  - max_results: integer - Maximum result count, normally 5 to 7.
-  - time_range: string - Recency window: d, w, m, y, or any.</code></pre>
+  - <span class="syntax-key">query:</span> string (required) - Focused news query.
+  - <span class="syntax-key">max_results:</span> integer - Maximum result count, normally 5 to 7.
+  - <span class="syntax-key">time_range:</span> string - Recency window: d, w, m, y, or any.</code></pre>
           <p>
             The companion is intentionally thin. It exposes exactly the three
             functions the promplet binds:
@@ -229,13 +229,16 @@ memory.
           </p>
           <pre><code>bash examples/saved-artifact-workflows/recurring-topic-monitor/run.sh</code></pre>
           <p>
-            The script runs the same command you could call directly:
+            With its default input, the script expands its variables to this
+            exact <code>weavemark</code> command:
           </p>
           <pre><code>weavemark library builtin:catalog/executable/recurring-topic-monitor \
   --vars-file examples/saved-artifact-workflows/recurring-topic-monitor/inputs/ai-news.json \
   --run \
   --no-protections \
   --output examples/saved-artifact-workflows/recurring-topic-monitor/outputs/ai-news/execution-output.md \
+  --show-output \
+  --no-file-summary \
   --trace-output examples/saved-artifact-workflows/recurring-topic-monitor/outputs/ai-news/execution-trace.md \
   --verbose \
   --batch-only</code></pre>

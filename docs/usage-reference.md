@@ -778,12 +778,16 @@ See [`promplets/catalog/executable/react-agent.weavemark.md`](../promplets/catal
 
 ### Deterministic assertions
 
-Use `@assert` for prompt invariants that should be checked during composition. Free-text assertions keep their normal semantic behavior, while explicit checks can run deterministically:
+Use `@assert` for deterministic prompt invariants checked during composition.
+Every assertion must provide at least one supported check: `contains:`,
+`not_contains:`, `section:`, or `variable:`. Free-text assertions and unknown
+parameters are errors; assertion bodies are also rejected.
 
 ```markdown
-@assert includes: "Output Format"
-@assert includes: "Do not invent missing data."
+@assert contains: "Output Format"
+@assert contains: "Do not invent missing data."
 @assert not_contains: "@{"
+@assert section: "Risks"
 @assert variable: "finance_surface"
 ```
 
@@ -953,20 +957,27 @@ Today `@execute` selects multi-step reasoning strategies (Tree of Thought, Self-
 
 You are a problem solver.  # ← shared context (prepended to all prompts)
 
-@prompt generate
-  Generate @{branching_factor} approaches to: @{problem}
+@prompt thought_step
+  Given the current state @{state}, propose the next reasoning step.
 
-@prompt evaluate
-  Evaluate these candidates: @{candidates}
+@prompt evaluate_step
+  Evaluate the current reasoning state: @{state}
 
 @prompt synthesize
-  Elaborate the best approach: @{best_approach}
+  Synthesize the answer from the best path: @{best_path}
 ```
 
-**Functional execution specs** collect execute-phase semantic-function calls into a
-validated plan. The current built-in engine materializes the plan; authorized
-host runtimes are responsible for actually running companion implementations bound with
-`@bind`.
+**Functional execution specs** collect execute-phase semantic-function calls into
+a validated plan. With `--run`, the built-in `FunctionalEngine` loads authorized
+Python implementations declared by `@bind`, resolves node arguments and
+dependencies, executes each node, records results and evidence, substitutes
+`as:` bindings into the document, and either returns the fully rendered document
+or asks the configured model to complete remaining instructions. Compilation
+requires every produced-result placeholder used in a `graph-strict` node's
+positional arguments, options, or body—including dotted references such as
+`@{asset_snapshot.price}`—to declare the root name in `uses:`.
+without `--run` only materializes the plan and never imports or executes a
+companion.
 
 ```markdown
 @define fetch_asset_snapshot
@@ -981,7 +992,8 @@ host runtimes are responsible for actually running companion implementations bou
 
 @bind finance_data language: python from: "./companions/market_data.py" symbol: fetch_asset_snapshot
 
-@execute functional scheduler: graph-strict
+@execute functional
+  scheduler: graph-strict
   allow_effects: [finance_data]
 
 @fetch_asset_snapshot ticker: "@{ticker}" as: asset_snapshot
@@ -989,12 +1001,16 @@ host runtimes are responsible for actually running companion implementations bou
 Use @{asset_snapshot} in the report.
 ```
 
-See [`promplets/experimental/weave/weave-market-snapshot.weavemark.md`](../promplets/experimental/weave/weave-market-snapshot.weavemark.md) for a fuller stock-learning example with finance, web-search, and web-crawl effects connected by dependency edges via `uses:`.
+See [`promplets/experimental/weave/weave-market-snapshot.weavemark.md`](../promplets/experimental/weave/weave-market-snapshot.weavemark.md) for a fuller stock-learning example with finance and web-search effects connected by a dependency edge via `uses:`. Its final synthesis is grounded in the finance payload and search-result titles, snippets, source labels, and URLs; it does not fetch arbitrary result URLs.
 
 **FSLM specs** pair a normal WeaveMark prompt library with an `ellements.fslm` machine. The name is deliberately linguistic: WeaveMark supplies prompts for semantic guards, invariants, actions, and outputs while `ellements.fslm` supplies the graph and runtime contract. You can either reference an external YAML/JSON/Python machine or import the separate `fslm` module and declare the machine inline with WeaveMark sugar. Prompt names are validated before the first snapshot or LLM/tool call:
 
 FSLM support requires `ellements[fslm]>=0.2.0`; the normal WeaveMark
 installation declares and installs this compatible floor.
+Promplet-local tool `@bind` implementations are loaded and authorized lazily:
+the runtime first checks the host `ToolRegistry`, then loads only the selected
+local fallback and caches it. Unselected local bindings are never imported or
+authorized.
 
 | Machine item | Required prompt key |
 |--------------|---------------------|

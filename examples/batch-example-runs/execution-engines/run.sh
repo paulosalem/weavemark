@@ -7,7 +7,8 @@ mkdir -p \
   examples/batch-example-runs/execution-engines/outputs/self-consistency-solver \
   examples/batch-example-runs/execution-engines/outputs/reflection-writer \
   examples/batch-example-runs/execution-engines/outputs/self-consistency-solver-json \
-  examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-ai-news
+  examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-ai-news \
+  examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-child-events
 
 section() {
   printf '\n\n%s\n' "================================================================================"
@@ -23,6 +24,7 @@ artifact_summary() {
     examples/batch-example-runs/execution-engines/outputs/reflection-writer \
     examples/batch-example-runs/execution-engines/outputs/self-consistency-solver-json \
     examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-ai-news \
+    examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-child-events \
     -type f | sort | sed 's#^#- #'
 }
 
@@ -118,6 +120,16 @@ weavemark library builtin:catalog/executable/recurring-topic-monitor \
   --output examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-ai-news/execution-output.md \
   --no-file-summary \
   --trace-output examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-ai-news/execution-trace.md \
+  --verbose
+
+section "Recurring topic monitor: child-events preset"
+weavemark library builtin:catalog/executable/recurring-topic-monitor \
+  --vars-file examples/batch-example-runs/execution-engines/inputs/recurring-topic-monitor-child-events.json \
+  --run \
+  --no-protections \
+  --output examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-child-events/execution-output.md \
+  --no-file-summary \
+  --trace-output examples/batch-example-runs/execution-engines/outputs/recurring-topic-monitor-child-events/execution-trace.md \
   --verbose
 
 artifact_summary

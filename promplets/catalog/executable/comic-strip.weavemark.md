@@ -1,5 +1,7 @@
 @promplet version: 0.7
 
+# Comic Strip
+
 @note
   Comic-strip pipeline expressed FULLY in WeaveMark — authoring, reference-
   conditioned rendering, AND self-inspecting correction — with no external script.
@@ -23,11 +25,10 @@
 
   Companion vars set title, premise, panel_count, layout, tone, art_style,
   setting, characters, and the five reference image paths. This spec also owns the
-  comic-specific `panels` beat sheet: `panels` is a JSON object keyed by panel
-  number ("1".."@{panel_count}"), each with a `.staging` line (what happens /
-  who is on-screen) and a `.dialogue` line (the exact hand-lettered words). The
-  author stage reads them via dotted paths (@{panels.1.staging}, …) so each panel
-  is authored deliberately rather than improvised.
+  comic-specific `panels` beat sheet: `panels` is supplied as JSON with one
+  ordered entry per panel, each carrying exact `staging` and `dialogue`. The
+  author stage receives the complete value so any `panel_count` can be grounded
+  deliberately rather than improvised.
 
 @execute reflection
   rounds: 3
@@ -43,18 +44,12 @@
   dialogue of each panel are fixed: flesh out expression, framing, and comedic
   timing around them, but do not add, drop, reorder, or merge beats, and keep
   every line of dialogue verbatim as short hand-lettered speech balloons. Let the
-  final panel land the punchline cleanly.
+  final panel land the punchline cleanly. Use all @{panel_count} supplied entries
+  and preserve every staging beat and dialogue string exactly.
 
-  - **Panel 1** — @{panels.1.staging}
-    Dialogue — @{panels.1.dialogue}
-  - **Panel 2** — @{panels.2.staging}
-    Dialogue — @{panels.2.dialogue}
-  - **Panel 3** — @{panels.3.staging}
-    Dialogue — @{panels.3.dialogue}
-  - **Panel 4** — @{panels.4.staging}
-    Dialogue — @{panels.4.dialogue}
-  - **Panel 5** — @{panels.5.staging}
-    Dialogue — @{panels.5.dialogue}
+  Supplied `panels` beat sheet:
+
+  @{panels}
 
 @prompt generate
   @output type: image

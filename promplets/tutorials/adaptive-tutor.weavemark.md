@@ -32,5 +32,5 @@
     4. Practice
     5. Review plan
 
-  @assert includes: "likely misconception"
-  @assert includes: "diagnostic question"
+  @assert contains: "Likely misconception"
+  @assert contains: "Diagnostic question"

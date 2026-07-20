@@ -337,33 +337,431 @@ class TestEngineProtocol:
             resolve_engine("nonexistent-engine")
 
     @pytest.mark.asyncio
-    async def test_functional_engine_materializes_plan(self):
-        from weavemark.controller import CompositionResult
+    async def test_functional_engine_executes_bound_dependency_graph(
+        self, tmp_path: Path
+    ):
+        from weavemark.api import execute_text
+        from weavemark.protection import ProtectionContext, ProtectionSettings
+
+        helper = tmp_path / "helpers.py"
+        helper.write_text(
+            """
+def seed(payload):
+    assert isinstance(payload, dict)
+    return {"score": payload["score"] + 1}
+
+async def combine(previous, body):
+    assert isinstance(previous, dict)
+    return {"score": previous["score"] * 2, "body": body}
+""".strip(),
+            encoding="utf-8",
+        )
+        source = tmp_path / "functional.weavemark.md"
+        spec = """
+@define seed
+  @phase execute
+  @scope self
+  @returns value
+  @param payload
+    Native payload.
+  @effect seed_data read
+  @body
+    Seed.
+
+@define combine
+  @phase execute
+  @scope self
+  @returns value
+  @param previous
+    Prior result.
+  @param body implicit: true
+    Instructions.
+  @effect combine_data read
+  @body
+    Combine.
+
+@bind seed_data language: python from: "./helpers.py" symbol: seed
+@bind combine_data language: python from: "./helpers.py" symbol: combine
+
+@execute functional scheduler: graph-strict
+  allow_effects: [seed_data, combine_data]
+
+@seed payload: "@{payload}" as: seeded
+@combine previous: "@{seeded}" as: final uses: seeded
+  Seed score: @{seeded.score}
+
+Write a concise report from @{final}.
+""".strip()
+        source.write_text(spec, encoding="utf-8")
+        client = MockLLMClient(["Final prose"])
+
+        run = await execute_text(
+            spec,
+            {"payload": {"score": 3}},
+            source_path=source,
+            base_dir=tmp_path,
+            client=client,
+            protection_context=ProtectionContext.create(
+                ProtectionSettings(enabled=False),
+                entrypoint_dir=tmp_path,
+                invocation_dir=tmp_path,
+                approvals_path=tmp_path / "approvals.json",
+            ),
+        )
+        executed = run.execution
+
+        assert executed.output == "Final prose"
+        assert [step.name for step in executed.steps] == [
+            "seeded",
+            "final",
+            "document",
+        ]
+        assert executed.metadata["status"] == "executed"
+        assert executed.metadata["execution"]["status"] == "executed"
+        assert executed.metadata["results"]["seeded"] == {"score": 4}
+        assert executed.metadata["results"]["final"] == {
+            "score": 8,
+            "body": "Seed score: 4",
+        }
+        assert executed.metadata["evidence"]["errors"] == []
+        assert executed.metadata["evidence"]["plan_levels"] == [
+            ["seeded"],
+            ["final"],
+        ]
+        assert executed.metadata["bindings"] == run.compiled.bindings
+        assert run.compiled.execution["nodes"][1]["params"][1] == {
+            "name": "body",
+            "implicit": True,
+            "mode": "text",
+        }
+        assert client.calls[0]["messages"] == [
+            {
+                "role": "user",
+                "content": (
+                    '{"score": 4}\n'
+                    '{"score": 8, "body": "Seed score: 4"}\n\n'
+                    'Write a concise report from {"score": 8, '
+                    '"body": "Seed score: 4"}.'
+                ),
+            }
+        ]
+
+    @pytest.mark.asyncio
+    async def test_functional_engine_isolates_runtime_and_prior_results(
+        self, monkeypatch: pytest.MonkeyPatch
+    ):
+        from weavemark.engines import RuntimeConfig
+        from weavemark.engines import functional as functional_module
         from weavemark.engines.functional import FunctionalEngine
 
+        runtime_input = {"nested": {"score": 1}}
+
+        def seed(payload):
+            return payload
+
+        def mutate(previous):
+            previous["nested"]["score"] = 99
+            return previous
+
+        monkeypatch.setattr(
+            functional_module,
+            "load_binding_callables",
+            lambda _result, _names: {"seed_data": seed, "mutate_data": mutate},
+        )
         result = CompositionResult(
-            composed_prompt="Use @{market_data}.",
+            composed_prompt="@{seeded}",
+            execution={
+                "type": "functional",
+                "allow_effects": ["seed_data", "mutate_data"],
+                "plan": {
+                    "order": ["seeded", "mutated"],
+                    "levels": [["seeded"], ["mutated"]],
+                },
+                "nodes": [
+                    {
+                        "id": "seeded",
+                        "directive": "seed",
+                        "effects": [{"name": "seed_data", "mode": "read"}],
+                        "args": {
+                            "positional": [],
+                            "options": {"payload": "@{payload}"},
+                        },
+                        "params": [
+                            {
+                                "name": "payload",
+                                "implicit": False,
+                                "mode": "text",
+                            }
+                        ],
+                        "body": "",
+                        "as": "seeded",
+                    },
+                    {
+                        "id": "mutated",
+                        "directive": "mutate",
+                        "effects": [{"name": "mutate_data", "mode": "read"}],
+                        "args": {
+                            "positional": [],
+                            "options": {"previous": "@{seeded}"},
+                        },
+                        "params": [
+                            {
+                                "name": "previous",
+                                "implicit": False,
+                                "mode": "text",
+                            }
+                        ],
+                        "body": "",
+                        "as": "mutated",
+                        "uses": ["seeded"],
+                    },
+                ],
+            },
+        )
+
+        executed = await FunctionalEngine(client=MockLLMClient()).execute(
+            result,
+            RuntimeConfig(execution_variables={"payload": runtime_input}),
+        )
+
+        assert runtime_input == {"nested": {"score": 1}}
+        assert executed.metadata["results"]["seeded"] == {"nested": {"score": 1}}
+        assert executed.metadata["results"]["mutated"] == {"nested": {"score": 99}}
+        assert executed.metadata["evidence"]["nodes"][0]["result"] == {
+            "nested": {"score": 1}
+        }
+        assert executed.metadata["evidence"]["nodes"][1]["arguments"] == {
+            "previous": {"nested": {"score": 1}}
+        }
+
+    @pytest.mark.asyncio
+    async def test_functional_engine_rejects_unsnapshotable_placeholder(
+        self, monkeypatch: pytest.MonkeyPatch
+    ):
+        from weavemark.engines import RuntimeConfig
+        from weavemark.engines import functional as functional_module
+        from weavemark.engines.functional import FunctionalEngine
+
+        deepcopy_called = False
+
+        class Unsnapshotable:
+            def __deepcopy__(self, memo):
+                nonlocal deepcopy_called
+                del memo
+                deepcopy_called = True
+                raise RuntimeError("copy disabled")
+
+        monkeypatch.setattr(
+            functional_module,
+            "load_binding_callables",
+            lambda _result, _names: {"identity": lambda payload: payload},
+        )
+        result = CompositionResult(
+            composed_prompt="",
+            execution={
+                "type": "functional",
+                "allow_effects": ["identity"],
+                "plan": {"order": ["value"], "levels": [["value"]]},
+                "nodes": [
+                    {
+                        "id": "value",
+                        "directive": "identity",
+                        "effects": [{"name": "identity", "mode": "read"}],
+                        "args": {
+                            "positional": [],
+                            "options": {"payload": "@{payload}"},
+                        },
+                        "params": [
+                            {
+                                "name": "payload",
+                                "implicit": False,
+                                "mode": "text",
+                            }
+                        ],
+                        "body": "",
+                        "as": "value",
+                    }
+                ],
+            },
+        )
+
+        with pytest.raises(
+            RuntimeError,
+            match=r"Cannot safely snapshot functional placeholder @\{payload\}",
+        ):
+            await FunctionalEngine(client=MockLLMClient()).execute(
+                result,
+                RuntimeConfig(
+                    execution_variables={
+                        "payload": {"safe": [1, {"malicious": Unsnapshotable()}]}
+                    }
+                ),
+            )
+        assert deepcopy_called is False
+
+    @pytest.mark.asyncio
+    async def test_functional_engine_snapshots_normal_nested_json_values(
+        self, monkeypatch: pytest.MonkeyPatch
+    ):
+        from weavemark.engines import RuntimeConfig
+        from weavemark.engines import functional as functional_module
+        from weavemark.engines.functional import FunctionalEngine
+
+        runtime_input = {"items": [{"value": 1}, (2, 3)]}
+
+        def mutate(payload):
+            payload["items"][0]["value"] = 9
+            payload["items"][1].append(4)
+            return payload
+
+        monkeypatch.setattr(
+            functional_module,
+            "load_binding_callables",
+            lambda _result, _names: {"mutate": mutate},
+        )
+        result = CompositionResult(
+            composed_prompt="@{value}",
             execution={
                 "type": "functional",
                 "scheduler": "sequential",
-                "nodes": [{"directive": "fetch", "as": "market_data"}],
+                "allow_effects": ["mutate"],
+                "plan": {
+                    "scheduler": "sequential",
+                    "order": ["value"],
+                    "levels": [["value"]],
+                },
+                "nodes": [
+                    {
+                        "id": "value",
+                        "directive": "mutate",
+                        "effects": [{"name": "mutate", "mode": "read"}],
+                        "args": {
+                            "positional": [],
+                            "options": {"payload": "@{payload}"},
+                        },
+                        "params": [
+                            {
+                                "name": "payload",
+                                "implicit": False,
+                                "mode": "text",
+                            }
+                        ],
+                        "body": "",
+                        "as": "value",
+                    }
+                ],
             },
-            bindings=[
-                {
-                    "name": "web_search",
-                    "language": "python",
-                    "from": "./search.py",
-                    "symbol": "search",
-                }
-            ],
         )
 
-        executed = await FunctionalEngine().execute(result)
+        executed = await FunctionalEngine(client=MockLLMClient()).execute(
+            result,
+            RuntimeConfig(execution_variables={"payload": runtime_input}),
+        )
 
-        assert executed.output == "Use @{market_data}."
-        assert executed.metadata["status"] == "planned"
-        assert executed.metadata["execution"]["type"] == "functional"
-        assert executed.metadata["bindings"] == result.bindings
+        assert runtime_input == {"items": [{"value": 1}, (2, 3)]}
+        assert executed.metadata["results"]["value"] == {
+            "items": [{"value": 9}, [2, 3, 4]]
+        }
+        assert executed.output == "{'items': [{'value': 9}, [2, 3, 4]]}"
+
+    @pytest.mark.asyncio
+    async def test_functional_engine_rejects_tampered_graph_strict_uses(
+        self, monkeypatch: pytest.MonkeyPatch
+    ):
+        from weavemark.engines import functional as functional_module
+        from weavemark.engines.functional import FunctionalEngine
+
+        monkeypatch.setattr(
+            functional_module,
+            "load_binding_callables",
+            lambda _result, _names: {"effect": lambda **_kwargs: {}},
+        )
+        result = CompositionResult(
+            composed_prompt="",
+            execution={
+                "type": "functional",
+                "scheduler": "graph-strict",
+                "plan": {
+                    "scheduler": "graph-strict",
+                    "order": ["first", "second"],
+                    "levels": [["first"], ["second"]],
+                },
+                "nodes": [
+                    {
+                        "id": "first",
+                        "directive": "effect",
+                        "effects": [{"name": "effect", "mode": "read"}],
+                        "args": {"positional": [], "options": {}},
+                        "params": [],
+                        "body": "",
+                        "as": "first",
+                    },
+                    {
+                        "id": "second",
+                        "directive": "effect",
+                        "effects": [{"name": "effect", "mode": "read"}],
+                        "args": {
+                            "positional": [],
+                            "options": {"payload": "@{first.value}"},
+                        },
+                        "params": [
+                            {
+                                "name": "payload",
+                                "implicit": False,
+                                "mode": "text",
+                            }
+                        ],
+                        "body": "",
+                        "as": "second",
+                    },
+                ],
+            },
+        )
+
+        with pytest.raises(
+            ValueError,
+            match=(
+                "graph-strict node 'second' references result\\(s\\) "
+                "without explicit uses: first"
+            ),
+        ):
+            await FunctionalEngine(client=MockLLMClient()).execute(result)
+
+    @pytest.mark.asyncio
+    async def test_functional_engine_rejects_tampered_dotted_result_name(
+        self,
+    ) -> None:
+        from weavemark.engines.functional import FunctionalEngine
+
+        result = CompositionResult(
+            composed_prompt="@{first.result}",
+            execution={
+                "type": "functional",
+                "scheduler": "sequential",
+                "plan": {
+                    "scheduler": "sequential",
+                    "order": ["first.result"],
+                    "levels": [["first.result"]],
+                },
+                "nodes": [
+                    {
+                        "id": "first.result",
+                        "directive": "fetch",
+                        "effects": [{"name": "data", "mode": "read"}],
+                        "args": {"positional": [], "options": {}},
+                        "params": [],
+                        "body": "",
+                        "as": "first.result",
+                    }
+                ],
+            },
+        )
+
+        with pytest.raises(
+            ValueError,
+            match="result names must be simple identifiers: first.result",
+        ):
+            await FunctionalEngine(client=MockLLMClient()).execute(result)
 
 
 # ═══════════════════════════════════════════════════════════════════

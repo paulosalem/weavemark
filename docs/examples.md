@@ -237,7 +237,7 @@ These are intentionally separated from the stable executable catalog.
 |---|---|
 | `experimental/fslm/fslm-support-triage.weavemark.md` | Finite-state language-machine execution is still an advanced, changing mechanism. |
 | `experimental/fslm/fslm-support-triage-sugared.weavemark.md` | Inline FSLM sugar is useful but not stable enough for the main public surface. |
-| `experimental/weave/weave-market-snapshot.weavemark.md` | Weave execution, graph scheduling, and companion bindings are advanced and unstable. |
+| `experimental/weave/weave-market-snapshot.weavemark.md` | Functional execution, graph scheduling, and companion bindings are advanced and unstable. |
 
 ## Running selected specs
 

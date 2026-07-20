@@ -528,9 +528,19 @@ class _WeaveMarkPreprocessor:
             semantic = env.semantics.get(directive_name)
             if semantic is not None:
                 block, index = _collect_indented_block(lines, index + 1, len(indent))
+                implicit = semantic.implicit_param
+                if (
+                    implicit is not None
+                    and implicit.default is None
+                    and not block.strip()
+                ):
+                    self.errors.append(
+                        f"@{semantic.name} missing required non-empty implicit "
+                        f"body '{implicit.name}'."
+                    )
+                    continue
                 output_lines.append(line)
                 if block:
-                    implicit = semantic.implicit_param
                     if implicit is not None and implicit.mode == "subspec":
                         expanded = self._expand_source(
                             block,
@@ -728,7 +738,15 @@ class _WeaveMarkPreprocessor:
         for param, value in zip(available_positionals, positional, strict=False):
             bindings[param.name] = value
 
-        if implicit is not None and implicit.mode == "subspec":
+        if implicit is not None and not body.strip():
+            if implicit.default is None:
+                self.errors.append(
+                    f"@{macro.name} missing required non-empty implicit "
+                    f"body '{implicit.name}'."
+                )
+                return None
+            bindings[implicit.name] = implicit.default
+        elif implicit is not None and implicit.mode == "subspec":
             body_expansion = self._expand_source(
                 body,
                 caller_env,

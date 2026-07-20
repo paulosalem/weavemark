@@ -11,7 +11,7 @@ const { DIRECTIVES, DEBUG_DIRECTIVES, EXECUTION_STRATEGIES } = require("./direct
 const { analyzeSource } = require("./language");
 
 const PARAMETER_DOCS = {
-  version: "WeaveMark language version. Current authored promplets should normally use `0.7`.",
+  version: "WeaveMark language version. Current authored promplets should normally use `0.9`.",
   surface: "Optional surface adapter. `canonical` keeps raw directives; `markdown` enables directive headings and `[!PROMPLET ...]` callouts.",
   exposing: "Import selected definitions directly from a module. This is an import clause, not a `key:` parameter.",
   as: "Bind an imported module under an alias, or bind a semantic/execution result when used as `as:` on a definition invocation.",
@@ -31,7 +31,7 @@ const PARAMETER_DOCS = {
   from: "Relative companion implementation file for `@bind`.",
   symbol: "Exported function/class symbol in the companion implementation.",
   scheduler: "Functional scheduler: `sequential`, `graph`, or `graph-strict`.",
-  uses: "Functional dependency list naming earlier result bindings used by this node.",
+  uses: "Functional dependency list naming earlier result bindings used by this node. In graph-strict mode, every result placeholder in positional arguments, options, or body requires its root name here.",
   allow_effects: "Effects authorized for a functional executable spec.",
   initial: "Initial state for an inline FSLM `@machine`.",
   target: "Target state for an FSLM transition.",
@@ -116,13 +116,13 @@ class WeaveMarkHoverProvider {
         const descriptions = {
           "single-call": "Sends the prompt in a single LLM call. Simplest and fastest strategy.",
           "self-consistency": "Generates multiple independent samples and picks the most common answer via majority voting. Improves reliability for reasoning tasks.",
-          "tree-of-thought": "Multi-step: Generate candidate approaches → Evaluate each → Synthesise the best. Requires `@prompt generate`, `@prompt evaluate`, and `@prompt synthesize` sections.",
-          "simplified-tree-of-thought": "Lightweight generate → evaluate → synthesize flow for tree-style reasoning without the full search machinery.",
+          "tree-of-thought": "Full tree search requiring `@prompt thought_step`, `@prompt evaluate_step`, and `@prompt synthesize`.",
+          "simplified-tree-of-thought": "Lightweight flow requiring `@prompt generate`, `@prompt evaluate`, and `@prompt synthesize`.",
           "reflection": "Generate an initial response → Critique it → Revise based on the critique. Requires `@prompt generate`, `@prompt critique`, and `@prompt revise` sections.",
           "chain": "Runs named prompt stages in source order. Each stage can use `@{previous}` and prior stage outputs; text and image output contracts may be mixed.",
           "collaborative": "Human-in-the-loop generation/edit/continuation flow for collaborative drafting.",
           "fslm": "Runs an ellements finite-state linguistic machine. Inline sugar generates collision-safe prompt keys with state and transition context, such as `guard.<state>.<transition>.<id>` and `action.<state>.<transition>.<name>`.",
-          "functional": "Executable-document strategy that materializes effectful semantic-function calls into a validated execution plan.",
+          "functional": "Executes validated semantic nodes through authorized Python `@bind` capabilities and renders native dependency/results into the document. Render-only documents return directly; nonempty remaining instructions use the configured LLM.",
         };
         const md = new vscode.MarkdownString();
         md.appendMarkdown(`### Strategy: \`${strategyName}\`\n\n`);

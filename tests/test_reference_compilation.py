@@ -245,6 +245,28 @@ class TestReferenceCompilation:
         )
 
     @pytest.mark.asyncio
+    async def test_functional_result_names_reject_dots(self, tmp_path: Path) -> None:
+        result = await WeaveMarkController(WeaveMarkConfig()).compose(
+            textwrap.dedent("""
+                @define fetch
+                  @phase execute
+                  @scope self
+                  @returns value
+                  @effect data read
+                  @body
+                    Fetch.
+
+                @execute functional
+
+                @fetch as: first.result
+                """).strip(),
+            variables={},
+            base_dir=tmp_path,
+        )
+
+        assert result.errors == ["Execution result name is invalid: first.result"]
+
+    @pytest.mark.asyncio
     async def test_match_named_branch_with_refine_does_not_load_other_branches(
         self, tmp_path: Path
     ) -> None:
@@ -864,7 +886,7 @@ class TestReferenceCompilation:
 
             @tool inspect_xml
               Inspect XML for malformed tags.
-              - xml: string (required) — XML document to inspect
+              - xml: string (required) - XML document to inspect
             """,
         )
         _write(
@@ -1151,6 +1173,74 @@ class TestReferenceCompilation:
         assert result.errors == []
         assert result.composed_prompt == "Tone: direct\n\nHello Alice."
 
+    def test_required_implicit_body_must_be_non_empty(self, tmp_path: Path) -> None:
+        result = preprocess_weavemark(
+            textwrap.dedent("""
+                @define wrap
+                  @param body implicit: true mode: subspec
+                    Required wrapped content.
+
+                  @body
+                    @{body}
+
+                @wrap
+                """).strip(),
+            tmp_path,
+        )
+
+        assert result.text == ""
+        assert result.errors == [
+            "@wrap missing required non-empty implicit body 'body'."
+        ]
+
+    def test_defaulted_implicit_body_may_be_empty(self, tmp_path: Path) -> None:
+        result = preprocess_weavemark(
+            textwrap.dedent("""
+                @define optional_wrap
+                  @param body default: "" implicit: true mode: subspec
+                    Optional wrapped content.
+
+                  @body
+                    Before@{body}After
+
+                @optional_wrap
+                """).strip(),
+            tmp_path,
+        )
+
+        assert result.errors == []
+        assert result.text == "BeforeAfter"
+
+    def test_refine_and_ask_declare_optional_implicit_bodies(
+        self, tmp_path: Path
+    ) -> None:
+        result = preprocess_weavemark(
+            textwrap.dedent("""
+                @refine module:weavemark.std.reasoning.base_analyst
+                @ask clarifying question
+                """).strip(),
+            tmp_path,
+        )
+
+        assert result.errors == []
+        for name in ("refine", "ask"):
+            implicit = result.semantic_definitions[name].implicit_param
+            assert implicit is not None
+            assert implicit.default == ""
+
+    def test_required_standard_semantic_body_must_be_non_empty(
+        self, tmp_path: Path
+    ) -> None:
+        result = preprocess_weavemark(
+            '@style "Crisp and direct."',
+            tmp_path,
+        )
+
+        assert result.text == ""
+        assert result.errors == [
+            "@style missing required non-empty implicit body 'body'."
+        ]
+
     def test_text_mode_implicit_body_is_not_macro_expanded(
         self, tmp_path: Path
     ) -> None:
@@ -1327,6 +1417,13 @@ class TestReferenceCompilation:
         assert result.execution["nodes"][0]["as"] == "market_data"
         assert result.execution["nodes"][0]["effects"] == [
             {"name": "web_search", "mode": "read"}
+        ]
+        assert result.execution["nodes"][0]["params"] == [
+            {
+                "name": "query",
+                "implicit": False,
+                "mode": "text",
+            }
         ]
         assert result.execution["plan"] == {
             "scheduler": "graph-strict",
@@ -1512,6 +1609,165 @@ class TestReferenceCompilation:
             for error in result.errors
         )
 
+    @pytest.mark.parametrize(
+        ("argument", "body"),
+        [
+            ('previous: "@{first}"', ""),
+            ('previous: "@{first.value}"', ""),
+            ("", "  Prior value: @{first}"),
+        ],
+    )
+    @pytest.mark.asyncio
+    async def test_graph_strict_requires_uses_for_all_result_references(
+        self,
+        tmp_path: Path,
+        argument: str,
+        body: str,
+    ) -> None:
+        spec_path = _write(
+            tmp_path / "strict-uses.weavemark.md",
+            f"""
+            @define step
+              @phase execute
+              @scope self
+              @returns value
+              @param previous default: "none"
+                Prior result.
+              @param instructions implicit: true default: ""
+                Instructions.
+              @effect effect read
+              @body
+                Step.
+
+            @bind effect language: python from: "./effect.py" symbol: effect
+
+            @execute functional scheduler: graph-strict
+
+            @step as: first
+            @step {argument} as: second
+            {body}
+            """,
+        )
+        (tmp_path / "effect.py").write_text(
+            "def effect(**kwargs):\n    return kwargs\n",
+            encoding="utf-8",
+        )
+
+        result = await WeaveMarkController(WeaveMarkConfig()).compose(
+            spec_path.read_text(encoding="utf-8"),
+            base_dir=tmp_path,
+        )
+
+        assert (
+            "@execute functional graph-strict node second references result(s) "
+            "without explicit uses: first." in result.errors
+        )
+
+    @pytest.mark.asyncio
+    async def test_graph_strict_accepts_explicit_uses_for_dotted_and_body_references(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        spec_path = _write(
+            tmp_path / "strict-uses-valid.weavemark.md",
+            """
+            @define step
+              @phase execute
+              @scope self
+              @returns value
+              @param previous default: "none"
+                Prior result.
+              @param instructions implicit: true default: ""
+                Instructions.
+              @effect effect read
+              @body
+                Step.
+
+            @bind effect language: python from: "./effect.py" symbol: effect
+
+            @execute functional scheduler: graph-strict
+
+            @step as: first
+            @step previous: "@{first.value}" as: second uses: first
+              Prior value: @{first}
+            """,
+        )
+        (tmp_path / "effect.py").write_text(
+            "def effect(**kwargs):\n    return kwargs\n",
+            encoding="utf-8",
+        )
+
+        result = await WeaveMarkController(WeaveMarkConfig()).compose(
+            spec_path.read_text(encoding="utf-8"),
+            base_dir=tmp_path,
+        )
+
+        assert result.errors == []
+        assert result.execution["plan"]["order"] == ["first", "second"]
+
+    @pytest.mark.asyncio
+    async def test_assert_requires_canonical_check_without_model_call(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        spec_path = _write(
+            tmp_path / "assert-severity-only.weavemark.md",
+            """
+            Prompt body.
+            @assert severity: warning
+            """,
+        )
+        client = _FakeLLMClient()
+        controller = WeaveMarkController(WeaveMarkConfig(), client=client)
+
+        result = await controller.compose(
+            spec_path.read_text(encoding="utf-8"),
+            base_dir=tmp_path,
+        )
+
+        assert result.errors == [
+            "@assert requires at least one nonempty canonical check: "
+            "contains:, not_contains:, section:, or variable:."
+        ]
+        assert client.calls == 0
+
+    @pytest.mark.parametrize(
+        "assertion",
+        [
+            "@assert The prompt contains an Output Format section.",
+            "@assert\n  The prompt contains an Output Format section.",
+            '@assert contains: ""',
+        ],
+    )
+    @pytest.mark.asyncio
+    async def test_assert_rejects_free_text_body_and_empty_checks(
+        self,
+        tmp_path: Path,
+        assertion: str,
+    ) -> None:
+        spec_path = _write(
+            tmp_path / "invalid-assert.weavemark.md",
+            f"Prompt body.\n{assertion}",
+        )
+        client = _FakeLLMClient()
+
+        result = await WeaveMarkController(
+            WeaveMarkConfig(),
+            client=client,
+        ).compose(
+            spec_path.read_text(encoding="utf-8"),
+            base_dir=tmp_path,
+        )
+
+        assert result.errors
+        assert result.errors[0].startswith(
+            (
+                "@assert does not accept",
+                "@assert requires at least one nonempty canonical check",
+            )
+        )
+        assert client.calls == 0
+
     @pytest.mark.asyncio
     async def test_tool_rejects_inline_implementation_binding(
         self,
@@ -1536,6 +1792,132 @@ class TestReferenceCompilation:
             "@tool declares only the LLM-facing schema; use @bind for helper "
             "implementations. Unsupported parameter(s): impl."
         ]
+
+    @pytest.mark.asyncio
+    async def test_structural_assert_rejects_unknown_parameter(
+        self, tmp_path: Path
+    ) -> None:
+        result = await WeaveMarkController(WeaveMarkConfig()).compose(
+            '@assert contains: "answer" qualifier: exact\n\nanswer',
+            variables={},
+            base_dir=tmp_path,
+        )
+
+        assert result.errors == [
+            "@assert has unknown structural parameter(s): qualifier."
+        ]
+
+    @pytest.mark.asyncio
+    async def test_tool_rejects_noncanonical_separator_and_optional_modifier(
+        self, tmp_path: Path
+    ) -> None:
+        result = await WeaveMarkController(WeaveMarkConfig()).compose(
+            textwrap.dedent("""
+                @tool bad_separator
+                  Invalid separator.
+                  - query: string (required) — Search query.
+
+                @tool bad_optional
+                  Invalid optional marker.
+                  - limit: integer (optional) - Result limit.
+                """).strip(),
+            variables={},
+            base_dir=tmp_path,
+        )
+
+        assert (
+            "Malformed parameter 'query' in @tool bad_separator: use the ASCII "
+            "' - ' separator before its description." in result.errors
+        )
+        assert (
+            "Unsupported (optional) modifier for parameter 'limit' in @tool "
+            "bad_optional; parameters are optional unless marked (required)."
+            in result.errors
+        )
+
+    @pytest.mark.asyncio
+    async def test_tool_emits_typed_enum_and_default_schema_modifiers(
+        self, tmp_path: Path
+    ) -> None:
+        result = await WeaveMarkController(WeaveMarkConfig()).compose(
+            textwrap.dedent("""
+                @tool typed
+                  Exercise every canonical modifier value type.
+                  - mode: string (required) enum: [fast, careful] default: careful - Mode.
+                  - retries: integer enum: [1, 2, 3] default: 2 - Retry count.
+                  - ratio: number default: 0.75 - Sampling ratio.
+                  - enabled: boolean enum: [true, false] default: false - Toggle.
+                  - tags: array default: [alpha, 2, true] - Structured tags.
+                """).strip(),
+            variables={},
+            base_dir=tmp_path,
+        )
+
+        assert result.errors == []
+        schema = result.tools[0]["function"]["parameters"]
+        assert schema["required"] == ["mode"]
+        assert schema["properties"] == {
+            "mode": {
+                "type": "string",
+                "description": "Mode.",
+                "enum": ["fast", "careful"],
+                "default": "careful",
+            },
+            "retries": {
+                "type": "integer",
+                "description": "Retry count.",
+                "enum": [1, 2, 3],
+                "default": 2,
+            },
+            "ratio": {
+                "type": "number",
+                "description": "Sampling ratio.",
+                "default": 0.75,
+            },
+            "enabled": {
+                "type": "boolean",
+                "description": "Toggle.",
+                "enum": [True, False],
+                "default": False,
+            },
+            "tags": {
+                "type": "array",
+                "description": "Structured tags.",
+                "default": ["alpha", 2, True],
+            },
+        }
+
+    @pytest.mark.asyncio
+    async def test_tool_rejects_malformed_duplicate_or_mistyped_modifiers(
+        self, tmp_path: Path
+    ) -> None:
+        result = await WeaveMarkController(WeaveMarkConfig()).compose(
+            textwrap.dedent("""
+                @tool invalid_modifiers
+                  Every invalid modifier must be diagnosed.
+                  - missing_list: string enum: fast - Bad enum.
+                  - duplicate_default: integer default: 1 default: 2 - Duplicate.
+                  - duplicate_required: string (required) (required) - Duplicate.
+                  - unknown: string choices: [a, b] - Unknown.
+                  - missing_value: number default: - Missing.
+                  - wrong_type: boolean default: 1 - Wrong type.
+                """).strip(),
+            variables={},
+            base_dir=tmp_path,
+        )
+
+        assert len(result.errors) == 6
+        error_text = "\n".join(result.errors)
+        for expected in (
+            "enum: must be a bracketed list",
+            "duplicate modifier 'default'",
+            "duplicate modifier 'required'",
+            "unsupported modifier 'choices'",
+            "default: requires a value",
+            "does not match type 'boolean'",
+        ):
+            assert expected in error_text
+        assert result.tools[0]["function"]["parameters"]["properties"] == {}
 
     @pytest.mark.asyncio
     async def test_module_import_namespace_and_exposing(self, tmp_path: Path) -> None:
@@ -2075,6 +2457,7 @@ class TestReferenceCompilation:
             tmp_path / "std-style-block.weavemark.md",
             """
             @style "For senior engineers: crisp, direct, no filler."
+              Draft prompt text.
             """,
         )
         client = _FakeLLMClient()

@@ -1,5 +1,7 @@
 @promplet version: 0.7
 
+# Storyboard Chain
+
 @note
   A general prompt-CHAINING demo (not tied to storybooks). @execute chain runs
   the @prompt stages in order: `beats` writes a short numbered shot list; then

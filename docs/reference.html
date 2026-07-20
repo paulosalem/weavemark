@@ -350,7 +350,7 @@
               <tr>
                 <td><code>tree-of-thought</code></td>
                 <td>Generate, evaluate, synthesize reasoning paths.</td>
-                <td><code>generate</code>, <code>evaluate</code>, <code>synthesize</code>.</td>
+                <td><code>thought_step</code>, <code>evaluate_step</code>, <code>synthesize</code>.</td>
               </tr>
               <tr>
                 <td><code>reflection</code></td>
@@ -364,8 +364,8 @@
               </tr>
               <tr>
                 <td><code>functional</code></td>
-                <td>Validate and execute effectful semantic-function nodes.</td>
-                <td>Execute-phase semantic-function calls with <code>as:</code> bindings.</td>
+                <td>Validate the graph, load authorized Python <code>@bind</code> targets, execute effectful semantic-function nodes, and render their results into the final document.</td>
+                <td>Execute-phase semantic-function calls with <code>as:</code> bindings; use <code>--run</code> to execute rather than only compile the plan.</td>
               </tr>
             </tbody>
           </table>
@@ -375,6 +375,13 @@
             <li><code>graph</code>: build a dependency DAG from <code>uses:</code> edges.</li>
             <li><code>graph-strict</code>: graph mode plus strict unknown dependency and effect validation.</li>
           </ul>
+          <p>
+            Functional compilation is side-effect free. During
+            <code>--run</code>, the built-in <code>FunctionalEngine</code>
+            imports only the authorized Python bindings needed by the validated
+            nodes, records per-node evidence, substitutes named results, and
+            completes the rendered document.
+          </p>
           <h3>FSLM prompt contract</h3>
           <p>
             <code>@execute fslm</code> loads an external machine with

@@ -10,7 +10,7 @@ def test_in_page_anchors_clear_sticky_navigation() -> None:
     css = (ROOT / "docs" / "site.css").read_text(encoding="utf-8")
 
     assert "--anchor-offset: 112px;" in css
-    assert "--anchor-offset: 28px;" in css
+    assert "--anchor-offset: 124px;" in css
     assert "scroll-padding-top" not in css
 
     anchor_rule = re.search(r"\[id\]\s*\{(?P<body>.*?)\n\s*\}", css, re.S)
@@ -75,3 +75,27 @@ def test_site_navigation_has_constant_width_and_right_links() -> None:
     assert base_links_rule is not None
     assert "justify-content: flex-end;" in base_links_rule.group("body")
     assert "justify-content: center;" not in base_links_rule.group("body")
+
+
+def test_mobile_navigation_is_compact_sticky_and_horizontally_scrollable() -> None:
+    css = (ROOT / "docs" / "site.css").read_text(encoding="utf-8")
+
+    mobile = css[css.index("/* Compact, persistent navigation for touch-sized layouts. */") :]
+
+    assert ".site-nav {" in mobile
+    assert "position: sticky;" in mobile
+    assert "top: var(--mobile-nav-top);" in mobile
+    assert ".nav-links a[aria-current=\"page\"]" in mobile
+    assert ".tutorial-nav {" in mobile
+    assert "flex-wrap: nowrap;" in mobile
+    assert ".tutorial-nav a[aria-current=\"page\"]" in mobile
+    assert "order: -1;" in mobile
+    assert ".sidebar {" in mobile
+    assert "top: calc(var(--mobile-nav-top) + 62px);" in mobile
+    assert "overflow-x: auto;" in mobile
+    assert ".page-summary {" in mobile
+    assert "scroll-snap-type: inline mandatory;" in mobile
+    assert ".principle-teaser-link {" in mobile
+    assert "min-width: 0;" in mobile
+    assert ".mini-hero h1 {" in mobile
+    assert "overflow-wrap: break-word;" in mobile

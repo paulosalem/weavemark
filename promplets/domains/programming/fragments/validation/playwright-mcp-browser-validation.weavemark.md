@@ -16,10 +16,12 @@ software has a web UI or browser-rendered interaction model.
 
 - Before claiming browser validation, check whether Playwright MCP or equivalent
   browser automation tools are available in the agent environment.
-- If Playwright MCP is not available, explicitly install or configure the official
-  Playwright MCP server before browser validation. Prefer the host environment's
-  standard MCP setup path; when Node/npm are available, the server command is
-  commonly `npx @playwright/mcp@latest`.
+- Prefer an existing, approved Playwright MCP integration. If it is unavailable,
+  install or configure a server only at an explicitly pinned, reviewed version
+  already declared by checked-in project configuration or its lockfile, using the
+  host environment's approved MCP setup path. Never use a floating latest tag,
+  invent a version, or choose an unreviewed range. If no approved pinned version
+  exists, report that blocker instead of provisioning one ad hoc.
 - If the project itself needs Playwright tests, add Playwright through the
   project's package manager and install required browsers with the existing
   ecosystem command. Do not add duplicate or unrelated test tooling.

@@ -99,7 +99,7 @@
         <a href="#decision">Output A — a decision analysis</a>
         <a href="#app">Output B — an app specification</a>
         <a href="#contrast">Same blocks, different artifacts</a>
-        <a href="#mingle">Layer or blend: <code>mingle</code></a>
+        <a href="#mingle">Blend or preserve: <code>mingle</code></a>
         <a href="#use-output">Final step: Use the output</a>
         <a href="#finish">What you learned</a>
       </aside>
@@ -302,29 +302,32 @@ independence through passive income and disciplined capital growth ...</code></p
         </section>
 
         <section id="mingle" class="article-section">
-          <h2>Layer or blend: <code>mingle</code></h2>
+          <h2>Blend or preserve: <code>mingle</code></h2>
           <p>
             You may have noticed some <code>@refine</code> lines carry
-            <code>mingle: true</code> and some do not. Both refine; the flag tunes
-            <em>how</em> the guidance shows up in the compiled document.
+            <code>mingle: true</code> and some omit it. Those forms are
+            equivalent: <strong><code>mingle: true</code> is the default</strong>.
+            Use explicit <code>mingle: false</code> only when imported wording and
+            structure must remain visibly layered.
           </p>
           <ul>
             <li>
-              <code>@refine file.weavemark.md</code> &mdash; layers the fragment in
-              as its own labelled contribution. Good for analysis lenses and domain
-              frames you want to remain visible as method.
+              <code>@refine passive-income-forecasting.weavemark.md</code> or
+              <code>@refine passive-income-forecasting.weavemark.md <span class="syntax-key">mingle:</span> true</code>
+              &mdash; semantically blends the imported obligations into one
+              coherent host document.
             </li>
             <li>
-              <code>@refine file.weavemark.md <span class="syntax-key">mingle:</span> true</code>
-              &mdash; blends the guidance into the host document's own voice. Good
-              for guidelines and gates that should feel native, not bolted on.
+              <code>@refine passive-income-forecasting.weavemark.md <span class="syntax-key">mingle:</span> false</code>
+              &mdash; performs a preservation-oriented structural merge, keeping
+              imported wording and sections recognizable as a layer. This form
+              cannot carry an indented refinement body.
             </li>
           </ul>
           <div class="callout">
-            <strong>Rule of thumb:</strong> mingle guidance you want <em>felt</em>;
-            layer method you want <em>seen</em>. When in doubt, start without
-            <code>mingle</code> and add it once the result reads too much like a
-            stack of appendices.
+            <strong>Rule of thumb:</strong> accept the default blend for normal
+            specification refinement. Choose <code>mingle: false</code> only when
+            source wording or section boundaries must stay visible in the result.
           </div>
         </section>
 
@@ -351,7 +354,7 @@ independence through passive income and disciplined capital growth ...</code></p
             <li><code>@refine</code> obliges a spec to satisfy an imported one, woven into a single document.</li>
             <li>The same fragments compile into radically different artifacts.</li>
             <li>Updating a fragment propagates its new guidance to every promplet that refines it on the next compile.</li>
-            <li><code>mingle: true</code> blends guidance in; plain <code>@refine</code> layers it as method.</li>
+            <li>Plain <code>@refine</code> defaults to <code>mingle: true</code>; explicit <code>mingle: false</code> preserves and layers imported wording.</li>
           </ul>
           <div class="callout">
             <strong>Next:</strong> put refinement to work in a domain that must

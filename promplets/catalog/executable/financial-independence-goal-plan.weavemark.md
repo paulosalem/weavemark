@@ -2,7 +2,7 @@
 
 @use weavemark.std.planning.goals exposing goal_plan lookup_public_goal_assumptions
 
-@refine module:weavemark.domains.finance.finance_safety mingle: true
+@include weavemark.domains.finance.finance_safety
 
 @bind web_search language: python from: "./companions/public_finance_reference.py" symbol: lookup_public_goal_assumptions
 

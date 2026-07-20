@@ -6,7 +6,7 @@
   "region": "global",
   "audience": "a technically curious reader evaluating practical AI developments",
   "research_depth": "deep",
-  "run_date": "2026-07-18",
+  "run_date": "2026-07-19",
   "user_constraints": "Prioritize source-grounded developments over generic commentary. Explain why each item matters and what to verify next.",
   "seed_urls": [],
   "use_previous_reports": false,

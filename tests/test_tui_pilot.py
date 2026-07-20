@@ -92,7 +92,7 @@ SPEC_WITH_TOOLS = textwrap.dedent("""\
     @tool web_search
     @tool calculator
 
-    @assert Must include citations. severity: error
+    @assert contains: "citations" severity: error
 
     Solve @{problem}.
 """)

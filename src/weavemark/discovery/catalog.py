@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from weavemark.defaults import SPEC_EXTENSIONS
-from weavemark.tui.scanner import scan_spec
+from weavemark.tui.scanner import find_authored_title, scan_spec
 
 
 @dataclass
@@ -48,12 +48,9 @@ def _content_hash(text: str) -> str:
 
 
 def _extract_title(text: str) -> str:
-    """Extract the first markdown heading, or fall back to filename."""
-    for line in text.splitlines():
-        stripped = line.strip()
-        if stripped.startswith("# "):
-            return stripped[2:].strip()
-    return ""
+    """Extract the authored document H1 using the shared scanner rules."""
+
+    return find_authored_title(text)[1]
 
 
 def index_spec(path: Path) -> SpecEntry:
