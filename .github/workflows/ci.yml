@@ -51,7 +51,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install \
             -e "$RUNNER_TEMP/ellements[cli,execution,fslm]"
-          python -m pip install -e ".[dev,convert,ui]"
+          python -m pip install -e ".[dev,convert,examples,ui]"
           python -m pip install build twine
 
       - name: Run tests

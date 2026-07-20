@@ -509,8 +509,8 @@ def test_bebe_fusquinha_pt_page_5_and_html_artifacts_are_distinct() -> None:
         "page_15_narration": sha256(
             variables["pages"]["15"]["text"].encode("utf-8")
         ).hexdigest(),
-        "page_5_image": sha256(page_files[5].read_bytes()).hexdigest(),
-        "page_15_image": sha256(page_files[15].read_bytes()).hexdigest(),
+        "page_5_image": _binary_or_lfs_sha256(page_files[5]),
+        "page_15_image": _binary_or_lfs_sha256(page_files[15]),
     }
     expected_hashes = {
         "page_5_narration": (
@@ -537,3 +537,27 @@ def test_bebe_fusquinha_pt_page_5_and_html_artifacts_are_distinct() -> None:
 
     assert image_sources == ["cover.png", *expected_pages]
     assert len(set(image_sources[1:])) == 15
+
+
+def _binary_or_lfs_sha256(path: Path) -> str:
+    """Hash hydrated content or return the object hash from an LFS pointer."""
+
+    payload = path.read_bytes()
+    if payload.startswith(b"version https://git-lfs.github.com/spec/v1\n"):
+        match = re.search(rb"^oid sha256:([0-9a-f]{64})$", payload, re.MULTILINE)
+        assert match is not None, path
+        return match.group(1).decode("ascii")
+    return sha256(payload).hexdigest()
+
+
+def test_binary_or_lfs_sha256_accepts_pointer_checkout(tmp_path: Path) -> None:
+    expected = "a" * 64
+    pointer = tmp_path / "artifact.png"
+    pointer.write_text(
+        "version https://git-lfs.github.com/spec/v1\n"
+        f"oid sha256:{expected}\n"
+        "size 123\n",
+        encoding="ascii",
+    )
+
+    assert _binary_or_lfs_sha256(pointer) == expected

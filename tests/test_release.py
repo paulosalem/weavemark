@@ -110,3 +110,4 @@ def test_release_workflow_uses_oidc_and_immutable_pypi_versions() -> None:
     assert "skip-existing:" not in workflow
     assert "GH_REPO: ${{ github.repository }}" in workflow
     assert 'gh release edit "$GITHUB_REF_NAME" --draft=false' in workflow
+    assert 'python -m pip install -e ".[dev,convert,examples,ui]"' in workflow

@@ -36,6 +36,9 @@
 - Hardened generated dashboard instructions against narrow-viewport overflow
   and preserved evidence, currency, source, accessibility, print, and security
   constraints.
+- Made CI/release validation install the declared example dependencies and
+  validate maintained LFS images whether checkout content is hydrated or a
+  pointer.
 
 ## 0.9.0 - 2026-07-19
 
