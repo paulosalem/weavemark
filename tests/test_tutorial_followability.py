@@ -54,7 +54,7 @@ def test_batch_tutorial_commands_supply_all_documented_inputs() -> None:
         "--run",
         "--no-protections",
         "--trace-output",
-        "--vars-file examples/saved-artifact-workflows/recurring-topic-monitor/inputs/ai-news.json",
+        "--vars-file examples/saved-artifact-workflows/market-snapshot/inputs/vars.json",
     ):
         assert argument in executable
 
@@ -145,26 +145,28 @@ def test_weavemark_tutorial_snippets_do_not_fake_hash_comments() -> None:
     ) == 3
 
 
-def test_tutorial_track_includes_executable_tool_binding_lesson() -> None:
+def test_tutorial_track_includes_executable_market_report_lesson() -> None:
     tutorial_paths = sorted((ROOT / "docs").glob("tutorial*.html"))
     assert tutorial_paths
 
     for path in tutorial_paths:
         html = path.read_text(encoding="utf-8")
         assert '<a href="tutorial-executable.html"' in html, path
-        assert "<span>8</span> Tool bindings" in html, path
+        assert "<span>8</span> Market report" in html, path
         assert "<span>9</span> Spec to app" in html, path
         assert "<span>10</span> Illustrated stories" in html, path
 
     executable = _tutorial("tutorial-executable.html")
-    assert "recurring-topic-monitor.weavemark.md" in executable
-    assert "recurring_topic_monitor.py" in executable
-    assert "@execute</span> single-call" in executable
-    assert "@bind</span> search_news" in executable
-    assert "@tool</span> search_news" in executable
-    assert "child-events.json" in executable
+    assert "market-snapshot.weavemark.md" in executable
+    assert "market_data.py" in executable
+    assert "@execute</span> functional" in executable
+    assert "@bind</span> finance_data" in executable
+    assert "@fetch_asset_snapshot</span>" in executable
+    assert "@package</span>" in executable
+    assert "information_dashboard_html" in executable
     assert "execution-output.md" in executable
     assert "execution-trace.md" in executable
+    assert "vale3-market-dashboard.html" in executable
 
 
 def test_tutorials_end_with_explicit_output_use_step() -> None:

@@ -273,7 +273,7 @@ def test_illustrated_tutorial_uses_dynamic_sources_and_package_module() -> None:
     assert "@{panels.1." not in tutorial
     assert "@{pages.1." not in tutorial
     assert (
-        "@package</span> <span class=\"syntax-key\">template:</span> "
+        "@package</span> <span class=\"syntax-key\">instructions:</span> "
         "module:weavemark.domains.creative.picture_book_html"
     ) in tutorial
     package_source = _read_promplet(
@@ -332,16 +332,16 @@ def test_functional_docs_describe_the_built_in_execution_runtime() -> None:
     assert "@execute</span> functional" in advanced
 
 
-def test_executable_command_is_the_default_runner_transcript() -> None:
+def test_market_report_command_is_the_default_runner_transcript() -> None:
     runner = (
-        ROOT / "examples/saved-artifact-workflows/recurring-topic-monitor/run.sh"
+        ROOT / "examples/saved-artifact-workflows/market-snapshot/run.sh"
     ).read_text(encoding="utf-8")
     lines = runner.splitlines()
     start = next(
         index
         for index, line in enumerate(lines)
         if line.startswith(
-            "weavemark library builtin:catalog/executable/recurring-topic-monitor"
+            "weavemark promplets/catalog/executable/market-snapshot.weavemark.md"
         )
     )
     command_lines = [lines[start]]
@@ -350,24 +350,56 @@ def test_executable_command_is_the_default_runner_transcript() -> None:
         if not line.rstrip().endswith("\\"):
             break
     command = "\n".join(command_lines)
-    default_vars = re.search(r'VARS_FILE="\$\{1:-([^}]+)\}"', runner)
+    default_vars = re.search(r'^VARS_FILE="([^"]+)"', runner, re.MULTILINE)
     assert default_vars is not None
-    output_dir = (
-        "examples/saved-artifact-workflows/recurring-topic-monitor/outputs/"
-        + Path(default_vars.group(1)).stem
-    )
+    output_dir_match = re.search(r'^OUTPUT_DIR="([^"]+)"', runner, re.MULTILINE)
+    assert output_dir_match is not None
+    output_dir = output_dir_match.group(1)
     command = command.replace("$VARS_FILE", default_vars.group(1))
     command = command.replace("$OUTPUT_DIR", output_dir)
 
     displayed = _find_block(
         "tutorial-executable.html",
-        "weavemark library builtin:catalog/executable/recurring-topic-monitor",
+        "weavemark promplets/catalog/executable/market-snapshot.weavemark.md",
     )
 
     def normalize(value: str) -> list[str]:
         return shlex.split(value.replace("\\\n", " "))
 
     assert normalize(displayed) == normalize(command)
+
+
+def test_market_report_tutorial_uses_real_workflow_sources() -> None:
+    market = _read_promplet("catalog/executable/market-snapshot.weavemark.md")
+    definitions = _read_promplet("domains/finance/definitions/market-research.weavemark.md")
+    package = _read_promplet(
+        "stdlib/fragments/presentation/information-dashboard-html.weavemark.md"
+    )
+
+    _assert_line_subsequence(
+        _find_block("tutorial-executable.html", "@define fetch_asset_snapshot"),
+        definitions,
+    )
+    _assert_line_subsequence(
+        _find_block("tutorial-executable.html", "@bind finance_data"),
+        definitions,
+    )
+    _assert_line_subsequence(
+        _find_block("tutorial-executable.html", "@execute functional"),
+        market,
+    )
+    _assert_line_subsequence(
+        _find_block("tutorial-executable.html", "@fetch_asset_snapshot"),
+        market,
+    )
+    _assert_line_subsequence(
+        _find_block("tutorial-executable.html", "@package instructions:"),
+        market,
+    )
+    _assert_line_subsequence(
+        _find_block("tutorial-executable.html", "<source-report>"),
+        package,
+    )
 
 
 def test_tutorial_images_are_deterministic_source_previews() -> None:

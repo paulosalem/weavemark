@@ -101,8 +101,8 @@ async def test_unknown_nested_directive_fails_before_llm(tmp_path: Path) -> None
             "Duplicate @output contract for scope 'default'.",
         ),
         (
-            "@package template: one.md file: out.html\n"
-            "@package template: two.md file: out.html",
+            "@package instructions: one.md file: out.html\n"
+            "@package instructions: two.md file: out.html",
             "Duplicate @package output target: out.html",
         ),
         (

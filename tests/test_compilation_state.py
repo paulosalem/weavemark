@@ -41,7 +41,7 @@ def test_accumulator_preserves_and_replaces_metadata_by_identity() -> None:
         bindings=[{"capability": "lookup", "language": "python"}],
         execution={"type": "chain"},
         emits={"system.md": "System"},
-        packages=[{"file": "out.html", "template": "template.md"}],
+        packages=[{"file": "out.html", "instructions": "instructions.md"}],
         warnings=["warning"],
         suggestions=["suggestion"],
         transitions=["transition"],
@@ -54,7 +54,7 @@ def test_accumulator_preserves_and_replaces_metadata_by_identity() -> None:
         prompts={"draft": "Improved draft.", "review": "Review."},
         tools=[_tool("lookup", "Updated description")],
         bindings=[{"capability": "lookup", "language": "javascript"}],
-        packages=[{"file": "out.html", "template": "new-template.md"}],
+        packages=[{"file": "out.html", "instructions": "new-instructions.md"}],
         tool_calls_made=3,
     )
     accumulator = CompositionAccumulator()
@@ -78,7 +78,7 @@ def test_accumulator_preserves_and_replaces_metadata_by_identity() -> None:
     assert second.execution == {"type": "chain"}
     assert second.emits == {"system.md": "System"}
     assert second.packages == [
-        {"file": "out.html", "template": "new-template.md"}
+        {"file": "out.html", "instructions": "new-instructions.md"}
     ]
     assert second.warnings == ["warning"]
     assert second.suggestions == ["suggestion"]
@@ -125,7 +125,7 @@ class _MetadataAskClient:
                     execution={"type": "single-call"},
                     emits={"system.md": "System context."},
                     outputs={"default": {"type": "text", "file": "answer.md"}},
-                    packages=[{"file": "out.html", "template": "template.md"}],
+                    packages=[{"file": "out.html", "instructions": "instructions.md"}],
                 )
             )
         return ToolCallResponse(
@@ -162,7 +162,7 @@ async def test_ask_rounds_preserve_complete_compiler_metadata(
     assert result.emits == {"system.md": "System context."}
     assert result.prompt_outputs["default"].params["file"] == "answer.md"
     assert result.packages == [
-        {"file": "out.html", "template": "template.md"}
+        {"file": "out.html", "instructions": "instructions.md"}
     ]
     assert result.ask_history[0]["answer"] == "Enterprise buyers"
 

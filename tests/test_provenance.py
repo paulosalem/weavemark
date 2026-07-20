@@ -197,7 +197,7 @@ async def test_manifest_only_is_optional_and_omits_variable_values(
 
 
 def test_version_contract_and_cli_version(capsys: pytest.CaptureFixture[str]) -> None:
-    assert weavemark.__version__ == "0.9.0"
+    assert weavemark.__version__ == "0.9.1"
     assert weavemark.LANGUAGE_VERSION == "0.9"
     parser = create_parser()
 
@@ -206,5 +206,5 @@ def test_version_contract_and_cli_version(capsys: pytest.CaptureFixture[str]) ->
 
     assert exc_info.value.code == 0
     assert capsys.readouterr().out.strip() == (
-        "weavemark 0.9.0 (WeaveMark language 0.9)"
+        "weavemark 0.9.1 (WeaveMark language 0.9)"
     )

@@ -70,21 +70,30 @@ class PackagePayload(_StrictModel):
     """One execution-phase package instruction."""
 
     file: str
-    template: str | None = None
+    instructions: str | None = None
+    body: str | None = None
     from_: str | None = Field(default=None, alias="from")
 
     @model_validator(mode="after")
     def validate_source(self) -> PackagePayload:
-        """Require exactly one render or conversion source."""
-        if (self.template is None) == (self.from_ is None):
-            raise ValueError("package requires exactly one of template or from")
+        """Require one semantic instruction source or one conversion source."""
+
+        has_semantic_source = self.instructions is not None or bool(
+            self.body and self.body.strip()
+        )
+        if has_semantic_source == (self.from_ is not None):
+            raise ValueError(
+                "package requires instructions/body or from, but not both"
+            )
         return self
 
     def package_dict(self) -> dict[str, str]:
         """Return the structural compiler's package dictionary shape."""
         result = {"file": self.file}
-        if self.template is not None:
-            result["template"] = self.template
+        if self.instructions is not None:
+            result["instructions"] = self.instructions
+        if self.body is not None and self.body.strip():
+            result["body"] = self.body
         if self.from_ is not None:
             result["from"] = self.from_
         return result

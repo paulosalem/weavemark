@@ -14,6 +14,7 @@ from typing import Any, cast
 from ellements.core.exceptions import LLMError
 
 from ..compilation.result import CompositionResult
+from ..promplet_library import resolve_module_source
 
 ToolExecutor = Callable[[str, dict[str, Any]], Awaitable[str]]
 BoundCallable = Callable[..., Any]
@@ -107,16 +108,31 @@ def _load_binding(
             f"Unsupported @bind language {binding.get('language')!r}; expected python."
         )
     source = binding.get("from", "")
-    path = (base_dir / source).resolve()
+    binding_base = base_dir
+    binding_module_name = binding.get("module")
+    if binding_module_name:
+        module_source = resolve_module_source(binding_module_name, cwd=base_dir)
+        binding_base = module_source.path.resolve().parent
+    source_path = Path(source)
+    if source_path.is_absolute() or ".." in source_path.parts:
+        raise ValueError(f"@bind source escapes its declaration directory: {source}")
+    path = (binding_base / source_path).resolve()
     try:
-        path.relative_to(base_dir)
+        path.relative_to(binding_base)
     except ValueError as exc:
-        raise ValueError(f"@bind source escapes the promplet directory: {source}") from exc
+        raise ValueError(
+            f"@bind source escapes its declaration directory: {source}"
+        ) from exc
     if not path.is_file():
         raise FileNotFoundError(f"@bind source not found: {source}")
+    source_reference = (
+        f"module:{binding_module_name}/{source.removeprefix('./')}"
+        if binding_module_name
+        else source
+    )
     if result.protection is not None:
         result.protection.authorize_python(
-            source,
+            source_reference,
             path=path,
             reason=f"Executing bound capability {_binding_name(binding)!r}",
         )
@@ -129,7 +145,7 @@ def _load_binding(
     if module is None:
         spec = importlib.util.spec_from_file_location(module_name, path)
         if spec is None or spec.loader is None:
-            raise ImportError(f"Could not load @bind module: {source}")
+            raise ImportError(f"Could not load @bind module: {source_reference}")
         module = importlib.util.module_from_spec(spec)
         sys.modules[module_name] = module
         spec.loader.exec_module(module)
@@ -137,7 +153,7 @@ def _load_binding(
     symbol = binding.get("symbol", "")
     function = getattr(module, symbol, None)
     if not callable(function):
-        raise TypeError(f"@bind symbol is not callable: {source}:{symbol}")
+        raise TypeError(f"@bind symbol is not callable: {source_reference}:{symbol}")
     return cast(Callable[..., Any], function)
 
 

@@ -447,6 +447,124 @@ Write a concise report from @{final}.
         ]
 
     @pytest.mark.asyncio
+    async def test_module_default_binding_loads_and_local_binding_overrides_it(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        from weavemark.api import compile_file
+        from weavemark.engines.bindings import load_binding_callables
+        from weavemark.protection import (
+            ProtectionContext,
+            ProtectionError,
+            ProtectionSettings,
+        )
+
+        module_dir = tmp_path / "promplets" / "company"
+        companion_dir = module_dir / "companions"
+        companion_dir.mkdir(parents=True)
+        (companion_dir / "default.py").write_text(
+            "def calculate(value):\n    return int(value) * 2\n",
+            encoding="utf-8",
+        )
+        (module_dir / "math.weavemark.md").write_text(
+            """
+@module company.math
+@bind calculator language: python from: "./companions/default.py" symbol: calculate
+
+@define calculate
+  @phase execute
+  @scope self
+  @returns value
+  @param value
+    Number.
+  @effect calculator read
+  @body
+    Calculate @{value}.
+""".strip()
+            + "\n",
+            encoding="utf-8",
+        )
+        (tmp_path / "override.py").write_text(
+            "def calculate(value):\n    return int(value) * 3\n",
+            encoding="utf-8",
+        )
+        default_path = tmp_path / "default.weavemark.md"
+        default_path.write_text(
+            """
+@use company.math exposing calculate
+@execute functional
+  allow_effects: [calculator]
+@calculate value: "4" as: result
+""".strip()
+            + "\n",
+            encoding="utf-8",
+        )
+        override_path = tmp_path / "override.weavemark.md"
+        override_path.write_text(
+            """
+@use company.math exposing calculate
+@bind calculator language: python from: "./override.py" symbol: calculate
+@execute functional
+  allow_effects: [calculator]
+@calculate value: "4" as: result
+""".strip()
+            + "\n",
+            encoding="utf-8",
+        )
+
+        protection = ProtectionContext.create(
+            ProtectionSettings(enabled=False),
+            entrypoint_dir=tmp_path,
+            invocation_dir=tmp_path,
+            approvals_path=tmp_path / "approvals.json",
+        )
+        compiled_default = await compile_file(
+            default_path,
+            protection_context=protection,
+        )
+        compiled_override = await compile_file(
+            override_path,
+            protection_context=protection,
+        )
+
+        assert compiled_default.errors == []
+        assert compiled_default.bindings[0]["module"] == "company.math"
+        assert compiled_default.execution["bindings"] == compiled_default.bindings
+        default_callable = load_binding_callables(
+            compiled_default,
+            ["calculator"],
+        )["calculator"]
+        assert default_callable("4") == 8
+
+        assert compiled_override.errors == []
+        assert compiled_override.bindings == [
+            {
+                "name": "calculator",
+                "language": "python",
+                "from": "./override.py",
+                "symbol": "calculate",
+            }
+        ]
+        assert compiled_override.execution["bindings"] == compiled_override.bindings
+        override_callable = load_binding_callables(
+            compiled_override,
+            ["calculator"],
+        )["calculator"]
+        assert override_callable("4") == 12
+
+        protected = await compile_file(
+            default_path,
+            protection_context=ProtectionContext.create(
+                ProtectionSettings(),
+                entrypoint_dir=tmp_path,
+                invocation_dir=tmp_path,
+                approvals_path=tmp_path / "protected-approvals.json",
+            ),
+        )
+        with pytest.raises(ProtectionError, match="Python code execution"):
+            load_binding_callables(protected, ["calculator"])
+
+    @pytest.mark.asyncio
     async def test_functional_engine_isolates_runtime_and_prior_results(
         self, monkeypatch: pytest.MonkeyPatch
     ):

@@ -10,6 +10,7 @@
     >
     <link rel="stylesheet" href="site.css?v=20260712">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
+    <script src="analytics.js?v=20260720" defer></script>
   </head>
   <body>
     <nav class="site-nav" aria-label="Primary">
@@ -226,7 +227,8 @@
             Every reusable module promplet declares its logical identity, for
             example <code>@module company.writing</code>. A body-bearing module
             may be refined with <code>@refine module:company.writing</code>;
-            definitions are imported with <code>@use</code>.
+            definitions are imported with <code>@use</code>. Definition modules
+            may also package inactive default host bindings.
           </p>
           <pre><code><span class="syntax-directive">@use</span> company.writing as writing exposing calm_voice
 
@@ -234,10 +236,18 @@
   Draft the release note.
 
 <span class="syntax-directive">@refine</span> module:company.writing</code></pre>
+          <pre><code><span class="syntax-directive">@use</span> weavemark.domains.finance.market_research <span class="syntax-key">exposing</span> fetch_asset_snapshot search_asset_context</code></pre>
+          <p>
+            Importing selects module-owned default <code>@bind</code> metadata,
+            with helper paths relative to the declaring module. No Python runs
+            during composition; runtime protection still authorizes execution.
+            A local binding with the same capability name overrides one default.
+          </p>
           <div class="callout">
             <strong>Collision rule:</strong> exposed direct names must not
             collide with core primitives or other direct imports. Use aliases
-            when a namespace is clearer.
+            when a namespace is clearer. Two imported default providers for the
+            same capability are also an error.
           </div>
         </section>
 

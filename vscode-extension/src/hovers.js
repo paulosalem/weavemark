@@ -22,7 +22,7 @@ const PARAMETER_DOCS = {
   type: "Output modality for `@output`: `text` or `image`.",
   quality: "Image-generation quality for an image `@output` contract.",
   edit: "Whether an image output edits the previous/reference image.",
-  template: "Promplet template used by `@package` to render an artifact.",
+  instructions: "Reusable promplet instructions semantically applied by `@package`.",
   detail_level: "Compile-time `@ask` depth as a percentage greater than `0%` and no greater than `100%`. Higher values let the compiler ask more deeply before finishing the scoped body.",
   lang: "Language hint for an embedded fenced block.",
   label: "Human-readable label attached to an embedded block or example.",

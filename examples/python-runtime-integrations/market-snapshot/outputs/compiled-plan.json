@@ -1,5 +1,5 @@
 {
-  "composed_prompt": "# Executable Stock Learning Snapshot\n\n@{asset_snapshot}\n\n@{web_context}\n\n## Draft Report\n\nUse @{asset_snapshot} and @{web_context} to write a concise learning brief about\nApple Inc. (AAPL). Ground news and outside-context claims only in the\nweb-search result titles, snippets, source labels, and URLs. Clearly label search\nsnippets as search-result evidence rather than full-page readings.\n\nCover:\n\n1. What the company does and why the stock is currently interesting.\n2. Current market data and business fundamentals from the finance tools.\n3. Recent news, analyst opinion, official context, and skeptical outside\n   commentary from web search, with source URLs.\n4. Agreements, tensions, and evidence gaps across the source-grounded results.\n5. Key uncertainties and primary sources a learner should investigate next.\n\nDo not make a buy/sell recommendation. Treat this as asset education, not\npersonal financial advice.",
+  "composed_prompt": "# Executable Market Learning Snapshot\n\n@{asset_snapshot}\n\n@{web_context}\n\n## Draft Report\n\nUse @{asset_snapshot} and @{web_context} to write a rigorous market-learning\nbrief about Vale S.A. (VALE3). Ground news and outside-context\nclaims only in the web-search result titles, snippets, source labels, and URLs.\nClearly label snippets as search-result evidence rather than full-page readings.\n\nCover:\n\n1. An executive snapshot with the most decision-relevant facts and caveats.\n2. What the company does, its economic drivers, and why the stock is currently\n   interesting.\n3. Current market data and business fundamentals from the finance tools,\n   preserving provider units, periods, and missing-value signals.\n4. Recent news, analyst opinion, official context, and skeptical outside\n   commentary from web search, with source URLs.\n5. Agreements, tensions, and evidence gaps across the source-grounded results.\n6. A balanced bull/base/bear scenario frame without price targets unless the\n   evidence explicitly supplies them.\n7. Key uncertainties, watchlist signals, and primary sources a learner should\n   investigate next.\n\nDo not make a buy/sell recommendation. Treat this as asset education, not\npersonal financial advice.",
   "raw_response": "",
   "analysis": "Resolved structural WeaveMark directives with deterministic helpers.",
   "warnings": [],
@@ -10,7 +10,7 @@
   "tool_calls_made": 0,
   "model_calls_made": 0,
   "prompts": {
-    "default": "# Executable Stock Learning Snapshot\n\n@{asset_snapshot}\n\n@{web_context}\n\n## Draft Report\n\nUse @{asset_snapshot} and @{web_context} to write a concise learning brief about\nApple Inc. (AAPL). Ground news and outside-context claims only in the\nweb-search result titles, snippets, source labels, and URLs. Clearly label search\nsnippets as search-result evidence rather than full-page readings.\n\nCover:\n\n1. What the company does and why the stock is currently interesting.\n2. Current market data and business fundamentals from the finance tools.\n3. Recent news, analyst opinion, official context, and skeptical outside\n   commentary from web search, with source URLs.\n4. Agreements, tensions, and evidence gaps across the source-grounded results.\n5. Key uncertainties and primary sources a learner should investigate next.\n\nDo not make a buy/sell recommendation. Treat this as asset education, not\npersonal financial advice."
+    "default": "# Executable Market Learning Snapshot\n\n@{asset_snapshot}\n\n@{web_context}\n\n## Draft Report\n\nUse @{asset_snapshot} and @{web_context} to write a rigorous market-learning\nbrief about Vale S.A. (VALE3). Ground news and outside-context\nclaims only in the web-search result titles, snippets, source labels, and URLs.\nClearly label snippets as search-result evidence rather than full-page readings.\n\nCover:\n\n1. An executive snapshot with the most decision-relevant facts and caveats.\n2. What the company does, its economic drivers, and why the stock is currently\n   interesting.\n3. Current market data and business fundamentals from the finance tools,\n   preserving provider units, periods, and missing-value signals.\n4. Recent news, analyst opinion, official context, and skeptical outside\n   commentary from web search, with source URLs.\n5. Agreements, tensions, and evidence gaps across the source-grounded results.\n6. A balanced bull/base/bear scenario frame without price targets unless the\n   evidence explicitly supplies them.\n7. Key uncertainties, watchlist signals, and primary sources a learner should\n   investigate next.\n\nDo not make a buy/sell recommendation. Treat this as asset education, not\npersonal financial advice."
   },
   "compile": {
     "weavemark_version": "0.7"
@@ -20,13 +20,15 @@
       "name": "finance_data",
       "language": "python",
       "from": "./companions/market_data.py",
-      "symbol": "fetch_asset_snapshot"
+      "symbol": "fetch_asset_snapshot",
+      "module": "weavemark.domains.finance.market_research"
     },
     {
       "name": "web_search",
       "language": "python",
       "from": "./companions/market_data.py",
-      "symbol": "search_asset_context"
+      "symbol": "search_asset_context",
+      "module": "weavemark.domains.finance.market_research"
     }
   ],
   "execution": {
@@ -35,20 +37,6 @@
     "allow_effects": [
       "finance_data",
       "web_search"
-    ],
-    "bindings": [
-      {
-        "name": "finance_data",
-        "language": "python",
-        "from": "./companions/market_data.py",
-        "symbol": "fetch_asset_snapshot"
-      },
-      {
-        "name": "web_search",
-        "language": "python",
-        "from": "./companions/market_data.py",
-        "symbol": "search_asset_context"
-      }
     ],
     "plan": {
       "scheduler": "graph-strict",
@@ -82,7 +70,7 @@
         "args": {
           "positional": [],
           "options": {
-            "ticker": "@{ticker}"
+            "ticker": "@{provider_ticker}"
           }
         },
         "params": [
@@ -111,7 +99,7 @@
         "args": {
           "positional": [],
           "options": {
-            "ticker": "@{ticker}",
+            "ticker": "@{display_ticker}",
             "company_name": "@{company_name}",
             "focus": "@{research_focus}"
           }
@@ -139,6 +127,29 @@
           "asset_snapshot"
         ]
       }
+    ],
+    "bindings": [
+      {
+        "name": "finance_data",
+        "language": "python",
+        "from": "./companions/market_data.py",
+        "symbol": "fetch_asset_snapshot",
+        "module": "weavemark.domains.finance.market_research"
+      },
+      {
+        "name": "web_search",
+        "language": "python",
+        "from": "./companions/market_data.py",
+        "symbol": "search_asset_context",
+        "module": "weavemark.domains.finance.market_research"
+      }
     ]
-  }
+  },
+  "packages": [
+    {
+      "file": "vale3-market-dashboard.html",
+      "instructions": "module:weavemark.std.presentation.information_dashboard_html",
+      "body": "Title the deliverable \"VALE3 Market Learning Dashboard\" and identify the\nanalyzed security as Vale S.A. on B3 under ticker VALE3. The finance provider\nmay label the instrument VALE3.SA; explain that notation once, compactly.\n\nGive the dashboard an extractive-industry research character without adding\ndecorative imagery: make commodity exposure, operational drivers, balance\nsheet signals, evidence quality, cyclical risks, and watchlist items easy to\nscan. Use the current company name, Vale S.A.; mention the historical\nCompanhia Vale do Rio Doce name only if useful for identification.\n\nRetain Portuguese-real amounts and Brazilian-market terminology exactly when\nsupplied. Never convert currencies or infer missing values. Keep the final\neducational, non-recommendation disclaimer visible but quiet."
+    }
+  ]
 }

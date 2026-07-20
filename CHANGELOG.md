@@ -2,6 +2,41 @@
 
 ## Unreleased
 
+## 0.9.1 - 2026-07-20
+
+### Added
+
+- Semantic `@package instructions:` application with reusable and inline
+  instruction composition, canonical `@{output}` context, and a reusable
+  internal promplet-application runtime.
+- Explicit `--open` support for opening successfully packaged artifacts after
+  execution.
+- Module-owned default `@bind` implementations. Importing a module selects its
+  defaults as metadata, local bindings override them, and runtime protection
+  remains authoritative before Python execution.
+- A flagship VALE3 market-learning workflow with reusable finance capabilities,
+  a grounded Markdown report, execution trace, and responsive standalone HTML
+  dashboard.
+- Consent-first GA4 documentation analytics with persistent preferences and
+  advertising signals disabled.
+
+### Changed
+
+- Renamed the misleading semantic-package parameter from `template:` to
+  `instructions:` as a clean language break.
+- Replaced the executable tool-binding tutorial with an end-to-end market-report
+  tutorial and promoted the market workflow into the home-page hero examples.
+- Moved reusable market-research definitions and their reviewed default adapter
+  into the finance domain module.
+
+### Fixed
+
+- Filtered unrelated market-search results and restricted official-context
+  evidence to company-owned domains.
+- Hardened generated dashboard instructions against narrow-viewport overflow
+  and preserved evidence, currency, source, accessibility, print, and security
+  constraints.
+
 ## 0.9.0 - 2026-07-19
 
 ### Added

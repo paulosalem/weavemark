@@ -110,5 +110,5 @@
   The full authored book (JSON), for context and cross-page consistency:
   @{author}
 
-@package template: module:weavemark.domains.creative.picture_book_html file: book.html
+@package instructions: module:weavemark.domains.creative.picture_book_html file: book.html
 @package from: book.html file: book.pdf

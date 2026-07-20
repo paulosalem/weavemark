@@ -395,14 +395,14 @@ software. Update the version if you are citing a specific release.
   title = {{WeaveMark}: An Experimental Language for Readable, Reusable, and Composable Prompts},
   year = {2026},
   url = {https://github.com/paulosalem/weavemark},
-  note = {Version 0.9.0; computer software}
+  note = {Version 0.9.1; computer software}
 }
 ```
 
 **APA**
 
 Salem, P. (2026). *WeaveMark: An experimental language for readable, reusable, and
-composable prompts* (Version 0.9.0) [Computer software]. GitHub.
+composable prompts* (Version 0.9.1) [Computer software]. GitHub.
 https://github.com/paulosalem/weavemark
 
 ## For AI agents

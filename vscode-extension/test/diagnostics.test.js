@@ -47,8 +47,8 @@ test("diagnostics match current declarations and ignore literal regions", () => 
     "  First.",
     "@tool search",
     "  Second.",
-    "@package template: one.md file: out.html",
-    "@package template: two.md file: out.html",
+    "@package instructions: one.md file: out.html",
+    "@package instructions: two.md file: out.html",
     "@refine module:weavemark.std.reasoning.base_analyst",
   ].join("\n");
   const document = createDocument(text);

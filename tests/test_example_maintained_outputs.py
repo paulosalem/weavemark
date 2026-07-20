@@ -358,18 +358,20 @@ def test_contrastive_mining_example_is_self_contained_and_maintained() -> None:
     assert len(re.findall(r"^### \d+\. revise_\d+$", trace, re.MULTILINE)) == 2
 
 
-def test_functional_market_snapshot_is_executed_and_source_grounded() -> None:
+def test_functional_market_snapshot_artifacts_are_grounded_and_transparent() -> None:
     root = EXAMPLES / "saved-artifact-workflows/market-snapshot/outputs"
     output = (root / "execution-output.md").read_text(encoding="utf-8")
     trace = (root / "execution-trace.md").read_text(encoding="utf-8")
+    dashboard = (root / "vale3-market-dashboard.html").read_text(encoding="utf-8")
     final_trace = trace.rsplit("## Final output", maxsplit=1)[-1]
 
     for unresolved in ("@{", "__WEAVEMARK", "example.com"):
         assert unresolved not in output
         assert unresolved not in final_trace
+        assert unresolved not in dashboard
     assert "Unresolved functional value placeholder" not in trace
-    assert '"status": "executed"' in trace
     assert "| Engine | `functional` |" in trace
+    assert '"status": "executed"' in trace
     assert "| Steps | 3 |" in trace
     for name in (
         "asset_snapshot",
@@ -379,6 +381,24 @@ def test_functional_market_snapshot_is_executed_and_source_grounded() -> None:
     ):
         assert name in trace
     assert "https://" in output
+    assert "VALE3" in output
+    assert re.search(
+        r"(?:Current price[^\n]*BRL|BRL[^\n]*Current price)",
+        output,
+        re.IGNORECASE,
+    )
+    assert re.search(
+        r"(?:Currency[^\n]*BRL|BRL[^\n]*Currency)",
+        output,
+        re.IGNORECASE,
+    )
+    assert dashboard.startswith("<!doctype html>")
+    assert dashboard.rstrip().endswith("</html>")
+    assert "VALE3 Market Learning Dashboard" in dashboard
+    assert "Content-Security-Policy" in dashboard
+    assert "@media print" in dashboard
+    assert "overflow-wrap: anywhere" in dashboard
+    assert "minmax(0, 1fr)" in dashboard
     for crawler_claim in ("web_crawl", "source_readings", "crawled source", "crawler"):
         assert crawler_claim not in (output + trace).lower()
 

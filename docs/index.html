@@ -10,6 +10,7 @@
     >
     <link rel="stylesheet" href="site.css?v=20260718-thought">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
+    <script src="analytics.js?v=20260720" defer></script>
   </head>
   <body>
     <nav class="site-nav" aria-label="Primary">
@@ -112,7 +113,7 @@ Resurface only new or materially changed findings.</code></pre>
 <span class="syntax-directive">@prompt</span> page
   <span class="syntax-directive">@output</span> <span class="syntax-key">type:</span> image <span class="syntax-key">file:</span> pages/page-<span class="syntax-var">@{index}</span>.png
 
-<span class="syntax-directive">@package</span> <span class="syntax-key">template:</span> module:weavemark.domains.creative.picture_book_html <span class="syntax-key">file:</span> book.html
+<span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.domains.creative.picture_book_html <span class="syntax-key">file:</span> book.html
 <span class="syntax-directive">@package</span> <span class="syntax-key">from:</span> book.html <span class="syntax-key">file:</span> book.pdf</code></pre>
               <pre class="hero-slide" data-carousel-slide data-title="creative-ideation.weavemark.md" data-href="../promplets/catalog/standalone/creative-ideation.weavemark.md" data-stat-a-title="@match method" data-stat-a-text="SCAMPER, Six Hats, Reverse" data-stat-b-title="@refine mingle" data-stat-b-text="method becomes local structure" data-stat-c-title="constraints" data-stat-c-text="limits stay visible" hidden><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 <span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst <span class="syntax-key">mingle:</span> true
@@ -130,22 +131,16 @@ Constraints: <span class="syntax-var">@{constraints}</span>
     <span class="syntax-directive">@refine</span> module:weavemark.std.ideation.six_thinking_hats <span class="syntax-key">mingle:</span> true
   <span class="syntax-string">"reverse"</span> ==&gt;
     <span class="syntax-directive">@refine</span> module:weavemark.std.ideation.reverse_brainstorming <span class="syntax-key">mingle:</span> true</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="issue-tree-analysis.weavemark.md" data-href="../promplets/catalog/standalone/issue-tree-analysis.weavemark.md" data-stat-a-title="root question" data-stat-a-text="decision-relevant decomposition" data-stat-b-title="@refine" data-stat-b-text="issue-tree method layer" data-stat-c-title="@if inputs" data-stat-c-text="context stays optional" hidden><code><span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst
-<span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.unstructured_input_normalization <span class="syntax-key">mingle:</span> true
-<span class="syntax-directive">@refine</span> module:weavemark.std.analysis.issue_tree_core
+              <pre class="hero-slide" data-carousel-slide data-title="market-snapshot.weavemark.md" data-href="../promplets/catalog/executable/market-snapshot.weavemark.md" data-stat-a-title="live evidence" data-stat-a-text="finance data plus bounded web search" data-stat-b-title="functional graph" data-stat-b-text="validated capability dependencies" data-stat-c-title="semantic package" data-stat-c-text="Markdown becomes a polished HTML report" hidden><code><span class="syntax-directive">@use</span> weavemark.domains.finance.market_research <span class="syntax-key">exposing</span> fetch_asset_snapshot search_asset_context
 
-# Issue Tree Analysis
+<span class="syntax-directive">@execute</span> functional
+  <span class="syntax-key">scheduler:</span> graph-strict
+  <span class="syntax-key">allow_effects:</span> [finance_data, web_search]
 
-Turn the problem into a hierarchy of
-decision-relevant questions or drivers.
+<span class="syntax-directive">@fetch_asset_snapshot</span> <span class="syntax-key">ticker:</span> <span class="syntax-string">"@{provider_ticker}"</span> <span class="syntax-key">as:</span> asset_snapshot
+<span class="syntax-directive">@search_asset_context</span> <span class="syntax-key">ticker:</span> <span class="syntax-string">"@{display_ticker}"</span> <span class="syntax-key">as:</span> web_context <span class="syntax-key">uses:</span> asset_snapshot
 
-<span class="syntax-directive">@if</span> problem
-  ## Problem
-  <span class="syntax-var">@{problem}</span>
-
-<span class="syntax-directive">@if</span> constraints
-  ## Constraints
-  <span class="syntax-var">@{constraints}</span></code></pre>
+<span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.std.presentation.information_dashboard_html <span class="syntax-key">file:</span> vale3-market-dashboard.html</code></pre>
             </div>
           </div>
           <div class="carousel-controls" aria-label="WeaveMark example selector">
@@ -154,7 +149,7 @@ decision-relevant questions or drivers.
             <button class="carousel-tab" type="button" data-carousel-index="1" aria-pressed="false">Topic monitor</button>
             <button class="carousel-tab" type="button" data-carousel-index="2" aria-pressed="false">Storybook</button>
             <button class="carousel-tab" type="button" data-carousel-index="3" aria-pressed="false">Ideas</button>
-            <button class="carousel-tab" type="button" data-carousel-index="4" aria-pressed="false">Issue tree</button>
+            <button class="carousel-tab" type="button" data-carousel-index="4" aria-pressed="false">Market report</button>
             <button class="carousel-arrow" type="button" data-carousel-next aria-label="Next example">&gt;</button>
           </div>
         </div>

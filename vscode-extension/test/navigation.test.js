@@ -29,7 +29,7 @@ test("definition references support module and quoted path forms", () => {
     /@reference\(\s*("[^"]+"|'[^']+'|[A-Za-z0-9_./~+-]+)/,
     /(?<![A-Za-z0-9_@])@((?:(?:\.{0,2}\/|~\/|\/)[A-Za-z0-9_./~+-]*[A-Za-z0-9_+-])|(?:README|AGENTS|CLAUDE)(?:\.md)?|[A-Za-z0-9_+-]+(?:\.[A-Za-z0-9_+-]+)+)(?=$|[\s.,;:!?])/,
     /^\s*@refine\s+("[^"]+"|'[^']+'|\S+)/,
-    /^\s*@package\b.*\b(?:template|from):\s*("[^"]+"|'[^']+'|\S+)/,
+    /^\s*@package\b.*\b(?:instructions|from):\s*("[^"]+"|'[^']+'|\S+)/,
   ];
 
   const moduleReference = findReference(
@@ -37,7 +37,7 @@ test("definition references support module and quoted path forms", () => {
     patterns
   );
   const packageReference = findReference(
-    '@package template: "book templates/main.weavemark.md" file: out.html',
+    '@package instructions: "book instructions/main.weavemark.md" file: out.html',
     patterns
   );
   const inlineReference = findReference(
@@ -52,7 +52,7 @@ test("definition references support module and quoted path forms", () => {
   assert.equal(moduleReference.value, "module:company.rules");
   assert.equal(
     unquote(packageReference.value),
-    "book templates/main.weavemark.md"
+    "book instructions/main.weavemark.md"
   );
   assert.equal(unquote(inlineReference.value), "docs/guide.md");
   assert.equal(shorthandReference.value, "README");

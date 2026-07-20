@@ -146,8 +146,8 @@ async def test_childrens_book_reuses_shared_creative_modules() -> None:
     assert result.errors == []
     assert template_result.errors == []
     assert scan_spec(source).title == "Children's Picture Book"
-    assert result.packages[0]["template"] == module
-    assert f"@package template: {module}" in source
+    assert result.packages[0]["instructions"] == module
+    assert f"@package instructions: {module}" in source
     assert result.prompt_outputs["author"].params["enforce"] == "strict"
     assert "exactly the top-level keys `title`" in (
         result.prompt_outputs["author"].params["body"]
@@ -192,9 +192,9 @@ def test_playwright_mcp_requires_approved_pinned_configuration() -> None:
 
 
 @pytest.mark.asyncio
-async def test_all_43_domain_promplets_scan_and_compile() -> None:
+async def test_all_44_domain_promplets_scan_and_compile() -> None:
     paths = sorted(DOMAINS.rglob("*.weavemark.md"))
-    assert len(paths) == 43
+    assert len(paths) == 44
 
     client = _CompileClient()
     failures: list[str] = []

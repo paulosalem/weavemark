@@ -16,6 +16,26 @@ these rules.
 Nested `AGENTS.md` files may add domain-specific instructions for their
 subtrees.
 
+## Repository-user welcome
+
+The first assistant reply in a new conversation in this repository must briefly
+welcome the person and establish their role before offering general help. When
+their first message is ambiguous, including a greeting such as `hi`, reply with
+this question:
+
+> Welcome to WeaveMark. Are you here as a repository user who wants to try it,
+> or as a maintainer working on the project?
+
+Do not substitute a generic “What would you like to work on?” greeting for this
+role question. Do not ask again once the person's role is known. If their first
+message clearly establishes their role, acknowledge it and proceed directly.
+
+- For a maintainer, follow the engineering instructions in this file.
+- For a repository user, use the `weavemark-repository-user` skill before
+  proposing, running, or customizing an example. The skill is mirrored at
+  `.github/skills/weavemark-repository-user/SKILL.md` for Copilot CLI and
+  `.claude/skills/weavemark-repository-user/SKILL.md` for Claude Code.
+
 ## Machine-local agent workspace
 
 Temporary agent material must live outside this repository at:

@@ -1958,6 +1958,93 @@ class TestReferenceCompilation:
             "Checklist:\n" "Namespaced item.\n\n" "Checklist:\n" "Exposed item."
         )
 
+    @pytest.mark.asyncio
+    async def test_module_default_bindings_are_selected_automatically(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        module_dir = tmp_path / "promplets" / "company"
+        companion_dir = module_dir / "companions"
+        companion_dir.mkdir(parents=True)
+        _write(
+            companion_dir / "lookup.py",
+            """
+            def lookup(query):
+                return {"query": query}
+            """,
+        )
+        _write(
+            module_dir / "research.weavemark.md",
+            """
+            @module company.research
+            @bind lookup_service language: python from: "./companions/lookup.py" symbol: lookup
+
+            @define lookup
+              @phase execute
+              @scope self
+              @returns value
+              @param query
+                Query.
+              @effect lookup_service read
+              @body
+                Look up @{query}.
+            """,
+        )
+        controller = WeaveMarkController(WeaveMarkConfig())
+
+        result = await controller.compose(
+            "@use company.research exposing lookup\n\nReady.",
+            variables={},
+            base_dir=tmp_path,
+        )
+
+        assert result.errors == []
+        assert result.bindings == [
+            {
+                "name": "lookup_service",
+                "language": "python",
+                "from": "./companions/lookup.py",
+                "symbol": "lookup",
+                "module": "company.research",
+            }
+        ]
+
+    @pytest.mark.asyncio
+    async def test_obsolete_binding_import_parameter_is_rejected(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        module_dir = tmp_path / "promplets" / "company"
+        module_dir.mkdir(parents=True)
+        _write(
+            module_dir / "plain.weavemark.md",
+            """
+            @module company.plain
+
+            @define identity(body: content)
+              @{body}
+            """,
+        )
+        controller = WeaveMarkController(WeaveMarkConfig())
+
+        obsolete = await controller.compose(
+            "@use company.plain bindings: default\n\nReady.",
+            variables={},
+            base_dir=tmp_path,
+        )
+        ordinary = await controller.compose(
+            "@use company.plain\n\nReady.",
+            variables={},
+            base_dir=tmp_path,
+        )
+
+        assert obsolete.errors == [
+            "@use bindings: is not supported; module default bindings are "
+            "selected automatically."
+        ]
+        assert ordinary.errors == []
+        assert ordinary.bindings == []
+
     def test_user_library_can_supply_custom_modules(
         self,
         tmp_path: Path,

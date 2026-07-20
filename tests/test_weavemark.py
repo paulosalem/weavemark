@@ -1506,6 +1506,55 @@ class TestResponseParsing:
         )
         assert args.no_file_summary is True
 
+    def test_open_artifacts_in_parser(self):
+        """Verify --open requests package presentation after execution."""
+        from weavemark.app import create_parser
+
+        args = create_parser().parse_args(["test.md", "--run", "--open"])
+
+        assert args.open_artifacts is True
+
+    def test_open_package_artifacts_deduplicates_and_warns(
+        self,
+        tmp_path: Path,
+        monkeypatch,
+    ):
+        """Only successful package files are opened, once, in source order."""
+        from weavemark.app import _open_package_artifacts
+        from weavemark.packaging import PackageResult
+
+        opened: list[str] = []
+
+        class FakePrinter:
+            def __init__(self) -> None:
+                self.warnings: list[str] = []
+
+            def warning(self, message: str) -> None:
+                self.warnings.append(message)
+
+        monkeypatch.setattr(
+            "weavemark.app.webbrowser.open",
+            lambda uri: opened.append(uri) or True,
+        )
+        report = tmp_path / "report.html"
+        printer = FakePrinter()
+        _open_package_artifacts(
+            [
+                PackageResult(report, "apply", True),
+                PackageResult(report, "apply", True),
+                PackageResult(tmp_path / "failed.pdf", "convert", False),
+            ],
+            printer,
+        )
+
+        assert opened == [report.resolve().as_uri()]
+        assert printer.warnings == []
+
+        _open_package_artifacts([], printer)
+        assert printer.warnings == [
+            "No successfully packaged artifacts were produced to open."
+        ]
+
     def test_execution_trace_helpers_include_step_responses(self):
         """Execution traces expose the intermediate responses, not just names."""
         from ellements.execution import StepRecord
@@ -2171,6 +2220,24 @@ class TestResponseParsing:
                 "--output-dir",
                 str(tmp_path / "dist"),
             ],
+        )
+
+        with pytest.raises(SystemExit) as exc_info:
+            cli()
+        assert exc_info.value.code == 2
+
+    def test_open_requires_run(self, tmp_path: Path, monkeypatch):
+        """Passing --open without --run exits with code 2."""
+        import sys as _sys
+
+        from weavemark.app import cli
+
+        spec_path = tmp_path / "scenario.weavemark.md"
+        spec_path.write_text("Primary.\n", encoding="utf-8")
+        monkeypatch.setattr(
+            _sys,
+            "argv",
+            ["weavemark", str(spec_path), "--batch-only", "--open"],
         )
 
         with pytest.raises(SystemExit) as exc_info:

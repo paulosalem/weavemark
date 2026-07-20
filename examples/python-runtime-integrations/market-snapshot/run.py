@@ -37,11 +37,19 @@ from weavemark.defaults import DEFAULT_MODEL
 SPEC_PATH = (
     REPO_ROOT
     / "promplets"
-    / "experimental"
-    / "weave"
-    / "weave-market-snapshot.weavemark.md"
+    / "catalog"
+    / "executable"
+    / "market-snapshot.weavemark.md"
 )
-COMPANION_PATH = SPEC_PATH.parent / "companions" / "market_data.py"
+COMPANION_PATH = (
+    REPO_ROOT
+    / "promplets"
+    / "domains"
+    / "finance"
+    / "definitions"
+    / "companions"
+    / "market_data.py"
+)
 VARS_PATH = EXAMPLE_ROOT / "inputs" / "vars.json"
 OUTPUT_DIR = EXAMPLE_ROOT / "outputs"
 
@@ -80,9 +88,9 @@ async def main() -> None:
 
     _section("Companion runtime execution with Ellements tools")
     companion = _load_companion()
-    print(f"1. Fetching finance snapshot for {variables['ticker']}...")
+    print(f"1. Fetching finance snapshot for {variables['provider_ticker']}...")
     asset_snapshot = await _maybe_await(
-        companion.fetch_asset_snapshot(variables["ticker"])
+        companion.fetch_asset_snapshot(variables["provider_ticker"])
     )
     asset_snapshot_fields = (
         sorted(asset_snapshot) if isinstance(asset_snapshot, dict) else []
@@ -94,7 +102,7 @@ async def main() -> None:
     )
     web_context = await _maybe_await(
         companion.search_asset_context(
-            variables["ticker"],
+            variables["display_ticker"],
             variables["company_name"],
             variables["research_focus"],
         )
@@ -276,11 +284,15 @@ def _fallback_companion_summary(
     quote = _json_object(tools.get("quote"))
     profile = _json_object(tools.get("profile"))
     metrics = _json_object(tools.get("financial_metrics"))
-    analyst_recommendations = str(tools.get("analyst_recommendations", "")).strip()
+    currency = str(quote.get("currency", "")).strip().upper()
+    analyst_recommendations = _normalize_analyst_currency(
+        str(tools.get("analyst_recommendations", "")).strip(),
+        currency,
+    )
     web_context = companion_results.get("web_context", {})
     return "\n\n".join(
         [
-            f"# Stock Learning Snapshot: {variables['company_name']} ({variables['ticker']})",
+            f"# Stock Learning Snapshot: {variables['company_name']} ({variables['display_ticker']})",
             (
                 "> Generated from the Ellements-backed companion runtime tool results. "
                 "`gpt-5.5` synthesis was skipped because `OPENAI_API_KEY` was not set."
@@ -288,13 +300,13 @@ def _fallback_companion_summary(
             "## Finance data from Ellements Yahoo Finance tools",
             "\n".join(
                 [
-                    f"- Price: {_format_money(quote.get('current_price'))}",
-                    f"- Market cap: {_format_money(quote.get('market_cap'))}",
+                    f"- Price: {_format_money(quote.get('current_price'), currency)}",
+                    f"- Market cap: {_format_money(quote.get('market_cap'), currency)}",
                     f"- Sector / industry: {profile.get('sector', 'unknown')} / {profile.get('industry', 'unknown')}",
                     f"- P/E: {_format_number(metrics.get('pe_ratio'))}; forward P/E: {_format_number(metrics.get('forward_pe'))}",
                     f"- Revenue growth: {_format_percent(metrics.get('revenue_growth'))}; earnings growth: {_format_percent(metrics.get('earnings_growth'))}",
                     f"- Profit margin: {_format_percent(metrics.get('profit_margin'))}; gross margin: {_format_percent(metrics.get('gross_margin'))}",
-                    f"- 52-week range: {_format_money(quote.get('fifty_two_week_low'))} - {_format_money(quote.get('fifty_two_week_high'))}",
+                    f"- 52-week range: {_format_range(quote, currency)}",
                 ]
             ),
             "## Analyst context",
@@ -387,17 +399,34 @@ def _search_result_sources(web_context: Any) -> list[dict[str, str]]:
     return sources
 
 
-def _format_money(value: Any) -> str:
+def _format_money(value: Any, currency: str = "") -> str:
     number = _to_float(value)
     if number is None:
         return "unknown"
+    prefix = {"BRL": "R$ ", "USD": "$"}.get(currency, f"{currency} " if currency else "")
     if abs(number) >= 1_000_000_000_000:
-        return f"${number / 1_000_000_000_000:.2f}T"
+        return f"{prefix}{number / 1_000_000_000_000:.2f}T"
     if abs(number) >= 1_000_000_000:
-        return f"${number / 1_000_000_000:.2f}B"
+        return f"{prefix}{number / 1_000_000_000:.2f}B"
     if abs(number) >= 1_000_000:
-        return f"${number / 1_000_000:.2f}M"
-    return f"${number:,.2f}"
+        return f"{prefix}{number / 1_000_000:.2f}M"
+    return f"{prefix}{number:,.2f}"
+
+
+def _format_range(quote: dict[str, Any], currency: str) -> str:
+    low = _to_float(quote.get("fifty_two_week_low"))
+    high = _to_float(quote.get("fifty_two_week_high"))
+    low_text = "low unavailable" if low is None or low <= 0 else _format_money(low, currency)
+    high_text = (
+        "high unavailable" if high is None or high <= 0 else _format_money(high, currency)
+    )
+    return f"{low_text}; {high_text}"
+
+
+def _normalize_analyst_currency(text: str, currency: str) -> str:
+    if currency == "BRL":
+        return text.replace("$", "R$ ")
+    return text
 
 
 def _format_percent(value: Any) -> str:

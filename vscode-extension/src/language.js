@@ -117,10 +117,10 @@ function findDirectiveToken(line) {
 }
 
 function collectUseImports(line, declaredDirectives, moduleAliases) {
-  const alias = line.match(/\bas\s+([A-Za-z_][\w-]*)\s*$/);
+  const alias = line.match(/\bas\s+([A-Za-z_][\w-]*)(?=\s|$)/);
   if (alias) moduleAliases.add(alias[1]);
 
-  const exposing = line.match(/\bexposing\s+(.+?)(?:\s+as\s+\S+)?\s*$/);
+  const exposing = line.match(/\bexposing\s+(.+?)(?=\s+as\s+\S+|\s*$)/);
   if (!exposing) return;
   for (const name of exposing[1].split(/[\s,]+/)) {
     if (/^[A-Za-z_][\w-]*$/.test(name)) {

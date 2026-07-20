@@ -1,8 +1,8 @@
 """Fully-in-language packaging of a pipeline's produced artifacts.
 
 Turns ``@output file:`` artifacts and ``@package`` steps into deliverable files:
-persist produced artifacts, render packaging-template promplets (semantic
-assembly), and convert markup deliverables to formats like PDF.
+persist produced artifacts, apply packaging-instruction promplets (semantic
+transformation), and convert markup deliverables to formats like PDF.
 """
 
 from __future__ import annotations

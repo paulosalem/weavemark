@@ -1481,29 +1481,24 @@ def _parse_package_directive(
 ) -> dict[str, str] | None:
     """Parse a ``@package`` directive into a packaging step.
 
-    Two forms, both variable-substituted:
+    Two forms:
 
-    - Render:  ``@package template: <promplet> file: <out>`` — after execution,
-      the template promplet is compiled and executed (a *semantic* assembly)
-      with the pipeline's outputs and produced artifact file lists in scope, and
-      the result is written to ``file:``.
+    - Apply: ``@package instructions: <promplet> file: <out>`` and/or an indented
+      instruction body. Referenced and inline instructions are compiled with the
+      execution context and applied in one semantic call.
     - Convert: ``@package from: <src> file: <out>`` — deterministically convert
       an already-produced deliverable (e.g. HTML ``from:`` -> PDF ``file:``).
 
-    ``file:`` is required; exactly one of ``template:`` / ``from:`` must be set.
+    ``file:`` is required. Conversion cannot be combined with semantic instructions.
     """
 
     _positional, options = _parse_directive_options(rest)
-    for line in block.splitlines():
-        if ":" in line:
-            key, value = line.split(":", 1)
-            options[key.strip()] = value.strip()
 
-    allowed = {"template", "file", "from"}
+    allowed = {"instructions", "file", "from"}
     unsupported = sorted(key for key in options if key not in allowed)
     if unsupported:
         state.errors.append(
-            "@package supports template:, file:, and from:. Unsupported "
+            "@package supports instructions:, file:, and from:. Unsupported "
             "parameter(s): " + ", ".join(unsupported) + "."
         )
         return None
@@ -1517,23 +1512,34 @@ def _parse_package_directive(
         state.errors.append("@package requires file: <path>.")
         return None
 
-    template = _substitute_variables(options.get("template", ""), variables).strip()
+    instructions = _substitute_variables(
+        options.get("instructions", ""), variables
+    ).strip()
     source = _substitute_variables(options.get("from", ""), variables).strip()
-    if bool(template) == bool(source):
+    body = block.strip()
+    has_semantic_source = bool(instructions or body)
+    if has_semantic_source == bool(source):
         state.errors.append(
-            "@package requires exactly one of template: <promplet> (render) or "
-            "from: <path> (convert)."
+            "@package requires instructions: <promplet>, a non-empty body, or both; "
+            "from: <path> is the mutually exclusive conversion form."
         )
         return None
 
     package: dict[str, str] = {"file": file_name}
-    if template:
-        package["template"] = template
+    if has_semantic_source:
+        if instructions:
+            package["instructions"] = instructions
+        if body:
+            package["body"] = body
     else:
-        source = _validate_relative_file(source, "@package from:", state)
-        if not source:
+        validated_source = _validate_relative_file(
+            source,
+            "@package from:",
+            state,
+        )
+        if not validated_source:
             return None
-        package["from"] = source
+        package["from"] = validated_source
     return package
 
 

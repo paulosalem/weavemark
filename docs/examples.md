@@ -228,6 +228,7 @@ with `@use`.
 | `catalog/executable/collaborative-investment-strategy.weavemark.md` | Human-in-the-loop investment-strategy drafting workflow; the demo runner can hand each client turn to the surrounding AI agent. |
 | `catalog/executable/crisis-strategy-analyzer.weavemark.md` | Tool-enabled strategy-analysis prompt using reusable reasoning and strategy lenses. |
 | `catalog/executable/financial-independence-goal-plan.weavemark.md` | Weave prompt that imports the reusable goal-planning module and binds `web_search read` to a public-reference companion. |
+| `catalog/executable/market-snapshot.weavemark.md` | Flagship VALE3 functional workflow: reusable finance capabilities gather market/search evidence, a grounded Markdown brief is drafted, and reusable plus local `@package` instructions produce a standalone HTML dashboard. |
 
 ## Experimental executable prompts
 
@@ -237,7 +238,6 @@ These are intentionally separated from the stable executable catalog.
 |---|---|
 | `experimental/fslm/fslm-support-triage.weavemark.md` | Finite-state language-machine execution is still an advanced, changing mechanism. |
 | `experimental/fslm/fslm-support-triage-sugared.weavemark.md` | Inline FSLM sugar is useful but not stable enough for the main public surface. |
-| `experimental/weave/weave-market-snapshot.weavemark.md` | Functional execution, graph scheduling, and companion bindings are advanced and unstable. |
 
 ## Running selected specs
 

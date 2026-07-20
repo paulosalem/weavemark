@@ -127,7 +127,13 @@ def build_site(destination: Path, root: Path = ROOT) -> list[Path]:
         shutil.rmtree(destination)
     destination.mkdir(parents=True)
 
-    paths = tracked_paths(root)
+    paths = sorted(
+        {
+            *tracked_paths(root),
+            *(root / "docs").glob("*.js"),
+        },
+        key=lambda path: str(path.relative_to(root)),
+    )
     lfs = lfs_paths(paths, root)
     copied: list[Path] = []
     for source in paths:

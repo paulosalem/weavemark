@@ -13,13 +13,13 @@ section() {
   printf '%s\n\n' "================================================================================"
 }
 
-section "Market snapshot: native Weave promplet execution"
+section "VALE3 market snapshot: research to HTML dashboard"
 printf 'Vars file: %s\n' "$VARS_FILE"
 printf 'Output dir: %s\n\n' "$OUTPUT_DIR"
 
 # The market snapshot is a promplet; the Python runner is only a richer
 # integration transcript for people studying companion APIs directly.
-weavemark promplets/experimental/weave/weave-market-snapshot.weavemark.md \
+weavemark promplets/catalog/executable/market-snapshot.weavemark.md \
   --vars-file "$VARS_FILE" \
   --run \
   --no-protections \
@@ -28,7 +28,8 @@ weavemark promplets/experimental/weave/weave-market-snapshot.weavemark.md \
   --no-file-summary \
   --trace-output "$OUTPUT_DIR/execution-trace.md" \
   --verbose \
-  --batch-only
+  --batch-only \
+  --open
 
 section "Artifacts written"
 find "$OUTPUT_DIR" -type f | sort | sed 's#^#- #'

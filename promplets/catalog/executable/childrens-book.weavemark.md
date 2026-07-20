@@ -18,8 +18,8 @@
   illustration, so every image is a COMPLETE page ready to print.
 
   The two `@package` steps then assemble the deliverables: a print-ready HTML book
-  (a packaging-template promplet fills a skeleton with the produced page images —
-  a semantic assembly, no external code), and a PDF converted from that HTML.
+  (reusable package instructions semantically assemble the produced page images,
+  with no external glue code), and a PDF converted from that HTML.
 
   Companion vars set page_count, audience, art_style, characters, lessons, tone,
   text_in_image, and the image controls image_size / image_quality / image_model.
@@ -68,5 +68,5 @@
   The full authored book (JSON), for story context and cross-page consistency:
   @{author}
 
-@package template: module:weavemark.domains.creative.picture_book_html file: book.html
+@package instructions: module:weavemark.domains.creative.picture_book_html file: book.html
 @package from: book.html file: book.pdf

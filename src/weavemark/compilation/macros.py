@@ -108,6 +108,28 @@ class UseDirective:
     expose_all: bool = False
 
 
+@dataclass(frozen=True)
+class ModuleBinding:
+    """One default host binding declared by a reusable module."""
+
+    name: str
+    language: str
+    source: str
+    symbol: str
+    module_name: str
+
+    def metadata(self) -> dict[str, str]:
+        """Return portable compiled binding metadata."""
+
+        return {
+            "name": self.name,
+            "language": self.language,
+            "from": self.source,
+            "symbol": self.symbol,
+            "module": self.module_name,
+        }
+
+
 @dataclass
 class ParsedDocument:
     """A WeaveMark document split into metadata definitions and body."""
@@ -129,6 +151,7 @@ class ModuleDefinition:
     macros: dict[str, WeaveMarkDefinition]
     semantics: dict[str, WeaveMarkDefinition]
     body: str
+    default_bindings: tuple[ModuleBinding, ...] = ()
     aliases: dict[str, ModuleDefinition] = field(default_factory=dict)
 
     @property
@@ -157,6 +180,7 @@ class PreprocessResult:
     includes: list[str] = field(default_factory=list)
     macros: list[str] = field(default_factory=list)
     semantic_definitions: dict[str, WeaveMarkDefinition] = field(default_factory=dict)
+    bindings: list[dict[str, str]] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
 
@@ -230,11 +254,14 @@ class _WeaveMarkPreprocessor:
         self.warnings: list[str] = []
         self.errors: list[str] = []
         self._module_cache: dict[tuple[str, Path], ModuleDefinition] = {}
+        self._imported_bindings: dict[str, dict[str, str]] = {}
+        self._local_binding_names: set[str] = set()
         self._settings = settings
 
     def preprocess(self, spec_text: str, base_dir: Path) -> PreprocessResult:
         parsed = _parse_document(spec_text, "<input>")
         self.errors.extend(parsed.errors)
+        self._local_binding_names = _top_level_binding_names(parsed.body)
         env = self._build_environment(
             parsed,
             base_dir.resolve(),
@@ -254,6 +281,7 @@ class _WeaveMarkPreprocessor:
                     if not definition.is_semantic
                 ],
                 semantic_definitions=env.semantics,
+                bindings=list(self._imported_bindings.values()),
                 warnings=self.warnings,
                 errors=self.errors,
             )
@@ -278,6 +306,7 @@ class _WeaveMarkPreprocessor:
                 if not definition.is_semantic
             ],
             semantic_definitions=env.semantics,
+            bindings=list(self._imported_bindings.values()),
             warnings=self.warnings,
             errors=self.errors,
         )
@@ -397,6 +426,23 @@ class _WeaveMarkPreprocessor:
             else:
                 env.macros[exposed_name] = exposed_macro
 
+        for binding in module.default_bindings:
+            metadata = binding.metadata()
+            existing = self._imported_bindings.get(binding.name)
+            if (
+                existing is not None
+                and existing != metadata
+                and binding.name not in self._local_binding_names
+            ):
+                self.errors.append(
+                    "Default binding collision for capability "
+                    f"{binding.name!r}: {existing['module']} and "
+                    f"{binding.module_name}. Declare a local @bind override to "
+                    "select the implementation."
+                )
+                continue
+            self._imported_bindings[binding.name] = metadata
+
     def _load_module(
         self,
         module_name: str,
@@ -444,8 +490,14 @@ class _WeaveMarkPreprocessor:
             module_stack=(*module_stack, module_name),
         )
         self._validate_macro_cycles(env.macros)
-        expanded_body = self._expand_source(
+        module_body, default_bindings = _extract_module_default_bindings(
             parsed.body,
+            module_name,
+            module_base_dir,
+            self.errors,
+        )
+        expanded_body = self._expand_source(
+            module_body,
             env,
             module_base_dir,
             include_stack=(module_name,),
@@ -466,6 +518,7 @@ class _WeaveMarkPreprocessor:
                 if definition.is_semantic
             },
             body=_strip_promplet_declaration(expanded_body.text),
+            default_bindings=default_bindings,
             aliases=env.modules,
         )
         self._module_cache[cache_key] = module
@@ -883,6 +936,127 @@ def _parse_document(text: str, source: str) -> ParsedDocument:
     )
 
 
+def _top_level_binding_names(body: str) -> set[str]:
+    """Return local capability names that explicitly override module defaults."""
+
+    names: set[str] = set()
+    for line in body.splitlines():
+        match = _DIRECTIVE_RE.match(line)
+        if match is None or match.group("indent") or match.group("name") != "bind":
+            continue
+        parsed = parse_header_args(match.group("rest").strip(), allow_equals=True)
+        if not parsed.errors and len(parsed.positional) == 1:
+            names.add(parsed.positional[0])
+    return names
+
+
+def _extract_module_default_bindings(
+    body: str,
+    module_name: str,
+    base_dir: Path,
+    errors: list[str],
+) -> tuple[str, tuple[ModuleBinding, ...]]:
+    """Remove and validate top-level default ``@bind`` declarations."""
+
+    body_lines: list[str] = []
+    bindings: dict[str, ModuleBinding] = {}
+    required = {"language", "from", "symbol"}
+    for line in body.splitlines():
+        match = _DIRECTIVE_RE.match(line)
+        if match is None or match.group("indent") or match.group("name") != "bind":
+            body_lines.append(line)
+            continue
+
+        parsed = parse_header_args(match.group("rest").strip(), allow_equals=True)
+        if parsed.errors:
+            errors.extend(
+                f"Module {module_name} @bind: {error}" for error in parsed.errors
+            )
+            continue
+        if len(parsed.positional) != 1:
+            errors.append(
+                f"Module {module_name} @bind requires exactly one capability name."
+            )
+            continue
+        capability = parsed.positional[0]
+        if not _IDENT_RE.fullmatch(capability):
+            errors.append(
+                f"Module {module_name} @bind capability is invalid: {capability}"
+            )
+            continue
+
+        missing = sorted(required - set(parsed.options))
+        unsupported = sorted(set(parsed.options) - required)
+        if missing:
+            errors.append(
+                f"Module {module_name} @bind missing required parameter(s): "
+                + ", ".join(missing)
+                + "."
+            )
+        if unsupported:
+            errors.append(
+                f"Module {module_name} @bind has unsupported parameter(s): "
+                + ", ".join(unsupported)
+                + "."
+            )
+        if missing or unsupported:
+            continue
+
+        language = parsed.options["language"].strip()
+        source = parsed.options["from"].strip()
+        symbol = parsed.options["symbol"].strip()
+        if not re.fullmatch(r"[A-Za-z_][\w-]*", language):
+            errors.append(
+                f"Module {module_name} @bind language is invalid: {language}"
+            )
+            continue
+        if not _IDENT_RE.fullmatch(symbol):
+            errors.append(f"Module {module_name} @bind symbol is invalid: {symbol}")
+            continue
+
+        source_path = Path(source)
+        if (
+            not source
+            or source == "."
+            or source_path.is_absolute()
+            or ".." in source_path.parts
+            or source.endswith(("/", "\\"))
+        ):
+            errors.append(
+                f"Module {module_name} @bind source must stay inside the module: "
+                f"{source}"
+            )
+            continue
+        resolved = (base_dir / source_path).resolve()
+        try:
+            resolved.relative_to(base_dir.resolve())
+        except ValueError:
+            errors.append(
+                f"Module {module_name} @bind source escapes the module: {source}"
+            )
+            continue
+        if not resolved.is_file():
+            errors.append(
+                f"Module {module_name} @bind source was not found: {source}"
+            )
+            continue
+        if capability in bindings:
+            errors.append(
+                f"Module {module_name} has duplicate default @bind for "
+                f"capability: {capability}"
+            )
+            continue
+        bindings[capability] = ModuleBinding(
+            name=capability,
+            language=language,
+            source=source,
+            symbol=symbol,
+            module_name=module_name,
+        )
+
+    return "\n".join(body_lines).strip("\n"), tuple(bindings.values())
+
+
 def _strip_promplet_declaration(text: str) -> str:
     """Remove a module file's leading ``@promplet`` metadata from its body."""
     lines = text.splitlines()
@@ -918,10 +1092,20 @@ def _parse_use_directive(rest: str) -> UseDirective | str:
             index += 2
             continue
         if token == "exposing":
-            raw_names = " ".join(tokens[index + 1 :])
+            if exposing:
+                return "@use may declare only one exposing clause."
+            index += 1
+            exposed_tokens: list[str] = []
+            while index < len(tokens) and tokens[index] not in {
+                "as",
+                "exposing",
+                "bindings:",
+            }:
+                exposed_tokens.append(tokens[index])
+                index += 1
             exposing = [
                 item.strip()
-                for item in raw_names.replace(",", " ").split()
+                for item in " ".join(exposed_tokens).replace(",", " ").split()
                 if item.strip()
             ]
             if not exposing:
@@ -929,10 +1113,19 @@ def _parse_use_directive(rest: str) -> UseDirective | str:
             invalid = [name for name in exposing if not _IDENT_RE.fullmatch(name)]
             if invalid:
                 return f"@use exposing has invalid macro name(s): {', '.join(invalid)}"
-            break
+            continue
+        if token == "bindings:":
+            return (
+                "@use bindings: is not supported; module default bindings are "
+                "selected automatically."
+            )
         return f"Unexpected @use token: {token}"
 
-    return UseDirective(module_name=module_name, alias=alias, exposing=tuple(exposing))
+    return UseDirective(
+        module_name=module_name,
+        alias=alias,
+        exposing=tuple(exposing),
+    )
 
 
 def _default_import_to_use(default_import: DefaultModuleImport) -> UseDirective:

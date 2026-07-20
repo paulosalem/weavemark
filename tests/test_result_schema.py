@@ -56,7 +56,9 @@ def test_complete_metadata_round_trip_includes_packages_and_outputs() -> None:
         execution={"type": "chain"},
         emits={"artifact.md": "Artifact"},
         outputs={"stage": {"type": "text", "file": "stage.md"}},
-        packages=[{"file": "book.html", "template": "template.weavemark.md"}],
+        packages=[
+            {"file": "book.html", "instructions": "instructions.weavemark.md"}
+        ],
         references={"R1": "Resolved reference."},
         analysis="Analysis",
         warnings=["Warning"],
@@ -74,7 +76,7 @@ def test_complete_metadata_round_trip_includes_packages_and_outputs() -> None:
     assert result.emits == {"artifact.md": "Artifact"}
     assert result.prompt_outputs["stage"].params["file"] == "stage.md"
     assert result.packages == [
-        {"file": "book.html", "template": "template.weavemark.md"}
+        {"file": "book.html", "instructions": "instructions.weavemark.md"}
     ]
     assert result.reference_contents == {"R1": "Resolved reference."}
     assert result.warnings == ["Warning"]
@@ -175,14 +177,14 @@ def test_wrong_field_types_are_rejected(field: str, value: object) -> None:
     "package",
     (
         {"file": "out.html"},
-        {"file": "out.html", "template": "t.md", "from": "source.html"},
+        {"file": "out.html", "instructions": "i.md", "from": "source.html"},
     ),
 )
-def test_package_requires_exactly_one_source(package: dict[str, str]) -> None:
+def test_package_requires_one_exclusive_source(package: dict[str, str]) -> None:
     data = json.loads(compiler_response("Prompt"))
     data["packages"] = [package]
 
-    with pytest.raises(CompilerProtocolError, match="exactly one"):
+    with pytest.raises(CompilerProtocolError, match="instructions/body or from"):
         parse_wire_result(json.dumps(data))
 
 

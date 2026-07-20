@@ -3,14 +3,16 @@
 @module weavemark.domains.creative.picture_book_html
 
 @note
-  Reusable PACKAGING TEMPLATE for picture books. It is an ordinary WeaveMark that
-  a pipeline invokes via `@package template: ... file: book.html`. After the book
-  pipeline runs, the packaging phase compiles this template with the pipeline's
-  outputs and produced artifacts in scope, then EXECUTES it: the model performs
+  Reusable PACKAGING INSTRUCTIONS for picture books. It is an ordinary WeaveMark
+  that a pipeline invokes via `@package instructions: ... file: book.html`. After
+  the book pipeline runs, the packaging phase compiles these instructions with
+  the pipeline's outputs and produced artifacts in scope, then EXECUTES them:
+  the model performs
   the final assembly (a semantic transformation) — one printed page per produced
   image, in order — and emits a complete, print-ready HTML document.
 
   Context provided by the packaging phase:
+    - @{output}      : the execution engine's canonical primary output
     - @{title}       : the book title (an input variable)
     - @{page_files}  : the ordered relative paths of the rendered page images
                        (the `page` stage's persisted artifacts)

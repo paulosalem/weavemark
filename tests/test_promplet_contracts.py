@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import re
 from pathlib import Path
 from typing import Any
@@ -66,9 +67,9 @@ def _bodyless_calls(source: str, names: set[str]) -> list[str]:
     return bodyless
 
 
-def test_all_138_promplets_use_canonical_assert_and_tool_syntax() -> None:
+def test_all_140_promplets_use_canonical_assert_and_tool_syntax() -> None:
     promplets = _all_promplets()
-    assert len(promplets) == 138
+    assert len(promplets) == 140
 
     invalid_assertions: list[str] = []
     invalid_parameters: list[str] = []
@@ -167,7 +168,7 @@ async def test_dynamic_story_beat_sheets_ground_every_supplied_entry() -> None:
     assert book.prompt_outputs["author"].params["enforce"] == "strict"
     assert "top-level keys `title`" in book.prompt_outputs["author"].params["body"]
     assert "and `pages` (array)" in book.prompt_outputs["author"].params["body"]
-    assert book.packages[0]["template"] == (
+    assert book.packages[0]["instructions"] == (
         "module:weavemark.domains.creative.picture_book_html"
     )
 
@@ -218,9 +219,10 @@ class _ReportClient:
 async def test_market_functional_metadata_and_two_node_execution(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    path = PROMPLETS / "experimental/weave/weave-market-snapshot.weavemark.md"
+    path = PROMPLETS / "catalog/executable/market-snapshot.weavemark.md"
     variables = {
-        "ticker": "ACME",
+        "provider_ticker": "ACME",
+        "display_ticker": "ACME",
         "company_name": "Acme Corp",
         "research_focus": "cash-flow durability",
     }
@@ -232,6 +234,45 @@ async def test_market_functional_metadata_and_two_node_execution(
         "levels": [["asset_snapshot"], ["web_context"]],
     }
     assert compiled.execution["allow_effects"] == ["finance_data", "web_search"]
+    assert compiled.bindings == [
+        {
+            "name": "finance_data",
+            "language": "python",
+            "from": "./companions/market_data.py",
+            "symbol": "fetch_asset_snapshot",
+            "module": "weavemark.domains.finance.market_research",
+        },
+        {
+            "name": "web_search",
+            "language": "python",
+            "from": "./companions/market_data.py",
+            "symbol": "search_asset_context",
+            "module": "weavemark.domains.finance.market_research",
+        },
+    ]
+    assert compiled.packages == [
+        {
+            "file": "vale3-market-dashboard.html",
+            "instructions": (
+                "module:weavemark.std.presentation.information_dashboard_html"
+            ),
+            "body": (
+                "Title the deliverable \"VALE3 Market Learning Dashboard\" and "
+                "identify the\nanalyzed security as Vale S.A. on B3 under ticker "
+                "VALE3. The finance provider\nmay label the instrument VALE3.SA; "
+                "explain that notation once, compactly.\n\nGive the dashboard an "
+                "extractive-industry research character without adding\n"
+                "decorative imagery: make commodity exposure, operational drivers, "
+                "balance\nsheet signals, evidence quality, cyclical risks, and "
+                "watchlist items easy to\nscan. Use the current company name, Vale "
+                "S.A.; mention the historical\nCompanhia Vale do Rio Doce name only "
+                "if useful for identification.\n\nRetain Portuguese-real amounts "
+                "and Brazilian-market terminology exactly when\nsupplied. Never "
+                "convert currencies or infer missing values. Keep the final\n"
+                "educational, non-recommendation disclaimer visible but quiet."
+            ),
+        }
+    ]
 
     calls: list[tuple[str, dict[str, Any]]] = []
 
@@ -284,6 +325,74 @@ async def test_market_functional_metadata_and_two_node_execution(
     ]
     assert execution.output == "FINAL MARKET REPORT"
     assert client.prompts and "Acme Corp (ACME)" in client.prompts[0]
+
+
+def test_information_dashboard_packaging_contract_is_standalone_and_grounded() -> None:
+    source = (
+        PROMPLETS
+        / "stdlib/fragments/presentation/information-dashboard-html.weavemark.md"
+    ).read_text(encoding="utf-8")
+
+    assert "@{output}" in source
+    assert "@output enforce: strict" in source
+    assert "Do not add facts, metrics, dates" in source
+    assert "Use no scripts, frameworks" in source
+    assert "restrictive Content Security Policy" in source
+    assert "approximately 900px and 640px" in source
+    assert "Add print styles" in source
+    assert "WCAG AA" in source
+
+
+def test_market_companion_filters_unrelated_results() -> None:
+    companion_path = (
+        PROMPLETS
+        / "domains/finance/definitions/companions/market_data.py"
+    )
+    spec = importlib.util.spec_from_file_location(
+        "market_data_companion_for_tests",
+        companion_path,
+    )
+    assert spec is not None and spec.loader is not None
+    companion = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(companion)
+
+    payload = json.dumps(
+        {
+            "results": [
+                {
+                    "title": "Vale expands an iron-ore operation",
+                    "url": "https://example.com/vale",
+                    "snippet": "VALE3 production update",
+                },
+                {
+                    "title": "Unrelated restaurant stock",
+                    "url": "https://example.com/restaurant",
+                    "snippet": "A meme-stock rally",
+                },
+            ]
+        }
+    )
+    filtered = json.loads(
+        companion._filter_search_results(
+            payload,
+            symbol="VALE3",
+            company_name="Vale S.A.",
+            category="recent_news",
+        )
+    )
+
+    assert [result["title"] for result in filtered["results"]] == [
+        "Vale expands an iron-ore operation"
+    ]
+    assert filtered["total_results"] == 1
+    assert companion._matches_category(
+        {"url": "https://www.vale.com/investors"},
+        "official_context",
+    )
+    assert not companion._matches_category(
+        {"url": "https://example.com/vale-earnings"},
+        "official_context",
+    )
 
 
 def test_executable_tool_bindings_are_explicit_and_safe() -> None:
@@ -371,7 +480,7 @@ def test_story_output_contracts_and_cli_titles_are_explicit() -> None:
     assert "`<!doctype html>`" in template
     assert "`</html>`" in template
     assert (
-        "template: module:weavemark.domains.creative.picture_book_html"
+        "instructions: module:weavemark.domains.creative.picture_book_html"
         in book_source
     )
     assert not (

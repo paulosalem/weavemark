@@ -96,5 +96,5 @@
   O livro completo autoral (JSON), para contexto e consistência entre páginas:
   @{author}
 
-@package template: module:weavemark.domains.creative.picture_book_html file: book.html
+@package instructions: module:weavemark.domains.creative.picture_book_html file: book.html
 @package from: book.html file: book.pdf

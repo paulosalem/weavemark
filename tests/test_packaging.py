@@ -1,7 +1,7 @@
 """Tests for fully-in-language artifact packaging.
 
 Covers the deterministic pieces (no live LLM required):
-- ``@package`` directive parsing (render / convert forms, validation)
+- ``@package`` directive parsing (semantic / convert forms, validation)
 - ``@output ... file:`` persistence targets (runtime ``@{index}`` preserved)
 - ``persist_execution_artifacts`` writing produced artifacts to disk
 - ``build_package_context`` exposing stage outputs + ``@{<stage>_files}``
@@ -46,16 +46,21 @@ def _image_meta() -> dict[str, Any]:
 
 
 @pytest.mark.asyncio
-async def test_package_render_and_convert_parse(tmp_path: Path) -> None:
+async def test_package_apply_and_convert_parse(tmp_path: Path) -> None:
     spec = (
         "Draw something.\n\n"
-        "@package template: tmpl.weavemark.md file: out/book.html\n"
+        "@package instructions: tmpl.weavemark.md file: out/book.html\n"
+        "  Use a calm blue palette.\n"
         "@package from: out/book.html file: out/book.pdf\n"
     )
     result = await _compose(spec, tmp_path)
     assert result.errors == []
     assert result.packages == [
-        {"file": "out/book.html", "template": "tmpl.weavemark.md"},
+        {
+            "file": "out/book.html",
+            "instructions": "tmpl.weavemark.md",
+            "body": "Use a calm blue palette.",
+        },
         {"file": "out/book.pdf", "from": "out/book.html"},
     ]
 
@@ -63,32 +68,58 @@ async def test_package_render_and_convert_parse(tmp_path: Path) -> None:
 @pytest.mark.asyncio
 async def test_package_requires_exactly_one_source(tmp_path: Path) -> None:
     both = await _compose(
-        "x\n\n@package template: t.md from: a.html file: b.html\n", tmp_path
+        "x\n\n@package instructions: t.md from: a.html file: b.html\n", tmp_path
     )
-    assert any("exactly one" in e for e in both.errors)
+    assert any("mutually exclusive" in e for e in both.errors)
 
     neither = await _compose("x\n\n@package file: b.html\n", tmp_path)
-    assert any("exactly one" in e for e in neither.errors)
+    assert any("requires instructions" in e for e in neither.errors)
+
+
+@pytest.mark.asyncio
+async def test_package_accepts_body_only_and_preserves_subspec(tmp_path: Path) -> None:
+    result = await _compose(
+        "x\n\n@package file: dashboard.html\n"
+        "  Build a responsive report for @{name}.\n"
+        "  Layout: compact evidence cards.\n",
+        tmp_path,
+        {"name": "Vale"},
+    )
+    assert result.errors == []
+    assert result.packages == [
+        {
+            "file": "dashboard.html",
+            "body": (
+                "Build a responsive report for @{name}.\n"
+                "Layout: compact evidence cards."
+            ),
+        }
+    ]
 
 
 @pytest.mark.asyncio
 async def test_package_rejects_unknown_param_and_escape(tmp_path: Path) -> None:
     bad_param = await _compose(
-        "x\n\n@package template: t.md file: b.html mode: fancy\n", tmp_path
+        "x\n\n@package instructions: t.md file: b.html mode: fancy\n", tmp_path
     )
     assert any("Unsupported parameter" in e for e in bad_param.errors)
 
     escape = await _compose(
-        "x\n\n@package template: t.md file: ../evil.html\n", tmp_path
+        "x\n\n@package instructions: t.md file: ../evil.html\n", tmp_path
     )
     assert any("relative" in e for e in escape.errors)
+
+    obsolete = await _compose(
+        "x\n\n@package template: t.md file: b.html\n", tmp_path
+    )
+    assert any("Unsupported parameter" in e and "template" in e for e in obsolete.errors)
 
 
 @pytest.mark.asyncio
 async def test_package_variable_substituted(tmp_path: Path) -> None:
-    spec = "x\n\n@package template: t.md file: @{name}.html\n"
+    spec = "x\n\n@package instructions: t.md file: @{name}.html\n"
     result = await _compose(spec, tmp_path, {"name": "story"})
-    assert result.packages == [{"file": "story.html", "template": "t.md"}]
+    assert result.packages == [{"file": "story.html", "instructions": "t.md"}]
 
 
 # ── @output file: persistence target ──────────────────────────────────
@@ -113,7 +144,7 @@ async def test_output_file_preserves_runtime_placeholder(tmp_path: Path) -> None
 
 def test_persist_writes_ordered_image_files(tmp_path: Path) -> None:
     execution = ExecutionResult(
-        output="",
+        output="Canonical report",
         steps=[],
         metadata={
             "engine": "chain",
@@ -135,7 +166,7 @@ def test_persist_writes_ordered_image_files(tmp_path: Path) -> None:
 
 def test_persist_writes_text_artifacts_and_rejects_escape(tmp_path: Path) -> None:
     execution = ExecutionResult(
-        output="",
+        output="Canonical report",
         steps=[],
         metadata={
             "artifacts": [
@@ -155,7 +186,7 @@ def test_persist_writes_text_artifacts_and_rejects_escape(tmp_path: Path) -> Non
 
 def test_build_context_exposes_stage_outputs_and_files() -> None:
     execution = ExecutionResult(
-        output="",
+        output="Canonical report",
         steps=[
             SimpleNamespace(name="author", response='{"title":"T"}',
                             metadata={"stage": "author"}),
@@ -170,6 +201,7 @@ def test_build_context_exposes_stage_outputs_and_files() -> None:
     assert context["title"] == "T"
     assert context["author"] == '{"title":"T"}'
     assert context["page_files"] == ["pages/page-1.png"]
+    assert context["output"] == "Canonical report"
 
 
 # ── run_packages end to end ───────────────────────────────────────────
@@ -188,8 +220,8 @@ class _FakePackClient:
 
 
 @pytest.mark.asyncio
-async def test_run_packages_renders_then_converts(tmp_path: Path, monkeypatch) -> None:
-    # A tiny packaging-template promplet that receives the artifact list.
+async def test_run_packages_applies_then_converts(tmp_path: Path, monkeypatch) -> None:
+    # Tiny reusable package instructions that receive the artifact list.
     template = tmp_path / "tmpl.weavemark.md"
     template.write_text(
         "Assemble a page for @{title} using these files:\n@{page_files}\n",
@@ -197,7 +229,7 @@ async def test_run_packages_renders_then_converts(tmp_path: Path, monkeypatch) -
     )
 
     execution = ExecutionResult(
-        output="",
+        output="Draft report",
         steps=[
             SimpleNamespace(name="author", response='{"title":"Orion"}',
                             metadata={"stage": "author"}),
@@ -210,7 +242,11 @@ async def test_run_packages_renders_then_converts(tmp_path: Path, monkeypatch) -
         },
     )
     packages = [
-        {"file": "book.html", "template": "tmpl.weavemark.md"},
+        {
+            "file": "book.html",
+            "instructions": "tmpl.weavemark.md",
+            "body": "Use @{output} as the canonical report. Prefer a navy accent.",
+        },
         {"file": "book.pdf", "from": "book.html"},
     ]
 
@@ -240,15 +276,17 @@ async def test_run_packages_renders_then_converts(tmp_path: Path, monkeypatch) -
     assert (tmp_path / "book.html").read_text().startswith("<html>")
     assert "pages/page-1.png" in str(client.prompts[0])
     assert "Orion" in str(client.prompts[0])
+    assert "canonical report" in str(client.prompts[0])
+    assert "local instructions" in str(client.prompts[0])
     # convert step invoked and wrote the PDF
     assert converted == [(tmp_path / "book.html", tmp_path / "book.pdf")]
     assert (tmp_path / "book.pdf").is_file()
     assert [r.ok for r in results] == [True, True]
-    assert [r.kind for r in results] == ["render", "convert"]
+    assert [r.kind for r in results] == ["apply", "convert"]
 
 
 @pytest.mark.asyncio
-async def test_run_packages_resolves_module_template(tmp_path: Path) -> None:
+async def test_run_packages_resolves_module_instructions(tmp_path: Path) -> None:
     library = tmp_path / "promplets"
     library.mkdir()
     (library / "template.weavemark.md").write_text(
@@ -263,7 +301,7 @@ async def test_run_packages_resolves_module_template(tmp_path: Path) -> None:
         [
             {
                 "file": "book.html",
-                "template": "module:test.packaging.template",
+                "instructions": "module:test.packaging.template",
             }
         ],
         {

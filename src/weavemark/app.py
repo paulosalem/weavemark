@@ -21,6 +21,7 @@ import asyncio
 import json
 import sys
 import time
+import webbrowser
 from collections.abc import Mapping
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -104,6 +105,7 @@ from weavemark.version import LANGUAGE_VERSION, PROCESSOR_VERSION
 
 if TYPE_CHECKING:
     from weavemark.engines import ExecutionResult
+    from weavemark.packaging import PackageResult
 
 logger = get_logger("cli")
 DISCOVERY_SYSTEM_PROMPT = Path(__file__).resolve().parent / "prompts" / "discovery.system.md"
@@ -433,6 +435,15 @@ def create_parser() -> argparse.ArgumentParser:
         "--no-file-summary",
         action="store_true",
         help="Write requested output files without printing per-file success messages.",
+    )
+    parser.add_argument(
+        "--open",
+        action="store_true",
+        dest="open_artifacts",
+        help=(
+            "With --run, open every successfully produced @package artifact in "
+            "the default application."
+        ),
     )
     parser.add_argument(
         "--format",
@@ -1815,8 +1826,9 @@ async def run_execute(
     if args.verbose and not stats_before_artifacts:
         _show_execution_stats(printer, engine_name, exec_result, elapsed)
 
+    package_results: list[PackageResult] = []
     if result.packages:
-        await _run_packaging(
+        package_results = await _run_packaging(
             printer,
             result,
             exec_result,
@@ -1841,6 +1853,8 @@ async def run_execute(
             settings,
             protection,
         )
+    if args.open_artifacts:
+        _open_package_artifacts(package_results, printer)
 
     printer.done()
     return 0
@@ -1886,7 +1900,7 @@ async def _run_packaging(
     settings: Any,
     stage_files: dict[str, list[str]] | None = None,
     protection: ProtectionContext | None = None,
-) -> None:
+) -> list[PackageResult]:
     """Persist artifacts and run declared ``@package`` steps under the output dir.
 
     When *stage_files* is supplied the artifacts were already streamed to disk
@@ -1921,6 +1935,41 @@ async def _run_packaging(
         else:
             logger.error("package %s failed: %s", package.file.name, package.note)
             printer.error(f"@package {package.file.name}: {package.note}")
+    return package_results
+
+
+def _open_package_artifacts(
+    package_results: list[PackageResult],
+    printer: CliPrinter,
+) -> None:
+    """Open successful package outputs once each, preserving source order."""
+
+    opened: set[Path] = set()
+    successful_files: list[Path] = []
+    for package in package_results:
+        if not package.ok:
+            continue
+        resolved = package.file.resolve()
+        if resolved in opened:
+            continue
+        opened.add(resolved)
+        successful_files.append(resolved)
+
+    if not successful_files:
+        printer.warning("No successfully packaged artifacts were produced to open.")
+        return
+
+    for artifact in successful_files:
+        uri = artifact.as_uri()
+        try:
+            accepted = webbrowser.open(uri)
+        except (OSError, webbrowser.Error) as exc:
+            printer.warning(f"Could not open {artifact.name}: {exc}")
+            continue
+        if not accepted:
+            printer.warning(
+                f"The default application did not accept {artifact.name}."
+            )
 
 
 def _show_execution_stats(
@@ -2193,6 +2242,9 @@ def cli() -> None:
         sys.exit(2)
     if args.run and args.implement:
         printer.error("--run and --implement are mutually exclusive.")
+        sys.exit(2)
+    if args.open_artifacts and not args.run:
+        printer.error("--open requires --run.")
         sys.exit(2)
     if args.ui and args.implement:
         printer.error("--ui and --implement are mutually exclusive.")

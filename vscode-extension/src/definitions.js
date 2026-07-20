@@ -19,7 +19,7 @@ const PATH_PATTERNS = [
   /^\s*@refine\s+("[^"]+"|'[^']+'|\S+)/,
   /^\s*@embed\b.*\bfile:\s*("[^"]+"|'[^']+'|\S+)/,
   /^\s*@bind\b.*\bfrom:\s*("[^"]+"|'[^']+'|\S+)/,
-  /^\s*@package\b.*\b(?:template|from):\s*("[^"]+"|'[^']+'|\S+)/,
+  /^\s*@package\b.*\b(?:instructions|from):\s*("[^"]+"|'[^']+'|\S+)/,
 ];
 const MODULE_PATTERNS = [
   /^\s*@use\s+([A-Za-z_][\w.-]*)/,

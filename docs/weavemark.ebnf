@@ -162,7 +162,7 @@ params:
   - as: IDENT
   - exposing: ANY
 body-mode:  none
-notes:      `as` and `exposing` are keyword-style import clauses, not ordinary `key:` parameters. `exposing` accepts a comma/space-separated definition name list. Module names resolve through standard-library, importer-local, project, user, and global registries.
+notes:      `as` and `exposing` are keyword-style import clauses. Module-owned default @bind metadata is selected automatically; runtime protection still authorizes code execution, and local @bind declarations override imported defaults by capability name. `exposing` accepts a comma/space-separated definition name list. Module names resolve through standard-library, importer-local, project, user, and global registries.
 ```
 
 ```promplet-schema
@@ -412,11 +412,11 @@ notes:      Path must be relative and must not escape the output directory. Two 
 ```promplet-schema
 directive:  @package
 params:
-  - template: PROMPLET_REF
+  - instructions: PROMPLET_REF
   - from: PATH
   - file: PATH (required)
-body-mode:  dsl:output-kv
-notes:      Execution-phase packaging of produced artifacts. Exactly one of template: (render a packaging-template promplet via a semantic transformation over the pipeline outputs + @{<stage>_files}) or from: (deterministically convert a produced deliverable, e.g. HTML -> PDF). Paths relative, no escape. Emitted to the compiled packages list in source order.
+body-mode:  subspec
+notes:      Execution-phase packaging. Semantic form requires instructions:, a non-empty body, or both; reusable instructions run first and local body instructions win conflicts. Context includes @{output}, stage outputs, and @{<stage>_files}. from: is the mutually exclusive deterministic conversion form. Paths relative, no escape. Emitted to the compiled packages list in source order.
 ```
 
 ```promplet-schema

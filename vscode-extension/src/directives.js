@@ -36,7 +36,7 @@ const DIRECTIVES = {
     label: "@use",
     detail: "Import definitions from a module",
     documentation:
-      "Imports macros and semantic functions from another module. You can use definitions through a namespace, or expose selected names directly with `exposing`.\n\n" +
+      "Imports macros and semantic functions from another module. You can use definitions through a namespace or expose selected names directly with `exposing`. Reviewed module-owned default bindings are selected as metadata automatically; runtime protection remains authoritative.\n\n" +
       "**Parameters:**\n" +
       "- First positional argument: module name\n" +
       "- `exposing name1, name2` — Import selected definitions directly. The keyword is `exposing` (not `expose`).\n" +
@@ -578,13 +578,13 @@ const DIRECTIVES = {
   },
   package: {
     label: "@package",
-    detail: "Render or convert an execution artifact",
+    detail: "Apply instructions or convert an execution artifact",
     documentation:
-      "Declares a deterministic packaging step after execution. Supply `file:` plus exactly one source: `template:` to render from execution artifacts, or `from:` to convert an existing output.\n\n" +
-      "**Examples:**\n```\n@package template: book-template.weavemark.md file: book.html\n@package from: book.html file: book.pdf\n```",
+      "Declares an execution-phase packaging step. Supply `file:` plus reusable `instructions:`, an indented instruction body, or both. The body supplements reusable instructions and wins conflicts. Use the mutually exclusive `from:` form for deterministic conversion. Semantic instructions receive the canonical `@{output}`, stage outputs, and stage artifact lists.\n\n" +
+      "**Examples:**\n```\n@package instructions: module:weavemark.std.presentation.information_dashboard_html file: report.html\n  Keep the risk register compact.\n@package from: report.html file: report.pdf\n```",
     snippet:
-      "@package ${1|template,from|}: ${2:source} file: ${3:output.html}",
-    params: { template: null, from: null, file: null },
+      "@package ${1|instructions,from|}: ${2:source} file: ${3:output.html}",
+    params: { instructions: null, from: null, file: null },
     category: "Output",
   },
   execute: {

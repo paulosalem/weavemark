@@ -10,6 +10,7 @@
     >
     <link rel="stylesheet" href="site.css?v=20260712">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
+    <script src="analytics.js?v=20260720" defer></script>
   </head>
   <body>
     <nav class="site-nav" aria-label="Primary">
@@ -42,7 +43,7 @@
       <a href="tutorial-games.html"><span>5</span> Game specs</a>
       <a href="tutorial-directives.html"><span>6</span> Semantic toolbox</a>
       <a href="tutorial-advanced.html"><span>7</span> Advanced macros</a>
-      <a href="tutorial-executable.html"><span>8</span> Tool bindings</a>
+      <a href="tutorial-executable.html"><span>8</span> Market report</a>
       <a href="tutorial-implement.html"><span>9</span> Spec to app</a>
       <a href="tutorial-illustrated.html" aria-current="page"><span>10</span> Illustrated stories</a>
     </nav>
@@ -455,15 +456,17 @@ Supplied `panels` beat sheet:
             deliverable. The <code>@package</code> directive assembles produced
             artifacts after execution, entirely in the language:
           </p>
-          <pre><code><span class="syntax-directive">@package</span> <span class="syntax-key">template:</span> module:weavemark.domains.creative.picture_book_html <span class="syntax-key">file:</span> book.html
+          <pre><code><span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.domains.creative.picture_book_html <span class="syntax-key">file:</span> book.html
 <span class="syntax-directive">@package</span> <span class="syntax-key">from:</span> book.html <span class="syntax-key">file:</span> book.pdf</code></pre>
           <div class="grid two">
             <article class="card">
-              <h3><code>template:</code> render</h3>
+              <h3><code>instructions:</code> apply</h3>
               <p>
-                A packaging-template promplet is compiled with the produced page
-                files in scope (<code>@{page_files}</code>) and fills a print-ready
-                HTML skeleton &mdash; a semantic assembly, no external programs.
+                A packaging-instruction promplet is compiled with the canonical
+                output and produced page files in scope
+                (<code>@{output}</code>, <code>@{page_files}</code>), then applied
+                as one semantic transformation. An optional indented body can add
+                local instructions.
               </p>
             </article>
             <article class="card">
@@ -482,7 +485,7 @@ Supplied `panels` beat sheet:
             &mdash; all from one <code>weavemark --run</code>.
           </p>
           <p class="snippet-source">
-            Packaging template:
+            Packaging instructions:
             <a href="../promplets/domains/creative/fragments/picture-book-html.weavemark.md">picture-book-html.weavemark.md</a>
           </p>
         </section>

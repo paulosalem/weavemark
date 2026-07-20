@@ -1,4 +1,4 @@
-"""Ellements-backed host functions for the stock-learning Weave example."""
+"""Ellements-backed default bindings for reusable market research."""
 
 from __future__ import annotations
 
@@ -87,7 +87,12 @@ async def search_asset_context(
     }
     searches: dict[str, str] = {}
     for label, (tool_name, arguments) in queries.items():
-        searches[label] = _filter_search_results(await executor(tool_name, arguments))
+        searches[label] = _filter_search_results(
+            await executor(tool_name, arguments),
+            symbol=symbol,
+            company_name=company,
+            category=label,
+        )
     return {
         "ticker": symbol,
         "company_name": company,
@@ -104,7 +109,13 @@ def _normalize_ticker(ticker: str) -> str:
     return symbol
 
 
-def _filter_search_results(payload: str) -> str:
+def _filter_search_results(
+    payload: str,
+    *,
+    symbol: str,
+    company_name: str,
+    category: str,
+) -> str:
     parsed = json.loads(payload)
     if not isinstance(parsed, dict):
         raise ValueError("search tool returned a non-object payload")
@@ -113,7 +124,10 @@ def _filter_search_results(payload: str) -> str:
         parsed["results"] = [
             result
             for result in results
-            if isinstance(result, dict) and not _has_portfolio_term(result)
+            if isinstance(result, dict)
+            and not _has_portfolio_term(result)
+            and _is_relevant_result(result, symbol, company_name)
+            and _matches_category(result, category)
         ]
         parsed["total_results"] = len(parsed["results"])
     return json.dumps(parsed, ensure_ascii=False)
@@ -124,3 +138,52 @@ def _has_portfolio_term(result: dict[str, Any]) -> bool:
         str(result.get(field, "")) for field in ("title", "url", "snippet", "body")
     ).lower()
     return "portfolio" in haystack
+
+
+def _is_relevant_result(
+    result: dict[str, Any],
+    symbol: str,
+    company_name: str,
+) -> bool:
+    haystack = " ".join(
+        str(result.get(field, "")) for field in ("title", "url", "snippet", "body")
+    ).lower()
+    identifiers = {
+        symbol.lower(),
+        symbol.split(".", 1)[0].lower(),
+        *(
+            token.lower()
+            for token in company_name.replace(".", " ").split()
+            if len(token) >= 4
+        ),
+    }
+    return any(identifier and identifier in haystack for identifier in identifiers)
+
+
+def _matches_category(result: dict[str, Any], category: str) -> bool:
+    haystack = " ".join(
+        str(result.get(field, "")) for field in ("title", "url", "snippet", "body")
+    ).lower()
+    if category == "official_context":
+        url = str(result.get("url", "")).lower()
+        return "vale.com/" in url or "ri-vale" in url
+    if category == "skeptical_view":
+        return any(
+            marker in haystack
+            for marker in (
+                "risk",
+                "risco",
+                "bear",
+                "downgrade",
+                "underweight",
+                "concern",
+                "governance",
+                "governança",
+                "debt",
+                "queda",
+                "weak",
+                "fraco",
+                "surplus",
+            )
+        )
+    return True

@@ -122,11 +122,13 @@ function createDefaultCaseSnippet() {
 function createImportClauseCompletions() {
   return IMPORT_CLAUSES.map((clause) => {
     const item = new vscode.CompletionItem(clause, vscode.CompletionItemKind.Keyword);
-    item.detail = clause === "exposing" ? "Expose selected definitions directly" : "Alias the imported module";
-    item.insertText =
-      clause === "exposing"
-        ? new vscode.SnippetString("exposing ${1:refine}")
-        : new vscode.SnippetString("as ${1:alias}");
+    if (clause === "exposing") {
+      item.detail = "Expose selected definitions directly";
+      item.insertText = new vscode.SnippetString("exposing ${1:refine}");
+    } else {
+      item.detail = "Alias the imported module";
+      item.insertText = new vscode.SnippetString("as ${1:alias}");
+    }
     item.sortText = `0-import-${clause}`;
     return item;
   });
@@ -249,7 +251,7 @@ class WeaveMarkCompletionProvider {
     if (/^\s*@bind\s+\S+\s+.*\bfrom:\s*\S*$/.test(prefix)) {
       return this._getWorkspaceFileCompletions(document);
     }
-    if (/^\s*@package\s+.*\b(?:template|from):\s*\S*$/.test(prefix)) {
+    if (/^\s*@package\s+.*\b(?:instructions|from):\s*\S*$/.test(prefix)) {
       return this._getWorkspaceFileCompletions(document);
     }
 

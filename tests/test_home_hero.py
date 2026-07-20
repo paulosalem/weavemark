@@ -24,6 +24,13 @@ def test_home_hero_examples_show_current_artifacts() -> None:
     assert 'data-title="childrens-book.weavemark.md"' in html
     assert 'data-href="../promplets/catalog/executable/childrens-book.weavemark.md"' in html
     assert ">Storybook</button>" in html
+    assert 'data-title="market-snapshot.weavemark.md"' in html
+    assert (
+        'data-href="../promplets/catalog/executable/market-snapshot.weavemark.md"'
+        in html
+    )
+    assert ">Market report</button>" in html
+    assert 'data-title="issue-tree-analysis.weavemark.md"' not in html
 
     slide_count = html.count("<pre class=\"hero-slide")
     assert slide_count == 5

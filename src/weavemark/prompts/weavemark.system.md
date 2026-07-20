@@ -816,6 +816,14 @@ Semantics:
 5. Direct exposure MUST error if it collides with another direct name or a core primitive.
 6. Dotted module names are resolved across the effective project, user,
    configured, and built-in promplet-library roots. Duplicate names are errors.
+7. A module MAY declare default top-level `@bind` implementations. Importing the
+   module selects those defaults as binding metadata but does not execute them.
+8. Runtime protection policy remains authoritative: execution MUST authorize,
+   allow, prompt for, or block the selected helper before loading Python code.
+9. Default binding paths resolve relative to the module that declares them.
+   Preserve the module origin in compiled binding metadata.
+10. A local `@bind` with the same capability name overrides one imported default.
+    Conflicting defaults imported from different modules are an error.
 
 ```promplet-schema
 directive:  @use
@@ -825,7 +833,7 @@ params:
   - as: IDENT
   - exposing: ANY
 body-mode:  none
-notes:      `as` and `exposing` are keyword-style import clauses, not ordinary `key:` parameters. `exposing` accepts a comma/space-separated macro name list.
+notes:      `as` and `exposing` are keyword-style import clauses. Module-owned default @bind metadata is selected automatically; runtime protection still authorizes code execution, and local @bind declarations override imported defaults by capability name. `exposing` accepts a comma/space-separated definition name list.
 ```
 
 #### `@include`
@@ -1614,38 +1622,43 @@ notes:      Path must be relative and must not escape the output directory. Two 
 
 #### `@package`
 
-The `@package` directive assembles a pipeline's **produced artifacts** into deliverable files after execution — the packaging half of "run a spec fully in the language." It pairs with `@output ... file:`, which persists each production point's artifact (see `@output`). `@package` is metadata only (like `@execute`): it contributes packaging steps to the `packages` output and modifies no prompt text. It runs in the execution phase, not at compile time.
+The `@package` directive transforms a completed execution into deliverable files — the packaging half of "run a spec fully in the language." It can semantically apply reusable and/or local WeaveMark instructions to the execution context, or deterministically convert one produced file into another format. It pairs with `@output ... file:` when production points emit separate artifacts. `@package` is metadata only (like `@execute`): it contributes packaging steps to the `packages` output and modifies no primary prompt text. It runs in the execution phase, not at compile time.
 
 It has two forms, both variable-substituted and requiring a relative `file:` target:
 
-- **Render** — `@package template: <promplet> file: <out>`. After execution, the template promplet is compiled and executed (a *semantic transformation*: the model fills the skeleton) with the pipeline's outputs and produced artifact file lists in scope, and the result is written to `file:`. This is how a collection of artifacts is turned into one document (a book, a gallery, a report) without any host-side script and without a template-iteration primitive — the model performs the per-item assembly.
+- **Semantic package** — `@package instructions: <promplet> file: <out>`, a non-empty indented body, or both. After execution, the referenced promplet and/or inline instruction subspec are compiled with the execution context and applied in one model call; the result is written to `file:`. The referenced promplet provides reusable base instructions. The body provides local additions and follows the reusable instructions, so the body wins on conflicts. This is a promplet application, not template substitution or refinement.
 - **Convert** — `@package from: <src> file: <out>`. Deterministically convert an already-produced deliverable to a format that has no markup of its own (currently HTML `from:` → PDF `file:`), keyed by the target extension. Degrades gracefully (the source deliverable is still produced) when an optional backend is unavailable.
 
 Syntax:
 ```
-@package template: templates/book.html.weavemark.md file: book.html
-@package from: book.html file: book.pdf
+@package instructions: module:weavemark.std.presentation.information_dashboard_html file: report.html
+  Use a compact risk register and keep the final disclaimer visible.
+
+@package from: report.html file: report.pdf
 ```
 
-Context provided to a render template:
+Context provided to semantic package instructions:
 - every input variable, unchanged;
+- `@{output}` — the execution engine's canonical primary output, independent of engine-specific stage names;
 - `@{<stage>}` — a completed stage's text output (e.g. an authoring stage's JSON);
-- `@{<stage>_files}` — the ordered relative paths of that stage's persisted artifacts (e.g. `@{page_files}`), which the template loops over *semantically*.
+- `@{<stage>_files}` — the ordered relative paths of that stage's persisted artifacts (e.g. `@{page_files}`), which instructions may assemble *semantically*.
 
 Directive Semantics:
 1. `@package` does NOT modify the prompt text. Each step is emitted as an object in the `packages` array in source order.
-2. Exactly one of `template:` (render) or `from:` (convert) must be present; `file:` is required.
-3. Paths must be relative and must not escape the output directory (same rule as `@emit`).
-4. Packaging runs only in execution mode, after the engine finishes and after `@output file:` artifacts are persisted, under the run's output directory (`--output-dir` / `--output`).
+2. `file:` is required. A semantic package requires `instructions:`, a non-empty body, or both. `from:` is mutually exclusive with semantic instructions.
+3. The body is a WeaveMark subspec, not a key/value block. It may use variables and ordinary directives.
+4. Paths must be relative and must not escape the output directory (same rule as `@emit`).
+5. Packaging runs only in execution mode, after the engine finishes and after `@output file:` artifacts are persisted, under the run's output directory (`--output-dir` / `--output`).
+6. The legacy `template:` parameter is invalid. These are natural-language promplet instructions, not deterministic templates.
 
 ```promplet-schema
 directive:  @package
 params:
-  - template: PROMPLET_REF
+  - instructions: PROMPLET_REF
   - from: PATH
   - file: PATH (required)
-body-mode:  dsl:output-kv
-notes:      Execution-phase packaging of produced artifacts. Exactly one of template: (render a packaging-template promplet via a semantic transformation over the pipeline outputs + @{<stage>_files}) or from: (deterministically convert a produced deliverable, e.g. HTML -> PDF). Paths relative, no escape. Emitted to the compiled packages list in source order.
+body-mode:  subspec
+notes:      Execution-phase packaging. Semantic form requires instructions:, a non-empty body, or both; reusable instructions run first and local body instructions win conflicts. Context includes @{output}, stage outputs, and @{<stage>_files}. from: is the mutually exclusive deterministic conversion form. Paths relative, no escape. Emitted to the compiled packages list in source order.
 ```
 
 
@@ -1971,9 +1984,15 @@ Syntax:
 Semantics:
 1. `@bind` does not modify prompt text.
 2. `language`, `from`, and `symbol` are required.
-3. `from` is a relative helper file path. The host runtime validates path sandboxing before loading it.
+3. `from` is a relative helper file path. A local binding resolves it against the
+   executable promplet; a module-owned default resolves it against its declaring
+   module. The host runtime validates path sandboxing before loading it.
 4. `symbol` is the function/export name inside the helper file.
-5. Duplicate bindings for the same capability name are an error.
+5. Duplicate bindings in one scope are an error. One explicit local binding MAY
+   override an imported module default with the same capability name.
+6. Importing a module selects its default bindings as metadata. This never loads
+   or executes the helper during composition; runtime protection authorizes it
+   before execution.
 
 ```promplet-schema
 directive:  @bind
@@ -1984,7 +2003,7 @@ params:
   - from: PATH (required)
   - symbol: IDENT (required)
 body-mode:  none
-notes:      Companion-program binding metadata. Never executed during composition; emitted in the compiled bindings list for authorized execution runtimes. The built-in FunctionalEngine currently executes authorized Python bindings.
+notes:      Companion-program binding metadata. Never executed during composition; emitted in the compiled bindings list for authorized execution runtimes. Imported modules contribute their defaults automatically, local bindings override them, and runtime protection remains authoritative. The built-in FunctionalEngine currently executes authorized Python bindings.
 ```
 
 

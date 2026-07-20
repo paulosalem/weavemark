@@ -666,6 +666,22 @@ def _canonicalize_bindings(
     return canonical
 
 
+def _merge_imported_default_bindings(
+    result: CompositionResult,
+    defaults: list[dict[str, str]],
+) -> None:
+    """Apply imported defaults, with explicit local bindings taking precedence."""
+
+    if not defaults:
+        return
+    merged = {binding["name"]: dict(binding) for binding in defaults}
+    for binding in result.bindings:
+        merged[binding["name"]] = binding
+    result.bindings = list(merged.values())
+    if result.execution:
+        result.execution["bindings"] = [dict(binding) for binding in result.bindings]
+
+
 def _compiler_protocol_errors(result: CompositionResult) -> list[str]:
     """Return semantic compiler protocol failures from a parsed result."""
 
@@ -1756,6 +1772,7 @@ class WeaveMarkController:
                 round_index=round_index,
                 iteration_guidance=iteration_guidance,
             )
+            _merge_imported_default_bindings(result, preprocess_result.bindings)
             accumulated_state.absorb(result)
             return result
 

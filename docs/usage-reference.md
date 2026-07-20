@@ -487,6 +487,22 @@ body. Ordinary paths remain available for local anonymous fragments:
 @refine ./local-campaign-context.weavemark.md
 ```
 
+Definition modules may also package reviewed default host bindings next to their
+semantic interfaces:
+
+```weavemark
+@use weavemark.domains.finance.market_research exposing fetch_asset_snapshot search_asset_context
+```
+
+Importing the module selects each default implementation as portable binding
+metadata while preserving its module-relative source. This does not import or
+execute Python during composition. When `--run` reaches the capability, the
+active protection policy still allows, prompts for, or blocks the selected file.
+An explicit local `@bind` with the same capability name overrides the default,
+allowing another provider, adapter, or test double without copying the semantic
+definitions. Importing two different defaults for the same capability is an
+error unless a local binding resolves the choice.
+
 `weavemark.*` is reserved for built-in modules. Duplicate module declarations
 across effective roots are errors.
 
@@ -933,6 +949,30 @@ weavemark library builtin:catalog/executable/self-consistency-solver \
 are prompted in human-facing mode. Add `--batch-only` to make
 execution strict and fail before compilation when any required input is missing.
 
+**Package and present execution results.** `@package` can apply reusable and/or
+inline WeaveMark instructions to the completed execution context, or
+deterministically convert one produced file:
+
+```markdown
+@package instructions: module:weavemark.std.presentation.information_dashboard_html file: report.html
+  Make the local risk register the most scannable section.
+
+@package from: report.html file: report.pdf
+```
+
+Semantic package instructions receive `@{output}` as the engine-independent
+primary result, plus input variables, named stage outputs, and ordered
+`@{<stage>_files}` artifact paths. When both `instructions:` and a body are
+present, WeaveMark compiles both and performs one semantic application; the
+local body follows the reusable instructions and wins conflicts. The body is a
+normal WeaveMark subspec. `from:` is mutually exclusive with semantic
+instructions.
+
+Add `--open` to a `--run` command to open every successfully produced package
+artifact in source order using the default application. Paths are deduplicated.
+Nothing opens without this explicit flag; missing packages or host opening
+failures produce warnings without changing an otherwise successful run.
+
 **The `@execute` directive — bridging specification and execution.**
 Most WeaveMark directives operate within the *specification* domain: they transform, compose, and annotate prompt text. The `@execute` directive is a special case — it bridges the spec domain with the *execution* domain, declaring *how* the runtime should orchestrate LLM calls rather than *what* the prompt says. It is metadata only and never modifies prompt content.
 
@@ -1001,7 +1041,7 @@ companion.
 Use @{asset_snapshot} in the report.
 ```
 
-See [`promplets/experimental/weave/weave-market-snapshot.weavemark.md`](../promplets/experimental/weave/weave-market-snapshot.weavemark.md) for a fuller stock-learning example with finance and web-search effects connected by a dependency edge via `uses:`. Its final synthesis is grounded in the finance payload and search-result titles, snippets, source labels, and URLs; it does not fetch arbitrary result URLs.
+See [`promplets/catalog/executable/market-snapshot.weavemark.md`](../promplets/catalog/executable/market-snapshot.weavemark.md) for a fuller VALE3 stock-learning example with finance and web-search effects connected by a dependency edge via `uses:`. Its final synthesis is grounded in the finance payload and search-result titles, snippets, source labels, and URLs; a semantic `@package` application then turns the Markdown analysis into a standalone HTML dashboard.
 
 **FSLM specs** pair a normal WeaveMark prompt library with an `ellements.fslm` machine. The name is deliberately linguistic: WeaveMark supplies prompts for semantic guards, invariants, actions, and outputs while `ellements.fslm` supplies the graph and runtime contract. You can either reference an external YAML/JSON/Python machine or import the separate `fslm` module and declare the machine inline with WeaveMark sugar. Prompt names are validated before the first snapshot or LLM/tool call:
 

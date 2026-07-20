@@ -68,6 +68,17 @@ Project-local, anonymous material may use an ordinary relative path:
 environment. A definitions-only module has no refinable body and must be imported
 with `@use`.
 
+A definition module may package reviewed default `@bind` implementations:
+
+```weavemark
+@use weavemark.domains.finance.market_research exposing fetch_asset_snapshot search_asset_context
+```
+
+Importing selects the defaults as metadata but does not execute Python.
+Protection policy remains authoritative when the runtime reaches the capability.
+An entrypoint can replace one default by declaring a local `@bind` with the same
+capability name.
+
 ## Effective libraries
 
 The Processor combines these roots in order:
