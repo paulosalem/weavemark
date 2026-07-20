@@ -6,9 +6,6 @@ import json
 import warnings
 from typing import Any
 
-from ellements.domain_specific.finance.yahoo_finance import finance_tools
-from ellements.standard_tools.web.search import web_search_tools
-
 warnings.filterwarnings(
     "ignore",
     message=r"Timestamp\.utcnow is deprecated.*",
@@ -18,6 +15,8 @@ warnings.filterwarnings(
 
 async def fetch_asset_snapshot(ticker: str) -> dict[str, Any]:
     """Fetch a finance snapshot for one public ticker through Ellements tools."""
+
+    from ellements.domain_specific.finance.yahoo_finance import finance_tools
 
     symbol = _normalize_ticker(ticker)
     executor = finance_tools().executor()
@@ -46,6 +45,8 @@ async def search_asset_context(
     focus: str,
 ) -> dict[str, Any]:
     """Search web/news context for one stock through Ellements tools."""
+
+    from ellements.standard_tools.web.search import web_search_tools
 
     symbol = _normalize_ticker(ticker)
     company = company_name.strip() or symbol
