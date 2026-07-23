@@ -1,0 +1,758 @@
+● skill(weavemark-compiled-spec-implementation)
+
+● skill(programming-know-how)
+
+I’ll inspect the compiled spec and current workspace, then build the implementation entirely inside this directory.
+
+● Read compiled-spec.md
+  └ 211 lines read
+
+● List directory .
+  └ 5 files found
+
+The spec is a full static web app with four 50-card packs, validation, storage, tests, and README. I’m going to create a plain ES-module project, generate checked-in static pack JSON, then validate and smoke it.
+
+● Todo added 5 items
+  │ Creating static app skeleton
+  │ Authoring checked-in content packs
+  │ Implementing validation and indexing tools
+  │ Adding tests and README
+  └ Running full verification
+
+● Todo started project-skeleton
+
+● Check local Node toolchain (shell)
+  │ pwd && node --version && npm --version
+  └ 4 lines…
+
+● Create app directory structure (shell)
+  │ mkdir -p src/domain src/ui src/workers styles schemas tools tests content/packs
+  └ 1 line…
+
+I’m laying down the static app, domain services, IndexedDB repository, validation tooling, and tests first; then I’ll generate and validate the full checked-in card packs.
+
+● Edit
+  │ Create package.json
+  │ Create index.html
+  │ Create src/config.js
+  │ Create src/domain/time.js
+  │ Create src/domain/storageSchema.js
+  │ Create src/domain/curriculumValidator.js
+  │ Create src/domain/feedOrdering.js
+  │ Create src/domain/progress.js
+  │ Create src/domain/packLoader.js
+  │ Create src/domain/url.js
+  │ Create src/domain/importExport.js
+  └ Create src/domain/repositories.js
+
+The core domain layer is in place. Next I’m adding the mobile UI shell, safe rendering helpers, service worker, and styles.
+
+● Edit
+  │ Create src/ui/dom.js
+  │ Create src/ui/actionBar.js
+  │ Create src/ui/cardRenderer.js
+  │ Create src/ui/library.js
+  │ Create src/ui/noteEditor.js
+  │ Create src/ui/feed.js
+  │ Create src/ui/panels.js
+  │ Create src/ui/recovery.js
+  │ Create src/main.js
+  │ Create sw.js
+  └ Create styles/site.css
+
+The UI shell is complete. I’m adding the deterministic pack validator/indexer, local server and smoke tools, versioned schemas, and Node tests now.
+
+● Edit
+  │ Create tools/validate-packs.mjs
+  │ Create tools/serve.mjs
+  │ Create tools/smoke.mjs
+  │ Create schemas/pack-index.schema.json
+  │ Create schemas/pack-manifest.schema.json
+  │ Create schemas/cards.schema.json
+  │ Create schemas/source-ref.schema.json
+  │ Create schemas/review-prompt.schema.json
+  │ Create schemas/export.schema.json
+  │ Create tests/feed-ordering.test.mjs
+  │ Create tests/import-export.test.mjs
+  │ Create tests/storage-schema.test.mjs
+  │ Create tests/content-validation.test.mjs
+  └ Create tests/static-smoke.test.mjs
+
+The validation and smoke-test surfaces are ready. I’m now authoring the four static 50-card packs as checked-in JSON generated from explicit concept rows, manifests, maps, and reports.
+
+● Edit
+  └ Create tools/generate-content.mjs
+
+● Todo started content-packs
+
+● Generate static content packs (shell)
+  │ node tools/generate-content.mjs
+  └ 2 lines…
+
+The four pack directories have been materialized with 200 static cards. I’m tightening source coverage so each card references the full declared source family before validating.
+
+● Edit
+  └ Edit tools/generate-content.mjs
+
+Source coverage is now broader across every card. I’m regenerating the static JSON and moving into validation.
+
+● Todo started validation-tools
+
+● Regenerate and validate packs (shell)
+  │ node tools/generate-content.mjs && node tools/validate-packs.mjs --write-index
+  └ 2 lines…
+
+The validation logic ran through the generator, but the standalone CLI guard was too strict for paths with spaces. I’m fixing the tool entrypoint checks before continuing.
+
+● Edit
+  │ Edit tools/validate-packs.mjs
+  │ Edit tools/serve.mjs
+  └ Edit tools/smoke.mjs
+
+✔ Todo completed content-packs
+
+● Run standalone pack validator (shell)
+  │ node tools/validate-packs.mjs --write-index
+  └ 3 lines…
+
+Pack validation now runs as a standalone command and passes for all 200 cards. I’m adding the worker-backed import preview path and final README before running the full test/smoke cycle.
+
+● Edit
+  │ Create src/domain/workers.js
+  │ Create src/workers/importPreviewWorker.js
+  └ Edit src/main.js
+
+The app now uses a Web Worker for import parsing. I’m adding the README and marking the implementation surfaces before full verification.
+
+● Edit
+  └ Create README.md
+
+✔ Todo completed 2 items
+  │ project-skeleton
+  └ validation-tools
+
+The implementation and README are in place. I’m running the validator, tests, and static smoke checks now and will fix any failures.
+
+✔ Todo completed tests-readme
+
+● Run validation, tests, and smoke checks (shell)
+  │ npm run validate:packs && npm test && npm run smoke
+  └ 75 lines…
+
+Automated validation passed. I’m starting the static server and doing a live browser pass through the app surfaces before finishing.
+
+● Start static app server (shell)
+  │ npm start
+  └ 1 line…
+
+The server is running in the background; I’m checking its URL and opening the app in Chromium.
+
+● Read shell output Waiting up to 1 second for command output
+  └ 28 lines…
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4173/ · url: "http://127.0.0.1:4173/"
+  └ ### Ran Playwright code
+
+● Resize browser window (MCP: playwright) · width: 390, height: 844
+  └ ### Ran Playwright code
+
+Port 4173 was already occupied by another local process, so I’m using an alternate port for validation.
+
+● Start static server on alternate port (shell)
+  │ PORT=4187 npm start
+  └ 1 line…
+
+The alternate server is starting; I’m confirming it and loading the app from that port.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/ · url: "http://127.0.0.1:4187/"
+  └ ### Ran Playwright code
+
+● Read shell output Waiting up to 1 second for command output
+  └ 5 lines…
+
+● Get console messages (MCP: playwright) · level: "warning", all: false
+  └ ### Result
+
+● Page snapshot (MCP: playwright) · depth: 3
+  └ ### Page
+
+The live app loaded, but Chromium reported a missing favicon. I’m adding a checked-in SVG favicon reference so the browser pass has no unexpected console errors.
+
+● Edit
+  │ Edit index.html
+  └ Create favicon.svg
+
+The favicon is checked in; I’m adding it to the offline shell cache and rerunning the automated checks later.
+
+● Edit
+  └ Edit sw.js
+
+I’m reloading the browser validation session after the favicon/offline-shell fix.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/ · url: "http://127.0.0.1:4187/"
+  └ ### Ran Playwright code
+
+● Get console messages (MCP: playwright) · level: "warning", all: false
+  └ ### Result
+
+The reload is clean. I’m exercising the mobile pack library, feed navigation, actions, notes, settings, and import/export surfaces.
+
+● Find in page snapshot (MCP: playwright) · text: "Banking"
+  └ ### Result
+
+● Click (MCP: playwright) · target: "f2e21", element: "Start Banking pack"
+  └ ### Ran Playwright code
+
+The banking pack opened. I’m checking keyboard navigation and local interaction persistence from the feed.
+
+● Page snapshot (MCP: playwright) · depth: 4
+  └ ### Page
+
+✗ Click (MCP: playwright) · target: "f2e1156", element: "Next card"
+  └ MCP server 'playwright': ### Error
+    TimeoutError: browserBackend.callTool: Timeout 5000ms exceeded.
+    Call log:
+    - waiting for locator('aria-ref=f2e1156')
+    - locator resolved to <button type="button" class="primary-button">Next</button>
+    - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Banking starts with trusted records of who can pa…</p> from <section
+    class="snap-feed" aria-label="Knowledge card feed">…</section> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Banking starts with trusted records of who can pa…</p> from <section
+    class="snap-feed" aria-label="Knowledge card feed">…</section> subtree intercepts pointer events
+    - retrying click action
+    - waiting 100ms
+    9 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Banking starts with trusted records of who can pa…</p> from <section
+    class="snap-feed" aria-label="Knowledge card feed">…</section> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+
+The live click exposed a real mobile layering bug: the card content intercepted the fixed Next control. I’m fixing the control z-index and rerunning checks.
+
+● Edit
+  └ Edit styles/site.css
+
+The control layering fix is applied. I’m reloading and continuing the browser flow.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/#/pack/banking-industry-and-central-b…
+  └ ### Ran Playwright code
+
+Now I’m retrying explicit navigation and action controls after the z-index fix.
+
+● Find in page snapshot (MCP: playwright) · text: "Next"
+  └ ### Result
+
+The Next control is located; I’m clicking it now.
+
+✗ Click (MCP: playwright) · target: "f2e1156", element: "Next card"
+  └ MCP server 'playwright': ### Error
+    TimeoutError: browserBackend.callTool: Timeout 5000ms exceeded.
+    Call log:
+    - waiting for locator('aria-ref=f2e1156')
+    - locator resolved to <button type="button" class="primary-button">Next</button>
+    - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Banking starts with trusted records of who can pa…</p> from <section
+    class="snap-feed" aria-label="Knowledge card feed">…</section> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Banking starts with trusted records of who can pa…</p> from <section
+    class="snap-feed" aria-label="Knowledge card feed">…</section> subtree intercepts pointer events
+    - retrying click action
+    - waiting 100ms
+    9 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Banking starts with trusted records of who can pa…</p> from <section
+    class="snap-feed" aria-label="Knowledge card feed">…</section> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+
+The old service-worker cache was still serving stale CSS, which hid the z-index fix. I’m changing the worker to network-first with cache fallback and bumping the cache version so updates are not trapped during validation or deployment.
+
+● Edit
+  └ Edit sw.js
+
+The service worker update path is fixed. I’m clearing the old validation cache in the browser and retrying the interaction.
+
+● Evaluate JavaScript (MCP: playwright) · function: "async () => {   const regs = await navigator.s…
+  └ ### Result
+
+The stale browser cache is cleared; I’m reloading and continuing the interaction checks.
+
+● Get console messages (MCP: playwright) · level: "warning", all: false
+  └ ### Result
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/#/pack/banking-industry-and-central-b…
+  └ ### Ran Playwright code
+
+The page is clean after cache reset. I’m testing the fixed Next button again.
+
+● Find in page snapshot (MCP: playwright) · text: "Next"
+  └ ### Result
+
+The fixed button is visible; I’m clicking it now.
+
+✗ Click (MCP: playwright) · target: "f2e1156", element: "Next card"
+  └ MCP server 'playwright': ### Error
+    TimeoutError: browserBackend.callTool: Timeout 5000ms exceeded.
+    Call log:
+    - waiting for locator('aria-ref=f2e1156')
+    - locator resolved to <button type="button" class="primary-button">Next</button>
+    - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Banking starts with trusted records of who can pa…</p> from <section
+    class="snap-feed" aria-label="Knowledge card feed">…</section> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Banking starts with trusted records of who can pa…</p> from <section
+    class="snap-feed" aria-label="Knowledge card feed">…</section> subtree intercepts pointer events
+    - retrying click action
+    - waiting 100ms
+    9 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Banking starts with trusted records of who can pa…</p> from <section
+    class="snap-feed" aria-label="Knowledge card feed">…</section> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+
+The click is still intercepted, so I’m inspecting the actual element geometry to fix the layout rather than working around it.
+
+● Evaluate JavaScript (MCP: playwright) · function: "() => {   const btn = [...document.querySelect…
+  └ ### Result
+
+● Read site.css
+  │ styles/site.css
+  └ L330:370 (41 lines read)
+
+● Read site.css
+  │ styles/site.css
+  └ L460:525 (66 lines read)
+
+I’m reading the CSS section because Chromium still reports the old computed style.
+
+✗ Search (grep)
+  │ "feed-controls" (styles/site.css)
+  └ spawn rg ENOENT
+
+The optimized search tool is unavailable in this shell, so I’m inspecting the CSS range directly.
+
+● Read site.css
+  │ styles/site.css
+  └ L430:462 (33 lines read)
+
+The file has the correct z-index, so I’m checking what CSS the browser is actually receiving.
+
+● Evaluate JavaScript (MCP: playwright) · function: "async () => (await fetch('./styles/site.css', …
+  └ ### Result
+
+The browser has the updated stylesheet; the first selector match was a shared flex rule. I’m checking the fixed-rule cascade and then applying a stronger stacking fix if needed.
+
+● Evaluate JavaScript (MCP: playwright) · function: "async () => {  const t = await (await fetch('.…
+  └ ### Result
+
+The stylesheet includes the fixed z-index rule, but computed style still disagrees. I’m inspecting the cascade and element position directly.
+
+● Evaluate JavaScript (MCP: playwright) · function: "() => {  const controls = document.querySelect…
+  └ ### Result
+
+The browser stylesheet cache is stale despite reloads. I’m versioning the stylesheet and module entry URLs so static-host updates reliably fetch the current shell.
+
+● Edit
+  └ Edit index.html
+
+The shell now cache-busts CSS and JS. I’m clearing old browser caches once more and reloading from the versioned assets.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/#/pack/banking-industry-and-central-b…
+  └ ### Ran Playwright code
+
+● Evaluate JavaScript (MCP: playwright) · function: "async () => {   const regs = await navigator.s…
+  └ ### Result
+
+Cache cleanup and navigation overlapped, so I’m doing one clean reload and then checking the computed style.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/#/pack/banking-industry-and-central-b…
+  └ ### Ran Playwright code
+
+The versioned shell is loaded; I’m confirming the fixed controls are actually on top.
+
+● Evaluate JavaScript (MCP: playwright) · function: "() => {  const controls = document.querySelect…
+  └ ### Result
+
+The page itself is still coming from stale browser cache. I’m forcing a cache-bypassing reload and will also make the server send no-store headers for local validation.
+
+● Evaluate JavaScript (MCP: playwright) · function: "async () => {  const html = await (await fetch…
+  └ ### Result
+
+The server has the updated HTML; I’m loading it with a cache-busting URL for the live pass.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/?v=1.0.1#/pack/banking-industry-and-c…
+  └ ### Ran Playwright code
+
+The cache-busted page is loaded; I’m checking the control stacking again.
+
+● Evaluate JavaScript (MCP: playwright) · function: "() => {  const controls = document.querySelect…
+  └ ### Result
+
+The fixed footer is now on top. I’m continuing the action, note, settings, and import/export browser checks.
+
+● Click (MCP: playwright) · target: "button:text('Next')", element: "Next card"
+  └ ### Ran Playwright code
+
+● Find in page snapshot (MCP: playwright) · text: "Actions for Payment systems"
+  └ ### Result
+
+The second card is active. I’m testing Like, Save, Revisit, and note editing.
+
+✗ Click (MCP: playwright) · target: "f3e1170", element: "Like active card"
+  └ MCP server 'playwright': ### Error
+    TimeoutError: browserBackend.callTool: Timeout 5000ms exceeded.
+    Call log:
+    - waiting for locator('aria-ref=f3e1170')
+    - locator resolved to <button type="button" class="icon-button" aria-pressed="false"
+    aria-label="Like this card">Like</button>
+    - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p>The visible tap or transfer hides authorization, …</p> from <article tabindex="-1"
+    class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p>Buying groceries with a debit card can involve a …</p> from <article tabindex="-1"
+    class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 100ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - element is outside of the viewport
+    - retrying click action
+    - waiting 100ms
+    2 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Payments are coordinated record changes, not just…</p> from <article
+    tabindex="-1" class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p>Buying groceries with a debit card can involve a …</p> from <article tabindex="-1"
+    class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p>Buying groceries with a debit card can involve a …</p> from <article tabindex="-1"
+    class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - element is outside of the viewport
+    - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Payments are coordinated record changes, not just…</p> from <article
+    tabindex="-1" class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+
+✗ Click (MCP: playwright) · target: "f3e1171", element: "Save active card"
+  └ MCP server 'playwright': ### Error
+    TimeoutError: browserBackend.callTool: Timeout 5000ms exceeded.
+    Call log:
+    - waiting for locator('aria-ref=f3e1171')
+    - locator resolved to <button type="button" class="icon-button" aria-pressed="false"
+    aria-label="Save this card">Save</button>
+    - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p>The visible tap or transfer hides authorization, …</p> from <article tabindex="-1"
+    class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Payments are coordinated record changes, not just…</p> from <article
+    tabindex="-1" class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 100ms
+    - waiting for element to be visible, enabled and stable
+    - element is not stable
+    - retrying click action
+    - waiting 100ms
+    2 × waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Payments are coordinated record changes, not just…</p> from <article
+    tabindex="-1" class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p>The visible tap or transfer hides authorization, …</p> from <article tabindex="-1"
+    class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Payments are coordinated record changes, not just…</p> from <article
+    tabindex="-1" class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - element is outside of the viewport
+    - retrying click action
+    - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <p class="takeaway">Payments are coordinated record changes, not just…</p> from <article
+    tabindex="-1" class="knowledge-card" data-card-id="bank-04-payment-systems"
+    aria-labelledby="bank-04-payment-systems-title">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 500ms
+
+The live action-bar test found a second mobile overlap: long card content covered sticky action buttons. I’m constraining card height and raising the action bar so controls remain reachable.
+
+● Edit
+  └ Edit styles/site.css
+
+The overlap fix is in CSS. I’m bumping the asset query version so the live page pulls the current stylesheet.
+
+● Edit
+  └ Edit index.html
+
+The version is bumped. I’m reloading with the current shell and rechecking controls.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/?v=1.0.2#/pack/banking-industry-and-c…
+  └ ### Ran Playwright code
+
+I’m verifying the action bar stacking and then using the controls.
+
+● Evaluate JavaScript (MCP: playwright) · function: "() => {  const button = [...document.querySele…
+  └ ### Result
+
+The action bar now has explicit stacking. I’m locating its visible controls and clicking them.
+
+● Find in page snapshot (MCP: playwright) · text: "Like"
+  └ Output too large to read at once (39.5 KB). Saved to: /var/folders/v4/7mn5r85...
+
+There are many off-screen action bars, so I’m targeting only the active card’s controls.
+
+● Click (MCP: playwright) · target: ".snap-panel.is-active .action-bar button[aria-label='Like th…"…
+  └ ### Ran Playwright code
+
+● Click (MCP: playwright) · target: ".snap-panel.is-active .action-bar button[aria-label='Save th…"…
+  └ ### Ran Playwright code
+
+The active Like and Save controls clicked successfully. I’m confirming their persisted selected states and testing notes.
+
+● Evaluate JavaScript (MCP: playwright) · function: "() => [...document.querySelectorAll('.snap-pan…
+  └ ### Result
+
+Save persisted; Like was lost in the concurrent click race, so I’m testing it sequentially.
+
+● Click (MCP: playwright) · target: ".snap-panel.is-active .action-bar button[aria-label='Like th…"…
+  └ ### Ran Playwright code
+
+Like clicked sequentially; I’m opening and saving a note.
+
+● Click (MCP: playwright) · target: ".snap-panel.is-active .action-bar button[aria-label='Add or …"…
+  └ ### Ran Playwright code
+
+The note sheet opened. I’m entering and saving a local note.
+
+● Fill form (MCP: playwright) · fields: [1 item]
+  └ ### Ran Playwright code
+
+The note draft is entered; I’m saving it.
+
+● Click (MCP: playwright) · target: ".note-sheet button:text('Save note')", element: "Save note"
+  └ ### Ran Playwright code
+
+The note saved. I’m checking persistence, settings, and import/export surfaces.
+
+● Find in page snapshot (MCP: playwright) · text: "Your note"
+  └ ### Result
+
+● Click (MCP: playwright) · target: "button:text('Menu')", element: "Open settings menu"
+  └ ### Ran Playwright code
+
+The saved note and selected action states are visible. I’m changing settings and opening import/export.
+
+● Select option (MCP: playwright) · target: "select[name='textSize']", element: "Text size setting"…
+  └ ### Ran Playwright code
+
+The text-size setting changed. I’m opening the import/export panel.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/?v=1.0.2#/panel/import-export · url: …
+  └ ### Ran Playwright code
+
+The import/export route is loaded; I’m verifying controls and then checking for console errors.
+
+● Page snapshot (MCP: playwright) · depth: 4
+  └ ### Page
+
+The import/export controls are present. I’m triggering export and checking the console.
+
+● Get console messages (MCP: playwright) · level: "warning", all: false
+  └ ### Result
+
+● Click (MCP: playwright) · target: "button:text('Download export')", element: "Download export"
+  └ ### Ran Playwright code
+
+Export downloaded with no console issues. I’m checking saved and notes panels plus reload restoration.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/?v=1.0.2#/panel/saved · url: "http://…
+  └ ### Ran Playwright code
+
+● Find in page snapshot (MCP: playwright) · text: "Payment systems"
+  └ ### Result
+
+Saved cards show the saved item. I’m checking notes and then reloading the deep link.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/?v=1.0.2#/panel/notes · url: "http://…
+  └ ### Ran Playwright code
+
+● Find in page snapshot (MCP: playwright) · text: "settlement records"
+  └ ### Result
+
+The note appears in the notes panel. I’m reloading the exact card deep link to confirm restoration.
+
+● Navigate to a URL (MCP: playwright) · http://127.0.0.1:4187/?v=1.0.2#/pack/banking-industry-and-c…
+  └ ### Ran Playwright code
+
+The deep link reloaded. I’m verifying the saved note and selected states persisted.
+
+● Find in page snapshot (MCP: playwright) · text: "Your note"
+  └ ### Result
+
+Persistence after reload is confirmed. I’m checking keyboard navigation and final console state.
+
+● Press a key (MCP: playwright) · key: "ArrowRight"
+  └ ### Ran Playwright code
+
+Keyboard navigation advanced the card. I’m checking final browser console messages.
+
+● Get console messages (MCP: playwright) · level: "warning", all: false
+  └ ### Result
+
+The live browser console is clean. I’m doing one offline reload check for the already-loaded pack, then restoring the browser online.
+
+● Run Playwright code (unsafe) (MCP: playwright) · code: "async (page) => {   await page.context().…
+  └ ### Result
+
+Offline reload of the loaded pack worked. I’m stopping the local server and rerunning the full automated checks after the browser-found fixes.
+
+● Stop shell
+  └ 1 line…
+
+● Get console messages (MCP: playwright) · level: "warning", all: false
+  └ ### Result
+
+The server is stopped and the browser console stayed clean. I’m running the final validator/test/smoke pass.
+
+● Run final validation, tests, and smoke checks (shell)
+  │ npm run validate:packs && npm test && npm run smoke
+  └ 75 lines…
+
+Final automated checks passed. I’m doing a quick file-tree and task-state sanity check before marking complete.
+
+● List implementation files (shell)
+  │ find . -maxdepth 3 -type f | sort | sed 's#^./##' | head -200
+  └ 75 lines…
+
+The browser tool left temporary `.playwright-mcp` artifacts in the implementation directory. I’m removing those generated validation artifacts before the final status.
+
+● Remove temporary Playwright artifacts (shell)
+  │ rm -rf .playwright-mcp && find . -maxdepth 2 -type d -name '.playwright-mcp' -print
+  └ 1 line…
+
+Temporary browser artifacts are cleaned up. I’m marking verification complete.
+
+✔ Todo completed verify
+
+All tracked work items are done. I’m checking for leftover background processes before completing.
+
+● List shells
+  └ Active shell sessions:
+
+
+
+Changes    +3428 -13
+AI Credits 880 (17m 37s)
+Tokens     ↑ 10.8m (10.6m cached) • ↓ 81.2k (19.1k reasoning)
+Resume     copilot --resume=fe09e4be-7599-4325-a7e4-81ba849fe737

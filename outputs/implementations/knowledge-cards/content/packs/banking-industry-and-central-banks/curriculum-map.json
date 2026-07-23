@@ -1,0 +1,496 @@
+{
+  "bias_safety_review": "Banking Industry and Central Banks uses educational boundaries, official or educational source families, no individualized advice, no fabricated citations, and no engagement metrics as mastery signals.",
+  "categories": [
+    {
+      "cards": [
+        "bank-01-money-credit-and-trust",
+        "bank-02-commercial-banks",
+        "bank-03-deposits-as-bank-liabilities",
+        "bank-05-bank-balance-sheets",
+        "bank-09-interest-rates-as-prices-of-time-and-risk",
+        "bank-18-central-bank-mandates"
+      ],
+      "count": 6,
+      "id": "foundations",
+      "note": "Core language and mental models that later cards assume."
+    },
+    {
+      "cards": [
+        "bank-04-payment-systems",
+        "bank-06-fractional-reserve-banking",
+        "bank-07-how-lending-creates-deposits",
+        "bank-08-credit-risk",
+        "bank-10-net-interest-margin",
+        "bank-11-reserves-and-settlement-balances",
+        "bank-12-interbank-settlement",
+        "bank-13-clearing-houses-and-payment-finality",
+        "bank-15-maturity-transformation",
+        "bank-19-monetary-policy-transmission",
+        "bank-20-policy-rates-and-yield-curves",
+        "bank-21-open-market-operations",
+        "bank-23-standing-facilities",
+        "bank-29-bank-capital",
+        "bank-30-leverage"
+      ],
+      "count": 15,
+      "id": "mechanisms",
+      "note": "How the system works when parts interact."
+    },
+    {
+      "cards": [
+        "bank-16-bank-runs",
+        "bank-17-deposit-insurance",
+        "bank-24-lender-of-last-resort",
+        "bank-31-capital-requirements",
+        "bank-32-stress-tests",
+        "bank-38-correspondent-banking",
+        "bank-39-money-laundering-controls",
+        "bank-40-consumer-protection",
+        "bank-46-real-time-payments",
+        "bank-48-crisis-resolution"
+      ],
+      "count": 10,
+      "id": "applications",
+      "note": "Practical reading of real situations without individualized advice."
+    },
+    {
+      "cards": [
+        "bank-14-liquidity-versus-solvency",
+        "bank-41-misconception-banks-only-lend-pre-existing-deposits",
+        "bank-42-misconception-central-banks-directly-set-every-interes",
+        "bank-43-misconception-printing-money-automatically-causes-infl"
+      ],
+      "count": 4,
+      "id": "misconceptions",
+      "note": "Common wrong maps that make later reasoning brittle."
+    },
+    {
+      "cards": [
+        "bank-22-reserve-requirements",
+        "bank-36-central-bank-independence",
+        "bank-44-financial-stability-versus-price-stability",
+        "bank-49-moral-hazard"
+      ],
+      "count": 4,
+      "id": "limitations",
+      "note": "Boundaries, uncertainty, tradeoffs, and professional guidance points."
+    },
+    {
+      "cards": [
+        "bank-25-inflation-and-money-demand",
+        "bank-26-deflation-and-debt-burdens",
+        "bank-35-securitization",
+        "bank-37-exchange-rates-and-central-banks",
+        "bank-47-bank-profitability-cycles",
+        "bank-50-reading-bank-news-with-a-systems-map"
+      ],
+      "count": 6,
+      "id": "bridges",
+      "note": "Connections across adjacent ideas and real-world contexts."
+    },
+    {
+      "cards": [
+        "bank-27-quantitative-easing",
+        "bank-28-forward-guidance",
+        "bank-33-macroprudential-regulation",
+        "bank-34-shadow-banking",
+        "bank-45-central-bank-digital-currencies"
+      ],
+      "count": 5,
+      "id": "advanced-horizons",
+      "note": "Beginner-safe previews of ideas learners may study later."
+    }
+  ],
+  "difficulty_distribution": {
+    "difficulty-1": 2,
+    "difficulty-2": 16,
+    "difficulty-3": 24,
+    "difficulty-4": 8
+  },
+  "pack_id": "banking-industry-and-central-banks",
+  "prerequisite_graph": {
+    "edges": [
+      {
+        "from": "bank-01-money-credit-and-trust",
+        "relationship": "prerequisite",
+        "to": "bank-02-commercial-banks"
+      },
+      {
+        "from": "bank-02-commercial-banks",
+        "relationship": "prerequisite",
+        "to": "bank-03-deposits-as-bank-liabilities"
+      },
+      {
+        "from": "bank-01-money-credit-and-trust",
+        "relationship": "prerequisite",
+        "to": "bank-04-payment-systems"
+      },
+      {
+        "from": "bank-02-commercial-banks",
+        "relationship": "prerequisite",
+        "to": "bank-05-bank-balance-sheets"
+      },
+      {
+        "from": "bank-03-deposits-as-bank-liabilities",
+        "relationship": "prerequisite",
+        "to": "bank-05-bank-balance-sheets"
+      },
+      {
+        "from": "bank-03-deposits-as-bank-liabilities",
+        "relationship": "prerequisite",
+        "to": "bank-06-fractional-reserve-banking"
+      },
+      {
+        "from": "bank-05-bank-balance-sheets",
+        "relationship": "prerequisite",
+        "to": "bank-06-fractional-reserve-banking"
+      },
+      {
+        "from": "bank-06-fractional-reserve-banking",
+        "relationship": "prerequisite",
+        "to": "bank-07-how-lending-creates-deposits"
+      },
+      {
+        "from": "bank-07-how-lending-creates-deposits",
+        "relationship": "prerequisite",
+        "to": "bank-08-credit-risk"
+      },
+      {
+        "from": "bank-07-how-lending-creates-deposits",
+        "relationship": "prerequisite",
+        "to": "bank-09-interest-rates-as-prices-of-time-and-risk"
+      },
+      {
+        "from": "bank-09-interest-rates-as-prices-of-time-and-risk",
+        "relationship": "prerequisite",
+        "to": "bank-10-net-interest-margin"
+      },
+      {
+        "from": "bank-04-payment-systems",
+        "relationship": "prerequisite",
+        "to": "bank-11-reserves-and-settlement-balances"
+      },
+      {
+        "from": "bank-06-fractional-reserve-banking",
+        "relationship": "prerequisite",
+        "to": "bank-11-reserves-and-settlement-balances"
+      },
+      {
+        "from": "bank-04-payment-systems",
+        "relationship": "prerequisite",
+        "to": "bank-12-interbank-settlement"
+      },
+      {
+        "from": "bank-11-reserves-and-settlement-balances",
+        "relationship": "prerequisite",
+        "to": "bank-12-interbank-settlement"
+      },
+      {
+        "from": "bank-12-interbank-settlement",
+        "relationship": "prerequisite",
+        "to": "bank-13-clearing-houses-and-payment-finality"
+      },
+      {
+        "from": "bank-05-bank-balance-sheets",
+        "relationship": "prerequisite",
+        "to": "bank-14-liquidity-versus-solvency"
+      },
+      {
+        "from": "bank-03-deposits-as-bank-liabilities",
+        "relationship": "prerequisite",
+        "to": "bank-15-maturity-transformation"
+      },
+      {
+        "from": "bank-07-how-lending-creates-deposits",
+        "relationship": "prerequisite",
+        "to": "bank-15-maturity-transformation"
+      },
+      {
+        "from": "bank-14-liquidity-versus-solvency",
+        "relationship": "prerequisite",
+        "to": "bank-16-bank-runs"
+      },
+      {
+        "from": "bank-15-maturity-transformation",
+        "relationship": "prerequisite",
+        "to": "bank-16-bank-runs"
+      },
+      {
+        "from": "bank-16-bank-runs",
+        "relationship": "prerequisite",
+        "to": "bank-17-deposit-insurance"
+      },
+      {
+        "from": "bank-09-interest-rates-as-prices-of-time-and-risk",
+        "relationship": "prerequisite",
+        "to": "bank-18-central-bank-mandates"
+      },
+      {
+        "from": "bank-18-central-bank-mandates",
+        "relationship": "prerequisite",
+        "to": "bank-19-monetary-policy-transmission"
+      },
+      {
+        "from": "bank-09-interest-rates-as-prices-of-time-and-risk",
+        "relationship": "prerequisite",
+        "to": "bank-20-policy-rates-and-yield-curves"
+      },
+      {
+        "from": "bank-19-monetary-policy-transmission",
+        "relationship": "prerequisite",
+        "to": "bank-20-policy-rates-and-yield-curves"
+      },
+      {
+        "from": "bank-18-central-bank-mandates",
+        "relationship": "prerequisite",
+        "to": "bank-21-open-market-operations"
+      },
+      {
+        "from": "bank-06-fractional-reserve-banking",
+        "relationship": "prerequisite",
+        "to": "bank-22-reserve-requirements"
+      },
+      {
+        "from": "bank-11-reserves-and-settlement-balances",
+        "relationship": "prerequisite",
+        "to": "bank-23-standing-facilities"
+      },
+      {
+        "from": "bank-18-central-bank-mandates",
+        "relationship": "prerequisite",
+        "to": "bank-23-standing-facilities"
+      },
+      {
+        "from": "bank-16-bank-runs",
+        "relationship": "prerequisite",
+        "to": "bank-24-lender-of-last-resort"
+      },
+      {
+        "from": "bank-23-standing-facilities",
+        "relationship": "prerequisite",
+        "to": "bank-24-lender-of-last-resort"
+      },
+      {
+        "from": "bank-18-central-bank-mandates",
+        "relationship": "prerequisite",
+        "to": "bank-25-inflation-and-money-demand"
+      },
+      {
+        "from": "bank-25-inflation-and-money-demand",
+        "relationship": "prerequisite",
+        "to": "bank-26-deflation-and-debt-burdens"
+      },
+      {
+        "from": "bank-21-open-market-operations",
+        "relationship": "prerequisite",
+        "to": "bank-27-quantitative-easing"
+      },
+      {
+        "from": "bank-20-policy-rates-and-yield-curves",
+        "relationship": "prerequisite",
+        "to": "bank-28-forward-guidance"
+      },
+      {
+        "from": "bank-05-bank-balance-sheets",
+        "relationship": "prerequisite",
+        "to": "bank-29-bank-capital"
+      },
+      {
+        "from": "bank-29-bank-capital",
+        "relationship": "prerequisite",
+        "to": "bank-30-leverage"
+      },
+      {
+        "from": "bank-29-bank-capital",
+        "relationship": "prerequisite",
+        "to": "bank-31-capital-requirements"
+      },
+      {
+        "from": "bank-31-capital-requirements",
+        "relationship": "prerequisite",
+        "to": "bank-32-stress-tests"
+      },
+      {
+        "from": "bank-31-capital-requirements",
+        "relationship": "prerequisite",
+        "to": "bank-33-macroprudential-regulation"
+      },
+      {
+        "from": "bank-15-maturity-transformation",
+        "relationship": "prerequisite",
+        "to": "bank-34-shadow-banking"
+      },
+      {
+        "from": "bank-07-how-lending-creates-deposits",
+        "relationship": "prerequisite",
+        "to": "bank-35-securitization"
+      },
+      {
+        "from": "bank-18-central-bank-mandates",
+        "relationship": "prerequisite",
+        "to": "bank-36-central-bank-independence"
+      },
+      {
+        "from": "bank-19-monetary-policy-transmission",
+        "relationship": "prerequisite",
+        "to": "bank-37-exchange-rates-and-central-banks"
+      },
+      {
+        "from": "bank-12-interbank-settlement",
+        "relationship": "prerequisite",
+        "to": "bank-38-correspondent-banking"
+      },
+      {
+        "from": "bank-02-commercial-banks",
+        "relationship": "prerequisite",
+        "to": "bank-39-money-laundering-controls"
+      },
+      {
+        "from": "bank-03-deposits-as-bank-liabilities",
+        "relationship": "prerequisite",
+        "to": "bank-40-consumer-protection"
+      },
+      {
+        "from": "bank-06-fractional-reserve-banking",
+        "relationship": "prerequisite",
+        "to": "bank-41-misconception-banks-only-lend-pre-existing-deposits"
+      },
+      {
+        "from": "bank-07-how-lending-creates-deposits",
+        "relationship": "prerequisite",
+        "to": "bank-41-misconception-banks-only-lend-pre-existing-deposits"
+      },
+      {
+        "from": "bank-20-policy-rates-and-yield-curves",
+        "relationship": "prerequisite",
+        "to": "bank-42-misconception-central-banks-directly-set-every-interes"
+      },
+      {
+        "from": "bank-25-inflation-and-money-demand",
+        "relationship": "prerequisite",
+        "to": "bank-43-misconception-printing-money-automatically-causes-infl"
+      },
+      {
+        "from": "bank-18-central-bank-mandates",
+        "relationship": "prerequisite",
+        "to": "bank-44-financial-stability-versus-price-stability"
+      },
+      {
+        "from": "bank-04-payment-systems",
+        "relationship": "prerequisite",
+        "to": "bank-45-central-bank-digital-currencies"
+      },
+      {
+        "from": "bank-04-payment-systems",
+        "relationship": "prerequisite",
+        "to": "bank-46-real-time-payments"
+      },
+      {
+        "from": "bank-10-net-interest-margin",
+        "relationship": "prerequisite",
+        "to": "bank-47-bank-profitability-cycles"
+      },
+      {
+        "from": "bank-16-bank-runs",
+        "relationship": "prerequisite",
+        "to": "bank-48-crisis-resolution"
+      },
+      {
+        "from": "bank-29-bank-capital",
+        "relationship": "prerequisite",
+        "to": "bank-48-crisis-resolution"
+      },
+      {
+        "from": "bank-17-deposit-insurance",
+        "relationship": "prerequisite",
+        "to": "bank-49-moral-hazard"
+      },
+      {
+        "from": "bank-24-lender-of-last-resort",
+        "relationship": "prerequisite",
+        "to": "bank-49-moral-hazard"
+      },
+      {
+        "from": "bank-18-central-bank-mandates",
+        "relationship": "prerequisite",
+        "to": "bank-50-reading-bank-news-with-a-systems-map"
+      },
+      {
+        "from": "bank-29-bank-capital",
+        "relationship": "prerequisite",
+        "to": "bank-50-reading-bank-news-with-a-systems-map"
+      },
+      {
+        "from": "bank-14-liquidity-versus-solvency",
+        "relationship": "prerequisite",
+        "to": "bank-50-reading-bank-news-with-a-systems-map"
+      }
+    ],
+    "nodes": [
+      "bank-01-money-credit-and-trust",
+      "bank-02-commercial-banks",
+      "bank-03-deposits-as-bank-liabilities",
+      "bank-04-payment-systems",
+      "bank-05-bank-balance-sheets",
+      "bank-06-fractional-reserve-banking",
+      "bank-07-how-lending-creates-deposits",
+      "bank-08-credit-risk",
+      "bank-09-interest-rates-as-prices-of-time-and-risk",
+      "bank-10-net-interest-margin",
+      "bank-11-reserves-and-settlement-balances",
+      "bank-12-interbank-settlement",
+      "bank-13-clearing-houses-and-payment-finality",
+      "bank-14-liquidity-versus-solvency",
+      "bank-15-maturity-transformation",
+      "bank-16-bank-runs",
+      "bank-17-deposit-insurance",
+      "bank-18-central-bank-mandates",
+      "bank-19-monetary-policy-transmission",
+      "bank-20-policy-rates-and-yield-curves",
+      "bank-21-open-market-operations",
+      "bank-22-reserve-requirements",
+      "bank-23-standing-facilities",
+      "bank-24-lender-of-last-resort",
+      "bank-25-inflation-and-money-demand",
+      "bank-26-deflation-and-debt-burdens",
+      "bank-27-quantitative-easing",
+      "bank-28-forward-guidance",
+      "bank-29-bank-capital",
+      "bank-30-leverage",
+      "bank-31-capital-requirements",
+      "bank-32-stress-tests",
+      "bank-33-macroprudential-regulation",
+      "bank-34-shadow-banking",
+      "bank-35-securitization",
+      "bank-36-central-bank-independence",
+      "bank-37-exchange-rates-and-central-banks",
+      "bank-38-correspondent-banking",
+      "bank-39-money-laundering-controls",
+      "bank-40-consumer-protection",
+      "bank-41-misconception-banks-only-lend-pre-existing-deposits",
+      "bank-42-misconception-central-banks-directly-set-every-interes",
+      "bank-43-misconception-printing-money-automatically-causes-infl",
+      "bank-44-financial-stability-versus-price-stability",
+      "bank-45-central-bank-digital-currencies",
+      "bank-46-real-time-payments",
+      "bank-47-bank-profitability-cycles",
+      "bank-48-crisis-resolution",
+      "bank-49-moral-hazard",
+      "bank-50-reading-bank-news-with-a-systems-map"
+    ]
+  },
+  "progression_note": "Foundations are introduced early; mechanisms, applications, misconceptions, limitations, bridges, and advanced horizons are interleaved after prerequisites become available.",
+  "schema_version": "knowledge-cards.curriculum-map.v1",
+  "source_policy": [
+    "bank-fed-monetary-policy",
+    "bank-fed-payments",
+    "bank-fdic-insurance",
+    "bank-bis-cpmi",
+    "bank-basel",
+    "bank-fincen-aml",
+    "bank-fdic-resolutions",
+    "bank-bis-correspondent",
+    "bank-fed-cbdc",
+    "bank-cfpb-consumer"
+  ]
+}

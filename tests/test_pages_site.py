@@ -52,6 +52,28 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
     assert (
         destination / "demos" / "transit-city-swarm" / "src" / "simulation.js"
     ).is_file()
+    assert (destination / "demos" / "ai-kanban" / "index.html").is_file()
+    assert (destination / "demos" / "ai-kanban" / "src" / "sqlite-worker.js").is_file()
+    assert (destination / "demos" / "ai-kanban" / "vendor" / "sql-wasm.wasm").is_file()
+    assert (destination / "demos" / "ai-kanban" / "vendor" / "LICENSE-sql.js").is_file()
+    assert (destination / "demos" / "knowledge-cards" / "index.html").is_file()
+    assert (
+        destination / "demos" / "knowledge-cards" / "manifest.webmanifest"
+    ).is_file()
+    assert (destination / "demos" / "knowledge-cards" / "sw.js").is_file()
+    assert (
+        destination / "demos" / "knowledge-cards" / "content" / "packs" / "index.json"
+    ).is_file()
+    assert (
+        destination
+        / "demos"
+        / "knowledge-cards"
+        / "content"
+        / "packs"
+        / "economics"
+        / "cards"
+        / "cards.json"
+    ).is_file()
     tutorial_html = (destination / "docs" / "tutorial.html").read_text(
         encoding="utf-8"
     )
@@ -69,11 +91,21 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
     implement_html = (destination / "docs" / "tutorial-implement.html").read_text(
         encoding="utf-8"
     )
-    assert 'href="../demos/orbital-drift/"' in implement_html
+    assert 'href="../demos/ai-kanban/"' in implement_html
     assert (
         "github.com/paulosalem/weavemark/tree/main/outputs/implementations/"
-        "orbital-drift"
+        "ai-kanban-browser"
     ) in implement_html
+    home_html = (destination / "docs" / "index.html").read_text(encoding="utf-8")
+    assert 'data-href="../demos/ai-kanban/"' in home_html
+    assert 'href="../demos/ai-kanban/" data-live-demo="ai-kanban"' in home_html
+    assert (
+        'href="../demos/knowledge-cards/" data-live-demo="knowledge-cards"'
+        in home_html
+    )
+    assert (destination / "docs" / "local-demo-links.js").is_file()
+    assert (destination / "docs" / "mobile-navigation.js").is_file()
+    assert '<script src="mobile-navigation.js?v=20260723" defer></script>' in home_html
     assert not (
         destination
         / "examples"

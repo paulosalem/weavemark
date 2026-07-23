@@ -10,6 +10,15 @@ def test_home_hero_examples_show_current_artifacts() -> None:
     html = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
 
     assert "processor-strip" not in html
+    assert 'data-title="AI Kanban — live browser demo"' in html
+    assert (
+        'data-href="../outputs/implementations/ai-kanban-browser/index.html"'
+        in html
+    )
+    assert 'data-live-demo="ai-kanban"' in html
+    assert '<script src="local-demo-links.js"></script>' in html
+    assert "browser_sqlite_file_store" in html
+    assert "typescript_nextjs_prisma_sqlite" not in html
 
     assert "news-intelligence-board.weavemark.md" not in html
     assert ">News board</button>" not in html

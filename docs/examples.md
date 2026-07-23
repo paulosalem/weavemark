@@ -52,7 +52,8 @@ These complete promplets can be compiled or studied directly.
 | `catalog/standalone/consulting-proposal.weavemark.md` | `@refine`, `@match`, `@summarize`, `@polish`, `@assert`, `@output` | Management consulting proposal with nested semantic directives. |
 | `catalog/standalone/knowledge-base-article.weavemark.md` | `@extract`, `@summarize`, `@compress`, `@if`, `@structural_constraints`, `@output` | Internal knowledge-base article pipeline. |
 | `catalog/standalone/api-docs-generator.weavemark.md` | `@generate_examples`, `@revise`, `@structural_constraints`, `@output` | API reference documentation generator. |
-| `catalog/standalone/ai-kanban-board.weavemark.md` | `@refine` | Human-AI task board programming spec. |
+| `catalog/standalone/ai-kanban-board.weavemark.md` | `@refine` | Concise browser-only human-AI board spec with a user-selected SQLite file, provider-neutral handoff, and a [live demo](https://paulosalem.github.io/weavemark/demos/ai-kanban/). |
+| `catalog/standalone/knowledge-cards.weavemark.md` | `@refine` | Concise mobile-first learning-feed spec with manifest-discovered pre-generated packs, local progress and notes, no runtime LLM calls, and a [live demo](https://paulosalem.github.io/weavemark/demos/knowledge-cards/). |
 | `catalog/standalone/compoundvision-investment-simulator.weavemark.md` | `@refine` | Compound-interest and investment simulator programming spec. |
 
 ## Reusable library fragments

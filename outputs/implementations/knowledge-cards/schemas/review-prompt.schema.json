@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-cards.local/schemas/review-prompt.schema.json",
+  "title": "Knowledge Cards Review Prompt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "prompt", "answer_hint"],
+  "properties": {
+    "kind": { "enum": ["recall", "comparison", "application", "connection"] },
+    "prompt": { "type": "string" },
+    "answer_hint": { "type": "string" }
+  }
+}

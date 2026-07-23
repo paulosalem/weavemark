@@ -1,0 +1,2539 @@
+{
+  "cards": [
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-02-opportunity-cost",
+          "label": "Prepares for Opportunity cost.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-04-incentives",
+          "label": "Prepares for Incentives.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-25-measuring-output-with-gdp",
+          "label": "Prepares for Measuring output with GDP.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-44-economic-models",
+          "label": "Prepares for Economic models.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Scarcity means people want more valuable things than available time, attention, resources, or capacity can provide.",
+        "Economics begins here because every choice uses something that could have been used another way."
+      ],
+      "difficulty": 1,
+      "example": "Choosing an evening class means not using that same evening for paid work, sleep, or family time.",
+      "foundational_priority": 1,
+      "id": "econ-01-scarcity",
+      "importance": 1,
+      "key_takeaway": "Scarcity turns choice into a real problem.",
+      "media": null,
+      "prerequisites": [],
+      "review_prompts": [
+        {
+          "answer_hint": "Scarcity turns choice into a real problem.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Scarcity\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Choosing an evening class means not using that same evening for paid work, sleep, or family time.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Scarcity\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Scarcity"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-01-scarcity",
+          "label": "Builds on Scarcity.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-03-tradeoffs-and-constraints",
+          "label": "Prepares for Tradeoffs and constraints.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-05-marginal-thinking",
+          "label": "Prepares for Marginal thinking.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-06-sunk-costs",
+          "label": "Prepares for Sunk costs.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-07-comparative-advantage",
+          "label": "Prepares for Comparative advantage.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-43-cost-benefit-analysis",
+          "label": "Prepares for Cost-benefit analysis.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Opportunity cost is the value of the best alternative you give up when choosing one option.",
+        "It makes hidden tradeoffs visible and prevents free-looking choices from being treated as free."
+      ],
+      "difficulty": 1,
+      "example": "A free concert still costs the evening you could have spent studying or resting.",
+      "foundational_priority": 0.98,
+      "id": "econ-02-opportunity-cost",
+      "importance": 0.98,
+      "key_takeaway": "The true cost of a choice includes the best foregone alternative.",
+      "media": null,
+      "prerequisites": [
+        "econ-01-scarcity"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "The true cost of a choice includes the best foregone alternative.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Opportunity cost\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A free concert still costs the evening you could have spent studying or resting.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Opportunity cost\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Opportunity cost"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-02-opportunity-cost",
+          "label": "Builds on Opportunity cost.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A tradeoff is a tension between desirable goals under a constraint such as time, money, law, or technology.",
+        "Good economic reasoning names the binding constraint first; arguing only about which option is preferred, without saying what limits the choice, leaves the actual tradeoff unexplained."
+      ],
+      "difficulty": 1,
+      "example": "A city budget cannot maximize every service at once if revenue and staff are limited.",
+      "foundational_priority": 0.92,
+      "id": "econ-03-tradeoffs-and-constraints",
+      "importance": 0.92,
+      "key_takeaway": "Tradeoffs become clearer when the constraint is explicit.",
+      "media": null,
+      "prerequisites": [
+        "econ-02-opportunity-cost"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Tradeoffs become clearer when the constraint is explicit.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Tradeoffs and constraints\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A city budget cannot maximize every service at once if revenue and staff are limited.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Tradeoffs and constraints\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Tradeoffs and constraints"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-01-scarcity",
+          "label": "Builds on Scarcity.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-09-markets-as-coordination",
+          "label": "Prepares for Markets as coordination.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-24-behavioral-biases",
+          "label": "Prepares for Behavioral biases.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-28-labor-markets",
+          "label": "Prepares for Labor markets.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-47-game-theory",
+          "label": "Prepares for Game theory.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "An incentive is anything that changes the expected benefit, cost, risk, or social meaning of an action.",
+        "Incentives matter because people and organizations adjust behavior when rules or payoffs change."
+      ],
+      "difficulty": 1,
+      "example": "A bottle deposit encourages returns by making recycling financially visible at the moment of choice.",
+      "foundational_priority": 0.96,
+      "id": "econ-04-incentives",
+      "importance": 0.96,
+      "key_takeaway": "People respond to incentives, including non-money incentives.",
+      "media": null,
+      "prerequisites": [
+        "econ-01-scarcity"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "People respond to incentives, including non-money incentives.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Incentives\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A bottle deposit encourages returns by making recycling financially visible at the moment of choice.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Incentives\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Incentives"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-02-opportunity-cost",
+          "label": "Builds on Opportunity cost.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-06-sunk-costs",
+          "label": "Prepares for Sunk costs.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-10-supply",
+          "label": "Prepares for Supply.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-11-demand",
+          "label": "Prepares for Demand.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Marginal thinking compares the extra benefit and extra cost of one more unit or one more step.",
+        "It avoids all-or-nothing reasoning because most real decisions happen at the margin, one added unit or step at a time, not as a single yes-or-no verdict on an entire activity."
+      ],
+      "difficulty": 2,
+      "example": "A cafe deciding whether to stay open one extra hour compares extra sales with extra wages and utilities.",
+      "foundational_priority": 0.92,
+      "id": "econ-05-marginal-thinking",
+      "importance": 0.94,
+      "key_takeaway": "Many choices are about the next increment, not the whole activity.",
+      "media": null,
+      "prerequisites": [
+        "econ-02-opportunity-cost"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Many choices are about the next increment, not the whole activity.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Marginal thinking\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A cafe deciding whether to stay open one extra hour compares extra sales with extra wages and utilities.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Marginal thinking\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Marginal thinking"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "econ-02-opportunity-cost",
+          "label": "Builds on Opportunity cost.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-05-marginal-thinking",
+          "label": "Builds on Marginal thinking.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A sunk cost is a past cost that cannot be recovered and should not decide the next choice by itself.",
+        "The hard part is emotional: people often keep investing to avoid admitting an earlier loss."
+      ],
+      "difficulty": 2,
+      "example": "Finishing a bad movie because you paid for the ticket confuses past spending with present value.",
+      "foundational_priority": 0.7,
+      "id": "econ-06-sunk-costs",
+      "importance": 0.8,
+      "key_takeaway": "Do not let unrecoverable costs command future decisions.",
+      "media": null,
+      "prerequisites": [
+        "econ-02-opportunity-cost",
+        "econ-05-marginal-thinking"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Do not let unrecoverable costs command future decisions.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Sunk costs\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Finishing a bad movie because you paid for the ticket confuses past spending with present value.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Sunk costs\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Sunk costs"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-02-opportunity-cost",
+          "label": "Builds on Opportunity cost.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-08-specialization",
+          "label": "Prepares for Specialization.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-38-trade-and-tariffs",
+          "label": "Prepares for Trade and tariffs.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Comparative advantage means a person or country can gain from specializing where its opportunity cost is lower.",
+        "The idea explains why trade can help even when one side is absolutely better at producing everything."
+      ],
+      "difficulty": 3,
+      "example": "A surgeon may hire someone to paint the clinic because surgery time has a higher opportunity cost.",
+      "foundational_priority": 0.72,
+      "id": "econ-07-comparative-advantage",
+      "importance": 0.88,
+      "key_takeaway": "Trade can create gains by reallocating effort toward lower opportunity costs.",
+      "media": null,
+      "prerequisites": [
+        "econ-02-opportunity-cost"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Trade can create gains by reallocating effort toward lower opportunity costs.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Comparative advantage\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A surgeon may hire someone to paint the clinic because surgery time has a higher opportunity cost.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Comparative advantage\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-worldbank-trade"
+      ],
+      "title": "Comparative advantage"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-07-comparative-advantage",
+          "label": "Builds on Comparative advantage.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-09-markets-as-coordination",
+          "label": "Prepares for Markets as coordination.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-29-productivity",
+          "label": "Prepares for Productivity.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Specialization concentrates effort on narrower tasks so people can build skill, tools, and scale.",
+        "It raises productivity but also creates dependence on exchange and coordination."
+      ],
+      "difficulty": 2,
+      "example": "A bakery that focuses on bread can justify better ovens and repeated practice.",
+      "foundational_priority": 0.64,
+      "id": "econ-08-specialization",
+      "importance": 0.82,
+      "key_takeaway": "Specialization improves output while increasing interdependence.",
+      "media": null,
+      "prerequisites": [
+        "econ-07-comparative-advantage"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Specialization improves output while increasing interdependence.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Specialization\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A bakery that focuses on bread can justify better ovens and repeated practice.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Specialization\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Specialization"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-04-incentives",
+          "label": "Builds on Incentives.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-08-specialization",
+          "label": "Builds on Specialization.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-10-supply",
+          "label": "Prepares for Supply.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-11-demand",
+          "label": "Prepares for Demand.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-18-externalities",
+          "label": "Prepares for Externalities.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-19-public-goods",
+          "label": "Prepares for Public goods.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-21-market-power",
+          "label": "Prepares for Market power.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-22-information-asymmetry",
+          "label": "Prepares for Information asymmetry.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-40-institutions-and-property-rights",
+          "label": "Prepares for Institutions and property rights.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A market coordinates many buyers and sellers through prices, rules, information, and property rights.",
+        "It is not just a physical place; it is an ongoing process for discovering prices and terms of exchange as buyers and sellers continuously adjust offers to new information."
+      ],
+      "difficulty": 2,
+      "example": "Online ride pricing coordinates drivers, riders, location, and timing without one dispatcher assigning every trip.",
+      "foundational_priority": 0.78,
+      "id": "econ-09-markets-as-coordination",
+      "importance": 0.92,
+      "key_takeaway": "Markets coordinate decentralized plans through signals and rules.",
+      "media": null,
+      "prerequisites": [
+        "econ-04-incentives",
+        "econ-08-specialization"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Markets coordinate decentralized plans through signals and rules.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Markets as coordination\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Online ride pricing coordinates drivers, riders, location, and timing without one dispatcher assigning every trip.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Markets as coordination\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Markets as coordination"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-05-marginal-thinking",
+          "label": "Builds on Marginal thinking.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-09-markets-as-coordination",
+          "label": "Builds on Markets as coordination.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-12-equilibrium",
+          "label": "Prepares for Equilibrium.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-13-elasticity",
+          "label": "Prepares for Elasticity.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Supply describes how much sellers are willing and able to offer at different prices, holding other factors steady.",
+        "It reflects costs, technology, expectations, taxes, inputs, and the opportunity cost of producing."
+      ],
+      "difficulty": 2,
+      "example": "If coffee bean costs rise, cafes may offer less coffee at the same price.",
+      "foundational_priority": 0.7,
+      "id": "econ-10-supply",
+      "importance": 0.86,
+      "key_takeaway": "Supply is a schedule of seller behavior, not a single number.",
+      "media": null,
+      "prerequisites": [
+        "econ-05-marginal-thinking",
+        "econ-09-markets-as-coordination"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Supply is a schedule of seller behavior, not a single number.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Supply\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If coffee bean costs rise, cafes may offer less coffee at the same price.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Supply\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Supply"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-05-marginal-thinking",
+          "label": "Builds on Marginal thinking.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-09-markets-as-coordination",
+          "label": "Builds on Markets as coordination.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-12-equilibrium",
+          "label": "Prepares for Equilibrium.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-13-elasticity",
+          "label": "Prepares for Elasticity.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Demand describes how much buyers are willing and able to purchase at different prices, holding other factors steady.",
+        "It reflects income, preferences, substitutes, complements, expectations, and the usefulness of the good."
+      ],
+      "difficulty": 2,
+      "example": "If bus fares rise, some commuters may shift to walking, cycling, or carpooling.",
+      "foundational_priority": 0.7,
+      "id": "econ-11-demand",
+      "importance": 0.86,
+      "key_takeaway": "Demand is a relationship between price and quantity buyers choose.",
+      "media": null,
+      "prerequisites": [
+        "econ-05-marginal-thinking",
+        "econ-09-markets-as-coordination"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Demand is a relationship between price and quantity buyers choose.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Demand\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If bus fares rise, some commuters may shift to walking, cycling, or carpooling.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Demand\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Demand"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-10-supply",
+          "label": "Builds on Supply.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-11-demand",
+          "label": "Builds on Demand.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-14-consumer-surplus",
+          "label": "Prepares for Consumer surplus.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-15-producer-surplus",
+          "label": "Prepares for Producer surplus.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-16-price-controls",
+          "label": "Prepares for Price controls.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Equilibrium is a point where planned buying and selling are mutually consistent at a given price.",
+        "It is a model result, not a guarantee that markets are fair, instant, or free of power."
+      ],
+      "difficulty": 2,
+      "example": "If many people want concert tickets at a low price, shortage pressure appears until price, quantity, or rules change.",
+      "foundational_priority": 0.64,
+      "id": "econ-12-equilibrium",
+      "importance": 0.84,
+      "key_takeaway": "Equilibrium shows balance between plans, not moral perfection.",
+      "media": null,
+      "prerequisites": [
+        "econ-10-supply",
+        "econ-11-demand"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Equilibrium shows balance between plans, not moral perfection.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Equilibrium\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If many people want concert tickets at a low price, shortage pressure appears until price, quantity, or rules change.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Equilibrium\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Equilibrium"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-10-supply",
+          "label": "Builds on Supply.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-11-demand",
+          "label": "Builds on Demand.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-17-taxes-and-incidence",
+          "label": "Prepares for Taxes and incidence.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Elasticity measures how strongly quantity responds to a change such as price, income, or another price.",
+        "It matters because the same tax, shortage, or price increase has different effects when people can easily adjust."
+      ],
+      "difficulty": 3,
+      "example": "Gasoline demand may be less flexible in the short run than restaurant demand because commuting options are limited.",
+      "foundational_priority": 0.54,
+      "id": "econ-13-elasticity",
+      "importance": 0.8,
+      "key_takeaway": "Elasticity asks how much behavior moves when conditions change.",
+      "media": null,
+      "prerequisites": [
+        "econ-10-supply",
+        "econ-11-demand"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Elasticity asks how much behavior moves when conditions change.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Elasticity\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Gasoline demand may be less flexible in the short run than restaurant demand because commuting options are limited.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Elasticity\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Elasticity"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "econ-12-equilibrium",
+          "label": "Builds on Equilibrium.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-42-welfare-and-efficiency",
+          "label": "Prepares for Welfare and efficiency.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Consumer surplus is the gap between what buyers were willing to pay and what they actually pay.",
+        "It gives a way to discuss gains from trade without assuming price equals total value."
+      ],
+      "difficulty": 3,
+      "example": "If you would pay 20 dollars for a book and buy it for 12, the extra 8 dollars is surplus to you.",
+      "foundational_priority": 0.36,
+      "id": "econ-14-consumer-surplus",
+      "importance": 0.68,
+      "key_takeaway": "Value to buyers can exceed the market price they pay.",
+      "media": null,
+      "prerequisites": [
+        "econ-12-equilibrium"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Value to buyers can exceed the market price they pay.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Consumer surplus\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If you would pay 20 dollars for a book and buy it for 12, the extra 8 dollars is surplus to you.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Consumer surplus\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Consumer surplus"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "econ-12-equilibrium",
+          "label": "Builds on Equilibrium.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-42-welfare-and-efficiency",
+          "label": "Prepares for Welfare and efficiency.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Producer surplus is the gap between the price sellers receive and the minimum they would accept to supply.",
+        "It helps explain why sellers benefit from trades and why cost changes affect participation."
+      ],
+      "difficulty": 3,
+      "example": "A farmer willing to sell apples for 2 dollars per bag gains surplus if the market price is 3 dollars.",
+      "foundational_priority": 0.34,
+      "id": "econ-15-producer-surplus",
+      "importance": 0.66,
+      "key_takeaway": "Sellers also receive gains from mutually accepted trades.",
+      "media": null,
+      "prerequisites": [
+        "econ-12-equilibrium"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Sellers also receive gains from mutually accepted trades.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Producer surplus\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A farmer willing to sell apples for 2 dollars per bag gains surplus if the market price is 3 dollars.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Producer surplus\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Producer surplus"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "econ-12-equilibrium",
+          "label": "Builds on Equilibrium.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Price controls are legal limits on prices, such as ceilings that cap how high a price may rise or floors that cap how low it may fall, imposed instead of letting supply and demand set the level.",
+        "They may pursue fairness or stability, but they can create shortages, surpluses, quality changes, or rationing when set far from market-clearing levels."
+      ],
+      "difficulty": 3,
+      "example": "A rent ceiling can help current tenants while reducing incentives to add rental housing.",
+      "foundational_priority": 0.44,
+      "id": "econ-16-price-controls",
+      "importance": 0.78,
+      "key_takeaway": "Changing prices by rule also changes quantities and behavior.",
+      "media": null,
+      "prerequisites": [
+        "econ-12-equilibrium"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Changing prices by rule also changes quantities and behavior.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Price controls\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A rent ceiling can help current tenants while reducing incentives to add rental housing.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Price controls\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Price controls"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-13-elasticity",
+          "label": "Builds on Elasticity.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Tax incidence asks who ultimately bears a tax after prices and quantities adjust.",
+        "The legal payer is not always the economic bearer because burden shifts toward the side less able to adjust."
+      ],
+      "difficulty": 3,
+      "example": "A payroll tax charged to employers can still lower wages if labor supply and demand conditions permit.",
+      "foundational_priority": 0.48,
+      "id": "econ-17-taxes-and-incidence",
+      "importance": 0.8,
+      "key_takeaway": "Who writes the check is not always who bears the cost.",
+      "media": null,
+      "prerequisites": [
+        "econ-13-elasticity"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Who writes the check is not always who bears the cost.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Taxes and incidence\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A payroll tax charged to employers can still lower wages if labor supply and demand conditions permit.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Taxes and incidence\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Taxes and incidence"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "econ-09-markets-as-coordination",
+          "label": "Builds on Markets as coordination.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-20-common-resources",
+          "label": "Prepares for Common resources.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-49-growth-limits-and-environment",
+          "label": "Prepares for Growth limits and environment.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "An externality is a cost or benefit of an action that affects others outside the transaction.",
+        "Markets can overproduce harmful externalities or underproduce beneficial ones when prices omit spillovers."
+      ],
+      "difficulty": 2,
+      "example": "A factory's pollution affects nearby residents even if they never bought the factory's product.",
+      "foundational_priority": 0.6,
+      "id": "econ-18-externalities",
+      "importance": 0.9,
+      "key_takeaway": "When side effects are unpriced, private choices can miss social costs or benefits.",
+      "media": null,
+      "prerequisites": [
+        "econ-09-markets-as-coordination"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "When side effects are unpriced, private choices can miss social costs or benefits.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Externalities\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A factory's pollution affects nearby residents even if they never bought the factory's product.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Externalities\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Externalities"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "econ-09-markets-as-coordination",
+          "label": "Builds on Markets as coordination.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A public good is hard to exclude people from and one person's use does not greatly reduce another's use.",
+        "Those traits create free-rider problems because people can benefit without paying voluntarily."
+      ],
+      "difficulty": 2,
+      "example": "National defense protects everyone in a country's territory, including residents who pay no taxes toward it.",
+      "foundational_priority": 0.52,
+      "id": "econ-19-public-goods",
+      "importance": 0.84,
+      "key_takeaway": "Some valuable goods are undersupplied when payment cannot be limited to users.",
+      "media": null,
+      "prerequisites": [
+        "econ-09-markets-as-coordination"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Some valuable goods are undersupplied when payment cannot be limited to users.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Public goods\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "National defense protects everyone in a country's territory, including residents who pay no taxes toward it.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Public goods\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Public goods"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "econ-18-externalities",
+          "label": "Builds on Externalities.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A common resource is one that is difficult to exclude people from using but that can still be depleted, degraded, or crowded as more people draw on it at once.",
+        "The problem is overuse unless rules, norms, ownership, or coordination protect the resource."
+      ],
+      "difficulty": 2,
+      "example": "An unmanaged fishery can be exhausted because each boat gains from catching now while depletion is shared.",
+      "foundational_priority": 0.48,
+      "id": "econ-20-common-resources",
+      "importance": 0.8,
+      "key_takeaway": "Shared access plus depletion creates a governance challenge.",
+      "media": null,
+      "prerequisites": [
+        "econ-18-externalities"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Shared access plus depletion creates a governance challenge.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Common resources\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "An unmanaged fishery can be exhausted because each boat gains from catching now while depletion is shared.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Common resources\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Common resources"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "econ-09-markets-as-coordination",
+          "label": "Builds on Markets as coordination.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Market power is the ability of a seller or buyer to influence price or terms rather than simply accept them.",
+        "It can reduce output, raise prices, shape wages, or limit innovation depending on context."
+      ],
+      "difficulty": 3,
+      "example": "A single broadband provider in a town may charge more than firms facing strong competition.",
+      "foundational_priority": 0.46,
+      "id": "econ-21-market-power",
+      "importance": 0.84,
+      "key_takeaway": "Markets need competition or countervailing rules to discipline power.",
+      "media": null,
+      "prerequisites": [
+        "econ-09-markets-as-coordination"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Markets need competition or countervailing rules to discipline power.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Market power\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A single broadband provider in a town may charge more than firms facing strong competition.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Market power\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Market power"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "econ-09-markets-as-coordination",
+          "label": "Builds on Markets as coordination.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-23-principal-agent-problems",
+          "label": "Prepares for Principal-agent problems.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Information asymmetry appears when one side of a transaction knows much more than the other.",
+        "It can cause adverse selection, mistrust, costly screening, warranties, certification, or regulation."
+      ],
+      "difficulty": 3,
+      "example": "A used-car seller may know defects that a buyer cannot easily observe before purchase.",
+      "foundational_priority": 0.44,
+      "id": "econ-22-information-asymmetry",
+      "importance": 0.8,
+      "key_takeaway": "Unequal information changes what trades happen and at what terms.",
+      "media": null,
+      "prerequisites": [
+        "econ-09-markets-as-coordination"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Unequal information changes what trades happen and at what terms.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Information asymmetry\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A used-car seller may know defects that a buyer cannot easily observe before purchase.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Information asymmetry\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Information asymmetry"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-22-information-asymmetry",
+          "label": "Builds on Information asymmetry.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A principal-agent problem arises when one person acts for another but has different incentives or better information.",
+        "Contracts, monitoring, reputation, and ownership can reduce the problem but rarely remove it entirely."
+      ],
+      "difficulty": 3,
+      "example": "A hired manager may prefer short-term bonuses over the owner's long-term health of the firm.",
+      "foundational_priority": 0.36,
+      "id": "econ-23-principal-agent-problems",
+      "importance": 0.74,
+      "key_takeaway": "Delegation needs incentive design because agents have their own goals.",
+      "media": null,
+      "prerequisites": [
+        "econ-22-information-asymmetry"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Delegation needs incentive design because agents have their own goals.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Principal-agent problems\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A hired manager may prefer short-term bonuses over the owner's long-term health of the firm.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Principal-agent problems\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Principal-agent problems"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "econ-04-incentives",
+          "label": "Builds on Incentives.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Behavioral biases are predictable patterns where real choices depart from the simplest rational-choice model.",
+        "They do not mean people are foolish; they show that attention, framing, habits, and emotions affect decisions."
+      ],
+      "difficulty": 2,
+      "example": "A default retirement contribution can raise saving because inertia shapes behavior.",
+      "foundational_priority": 0.42,
+      "id": "econ-24-behavioral-biases",
+      "importance": 0.78,
+      "key_takeaway": "Economic actors are human, not frictionless calculators.",
+      "media": null,
+      "prerequisites": [
+        "econ-04-incentives"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Economic actors are human, not frictionless calculators.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Behavioral biases\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A default retirement contribution can raise saving because inertia shapes behavior.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Behavioral biases\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Behavioral biases"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-01-scarcity",
+          "label": "Builds on Scarcity.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-26-inflation-indexes",
+          "label": "Prepares for Inflation indexes.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-27-unemployment",
+          "label": "Prepares for Unemployment.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-29-productivity",
+          "label": "Prepares for Productivity.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-32-money-in-macroeconomics",
+          "label": "Prepares for Money in macroeconomics.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-34-aggregate-demand-and-aggregate-supply",
+          "label": "Prepares for Aggregate demand and aggregate supply.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-41-inequality-and-distribution",
+          "label": "Prepares for Inequality and distribution.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Gross domestic product measures the market value of final goods and services produced within an economy over a period.",
+        "It is useful for output, income, and spending analysis, but it misses unpaid work, distribution, environmental damage, and many quality differences."
+      ],
+      "difficulty": 2,
+      "example": "Home childcare counts differently from paid childcare even when the care is similar.",
+      "foundational_priority": 0.58,
+      "id": "econ-25-measuring-output-with-gdp",
+      "importance": 0.86,
+      "key_takeaway": "GDP is a powerful output measure with clear blind spots.",
+      "media": null,
+      "prerequisites": [
+        "econ-01-scarcity"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "GDP is a powerful output measure with clear blind spots.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Measuring output with GDP\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Home childcare counts differently from paid childcare even when the care is similar.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Measuring output with GDP\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Measuring output with GDP"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-25-measuring-output-with-gdp",
+          "label": "Builds on Measuring output with GDP.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-32-money-in-macroeconomics",
+          "label": "Prepares for Money in macroeconomics.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Inflation indexes track price changes for a basket of goods and services over time.",
+        "They require choices about weights, quality adjustments, substitution, and whose spending pattern is represented."
+      ],
+      "difficulty": 3,
+      "example": "A retiree and a student may experience different cost changes even under the same national inflation rate.",
+      "foundational_priority": 0.5,
+      "id": "econ-26-inflation-indexes",
+      "importance": 0.82,
+      "key_takeaway": "Inflation measurement is a designed approximation of changing purchasing power.",
+      "media": null,
+      "prerequisites": [
+        "econ-25-measuring-output-with-gdp"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Inflation measurement is a designed approximation of changing purchasing power.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Inflation indexes\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A retiree and a student may experience different cost changes even under the same national inflation rate.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Inflation indexes\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Inflation indexes"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-25-measuring-output-with-gdp",
+          "label": "Builds on Measuring output with GDP.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-28-labor-markets",
+          "label": "Prepares for Labor markets.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Unemployment measures people without work who are available and actively looking under a specific statistical definition.",
+        "It excludes some discouraged, underemployed, unpaid, or informal work situations, so interpretation needs context."
+      ],
+      "difficulty": 2,
+      "example": "Someone who stopped searching may not count as unemployed even if they want a job.",
+      "foundational_priority": 0.54,
+      "id": "econ-27-unemployment",
+      "importance": 0.84,
+      "key_takeaway": "Unemployment is a defined labor-market measure, not the whole story of work hardship.",
+      "media": null,
+      "prerequisites": [
+        "econ-25-measuring-output-with-gdp"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Unemployment is a defined labor-market measure, not the whole story of work hardship.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Unemployment\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Someone who stopped searching may not count as unemployed even if they want a job.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Unemployment\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-bls"
+      ],
+      "title": "Unemployment"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-04-incentives",
+          "label": "Builds on Incentives.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-27-unemployment",
+          "label": "Builds on Unemployment.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Labor markets coordinate workers, employers, wages, skills, working conditions, and bargaining power.",
+        "They differ from simple commodity markets because jobs involve identity, location, law, training, and long relationships."
+      ],
+      "difficulty": 3,
+      "example": "A nursing shortage may reflect wages, licensing, burnout, training capacity, and regional demand together.",
+      "foundational_priority": 0.44,
+      "id": "econ-28-labor-markets",
+      "importance": 0.8,
+      "key_takeaway": "Work is priced in markets shaped by institutions and human constraints.",
+      "media": null,
+      "prerequisites": [
+        "econ-04-incentives",
+        "econ-27-unemployment"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Work is priced in markets shaped by institutions and human constraints.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Labor markets\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A nursing shortage may reflect wages, licensing, burnout, training capacity, and regional demand together.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Labor markets\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-bls"
+      ],
+      "title": "Labor markets"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-08-specialization",
+          "label": "Builds on Specialization.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-25-measuring-output-with-gdp",
+          "label": "Builds on Measuring output with GDP.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-30-human-capital",
+          "label": "Prepares for Human capital.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-31-capital-and-investment",
+          "label": "Prepares for Capital and investment.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-49-growth-limits-and-environment",
+          "label": "Prepares for Growth limits and environment.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Productivity measures how much output is produced per unit of input, such as goods created per worker hour, machine hour, or unit of capital invested.",
+        "It rises through skills, tools, organization, technology, infrastructure, and better allocation of resources."
+      ],
+      "difficulty": 2,
+      "example": "A warehouse scanner can let the same worker accurately fill more orders per hour.",
+      "foundational_priority": 0.56,
+      "id": "econ-29-productivity",
+      "importance": 0.88,
+      "key_takeaway": "Long-run living standards depend heavily on productivity growth.",
+      "media": null,
+      "prerequisites": [
+        "econ-08-specialization",
+        "econ-25-measuring-output-with-gdp"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Long-run living standards depend heavily on productivity growth.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Productivity\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A warehouse scanner can let the same worker accurately fill more orders per hour.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Productivity\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Productivity"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "econ-29-productivity",
+          "label": "Builds on Productivity.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Human capital is the knowledge, health, skills, and habits that make people more productive or adaptable.",
+        "It is built through education, practice, caregiving, nutrition, safety, and work experience, not only formal degrees."
+      ],
+      "difficulty": 2,
+      "example": "Learning to read well changes future job options and civic participation.",
+      "foundational_priority": 0.42,
+      "id": "econ-30-human-capital",
+      "importance": 0.78,
+      "key_takeaway": "Investing in people is a central economic force.",
+      "media": null,
+      "prerequisites": [
+        "econ-29-productivity"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Investing in people is a central economic force.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Human capital\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Learning to read well changes future job options and civic participation.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Human capital\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Human capital"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-29-productivity",
+          "label": "Builds on Productivity.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-33-interest-rates-in-the-economy",
+          "label": "Prepares for Interest rates in the economy.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Capital means produced assets used to make other goods and services, while investment creates or improves those assets.",
+        "It includes machines, buildings, software, and infrastructure, not just financial assets."
+      ],
+      "difficulty": 2,
+      "example": "A delivery company buying routing software is investing in productive capital.",
+      "foundational_priority": 0.48,
+      "id": "econ-31-capital-and-investment",
+      "importance": 0.8,
+      "key_takeaway": "Economic investment builds capacity for future production.",
+      "media": null,
+      "prerequisites": [
+        "econ-29-productivity"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Economic investment builds capacity for future production.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Capital and investment\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A delivery company buying routing software is investing in productive capital.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Capital and investment\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Capital and investment"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "econ-25-measuring-output-with-gdp",
+          "label": "Builds on Measuring output with GDP.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-26-inflation-indexes",
+          "label": "Builds on Inflation indexes.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-33-interest-rates-in-the-economy",
+          "label": "Prepares for Interest rates in the economy.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-37-monetary-policy",
+          "label": "Prepares for Monetary policy.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Money supports exchange, accounting, and saving, so macroeconomics studies its link to spending and prices.",
+        "The same quantity of money can have different effects depending on velocity, banking, expectations, and output capacity."
+      ],
+      "difficulty": 3,
+      "example": "If people hoard extra cash during panic, spending may not rise much.",
+      "foundational_priority": 0.38,
+      "id": "econ-32-money-in-macroeconomics",
+      "importance": 0.78,
+      "key_takeaway": "Money is central to macro outcomes but works through behavior and institutions.",
+      "media": null,
+      "prerequisites": [
+        "econ-25-measuring-output-with-gdp",
+        "econ-26-inflation-indexes"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Money is central to macro outcomes but works through behavior and institutions.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Money in macroeconomics\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If people hoard extra cash during panic, spending may not rise much.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Money in macroeconomics\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Money in macroeconomics"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-31-capital-and-investment",
+          "label": "Builds on Capital and investment.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-32-money-in-macroeconomics",
+          "label": "Builds on Money in macroeconomics.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-37-monetary-policy",
+          "label": "Prepares for Monetary policy.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-39-exchange-rates",
+          "label": "Prepares for Exchange rates.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Interest rates connect present spending with future repayment and influence saving, borrowing, asset prices, and currency values.",
+        "They are not one number; different maturities and risks create a structure of rates."
+      ],
+      "difficulty": 3,
+      "example": "A higher mortgage rate can cool housing demand while savings accounts become more attractive.",
+      "foundational_priority": 0.42,
+      "id": "econ-33-interest-rates-in-the-economy",
+      "importance": 0.82,
+      "key_takeaway": "Rates are economy-wide prices for time, risk, and liquidity.",
+      "media": null,
+      "prerequisites": [
+        "econ-31-capital-and-investment",
+        "econ-32-money-in-macroeconomics"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Rates are economy-wide prices for time, risk, and liquidity.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Interest rates in the economy\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A higher mortgage rate can cool housing demand while savings accounts become more attractive.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Interest rates in the economy\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Interest rates in the economy"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "econ-25-measuring-output-with-gdp",
+          "label": "Builds on Measuring output with GDP.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-35-business-cycles",
+          "label": "Prepares for Business cycles.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-36-fiscal-policy",
+          "label": "Prepares for Fiscal policy.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-48-expectations",
+          "label": "Prepares for Expectations.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Aggregate demand summarizes planned spending across households, firms, government, and foreigners, while aggregate supply summarizes production capacity and costs.",
+        "The model helps separate demand-driven slowdowns from supply shocks, though real events often mix both."
+      ],
+      "difficulty": 3,
+      "example": "A pandemic can reduce supply through closures and demand through lost income at the same time.",
+      "foundational_priority": 0.38,
+      "id": "econ-34-aggregate-demand-and-aggregate-supply",
+      "importance": 0.8,
+      "key_takeaway": "Macroeconomic conditions depend on both spending pressure and productive capacity.",
+      "media": null,
+      "prerequisites": [
+        "econ-25-measuring-output-with-gdp"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Macroeconomic conditions depend on both spending pressure and productive capacity.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Aggregate demand and aggregate supply\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A pandemic can reduce supply through closures and demand through lost income at the same time.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Aggregate demand and aggregate supply\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Aggregate demand and aggregate supply"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "econ-34-aggregate-demand-and-aggregate-supply",
+          "label": "Builds on Aggregate demand and aggregate supply.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Business cycles are expansions and contractions in economic activity around longer-run growth.",
+        "They reflect shocks, credit, expectations, policy, inventories, global links, and feedback between spending and income."
+      ],
+      "difficulty": 3,
+      "example": "A drop in demand can lead firms to cut hours, which reduces income and further weakens demand.",
+      "foundational_priority": 0.36,
+      "id": "econ-35-business-cycles",
+      "importance": 0.82,
+      "key_takeaway": "The economy can move in self-reinforcing waves, not just straight lines.",
+      "media": null,
+      "prerequisites": [
+        "econ-34-aggregate-demand-and-aggregate-supply"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "The economy can move in self-reinforcing waves, not just straight lines.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Business cycles\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A drop in demand can lead firms to cut hours, which reduces income and further weakens demand.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Business cycles\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Business cycles"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "econ-34-aggregate-demand-and-aggregate-supply",
+          "label": "Builds on Aggregate demand and aggregate supply.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Fiscal policy uses government spending, taxation, and transfers to affect demand, distribution, and public goods.",
+        "It operates through budgets and politics, so timing, targeting, debt, and administrative capacity matter."
+      ],
+      "difficulty": 3,
+      "example": "A temporary unemployment benefit can support household spending during a downturn.",
+      "foundational_priority": 0.34,
+      "id": "econ-36-fiscal-policy",
+      "importance": 0.78,
+      "key_takeaway": "Fiscal policy changes economic conditions through the public budget.",
+      "media": null,
+      "prerequisites": [
+        "econ-34-aggregate-demand-and-aggregate-supply"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Fiscal policy changes economic conditions through the public budget.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Fiscal policy\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A temporary unemployment benefit can support household spending during a downturn.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Fiscal policy\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Fiscal policy"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "econ-32-money-in-macroeconomics",
+          "label": "Builds on Money in macroeconomics.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-33-interest-rates-in-the-economy",
+          "label": "Builds on Interest rates in the economy.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Monetary policy uses central-bank tools to influence financial conditions and inflation.",
+        "It is powerful but indirect because it works through rates, credit, expectations, asset prices, and exchange rates."
+      ],
+      "difficulty": 3,
+      "example": "A rate increase may slow borrowing and reduce inflation pressure after a delay.",
+      "foundational_priority": 0.34,
+      "id": "econ-37-monetary-policy",
+      "importance": 0.82,
+      "key_takeaway": "Monetary policy steers the economy through financial channels.",
+      "media": null,
+      "prerequisites": [
+        "econ-32-money-in-macroeconomics",
+        "econ-33-interest-rates-in-the-economy"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Monetary policy steers the economy through financial channels.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Monetary policy\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A rate increase may slow borrowing and reduce inflation pressure after a delay.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Monetary policy\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Monetary policy"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "econ-07-comparative-advantage",
+          "label": "Builds on Comparative advantage.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-39-exchange-rates",
+          "label": "Prepares for Exchange rates.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Trade lets people specialize and exchange across borders, while tariffs tax imports and alter relative prices.",
+        "Tariffs can protect some producers but usually raise costs for consumers or downstream firms and invite retaliation."
+      ],
+      "difficulty": 3,
+      "example": "A tariff on imported steel may help steelmakers while raising costs for car manufacturers.",
+      "foundational_priority": 0.32,
+      "id": "econ-38-trade-and-tariffs",
+      "importance": 0.78,
+      "key_takeaway": "Trade policy creates winners, losers, and economy-wide ripple effects.",
+      "media": null,
+      "prerequisites": [
+        "econ-07-comparative-advantage"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Trade policy creates winners, losers, and economy-wide ripple effects.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Trade and tariffs\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A tariff on imported steel may help steelmakers while raising costs for car manufacturers.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Trade and tariffs\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-worldbank-trade"
+      ],
+      "title": "Trade and tariffs"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "econ-33-interest-rates-in-the-economy",
+          "label": "Builds on Interest rates in the economy.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-38-trade-and-tariffs",
+          "label": "Builds on Trade and tariffs.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "An exchange rate is the price of one currency stated in terms of another, showing how many units of a foreign currency a unit of domestic currency can buy.",
+        "It affects import prices, exports, travel, debts, capital flows, and inflation, while responding to rates, expectations, and risk."
+      ],
+      "difficulty": 3,
+      "example": "A weaker domestic currency can make imported electronics more expensive and exports cheaper abroad.",
+      "foundational_priority": 0.28,
+      "id": "econ-39-exchange-rates",
+      "importance": 0.72,
+      "key_takeaway": "Currencies connect domestic choices to the world economy.",
+      "media": null,
+      "prerequisites": [
+        "econ-33-interest-rates-in-the-economy",
+        "econ-38-trade-and-tariffs"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Currencies connect domestic choices to the world economy.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Exchange rates\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A weaker domestic currency can make imported electronics more expensive and exports cheaper abroad.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Exchange rates\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-worldbank-trade",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Exchange rates"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "econ-09-markets-as-coordination",
+          "label": "Builds on Markets as coordination.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Institutions are formal and informal rules that shape economic behavior, including property rights, courts, norms, and public agencies.",
+        "They determine whether contracts can be trusted, investment is safe, and markets can function beyond personal relationships."
+      ],
+      "difficulty": 2,
+      "example": "A land title system can make it easier to borrow, sell, or improve property.",
+      "foundational_priority": 0.48,
+      "id": "econ-40-institutions-and-property-rights",
+      "importance": 0.86,
+      "key_takeaway": "Economic outcomes depend on rules as well as resources.",
+      "media": null,
+      "prerequisites": [
+        "econ-09-markets-as-coordination"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Economic outcomes depend on rules as well as resources.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Institutions and property rights\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A land title system can make it easier to borrow, sell, or improve property.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Institutions and property rights\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Institutions and property rights"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "econ-25-measuring-output-with-gdp",
+          "label": "Builds on Measuring output with GDP.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Distribution asks who receives income, wealth, risk, power, and opportunity across an economy.",
+        "Efficiency gains can coexist with unequal outcomes, so policy debates often combine economics with values."
+      ],
+      "difficulty": 3,
+      "example": "A policy can raise total output while leaving some workers worse off without compensation.",
+      "foundational_priority": 0.34,
+      "id": "econ-41-inequality-and-distribution",
+      "importance": 0.84,
+      "key_takeaway": "An average gain does not tell you who gained.",
+      "media": null,
+      "prerequisites": [
+        "econ-25-measuring-output-with-gdp"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "An average gain does not tell you who gained.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Inequality and distribution\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A policy can raise total output while leaving some workers worse off without compensation.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Inequality and distribution\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Inequality and distribution"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "econ-14-consumer-surplus",
+          "label": "Builds on Consumer surplus.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-15-producer-surplus",
+          "label": "Builds on Producer surplus.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-43-cost-benefit-analysis",
+          "label": "Prepares for Cost-benefit analysis.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Efficiency describes whether resources are arranged to create more total surplus, while welfare asks about wellbeing and social evaluation.",
+        "A situation can be efficient yet unacceptable if distribution, rights, or dignity are ignored."
+      ],
+      "difficulty": 3,
+      "example": "A perfectly priced market for a harmful product may still raise welfare questions.",
+      "foundational_priority": 0.28,
+      "id": "econ-42-welfare-and-efficiency",
+      "importance": 0.78,
+      "key_takeaway": "Efficiency is useful, but it is not the only social criterion.",
+      "media": null,
+      "prerequisites": [
+        "econ-14-consumer-surplus",
+        "econ-15-producer-surplus"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Efficiency is useful, but it is not the only social criterion.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Welfare and efficiency\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A perfectly priced market for a harmful product may still raise welfare questions.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Welfare and efficiency\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Welfare and efficiency"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "econ-02-opportunity-cost",
+          "label": "Builds on Opportunity cost.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-42-welfare-and-efficiency",
+          "label": "Builds on Welfare and efficiency.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Cost-benefit analysis compares expected gains and losses from a decision in a structured way.",
+        "It clarifies tradeoffs but depends on measurement choices, discounting, uncertainty, and whose costs count."
+      ],
+      "difficulty": 3,
+      "example": "A flood barrier analysis must value construction cost, avoided damage, ecological impact, and risk uncertainty.",
+      "foundational_priority": 0.28,
+      "id": "econ-43-cost-benefit-analysis",
+      "importance": 0.76,
+      "key_takeaway": "Structured comparison improves decisions, but values and assumptions remain visible.",
+      "media": null,
+      "prerequisites": [
+        "econ-02-opportunity-cost",
+        "econ-42-welfare-and-efficiency"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Structured comparison improves decisions, but values and assumptions remain visible.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Cost-benefit analysis\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A flood barrier analysis must value construction cost, avoided damage, ecological impact, and risk uncertainty.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Cost-benefit analysis\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Cost-benefit analysis"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "econ-01-scarcity",
+          "label": "Builds on Scarcity.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-45-ceteris-paribus",
+          "label": "Prepares for Ceteris paribus.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-46-correlation-versus-causation",
+          "label": "Prepares for Correlation versus causation.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "econ-50-reading-economic-claims",
+          "label": "Prepares for Reading economic claims.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "An economic model is a simplified representation built to clarify one mechanism or question.",
+        "Models are useful when their assumptions fit the task and dangerous when treated as complete reality."
+      ],
+      "difficulty": 2,
+      "example": "A supply-and-demand diagram can explain price pressure without capturing every legal or emotional detail.",
+      "foundational_priority": 0.52,
+      "id": "econ-44-economic-models",
+      "importance": 0.88,
+      "key_takeaway": "Models are maps; judge them by purpose and limits.",
+      "media": null,
+      "prerequisites": [
+        "econ-01-scarcity"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Models are maps; judge them by purpose and limits.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Economic models\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A supply-and-demand diagram can explain price pressure without capturing every legal or emotional detail.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Economic models\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Economic models"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "econ-44-economic-models",
+          "label": "Builds on Economic models.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Ceteris paribus means holding other things equal so one relationship can be studied clearly.",
+        "The phrase protects reasoning inside a model but should not hide that real variables move together."
+      ],
+      "difficulty": 2,
+      "example": "Demand may slope downward holding income constant, even though recessions can change income and prices together.",
+      "foundational_priority": 0.34,
+      "id": "econ-45-ceteris-paribus",
+      "importance": 0.72,
+      "key_takeaway": "Holding other factors constant is a tool, not a claim that the world freezes.",
+      "media": null,
+      "prerequisites": [
+        "econ-44-economic-models"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Holding other factors constant is a tool, not a claim that the world freezes.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Ceteris paribus\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Demand may slope downward holding income constant, even though recessions can change income and prices together.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Ceteris paribus\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Ceteris paribus"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "econ-44-economic-models",
+          "label": "Builds on Economic models.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-50-reading-economic-claims",
+          "label": "Prepares for Reading economic claims.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Correlation means two things move together, while causation means one produces a change in the other.",
+        "Confounders, reverse causality, selection, and timing can make correlations misleading."
+      ],
+      "difficulty": 2,
+      "example": "Ice cream sales and drowning rise in summer, but heat and swimming exposure explain the link.",
+      "foundational_priority": 0.42,
+      "id": "econ-46-correlation-versus-causation",
+      "importance": 0.84,
+      "key_takeaway": "Economic evidence must ask what caused what.",
+      "media": null,
+      "prerequisites": [
+        "econ-44-economic-models"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Economic evidence must ask what caused what.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Correlation versus causation\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Ice cream sales and drowning rise in summer, but heat and swimming exposure explain the link.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Correlation versus causation\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Correlation versus causation"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "econ-04-incentives",
+          "label": "Builds on Incentives.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Game theory studies strategic situations where each participant's best choice depends on what others do.",
+        "It helps explain cooperation, competition, bargaining, coordination, and credible commitments."
+      ],
+      "difficulty": 4,
+      "example": "Two firms deciding whether to cut prices must consider how the rival will respond.",
+      "foundational_priority": 0.22,
+      "id": "econ-47-game-theory",
+      "importance": 0.72,
+      "key_takeaway": "Strategy matters when outcomes depend on mutual expectations.",
+      "media": null,
+      "prerequisites": [
+        "econ-04-incentives"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Strategy matters when outcomes depend on mutual expectations.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Game theory\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Two firms deciding whether to cut prices must consider how the rival will respond.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Game theory\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Game theory"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "econ-34-aggregate-demand-and-aggregate-supply",
+          "label": "Builds on Aggregate demand and aggregate supply.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Expectations are beliefs people hold about future prices, income, or policy that shape the decisions they make today, well before those future events actually occur.",
+        "They influence inflation, investment, hiring, saving, exchange rates, and policy effectiveness because people act before outcomes arrive."
+      ],
+      "difficulty": 3,
+      "example": "If firms expect higher future costs, they may raise prices or lock in contracts now.",
+      "foundational_priority": 0.3,
+      "id": "econ-48-expectations",
+      "importance": 0.8,
+      "key_takeaway": "The future affects the present through expectations.",
+      "media": null,
+      "prerequisites": [
+        "econ-34-aggregate-demand-and-aggregate-supply"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "The future affects the present through expectations.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Expectations\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If firms expect higher future costs, they may raise prices or lock in contracts now.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Expectations\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Expectations"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "econ-29-productivity",
+          "label": "Builds on Productivity.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-18-externalities",
+          "label": "Builds on Externalities.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Economic growth depends on resources, technology, institutions, and ecological constraints.",
+        "Environmental damage can be an externality, a resource limit, and a distribution issue at the same time."
+      ],
+      "difficulty": 4,
+      "example": "A factory may raise GDP while creating pollution costs not reflected in its sale price.",
+      "foundational_priority": 0.2,
+      "id": "econ-49-growth-limits-and-environment",
+      "importance": 0.74,
+      "key_takeaway": "Prosperity analysis must include the systems that production draws from.",
+      "media": null,
+      "prerequisites": [
+        "econ-29-productivity",
+        "econ-18-externalities"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Prosperity analysis must include the systems that production draws from.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Growth limits and environment\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A factory may raise GDP while creating pollution costs not reflected in its sale price.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Growth limits and environment\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax",
+        "econ-imf-basics",
+        "econ-fed-research"
+      ],
+      "title": "Growth limits and environment"
+    },
+    {
+      "boundary_note": "Educational only. Economic models simplify reality and policy choices depend on values, data quality, institutions, and current conditions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "econ-44-economic-models",
+          "label": "Builds on Economic models.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "econ-46-correlation-versus-causation",
+          "label": "Builds on Correlation versus causation.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A strong economic claim names the model, data, mechanism, affected groups, uncertainty, and counterargument.",
+        "This habit prevents single charts or slogans from doing more work than they can support."
+      ],
+      "difficulty": 3,
+      "example": "A headline about inflation should prompt questions about time period, measure, cause, and distribution.",
+      "foundational_priority": 0.3,
+      "id": "econ-50-reading-economic-claims",
+      "importance": 0.92,
+      "key_takeaway": "Good economic reading asks what is assumed, measured, and left out.",
+      "media": null,
+      "prerequisites": [
+        "econ-44-economic-models",
+        "econ-46-correlation-versus-causation"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Good economic reading asks what is assumed, measured, and left out.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Reading economic claims\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A headline about inflation should prompt questions about time period, measure, cause, and distribution.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Reading economic claims\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "econ-openstax"
+      ],
+      "title": "Reading economic claims"
+    }
+  ],
+  "pack_id": "economics",
+  "schema_version": "knowledge-cards.cards.v1",
+  "source_refs": [
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Introductory economics definitions and model structures.",
+      "id": "econ-openstax",
+      "publisher": "OpenStax",
+      "title": "Principles of Economics 3e",
+      "url": "https://openstax.org/details/books/principles-economics-3e"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Unemployment and labor-market measurement concepts.",
+      "id": "econ-bls",
+      "publisher": "US Bureau of Labor Statistics",
+      "title": "Labor Force Statistics from the Current Population Survey",
+      "url": "https://www.bls.gov/cps/"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Accessible macroeconomic and policy explainers.",
+      "id": "econ-imf-basics",
+      "publisher": "International Monetary Fund",
+      "title": "Back to Basics",
+      "url": "https://www.imf.org/en/Publications/fandd/issues/Series/Back-to-Basics"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Trade, development, and global economic context.",
+      "id": "econ-worldbank-trade",
+      "publisher": "World Bank",
+      "title": "Trade",
+      "url": "https://www.worldbank.org/en/topic/trade"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Economic research and macro-financial context.",
+      "id": "econ-fed-research",
+      "publisher": "Board of Governors of the Federal Reserve System",
+      "title": "Economic Research",
+      "url": "https://www.federalreserve.gov/econres.htm"
+    }
+  ]
+}

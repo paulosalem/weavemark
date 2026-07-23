@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-cards.local/schemas/source-ref.schema.json",
+  "title": "Knowledge Cards Source Reference",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "publisher", "url", "accessed_at", "claim_scope"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,80}$" },
+    "title": { "type": "string" },
+    "publisher": { "type": "string" },
+    "url": { "type": "string", "format": "uri" },
+    "accessed_at": { "type": "string" },
+    "claim_scope": { "type": "string" }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "accent_color": "#3f6f78",
+  "audience": "Curious adults who want to understand banking news without technical finance training",
+  "authors": [
+    "Knowledge Cards editorial build"
+  ],
+  "card_count": 50,
+  "content_checksum": "sha256-cc1ad3da33764d03159c5f45ed67cfa40b117afb4c385aface3449f122671905",
+  "content_version": "2026.07.21",
+  "created_at": "2026-07-21T00:00:00.000Z",
+  "curriculum_map_path": "curriculum-map.json",
+  "description": "A beginner-safe systems map of commercial banks, payments, lending, regulation, and central-bank policy. Examples center on the United States banking system and the Federal Reserve; general concepts noted as international draw on BIS, FinCEN, and cross-border sources, and specifics vary by jurisdiction.",
+  "id": "banking-industry-and-central-banks",
+  "language": "en",
+  "level": "Beginner",
+  "license": "CC-BY-4.0 for app example content",
+  "optional_media_root": "media",
+  "ordered_content_files": [
+    "cards/cards.json"
+  ],
+  "provenance": "Authored as static educational content for the compiled Knowledge Cards implementation.",
+  "purpose": "Build a prerequisite-safe map of how banks and central banks move money, credit, and confidence.",
+  "schema_version": "knowledge-cards.pack-manifest.v1",
+  "source_policy": "Use declared official, educational, or primary guidance source families; do not invent citations or imply individualized advice.",
+  "title": "Banking Industry and Central Banks",
+  "updated_at": "2026-07-21T00:00:00.000Z",
+  "validation_report_path": "validation-report.json"
+}

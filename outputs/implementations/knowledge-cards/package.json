@@ -1,0 +1,17 @@
+{
+  "name": "knowledge-cards",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A static, offline-capable mobile-first knowledge-card app.",
+  "scripts": {
+    "start": "node tools/serve.mjs",
+    "validate:packs": "node tools/validate-packs.mjs --write-index",
+    "generate:content": "node tools/generate-content.mjs",
+    "smoke": "node tools/smoke.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

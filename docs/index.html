@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="site.css?v=20260718-thought">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
     <script src="analytics.js?v=20260720" defer></script>
+    <script src="mobile-navigation.js?v=20260723" defer></script>
   </head>
   <body>
     <nav class="site-nav" aria-label="Primary">
@@ -70,21 +71,18 @@
               <a data-carousel-title href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">ai-kanban-board.weavemark.md</a>
             </div>
             <div class="hero-slides" aria-live="polite">
-              <pre class="hero-slide is-active" data-carousel-slide data-title="ai-kanban-board.weavemark.md" data-href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md" data-stat-a-title="live cards" data-stat-a-text="AI workspaces, not sticky notes" data-stat-b-title="output surfaces" data-stat-b-text="text, program, table, diff, status" data-stat-c-title="local-first" data-stat-c-text="durable board state"><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
-<span class="syntax-directive">@style</span> <span class="syntax-string">"Implementation-ready, interaction-design-conscious."</span>
-  <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite <span class="syntax-key">mingle:</span> true
-  <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.local_first_webapp <span class="syntax-key">mingle:</span> true
+              <pre class="hero-slide is-active" data-carousel-slide data-title="AI Kanban — live browser demo" data-href="../outputs/implementations/ai-kanban-browser/index.html" data-live-demo="ai-kanban" data-stat-a-title="real local file" data-stat-a-text="open, create, save, and reopen SQLite" data-stat-b-title="no backend" data-stat-b-text="static JavaScript plus a WASM worker" data-stat-c-title="AI handoff" data-stat-c-text="provider-neutral copy, preview, approve"><code><span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.browser_static_esmodules
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.browser_file_backed_webapp
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_sqlite_file_store
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_ai_handoff
 
-  # AI Kanban
+# AI Kanban
 
-  Cards are live AI workspaces with plans,
-  questions, outputs, activity, and review gates.
+A static browser board whose canonical state is
+a user-selected <span class="syntax-string">.aikanban.sqlite</span> file.
 
-  <span class="syntax-directive">@match</span> output_surface_level
-    <span class="syntax-string">"standard"</span> ==&gt; text, program, table, diff, status.
-    <span class="syntax-string">"advanced"</span> ==&gt; add canvas, terminal, forms.
-  <span class="syntax-directive">@if</span> realtime_updates
-    Stream agent progress without losing board stability.</code></pre>
+Cards carry plans, typed outputs, activity,
+dependencies, and versioned AI handoff packets.</code></pre>
               <pre class="hero-slide" data-carousel-slide data-title="recurring-topic-monitor.weavemark.md" data-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-stat-a-title="bound tools" data-stat-a-text="search, crawl, then synthesize" data-stat-b-title="event memory" data-stat-b-text="new, repeat, material update" data-stat-c-title="saved run" data-stat-c-text="digest plus execution trace" hidden><code><span class="syntax-directive">@execute</span> single-call
   <span class="syntax-key">max_tool_calls:</span> 30
 
@@ -448,7 +446,7 @@ Use board-ready language.</code></pre>
           <article class="build-card">
             <span class="build-tag"><span class="ic ic-window" aria-hidden="true"></span>Build</span>
             <h3>Product specifications</h3>
-            <p>Implementation-ready specs for Copilot, Claude Code, or Cursor — <a href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">ai-kanban-board.weavemark.md</a>.</p>
+            <p>Implementation-ready specs for Copilot, Claude Code, or Cursor — <a href="tutorial-implement.html">follow the AI Kanban tutorial</a>, <a href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">read its concise source</a>, or <a href="../outputs/implementations/ai-kanban-browser/index.html" data-live-demo="ai-kanban">open the live browser app</a>.</p>
           </article>
 
           <article class="build-card">
@@ -671,6 +669,15 @@ Problem: <span class="syntax-var">@{problem}</span>
         </div>
         <div class="demo-grid">
           <article class="card demo-card">
+            <span class="badge">Mobile learning app</span>
+            <h3>Knowledge Cards</h3>
+            <p>Turn one-card scrolling into cumulative learning with four complete packs, private notes, saved cards, and offline reading.</p>
+            <div class="demo-actions">
+              <a class="button" href="../outputs/implementations/knowledge-cards/index.html" data-live-demo="knowledge-cards">Learn live</a>
+              <a href="../outputs/implementations/knowledge-cards/">Browse source</a>
+            </div>
+          </article>
+          <article class="card demo-card">
             <span class="badge">Strategy game</span>
             <h3>Transit City Swarm</h3>
             <p>Draw transit lines through a growing city, follow demand trails, and keep the network reliable.</p>
@@ -712,6 +719,7 @@ Problem: <span class="syntax-var">@{problem}</span>
         </div>
       </div>
     </footer>
+    <script src="local-demo-links.js"></script>
     <script>
       (() => {
         const root = document.querySelector("[data-hero-carousel]");

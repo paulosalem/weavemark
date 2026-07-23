@@ -1,0 +1,57 @@
+{
+  "automated_checks": {
+    "category_coverage": "pass",
+    "connections_have_no_duplicate_targets": "pass",
+    "core_idea_entries_meet_min_length": "pass",
+    "description": "Checks below are computed by tools/generate-content.mjs and tools/validate-packs.mjs at build time. They confirm structure, not factual correctness.",
+    "prerequisite_graph_acyclic": "pass",
+    "prerequisite_ids_resolve": "pass",
+    "source_refs_reference_declared_sources": "pass",
+    "unique_card_ids": "pass"
+  },
+  "card_count": 50,
+  "categories": [
+    {
+      "count": 6,
+      "id": "foundations"
+    },
+    {
+      "count": 15,
+      "id": "mechanisms"
+    },
+    {
+      "count": 10,
+      "id": "applications"
+    },
+    {
+      "count": 4,
+      "id": "misconceptions"
+    },
+    {
+      "count": 4,
+      "id": "limitations"
+    },
+    {
+      "count": 6,
+      "id": "bridges"
+    },
+    {
+      "count": 5,
+      "id": "advanced-horizons"
+    }
+  ],
+  "duplicate_concepts_check": "Not automated. No tooling currently detects overlapping or duplicated concepts across cards; this would require editorial reading, not software comparison.",
+  "editorial_review": {
+    "limitation": "Automated checks above verify structure only (ids, cycles, lengths, category coverage, source-reference resolution). They cannot prove that any sentence is factually correct, that a cited source actually supports every claim on the card, or that no relevant nuance was omitted. Confirming claim-level accuracy requires ongoing human subject-matter and source review; passing the automated checks above is not evidence of that review.",
+    "reviewed_at": "2026-07-21",
+    "scope": "Each card's source_refs were chosen to match that specific card's topic rather than citing every pack source on every card, and card text was drafted and read against the scope of its declared sources.",
+    "status": "source-aware editorial pass completed"
+  },
+  "pack_id": "banking-industry-and-central-banks",
+  "prerequisite_cycles": [],
+  "review_date": "2026-07-21",
+  "safety_review": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+  "schema_version": "knowledge-cards.validation-report.v2",
+  "unsupported_claims_check": "Not automated. Whether a claim is adequately supported by its declared sources is an editorial judgment, not something tools/validate-packs.mjs or this generator can verify.",
+  "validation_summary": "Generated from explicit authored concept rows, materialized as static JSON, then checked by tools/validate-packs.mjs for the automated_checks above. See editorial_review for what human review has and has not covered."
+}

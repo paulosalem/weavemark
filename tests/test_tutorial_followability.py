@@ -100,7 +100,10 @@ def test_programming_tutorials_use_maintained_surfaces() -> None:
     refine = _tutorial("tutorial-refine.html")
 
     assert "passive-income-planning-dashboard" in reuse
-    assert "passive-income-planning-dashboard" in implement
+    assert "ai-kanban-board.weavemark.md" in implement
+    assert "browser_sqlite_file_store" in implement
+    assert "passive-income-planning-dashboard" not in implement
+    assert "orbital-drift" not in implement
     assert "passive-income-android-app" not in reuse + implement
     assert "android_kotlin_compose" not in reuse
     assert "Python async task cancellation" in refine
@@ -140,9 +143,9 @@ def test_weavemark_tutorial_snippets_do_not_fake_hash_comments() -> None:
     assert _tutorial("tutorial-illustrated.html").count(
         '<span class="syntax-comment">#'
     ) == 1
-    assert _tutorial("tutorial-implement.html").count(
-        '<span class="syntax-comment">#'
-    ) == 3
+    assert '<span class="syntax-comment">#' not in _tutorial(
+        "tutorial-implement.html"
+    )
 
 
 def test_tutorial_track_includes_executable_market_report_lesson() -> None:

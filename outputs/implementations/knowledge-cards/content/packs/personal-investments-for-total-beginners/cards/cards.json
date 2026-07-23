@@ -1,0 +1,2757 @@
+{
+  "cards": [
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "invest-02-emergency-fund",
+          "label": "Prepares for Emergency fund.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-03-risk",
+          "label": "Prepares for Risk.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-05-time-horizon",
+          "label": "Prepares for Time horizon.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-06-inflation",
+          "label": "Prepares for Inflation.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-12-cash",
+          "label": "Prepares for Cash.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-17-liquidity",
+          "label": "Prepares for Liquidity.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-42-insurance-is-not-investing",
+          "label": "Prepares for Insurance is not investing.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-50-a-beginner-s-investment-system",
+          "label": "Prepares for A beginner's investment system.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Saving protects near-term purchasing power and access, while investing accepts risk in pursuit of future growth.",
+        "Confusing the two can expose rent money to market swings or leave long-term goals stuck in low-return cash."
+      ],
+      "difficulty": 1,
+      "example": "An emergency fund and a retirement portfolio serve different jobs even if both are money.",
+      "foundational_priority": 1,
+      "id": "invest-01-saving-versus-investing",
+      "importance": 1,
+      "key_takeaway": "Match the tool to the time horizon and purpose.",
+      "media": null,
+      "prerequisites": [],
+      "review_prompts": [
+        {
+          "answer_hint": "Match the tool to the time horizon and purpose.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Saving versus investing\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "An emergency fund and a retirement portfolio serve different jobs even if both are money.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Saving versus investing\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-cfpb-saving",
+        "invest-irs-retirement"
+      ],
+      "title": "Saving versus investing"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "invest-01-saving-versus-investing",
+          "label": "Builds on Saving versus investing.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-12-cash",
+          "label": "Prepares for Cash.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "An emergency fund is accessible money for unexpected expenses or income disruption.",
+        "It reduces the need to sell long-term investments at bad times or take on high-cost borrowing when an unplanned expense collides with a market downturn."
+      ],
+      "difficulty": 1,
+      "example": "A car repair paid from savings does not force a stock sale during a market drop.",
+      "foundational_priority": 0.95,
+      "id": "invest-02-emergency-fund",
+      "importance": 0.96,
+      "key_takeaway": "Financial resilience starts with liquidity for surprises.",
+      "media": null,
+      "prerequisites": [
+        "invest-01-saving-versus-investing"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Financial resilience starts with liquidity for surprises.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Emergency fund\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A car repair paid from savings does not force a stock sale during a market drop.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Emergency fund\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-cfpb-saving"
+      ],
+      "title": "Emergency fund"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "invest-01-saving-versus-investing",
+          "label": "Builds on Saving versus investing.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-04-return",
+          "label": "Prepares for Return.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-05-time-horizon",
+          "label": "Prepares for Time horizon.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-08-diversification",
+          "label": "Prepares for Diversification.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-09-asset-allocation",
+          "label": "Prepares for Asset allocation.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-10-stocks",
+          "label": "Prepares for Stocks.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-11-bonds",
+          "label": "Prepares for Bonds.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-17-liquidity",
+          "label": "Prepares for Liquidity.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-18-volatility",
+          "label": "Prepares for Volatility.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-26-risk-tolerance-versus-risk-capacity",
+          "label": "Prepares for Risk tolerance versus risk capacity.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-27-behavioral-mistakes",
+          "label": "Prepares for Behavioral mistakes.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-30-scams",
+          "label": "Prepares for Scams.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-43-debt-payoff-versus-investing",
+          "label": "Prepares for Debt payoff versus investing.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-50-a-beginner-s-investment-system",
+          "label": "Prepares for A beginner's investment system.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Investment risk is the possibility that outcomes differ from what you need or expect.",
+        "It includes price swings, inflation, default, liquidity, concentration, behavior, taxes, and fraud, not only losing money today."
+      ],
+      "difficulty": 1,
+      "example": "A safe-looking account can still lose purchasing power if inflation is higher than its yield.",
+      "foundational_priority": 0.96,
+      "id": "invest-03-risk",
+      "importance": 0.98,
+      "key_takeaway": "Risk is multi-dimensional and should be named precisely.",
+      "media": null,
+      "prerequisites": [
+        "invest-01-saving-versus-investing"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Risk is multi-dimensional and should be named precisely.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Risk\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A safe-looking account can still lose purchasing power if inflation is higher than its yield.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Risk\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-irs-retirement",
+        "invest-sec-alerts"
+      ],
+      "title": "Risk"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-07-compounding",
+          "label": "Prepares for Compounding.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-10-stocks",
+          "label": "Prepares for Stocks.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-11-bonds",
+          "label": "Prepares for Bonds.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-15-fees",
+          "label": "Prepares for Fees.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-36-real-returns",
+          "label": "Prepares for Real returns.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-46-reading-performance-charts",
+          "label": "Prepares for Reading performance charts.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Return is the gain or loss from an investment after income, price changes, and costs.",
+        "Expected return is uncertain compensation for taking some kind of risk, not a promise."
+      ],
+      "difficulty": 1,
+      "example": "A stock may pay dividends and rise in price, but either part can disappoint.",
+      "foundational_priority": 0.9,
+      "id": "invest-04-return",
+      "importance": 0.92,
+      "key_takeaway": "Return is what you hope to earn for accepting uncertainty.",
+      "media": null,
+      "prerequisites": [
+        "invest-03-risk"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Return is what you hope to earn for accepting uncertainty.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Return\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A stock may pay dividends and rise in price, but either part can disappoint.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Return\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Return"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "invest-01-saving-versus-investing",
+          "label": "Builds on Saving versus investing.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-07-compounding",
+          "label": "Prepares for Compounding.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-09-asset-allocation",
+          "label": "Prepares for Asset allocation.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-22-taxable-and-tax-advantaged-accounts",
+          "label": "Prepares for Taxable and tax-advantaged accounts.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-26-risk-tolerance-versus-risk-capacity",
+          "label": "Prepares for Risk tolerance versus risk capacity.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-43-debt-payoff-versus-investing",
+          "label": "Prepares for Debt payoff versus investing.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-44-goals-and-buckets",
+          "label": "Prepares for Goals and buckets.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Time horizon is when the money is expected to be needed and how flexible or fixed that date actually is, since a firm deadline changes what risks are tolerable.",
+        "Longer horizons can absorb some volatility better, while short horizons usually need stability and liquidity."
+      ],
+      "difficulty": 1,
+      "example": "Money for next semester's tuition has a different horizon than money for retirement decades away.",
+      "foundational_priority": 0.94,
+      "id": "invest-05-time-horizon",
+      "importance": 0.96,
+      "key_takeaway": "Time horizon determines how much uncertainty is tolerable.",
+      "media": null,
+      "prerequisites": [
+        "invest-01-saving-versus-investing",
+        "invest-03-risk"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Time horizon determines how much uncertainty is tolerable.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Time horizon\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Money for next semester's tuition has a different horizon than money for retirement decades away.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Time horizon\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-irs-retirement"
+      ],
+      "title": "Time horizon"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "invest-01-saving-versus-investing",
+          "label": "Builds on Saving versus investing.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-36-real-returns",
+          "label": "Prepares for Real returns.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Inflation reduces purchasing power over time, meaning the same amount of money buys fewer goods and services as prices for a typical basket of items rise.",
+        "Investing often aims to outpace inflation, but higher expected returns usually come with more uncertainty."
+      ],
+      "difficulty": 1,
+      "example": "A bank balance that grows 1 percent while prices rise 4 percent buys less in real terms.",
+      "foundational_priority": 0.88,
+      "id": "invest-06-inflation",
+      "importance": 0.92,
+      "key_takeaway": "The goal is future purchasing power, not just a bigger number.",
+      "media": null,
+      "prerequisites": [
+        "invest-01-saving-versus-investing"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "The goal is future purchasing power, not just a bigger number.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Inflation\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A bank balance that grows 1 percent while prices rise 4 percent buys less in real terms.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Inflation\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Inflation"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-04-return",
+          "label": "Builds on Return.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-05-time-horizon",
+          "label": "Builds on Time horizon.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Compounding happens when investment returns are reinvested and begin earning further returns of their own, so growth builds on growth rather than on the original amount alone.",
+        "Time, contribution consistency, costs, taxes, and volatility all affect how compounding works in practice."
+      ],
+      "difficulty": 2,
+      "example": "Interest left in an account can become part of the next period's interest calculation.",
+      "foundational_priority": 0.88,
+      "id": "invest-07-compounding",
+      "importance": 0.94,
+      "key_takeaway": "Compounding rewards time and consistency, but it is not magic.",
+      "media": null,
+      "prerequisites": [
+        "invest-04-return",
+        "invest-05-time-horizon"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Compounding rewards time and consistency, but it is not magic.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Compounding\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Interest left in an account can become part of the next period's interest calculation.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Compounding\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-irs-retirement"
+      ],
+      "title": "Compounding"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-09-asset-allocation",
+          "label": "Prepares for Asset allocation.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-13-index-funds",
+          "label": "Prepares for Index funds.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-37-concentration-risk",
+          "label": "Prepares for Concentration risk.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-38-international-diversification",
+          "label": "Prepares for International diversification.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-50-a-beginner-s-investment-system",
+          "label": "Prepares for A beginner's investment system.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Diversification spreads exposure across investments so one failure does not dominate the whole plan.",
+        "It cannot remove market-wide risk, but it can reduce avoidable concentration risk."
+      ],
+      "difficulty": 1,
+      "example": "Owning many companies through a broad fund is less dependent on one employer or industry.",
+      "foundational_priority": 0.9,
+      "id": "invest-08-diversification",
+      "importance": 0.98,
+      "key_takeaway": "Diversification is humility turned into portfolio design.",
+      "media": null,
+      "prerequisites": [
+        "invest-03-risk"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Diversification is humility turned into portfolio design.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Diversification\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Owning many companies through a broad fund is less dependent on one employer or industry.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Diversification\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Diversification"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-05-time-horizon",
+          "label": "Builds on Time horizon.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-08-diversification",
+          "label": "Builds on Diversification.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-21-rebalancing",
+          "label": "Prepares for Rebalancing.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-32-robo-advisors",
+          "label": "Prepares for Robo-advisors.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-33-target-date-funds",
+          "label": "Prepares for Target-date funds.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-45-investment-policy-statement",
+          "label": "Prepares for Investment policy statement.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Asset allocation is the mix of broad asset types such as stocks, bonds, and cash.",
+        "It is a major driver of risk and expected return because each asset type behaves differently across conditions."
+      ],
+      "difficulty": 2,
+      "example": "A young long-term investor and a near-term home buyer may need very different stock and cash mixes.",
+      "foundational_priority": 0.8,
+      "id": "invest-09-asset-allocation",
+      "importance": 0.9,
+      "key_takeaway": "Allocation connects goals and risk capacity to portfolio structure.",
+      "media": null,
+      "prerequisites": [
+        "invest-03-risk",
+        "invest-05-time-horizon",
+        "invest-08-diversification"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Allocation connects goals and risk capacity to portfolio structure.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Asset allocation\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A young long-term investor and a near-term home buyer may need very different stock and cash mixes.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Asset allocation\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Asset allocation"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-04-return",
+          "label": "Builds on Return.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-13-index-funds",
+          "label": "Prepares for Index funds.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-18-volatility",
+          "label": "Prepares for Volatility.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-39-dividends",
+          "label": "Prepares for Dividends.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-40-capital-gains",
+          "label": "Prepares for Capital gains.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A stock represents ownership in a company and a claim on uncertain future business value.",
+        "Stock returns can be high because owners bear volatility, competition, and business failure risk."
+      ],
+      "difficulty": 2,
+      "example": "Buying shares of a company means your outcome depends partly on its profits and market expectations.",
+      "foundational_priority": 0.76,
+      "id": "invest-10-stocks",
+      "importance": 0.9,
+      "key_takeaway": "Stocks are ownership claims, not guaranteed savings accounts.",
+      "media": null,
+      "prerequisites": [
+        "invest-03-risk",
+        "invest-04-return"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Stocks are ownership claims, not guaranteed savings accounts.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Stocks\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Buying shares of a company means your outcome depends partly on its profits and market expectations.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Stocks\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Stocks"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-04-return",
+          "label": "Builds on Return.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-34-bonds-and-interest-rates",
+          "label": "Prepares for Bonds and interest rates.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-35-credit-risk-in-bonds",
+          "label": "Prepares for Credit risk in bonds.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A bond is a loan-like security where an issuer promises payments under defined terms.",
+        "Bond risk depends on interest rates, inflation, credit quality, maturity, and liquidity."
+      ],
+      "difficulty": 2,
+      "example": "A government bond and a risky corporate bond may both pay interest but carry different risks.",
+      "foundational_priority": 0.76,
+      "id": "invest-11-bonds",
+      "importance": 0.88,
+      "key_takeaway": "Bonds are promises with terms and risks.",
+      "media": null,
+      "prerequisites": [
+        "invest-03-risk",
+        "invest-04-return"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Bonds are promises with terms and risks.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Bonds\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A government bond and a risky corporate bond may both pay interest but carry different risks.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Bonds\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Bonds"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "invest-01-saving-versus-investing",
+          "label": "Builds on Saving versus investing.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-02-emergency-fund",
+          "label": "Builds on Emergency fund.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Cash and cash-like accounts prioritize stability and access over long-term growth.",
+        "They are useful for near-term needs but may lose purchasing power after inflation."
+      ],
+      "difficulty": 1,
+      "example": "A high-yield savings account can be appropriate for emergency money even if stocks might earn more over decades.",
+      "foundational_priority": 0.8,
+      "id": "invest-12-cash",
+      "importance": 0.86,
+      "key_takeaway": "Cash is a liquidity tool, not a complete long-term plan.",
+      "media": null,
+      "prerequisites": [
+        "invest-01-saving-versus-investing",
+        "invest-02-emergency-fund"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Cash is a liquidity tool, not a complete long-term plan.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Cash\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A high-yield savings account can be appropriate for emergency money even if stocks might earn more over decades.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Cash\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-cfpb-saving"
+      ],
+      "title": "Cash"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-08-diversification",
+          "label": "Builds on Diversification.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-10-stocks",
+          "label": "Builds on Stocks.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-14-etfs-and-mutual-funds",
+          "label": "Prepares for ETFs and mutual funds.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "An index fund seeks to track a market index rather than pick individual winners.",
+        "It offers broad diversification and typically low costs, but it still carries the risk of the market it tracks."
+      ],
+      "difficulty": 2,
+      "example": "A total stock market index fund rises and falls with the broad stock market.",
+      "foundational_priority": 0.66,
+      "id": "invest-13-index-funds",
+      "importance": 0.9,
+      "key_takeaway": "Indexing buys a market slice instead of a prediction about one winner.",
+      "media": null,
+      "prerequisites": [
+        "invest-08-diversification",
+        "invest-10-stocks"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Indexing buys a market slice instead of a prediction about one winner.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Index funds\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A total stock market index fund rises and falls with the broad stock market.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Index funds\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Index funds"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-13-index-funds",
+          "label": "Builds on Index funds.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-16-expense-ratios",
+          "label": "Prepares for Expense ratios.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-25-brokerage-accounts",
+          "label": "Prepares for Brokerage accounts.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "ETFs and mutual funds pool many investors' money together so each investor owns a proportional share of a diversified basket of stocks, bonds, or other securities.",
+        "They differ in trading mechanics, pricing, taxes, and minimums, so the wrapper matters even when holdings are similar."
+      ],
+      "difficulty": 2,
+      "example": "An S&P 500 ETF and mutual fund may hold similar stocks but trade differently during the day.",
+      "foundational_priority": 0.56,
+      "id": "invest-14-etfs-and-mutual-funds",
+      "importance": 0.82,
+      "key_takeaway": "Funds are baskets; the wrapper shapes how you buy and hold them.",
+      "media": null,
+      "prerequisites": [
+        "invest-13-index-funds"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Funds are baskets; the wrapper shapes how you buy and hold them.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"ETFs and mutual funds\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "An S&P 500 ETF and mutual fund may hold similar stocks but trade differently during the day.",
+          "kind": "application",
+          "prompt": "Look at the example for \"ETFs and mutual funds\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-irs-retirement"
+      ],
+      "title": "ETFs and mutual funds"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-04-return",
+          "label": "Builds on Return.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-16-expense-ratios",
+          "label": "Prepares for Expense ratios.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-31-fiduciary",
+          "label": "Prepares for Fiduciary.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-32-robo-advisors",
+          "label": "Prepares for Robo-advisors.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Fees are the costs paid to own, trade, manage, advise on, or administer investments, and they are charged whether or not the underlying investment performs well.",
+        "Small-looking percentages can compound against the investor over long periods, since money paid out in fees each year no longer remains invested to grow further."
+      ],
+      "difficulty": 2,
+      "example": "A 1 percent annual advisory fee may seem tiny but can consume a meaningful share of decades of returns.",
+      "foundational_priority": 0.7,
+      "id": "invest-15-fees",
+      "importance": 0.9,
+      "key_takeaway": "Costs are one of the few investment variables you can often see clearly.",
+      "media": null,
+      "prerequisites": [
+        "invest-04-return"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Costs are one of the few investment variables you can often see clearly.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Fees\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A 1 percent annual advisory fee may seem tiny but can consume a meaningful share of decades of returns.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Fees\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Fees"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-14-etfs-and-mutual-funds",
+          "label": "Builds on ETFs and mutual funds.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-15-fees",
+          "label": "Builds on Fees.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "An expense ratio is the annual operating cost of a fund expressed as a percentage of assets.",
+        "It is deducted directly inside the fund's reported returns, so investors rarely see a separate bill and can easily overlook how much the cost is reducing their gains."
+      ],
+      "difficulty": 2,
+      "example": "A fund with a 0.05 percent expense ratio costs far less than one charging 1 percent for similar exposure.",
+      "foundational_priority": 0.56,
+      "id": "invest-16-expense-ratios",
+      "importance": 0.82,
+      "key_takeaway": "Expense ratios quietly reduce the return investors keep.",
+      "media": null,
+      "prerequisites": [
+        "invest-14-etfs-and-mutual-funds",
+        "invest-15-fees"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Expense ratios quietly reduce the return investors keep.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Expense ratios\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A fund with a 0.05 percent expense ratio costs far less than one charging 1 percent for similar exposure.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Expense ratios\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Expense ratios"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-01-saving-versus-investing",
+          "label": "Builds on Saving versus investing.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Liquidity is how quickly and reliably an asset can be turned into spendable money without a major price concession.",
+        "Illiquid assets may be valuable but unsuitable for near-term or emergency needs."
+      ],
+      "difficulty": 2,
+      "example": "A house can be valuable and still hard to sell quickly at a fair price.",
+      "foundational_priority": 0.64,
+      "id": "invest-17-liquidity",
+      "importance": 0.86,
+      "key_takeaway": "Liquidity is about usable access, not just value.",
+      "media": null,
+      "prerequisites": [
+        "invest-01-saving-versus-investing",
+        "invest-03-risk"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Liquidity is about usable access, not just value.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Liquidity\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A house can be valuable and still hard to sell quickly at a fair price.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Liquidity\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Liquidity"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-10-stocks",
+          "label": "Builds on Stocks.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-19-market-timing",
+          "label": "Prepares for Market timing.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-20-dollar-cost-averaging",
+          "label": "Prepares for Dollar-cost averaging.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-34-bonds-and-interest-rates",
+          "label": "Prepares for Bonds and interest rates.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-46-reading-performance-charts",
+          "label": "Prepares for Reading performance charts.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Volatility is the degree to which an investment's price swings up and down over time, whether daily, monthly, or across full market cycles.",
+        "It is uncomfortable but not automatically the same as permanent loss; context and horizon matter."
+      ],
+      "difficulty": 2,
+      "example": "A broad stock fund may fall sharply in a month and still fit a decades-long plan.",
+      "foundational_priority": 0.58,
+      "id": "invest-18-volatility",
+      "importance": 0.84,
+      "key_takeaway": "Volatility is movement; risk is whether movement harms your goal.",
+      "media": null,
+      "prerequisites": [
+        "invest-03-risk",
+        "invest-10-stocks"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Volatility is movement; risk is whether movement harms your goal.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Volatility\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A broad stock fund may fall sharply in a month and still fit a decades-long plan.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Volatility\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Volatility"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "invest-18-volatility",
+          "label": "Builds on Volatility.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-20-dollar-cost-averaging",
+          "label": "Prepares for Dollar-cost averaging.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-27-behavioral-mistakes",
+          "label": "Prepares for Behavioral mistakes.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Market timing is the attempt to move money in and out of investments right before prices rise or fall, essentially trying to predict short-term direction.",
+        "It is hard because decisions require being right about direction, timing, taxes, costs, and re-entry under uncertainty."
+      ],
+      "difficulty": 2,
+      "example": "Selling after a scary headline may avoid a drop or miss a rebound, and you only know later.",
+      "foundational_priority": 0.5,
+      "id": "invest-19-market-timing",
+      "importance": 0.84,
+      "key_takeaway": "Consistently timing markets is much harder than it feels in hindsight.",
+      "media": null,
+      "prerequisites": [
+        "invest-18-volatility"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Consistently timing markets is much harder than it feels in hindsight.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Market timing\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Selling after a scary headline may avoid a drop or miss a rebound, and you only know later.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Market timing\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-irs-retirement"
+      ],
+      "title": "Market timing"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-18-volatility",
+          "label": "Builds on Volatility.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-19-market-timing",
+          "label": "Builds on Market timing.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Dollar-cost averaging invests fixed amounts on a schedule, buying more shares when prices are lower and fewer when higher.",
+        "It can reduce regret and automate behavior, though it is not a guarantee of better returns than investing a lump sum."
+      ],
+      "difficulty": 2,
+      "example": "A monthly retirement contribution buys at many different market levels.",
+      "foundational_priority": 0.44,
+      "id": "invest-20-dollar-cost-averaging",
+      "importance": 0.76,
+      "key_takeaway": "Scheduled investing is mainly a behavior and cash-flow tool.",
+      "media": null,
+      "prerequisites": [
+        "invest-18-volatility",
+        "invest-19-market-timing"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Scheduled investing is mainly a behavior and cash-flow tool.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Dollar-cost averaging\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A monthly retirement contribution buys at many different market levels.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Dollar-cost averaging\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-irs-retirement"
+      ],
+      "title": "Dollar-cost averaging"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-09-asset-allocation",
+          "label": "Builds on Asset allocation.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Rebalancing brings a portfolio back toward its target allocation after market moves.",
+        "It controls risk drift by selling some overweight assets or directing new money to underweight assets."
+      ],
+      "difficulty": 3,
+      "example": "If stocks rise from 60 percent to 75 percent of a portfolio, rebalancing can restore the intended risk mix.",
+      "foundational_priority": 0.46,
+      "id": "invest-21-rebalancing",
+      "importance": 0.82,
+      "key_takeaway": "Rebalancing keeps the plan from being rewritten by market movement.",
+      "media": null,
+      "prerequisites": [
+        "invest-09-asset-allocation"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Rebalancing keeps the plan from being rewritten by market movement.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Rebalancing\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If stocks rise from 60 percent to 75 percent of a portfolio, rebalancing can restore the intended risk mix.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Rebalancing\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Rebalancing"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "invest-05-time-horizon",
+          "label": "Builds on Time horizon.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-23-retirement-accounts-at-a-high-level",
+          "label": "Prepares for Retirement accounts at a high level.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-25-brokerage-accounts",
+          "label": "Prepares for Brokerage accounts.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-40-capital-gains",
+          "label": "Prepares for Capital gains.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-41-taxes-basics-boundary",
+          "label": "Prepares for Taxes basics boundary.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Accounts are containers with rules; investments are what you hold inside the containers.",
+        "Taxable and tax-advantaged accounts can hold similar assets but differ in taxes, limits, access, and reporting."
+      ],
+      "difficulty": 3,
+      "example": "An index fund inside a retirement account has different tax treatment than the same fund in a taxable brokerage account.",
+      "foundational_priority": 0.5,
+      "id": "invest-22-taxable-and-tax-advantaged-accounts",
+      "importance": 0.84,
+      "key_takeaway": "Separate the account wrapper from the investment inside it.",
+      "media": null,
+      "prerequisites": [
+        "invest-05-time-horizon"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Separate the account wrapper from the investment inside it.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Taxable and tax-advantaged accounts\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "An index fund inside a retirement account has different tax treatment than the same fund in a taxable brokerage account.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Taxable and tax-advantaged accounts\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-irs-retirement"
+      ],
+      "title": "Taxable and tax-advantaged accounts"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-22-taxable-and-tax-advantaged-accounts",
+          "label": "Builds on Taxable and tax-advantaged accounts.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-24-employer-match",
+          "label": "Prepares for Employer match.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-33-target-date-funds",
+          "label": "Prepares for Target-date funds.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Retirement accounts are policy-created containers intended to encourage long-term saving.",
+        "Rules about contributions, withdrawals, taxes, penalties, and eligibility are specific and can change, so primary guidance matters."
+      ],
+      "difficulty": 3,
+      "example": "In the United States, a traditional account defers taxes until withdrawal while a Roth account is funded with after-tax money; other countries use different retirement-account rules.",
+      "foundational_priority": 0.48,
+      "id": "invest-23-retirement-accounts-at-a-high-level",
+      "importance": 0.84,
+      "key_takeaway": "Retirement accounts are powerful wrappers with rulebooks.",
+      "media": null,
+      "prerequisites": [
+        "invest-22-taxable-and-tax-advantaged-accounts"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Retirement accounts are powerful wrappers with rulebooks.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Retirement accounts at a high level\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "In the United States, a traditional account defers taxes until withdrawal while a Roth account is funded with after-tax money; other countries use different retirement-account rules.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Retirement accounts at a high level\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-cfpb-saving",
+        "invest-irs-retirement"
+      ],
+      "title": "Retirement accounts at a high level"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-23-retirement-accounts-at-a-high-level",
+          "label": "Builds on Retirement accounts at a high level.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "An employer match is extra compensation contributed when an employee contributes under plan rules.",
+        "It can be valuable, but vesting, limits, investment choices, and cash-flow needs still matter."
+      ],
+      "difficulty": 2,
+      "example": "In the United States, a company might add 50 cents for each dollar an employee contributes up to a percentage of pay; matching rules and tax treatment differ in other countries.",
+      "foundational_priority": 0.42,
+      "id": "invest-24-employer-match",
+      "importance": 0.82,
+      "key_takeaway": "A match is part of compensation, not a market return.",
+      "media": null,
+      "prerequisites": [
+        "invest-23-retirement-accounts-at-a-high-level"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "A match is part of compensation, not a market return.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Employer match\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "In the United States, a company might add 50 cents for each dollar an employee contributes up to a percentage of pay; matching rules and tax treatment differ in other countries.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Employer match\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-cfpb-saving",
+        "invest-irs-retirement"
+      ],
+      "title": "Employer match"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-14-etfs-and-mutual-funds",
+          "label": "Builds on ETFs and mutual funds.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-22-taxable-and-tax-advantaged-accounts",
+          "label": "Builds on Taxable and tax-advantaged accounts.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A brokerage account is the account that lets an investor buy, sell, and hold securities such as stocks, bonds, or funds through a licensed broker or platform.",
+        "The account provides access, statements, trading, and custody, but it does not make investments safe by itself."
+      ],
+      "difficulty": 2,
+      "example": "Opening a brokerage account is like opening a toolbox; what you use it for matters.",
+      "foundational_priority": 0.36,
+      "id": "invest-25-brokerage-accounts",
+      "importance": 0.74,
+      "key_takeaway": "A brokerage is access infrastructure, not an investment plan.",
+      "media": null,
+      "prerequisites": [
+        "invest-14-etfs-and-mutual-funds",
+        "invest-22-taxable-and-tax-advantaged-accounts"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "A brokerage is access infrastructure, not an investment plan.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Brokerage accounts\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Opening a brokerage account is like opening a toolbox; what you use it for matters.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Brokerage accounts\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Brokerage accounts"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-05-time-horizon",
+          "label": "Builds on Time horizon.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-45-investment-policy-statement",
+          "label": "Prepares for Investment policy statement.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-50-a-beginner-s-investment-system",
+          "label": "Prepares for A beginner's investment system.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Risk tolerance is emotional comfort with uncertainty, while risk capacity is the financial ability to absorb bad outcomes.",
+        "A sound plan considers both because bravery cannot create time or cash that a goal lacks."
+      ],
+      "difficulty": 2,
+      "example": "Someone comfortable with volatility still should not invest next month's rent in stocks.",
+      "foundational_priority": 0.54,
+      "id": "invest-26-risk-tolerance-versus-risk-capacity",
+      "importance": 0.88,
+      "key_takeaway": "Willingness and ability to take risk are different.",
+      "media": null,
+      "prerequisites": [
+        "invest-03-risk",
+        "invest-05-time-horizon"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Willingness and ability to take risk are different.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Risk tolerance versus risk capacity\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Someone comfortable with volatility still should not invest next month's rent in stocks.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Risk tolerance versus risk capacity\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Risk tolerance versus risk capacity"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-19-market-timing",
+          "label": "Builds on Market timing.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-28-herding",
+          "label": "Prepares for Herding.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-29-loss-aversion",
+          "label": "Prepares for Loss aversion.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Behavioral mistakes happen when fear, greed, overconfidence, or neglect override the plan.",
+        "The damage often comes from buying high, selling low, chasing stories, or ignoring costs."
+      ],
+      "difficulty": 2,
+      "example": "An investor who sells every downturn may turn temporary volatility into permanent loss.",
+      "foundational_priority": 0.48,
+      "id": "invest-27-behavioral-mistakes",
+      "importance": 0.88,
+      "key_takeaway": "Your behavior can matter as much as your product choice.",
+      "media": null,
+      "prerequisites": [
+        "invest-03-risk",
+        "invest-19-market-timing"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Your behavior can matter as much as your product choice.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Behavioral mistakes\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "An investor who sells every downturn may turn temporary volatility into permanent loss.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Behavioral mistakes\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Behavioral mistakes"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "invest-27-behavioral-mistakes",
+          "label": "Builds on Behavioral mistakes.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Herding is following what others appear to be doing instead of evaluating fit, risk, and evidence.",
+        "Crowds can sometimes reveal useful information through collective behavior, but the same dynamic can also amplify bubbles, panics, and scams far beyond their initial size."
+      ],
+      "difficulty": 2,
+      "example": "A friend group all buying a hot token does not prove it belongs in your plan.",
+      "foundational_priority": 0.38,
+      "id": "invest-28-herding",
+      "importance": 0.78,
+      "key_takeaway": "Popularity is not proof of suitability.",
+      "media": null,
+      "prerequisites": [
+        "invest-27-behavioral-mistakes"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Popularity is not proof of suitability.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Herding\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A friend group all buying a hot token does not prove it belongs in your plan.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Herding\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-sec-alerts"
+      ],
+      "title": "Herding"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "invest-27-behavioral-mistakes",
+          "label": "Builds on Behavioral mistakes.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Loss aversion means that losing a given amount of money often feels more painful than gaining that same amount feels good, distorting how risks are weighed.",
+        "It can make investors sell after declines, avoid useful risk, or hold losers to avoid admitting loss."
+      ],
+      "difficulty": 2,
+      "example": "A 10 percent drop may feel urgent even when the long-term goal has not changed.",
+      "foundational_priority": 0.4,
+      "id": "invest-29-loss-aversion",
+      "importance": 0.8,
+      "key_takeaway": "Emotions around loss need pre-made rules.",
+      "media": null,
+      "prerequisites": [
+        "invest-27-behavioral-mistakes"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Emotions around loss need pre-made rules.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Loss aversion\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A 10 percent drop may feel urgent even when the long-term goal has not changed.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Loss aversion\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Loss aversion"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Investment scams use trust, urgency, secrecy, complexity, or guaranteed-return claims to bypass judgment.",
+        "Fraud prevention starts by slowing down, verifying registration, understanding custody, and refusing pressure."
+      ],
+      "difficulty": 2,
+      "example": "A stranger promising safe monthly returns far above market rates is selling a warning sign.",
+      "foundational_priority": 0.52,
+      "id": "invest-30-scams",
+      "importance": 0.94,
+      "key_takeaway": "Urgency plus guaranteed riches is a danger signal.",
+      "media": null,
+      "prerequisites": [
+        "invest-03-risk"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Urgency plus guaranteed riches is a danger signal.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Scams\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A stranger promising safe monthly returns far above market rates is selling a warning sign.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Scams\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-sec-alerts"
+      ],
+      "title": "Scams"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-15-fees",
+          "label": "Builds on Fees.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A fiduciary is required to act in another person's best interest within the scope of the relationship.",
+        "Not every financial professional has the same obligations, compensation model, or conflicts."
+      ],
+      "difficulty": 3,
+      "example": "Asking how an adviser is paid can reveal incentives behind recommendations.",
+      "foundational_priority": 0.36,
+      "id": "invest-31-fiduciary",
+      "importance": 0.78,
+      "key_takeaway": "Advice quality depends partly on duties and incentives.",
+      "media": null,
+      "prerequisites": [
+        "invest-15-fees"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Advice quality depends partly on duties and incentives.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Fiduciary\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Asking how an adviser is paid can reveal incentives behind recommendations.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Fiduciary\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Fiduciary"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "invest-09-asset-allocation",
+          "label": "Builds on Asset allocation.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-15-fees",
+          "label": "Builds on Fees.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Robo-advisors are automated platforms that use software and algorithms to recommend or manage investment portfolios based on the inputs a user provides.",
+        "They can lower costs and automate rebalancing, but the output is only as appropriate as the assumptions and information entered."
+      ],
+      "difficulty": 3,
+      "example": "A questionnaire may not capture unstable income or upcoming major expenses.",
+      "foundational_priority": 0.22,
+      "id": "invest-32-robo-advisors",
+      "importance": 0.68,
+      "key_takeaway": "Automation can help execution but does not remove judgment.",
+      "media": null,
+      "prerequisites": [
+        "invest-09-asset-allocation",
+        "invest-15-fees"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Automation can help execution but does not remove judgment.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Robo-advisors\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A questionnaire may not capture unstable income or upcoming major expenses.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Robo-advisors\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Robo-advisors"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-09-asset-allocation",
+          "label": "Builds on Asset allocation.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-23-retirement-accounts-at-a-high-level",
+          "label": "Builds on Retirement accounts at a high level.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A target-date fund holds a diversified mix that becomes more conservative as a chosen date approaches.",
+        "It simplifies allocation but still requires checking costs, assumptions, holdings, and whether the date matches the goal."
+      ],
+      "difficulty": 2,
+      "example": "A 2060 fund is generally designed for a later retirement horizon than a 2030 fund.",
+      "foundational_priority": 0.36,
+      "id": "invest-33-target-date-funds",
+      "importance": 0.78,
+      "key_takeaway": "Target-date funds package an allocation path, not a personalized guarantee.",
+      "media": null,
+      "prerequisites": [
+        "invest-09-asset-allocation",
+        "invest-23-retirement-accounts-at-a-high-level"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Target-date funds package an allocation path, not a personalized guarantee.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Target-date funds\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A 2060 fund is generally designed for a later retirement horizon than a 2030 fund.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Target-date funds\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-irs-retirement"
+      ],
+      "title": "Target-date funds"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-11-bonds",
+          "label": "Builds on Bonds.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-18-volatility",
+          "label": "Builds on Volatility.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-35-credit-risk-in-bonds",
+          "label": "Prepares for Credit risk in bonds.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Bond prices generally move opposite interest rates because older fixed payments become more or less attractive.",
+        "Longer-duration bonds usually react more strongly to rate changes than shorter-duration bonds."
+      ],
+      "difficulty": 3,
+      "example": "If new bonds pay higher interest, an older low-rate bond may need a lower price to compete.",
+      "foundational_priority": 0.42,
+      "id": "invest-34-bonds-and-interest-rates",
+      "importance": 0.82,
+      "key_takeaway": "Bond safety depends partly on rate sensitivity.",
+      "media": null,
+      "prerequisites": [
+        "invest-11-bonds",
+        "invest-18-volatility"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Bond safety depends partly on rate sensitivity.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Bonds and interest rates\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If new bonds pay higher interest, an older low-rate bond may need a lower price to compete.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Bonds and interest rates\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Bonds and interest rates"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-11-bonds",
+          "label": "Builds on Bonds.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-34-bonds-and-interest-rates",
+          "label": "Builds on Bonds and interest rates.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-48-recessions-and-staying-with-a-plan",
+          "label": "Prepares for Recessions and staying with a plan.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Credit risk in bonds is the chance that the issuer cannot make promised payments.",
+        "Higher yields may compensate investors for taking on this risk, but an unusually high yield can also be a warning signal that the market doubts full repayment."
+      ],
+      "difficulty": 3,
+      "example": "A distressed company's bond may offer a high yield because investors doubt full repayment.",
+      "foundational_priority": 0.38,
+      "id": "invest-35-credit-risk-in-bonds",
+      "importance": 0.8,
+      "key_takeaway": "Yield is not free money; it often points to risk.",
+      "media": null,
+      "prerequisites": [
+        "invest-11-bonds",
+        "invest-34-bonds-and-interest-rates"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Yield is not free money; it often points to risk.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Credit risk in bonds\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A distressed company's bond may offer a high yield because investors doubt full repayment.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Credit risk in bonds\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Credit risk in bonds"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "invest-04-return",
+          "label": "Builds on Return.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-06-inflation",
+          "label": "Builds on Inflation.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A real return adjusts investment performance for inflation, showing growth in actual purchasing power rather than in the nominal dollar amount alone.",
+        "It matters because goals are funded with purchasing power, not nominal account statements alone."
+      ],
+      "difficulty": 2,
+      "example": "A 5 percent nominal gain with 3 percent inflation is roughly a 2 percent real gain before other costs.",
+      "foundational_priority": 0.42,
+      "id": "invest-36-real-returns",
+      "importance": 0.82,
+      "key_takeaway": "Real return tells you what your money can buy.",
+      "media": null,
+      "prerequisites": [
+        "invest-04-return",
+        "invest-06-inflation"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Real return tells you what your money can buy.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Real returns\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A 5 percent nominal gain with 3 percent inflation is roughly a 2 percent real gain before other costs.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Real returns\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Real returns"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "invest-08-diversification",
+          "label": "Builds on Diversification.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Concentration risk appears when too much depends on one company, sector, country, employer, or asset type.",
+        "It can feel comfortable when the concentrated asset is familiar, but familiarity does not remove risk."
+      ],
+      "difficulty": 2,
+      "example": "Holding employer stock and relying on that employer for salary links job and portfolio risk.",
+      "foundational_priority": 0.44,
+      "id": "invest-37-concentration-risk",
+      "importance": 0.86,
+      "key_takeaway": "Too much of one thing can quietly dominate the plan.",
+      "media": null,
+      "prerequisites": [
+        "invest-08-diversification"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Too much of one thing can quietly dominate the plan.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Concentration risk\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Holding employer stock and relying on that employer for salary links job and portfolio risk.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Concentration risk\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Concentration risk"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "invest-08-diversification",
+          "label": "Builds on Diversification.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "International diversification spreads exposure across economies, currencies, sectors, and political environments.",
+        "It adds its own currency and governance risks while reducing dependence on one home market."
+      ],
+      "difficulty": 3,
+      "example": "A portfolio holding only domestic companies may miss industries or growth patterns elsewhere.",
+      "foundational_priority": 0.26,
+      "id": "invest-38-international-diversification",
+      "importance": 0.74,
+      "key_takeaway": "Global diversification trades home comfort for broader exposure.",
+      "media": null,
+      "prerequisites": [
+        "invest-08-diversification"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Global diversification trades home comfort for broader exposure.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"International diversification\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A portfolio holding only domestic companies may miss industries or growth patterns elsewhere.",
+          "kind": "application",
+          "prompt": "Look at the example for \"International diversification\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "International diversification"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-10-stocks",
+          "label": "Builds on Stocks.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Dividends are company cash distributions to shareholders, usually from profits or reserves.",
+        "They are part of total return but not guaranteed, and a high yield can reflect a falling price or stressed business."
+      ],
+      "difficulty": 2,
+      "example": "A company may cut its dividend if earnings weaken.",
+      "foundational_priority": 0.3,
+      "id": "invest-39-dividends",
+      "importance": 0.72,
+      "key_takeaway": "Dividends are cash flows, not automatic evidence of safety.",
+      "media": null,
+      "prerequisites": [
+        "invest-10-stocks"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Dividends are cash flows, not automatic evidence of safety.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Dividends\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A company may cut its dividend if earnings weaken.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Dividends\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Dividends"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "invest-10-stocks",
+          "label": "Builds on Stocks.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-22-taxable-and-tax-advantaged-accounts",
+          "label": "Builds on Taxable and tax-advantaged accounts.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-41-taxes-basics-boundary",
+          "label": "Prepares for Taxes basics boundary.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A capital gain happens when an investment is sold for more than its purchase price.",
+        "Tax rules, holding periods, account type, and realized versus unrealized gains affect the outcome."
+      ],
+      "difficulty": 3,
+      "example": "A stock can show an unrealized gain on screen before any taxable sale occurs.",
+      "foundational_priority": 0.3,
+      "id": "invest-40-capital-gains",
+      "importance": 0.74,
+      "key_takeaway": "Gains matter differently before and after they are realized.",
+      "media": null,
+      "prerequisites": [
+        "invest-10-stocks",
+        "invest-22-taxable-and-tax-advantaged-accounts"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Gains matter differently before and after they are realized.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Capital gains\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A stock can show an unrealized gain on screen before any taxable sale occurs.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Capital gains\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-irs-retirement"
+      ],
+      "title": "Capital gains"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "invest-22-taxable-and-tax-advantaged-accounts",
+          "label": "Builds on Taxable and tax-advantaged accounts.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-40-capital-gains",
+          "label": "Builds on Capital gains.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-49-when-to-ask-a-professional",
+          "label": "Prepares for When to ask a professional.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Taxes can change what investors keep through income, dividends, gains, account rules, and reporting.",
+        "Because tax law is jurisdiction-specific and changes, general education should not become personal tax advice."
+      ],
+      "difficulty": 3,
+      "example": "Selling a fund in a taxable account may have different consequences than selling inside a retirement account.",
+      "foundational_priority": 0.36,
+      "id": "invest-41-taxes-basics-boundary",
+      "importance": 0.84,
+      "key_takeaway": "Tax awareness is necessary, but individual tax decisions need current guidance.",
+      "media": null,
+      "prerequisites": [
+        "invest-22-taxable-and-tax-advantaged-accounts",
+        "invest-40-capital-gains"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Tax awareness is necessary, but individual tax decisions need current guidance.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Taxes basics boundary\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Selling a fund in a taxable account may have different consequences than selling inside a retirement account.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Taxes basics boundary\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-irs-retirement"
+      ],
+      "title": "Taxes basics boundary"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "invest-01-saving-versus-investing",
+          "label": "Builds on Saving versus investing.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Insurance transfers defined risks, while investing accepts risk for potential growth.",
+        "Some products combine features, but confusing protection with growth can hide costs and tradeoffs."
+      ],
+      "difficulty": 2,
+      "example": "Term life insurance and an index fund solve different problems.",
+      "foundational_priority": 0.36,
+      "id": "invest-42-insurance-is-not-investing",
+      "importance": 0.78,
+      "key_takeaway": "Protection products and investment products have different jobs.",
+      "media": null,
+      "prerequisites": [
+        "invest-01-saving-versus-investing"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Protection products and investment products have different jobs.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Insurance is not investing\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Term life insurance and an index fund solve different problems.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Insurance is not investing\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Insurance is not investing"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-05-time-horizon",
+          "label": "Builds on Time horizon.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-49-when-to-ask-a-professional",
+          "label": "Prepares for When to ask a professional.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Paying down debt and investing new money both affect future net worth, risk exposure, and financial flexibility, even though they can feel like separate decisions.",
+        "The comparison depends on interest rate, tax treatment, liquidity, employer match, stress, and personal constraints."
+      ],
+      "difficulty": 3,
+      "example": "Paying a high-interest credit-card balance can be a clearer return than chasing uncertain investments.",
+      "foundational_priority": 0.42,
+      "id": "invest-43-debt-payoff-versus-investing",
+      "importance": 0.82,
+      "key_takeaway": "Debt decisions belong in the same map as investing decisions.",
+      "media": null,
+      "prerequisites": [
+        "invest-03-risk",
+        "invest-05-time-horizon"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Debt decisions belong in the same map as investing decisions.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Debt payoff versus investing\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Paying a high-interest credit-card balance can be a clearer return than chasing uncertain investments.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Debt payoff versus investing\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-cfpb-saving",
+        "invest-irs-retirement"
+      ],
+      "title": "Debt payoff versus investing"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-05-time-horizon",
+          "label": "Builds on Time horizon.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Goals and buckets separate money by purpose, time horizon, and required certainty.",
+        "This reduces the temptation to use one single risky portfolio for every need, since money needed soon should not be exposed to the same swings as money needed decades later."
+      ],
+      "difficulty": 2,
+      "example": "A travel fund, emergency fund, and retirement account can each have different investments or savings tools.",
+      "foundational_priority": 0.44,
+      "id": "invest-44-goals-and-buckets",
+      "importance": 0.8,
+      "key_takeaway": "Clear goals keep portfolios from becoming vague piles of money.",
+      "media": null,
+      "prerequisites": [
+        "invest-05-time-horizon"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Clear goals keep portfolios from becoming vague piles of money.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Goals and buckets\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A travel fund, emergency fund, and retirement account can each have different investments or savings tools.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Goals and buckets\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-cfpb-saving",
+        "invest-irs-retirement"
+      ],
+      "title": "Goals and buckets"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "invest-09-asset-allocation",
+          "label": "Builds on Asset allocation.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-26-risk-tolerance-versus-risk-capacity",
+          "label": "Builds on Risk tolerance versus risk capacity.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-48-recessions-and-staying-with-a-plan",
+          "label": "Prepares for Recessions and staying with a plan.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "invest-50-a-beginner-s-investment-system",
+          "label": "Prepares for A beginner's investment system.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "An investment policy statement is a written rule set for goals, allocation, contributions, rebalancing, and behavior during stress.",
+        "It is useful because calm decisions can guide future moments of fear or excitement."
+      ],
+      "difficulty": 3,
+      "example": "A rule to rebalance twice a year can prevent headlines from becoming the strategy.",
+      "foundational_priority": 0.28,
+      "id": "invest-45-investment-policy-statement",
+      "importance": 0.78,
+      "key_takeaway": "A written plan protects the investor from improvising under emotion.",
+      "media": null,
+      "prerequisites": [
+        "invest-09-asset-allocation",
+        "invest-26-risk-tolerance-versus-risk-capacity"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "A written plan protects the investor from improvising under emotion.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Investment policy statement\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A rule to rebalance twice a year can prevent headlines from becoming the strategy.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Investment policy statement\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Investment policy statement"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-04-return",
+          "label": "Builds on Return.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-18-volatility",
+          "label": "Builds on Volatility.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-47-past-performance-limits",
+          "label": "Prepares for Past performance limits.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Performance charts show selected time periods, scales, fees, benchmarks, and assumptions.",
+        "They can educate or mislead depending on what is included and what is quietly omitted."
+      ],
+      "difficulty": 2,
+      "example": "A chart starting at the bottom of a crash may make returns look smoother than a full-cycle view.",
+      "foundational_priority": 0.36,
+      "id": "invest-46-reading-performance-charts",
+      "importance": 0.78,
+      "key_takeaway": "Always ask what a performance chart chose not to show.",
+      "media": null,
+      "prerequisites": [
+        "invest-04-return",
+        "invest-18-volatility"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Always ask what a performance chart chose not to show.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Reading performance charts\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A chart starting at the bottom of a crash may make returns look smoother than a full-cycle view.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Reading performance charts\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Reading performance charts"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "invest-46-reading-performance-charts",
+          "label": "Builds on Reading performance charts.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Past performance describes what already happened to an investment or fund, not what is guaranteed or even likely to happen again in the future.",
+        "Markets change because prices already reflect expectations, competition, rates, and new information."
+      ],
+      "difficulty": 2,
+      "example": "A fund that beat peers for five years can still lag afterward.",
+      "foundational_priority": 0.42,
+      "id": "invest-47-past-performance-limits",
+      "importance": 0.86,
+      "key_takeaway": "History is evidence, not a guarantee.",
+      "media": null,
+      "prerequisites": [
+        "invest-46-reading-performance-charts"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "History is evidence, not a guarantee.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Past performance limits\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A fund that beat peers for five years can still lag afterward.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Past performance limits\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra"
+      ],
+      "title": "Past performance limits"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "invest-35-credit-risk-in-bonds",
+          "label": "Builds on Credit risk in bonds.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-45-investment-policy-statement",
+          "label": "Builds on Investment policy statement.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Recessions can bring job risk, market declines, credit stress, and emotional pressure at the same time.",
+        "A resilient plan considers emergency cash, allocation, debt, and rules before panic arrives."
+      ],
+      "difficulty": 3,
+      "example": "Someone with a sufficient emergency fund may avoid selling long-term investments after losing income.",
+      "foundational_priority": 0.34,
+      "id": "invest-48-recessions-and-staying-with-a-plan",
+      "importance": 0.84,
+      "key_takeaway": "A plan is most valuable when conditions are bad.",
+      "media": null,
+      "prerequisites": [
+        "invest-35-credit-risk-in-bonds",
+        "invest-45-investment-policy-statement"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "A plan is most valuable when conditions are bad.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Recessions and staying with a plan\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Someone with a sufficient emergency fund may avoid selling long-term investments after losing income.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Recessions and staying with a plan\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-cfpb-saving"
+      ],
+      "title": "Recessions and staying with a plan"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "invest-41-taxes-basics-boundary",
+          "label": "Builds on Taxes basics boundary.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-43-debt-payoff-versus-investing",
+          "label": "Builds on Debt payoff versus investing.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Professional guidance can be important when stakes, complexity, taxes, legal issues, disability, inheritance, debt, or conflicting goals are significant.",
+        "The goal is not to outsource all thinking but to know when general education is insufficient."
+      ],
+      "difficulty": 2,
+      "example": "A cross-border inheritance is not a beginner blog problem.",
+      "foundational_priority": 0.42,
+      "id": "invest-49-when-to-ask-a-professional",
+      "importance": 0.88,
+      "key_takeaway": "Knowing the boundary of self-education is part of good financial judgment.",
+      "media": null,
+      "prerequisites": [
+        "invest-41-taxes-basics-boundary",
+        "invest-43-debt-payoff-versus-investing"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Knowing the boundary of self-education is part of good financial judgment.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"When to ask a professional\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A cross-border inheritance is not a beginner blog problem.",
+          "kind": "application",
+          "prompt": "Look at the example for \"When to ask a professional\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-cfpb-saving",
+        "invest-irs-retirement"
+      ],
+      "title": "When to ask a professional"
+    },
+    {
+      "boundary_note": "Educational only. Investing, taxes, insurance, debt, and retirement choices depend on personal circumstances, jurisdiction, risk capacity, and current law; consult qualified professionals for advice.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "invest-01-saving-versus-investing",
+          "label": "Builds on Saving versus investing.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-03-risk",
+          "label": "Builds on Risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-08-diversification",
+          "label": "Builds on Diversification.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-26-risk-tolerance-versus-risk-capacity",
+          "label": "Builds on Risk tolerance versus risk capacity.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "invest-45-investment-policy-statement",
+          "label": "Builds on Investment policy statement.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A beginner's system connects emergency savings, time horizon, diversification, costs, behavior rules, and fraud avoidance.",
+        "It should be boring enough to follow consistently and explicit enough in its rules to resist hype, headlines, and the pull of chasing whatever is currently popular."
+      ],
+      "difficulty": 3,
+      "example": "A one-page checklist can say what money is for, where it sits, how risk is limited, and when to get help.",
+      "foundational_priority": 0.38,
+      "id": "invest-50-a-beginner-s-investment-system",
+      "importance": 0.94,
+      "key_takeaway": "A simple investment system beats scattered product chasing.",
+      "media": null,
+      "prerequisites": [
+        "invest-01-saving-versus-investing",
+        "invest-03-risk",
+        "invest-08-diversification",
+        "invest-26-risk-tolerance-versus-risk-capacity",
+        "invest-45-investment-policy-statement"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "A simple investment system beats scattered product chasing.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"A beginner's investment system\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A one-page checklist can say what money is for, where it sits, how risk is limited, and when to get help.",
+          "kind": "application",
+          "prompt": "Look at the example for \"A beginner's investment system\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "invest-sec-investor",
+        "invest-finra",
+        "invest-cfpb-saving",
+        "invest-sec-alerts"
+      ],
+      "title": "A beginner's investment system"
+    }
+  ],
+  "pack_id": "personal-investments-for-total-beginners",
+  "schema_version": "knowledge-cards.cards.v1",
+  "source_refs": [
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Investor education, risk, products, fees, and fraud awareness.",
+      "id": "invest-sec-investor",
+      "publisher": "US Securities and Exchange Commission",
+      "title": "Investor.gov",
+      "url": "https://www.investor.gov/"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Brokerage, product, risk, and scam education.",
+      "id": "invest-finra",
+      "publisher": "Financial Industry Regulatory Authority",
+      "title": "FINRA Investors",
+      "url": "https://www.finra.org/investors"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Saving, budgeting, and consumer financial education.",
+      "id": "invest-cfpb-saving",
+      "publisher": "Consumer Financial Protection Bureau",
+      "title": "Saving and budgeting",
+      "url": "https://www.consumerfinance.gov/consumer-tools/saving/"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "US retirement account tax information at a high level.",
+      "id": "invest-irs-retirement",
+      "publisher": "Internal Revenue Service",
+      "title": "Retirement Plans",
+      "url": "https://www.irs.gov/retirement-plans"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Fraud, risk, and investor alert education.",
+      "id": "invest-sec-alerts",
+      "publisher": "US Securities and Exchange Commission",
+      "title": "Investor Alerts and Bulletins",
+      "url": "https://www.sec.gov/resources-for-investors/investor-alerts-bulletins"
+    }
+  ]
+}

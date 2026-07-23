@@ -905,6 +905,15 @@ Semantics:
 8. Definitions with `@effect` are semantic functions. They do not source-expand. Instead, their definition metadata is retained so the compile/runtime phase can execute them according to their declared phase, scope, return kind, and effects.
 9. Semantic functions MUST declare `@phase compile` or `@phase execute`, at least one `@effect`, and `@returns`.
 10. Effects are host-owned capabilities. The LLM may request only declared effects, and the host validates every effect call.
+11. In `@effect capability_name read|write`, the name identifies the capability
+    and the mode classifies requested access. `read` means observation or
+    retrieval; `write` means an intentional external-state change. The mode
+    defaults to `read` when omitted; `read` and `write` are the complete mode set.
+    It is policy/audit metadata, not a sandbox;
+    the host and bound implementation remain responsible for enforcing it.
+    The built-in `FunctionalEngine` currently authorizes effects by capability
+    name and invokes the same binding for either mode; custom hosts MAY apply
+    stricter mode-specific policy.
 
 Semantic phases:
 - `compile` functions run while composing the WeaveMark. They may inspect or transform prompt text only through declared compile effects.

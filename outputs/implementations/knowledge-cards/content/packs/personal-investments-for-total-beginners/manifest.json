@@ -1,0 +1,28 @@
+{
+  "accent_color": "#427846",
+  "audience": "Adults learning investment basics before making individualized decisions",
+  "authors": [
+    "Knowledge Cards editorial build"
+  ],
+  "card_count": 50,
+  "content_checksum": "sha256-b3ea4495c3d2de3fb76ab7735435e09bf0fba7baf169b05e2f794aba6a67a8fb",
+  "content_version": "2026.07.21",
+  "created_at": "2026-07-21T00:00:00.000Z",
+  "curriculum_map_path": "curriculum-map.json",
+  "description": "A no-hype beginner map of saving, investing, risk, diversification, accounts, behavior, scams, and professional boundaries. Account and tax examples (such as Roth and traditional accounts) are US-focused; other jurisdictions have different rules.",
+  "id": "personal-investments-for-total-beginners",
+  "language": "en",
+  "level": "Beginner",
+  "license": "CC-BY-4.0 for app example content",
+  "optional_media_root": "media",
+  "ordered_content_files": [
+    "cards/cards.json"
+  ],
+  "provenance": "Authored as static educational content for the compiled Knowledge Cards implementation.",
+  "purpose": "Explain investment concepts without recommendations, urgency, fake certainty, or personalized financial advice.",
+  "schema_version": "knowledge-cards.pack-manifest.v1",
+  "source_policy": "Use declared official, educational, or primary guidance source families; do not invent citations or imply individualized advice.",
+  "title": "Personal Investments for Total Beginners",
+  "updated_at": "2026-07-21T00:00:00.000Z",
+  "validation_report_path": "validation-report.json"
+}

@@ -1,0 +1,2569 @@
+{
+  "cards": [
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "bank-02-commercial-banks",
+          "label": "Prepares for Commercial banks.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-04-payment-systems",
+          "label": "Prepares for Payment systems.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Money is useful because people expect others to accept it later, while credit extends that trust across time.",
+        "Banks sit between present cash and future repayment, so the banking system is partly plumbing and partly a confidence network."
+      ],
+      "difficulty": 1,
+      "example": "A paycheck deposit, a card payment, and a mortgage all rely on promises being recorded and settled.",
+      "foundational_priority": 1,
+      "id": "bank-01-money-credit-and-trust",
+      "importance": 0.96,
+      "key_takeaway": "Banking starts with trusted records of who can pay whom.",
+      "media": null,
+      "prerequisites": [],
+      "review_prompts": [
+        {
+          "answer_hint": "Banking starts with trusted records of who can pay whom.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Money, credit, and trust\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A paycheck deposit, a card payment, and a mortgage all rely on promises being recorded and settled.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Money, credit, and trust\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Money, credit, and trust"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "bank-01-money-credit-and-trust",
+          "label": "Builds on Money, credit, and trust.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-03-deposits-as-bank-liabilities",
+          "label": "Prepares for Deposits as bank liabilities.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-05-bank-balance-sheets",
+          "label": "Prepares for Bank balance sheets.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-39-money-laundering-controls",
+          "label": "Prepares for Money laundering controls.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A commercial bank is a private institution that takes deposits, makes loans, provides payment access, and manages risk.",
+        "It earns by transforming funding into assets while meeting rules, withdrawals, and payment obligations."
+      ],
+      "difficulty": 1,
+      "example": "A neighborhood bank account is both a service to the customer and a funding source for the bank.",
+      "foundational_priority": 0.98,
+      "id": "bank-02-commercial-banks",
+      "importance": 0.95,
+      "key_takeaway": "A bank is not a vault; it is a regulated balance-sheet business.",
+      "media": null,
+      "prerequisites": [
+        "bank-01-money-credit-and-trust"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "A bank is not a vault; it is a regulated balance-sheet business.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Commercial banks\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A neighborhood bank account is both a service to the customer and a funding source for the bank.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Commercial banks\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Commercial banks"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "bank-02-commercial-banks",
+          "label": "Builds on Commercial banks.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-05-bank-balance-sheets",
+          "label": "Prepares for Bank balance sheets.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-06-fractional-reserve-banking",
+          "label": "Prepares for Fractional-reserve banking.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-15-maturity-transformation",
+          "label": "Prepares for Maturity transformation.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-40-consumer-protection",
+          "label": "Prepares for Consumer protection.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A deposit feels like your asset, but on the bank balance sheet it is money the bank owes you.",
+        "That liability must be honored through withdrawals, transfers, or payments even though the bank has invested or lent much of the funding."
+      ],
+      "difficulty": 2,
+      "example": "When you see 500 dollars in checking, the bank records a matching obligation to let you spend it.",
+      "foundational_priority": 0.96,
+      "id": "bank-03-deposits-as-bank-liabilities",
+      "importance": 0.94,
+      "key_takeaway": "Deposits are promises by the bank, not labeled bundles of cash in a drawer.",
+      "media": null,
+      "prerequisites": [
+        "bank-02-commercial-banks"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Deposits are promises by the bank, not labeled bundles of cash in a drawer.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Deposits as bank liabilities\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "When you see 500 dollars in checking, the bank records a matching obligation to let you spend it.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Deposits as bank liabilities\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Deposits as bank liabilities"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-01-money-credit-and-trust",
+          "label": "Builds on Money, credit, and trust.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-11-reserves-and-settlement-balances",
+          "label": "Prepares for Reserves and settlement balances.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-12-interbank-settlement",
+          "label": "Prepares for Interbank settlement.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-45-central-bank-digital-currencies",
+          "label": "Prepares for Central bank digital currencies.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-46-real-time-payments",
+          "label": "Prepares for Real-time payments.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A payment system is the rulebook and infrastructure that moves claims between people, banks, merchants, and central-bank accounts.",
+        "The visible tap or transfer hides authorization, clearing, settlement, fraud controls, and final record updates."
+      ],
+      "difficulty": 2,
+      "example": "Buying groceries with a debit card can involve a merchant bank, card network, your bank, and settlement records.",
+      "foundational_priority": 0.9,
+      "id": "bank-04-payment-systems",
+      "importance": 0.9,
+      "key_takeaway": "Payments are coordinated record changes, not just money flying through wires.",
+      "media": null,
+      "prerequisites": [
+        "bank-01-money-credit-and-trust"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Payments are coordinated record changes, not just money flying through wires.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Payment systems\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Buying groceries with a debit card can involve a merchant bank, card network, your bank, and settlement records.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Payment systems\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Payment systems"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "bank-02-commercial-banks",
+          "label": "Builds on Commercial banks.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-03-deposits-as-bank-liabilities",
+          "label": "Builds on Deposits as bank liabilities.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-06-fractional-reserve-banking",
+          "label": "Prepares for Fractional-reserve banking.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-14-liquidity-versus-solvency",
+          "label": "Prepares for Liquidity versus solvency.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-29-bank-capital",
+          "label": "Prepares for Bank capital.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A bank balance sheet lists assets such as loans and securities against liabilities such as deposits and wholesale funding.",
+        "Capital is the loss-absorbing cushion between asset values and promises owed to others."
+      ],
+      "difficulty": 2,
+      "example": "If loans lose value, capital takes the first hit before depositors or other creditors are threatened.",
+      "foundational_priority": 0.95,
+      "id": "bank-05-bank-balance-sheets",
+      "importance": 0.92,
+      "key_takeaway": "Reading bank strength begins with assets, liabilities, and capital.",
+      "media": null,
+      "prerequisites": [
+        "bank-02-commercial-banks",
+        "bank-03-deposits-as-bank-liabilities"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Reading bank strength begins with assets, liabilities, and capital.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Bank balance sheets\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If loans lose value, capital takes the first hit before depositors or other creditors are threatened.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Bank balance sheets\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel"
+      ],
+      "title": "Bank balance sheets"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-03-deposits-as-bank-liabilities",
+          "label": "Builds on Deposits as bank liabilities.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-05-bank-balance-sheets",
+          "label": "Builds on Bank balance sheets.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-07-how-lending-creates-deposits",
+          "label": "Prepares for How lending creates deposits.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-11-reserves-and-settlement-balances",
+          "label": "Prepares for Reserves and settlement balances.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-22-reserve-requirements",
+          "label": "Prepares for Reserve requirements.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-41-misconception-banks-only-lend-pre-existing-deposits",
+          "label": "Prepares for Misconception: banks only lend pre-existing deposits.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Fractional-reserve banking means banks keep only part of deposit funding as immediately available reserves or cash.",
+        "The system works when withdrawals are ordinary and confidence holds, but it becomes fragile when many depositors demand liquidity at once."
+      ],
+      "difficulty": 2,
+      "example": "A bank can safely serve normal ATM withdrawals while still funding long-term loans.",
+      "foundational_priority": 0.88,
+      "id": "bank-06-fractional-reserve-banking",
+      "importance": 0.88,
+      "key_takeaway": "Banks need enough liquidity for expected demands, not one-for-one cash for every deposit.",
+      "media": null,
+      "prerequisites": [
+        "bank-03-deposits-as-bank-liabilities",
+        "bank-05-bank-balance-sheets"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Banks need enough liquidity for expected demands, not one-for-one cash for every deposit.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Fractional-reserve banking\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A bank can safely serve normal ATM withdrawals while still funding long-term loans.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Fractional-reserve banking\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Fractional-reserve banking"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-06-fractional-reserve-banking",
+          "label": "Builds on Fractional-reserve banking.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-08-credit-risk",
+          "label": "Prepares for Credit risk.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-09-interest-rates-as-prices-of-time-and-risk",
+          "label": "Prepares for Interest rates as prices of time and risk.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-15-maturity-transformation",
+          "label": "Prepares for Maturity transformation.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-35-securitization",
+          "label": "Prepares for Securitization.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-41-misconception-banks-only-lend-pre-existing-deposits",
+          "label": "Prepares for Misconception: banks only lend pre-existing deposits.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "When a bank makes a loan, it usually credits the borrower's deposit account, creating a new bank deposit alongside a loan asset.",
+        "The loan still requires capital, funding, risk controls, and settlement capacity, so creation is constrained rather than magical."
+      ],
+      "difficulty": 3,
+      "example": "A business loan may appear as new spendable balance before anyone else has reduced their checking account.",
+      "foundational_priority": 0.86,
+      "id": "bank-07-how-lending-creates-deposits",
+      "importance": 0.93,
+      "key_takeaway": "Bank lending can expand deposits, but it is limited by risk, regulation, capital, and demand.",
+      "media": null,
+      "prerequisites": [
+        "bank-06-fractional-reserve-banking"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Bank lending can expand deposits, but it is limited by risk, regulation, capital, and demand.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"How lending creates deposits\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A business loan may appear as new spendable balance before anyone else has reduced their checking account.",
+          "kind": "application",
+          "prompt": "Look at the example for \"How lending creates deposits\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-payments",
+        "bank-bis-cpmi",
+        "bank-basel"
+      ],
+      "title": "How lending creates deposits"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-07-how-lending-creates-deposits",
+          "label": "Builds on How lending creates deposits.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Credit risk is the chance that borrowers do not repay as agreed, reducing the value of the bank's loan assets.",
+        "Banks price, diversify, collateralize, and provision for this risk because bad loans can consume capital."
+      ],
+      "difficulty": 2,
+      "example": "A mortgage and an unsecured business loan expose the bank to very different repayment uncertainties.",
+      "foundational_priority": 0.72,
+      "id": "bank-08-credit-risk",
+      "importance": 0.86,
+      "key_takeaway": "Every loan is also a prediction about future repayment.",
+      "media": null,
+      "prerequisites": [
+        "bank-07-how-lending-creates-deposits"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Every loan is also a prediction about future repayment.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Credit risk\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A mortgage and an unsecured business loan expose the bank to very different repayment uncertainties.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Credit risk\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel"
+      ],
+      "title": "Credit risk"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "bank-07-how-lending-creates-deposits",
+          "label": "Builds on How lending creates deposits.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-10-net-interest-margin",
+          "label": "Prepares for Net interest margin.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-18-central-bank-mandates",
+          "label": "Prepares for Central bank mandates.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-20-policy-rates-and-yield-curves",
+          "label": "Prepares for Policy rates and yield curves.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "An interest rate compensates lenders for waiting, expected inflation, uncertainty, and borrower risk.",
+        "Different rates coexist because loans differ in maturity, collateral, liquidity, tax treatment, and default probability."
+      ],
+      "difficulty": 2,
+      "example": "A short Treasury bill and a risky credit-card balance do not carry the same rate because they are not the same promise.",
+      "foundational_priority": 0.88,
+      "id": "bank-09-interest-rates-as-prices-of-time-and-risk",
+      "importance": 0.91,
+      "key_takeaway": "Interest rates are prices attached to time, risk, and money conditions.",
+      "media": null,
+      "prerequisites": [
+        "bank-07-how-lending-creates-deposits"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Interest rates are prices attached to time, risk, and money conditions.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Interest rates as prices of time and risk\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A short Treasury bill and a risky credit-card balance do not carry the same rate because they are not the same promise.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Interest rates as prices of time and risk\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Interest rates as prices of time and risk"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-09-interest-rates-as-prices-of-time-and-risk",
+          "label": "Builds on Interest rates as prices of time and risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-47-bank-profitability-cycles",
+          "label": "Prepares for Bank profitability cycles.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Net interest margin is the spread between what a bank earns on assets and what it pays for funding.",
+        "It connects customer rates, central-bank policy, deposit competition, loan quality, and profitability."
+      ],
+      "difficulty": 3,
+      "example": "If deposit rates rise faster than loan yields, a bank's margin can shrink even while rates are high.",
+      "foundational_priority": 0.55,
+      "id": "bank-10-net-interest-margin",
+      "importance": 0.75,
+      "key_takeaway": "A bank's profit depends on the spread, not just whether rates are high.",
+      "media": null,
+      "prerequisites": [
+        "bank-09-interest-rates-as-prices-of-time-and-risk"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "A bank's profit depends on the spread, not just whether rates are high.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Net interest margin\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If deposit rates rise faster than loan yields, a bank's margin can shrink even while rates are high.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Net interest margin\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Net interest margin"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-04-payment-systems",
+          "label": "Builds on Payment systems.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-06-fractional-reserve-banking",
+          "label": "Builds on Fractional-reserve banking.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-12-interbank-settlement",
+          "label": "Prepares for Interbank settlement.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-23-standing-facilities",
+          "label": "Prepares for Standing facilities.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Reserves are balances banks hold at the central bank and use to settle payments with one another.",
+        "They are not the same as capital or customer deposits; they are a special settlement asset inside the banking system."
+      ],
+      "difficulty": 2,
+      "example": "When your bank sends money to another bank, reserve balances may move behind the scenes.",
+      "foundational_priority": 0.84,
+      "id": "bank-11-reserves-and-settlement-balances",
+      "importance": 0.89,
+      "key_takeaway": "Reserves are the banking system's settlement money.",
+      "media": null,
+      "prerequisites": [
+        "bank-04-payment-systems",
+        "bank-06-fractional-reserve-banking"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Reserves are the banking system's settlement money.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Reserves and settlement balances\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "When your bank sends money to another bank, reserve balances may move behind the scenes.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Reserves and settlement balances\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-fed-payments",
+        "bank-bis-cpmi",
+        "bank-basel"
+      ],
+      "title": "Reserves and settlement balances"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-04-payment-systems",
+          "label": "Builds on Payment systems.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-11-reserves-and-settlement-balances",
+          "label": "Builds on Reserves and settlement balances.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-13-clearing-houses-and-payment-finality",
+          "label": "Prepares for Clearing houses and payment finality.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-38-correspondent-banking",
+          "label": "Prepares for Correspondent banking.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Interbank settlement is the final adjustment of obligations between banks after customers make payments.",
+        "Settlement reduces a web of promises to authoritative records, often using central-bank money for finality."
+      ],
+      "difficulty": 2,
+      "example": "Thousands of customer transfers can net to a smaller movement between two banks at the end of a cycle.",
+      "foundational_priority": 0.78,
+      "id": "bank-12-interbank-settlement",
+      "importance": 0.86,
+      "key_takeaway": "Payments become durable when banks settle with each other.",
+      "media": null,
+      "prerequisites": [
+        "bank-04-payment-systems",
+        "bank-11-reserves-and-settlement-balances"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Payments become durable when banks settle with each other.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Interbank settlement\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Thousands of customer transfers can net to a smaller movement between two banks at the end of a cycle.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Interbank settlement\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Interbank settlement"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-12-interbank-settlement",
+          "label": "Builds on Interbank settlement.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Clearing houses help participants calculate obligations, manage risk, and prepare transactions for settlement.",
+        "Finality matters because businesses need to know when a payment cannot be unwound except through a new transaction."
+      ],
+      "difficulty": 3,
+      "example": "A merchant wants confidence that a paid invoice will not vanish after goods are released.",
+      "foundational_priority": 0.52,
+      "id": "bank-13-clearing-houses-and-payment-finality",
+      "importance": 0.78,
+      "key_takeaway": "Clearing organizes obligations; finality makes payment records dependable.",
+      "media": null,
+      "prerequisites": [
+        "bank-12-interbank-settlement"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Clearing organizes obligations; finality makes payment records dependable.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Clearing houses and payment finality\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A merchant wants confidence that a paid invoice will not vanish after goods are released.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Clearing houses and payment finality\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Clearing houses and payment finality"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "bank-05-bank-balance-sheets",
+          "label": "Builds on Bank balance sheets.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-16-bank-runs",
+          "label": "Prepares for Bank runs.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-50-reading-bank-news-with-a-systems-map",
+          "label": "Prepares for Reading bank news with a systems map.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Liquidity is the ability to meet near-term cash demands, while solvency means assets are worth more than liabilities.",
+        "A solvent institution can fail if it cannot get cash in time, and a liquid institution can still be insolvent if losses are hidden."
+      ],
+      "difficulty": 2,
+      "example": "A homeowner with valuable property but no cash for today's bill has a liquidity problem, not necessarily a net-worth problem.",
+      "foundational_priority": 0.82,
+      "id": "bank-14-liquidity-versus-solvency",
+      "importance": 0.9,
+      "key_takeaway": "Do not confuse having cash today with being economically sound.",
+      "media": null,
+      "prerequisites": [
+        "bank-05-bank-balance-sheets"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Do not confuse having cash today with being economically sound.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Liquidity versus solvency\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A homeowner with valuable property but no cash for today's bill has a liquidity problem, not necessarily a net-worth problem.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Liquidity versus solvency\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel"
+      ],
+      "title": "Liquidity versus solvency"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-03-deposits-as-bank-liabilities",
+          "label": "Builds on Deposits as bank liabilities.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-07-how-lending-creates-deposits",
+          "label": "Builds on How lending creates deposits.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-16-bank-runs",
+          "label": "Prepares for Bank runs.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-34-shadow-banking",
+          "label": "Prepares for Shadow banking.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Maturity transformation means funding long-term assets such as loans with shorter-term liabilities such as deposits.",
+        "It supports useful lending but creates rollover and withdrawal risk because promised payment times do not perfectly match."
+      ],
+      "difficulty": 3,
+      "example": "A bank may fund a 30-year mortgage partly with deposits customers can move tomorrow.",
+      "foundational_priority": 0.74,
+      "id": "bank-15-maturity-transformation",
+      "importance": 0.88,
+      "key_takeaway": "Banking creates value by transforming maturities, and fragility by mismatching them.",
+      "media": null,
+      "prerequisites": [
+        "bank-03-deposits-as-bank-liabilities",
+        "bank-07-how-lending-creates-deposits"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Banking creates value by transforming maturities, and fragility by mismatching them.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Maturity transformation\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A bank may fund a 30-year mortgage partly with deposits customers can move tomorrow.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Maturity transformation\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Maturity transformation"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "bank-14-liquidity-versus-solvency",
+          "label": "Builds on Liquidity versus solvency.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-15-maturity-transformation",
+          "label": "Builds on Maturity transformation.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-17-deposit-insurance",
+          "label": "Prepares for Deposit insurance.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-24-lender-of-last-resort",
+          "label": "Prepares for Lender of last resort.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-48-crisis-resolution",
+          "label": "Prepares for Crisis resolution.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A bank run happens when many funders try to withdraw because each fears being late to the exit.",
+        "Even rumors can become self-reinforcing when depositors believe others will withdraw first."
+      ],
+      "difficulty": 2,
+      "example": "A solvent bank can be forced to sell assets quickly at losses if everyone demands cash at once.",
+      "foundational_priority": 0.68,
+      "id": "bank-16-bank-runs",
+      "importance": 0.91,
+      "key_takeaway": "Runs are coordination failures around confidence and liquidity.",
+      "media": null,
+      "prerequisites": [
+        "bank-14-liquidity-versus-solvency",
+        "bank-15-maturity-transformation"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Runs are coordination failures around confidence and liquidity.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Bank runs\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A solvent bank can be forced to sell assets quickly at losses if everyone demands cash at once.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Bank runs\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fdic-insurance"
+      ],
+      "title": "Bank runs"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "bank-16-bank-runs",
+          "label": "Builds on Bank runs.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-49-moral-hazard",
+          "label": "Prepares for Moral hazard.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Deposit insurance protects eligible deposits up to defined limits and reduces the incentive for small depositors to run.",
+        "It supports confidence but also requires supervision and limits because protection can weaken market discipline."
+      ],
+      "difficulty": 2,
+      "example": "An insured household checking account is treated differently from an uninsured corporate balance above the limit.",
+      "foundational_priority": 0.62,
+      "id": "bank-17-deposit-insurance",
+      "importance": 0.87,
+      "key_takeaway": "Deposit insurance calms runs by making many depositors less exposed.",
+      "media": null,
+      "prerequisites": [
+        "bank-16-bank-runs"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Deposit insurance calms runs by making many depositors less exposed.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Deposit insurance\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "An insured household checking account is treated differently from an uninsured corporate balance above the limit.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Deposit insurance\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fdic-insurance"
+      ],
+      "title": "Deposit insurance"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "bank-09-interest-rates-as-prices-of-time-and-risk",
+          "label": "Builds on Interest rates as prices of time and risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-19-monetary-policy-transmission",
+          "label": "Prepares for Monetary policy transmission.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-21-open-market-operations",
+          "label": "Prepares for Open market operations.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-23-standing-facilities",
+          "label": "Prepares for Standing facilities.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-25-inflation-and-money-demand",
+          "label": "Prepares for Inflation and money demand.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-36-central-bank-independence",
+          "label": "Prepares for Central bank independence.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-44-financial-stability-versus-price-stability",
+          "label": "Prepares for Financial stability versus price stability.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-50-reading-bank-news-with-a-systems-map",
+          "label": "Prepares for Reading bank news with a systems map.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A central-bank mandate states the public goals it is expected to pursue, such as price stability, employment, financial stability, or payments safety.",
+        "Mandates differ by country and create tradeoffs when goals point in different directions."
+      ],
+      "difficulty": 2,
+      "example": "A rate hike may fight inflation while slowing borrowing and hiring.",
+      "foundational_priority": 0.8,
+      "id": "bank-18-central-bank-mandates",
+      "importance": 0.9,
+      "key_takeaway": "Central banks act through legal mandates, not personal preference alone.",
+      "media": null,
+      "prerequisites": [
+        "bank-09-interest-rates-as-prices-of-time-and-risk"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Central banks act through legal mandates, not personal preference alone.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Central bank mandates\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A rate hike may fight inflation while slowing borrowing and hiring.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Central bank mandates\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-fed-payments",
+        "bank-bis-cpmi",
+        "bank-basel"
+      ],
+      "title": "Central bank mandates"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-18-central-bank-mandates",
+          "label": "Builds on Central bank mandates.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-20-policy-rates-and-yield-curves",
+          "label": "Prepares for Policy rates and yield curves.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-37-exchange-rates-and-central-banks",
+          "label": "Prepares for Exchange rates and central banks.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Monetary policy transmission is the chain from central-bank tools to financial conditions, spending, hiring, and inflation.",
+        "The chain is indirect because households, banks, firms, markets, and expectations all react with delays."
+      ],
+      "difficulty": 3,
+      "example": "A policy-rate change may affect mortgage rates, which affects home buying, construction, and eventually prices.",
+      "foundational_priority": 0.68,
+      "id": "bank-19-monetary-policy-transmission",
+      "importance": 0.9,
+      "key_takeaway": "Central banks steer through channels, not direct remote control.",
+      "media": null,
+      "prerequisites": [
+        "bank-18-central-bank-mandates"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Central banks steer through channels, not direct remote control.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Monetary policy transmission\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A policy-rate change may affect mortgage rates, which affects home buying, construction, and eventually prices.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Monetary policy transmission\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Monetary policy transmission"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-09-interest-rates-as-prices-of-time-and-risk",
+          "label": "Builds on Interest rates as prices of time and risk.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-19-monetary-policy-transmission",
+          "label": "Builds on Monetary policy transmission.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-28-forward-guidance",
+          "label": "Prepares for Forward guidance.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-42-misconception-central-banks-directly-set-every-interes",
+          "label": "Prepares for Misconception: central banks directly set every interest rate.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A policy rate is a short-term anchor, while a yield curve shows interest rates across maturities.",
+        "Longer rates include expectations about future short rates, inflation, risk, and term premiums."
+      ],
+      "difficulty": 3,
+      "example": "Mortgage rates may move even before a meeting if markets expect future policy changes.",
+      "foundational_priority": 0.58,
+      "id": "bank-20-policy-rates-and-yield-curves",
+      "importance": 0.84,
+      "key_takeaway": "The central bank strongly influences short rates, while markets help price the rest of the curve.",
+      "media": null,
+      "prerequisites": [
+        "bank-09-interest-rates-as-prices-of-time-and-risk",
+        "bank-19-monetary-policy-transmission"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "The central bank strongly influences short rates, while markets help price the rest of the curve.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Policy rates and yield curves\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Mortgage rates may move even before a meeting if markets expect future policy changes.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Policy rates and yield curves\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Policy rates and yield curves"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-18-central-bank-mandates",
+          "label": "Builds on Central bank mandates.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-27-quantitative-easing",
+          "label": "Prepares for Quantitative easing.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Open market operations are central-bank purchases or sales of securities used to manage reserves and short-term rates.",
+        "They work by changing the supply of settlement balances and the prices of safe assets in financial markets."
+      ],
+      "difficulty": 3,
+      "example": "Buying Treasury securities can add reserves to banks and help keep the overnight rate near target.",
+      "foundational_priority": 0.5,
+      "id": "bank-21-open-market-operations",
+      "importance": 0.78,
+      "key_takeaway": "Open market operations are practical plumbing for policy implementation.",
+      "media": null,
+      "prerequisites": [
+        "bank-18-central-bank-mandates"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Open market operations are practical plumbing for policy implementation.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Open market operations\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Buying Treasury securities can add reserves to banks and help keep the overnight rate near target.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Open market operations\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Open market operations"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "bank-06-fractional-reserve-banking",
+          "label": "Builds on Fractional-reserve banking.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Reserve requirements set a minimum share of certain liabilities banks must hold in reserve-eligible form.",
+        "They are one possible constraint on bank balance sheets, but modern systems often rely more on capital, liquidity rules, and interest on reserves."
+      ],
+      "difficulty": 3,
+      "example": "A country may change reserve requirements without that being the main driver of everyday loan supply.",
+      "foundational_priority": 0.48,
+      "id": "bank-22-reserve-requirements",
+      "importance": 0.72,
+      "key_takeaway": "Reserve requirements matter, but they are not the whole story of credit creation.",
+      "media": null,
+      "prerequisites": [
+        "bank-06-fractional-reserve-banking"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Reserve requirements matter, but they are not the whole story of credit creation.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Reserve requirements\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A country may change reserve requirements without that being the main driver of everyday loan supply.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Reserve requirements\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-basel"
+      ],
+      "title": "Reserve requirements"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-11-reserves-and-settlement-balances",
+          "label": "Builds on Reserves and settlement balances.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-18-central-bank-mandates",
+          "label": "Builds on Central bank mandates.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-24-lender-of-last-resort",
+          "label": "Prepares for Lender of last resort.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Standing facilities let banks borrow from or deposit with the central bank under defined terms.",
+        "They form guardrails around short-term interest rates and provide backup liquidity when markets are strained."
+      ],
+      "difficulty": 3,
+      "example": "A discount window loan can help a bank meet temporary payment needs without dumping assets.",
+      "foundational_priority": 0.48,
+      "id": "bank-23-standing-facilities",
+      "importance": 0.77,
+      "key_takeaway": "Standing facilities are safety valves for short-term money markets.",
+      "media": null,
+      "prerequisites": [
+        "bank-11-reserves-and-settlement-balances",
+        "bank-18-central-bank-mandates"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Standing facilities are safety valves for short-term money markets.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Standing facilities\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A discount window loan can help a bank meet temporary payment needs without dumping assets.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Standing facilities\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Standing facilities"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "bank-16-bank-runs",
+          "label": "Builds on Bank runs.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-23-standing-facilities",
+          "label": "Builds on Standing facilities.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-49-moral-hazard",
+          "label": "Prepares for Moral hazard.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "A lender of last resort provides emergency liquidity to solvent institutions facing panic or market breakdown.",
+        "The idea is to stop contagious runs while avoiding bailouts of institutions that are fundamentally insolvent."
+      ],
+      "difficulty": 3,
+      "example": "A central bank may lend against good collateral during a panic so payments keep functioning.",
+      "foundational_priority": 0.52,
+      "id": "bank-24-lender-of-last-resort",
+      "importance": 0.86,
+      "key_takeaway": "Last-resort lending is about containing panic without erasing discipline.",
+      "media": null,
+      "prerequisites": [
+        "bank-16-bank-runs",
+        "bank-23-standing-facilities"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Last-resort lending is about containing panic without erasing discipline.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Lender of last resort\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A central bank may lend against good collateral during a panic so payments keep functioning.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Lender of last resort\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Lender of last resort"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "bank-18-central-bank-mandates",
+          "label": "Builds on Central bank mandates.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-26-deflation-and-debt-burdens",
+          "label": "Prepares for Deflation and debt burdens.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-43-misconception-printing-money-automatically-causes-infl",
+          "label": "Prepares for Misconception: printing money automatically causes inflation.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Inflation is a sustained rise in the general price level, and money demand is the public's desire to hold liquid balances.",
+        "The relationship between money and prices depends on output, velocity, expectations, supply shocks, and policy credibility."
+      ],
+      "difficulty": 2,
+      "example": "Prices can rise after supply disruptions even if households are not suddenly richer.",
+      "foundational_priority": 0.62,
+      "id": "bank-25-inflation-and-money-demand",
+      "importance": 0.88,
+      "key_takeaway": "Money matters for inflation, but the channel is broader than simple printing.",
+      "media": null,
+      "prerequisites": [
+        "bank-18-central-bank-mandates"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Money matters for inflation, but the channel is broader than simple printing.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Inflation and money demand\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Prices can rise after supply disruptions even if households are not suddenly richer.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Inflation and money demand\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Inflation and money demand"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "bank-25-inflation-and-money-demand",
+          "label": "Builds on Inflation and money demand.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Deflation can raise the real burden of fixed debts because borrowers repay in money that buys more than expected.",
+        "That pressure can reduce spending, increase defaults, and make downturns harder to escape."
+      ],
+      "difficulty": 3,
+      "example": "A business with fixed loan payments may struggle if its selling prices fall across the economy.",
+      "foundational_priority": 0.36,
+      "id": "bank-26-deflation-and-debt-burdens",
+      "importance": 0.74,
+      "key_takeaway": "Falling prices can be dangerous when debts are fixed in nominal terms.",
+      "media": null,
+      "prerequisites": [
+        "bank-25-inflation-and-money-demand"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Falling prices can be dangerous when debts are fixed in nominal terms.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Deflation and debt burdens\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A business with fixed loan payments may struggle if its selling prices fall across the economy.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Deflation and debt burdens\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Deflation and debt burdens"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "bank-21-open-market-operations",
+          "label": "Builds on Open market operations.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Quantitative easing is large-scale central-bank asset buying used when ordinary short-term-rate tools are constrained.",
+        "It aims to affect longer-term yields, market functioning, portfolios, and expectations, but its effects are debated and context-dependent."
+      ],
+      "difficulty": 4,
+      "example": "Buying long-term government bonds can push investors toward other assets and lower borrowing costs.",
+      "foundational_priority": 0.32,
+      "id": "bank-27-quantitative-easing",
+      "importance": 0.75,
+      "key_takeaway": "QE is an unconventional policy tool, not a simple cash drop to households.",
+      "media": null,
+      "prerequisites": [
+        "bank-21-open-market-operations"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "QE is an unconventional policy tool, not a simple cash drop to households.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Quantitative easing\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Buying long-term government bonds can push investors toward other assets and lower borrowing costs.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Quantitative easing\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Quantitative easing"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "bank-20-policy-rates-and-yield-curves",
+          "label": "Builds on Policy rates and yield curves.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Forward guidance is communication about likely future policy used to shape expectations today.",
+        "Because financial prices reflect expected future conditions, credible guidance can affect rates before any tool is changed."
+      ],
+      "difficulty": 4,
+      "example": "A central bank statement that rates may stay high longer can move bond yields immediately.",
+      "foundational_priority": 0.3,
+      "id": "bank-28-forward-guidance",
+      "importance": 0.72,
+      "key_takeaway": "Expectations are a policy channel when people believe the message.",
+      "media": null,
+      "prerequisites": [
+        "bank-20-policy-rates-and-yield-curves"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Expectations are a policy channel when people believe the message.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Forward guidance\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A central bank statement that rates may stay high longer can move bond yields immediately.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Forward guidance\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Forward guidance"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-05-bank-balance-sheets",
+          "label": "Builds on Bank balance sheets.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-30-leverage",
+          "label": "Prepares for Leverage.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-31-capital-requirements",
+          "label": "Prepares for Capital requirements.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-48-crisis-resolution",
+          "label": "Prepares for Crisis resolution.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-50-reading-bank-news-with-a-systems-map",
+          "label": "Prepares for Reading bank news with a systems map.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Bank capital is the owner's loss-absorbing claim that stands between asset losses and many creditors.",
+        "More capital makes a bank more resilient, but it can also affect returns, lending incentives, and funding costs."
+      ],
+      "difficulty": 2,
+      "example": "If a loan portfolio loses value, equity absorbs losses before insured depositors are affected.",
+      "foundational_priority": 0.76,
+      "id": "bank-29-bank-capital",
+      "importance": 0.9,
+      "key_takeaway": "Capital is the banking system's shock absorber.",
+      "media": null,
+      "prerequisites": [
+        "bank-05-bank-balance-sheets"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Capital is the banking system's shock absorber.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Bank capital\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If a loan portfolio loses value, equity absorbs losses before insured depositors are affected.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Bank capital\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel"
+      ],
+      "title": "Bank capital"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "bank-29-bank-capital",
+          "label": "Builds on Bank capital.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Leverage means using borrowed or promised funds to hold assets larger than the owner's capital.",
+        "It magnifies gains when assets perform and magnifies losses when they do not, so a small drop in asset value can wipe out a leveraged owner's thin capital cushion."
+      ],
+      "difficulty": 2,
+      "example": "A bank with 5 dollars of capital supporting 100 dollars of assets has little room for asset losses.",
+      "foundational_priority": 0.7,
+      "id": "bank-30-leverage",
+      "importance": 0.86,
+      "key_takeaway": "Leverage makes banking powerful and fragile at the same time.",
+      "media": null,
+      "prerequisites": [
+        "bank-29-bank-capital"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Leverage makes banking powerful and fragile at the same time.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Leverage\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A bank with 5 dollars of capital supporting 100 dollars of assets has little room for asset losses.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Leverage\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel"
+      ],
+      "title": "Leverage"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "bank-29-bank-capital",
+          "label": "Builds on Bank capital.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-32-stress-tests",
+          "label": "Prepares for Stress tests.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "bank-33-macroprudential-regulation",
+          "label": "Prepares for Macroprudential regulation.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Capital requirements set minimum loss-absorbing resources banks must hold relative to assets or risk-weighted exposures.",
+        "They force resilience into private balance sheets before stress arrives, though measurement choices matter."
+      ],
+      "difficulty": 3,
+      "example": "A riskier loan book generally requires more capital than a portfolio of safer government securities.",
+      "foundational_priority": 0.5,
+      "id": "bank-31-capital-requirements",
+      "importance": 0.82,
+      "key_takeaway": "Capital rules turn the idea of resilience into a measurable constraint.",
+      "media": null,
+      "prerequisites": [
+        "bank-29-bank-capital"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Capital rules turn the idea of resilience into a measurable constraint.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Capital requirements\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A riskier loan book generally requires more capital than a portfolio of safer government securities.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Capital requirements\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel"
+      ],
+      "title": "Capital requirements"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "bank-31-capital-requirements",
+          "label": "Builds on Capital requirements.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Stress tests ask whether a bank could survive severe but plausible economic scenarios.",
+        "They reveal vulnerabilities that ordinary good times may hide and can require banks to adjust capital plans."
+      ],
+      "difficulty": 3,
+      "example": "A regulator might test what happens if unemployment jumps and housing prices fall together.",
+      "foundational_priority": 0.38,
+      "id": "bank-32-stress-tests",
+      "importance": 0.76,
+      "key_takeaway": "Stress tests are rehearsals for financial weather that has not arrived yet.",
+      "media": null,
+      "prerequisites": [
+        "bank-31-capital-requirements"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Stress tests are rehearsals for financial weather that has not arrived yet.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Stress tests\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A regulator might test what happens if unemployment jumps and housing prices fall together.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Stress tests\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel"
+      ],
+      "title": "Stress tests"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "bank-31-capital-requirements",
+          "label": "Builds on Capital requirements.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Macroprudential regulation focuses on risks to the financial system as a whole rather than one institution at a time.",
+        "It watches shared exposures, feedback loops, procyclical lending, and contagion channels."
+      ],
+      "difficulty": 4,
+      "example": "If many lenders loosen mortgage standards together, each may look fine alone while the system becomes fragile.",
+      "foundational_priority": 0.28,
+      "id": "bank-33-macroprudential-regulation",
+      "importance": 0.72,
+      "key_takeaway": "System safety requires seeing connections, not just individual bank health.",
+      "media": null,
+      "prerequisites": [
+        "bank-31-capital-requirements"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "System safety requires seeing connections, not just individual bank health.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Macroprudential regulation\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If many lenders loosen mortgage standards together, each may look fine alone while the system becomes fragile.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Macroprudential regulation\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel"
+      ],
+      "title": "Macroprudential regulation"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "bank-15-maturity-transformation",
+          "label": "Builds on Maturity transformation.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Shadow banking describes credit intermediation outside traditional deposit-taking banks.",
+        "It can provide useful funding but may recreate bank-like run risks without the same protections or visibility."
+      ],
+      "difficulty": 4,
+      "example": "Money market funds and securitization vehicles can fund credit while sitting outside ordinary bank deposits.",
+      "foundational_priority": 0.24,
+      "id": "bank-34-shadow-banking",
+      "importance": 0.7,
+      "key_takeaway": "Bank-like fragility can appear outside institutions called banks.",
+      "media": null,
+      "prerequisites": [
+        "bank-15-maturity-transformation"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Bank-like fragility can appear outside institutions called banks.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Shadow banking\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Money market funds and securitization vehicles can fund credit while sitting outside ordinary bank deposits.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Shadow banking\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel"
+      ],
+      "title": "Shadow banking"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "bank-07-how-lending-creates-deposits",
+          "label": "Builds on How lending creates deposits.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Securitization pools financial assets such as loans and turns their cash flows into tradable securities.",
+        "It can spread risk and funding sources, but complexity can hide who ultimately bears losses."
+      ],
+      "difficulty": 4,
+      "example": "A bundle of mortgages can be converted into bonds bought by investors around the world.",
+      "foundational_priority": 0.24,
+      "id": "bank-35-securitization",
+      "importance": 0.68,
+      "key_takeaway": "Securitization changes loans from local relationships into market instruments.",
+      "media": null,
+      "prerequisites": [
+        "bank-07-how-lending-creates-deposits"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Securitization changes loans from local relationships into market instruments.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Securitization\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A bundle of mortgages can be converted into bonds bought by investors around the world.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Securitization\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel"
+      ],
+      "title": "Securitization"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "bank-18-central-bank-mandates",
+          "label": "Builds on Central bank mandates.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Central bank independence means policy decisions are insulated from short-term political pressure within a legal mandate.",
+        "Independence can support credibility, but it must be balanced by accountability, transparency, and democratic legitimacy."
+      ],
+      "difficulty": 3,
+      "example": "A central bank may resist pressure to keep rates low before an election if inflation risks are high.",
+      "foundational_priority": 0.34,
+      "id": "bank-36-central-bank-independence",
+      "importance": 0.76,
+      "key_takeaway": "Independence is a governance design for credibility, not freedom from accountability.",
+      "media": null,
+      "prerequisites": [
+        "bank-18-central-bank-mandates"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Independence is a governance design for credibility, not freedom from accountability.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Central bank independence\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A central bank may resist pressure to keep rates low before an election if inflation risks are high.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Central bank independence\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Central bank independence"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "bank-19-monetary-policy-transmission",
+          "label": "Builds on Monetary policy transmission.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Exchange rates connect domestic policy to global capital flows, trade prices, and imported inflation.",
+        "Central banks may influence currencies through rates, interventions, or communication, but market forces and foreign policy also matter."
+      ],
+      "difficulty": 3,
+      "example": "Higher domestic rates can attract capital and strengthen a currency, all else equal.",
+      "foundational_priority": 0.26,
+      "id": "bank-37-exchange-rates-and-central-banks",
+      "importance": 0.7,
+      "key_takeaway": "A central bank operates in a world of cross-border money.",
+      "media": null,
+      "prerequisites": [
+        "bank-19-monetary-policy-transmission"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "A central bank operates in a world of cross-border money.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Exchange rates and central banks\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Higher domestic rates can attract capital and strengthen a currency, all else equal.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Exchange rates and central banks\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-basel"
+      ],
+      "title": "Exchange rates and central banks"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "bank-12-interbank-settlement",
+          "label": "Builds on Interbank settlement.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Correspondent banking lets one bank provide services for another, often across borders or currencies.",
+        "It expands payment reach but introduces compliance, settlement, and concentration risks."
+      ],
+      "difficulty": 3,
+      "example": "A small bank may use a larger international bank to process foreign-currency payments.",
+      "foundational_priority": 0.2,
+      "id": "bank-38-correspondent-banking",
+      "importance": 0.64,
+      "key_takeaway": "Global payments often rely on bank relationships behind the customer interface.",
+      "media": null,
+      "prerequisites": [
+        "bank-12-interbank-settlement"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Global payments often rely on bank relationships behind the customer interface.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Correspondent banking\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A small bank may use a larger international bank to process foreign-currency payments.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Correspondent banking\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-payments",
+        "bank-bis-cpmi",
+        "bank-bis-correspondent"
+      ],
+      "title": "Correspondent banking"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "bank-02-commercial-banks",
+          "label": "Builds on Commercial banks.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Money laundering controls aim to prevent financial services from hiding criminal proceeds or sanctioned activity.",
+        "Banks must know customers, monitor suspicious patterns, and report certain activity while avoiding unfair exclusion."
+      ],
+      "difficulty": 3,
+      "example": "A bank may ask for business ownership documents before opening an account.",
+      "foundational_priority": 0.24,
+      "id": "bank-39-money-laundering-controls",
+      "importance": 0.7,
+      "key_takeaway": "Compliance is part of banking infrastructure, not just paperwork.",
+      "media": null,
+      "prerequisites": [
+        "bank-02-commercial-banks"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Compliance is part of banking infrastructure, not just paperwork.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Money laundering controls\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A bank may ask for business ownership documents before opening an account.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Money laundering controls\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fincen-aml"
+      ],
+      "title": "Money laundering controls"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "bank-03-deposits-as-bank-liabilities",
+          "label": "Builds on Deposits as bank liabilities.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Consumer protection rules address disclosure, fairness, error resolution, and abusive practices in financial services.",
+        "They matter because banking products are complex and mistakes can harm household stability."
+      ],
+      "difficulty": 2,
+      "example": "A clear fee disclosure helps a customer compare accounts before overdrafts become costly.",
+      "foundational_priority": 0.34,
+      "id": "bank-40-consumer-protection",
+      "importance": 0.76,
+      "key_takeaway": "Trust in banking depends on fair treatment as well as financial soundness.",
+      "media": null,
+      "prerequisites": [
+        "bank-03-deposits-as-bank-liabilities"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Trust in banking depends on fair treatment as well as financial soundness.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Consumer protection\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A clear fee disclosure helps a customer compare accounts before overdrafts become costly.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Consumer protection\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-cfpb-consumer"
+      ],
+      "title": "Consumer protection"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "bank-06-fractional-reserve-banking",
+          "label": "Builds on Fractional-reserve banking.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-07-how-lending-creates-deposits",
+          "label": "Builds on How lending creates deposits.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "The simple story that banks lend only money someone already deposited misses how bank lending can create deposits.",
+        "The better map still includes constraints: capital, risk, demand, regulation, funding, and settlement all limit lending."
+      ],
+      "difficulty": 3,
+      "example": "A new business loan can create a deposit balance, but the bank must still manage the resulting risk and payments.",
+      "foundational_priority": 0.32,
+      "id": "bank-41-misconception-banks-only-lend-pre-existing-deposits",
+      "importance": 0.82,
+      "key_takeaway": "Credit creation is constrained balance-sheet expansion, not a pile of old cash being passed along.",
+      "media": null,
+      "prerequisites": [
+        "bank-06-fractional-reserve-banking",
+        "bank-07-how-lending-creates-deposits"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Credit creation is constrained balance-sheet expansion, not a pile of old cash being passed along.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Misconception: banks only lend pre-existing deposits\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A new business loan can create a deposit balance, but the bank must still manage the resulting risk and payments.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Misconception: banks only lend pre-existing deposits\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-payments",
+        "bank-bis-cpmi",
+        "bank-basel"
+      ],
+      "title": "Misconception: banks only lend pre-existing deposits"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "bank-20-policy-rates-and-yield-curves",
+          "label": "Builds on Policy rates and yield curves.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Central banks directly target or administer some short-term rates, but many market rates are priced by expectations and risk.",
+        "Policy influence travels through curves, spreads, banks, and markets rather than commanding every loan price."
+      ],
+      "difficulty": 3,
+      "example": "A credit-card rate can stay high even after a policy cut because default risk and pricing practices differ.",
+      "foundational_priority": 0.28,
+      "id": "bank-42-misconception-central-banks-directly-set-every-interes",
+      "importance": 0.78,
+      "key_takeaway": "Central-bank influence is strong but not mechanical control of every rate.",
+      "media": null,
+      "prerequisites": [
+        "bank-20-policy-rates-and-yield-curves"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Central-bank influence is strong but not mechanical control of every rate.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Misconception: central banks directly set every interest rate\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A credit-card rate can stay high even after a policy cut because default risk and pricing practices differ.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Misconception: central banks directly set every interest rate\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Misconception: central banks directly set every interest rate"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "bank-25-inflation-and-money-demand",
+          "label": "Builds on Inflation and money demand.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "More money can contribute to inflation, but the result depends on output, demand, velocity, expectations, and supply conditions.",
+        "A richer model asks whether new money changes spending pressure relative to the economy's ability to produce."
+      ],
+      "difficulty": 3,
+      "example": "Emergency liquidity in a frozen market may not affect prices the same way as sustained deficit monetization during overheating.",
+      "foundational_priority": 0.3,
+      "id": "bank-43-misconception-printing-money-automatically-causes-infl",
+      "importance": 0.8,
+      "key_takeaway": "Money growth matters through context, not through an automatic one-step rule.",
+      "media": null,
+      "prerequisites": [
+        "bank-25-inflation-and-money-demand"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Money growth matters through context, not through an automatic one-step rule.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Misconception: printing money automatically causes inflation\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Emergency liquidity in a frozen market may not affect prices the same way as sustained deficit monetization during overheating.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Misconception: printing money automatically causes inflation\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Misconception: printing money automatically causes inflation"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "bank-18-central-bank-mandates",
+          "label": "Builds on Central bank mandates.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Price stability focuses on inflation, while financial stability focuses on resilient institutions and markets.",
+        "The goals often support each other but can conflict when inflation is high and markets are fragile."
+      ],
+      "difficulty": 4,
+      "example": "Raising rates may cool prices while also exposing leveraged borrowers or banks with interest-rate losses.",
+      "foundational_priority": 0.24,
+      "id": "bank-44-financial-stability-versus-price-stability",
+      "importance": 0.82,
+      "key_takeaway": "Central-bank tradeoffs are real when different forms of stability pull apart.",
+      "media": null,
+      "prerequisites": [
+        "bank-18-central-bank-mandates"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Central-bank tradeoffs are real when different forms of stability pull apart.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Financial stability versus price stability\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Raising rates may cool prices while also exposing leveraged borrowers or banks with interest-rate losses.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Financial stability versus price stability\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-basel"
+      ],
+      "title": "Financial stability versus price stability"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "bank-04-payment-systems",
+          "label": "Builds on Payment systems.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A central bank digital currency would be a public digital money design, not simply a private payment app.",
+        "Design choices about privacy, bank funding, offline use, and financial inclusion determine its effects."
+      ],
+      "difficulty": 4,
+      "example": "A retail CBDC could let households hold a digital claim on the central bank, depending on national design.",
+      "foundational_priority": 0.12,
+      "id": "bank-45-central-bank-digital-currencies",
+      "importance": 0.62,
+      "key_takeaway": "CBDCs are policy designs with tradeoffs, not just new payment technology.",
+      "media": null,
+      "prerequisites": [
+        "bank-04-payment-systems"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "CBDCs are policy designs with tradeoffs, not just new payment technology.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Central bank digital currencies\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A retail CBDC could let households hold a digital claim on the central bank, depending on national design.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Central bank digital currencies\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy",
+        "bank-fed-payments",
+        "bank-bis-cpmi",
+        "bank-fed-cbdc"
+      ],
+      "title": "Central bank digital currencies"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "bank-04-payment-systems",
+          "label": "Builds on Payment systems.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Real-time payments move funds and confirmations near instantly, changing expectations for speed and availability.",
+        "They require fraud controls, liquidity management, and clear finality rules because mistakes can also move faster."
+      ],
+      "difficulty": 3,
+      "example": "An instant bill payment helps a household avoid a late fee, but a scam transfer may be harder to reverse.",
+      "foundational_priority": 0.22,
+      "id": "bank-46-real-time-payments",
+      "importance": 0.68,
+      "key_takeaway": "Faster payments increase convenience and the need for stronger safeguards.",
+      "media": null,
+      "prerequisites": [
+        "bank-04-payment-systems"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Faster payments increase convenience and the need for stronger safeguards.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Real-time payments\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "An instant bill payment helps a household avoid a late fee, but a scam transfer may be harder to reverse.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Real-time payments\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-payments",
+        "bank-bis-cpmi"
+      ],
+      "title": "Real-time payments"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "bank-10-net-interest-margin",
+          "label": "Builds on Net interest margin.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Bank profitability changes with interest-rate cycles, credit losses, competition, and regulation.",
+        "A good lending year can hide future losses because defaults often arrive after economic conditions turn."
+      ],
+      "difficulty": 3,
+      "example": "Profits may look strong when loan growth is rapid, then weaken when borrowers struggle.",
+      "foundational_priority": 0.18,
+      "id": "bank-47-bank-profitability-cycles",
+      "importance": 0.66,
+      "key_takeaway": "Bank earnings are cyclical because credit quality and funding costs move with the economy.",
+      "media": null,
+      "prerequisites": [
+        "bank-10-net-interest-margin"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Bank earnings are cyclical because credit quality and funding costs move with the economy.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Bank profitability cycles\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Profits may look strong when loan growth is rapid, then weaken when borrowers struggle.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Bank profitability cycles\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-monetary-policy"
+      ],
+      "title": "Bank profitability cycles"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "bank-16-bank-runs",
+          "label": "Builds on Bank runs.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-29-bank-capital",
+          "label": "Builds on Bank capital.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Crisis resolution is the process for handling a failing financial institution while limiting wider damage.",
+        "Tools can include sale, bridge bank, bail-in, liquidation, guarantees, or emergency liquidity depending on law and facts."
+      ],
+      "difficulty": 4,
+      "example": "A regulator may transfer insured deposits to another bank over a weekend to preserve access.",
+      "foundational_priority": 0.18,
+      "id": "bank-48-crisis-resolution",
+      "importance": 0.72,
+      "key_takeaway": "Resolution tries to protect critical functions without pretending losses disappeared.",
+      "media": null,
+      "prerequisites": [
+        "bank-16-bank-runs",
+        "bank-29-bank-capital"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Resolution tries to protect critical functions without pretending losses disappeared.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Crisis resolution\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A regulator may transfer insured deposits to another bank over a weekend to preserve access.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Crisis resolution\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fdic-resolutions"
+      ],
+      "title": "Crisis resolution"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "bank-17-deposit-insurance",
+          "label": "Builds on Deposit insurance.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-24-lender-of-last-resort",
+          "label": "Builds on Lender of last resort.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Moral hazard appears when protection changes behavior by reducing the cost of taking risk.",
+        "Deposit insurance and emergency lending can stabilize the system, but safeguards are needed so risk-takers do not expect rescue."
+      ],
+      "difficulty": 3,
+      "example": "If managers believe creditors will always be protected, they may accept more leverage than society wants.",
+      "foundational_priority": 0.2,
+      "id": "bank-49-moral-hazard",
+      "importance": 0.76,
+      "key_takeaway": "Safety nets need rules because protection can change incentives.",
+      "media": null,
+      "prerequisites": [
+        "bank-17-deposit-insurance",
+        "bank-24-lender-of-last-resort"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Safety nets need rules because protection can change incentives.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Moral hazard\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "If managers believe creditors will always be protected, they may accept more leverage than society wants.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Moral hazard\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-basel",
+        "bank-fdic-insurance"
+      ],
+      "title": "Moral hazard"
+    },
+    {
+      "boundary_note": "Educational only. Banking policy and consumer-finance actions can depend on jurisdiction, account terms, and current rules, so use primary regulators or qualified professionals for decisions.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "bank-18-central-bank-mandates",
+          "label": "Builds on Central bank mandates.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-29-bank-capital",
+          "label": "Builds on Bank capital.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "bank-14-liquidity-versus-solvency",
+          "label": "Builds on Liquidity versus solvency.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Banking news is easier to read when you separate liquidity, solvency, capital, funding, payments, policy, and confidence.",
+        "The same headline may involve several layers, so a systems map prevents one dramatic detail from becoming the whole explanation."
+      ],
+      "difficulty": 3,
+      "example": "A story about emergency lending may be about liquidity support, not necessarily a declaration that every borrower is insolvent.",
+      "foundational_priority": 0.22,
+      "id": "bank-50-reading-bank-news-with-a-systems-map",
+      "importance": 0.88,
+      "key_takeaway": "Good banking analysis asks which layer of the system is under stress.",
+      "media": null,
+      "prerequisites": [
+        "bank-18-central-bank-mandates",
+        "bank-29-bank-capital",
+        "bank-14-liquidity-versus-solvency"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Good banking analysis asks which layer of the system is under stress.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Reading bank news with a systems map\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A story about emergency lending may be about liquidity support, not necessarily a declaration that every borrower is insolvent.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Reading bank news with a systems map\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "bank-fed-payments",
+        "bank-bis-cpmi",
+        "bank-basel"
+      ],
+      "title": "Reading bank news with a systems map"
+    }
+  ],
+  "pack_id": "banking-industry-and-central-banks",
+  "schema_version": "knowledge-cards.cards.v1",
+  "source_refs": [
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Central-bank mandates, policy tools, and transmission.",
+      "id": "bank-fed-monetary-policy",
+      "publisher": "Board of Governors of the Federal Reserve System",
+      "title": "Monetary Policy",
+      "url": "https://www.federalreserve.gov/monetarypolicy.htm"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Payments, settlement, and financial-market infrastructure.",
+      "id": "bank-fed-payments",
+      "publisher": "Board of Governors of the Federal Reserve System",
+      "title": "Payment Systems",
+      "url": "https://www.federalreserve.gov/paymentsystems.htm"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "US deposit insurance concepts and limits.",
+      "id": "bank-fdic-insurance",
+      "publisher": "Federal Deposit Insurance Corporation",
+      "title": "Deposit Insurance",
+      "url": "https://www.fdic.gov/resources/deposit-insurance/"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Payment, clearing, and settlement terminology.",
+      "id": "bank-bis-cpmi",
+      "publisher": "Bank for International Settlements",
+      "title": "CPMI glossary and payment system resources",
+      "url": "https://www.bis.org/cpmi/publ/d00b.htm"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Bank capital, supervision, and financial stability concepts.",
+      "id": "bank-basel",
+      "publisher": "Bank for International Settlements",
+      "title": "Basel Committee on Banking Supervision",
+      "url": "https://www.bis.org/bcbs/"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Anti-money-laundering and Bank Secrecy Act legal authority, a US-specific AML regime used as an illustrative example.",
+      "id": "bank-fincen-aml",
+      "publisher": "Financial Crimes Enforcement Network",
+      "title": "FinCEN's Legal Authorities",
+      "url": "https://www.fincen.gov/resources/fincens-legal-authorities"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "US bank failure and resolution process.",
+      "id": "bank-fdic-resolutions",
+      "publisher": "Federal Deposit Insurance Corporation",
+      "title": "Resolutions",
+      "url": "https://www.fdic.gov/resolutions"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Cross-border correspondent banking relationships and risks, an internationally scoped topic.",
+      "id": "bank-bis-correspondent",
+      "publisher": "Bank for International Settlements",
+      "title": "Correspondent banking",
+      "url": "https://www.bis.org/cpmi/publ/d147.htm"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Central bank digital currency design tradeoffs.",
+      "id": "bank-fed-cbdc",
+      "publisher": "Board of Governors of the Federal Reserve System",
+      "title": "Money and Payments: The U.S. Dollar in the Age of Digital Transformation",
+      "url": "https://www.federalreserve.gov/publications/money-and-payments-discussion-paper.htm"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "US consumer protection in banking products and services.",
+      "id": "bank-cfpb-consumer",
+      "publisher": "Consumer Financial Protection Bureau",
+      "title": "Bank accounts and services",
+      "url": "https://www.consumerfinance.gov/consumer-tools/bank-accounts/"
+    }
+  ]
+}

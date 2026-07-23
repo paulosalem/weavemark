@@ -1041,6 +1041,16 @@ companion.
 Use @{asset_snapshot} in the report.
 ```
 
+In `@effect finance_data read`, `finance_data` is the capability name and
+`read` is the requested access mode. `read` classifies observation or retrieval;
+`write` classifies an intentional external-state change. The mode is optional
+and defaults to `read`; `read` and `write` are the complete mode set. It is retained in the compiled execution metadata for
+least-privilege policy and audit, but it is not a sandbox: the host and reviewed
+`@bind` implementation remain responsible for enforcing the declared boundary.
+The built-in `FunctionalEngine` currently authorizes `allow_effects` by capability
+name and invokes the same binding for either mode; it does not apply a separate
+mode-specific permission check.
+
 See [`promplets/catalog/executable/market-snapshot.weavemark.md`](../promplets/catalog/executable/market-snapshot.weavemark.md) for a fuller VALE3 stock-learning example with finance and web-search effects connected by a dependency edge via `uses:`. Its final synthesis is grounded in the finance payload and search-result titles, snippets, source labels, and URLs; a semantic `@package` application then turns the Markdown analysis into a standalone HTML dashboard.
 
 **FSLM specs** pair a normal WeaveMark prompt library with an `ellements.fslm` machine. The name is deliberately linguistic: WeaveMark supplies prompts for semantic guards, invariants, actions, and outputs while `ellements.fslm` supplies the graph and runtime contract. You can either reference an external YAML/JSON/Python machine or import the separate `fslm` module and declare the machine inline with WeaveMark sugar. Prompt names are validated before the first snapshot or LLM/tool call:

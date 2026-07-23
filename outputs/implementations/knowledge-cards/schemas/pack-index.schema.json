@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-cards.local/schemas/pack-index.schema.json",
+  "title": "Knowledge Cards Pack Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_by", "packs"],
+  "properties": {
+    "schema_version": { "const": "knowledge-cards.pack-index.v1" },
+    "generated_by": { "type": "string" },
+    "packs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "description", "language", "audience", "level", "purpose", "card_count", "content_version", "checksum", "accent_color", "manifest_path"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,80}$" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "language": { "type": "string" },
+          "audience": { "type": "string" },
+          "level": { "type": "string" },
+          "purpose": { "type": "string" },
+          "card_count": { "const": 50 },
+          "content_version": { "type": "string" },
+          "checksum": { "type": "string", "pattern": "^sha256-[a-f0-9]{64}$" },
+          "accent_color": { "type": "string" },
+          "manifest_path": { "type": "string" }
+        }
+      }
+    }
+  }
+}

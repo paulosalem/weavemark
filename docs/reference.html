@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="site.css?v=20260712">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
     <script src="analytics.js?v=20260720" defer></script>
+    <script src="mobile-navigation.js?v=20260723" defer></script>
   </head>
   <body>
     <nav class="site-nav" aria-label="Primary">
@@ -293,6 +294,18 @@
   <span class="syntax-directive">@body</span>
     Summarize the following material:
     <span class="syntax-var">@{body}</span></code></pre>
+          <p>
+            An effect has a capability name and an optional access mode:
+            <code>@effect web_search read</code>. <code>read</code> means the
+            declaration requests observation or retrieval; <code>write</code>
+            declares an intentional external-state change. Omitting the mode
+            defaults to <code>read</code>. <code>read</code> and
+            <code>write</code> are the complete mode set. The mode is preserved as execution
+            metadata for policy and audit, but it does not sandbox a bound
+            companion; the host must enforce the declared boundary. The built-in
+            <code>FunctionalEngine</code> currently authorizes effects by
+            capability name, not by mode, and invokes the same binding either way.
+          </p>
         </section>
 
         <section id="outputs" class="article-section">

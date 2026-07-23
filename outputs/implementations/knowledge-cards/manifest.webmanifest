@@ -1,0 +1,18 @@
+{
+  "name": "Knowledge Cards",
+  "short_name": "Knowledge",
+  "description": "A calm one-card feed for cumulative learning.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7eddf",
+  "theme_color": "#f5eadb",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

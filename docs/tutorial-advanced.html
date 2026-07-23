@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="site.css?v=20260712">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
     <script src="analytics.js?v=20260720" defer></script>
+    <script src="mobile-navigation.js?v=20260723" defer></script>
   </head>
   <body>
     <nav class="site-nav" aria-label="Primary">
@@ -295,6 +296,17 @@ portfolio upload, or spreadsheet model.</code></pre>
     help plan <span class="syntax-var">@{goal}</span> in <span class="syntax-var">@{domain}</span> for <span class="syntax-var">@{country}</span> over <span class="syntax-var">@{horizon}</span>. Return source
     titles, URLs, query terms, assumptions to verify, and caveats. Do not read
     private accounts, transactions, portfolios, or identity data.</code></pre>
+          <div class="callout">
+            <strong>What does <code>read</code> mean?</strong>
+            In <code>@effect web_search read</code>,
+            <code>web_search</code> names the host capability and
+            <code>read</code> says this function retrieves information rather
+            than changing external state. The other mode is
+            <code>write</code>; omitting the mode defaults to
+            <code>read</code>. See the
+            <a href="reference.html#macros">semantic-function reference</a> for
+            policy and runtime details.
+          </div>
           <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
 <span class="syntax-directive">@use</span> weavemark.std.planning.goals exposing goal_plan lookup_public_goal_assumptions

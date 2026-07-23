@@ -1,0 +1,501 @@
+{
+  "bias_safety_review": "Economics uses educational boundaries, official or educational source families, no individualized advice, no fabricated citations, and no engagement metrics as mastery signals.",
+  "categories": [
+    {
+      "cards": [
+        "econ-01-scarcity",
+        "econ-02-opportunity-cost",
+        "econ-03-tradeoffs-and-constraints",
+        "econ-04-incentives",
+        "econ-05-marginal-thinking",
+        "econ-09-markets-as-coordination",
+        "econ-25-measuring-output-with-gdp",
+        "econ-27-unemployment",
+        "econ-29-productivity",
+        "econ-31-capital-and-investment",
+        "econ-40-institutions-and-property-rights"
+      ],
+      "count": 11,
+      "id": "foundations",
+      "note": "Core language and mental models that later cards assume."
+    },
+    {
+      "cards": [
+        "econ-07-comparative-advantage",
+        "econ-08-specialization",
+        "econ-10-supply",
+        "econ-11-demand",
+        "econ-12-equilibrium",
+        "econ-13-elasticity",
+        "econ-17-taxes-and-incidence",
+        "econ-23-principal-agent-problems",
+        "econ-26-inflation-indexes",
+        "econ-28-labor-markets",
+        "econ-33-interest-rates-in-the-economy",
+        "econ-34-aggregate-demand-and-aggregate-supply"
+      ],
+      "count": 12,
+      "id": "mechanisms",
+      "note": "How the system works when parts interact."
+    },
+    {
+      "cards": [
+        "econ-14-consumer-surplus",
+        "econ-15-producer-surplus",
+        "econ-16-price-controls",
+        "econ-35-business-cycles",
+        "econ-36-fiscal-policy",
+        "econ-37-monetary-policy",
+        "econ-38-trade-and-tariffs",
+        "econ-43-cost-benefit-analysis"
+      ],
+      "count": 8,
+      "id": "applications",
+      "note": "Practical reading of real situations without individualized advice."
+    },
+    {
+      "cards": [
+        "econ-06-sunk-costs",
+        "econ-46-correlation-versus-causation"
+      ],
+      "count": 2,
+      "id": "misconceptions",
+      "note": "Common wrong maps that make later reasoning brittle."
+    },
+    {
+      "cards": [
+        "econ-18-externalities",
+        "econ-19-public-goods",
+        "econ-20-common-resources",
+        "econ-21-market-power",
+        "econ-22-information-asymmetry",
+        "econ-41-inequality-and-distribution",
+        "econ-42-welfare-and-efficiency",
+        "econ-44-economic-models",
+        "econ-45-ceteris-paribus"
+      ],
+      "count": 9,
+      "id": "limitations",
+      "note": "Boundaries, uncertainty, tradeoffs, and professional guidance points."
+    },
+    {
+      "cards": [
+        "econ-24-behavioral-biases",
+        "econ-30-human-capital",
+        "econ-32-money-in-macroeconomics",
+        "econ-39-exchange-rates",
+        "econ-48-expectations",
+        "econ-50-reading-economic-claims"
+      ],
+      "count": 6,
+      "id": "bridges",
+      "note": "Connections across adjacent ideas and real-world contexts."
+    },
+    {
+      "cards": [
+        "econ-47-game-theory",
+        "econ-49-growth-limits-and-environment"
+      ],
+      "count": 2,
+      "id": "advanced-horizons",
+      "note": "Beginner-safe previews of ideas learners may study later."
+    }
+  ],
+  "difficulty_distribution": {
+    "difficulty-1": 4,
+    "difficulty-2": 20,
+    "difficulty-3": 24,
+    "difficulty-4": 2
+  },
+  "pack_id": "economics",
+  "prerequisite_graph": {
+    "edges": [
+      {
+        "from": "econ-01-scarcity",
+        "relationship": "prerequisite",
+        "to": "econ-02-opportunity-cost"
+      },
+      {
+        "from": "econ-02-opportunity-cost",
+        "relationship": "prerequisite",
+        "to": "econ-03-tradeoffs-and-constraints"
+      },
+      {
+        "from": "econ-01-scarcity",
+        "relationship": "prerequisite",
+        "to": "econ-04-incentives"
+      },
+      {
+        "from": "econ-02-opportunity-cost",
+        "relationship": "prerequisite",
+        "to": "econ-05-marginal-thinking"
+      },
+      {
+        "from": "econ-02-opportunity-cost",
+        "relationship": "prerequisite",
+        "to": "econ-06-sunk-costs"
+      },
+      {
+        "from": "econ-05-marginal-thinking",
+        "relationship": "prerequisite",
+        "to": "econ-06-sunk-costs"
+      },
+      {
+        "from": "econ-02-opportunity-cost",
+        "relationship": "prerequisite",
+        "to": "econ-07-comparative-advantage"
+      },
+      {
+        "from": "econ-07-comparative-advantage",
+        "relationship": "prerequisite",
+        "to": "econ-08-specialization"
+      },
+      {
+        "from": "econ-04-incentives",
+        "relationship": "prerequisite",
+        "to": "econ-09-markets-as-coordination"
+      },
+      {
+        "from": "econ-08-specialization",
+        "relationship": "prerequisite",
+        "to": "econ-09-markets-as-coordination"
+      },
+      {
+        "from": "econ-05-marginal-thinking",
+        "relationship": "prerequisite",
+        "to": "econ-10-supply"
+      },
+      {
+        "from": "econ-09-markets-as-coordination",
+        "relationship": "prerequisite",
+        "to": "econ-10-supply"
+      },
+      {
+        "from": "econ-05-marginal-thinking",
+        "relationship": "prerequisite",
+        "to": "econ-11-demand"
+      },
+      {
+        "from": "econ-09-markets-as-coordination",
+        "relationship": "prerequisite",
+        "to": "econ-11-demand"
+      },
+      {
+        "from": "econ-10-supply",
+        "relationship": "prerequisite",
+        "to": "econ-12-equilibrium"
+      },
+      {
+        "from": "econ-11-demand",
+        "relationship": "prerequisite",
+        "to": "econ-12-equilibrium"
+      },
+      {
+        "from": "econ-10-supply",
+        "relationship": "prerequisite",
+        "to": "econ-13-elasticity"
+      },
+      {
+        "from": "econ-11-demand",
+        "relationship": "prerequisite",
+        "to": "econ-13-elasticity"
+      },
+      {
+        "from": "econ-12-equilibrium",
+        "relationship": "prerequisite",
+        "to": "econ-14-consumer-surplus"
+      },
+      {
+        "from": "econ-12-equilibrium",
+        "relationship": "prerequisite",
+        "to": "econ-15-producer-surplus"
+      },
+      {
+        "from": "econ-12-equilibrium",
+        "relationship": "prerequisite",
+        "to": "econ-16-price-controls"
+      },
+      {
+        "from": "econ-13-elasticity",
+        "relationship": "prerequisite",
+        "to": "econ-17-taxes-and-incidence"
+      },
+      {
+        "from": "econ-09-markets-as-coordination",
+        "relationship": "prerequisite",
+        "to": "econ-18-externalities"
+      },
+      {
+        "from": "econ-09-markets-as-coordination",
+        "relationship": "prerequisite",
+        "to": "econ-19-public-goods"
+      },
+      {
+        "from": "econ-18-externalities",
+        "relationship": "prerequisite",
+        "to": "econ-20-common-resources"
+      },
+      {
+        "from": "econ-09-markets-as-coordination",
+        "relationship": "prerequisite",
+        "to": "econ-21-market-power"
+      },
+      {
+        "from": "econ-09-markets-as-coordination",
+        "relationship": "prerequisite",
+        "to": "econ-22-information-asymmetry"
+      },
+      {
+        "from": "econ-22-information-asymmetry",
+        "relationship": "prerequisite",
+        "to": "econ-23-principal-agent-problems"
+      },
+      {
+        "from": "econ-04-incentives",
+        "relationship": "prerequisite",
+        "to": "econ-24-behavioral-biases"
+      },
+      {
+        "from": "econ-01-scarcity",
+        "relationship": "prerequisite",
+        "to": "econ-25-measuring-output-with-gdp"
+      },
+      {
+        "from": "econ-25-measuring-output-with-gdp",
+        "relationship": "prerequisite",
+        "to": "econ-26-inflation-indexes"
+      },
+      {
+        "from": "econ-25-measuring-output-with-gdp",
+        "relationship": "prerequisite",
+        "to": "econ-27-unemployment"
+      },
+      {
+        "from": "econ-04-incentives",
+        "relationship": "prerequisite",
+        "to": "econ-28-labor-markets"
+      },
+      {
+        "from": "econ-27-unemployment",
+        "relationship": "prerequisite",
+        "to": "econ-28-labor-markets"
+      },
+      {
+        "from": "econ-08-specialization",
+        "relationship": "prerequisite",
+        "to": "econ-29-productivity"
+      },
+      {
+        "from": "econ-25-measuring-output-with-gdp",
+        "relationship": "prerequisite",
+        "to": "econ-29-productivity"
+      },
+      {
+        "from": "econ-29-productivity",
+        "relationship": "prerequisite",
+        "to": "econ-30-human-capital"
+      },
+      {
+        "from": "econ-29-productivity",
+        "relationship": "prerequisite",
+        "to": "econ-31-capital-and-investment"
+      },
+      {
+        "from": "econ-25-measuring-output-with-gdp",
+        "relationship": "prerequisite",
+        "to": "econ-32-money-in-macroeconomics"
+      },
+      {
+        "from": "econ-26-inflation-indexes",
+        "relationship": "prerequisite",
+        "to": "econ-32-money-in-macroeconomics"
+      },
+      {
+        "from": "econ-31-capital-and-investment",
+        "relationship": "prerequisite",
+        "to": "econ-33-interest-rates-in-the-economy"
+      },
+      {
+        "from": "econ-32-money-in-macroeconomics",
+        "relationship": "prerequisite",
+        "to": "econ-33-interest-rates-in-the-economy"
+      },
+      {
+        "from": "econ-25-measuring-output-with-gdp",
+        "relationship": "prerequisite",
+        "to": "econ-34-aggregate-demand-and-aggregate-supply"
+      },
+      {
+        "from": "econ-34-aggregate-demand-and-aggregate-supply",
+        "relationship": "prerequisite",
+        "to": "econ-35-business-cycles"
+      },
+      {
+        "from": "econ-34-aggregate-demand-and-aggregate-supply",
+        "relationship": "prerequisite",
+        "to": "econ-36-fiscal-policy"
+      },
+      {
+        "from": "econ-32-money-in-macroeconomics",
+        "relationship": "prerequisite",
+        "to": "econ-37-monetary-policy"
+      },
+      {
+        "from": "econ-33-interest-rates-in-the-economy",
+        "relationship": "prerequisite",
+        "to": "econ-37-monetary-policy"
+      },
+      {
+        "from": "econ-07-comparative-advantage",
+        "relationship": "prerequisite",
+        "to": "econ-38-trade-and-tariffs"
+      },
+      {
+        "from": "econ-33-interest-rates-in-the-economy",
+        "relationship": "prerequisite",
+        "to": "econ-39-exchange-rates"
+      },
+      {
+        "from": "econ-38-trade-and-tariffs",
+        "relationship": "prerequisite",
+        "to": "econ-39-exchange-rates"
+      },
+      {
+        "from": "econ-09-markets-as-coordination",
+        "relationship": "prerequisite",
+        "to": "econ-40-institutions-and-property-rights"
+      },
+      {
+        "from": "econ-25-measuring-output-with-gdp",
+        "relationship": "prerequisite",
+        "to": "econ-41-inequality-and-distribution"
+      },
+      {
+        "from": "econ-14-consumer-surplus",
+        "relationship": "prerequisite",
+        "to": "econ-42-welfare-and-efficiency"
+      },
+      {
+        "from": "econ-15-producer-surplus",
+        "relationship": "prerequisite",
+        "to": "econ-42-welfare-and-efficiency"
+      },
+      {
+        "from": "econ-02-opportunity-cost",
+        "relationship": "prerequisite",
+        "to": "econ-43-cost-benefit-analysis"
+      },
+      {
+        "from": "econ-42-welfare-and-efficiency",
+        "relationship": "prerequisite",
+        "to": "econ-43-cost-benefit-analysis"
+      },
+      {
+        "from": "econ-01-scarcity",
+        "relationship": "prerequisite",
+        "to": "econ-44-economic-models"
+      },
+      {
+        "from": "econ-44-economic-models",
+        "relationship": "prerequisite",
+        "to": "econ-45-ceteris-paribus"
+      },
+      {
+        "from": "econ-44-economic-models",
+        "relationship": "prerequisite",
+        "to": "econ-46-correlation-versus-causation"
+      },
+      {
+        "from": "econ-04-incentives",
+        "relationship": "prerequisite",
+        "to": "econ-47-game-theory"
+      },
+      {
+        "from": "econ-34-aggregate-demand-and-aggregate-supply",
+        "relationship": "prerequisite",
+        "to": "econ-48-expectations"
+      },
+      {
+        "from": "econ-29-productivity",
+        "relationship": "prerequisite",
+        "to": "econ-49-growth-limits-and-environment"
+      },
+      {
+        "from": "econ-18-externalities",
+        "relationship": "prerequisite",
+        "to": "econ-49-growth-limits-and-environment"
+      },
+      {
+        "from": "econ-44-economic-models",
+        "relationship": "prerequisite",
+        "to": "econ-50-reading-economic-claims"
+      },
+      {
+        "from": "econ-46-correlation-versus-causation",
+        "relationship": "prerequisite",
+        "to": "econ-50-reading-economic-claims"
+      }
+    ],
+    "nodes": [
+      "econ-01-scarcity",
+      "econ-02-opportunity-cost",
+      "econ-03-tradeoffs-and-constraints",
+      "econ-04-incentives",
+      "econ-05-marginal-thinking",
+      "econ-06-sunk-costs",
+      "econ-07-comparative-advantage",
+      "econ-08-specialization",
+      "econ-09-markets-as-coordination",
+      "econ-10-supply",
+      "econ-11-demand",
+      "econ-12-equilibrium",
+      "econ-13-elasticity",
+      "econ-14-consumer-surplus",
+      "econ-15-producer-surplus",
+      "econ-16-price-controls",
+      "econ-17-taxes-and-incidence",
+      "econ-18-externalities",
+      "econ-19-public-goods",
+      "econ-20-common-resources",
+      "econ-21-market-power",
+      "econ-22-information-asymmetry",
+      "econ-23-principal-agent-problems",
+      "econ-24-behavioral-biases",
+      "econ-25-measuring-output-with-gdp",
+      "econ-26-inflation-indexes",
+      "econ-27-unemployment",
+      "econ-28-labor-markets",
+      "econ-29-productivity",
+      "econ-30-human-capital",
+      "econ-31-capital-and-investment",
+      "econ-32-money-in-macroeconomics",
+      "econ-33-interest-rates-in-the-economy",
+      "econ-34-aggregate-demand-and-aggregate-supply",
+      "econ-35-business-cycles",
+      "econ-36-fiscal-policy",
+      "econ-37-monetary-policy",
+      "econ-38-trade-and-tariffs",
+      "econ-39-exchange-rates",
+      "econ-40-institutions-and-property-rights",
+      "econ-41-inequality-and-distribution",
+      "econ-42-welfare-and-efficiency",
+      "econ-43-cost-benefit-analysis",
+      "econ-44-economic-models",
+      "econ-45-ceteris-paribus",
+      "econ-46-correlation-versus-causation",
+      "econ-47-game-theory",
+      "econ-48-expectations",
+      "econ-49-growth-limits-and-environment",
+      "econ-50-reading-economic-claims"
+    ]
+  },
+  "progression_note": "Foundations are introduced early; mechanisms, applications, misconceptions, limitations, bridges, and advanced horizons are interleaved after prerequisites become available.",
+  "schema_version": "knowledge-cards.curriculum-map.v1",
+  "source_policy": [
+    "econ-openstax",
+    "econ-bls",
+    "econ-imf-basics",
+    "econ-worldbank-trade",
+    "econ-fed-research"
+  ]
+}

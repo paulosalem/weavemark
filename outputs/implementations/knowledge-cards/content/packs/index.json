@@ -1,0 +1,62 @@
+{
+  "generated_by": "tools/validate-packs.mjs",
+  "packs": [
+    {
+      "accent_color": "#3f6f78",
+      "audience": "Curious adults who want to understand banking news without technical finance training",
+      "card_count": 50,
+      "checksum": "sha256-cc1ad3da33764d03159c5f45ed67cfa40b117afb4c385aface3449f122671905",
+      "content_version": "2026.07.21",
+      "description": "A beginner-safe systems map of commercial banks, payments, lending, regulation, and central-bank policy. Examples center on the United States banking system and the Federal Reserve; general concepts noted as international draw on BIS, FinCEN, and cross-border sources, and specifics vary by jurisdiction.",
+      "id": "banking-industry-and-central-banks",
+      "language": "en",
+      "level": "Beginner",
+      "manifest_path": "content/packs/banking-industry-and-central-banks/manifest.json",
+      "purpose": "Build a prerequisite-safe map of how banks and central banks move money, credit, and confidence.",
+      "title": "Banking Industry and Central Banks"
+    },
+    {
+      "accent_color": "#9a5d74",
+      "audience": "Caregivers and learners seeking educational orientation rather than individualized medical advice",
+      "card_count": 50,
+      "checksum": "sha256-c9cc69200d75daa9b5650a6c3d12ea56979086b9bd21a9503d0ccc6e3dd61475",
+      "content_version": "2026.07.21",
+      "description": "A developmentally respectful map of child growth, care, safety, learning, boundaries, and caregiver wellbeing.",
+      "id": "children-rearing-development-and-care",
+      "language": "en",
+      "level": "Beginner",
+      "manifest_path": "content/packs/children-rearing-development-and-care/manifest.json",
+      "purpose": "Build a calm map of child development and care while distinguishing guidance, uncertainty, and professional boundaries.",
+      "title": "Children Rearing, Development and Care"
+    },
+    {
+      "accent_color": "#8a5a26",
+      "audience": "Learners who want to reason about everyday tradeoffs and economic claims",
+      "card_count": 50,
+      "checksum": "sha256-10bafcc7b90fee59c47df0127e8f0d08309a59812d9df0e6e3eea2aa52848994",
+      "content_version": "2026.07.21",
+      "description": "A beginner-friendly map of scarcity, incentives, markets, macroeconomics, institutions, and model limits.",
+      "id": "economics",
+      "language": "en",
+      "level": "Beginner",
+      "manifest_path": "content/packs/economics/manifest.json",
+      "purpose": "Teach the core shape of economics without turning models into dogma.",
+      "title": "Economics"
+    },
+    {
+      "accent_color": "#427846",
+      "audience": "Adults learning investment basics before making individualized decisions",
+      "card_count": 50,
+      "checksum": "sha256-b3ea4495c3d2de3fb76ab7735435e09bf0fba7baf169b05e2f794aba6a67a8fb",
+      "content_version": "2026.07.21",
+      "description": "A no-hype beginner map of saving, investing, risk, diversification, accounts, behavior, scams, and professional boundaries. Account and tax examples (such as Roth and traditional accounts) are US-focused; other jurisdictions have different rules.",
+      "id": "personal-investments-for-total-beginners",
+      "language": "en",
+      "level": "Beginner",
+      "manifest_path": "content/packs/personal-investments-for-total-beginners/manifest.json",
+      "purpose": "Explain investment concepts without recommendations, urgency, fake certainty, or personalized financial advice.",
+      "title": "Personal Investments for Total Beginners"
+    }
+  ],
+  "schema_version": "knowledge-cards.pack-index.v1"
+}

@@ -25,6 +25,10 @@ GITHUB_REPOSITORY_URL = "https://github.com/paulosalem/weavemark"
 REPOSITORY_LINK_PATTERN = re.compile(
     r'href="\.\./(?P<path>(?:examples|outputs|promplets|src|studies|vscode-extension)/[^"#]*)"'
 )
+LIVE_DEMO_LINK_PATTERN = re.compile(
+    r'(?P<attribute>href|data-href)="(?P<path>\.\./outputs/implementations/'
+    r'[^"]+/index\.html)"(?P<suffix>[^>]*data-live-demo="(?P<slug>[^"]+)")'
+)
 LIVE_DEMOS: dict[str, tuple[str, tuple[str, ...]]] = {
     "orbital-drift": (
         "outputs/implementations/orbital-drift",
@@ -33,6 +37,35 @@ LIVE_DEMOS: dict[str, tuple[str, tuple[str, ...]]] = {
     "transit-city-swarm": (
         "outputs/implementations/transit-city-swarm",
         ("index.html", "styles.css", "src/app.js", "src/simulation.js"),
+    ),
+    "ai-kanban": (
+        "outputs/implementations/ai-kanban-browser",
+        (
+            "index.html",
+            "styles.css",
+            "favicon.svg",
+            "src/app.js",
+            "src/file-workspace.js",
+            "src/packets.js",
+            "src/sqlite-client.js",
+            "src/sqlite-worker.js",
+            "vendor/LICENSE-sql.js",
+            "vendor/sql-wasm.js",
+            "vendor/sql-wasm.wasm",
+        ),
+    ),
+    "knowledge-cards": (
+        "outputs/implementations/knowledge-cards",
+        (
+            "index.html",
+            "favicon.svg",
+            "manifest.webmanifest",
+            "sw.js",
+            "styles",
+            "src",
+            "content",
+            "schemas",
+        ),
     ),
 }
 CONFIDENTIAL_MARKERS = (
@@ -148,6 +181,7 @@ def build_site(destination: Path, root: Path = ROOT) -> list[Path]:
     (destination / "index.html").write_text(ROOT_REDIRECT, encoding="utf-8")
     (destination / ".nojekyll").touch()
     _publish_live_demos(destination, root, set(paths), lfs)
+    _rewrite_live_demo_links(destination / "docs", root)
     _rewrite_repository_links(destination / "docs", root)
     _inject_favicon(destination / "docs")
     return copied
@@ -240,13 +274,26 @@ def _publish_live_demos(
     for slug, (source_directory, assets) in LIVE_DEMOS.items():
         for relative_asset in assets:
             source = root / source_directory / relative_asset
-            if source not in tracked:
-                raise FileNotFoundError(f"Live demo asset is not tracked: {source}")
-            if source in lfs:
-                raise ValueError(f"Live demo asset cannot use Git LFS: {source}")
-            target = destination / "demos" / slug / relative_asset
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source, target)
+            if not source.exists():
+                raise FileNotFoundError(f"Live demo asset is missing: {source}")
+            sources = (
+                sorted(path for path in source.rglob("*") if path.is_file())
+                if source.is_dir()
+                else [source]
+            )
+            for asset_source in sources:
+                if asset_source not in tracked and not asset_source.is_file():
+                    raise FileNotFoundError(
+                        f"Live demo asset is missing: {asset_source}"
+                    )
+                if asset_source in lfs:
+                    raise ValueError(
+                        f"Live demo asset cannot use Git LFS: {asset_source}"
+                    )
+                relative = asset_source.relative_to(root / source_directory)
+                target = destination / "demos" / slug / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(asset_source, target)
 
 
 def _rewrite_repository_links(docs_directory: Path, root: Path) -> None:
@@ -261,6 +308,32 @@ def _rewrite_repository_links(docs_directory: Path, root: Path) -> None:
     for html_path in docs_directory.glob("*.html"):
         text = html_path.read_text(encoding="utf-8")
         rewritten = REPOSITORY_LINK_PATTERN.sub(replace, text)
+        if rewritten != text:
+            html_path.write_text(rewritten, encoding="utf-8")
+
+
+def _rewrite_live_demo_links(docs_directory: Path, root: Path) -> None:
+    def replace(match: re.Match[str]) -> str:
+        slug = match.group("slug")
+        if slug not in LIVE_DEMOS:
+            raise ValueError(f"Unknown live demo marker: {slug}")
+        expected = Path(LIVE_DEMOS[slug][0]) / "index.html"
+        relative = Path(match.group("path").removeprefix("../"))
+        if relative != expected:
+            raise ValueError(
+                f"Live demo {slug!r} points to {relative}, expected {expected}"
+            )
+        source = root / relative
+        if not source.is_file():
+            raise FileNotFoundError(f"Live demo entrypoint is missing: {source}")
+        return (
+            f'{match.group("attribute")}="../demos/{slug}/"'
+            f'{match.group("suffix")}'
+        )
+
+    for html_path in docs_directory.glob("*.html"):
+        text = html_path.read_text(encoding="utf-8")
+        rewritten = LIVE_DEMO_LINK_PATTERN.sub(replace, text)
         if rewritten != text:
             html_path.write_text(rewritten, encoding="utf-8")
 

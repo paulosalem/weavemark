@@ -1,0 +1,28 @@
+{
+  "accent_color": "#9a5d74",
+  "audience": "Caregivers and learners seeking educational orientation rather than individualized medical advice",
+  "authors": [
+    "Knowledge Cards editorial build"
+  ],
+  "card_count": 50,
+  "content_checksum": "sha256-c9cc69200d75daa9b5650a6c3d12ea56979086b9bd21a9503d0ccc6e3dd61475",
+  "content_version": "2026.07.21",
+  "created_at": "2026-07-21T00:00:00.000Z",
+  "curriculum_map_path": "curriculum-map.json",
+  "description": "A developmentally respectful map of child growth, care, safety, learning, boundaries, and caregiver wellbeing.",
+  "id": "children-rearing-development-and-care",
+  "language": "en",
+  "level": "Beginner",
+  "license": "CC-BY-4.0 for app example content",
+  "optional_media_root": "media",
+  "ordered_content_files": [
+    "cards/cards.json"
+  ],
+  "provenance": "Authored as static educational content for the compiled Knowledge Cards implementation.",
+  "purpose": "Build a calm map of child development and care while distinguishing guidance, uncertainty, and professional boundaries.",
+  "schema_version": "knowledge-cards.pack-manifest.v1",
+  "source_policy": "Use declared official, educational, or primary guidance source families; do not invent citations or imply individualized advice.",
+  "title": "Children Rearing, Development and Care",
+  "updated_at": "2026-07-21T00:00:00.000Z",
+  "validation_report_path": "validation-report.json"
+}

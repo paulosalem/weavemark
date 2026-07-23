@@ -1,0 +1,575 @@
+{
+  "bias_safety_review": "Personal Investments for Total Beginners uses educational boundaries, official or educational source families, no individualized advice, no fabricated citations, and no engagement metrics as mastery signals.",
+  "categories": [
+    {
+      "cards": [
+        "invest-01-saving-versus-investing",
+        "invest-02-emergency-fund",
+        "invest-03-risk",
+        "invest-04-return",
+        "invest-05-time-horizon",
+        "invest-06-inflation",
+        "invest-08-diversification",
+        "invest-10-stocks",
+        "invest-11-bonds",
+        "invest-12-cash"
+      ],
+      "count": 10,
+      "id": "foundations",
+      "note": "Core language and mental models that later cards assume."
+    },
+    {
+      "cards": [
+        "invest-07-compounding",
+        "invest-09-asset-allocation",
+        "invest-14-etfs-and-mutual-funds",
+        "invest-15-fees",
+        "invest-17-liquidity",
+        "invest-18-volatility",
+        "invest-21-rebalancing",
+        "invest-34-bonds-and-interest-rates",
+        "invest-35-credit-risk-in-bonds",
+        "invest-39-dividends",
+        "invest-40-capital-gains"
+      ],
+      "count": 11,
+      "id": "mechanisms",
+      "note": "How the system works when parts interact."
+    },
+    {
+      "cards": [
+        "invest-13-index-funds",
+        "invest-16-expense-ratios",
+        "invest-20-dollar-cost-averaging",
+        "invest-23-retirement-accounts-at-a-high-level",
+        "invest-24-employer-match",
+        "invest-25-brokerage-accounts",
+        "invest-31-fiduciary",
+        "invest-33-target-date-funds",
+        "invest-44-goals-and-buckets",
+        "invest-46-reading-performance-charts",
+        "invest-48-recessions-and-staying-with-a-plan"
+      ],
+      "count": 11,
+      "id": "applications",
+      "note": "Practical reading of real situations without individualized advice."
+    },
+    {
+      "cards": [
+        "invest-19-market-timing",
+        "invest-27-behavioral-mistakes",
+        "invest-28-herding",
+        "invest-29-loss-aversion",
+        "invest-42-insurance-is-not-investing",
+        "invest-47-past-performance-limits"
+      ],
+      "count": 6,
+      "id": "misconceptions",
+      "note": "Common wrong maps that make later reasoning brittle."
+    },
+    {
+      "cards": [
+        "invest-30-scams",
+        "invest-37-concentration-risk",
+        "invest-41-taxes-basics-boundary",
+        "invest-49-when-to-ask-a-professional"
+      ],
+      "count": 4,
+      "id": "limitations",
+      "note": "Boundaries, uncertainty, tradeoffs, and professional guidance points."
+    },
+    {
+      "cards": [
+        "invest-22-taxable-and-tax-advantaged-accounts",
+        "invest-26-risk-tolerance-versus-risk-capacity",
+        "invest-36-real-returns",
+        "invest-38-international-diversification",
+        "invest-43-debt-payoff-versus-investing",
+        "invest-50-a-beginner-s-investment-system"
+      ],
+      "count": 6,
+      "id": "bridges",
+      "note": "Connections across adjacent ideas and real-world contexts."
+    },
+    {
+      "cards": [
+        "invest-32-robo-advisors",
+        "invest-45-investment-policy-statement"
+      ],
+      "count": 2,
+      "id": "advanced-horizons",
+      "note": "Beginner-safe previews of ideas learners may study later."
+    }
+  ],
+  "difficulty_distribution": {
+    "difficulty-1": 8,
+    "difficulty-2": 28,
+    "difficulty-3": 14
+  },
+  "pack_id": "personal-investments-for-total-beginners",
+  "prerequisite_graph": {
+    "edges": [
+      {
+        "from": "invest-01-saving-versus-investing",
+        "relationship": "prerequisite",
+        "to": "invest-02-emergency-fund"
+      },
+      {
+        "from": "invest-01-saving-versus-investing",
+        "relationship": "prerequisite",
+        "to": "invest-03-risk"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-04-return"
+      },
+      {
+        "from": "invest-01-saving-versus-investing",
+        "relationship": "prerequisite",
+        "to": "invest-05-time-horizon"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-05-time-horizon"
+      },
+      {
+        "from": "invest-01-saving-versus-investing",
+        "relationship": "prerequisite",
+        "to": "invest-06-inflation"
+      },
+      {
+        "from": "invest-04-return",
+        "relationship": "prerequisite",
+        "to": "invest-07-compounding"
+      },
+      {
+        "from": "invest-05-time-horizon",
+        "relationship": "prerequisite",
+        "to": "invest-07-compounding"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-08-diversification"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-09-asset-allocation"
+      },
+      {
+        "from": "invest-05-time-horizon",
+        "relationship": "prerequisite",
+        "to": "invest-09-asset-allocation"
+      },
+      {
+        "from": "invest-08-diversification",
+        "relationship": "prerequisite",
+        "to": "invest-09-asset-allocation"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-10-stocks"
+      },
+      {
+        "from": "invest-04-return",
+        "relationship": "prerequisite",
+        "to": "invest-10-stocks"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-11-bonds"
+      },
+      {
+        "from": "invest-04-return",
+        "relationship": "prerequisite",
+        "to": "invest-11-bonds"
+      },
+      {
+        "from": "invest-01-saving-versus-investing",
+        "relationship": "prerequisite",
+        "to": "invest-12-cash"
+      },
+      {
+        "from": "invest-02-emergency-fund",
+        "relationship": "prerequisite",
+        "to": "invest-12-cash"
+      },
+      {
+        "from": "invest-08-diversification",
+        "relationship": "prerequisite",
+        "to": "invest-13-index-funds"
+      },
+      {
+        "from": "invest-10-stocks",
+        "relationship": "prerequisite",
+        "to": "invest-13-index-funds"
+      },
+      {
+        "from": "invest-13-index-funds",
+        "relationship": "prerequisite",
+        "to": "invest-14-etfs-and-mutual-funds"
+      },
+      {
+        "from": "invest-04-return",
+        "relationship": "prerequisite",
+        "to": "invest-15-fees"
+      },
+      {
+        "from": "invest-14-etfs-and-mutual-funds",
+        "relationship": "prerequisite",
+        "to": "invest-16-expense-ratios"
+      },
+      {
+        "from": "invest-15-fees",
+        "relationship": "prerequisite",
+        "to": "invest-16-expense-ratios"
+      },
+      {
+        "from": "invest-01-saving-versus-investing",
+        "relationship": "prerequisite",
+        "to": "invest-17-liquidity"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-17-liquidity"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-18-volatility"
+      },
+      {
+        "from": "invest-10-stocks",
+        "relationship": "prerequisite",
+        "to": "invest-18-volatility"
+      },
+      {
+        "from": "invest-18-volatility",
+        "relationship": "prerequisite",
+        "to": "invest-19-market-timing"
+      },
+      {
+        "from": "invest-18-volatility",
+        "relationship": "prerequisite",
+        "to": "invest-20-dollar-cost-averaging"
+      },
+      {
+        "from": "invest-19-market-timing",
+        "relationship": "prerequisite",
+        "to": "invest-20-dollar-cost-averaging"
+      },
+      {
+        "from": "invest-09-asset-allocation",
+        "relationship": "prerequisite",
+        "to": "invest-21-rebalancing"
+      },
+      {
+        "from": "invest-05-time-horizon",
+        "relationship": "prerequisite",
+        "to": "invest-22-taxable-and-tax-advantaged-accounts"
+      },
+      {
+        "from": "invest-22-taxable-and-tax-advantaged-accounts",
+        "relationship": "prerequisite",
+        "to": "invest-23-retirement-accounts-at-a-high-level"
+      },
+      {
+        "from": "invest-23-retirement-accounts-at-a-high-level",
+        "relationship": "prerequisite",
+        "to": "invest-24-employer-match"
+      },
+      {
+        "from": "invest-14-etfs-and-mutual-funds",
+        "relationship": "prerequisite",
+        "to": "invest-25-brokerage-accounts"
+      },
+      {
+        "from": "invest-22-taxable-and-tax-advantaged-accounts",
+        "relationship": "prerequisite",
+        "to": "invest-25-brokerage-accounts"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-26-risk-tolerance-versus-risk-capacity"
+      },
+      {
+        "from": "invest-05-time-horizon",
+        "relationship": "prerequisite",
+        "to": "invest-26-risk-tolerance-versus-risk-capacity"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-27-behavioral-mistakes"
+      },
+      {
+        "from": "invest-19-market-timing",
+        "relationship": "prerequisite",
+        "to": "invest-27-behavioral-mistakes"
+      },
+      {
+        "from": "invest-27-behavioral-mistakes",
+        "relationship": "prerequisite",
+        "to": "invest-28-herding"
+      },
+      {
+        "from": "invest-27-behavioral-mistakes",
+        "relationship": "prerequisite",
+        "to": "invest-29-loss-aversion"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-30-scams"
+      },
+      {
+        "from": "invest-15-fees",
+        "relationship": "prerequisite",
+        "to": "invest-31-fiduciary"
+      },
+      {
+        "from": "invest-09-asset-allocation",
+        "relationship": "prerequisite",
+        "to": "invest-32-robo-advisors"
+      },
+      {
+        "from": "invest-15-fees",
+        "relationship": "prerequisite",
+        "to": "invest-32-robo-advisors"
+      },
+      {
+        "from": "invest-09-asset-allocation",
+        "relationship": "prerequisite",
+        "to": "invest-33-target-date-funds"
+      },
+      {
+        "from": "invest-23-retirement-accounts-at-a-high-level",
+        "relationship": "prerequisite",
+        "to": "invest-33-target-date-funds"
+      },
+      {
+        "from": "invest-11-bonds",
+        "relationship": "prerequisite",
+        "to": "invest-34-bonds-and-interest-rates"
+      },
+      {
+        "from": "invest-18-volatility",
+        "relationship": "prerequisite",
+        "to": "invest-34-bonds-and-interest-rates"
+      },
+      {
+        "from": "invest-11-bonds",
+        "relationship": "prerequisite",
+        "to": "invest-35-credit-risk-in-bonds"
+      },
+      {
+        "from": "invest-34-bonds-and-interest-rates",
+        "relationship": "prerequisite",
+        "to": "invest-35-credit-risk-in-bonds"
+      },
+      {
+        "from": "invest-04-return",
+        "relationship": "prerequisite",
+        "to": "invest-36-real-returns"
+      },
+      {
+        "from": "invest-06-inflation",
+        "relationship": "prerequisite",
+        "to": "invest-36-real-returns"
+      },
+      {
+        "from": "invest-08-diversification",
+        "relationship": "prerequisite",
+        "to": "invest-37-concentration-risk"
+      },
+      {
+        "from": "invest-08-diversification",
+        "relationship": "prerequisite",
+        "to": "invest-38-international-diversification"
+      },
+      {
+        "from": "invest-10-stocks",
+        "relationship": "prerequisite",
+        "to": "invest-39-dividends"
+      },
+      {
+        "from": "invest-10-stocks",
+        "relationship": "prerequisite",
+        "to": "invest-40-capital-gains"
+      },
+      {
+        "from": "invest-22-taxable-and-tax-advantaged-accounts",
+        "relationship": "prerequisite",
+        "to": "invest-40-capital-gains"
+      },
+      {
+        "from": "invest-22-taxable-and-tax-advantaged-accounts",
+        "relationship": "prerequisite",
+        "to": "invest-41-taxes-basics-boundary"
+      },
+      {
+        "from": "invest-40-capital-gains",
+        "relationship": "prerequisite",
+        "to": "invest-41-taxes-basics-boundary"
+      },
+      {
+        "from": "invest-01-saving-versus-investing",
+        "relationship": "prerequisite",
+        "to": "invest-42-insurance-is-not-investing"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-43-debt-payoff-versus-investing"
+      },
+      {
+        "from": "invest-05-time-horizon",
+        "relationship": "prerequisite",
+        "to": "invest-43-debt-payoff-versus-investing"
+      },
+      {
+        "from": "invest-05-time-horizon",
+        "relationship": "prerequisite",
+        "to": "invest-44-goals-and-buckets"
+      },
+      {
+        "from": "invest-09-asset-allocation",
+        "relationship": "prerequisite",
+        "to": "invest-45-investment-policy-statement"
+      },
+      {
+        "from": "invest-26-risk-tolerance-versus-risk-capacity",
+        "relationship": "prerequisite",
+        "to": "invest-45-investment-policy-statement"
+      },
+      {
+        "from": "invest-04-return",
+        "relationship": "prerequisite",
+        "to": "invest-46-reading-performance-charts"
+      },
+      {
+        "from": "invest-18-volatility",
+        "relationship": "prerequisite",
+        "to": "invest-46-reading-performance-charts"
+      },
+      {
+        "from": "invest-46-reading-performance-charts",
+        "relationship": "prerequisite",
+        "to": "invest-47-past-performance-limits"
+      },
+      {
+        "from": "invest-35-credit-risk-in-bonds",
+        "relationship": "prerequisite",
+        "to": "invest-48-recessions-and-staying-with-a-plan"
+      },
+      {
+        "from": "invest-45-investment-policy-statement",
+        "relationship": "prerequisite",
+        "to": "invest-48-recessions-and-staying-with-a-plan"
+      },
+      {
+        "from": "invest-41-taxes-basics-boundary",
+        "relationship": "prerequisite",
+        "to": "invest-49-when-to-ask-a-professional"
+      },
+      {
+        "from": "invest-43-debt-payoff-versus-investing",
+        "relationship": "prerequisite",
+        "to": "invest-49-when-to-ask-a-professional"
+      },
+      {
+        "from": "invest-01-saving-versus-investing",
+        "relationship": "prerequisite",
+        "to": "invest-50-a-beginner-s-investment-system"
+      },
+      {
+        "from": "invest-03-risk",
+        "relationship": "prerequisite",
+        "to": "invest-50-a-beginner-s-investment-system"
+      },
+      {
+        "from": "invest-08-diversification",
+        "relationship": "prerequisite",
+        "to": "invest-50-a-beginner-s-investment-system"
+      },
+      {
+        "from": "invest-26-risk-tolerance-versus-risk-capacity",
+        "relationship": "prerequisite",
+        "to": "invest-50-a-beginner-s-investment-system"
+      },
+      {
+        "from": "invest-45-investment-policy-statement",
+        "relationship": "prerequisite",
+        "to": "invest-50-a-beginner-s-investment-system"
+      }
+    ],
+    "nodes": [
+      "invest-01-saving-versus-investing",
+      "invest-02-emergency-fund",
+      "invest-03-risk",
+      "invest-04-return",
+      "invest-05-time-horizon",
+      "invest-06-inflation",
+      "invest-07-compounding",
+      "invest-08-diversification",
+      "invest-09-asset-allocation",
+      "invest-10-stocks",
+      "invest-11-bonds",
+      "invest-12-cash",
+      "invest-13-index-funds",
+      "invest-14-etfs-and-mutual-funds",
+      "invest-15-fees",
+      "invest-16-expense-ratios",
+      "invest-17-liquidity",
+      "invest-18-volatility",
+      "invest-19-market-timing",
+      "invest-20-dollar-cost-averaging",
+      "invest-21-rebalancing",
+      "invest-22-taxable-and-tax-advantaged-accounts",
+      "invest-23-retirement-accounts-at-a-high-level",
+      "invest-24-employer-match",
+      "invest-25-brokerage-accounts",
+      "invest-26-risk-tolerance-versus-risk-capacity",
+      "invest-27-behavioral-mistakes",
+      "invest-28-herding",
+      "invest-29-loss-aversion",
+      "invest-30-scams",
+      "invest-31-fiduciary",
+      "invest-32-robo-advisors",
+      "invest-33-target-date-funds",
+      "invest-34-bonds-and-interest-rates",
+      "invest-35-credit-risk-in-bonds",
+      "invest-36-real-returns",
+      "invest-37-concentration-risk",
+      "invest-38-international-diversification",
+      "invest-39-dividends",
+      "invest-40-capital-gains",
+      "invest-41-taxes-basics-boundary",
+      "invest-42-insurance-is-not-investing",
+      "invest-43-debt-payoff-versus-investing",
+      "invest-44-goals-and-buckets",
+      "invest-45-investment-policy-statement",
+      "invest-46-reading-performance-charts",
+      "invest-47-past-performance-limits",
+      "invest-48-recessions-and-staying-with-a-plan",
+      "invest-49-when-to-ask-a-professional",
+      "invest-50-a-beginner-s-investment-system"
+    ]
+  },
+  "progression_note": "Foundations are introduced early; mechanisms, applications, misconceptions, limitations, bridges, and advanced horizons are interleaved after prerequisites become available.",
+  "schema_version": "knowledge-cards.curriculum-map.v1",
+  "source_policy": [
+    "invest-sec-investor",
+    "invest-finra",
+    "invest-cfpb-saving",
+    "invest-irs-retirement",
+    "invest-sec-alerts"
+  ]
+}

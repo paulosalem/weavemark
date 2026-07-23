@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-cards.local/schemas/pack-manifest.schema.json",
+  "title": "Knowledge Cards Pack Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "title", "description", "language", "audience", "level", "purpose", "content_version", "card_count", "ordered_content_files", "optional_media_root", "authors", "provenance", "source_policy", "license", "accent_color", "content_checksum", "created_at", "updated_at", "curriculum_map_path", "validation_report_path"],
+  "properties": {
+    "schema_version": { "const": "knowledge-cards.pack-manifest.v1" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,80}$" },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "language": { "type": "string" },
+    "audience": { "type": "string" },
+    "level": { "type": "string" },
+    "purpose": { "type": "string" },
+    "content_version": { "type": "string" },
+    "card_count": { "const": 50 },
+    "ordered_content_files": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "optional_media_root": { "type": "string" },
+    "authors": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "provenance": { "type": "string" },
+    "source_policy": { "type": "string" },
+    "license": { "type": "string" },
+    "accent_color": { "type": "string" },
+    "content_checksum": { "type": "string", "pattern": "^sha256-[a-f0-9]{64}$" },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" },
+    "curriculum_map_path": { "type": "string" },
+    "validation_report_path": { "type": "string" }
+  }
+}

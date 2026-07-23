@@ -1322,6 +1322,39 @@ class TestReferenceCompilation:
             for effect in result.semantic_definitions["fetch"].effects
         ] == [("web_search", "read")]
 
+    def test_effect_mode_defaults_to_read_and_preserves_write(
+        self,
+        tmp_path: Path,
+    ) -> None:
+        result = preprocess_weavemark(
+            textwrap.dedent("""
+                @define observe
+                  @phase execute
+                  @returns value
+                  @effect web_search
+                  @body
+                    Retrieve public information.
+
+                @define publish
+                  @phase execute
+                  @returns value
+                  @effect send_email write
+                  @body
+                    Send an external message.
+                """).strip(),
+            tmp_path,
+        )
+
+        assert result.errors == []
+        assert [
+            (effect.name, effect.mode)
+            for effect in result.semantic_definitions["observe"].effects
+        ] == [("web_search", "read")]
+        assert [
+            (effect.name, effect.mode)
+            for effect in result.semantic_definitions["publish"].effects
+        ] == [("send_email", "write")]
+
     def test_effectful_define_requires_phase_and_returns(
         self,
         tmp_path: Path,

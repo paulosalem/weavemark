@@ -332,6 +332,17 @@ def test_functional_docs_describe_the_built_in_execution_runtime() -> None:
     assert "@execute</span> functional" in advanced
 
 
+def test_advanced_tutorial_explains_effect_access_modes() -> None:
+    tutorial = _tutorial("tutorial-advanced.html")
+    collapsed = " ".join(html.unescape(re.sub(r"<[^>]+>", "", tutorial)).split())
+
+    assert "web_search names the host capability" in collapsed
+    assert "read says this function retrieves information" in collapsed
+    assert "other mode is write" in collapsed
+    assert "omitting the mode defaults to read" in collapsed
+    assert 'href="reference.html#macros"' in tutorial
+
+
 def test_market_report_command_is_the_default_runner_transcript() -> None:
     runner = (
         ROOT / "examples/saved-artifact-workflows/market-snapshot/run.sh"
@@ -400,6 +411,24 @@ def test_market_report_tutorial_uses_real_workflow_sources() -> None:
         _find_block("tutorial-executable.html", "<source-report>"),
         package,
     )
+
+
+def test_implementation_tutorial_uses_real_ai_kanban_sources() -> None:
+    source = _read_promplet("catalog/standalone/ai-kanban-board.weavemark.md")
+    tutorial = _tutorial("tutorial-implement.html")
+
+    _assert_line_subsequence(
+        _find_block("tutorial-implement.html", "@promplet version: 0.7"),
+        source,
+    )
+    assert "outputs/implementations/ai-kanban-browser/compiled-spec.md" in tutorial
+    assert "outputs/implementations/ai-kanban-browser/" in tutorial
+    assert (
+        'href="../outputs/implementations/ai-kanban-browser/index.html" '
+        'data-live-demo="ai-kanban"'
+    ) in tutorial
+    assert '<script src="local-demo-links.js"></script>' in tutorial
+    assert 'id="kanban-flow-title"' in tutorial
 
 
 def test_tutorial_images_are_deterministic_source_previews() -> None:

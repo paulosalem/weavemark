@@ -1,0 +1,522 @@
+{
+  "bias_safety_review": "Children Rearing, Development and Care uses educational boundaries, official or educational source families, no individualized advice, no fabricated citations, and no engagement metrics as mastery signals.",
+  "categories": [
+    {
+      "cards": [
+        "child-01-development-is-uneven",
+        "child-02-attachment",
+        "child-03-temperament",
+        "child-06-play",
+        "child-10-safety-layers",
+        "child-34-caregiver-wellbeing"
+      ],
+      "count": 6,
+      "id": "foundations",
+      "note": "Core language and mental models that later cards assume."
+    },
+    {
+      "cards": [
+        "child-04-serve-and-return",
+        "child-05-language-development",
+        "child-07-sleep-rhythms",
+        "child-12-emotion-regulation",
+        "child-13-co-regulation",
+        "child-16-executive-function",
+        "child-17-social-learning",
+        "child-20-fine-motor-development",
+        "child-21-gross-motor-development",
+        "child-35-stress-and-resilience"
+      ],
+      "count": 10,
+      "id": "mechanisms",
+      "note": "How the system works when parts interact."
+    },
+    {
+      "cards": [
+        "child-09-growth-charts",
+        "child-11-safe-sleep",
+        "child-15-routines",
+        "child-19-reading-aloud",
+        "child-22-toilet-learning",
+        "child-23-separation-anxiety",
+        "child-25-praise-and-feedback",
+        "child-27-sibling-dynamics",
+        "child-28-peer-play",
+        "child-32-school-readiness",
+        "child-38-consistency-across-caregivers",
+        "child-41-food-allergies-and-choking",
+        "child-47-supporting-disabled-children",
+        "child-49-advocacy-with-professionals"
+      ],
+      "count": 14,
+      "id": "applications",
+      "note": "Practical reading of real situations without individualized advice."
+    },
+    {
+      "cards": [
+        "child-14-discipline-as-teaching",
+        "child-24-tantrums",
+        "child-46-behavior-patterns-and-context"
+      ],
+      "count": 3,
+      "id": "misconceptions",
+      "note": "Common wrong maps that make later reasoning brittle."
+    },
+    {
+      "cards": [
+        "child-08-nutrition-boundaries",
+        "child-18-screens-and-attention",
+        "child-29-learning-differences",
+        "child-30-speech-concerns",
+        "child-36-trauma-informed-lens",
+        "child-39-illness-boundaries",
+        "child-40-medication-and-medical-advice-boundaries",
+        "child-44-emergencies-and-first-aid-boundaries",
+        "child-45-sleep-problems-and-seeking-help"
+      ],
+      "count": 9,
+      "id": "limitations",
+      "note": "Boundaries, uncertainty, tradeoffs, and professional guidance points."
+    },
+    {
+      "cards": [
+        "child-26-autonomy",
+        "child-31-sensory-differences",
+        "child-33-motivation-and-curiosity",
+        "child-37-culture-and-family-values",
+        "child-42-outdoor-risky-play",
+        "child-50-building-a-family-learning-map"
+      ],
+      "count": 6,
+      "id": "bridges",
+      "note": "Connections across adjacent ideas and real-world contexts."
+    },
+    {
+      "cards": [
+        "child-43-digital-privacy",
+        "child-48-adolescence-bridge"
+      ],
+      "count": 2,
+      "id": "advanced-horizons",
+      "note": "Beginner-safe previews of ideas learners may study later."
+    }
+  ],
+  "difficulty_distribution": {
+    "difficulty-1": 6,
+    "difficulty-2": 24,
+    "difficulty-3": 18,
+    "difficulty-4": 2
+  },
+  "pack_id": "children-rearing-development-and-care",
+  "prerequisite_graph": {
+    "edges": [
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-02-attachment"
+      },
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-03-temperament"
+      },
+      {
+        "from": "child-02-attachment",
+        "relationship": "prerequisite",
+        "to": "child-04-serve-and-return"
+      },
+      {
+        "from": "child-04-serve-and-return",
+        "relationship": "prerequisite",
+        "to": "child-05-language-development"
+      },
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-06-play"
+      },
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-07-sleep-rhythms"
+      },
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-08-nutrition-boundaries"
+      },
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-09-growth-charts"
+      },
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-10-safety-layers"
+      },
+      {
+        "from": "child-07-sleep-rhythms",
+        "relationship": "prerequisite",
+        "to": "child-11-safe-sleep"
+      },
+      {
+        "from": "child-10-safety-layers",
+        "relationship": "prerequisite",
+        "to": "child-11-safe-sleep"
+      },
+      {
+        "from": "child-02-attachment",
+        "relationship": "prerequisite",
+        "to": "child-12-emotion-regulation"
+      },
+      {
+        "from": "child-12-emotion-regulation",
+        "relationship": "prerequisite",
+        "to": "child-13-co-regulation"
+      },
+      {
+        "from": "child-12-emotion-regulation",
+        "relationship": "prerequisite",
+        "to": "child-14-discipline-as-teaching"
+      },
+      {
+        "from": "child-13-co-regulation",
+        "relationship": "prerequisite",
+        "to": "child-14-discipline-as-teaching"
+      },
+      {
+        "from": "child-07-sleep-rhythms",
+        "relationship": "prerequisite",
+        "to": "child-15-routines"
+      },
+      {
+        "from": "child-14-discipline-as-teaching",
+        "relationship": "prerequisite",
+        "to": "child-15-routines"
+      },
+      {
+        "from": "child-12-emotion-regulation",
+        "relationship": "prerequisite",
+        "to": "child-16-executive-function"
+      },
+      {
+        "from": "child-04-serve-and-return",
+        "relationship": "prerequisite",
+        "to": "child-17-social-learning"
+      },
+      {
+        "from": "child-06-play",
+        "relationship": "prerequisite",
+        "to": "child-17-social-learning"
+      },
+      {
+        "from": "child-06-play",
+        "relationship": "prerequisite",
+        "to": "child-18-screens-and-attention"
+      },
+      {
+        "from": "child-05-language-development",
+        "relationship": "prerequisite",
+        "to": "child-19-reading-aloud"
+      },
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-20-fine-motor-development"
+      },
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-21-gross-motor-development"
+      },
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-22-toilet-learning"
+      },
+      {
+        "from": "child-15-routines",
+        "relationship": "prerequisite",
+        "to": "child-22-toilet-learning"
+      },
+      {
+        "from": "child-02-attachment",
+        "relationship": "prerequisite",
+        "to": "child-23-separation-anxiety"
+      },
+      {
+        "from": "child-12-emotion-regulation",
+        "relationship": "prerequisite",
+        "to": "child-24-tantrums"
+      },
+      {
+        "from": "child-13-co-regulation",
+        "relationship": "prerequisite",
+        "to": "child-24-tantrums"
+      },
+      {
+        "from": "child-14-discipline-as-teaching",
+        "relationship": "prerequisite",
+        "to": "child-25-praise-and-feedback"
+      },
+      {
+        "from": "child-15-routines",
+        "relationship": "prerequisite",
+        "to": "child-26-autonomy"
+      },
+      {
+        "from": "child-14-discipline-as-teaching",
+        "relationship": "prerequisite",
+        "to": "child-26-autonomy"
+      },
+      {
+        "from": "child-14-discipline-as-teaching",
+        "relationship": "prerequisite",
+        "to": "child-27-sibling-dynamics"
+      },
+      {
+        "from": "child-25-praise-and-feedback",
+        "relationship": "prerequisite",
+        "to": "child-27-sibling-dynamics"
+      },
+      {
+        "from": "child-06-play",
+        "relationship": "prerequisite",
+        "to": "child-28-peer-play"
+      },
+      {
+        "from": "child-17-social-learning",
+        "relationship": "prerequisite",
+        "to": "child-28-peer-play"
+      },
+      {
+        "from": "child-01-development-is-uneven",
+        "relationship": "prerequisite",
+        "to": "child-29-learning-differences"
+      },
+      {
+        "from": "child-16-executive-function",
+        "relationship": "prerequisite",
+        "to": "child-29-learning-differences"
+      },
+      {
+        "from": "child-05-language-development",
+        "relationship": "prerequisite",
+        "to": "child-30-speech-concerns"
+      },
+      {
+        "from": "child-03-temperament",
+        "relationship": "prerequisite",
+        "to": "child-31-sensory-differences"
+      },
+      {
+        "from": "child-16-executive-function",
+        "relationship": "prerequisite",
+        "to": "child-32-school-readiness"
+      },
+      {
+        "from": "child-19-reading-aloud",
+        "relationship": "prerequisite",
+        "to": "child-32-school-readiness"
+      },
+      {
+        "from": "child-06-play",
+        "relationship": "prerequisite",
+        "to": "child-33-motivation-and-curiosity"
+      },
+      {
+        "from": "child-25-praise-and-feedback",
+        "relationship": "prerequisite",
+        "to": "child-33-motivation-and-curiosity"
+      },
+      {
+        "from": "child-02-attachment",
+        "relationship": "prerequisite",
+        "to": "child-34-caregiver-wellbeing"
+      },
+      {
+        "from": "child-34-caregiver-wellbeing",
+        "relationship": "prerequisite",
+        "to": "child-35-stress-and-resilience"
+      },
+      {
+        "from": "child-35-stress-and-resilience",
+        "relationship": "prerequisite",
+        "to": "child-36-trauma-informed-lens"
+      },
+      {
+        "from": "child-14-discipline-as-teaching",
+        "relationship": "prerequisite",
+        "to": "child-37-culture-and-family-values"
+      },
+      {
+        "from": "child-15-routines",
+        "relationship": "prerequisite",
+        "to": "child-38-consistency-across-caregivers"
+      },
+      {
+        "from": "child-37-culture-and-family-values",
+        "relationship": "prerequisite",
+        "to": "child-38-consistency-across-caregivers"
+      },
+      {
+        "from": "child-08-nutrition-boundaries",
+        "relationship": "prerequisite",
+        "to": "child-39-illness-boundaries"
+      },
+      {
+        "from": "child-39-illness-boundaries",
+        "relationship": "prerequisite",
+        "to": "child-40-medication-and-medical-advice-boundaries"
+      },
+      {
+        "from": "child-08-nutrition-boundaries",
+        "relationship": "prerequisite",
+        "to": "child-41-food-allergies-and-choking"
+      },
+      {
+        "from": "child-10-safety-layers",
+        "relationship": "prerequisite",
+        "to": "child-41-food-allergies-and-choking"
+      },
+      {
+        "from": "child-10-safety-layers",
+        "relationship": "prerequisite",
+        "to": "child-42-outdoor-risky-play"
+      },
+      {
+        "from": "child-21-gross-motor-development",
+        "relationship": "prerequisite",
+        "to": "child-42-outdoor-risky-play"
+      },
+      {
+        "from": "child-18-screens-and-attention",
+        "relationship": "prerequisite",
+        "to": "child-43-digital-privacy"
+      },
+      {
+        "from": "child-10-safety-layers",
+        "relationship": "prerequisite",
+        "to": "child-44-emergencies-and-first-aid-boundaries"
+      },
+      {
+        "from": "child-07-sleep-rhythms",
+        "relationship": "prerequisite",
+        "to": "child-45-sleep-problems-and-seeking-help"
+      },
+      {
+        "from": "child-24-tantrums",
+        "relationship": "prerequisite",
+        "to": "child-46-behavior-patterns-and-context"
+      },
+      {
+        "from": "child-29-learning-differences",
+        "relationship": "prerequisite",
+        "to": "child-47-supporting-disabled-children"
+      },
+      {
+        "from": "child-31-sensory-differences",
+        "relationship": "prerequisite",
+        "to": "child-47-supporting-disabled-children"
+      },
+      {
+        "from": "child-26-autonomy",
+        "relationship": "prerequisite",
+        "to": "child-48-adolescence-bridge"
+      },
+      {
+        "from": "child-16-executive-function",
+        "relationship": "prerequisite",
+        "to": "child-48-adolescence-bridge"
+      },
+      {
+        "from": "child-29-learning-differences",
+        "relationship": "prerequisite",
+        "to": "child-49-advocacy-with-professionals"
+      },
+      {
+        "from": "child-39-illness-boundaries",
+        "relationship": "prerequisite",
+        "to": "child-49-advocacy-with-professionals"
+      },
+      {
+        "from": "child-34-caregiver-wellbeing",
+        "relationship": "prerequisite",
+        "to": "child-50-building-a-family-learning-map"
+      },
+      {
+        "from": "child-46-behavior-patterns-and-context",
+        "relationship": "prerequisite",
+        "to": "child-50-building-a-family-learning-map"
+      },
+      {
+        "from": "child-49-advocacy-with-professionals",
+        "relationship": "prerequisite",
+        "to": "child-50-building-a-family-learning-map"
+      }
+    ],
+    "nodes": [
+      "child-01-development-is-uneven",
+      "child-02-attachment",
+      "child-03-temperament",
+      "child-04-serve-and-return",
+      "child-05-language-development",
+      "child-06-play",
+      "child-07-sleep-rhythms",
+      "child-08-nutrition-boundaries",
+      "child-09-growth-charts",
+      "child-10-safety-layers",
+      "child-11-safe-sleep",
+      "child-12-emotion-regulation",
+      "child-13-co-regulation",
+      "child-14-discipline-as-teaching",
+      "child-15-routines",
+      "child-16-executive-function",
+      "child-17-social-learning",
+      "child-18-screens-and-attention",
+      "child-19-reading-aloud",
+      "child-20-fine-motor-development",
+      "child-21-gross-motor-development",
+      "child-22-toilet-learning",
+      "child-23-separation-anxiety",
+      "child-24-tantrums",
+      "child-25-praise-and-feedback",
+      "child-26-autonomy",
+      "child-27-sibling-dynamics",
+      "child-28-peer-play",
+      "child-29-learning-differences",
+      "child-30-speech-concerns",
+      "child-31-sensory-differences",
+      "child-32-school-readiness",
+      "child-33-motivation-and-curiosity",
+      "child-34-caregiver-wellbeing",
+      "child-35-stress-and-resilience",
+      "child-36-trauma-informed-lens",
+      "child-37-culture-and-family-values",
+      "child-38-consistency-across-caregivers",
+      "child-39-illness-boundaries",
+      "child-40-medication-and-medical-advice-boundaries",
+      "child-41-food-allergies-and-choking",
+      "child-42-outdoor-risky-play",
+      "child-43-digital-privacy",
+      "child-44-emergencies-and-first-aid-boundaries",
+      "child-45-sleep-problems-and-seeking-help",
+      "child-46-behavior-patterns-and-context",
+      "child-47-supporting-disabled-children",
+      "child-48-adolescence-bridge",
+      "child-49-advocacy-with-professionals",
+      "child-50-building-a-family-learning-map"
+    ]
+  },
+  "progression_note": "Foundations are introduced early; mechanisms, applications, misconceptions, limitations, bridges, and advanced horizons are interleaved after prerequisites become available.",
+  "schema_version": "knowledge-cards.curriculum-map.v1",
+  "source_policy": [
+    "child-cdc-milestones",
+    "child-aap-healthychildren",
+    "child-who-health",
+    "child-cdc-safe-sleep",
+    "child-cdc-passenger-safety",
+    "child-myplate"
+  ]
+}

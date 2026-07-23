@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import inspect
+import re
 from pathlib import Path
 
 import weavemark
@@ -114,3 +115,19 @@ def test_execution_authority_matches_implemented_engines() -> None:
         "configured LLM completes that document",
     ):
         assert contract in system_prompt
+
+
+def test_effect_mode_authority_matches_runtime_metadata_contract() -> None:
+    system_prompt = (
+        ROOT / "src" / "weavemark" / "prompts" / "weavemark.system.md"
+    ).read_text(encoding="utf-8")
+    usage = (ROOT / "docs" / "usage-reference.md").read_text(encoding="utf-8")
+
+    for text in (system_prompt, usage):
+        collapsed = re.sub(r"\s+", " ", text)
+        assert "observation or retrieval" in collapsed
+        assert "external-state change" in collapsed
+        assert "defaults to `read`" in collapsed
+        assert "`read` and `write` are the complete mode set" in collapsed
+        assert "not a sandbox" in collapsed
+        assert "same binding for either mode" in collapsed

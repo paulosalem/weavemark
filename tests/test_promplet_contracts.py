@@ -67,9 +67,9 @@ def _bodyless_calls(source: str, names: set[str]) -> list[str]:
     return bodyless
 
 
-def test_all_140_promplets_use_canonical_assert_and_tool_syntax() -> None:
+def test_all_149_promplets_use_canonical_assert_and_tool_syntax() -> None:
     promplets = _all_promplets()
-    assert len(promplets) == 140
+    assert len(promplets) == 149
 
     invalid_assertions: list[str] = []
     invalid_parameters: list[str] = []
@@ -531,17 +531,43 @@ def test_strategy_contract_corrections_are_preserved() -> None:
     assert "ANSWER: [final numeric value, text answer, or labeled choice]" in tree
 
 
-def test_ai_kanban_testing_strategy_belongs_to_output_body() -> None:
+def test_ai_kanban_uses_concise_browser_architecture_modules() -> None:
     source = (CATALOG / "standalone/ai-kanban-board.weavemark.md").read_text(
         encoding="utf-8"
     )
-    lines = source.splitlines()
-    output_index = lines.index('@output "markdown"')
-    testing_index = lines.index("  8. Testing Strategy")
-    assertion_index = next(
-        index
-        for index, line in enumerate(lines)
-        if line.startswith("@assert contains:")
-    )
+    for module in (
+        "stacks.browser_static_esmodules",
+        "types.browser_file_backed_webapp",
+        "modules.browser_sqlite_file_store",
+        "modules.browser_ai_handoff",
+    ):
+        assert f"module:weavemark.domains.programming.{module}" in source
+    assert "@output enforce: strict" in source
+    assert "outputs/implementations/ai-kanban-browser/" in source
+    assert "Next.js" not in source
+    assert "Prisma" not in source
+    assert "WebSocket" not in source
+    assert len(source.splitlines()) < 120
 
-    assert output_index < testing_index < assertion_index
+
+def test_knowledge_cards_uses_concise_reusable_mobile_architecture() -> None:
+    source = (CATALOG / "standalone/knowledge-cards.weavemark.md").read_text(
+        encoding="utf-8"
+    )
+    for module in (
+        "programming.stacks.browser_static_esmodules",
+        "programming.types.mobile_first_webapp",
+        "programming.modules.card",
+        "programming.modules.snap_card_feed",
+        "programming.modules.static_content_packs",
+        "education.knowledge_card_curriculum",
+    ):
+        assert f"module:weavemark.domains.{module}" in source
+    assert "@{topics}" in source
+    assert "@{cards_per_pack}" in source
+    assert "exactly @{cards_per_pack} cards" in source
+    assert "no runtime LLM calls" in source
+    assert "content/packs/<pack-id>/" in source
+    assert "IndexedDB" in source
+    assert "@output enforce: strict" in source
+    assert len(source.splitlines()) < 110

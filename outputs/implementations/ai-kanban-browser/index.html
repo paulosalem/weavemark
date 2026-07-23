@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="AI Kanban is a browser-only, file-backed workspace for human-AI collaboration."
+    >
+    <title>AI Kanban</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#board">Skip to board</a>
+
+    <header class="app-header">
+      <div class="brand-lockup">
+        <span class="brand-mark" aria-hidden="true">AK</span>
+        <div>
+          <p class="eyebrow">Local human-AI workspace</p>
+          <h1>AI Kanban</h1>
+        </div>
+      </div>
+
+      <div class="workspace-status" aria-live="polite">
+        <span id="connectionDot" class="connection-dot" data-state="closed"></span>
+        <div>
+          <strong id="workspaceName">No board open</strong>
+          <span id="saveStatus">Choose or create a local workspace</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="openBoardButton" class="button button-secondary" type="button">Open</button>
+        <button id="createBoardButton" class="button button-secondary" type="button">Create</button>
+        <button id="saveButton" class="button button-secondary" type="button" disabled>Save</button>
+        <button id="newCardButton" class="button" type="button" disabled>New card</button>
+        <button id="moreButton" class="icon-button" type="button" aria-label="Workspace menu" aria-expanded="false">•••</button>
+      </div>
+      <div id="workspaceMenu" class="menu" hidden>
+        <button id="saveAsButton" type="button">Save as…</button>
+        <button id="aboutWorkspaceButton" type="button">About workspace</button>
+        <button id="closeWorkspaceButton" type="button">Close workspace</button>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section id="welcome" class="welcome-panel" aria-labelledby="welcomeTitle">
+        <div class="welcome-copy">
+          <p class="eyebrow">Your work stays yours</p>
+          <h2 id="welcomeTitle">A real board, backed by a file you control.</h2>
+          <p>
+            Open an existing <code>.aikanban.sqlite</code> workspace or authorize
+            a new one. The database stays on your computer; this site has no
+            backend.
+          </p>
+          <div class="welcome-actions">
+            <button id="welcomeOpenButton" class="button" type="button">Open existing board</button>
+            <button id="welcomeCreateButton" class="button button-secondary" type="button">Create new board</button>
+            <button id="demoButton" class="text-button" type="button">Try a memory-only demo</button>
+          </div>
+          <p id="browserSupportNote" class="support-note"></p>
+          <button id="recentButton" class="recent-workspace" type="button" hidden>
+            <span>Recent workspace</span>
+            <strong id="recentName"></strong>
+            <small>Reconnect</small>
+          </button>
+        </div>
+        <div class="welcome-diagram" aria-label="How local persistence works">
+          <article>
+            <span>1</span>
+            <div><strong>Authorize</strong><small>You choose the file.</small></div>
+          </article>
+          <i aria-hidden="true"></i>
+          <article>
+            <span>2</span>
+            <div><strong>Work</strong><small>SQLite runs in your browser.</small></div>
+          </article>
+          <i aria-hidden="true"></i>
+          <article>
+            <span>3</span>
+            <div><strong>Save</strong><small>Changes return to that file.</small></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="workspace" hidden>
+        <div class="board-toolbar">
+          <div class="search-field">
+            <label for="searchInput">Find cards</label>
+            <input id="searchInput" type="search" placeholder="Search title, description, assignee…">
+          </div>
+          <div class="filter-group" aria-label="Board filters">
+            <button class="filter-chip is-active" data-priority="all" type="button" aria-pressed="true">All</button>
+            <button class="filter-chip" data-priority="P0" type="button" aria-pressed="false">P0</button>
+            <button class="filter-chip" data-priority="P1" type="button" aria-pressed="false">P1</button>
+            <button class="filter-chip" data-priority="P2" type="button" aria-pressed="false">P2</button>
+            <button class="filter-chip" data-priority="P3" type="button" aria-pressed="false">P3</button>
+          </div>
+          <div class="board-summary" aria-live="polite">
+            <strong id="visibleCardCount">0 cards</strong>
+            <span id="boardSummary">Ready</span>
+          </div>
+        </div>
+
+        <div id="workspaceAlert" class="workspace-alert" hidden></div>
+        <section id="board" class="board" aria-label="AI Kanban board"></section>
+      </section>
+    </main>
+
+    <input id="fallbackFileInput" type="file" accept=".sqlite,.aikanban.sqlite,application/vnd.sqlite3" hidden>
+
+    <dialog id="cardDialog" class="dialog card-dialog">
+      <form id="cardForm" method="dialog">
+        <header class="dialog-header">
+          <div>
+            <p class="eyebrow" id="cardDialogEyebrow">New workspace card</p>
+            <h2 id="cardDialogTitle">Create card</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close card editor">×</button>
+        </header>
+
+        <div class="dialog-scroll">
+          <div class="card-form-grid">
+            <label class="field field-wide">
+              <span>Title</span>
+              <input id="cardTitleInput" name="title" required maxlength="160">
+            </label>
+            <label class="field">
+              <span>Column</span>
+              <select id="cardColumnInput" name="column"></select>
+            </label>
+            <label class="field">
+              <span>Priority</span>
+              <select id="cardPriorityInput" name="priority">
+                <option>P0</option>
+                <option>P1</option>
+                <option selected>P2</option>
+                <option>P3</option>
+              </select>
+            </label>
+            <label class="field field-wide">
+              <span>Assignee</span>
+              <input id="cardAssigneeInput" name="assignee" maxlength="80" placeholder="Unassigned">
+            </label>
+            <label class="field field-wide">
+              <span>Description</span>
+              <textarea id="cardDescriptionInput" name="description" rows="6" placeholder="Intent, constraints, and useful context"></textarea>
+            </label>
+          </div>
+
+          <div id="cardWorkspaceSections" class="card-workspace-sections" hidden>
+            <section class="workspace-section">
+              <div class="section-heading">
+                <div><p class="eyebrow">Execution</p><h3>Plan</h3></div>
+                <button id="addPlanButton" class="text-button" type="button">Add step</button>
+              </div>
+              <div id="planList" class="plan-list"></div>
+            </section>
+
+            <section class="workspace-section">
+              <div class="section-heading">
+                <div><p class="eyebrow">Artifacts</p><h3>Outputs</h3></div>
+                <button id="addOutputButton" class="text-button" type="button">Add output</button>
+              </div>
+              <div id="outputList" class="output-list"></div>
+            </section>
+
+            <section class="workspace-section">
+              <div class="section-heading">
+                <div><p class="eyebrow">Lineage</p><h3>Activity</h3></div>
+                <button id="handoffButton" class="text-button" type="button">AI handoff</button>
+              </div>
+              <ol id="activityList" class="activity-list"></ol>
+            </section>
+          </div>
+        </div>
+
+        <footer class="dialog-footer">
+          <button id="archiveCardButton" class="danger-button" type="button" hidden>Archive</button>
+          <span class="dialog-spacer"></span>
+          <button class="button button-secondary" type="button" data-close-dialog>Cancel</button>
+          <button id="saveCardButton" class="button" value="default">Save card</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog id="textDialog" class="dialog text-dialog">
+      <form id="textDialogForm" method="dialog">
+        <header class="dialog-header">
+          <div><p id="textDialogEyebrow" class="eyebrow"></p><h2 id="textDialogTitle"></h2></div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close">×</button>
+        </header>
+        <div id="textDialogFields"></div>
+        <footer class="dialog-footer">
+          <button class="button button-secondary" type="button" data-close-dialog>Cancel</button>
+          <button id="textDialogSubmit" class="button" value="default">Save</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog id="handoffDialog" class="dialog handoff-dialog">
+      <form method="dialog">
+        <header class="dialog-header">
+          <div><p class="eyebrow">Provider-neutral AI</p><h2>Handoff packet</h2></div>
+          <button class="icon-button" value="cancel" aria-label="Close AI handoff">×</button>
+        </header>
+        <div class="handoff-tabs" role="tablist">
+          <button class="handoff-tab is-active" data-handoff-tab="export" type="button" role="tab" aria-selected="true">Export context</button>
+          <button class="handoff-tab" data-handoff-tab="import" type="button" role="tab" aria-selected="false">Import response</button>
+        </div>
+        <section id="handoffExportPanel">
+          <p>Copy this packet into any assistant. No workspace data leaves the browser automatically.</p>
+          <textarea id="handoffExportText" rows="14" readonly></textarea>
+          <div class="inline-actions">
+            <button id="copyHandoffButton" class="button" type="button">Copy packet</button>
+            <button id="downloadHandoffButton" class="button button-secondary" type="button">Download JSON</button>
+          </div>
+        </section>
+        <section id="handoffImportPanel" hidden>
+          <p>Paste an <code>ai-kanban-response/v1</code> packet. Review the preview before applying it.</p>
+          <textarea id="handoffImportText" rows="12" placeholder='{"schema":"ai-kanban-response/v1", ...}'></textarea>
+          <button id="previewImportButton" class="button button-secondary" type="button">Validate and preview</button>
+          <div id="handoffPreview" class="handoff-preview" hidden></div>
+          <button id="applyImportButton" class="button" type="button" hidden>Apply approved response</button>
+        </section>
+      </form>
+    </dialog>
+
+    <dialog id="aboutDialog" class="dialog about-dialog">
+      <form method="dialog">
+        <header class="dialog-header">
+          <div><p class="eyebrow">Local data boundary</p><h2>About this workspace</h2></div>
+          <button class="icon-button" value="cancel" aria-label="Close workspace information">×</button>
+        </header>
+        <dl id="workspaceDetails" class="workspace-details"></dl>
+        <p>
+          The selected SQLite file is authoritative. IndexedDB remembers only the
+          file handle; analytics never receives workspace bytes.
+        </p>
+      </form>
+    </dialog>
+
+    <div id="toastRegion" class="toast-region" aria-live="assertive"></div>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>

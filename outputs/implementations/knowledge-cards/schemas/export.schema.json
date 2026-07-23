@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-cards.local/schemas/export.schema.json",
+  "title": "Knowledge Cards Local State Export",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "app", "app_version", "database_version", "exported_at", "stores"],
+  "properties": {
+    "schema_version": { "const": "knowledge-cards.export.v1" },
+    "app": { "const": "knowledge-cards" },
+    "app_version": { "type": "string" },
+    "database_version": { "type": "integer", "minimum": 1 },
+    "exported_at": { "type": "string" },
+    "stores": { "type": "object" }
+  }
+}

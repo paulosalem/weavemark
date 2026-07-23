@@ -1,0 +1,2581 @@
+{
+  "cards": [
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "child-02-attachment",
+          "label": "Prepares for Attachment.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-03-temperament",
+          "label": "Prepares for Temperament.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-06-play",
+          "label": "Prepares for Play.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-07-sleep-rhythms",
+          "label": "Prepares for Sleep rhythms.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-08-nutrition-boundaries",
+          "label": "Prepares for Nutrition boundaries.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-09-growth-charts",
+          "label": "Prepares for Growth charts.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-10-safety-layers",
+          "label": "Prepares for Safety layers.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-20-fine-motor-development",
+          "label": "Prepares for Fine motor development.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-21-gross-motor-development",
+          "label": "Prepares for Gross motor development.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-22-toilet-learning",
+          "label": "Prepares for Toilet learning.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-29-learning-differences",
+          "label": "Prepares for Learning differences.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Children develop across movement, language, cognition, emotion, social connection, and self-care at different rates.",
+        "Milestones are useful signals, not a scoreboard; patterns and context matter more than one isolated date."
+      ],
+      "difficulty": 1,
+      "example": "A toddler may talk early and still need ordinary time to build motor confidence.",
+      "foundational_priority": 1,
+      "id": "child-01-development-is-uneven",
+      "importance": 1,
+      "key_takeaway": "Development is a pattern to understand, not a race to win.",
+      "media": null,
+      "prerequisites": [],
+      "review_prompts": [
+        {
+          "answer_hint": "Development is a pattern to understand, not a race to win.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Development is uneven\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A toddler may talk early and still need ordinary time to build motor confidence.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Development is uneven\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-cdc-milestones",
+        "child-who-health"
+      ],
+      "title": "Development is uneven"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-04-serve-and-return",
+          "label": "Prepares for Serve and return.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-12-emotion-regulation",
+          "label": "Prepares for Emotion regulation.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-23-separation-anxiety",
+          "label": "Prepares for Separation anxiety.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-34-caregiver-wellbeing",
+          "label": "Prepares for Caregiver wellbeing.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Attachment is the child's expectation that caregivers are available, protective, and emotionally responsive.",
+        "Secure attachment grows through repeated repair and responsiveness, not perfect calm every minute."
+      ],
+      "difficulty": 2,
+      "example": "A caregiver who returns after frustration and comforts the child teaches that connection can survive stress.",
+      "foundational_priority": 0.95,
+      "id": "child-02-attachment",
+      "importance": 0.96,
+      "key_takeaway": "Reliable responsiveness builds a base for exploration.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Reliable responsiveness builds a base for exploration.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Attachment\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A caregiver who returns after frustration and comforts the child teaches that connection can survive stress.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Attachment\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Attachment"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-31-sensory-differences",
+          "label": "Prepares for Sensory differences.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Temperament describes biologically influenced tendencies such as intensity, adaptability, sensitivity, and activity level.",
+        "It shapes what support works; the same routine can calm one child and overwhelm another."
+      ],
+      "difficulty": 2,
+      "example": "A highly sensitive child may need quieter transitions than a child who enjoys novelty.",
+      "foundational_priority": 0.86,
+      "id": "child-03-temperament",
+      "importance": 0.9,
+      "key_takeaway": "Care improves when adults adapt to the child in front of them.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Care improves when adults adapt to the child in front of them.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Temperament\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A highly sensitive child may need quieter transitions than a child who enjoys novelty.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Temperament\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Temperament"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "child-02-attachment",
+          "label": "Builds on Attachment.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-05-language-development",
+          "label": "Prepares for Language development.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-17-social-learning",
+          "label": "Prepares for Social learning.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Serve and return means a child signals and an adult responds in a way that continues interaction.",
+        "These small exchanges build language, attention, emotional security, and brain architecture through repetition."
+      ],
+      "difficulty": 1,
+      "example": "A baby points at a dog, and an adult says, 'Yes, a brown dog is barking,' turning attention into learning.",
+      "foundational_priority": 0.9,
+      "id": "child-04-serve-and-return",
+      "importance": 0.94,
+      "key_takeaway": "Responsive back-and-forth is a core engine of early development.",
+      "media": null,
+      "prerequisites": [
+        "child-02-attachment"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Responsive back-and-forth is a core engine of early development.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Serve and return\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A baby points at a dog, and an adult says, 'Yes, a brown dog is barking,' turning attention into learning.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Serve and return\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Serve and return"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "child-04-serve-and-return",
+          "label": "Builds on Serve and return.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-19-reading-aloud",
+          "label": "Prepares for Reading aloud.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-30-speech-concerns",
+          "label": "Prepares for Speech concerns.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Language grows through hearing meaningful speech, shared attention, turn-taking, imitation, and chances to communicate.",
+        "Children need interaction more than passive word exposure because language is social as well as cognitive."
+      ],
+      "difficulty": 2,
+      "example": "Reading a picture book and pausing for the child to point teaches more than background audio.",
+      "foundational_priority": 0.82,
+      "id": "child-05-language-development",
+      "importance": 0.92,
+      "key_takeaway": "Language develops through responsive communication.",
+      "media": null,
+      "prerequisites": [
+        "child-04-serve-and-return"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Language develops through responsive communication.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Language development\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Reading a picture book and pausing for the child to point teaches more than background audio.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Language development\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-cdc-milestones"
+      ],
+      "title": "Language development"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-17-social-learning",
+          "label": "Prepares for Social learning.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-18-screens-and-attention",
+          "label": "Prepares for Screens and attention.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-28-peer-play",
+          "label": "Prepares for Peer play.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-33-motivation-and-curiosity",
+          "label": "Prepares for Motivation and curiosity.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Play is serious developmental work because it lets children practice movement, imagination, rules, negotiation, and problem solving.",
+        "Different play forms support different skills, from sensory exploration to pretend stories and cooperative games."
+      ],
+      "difficulty": 1,
+      "example": "A cardboard box can become a car, a cave, and a negotiation over whose turn comes next.",
+      "foundational_priority": 0.84,
+      "id": "child-06-play",
+      "importance": 0.92,
+      "key_takeaway": "Play is how children test the world safely.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Play is how children test the world safely.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Play\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A cardboard box can become a car, a cave, and a negotiation over whose turn comes next.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Play\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-cdc-milestones"
+      ],
+      "title": "Play"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-11-safe-sleep",
+          "label": "Prepares for Safe sleep.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-15-routines",
+          "label": "Prepares for Routines.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-45-sleep-problems-and-seeking-help",
+          "label": "Prepares for Sleep problems and seeking help.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Sleep supports growth, learning, mood, immune function, and caregiver functioning, but sleep patterns change with age.",
+        "Helpful routines cue the body and reduce negotiation, while persistent concerns may need professional guidance."
+      ],
+      "difficulty": 2,
+      "example": "A predictable bath, story, and lights-out pattern can make bedtime less surprising.",
+      "foundational_priority": 0.76,
+      "id": "child-07-sleep-rhythms",
+      "importance": 0.88,
+      "key_takeaway": "Sleep is biological, developmental, and relational at once.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Sleep is biological, developmental, and relational at once.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Sleep rhythms\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A predictable bath, story, and lights-out pattern can make bedtime less surprising.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Sleep rhythms\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Sleep rhythms"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-39-illness-boundaries",
+          "label": "Prepares for Illness boundaries.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-41-food-allergies-and-choking",
+          "label": "Prepares for Food allergies and choking.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Nutrition guidance gives broad patterns for growth, energy, and habits, not individualized treatment plans.",
+        "Food needs vary by age, health, culture, access, allergies, and medical conditions, so concerns belong with qualified clinicians."
+      ],
+      "difficulty": 2,
+      "example": "Offering varied foods is different from managing a diagnosed feeding disorder.",
+      "foundational_priority": 0.7,
+      "id": "child-08-nutrition-boundaries",
+      "importance": 0.84,
+      "key_takeaway": "Food education should support health without pretending to be medical care.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Food education should support health without pretending to be medical care.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Nutrition boundaries\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Offering varied foods is different from managing a diagnosed feeding disorder.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Nutrition boundaries\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-myplate"
+      ],
+      "title": "Nutrition boundaries"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Growth charts compare a child's measurements with reference populations over time.",
+        "The trend and clinical context matter more than one percentile, and interpretation belongs with pediatric guidance."
+      ],
+      "difficulty": 2,
+      "example": "A child consistently following a lower percentile may be healthy, while a sudden drop may need attention.",
+      "foundational_priority": 0.58,
+      "id": "child-09-growth-charts",
+      "importance": 0.78,
+      "key_takeaway": "Growth charts are conversation tools, not parental report cards.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Growth charts are conversation tools, not parental report cards.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Growth charts\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A child consistently following a lower percentile may be healthy, while a sudden drop may need attention.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Growth charts\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Growth charts"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-11-safe-sleep",
+          "label": "Prepares for Safe sleep.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-41-food-allergies-and-choking",
+          "label": "Prepares for Food allergies and choking.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-42-outdoor-risky-play",
+          "label": "Prepares for Outdoor risky play.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-44-emergencies-and-first-aid-boundaries",
+          "label": "Prepares for Emergencies and first aid boundaries.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Safety works best as layers: environment design, supervision, routines, skills, and emergency readiness.",
+        "No single rule catches every risk, so caregivers reduce harm by making safe choices easier and unsafe choices harder."
+      ],
+      "difficulty": 1,
+      "example": "A pool fence, locked gate, swim lessons, and attentive adults protect differently.",
+      "foundational_priority": 0.86,
+      "id": "child-10-safety-layers",
+      "importance": 0.96,
+      "key_takeaway": "Safety is a system, not a single warning.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Safety is a system, not a single warning.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Safety layers\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A pool fence, locked gate, swim lessons, and attentive adults protect differently.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Safety layers\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-who-health",
+        "child-cdc-passenger-safety"
+      ],
+      "title": "Safety layers"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-07-sleep-rhythms",
+          "label": "Builds on Sleep rhythms.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-10-safety-layers",
+          "label": "Builds on Safety layers.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Current guidance for healthy infants is to place a baby on their back for every nap and every night, on a firm, flat sleep surface, with nothing else, no pillows, blankets, bumpers, or soft toys, in the sleep space.",
+        "This combination lowers known sleep-related risks, but recommendations can be updated and individual health conditions can change what applies, so caregivers should confirm current specifics with a pediatric clinician."
+      ],
+      "difficulty": 2,
+      "example": "A bare, firm sleep surface follows a different safety logic than a soft adult couch.",
+      "foundational_priority": 0.62,
+      "id": "child-11-safe-sleep",
+      "importance": 0.92,
+      "key_takeaway": "Infant sleep safety is a high-stakes area for current professional guidance.",
+      "media": null,
+      "prerequisites": [
+        "child-07-sleep-rhythms",
+        "child-10-safety-layers"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Infant sleep safety is a high-stakes area for current professional guidance.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Safe sleep\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A bare, firm sleep surface follows a different safety logic than a soft adult couch.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Safe sleep\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-cdc-safe-sleep"
+      ],
+      "title": "Safe sleep"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "child-02-attachment",
+          "label": "Builds on Attachment.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-13-co-regulation",
+          "label": "Prepares for Co-regulation.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-14-discipline-as-teaching",
+          "label": "Prepares for Discipline as teaching.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-16-executive-function",
+          "label": "Prepares for Executive function.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-24-tantrums",
+          "label": "Prepares for Tantrums.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Emotion regulation is the growing ability to notice, tolerate, express, and recover from feelings.",
+        "Children borrow adult nervous-system support before they can reliably regulate alone."
+      ],
+      "difficulty": 2,
+      "example": "A preschooler may need help naming anger and breathing before discussing the broken toy.",
+      "foundational_priority": 0.82,
+      "id": "child-12-emotion-regulation",
+      "importance": 0.94,
+      "key_takeaway": "Self-control develops through supported practice, not commands alone.",
+      "media": null,
+      "prerequisites": [
+        "child-02-attachment"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Self-control develops through supported practice, not commands alone.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Emotion regulation\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A preschooler may need help naming anger and breathing before discussing the broken toy.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Emotion regulation\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Emotion regulation"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "child-12-emotion-regulation",
+          "label": "Builds on Emotion regulation.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-14-discipline-as-teaching",
+          "label": "Prepares for Discipline as teaching.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-24-tantrums",
+          "label": "Prepares for Tantrums.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Co-regulation is the adult's active support of a child's emotional state through calm presence, structure, and repair.",
+        "It teaches the nervous system what returning to safety feels like after distress, using a calmer adult's breathing, tone, and pacing as an external anchor before the child can self-soothe."
+      ],
+      "difficulty": 2,
+      "example": "Sitting nearby and speaking softly during a meltdown can be more regulating than rapid explanations.",
+      "foundational_priority": 0.8,
+      "id": "child-13-co-regulation",
+      "importance": 0.92,
+      "key_takeaway": "Children learn regulation first with someone, then increasingly within themselves.",
+      "media": null,
+      "prerequisites": [
+        "child-12-emotion-regulation"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Children learn regulation first with someone, then increasingly within themselves.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Co-regulation\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Sitting nearby and speaking softly during a meltdown can be more regulating than rapid explanations.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Co-regulation\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Co-regulation"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "child-12-emotion-regulation",
+          "label": "Builds on Emotion regulation.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-13-co-regulation",
+          "label": "Builds on Co-regulation.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-15-routines",
+          "label": "Prepares for Routines.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-25-praise-and-feedback",
+          "label": "Prepares for Praise and feedback.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-26-autonomy",
+          "label": "Prepares for Autonomy.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-27-sibling-dynamics",
+          "label": "Prepares for Sibling dynamics.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-37-culture-and-family-values",
+          "label": "Prepares for Culture and family values.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Discipline is most useful when treated as teaching skills, boundaries, and repair rather than punishing feelings.",
+        "Effective limits are clear, consistent, proportionate, and connected to the behavior being learned."
+      ],
+      "difficulty": 2,
+      "example": "Having a child wipe up spilled water teaches responsibility better than shaming the accident.",
+      "foundational_priority": 0.72,
+      "id": "child-14-discipline-as-teaching",
+      "importance": 0.9,
+      "key_takeaway": "Discipline should build capability and connection.",
+      "media": null,
+      "prerequisites": [
+        "child-12-emotion-regulation",
+        "child-13-co-regulation"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Discipline should build capability and connection.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Discipline as teaching\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Having a child wipe up spilled water teaches responsibility better than shaming the accident.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Discipline as teaching\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Discipline as teaching"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-07-sleep-rhythms",
+          "label": "Builds on Sleep rhythms.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-14-discipline-as-teaching",
+          "label": "Builds on Discipline as teaching.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-22-toilet-learning",
+          "label": "Prepares for Toilet learning.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-26-autonomy",
+          "label": "Prepares for Autonomy.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-38-consistency-across-caregivers",
+          "label": "Prepares for Consistency across caregivers.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Routines reduce cognitive load by making daily expectations visible and repeatable.",
+        "They support sleep, cooperation, transitions, and autonomy while still needing flexibility for real life."
+      ],
+      "difficulty": 1,
+      "example": "A picture chart can help a child move from pajamas to teeth brushing without constant adult prompting.",
+      "foundational_priority": 0.66,
+      "id": "child-15-routines",
+      "importance": 0.84,
+      "key_takeaway": "Predictable routines make independence easier.",
+      "media": null,
+      "prerequisites": [
+        "child-07-sleep-rhythms",
+        "child-14-discipline-as-teaching"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Predictable routines make independence easier.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Routines\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A picture chart can help a child move from pajamas to teeth brushing without constant adult prompting.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Routines\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Routines"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "child-12-emotion-regulation",
+          "label": "Builds on Emotion regulation.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-29-learning-differences",
+          "label": "Prepares for Learning differences.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-32-school-readiness",
+          "label": "Prepares for School readiness.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-48-adolescence-bridge",
+          "label": "Prepares for Adolescence bridge.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Executive function includes working memory, flexible thinking, and inhibitory control.",
+        "These skills develop gradually and are sensitive to sleep, stress, language, scaffolding, and practice."
+      ],
+      "difficulty": 3,
+      "example": "A child who forgets multi-step instructions may need one visible step at a time.",
+      "foundational_priority": 0.62,
+      "id": "child-16-executive-function",
+      "importance": 0.86,
+      "key_takeaway": "Planning and self-control are developmental skills, not fixed character traits.",
+      "media": null,
+      "prerequisites": [
+        "child-12-emotion-regulation"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Planning and self-control are developmental skills, not fixed character traits.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Executive function\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A child who forgets multi-step instructions may need one visible step at a time.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Executive function\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Executive function"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "child-04-serve-and-return",
+          "label": "Builds on Serve and return.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-06-play",
+          "label": "Builds on Play.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-28-peer-play",
+          "label": "Prepares for Peer play.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Children learn by watching what adults and peers do, not only by hearing what adults say.",
+        "Modeling can teach kindness, coping, curiosity, prejudice, persistence, and conflict habits."
+      ],
+      "difficulty": 2,
+      "example": "A caregiver apologizing after snapping demonstrates repair more powerfully than a lecture about respect.",
+      "foundational_priority": 0.62,
+      "id": "child-17-social-learning",
+      "importance": 0.86,
+      "key_takeaway": "Children study behavior around them as live curriculum.",
+      "media": null,
+      "prerequisites": [
+        "child-04-serve-and-return",
+        "child-06-play"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Children study behavior around them as live curriculum.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Social learning\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A caregiver apologizing after snapping demonstrates repair more powerfully than a lecture about respect.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Social learning\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Social learning"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "child-06-play",
+          "label": "Builds on Play.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-43-digital-privacy",
+          "label": "Prepares for Digital privacy.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Screen use affects children differently depending on age, content, context, sleep, movement, and adult involvement.",
+        "The important question is what screen time displaces and whether it supports or undermines relationships and routines."
+      ],
+      "difficulty": 3,
+      "example": "A video call with a grandparent is different from endless autoplay before bed.",
+      "foundational_priority": 0.44,
+      "id": "child-18-screens-and-attention",
+      "importance": 0.8,
+      "key_takeaway": "Screens need context-aware boundaries, not panic or indifference.",
+      "media": null,
+      "prerequisites": [
+        "child-06-play"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Screens need context-aware boundaries, not panic or indifference.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Screens and attention\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A video call with a grandparent is different from endless autoplay before bed.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Screens and attention\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Screens and attention"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-05-language-development",
+          "label": "Builds on Language development.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-32-school-readiness",
+          "label": "Prepares for School readiness.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Reading aloud builds vocabulary, attention, background knowledge, bonding, and print awareness.",
+        "The interaction around the book, pointing, pausing, questioning, and reacting together, often matters as much as finishing the text, since dialogue extends what the words alone teach."
+      ],
+      "difficulty": 1,
+      "example": "Asking what might happen next invites prediction and conversation.",
+      "foundational_priority": 0.64,
+      "id": "child-19-reading-aloud",
+      "importance": 0.86,
+      "key_takeaway": "Shared reading turns language into relationship and thinking.",
+      "media": null,
+      "prerequisites": [
+        "child-05-language-development"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Shared reading turns language into relationship and thinking.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Reading aloud\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Asking what might happen next invites prediction and conversation.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Reading aloud\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Reading aloud"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Fine motor development involves small-muscle control for grasping, drawing, dressing, tools, and writing.",
+        "It grows through play, sensory feedback, strength, coordination, and repeated attempts."
+      ],
+      "difficulty": 2,
+      "example": "Stacking blocks and using child-safe tongs both build hand control for later tasks.",
+      "foundational_priority": 0.46,
+      "id": "child-20-fine-motor-development",
+      "importance": 0.72,
+      "key_takeaway": "Small movements are built through purposeful practice.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Small movements are built through purposeful practice.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Fine motor development\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Stacking blocks and using child-safe tongs both build hand control for later tasks.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Fine motor development\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-cdc-milestones"
+      ],
+      "title": "Fine motor development"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-42-outdoor-risky-play",
+          "label": "Prepares for Outdoor risky play.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Gross motor development involves large-muscle skills such as sitting, crawling, walking, running, climbing, and balance.",
+        "Practice environments should offer safe challenge because strength and coordination grow through movement."
+      ],
+      "difficulty": 2,
+      "example": "A playground step that is difficult but supervised can teach balance and judgment.",
+      "foundational_priority": 0.46,
+      "id": "child-21-gross-motor-development",
+      "importance": 0.74,
+      "key_takeaway": "Bodies learn by moving through graded challenge.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Bodies learn by moving through graded challenge.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Gross motor development\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A playground step that is difficult but supervised can teach balance and judgment.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Gross motor development\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-cdc-milestones"
+      ],
+      "title": "Gross motor development"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-15-routines",
+          "label": "Builds on Routines.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Toilet learning combines body readiness, communication, routine, motivation, and caregiver patience.",
+        "Pressure can create stress; persistent pain, constipation, regression, or concern belongs with medical guidance."
+      ],
+      "difficulty": 2,
+      "example": "A child may understand the toilet but not yet recognize body signals reliably.",
+      "foundational_priority": 0.38,
+      "id": "child-22-toilet-learning",
+      "importance": 0.7,
+      "key_takeaway": "Toilet learning is developmental coordination, not a moral test.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven",
+        "child-15-routines"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Toilet learning is developmental coordination, not a moral test.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Toilet learning\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A child may understand the toilet but not yet recognize body signals reliably.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Toilet learning\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Toilet learning"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-02-attachment",
+          "label": "Builds on Attachment.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Separation anxiety is a common developmental response when children understand caregiver absence but still need reassurance.",
+        "Predictable goodbyes, honest returns, and trusted caregivers help children practice separations safely."
+      ],
+      "difficulty": 2,
+      "example": "Sneaking away may avoid tears now but can make future departures less predictable.",
+      "foundational_priority": 0.48,
+      "id": "child-23-separation-anxiety",
+      "importance": 0.76,
+      "key_takeaway": "Separation skills grow through trust and repetition.",
+      "media": null,
+      "prerequisites": [
+        "child-02-attachment"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Separation skills grow through trust and repetition.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Separation anxiety\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Sneaking away may avoid tears now but can make future departures less predictable.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Separation anxiety\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-cdc-milestones"
+      ],
+      "title": "Separation anxiety"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "child-12-emotion-regulation",
+          "label": "Builds on Emotion regulation.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-13-co-regulation",
+          "label": "Builds on Co-regulation.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-46-behavior-patterns-and-context",
+          "label": "Prepares for Behavior patterns and context.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Tantrums often reflect overwhelmed regulation, communication, hunger, fatigue, transitions, or limits rather than calculated manipulation.",
+        "Adults can hold boundaries while reducing stimulation and helping the child recover."
+      ],
+      "difficulty": 2,
+      "example": "A store meltdown may need calm removal and later teaching, not a public debate.",
+      "foundational_priority": 0.58,
+      "id": "child-24-tantrums",
+      "importance": 0.86,
+      "key_takeaway": "A tantrum is a stress signal plus a teaching moment after calm returns.",
+      "media": null,
+      "prerequisites": [
+        "child-12-emotion-regulation",
+        "child-13-co-regulation"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "A tantrum is a stress signal plus a teaching moment after calm returns.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Tantrums\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A store meltdown may need calm removal and later teaching, not a public debate.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Tantrums\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Tantrums"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-14-discipline-as-teaching",
+          "label": "Builds on Discipline as teaching.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-27-sibling-dynamics",
+          "label": "Prepares for Sibling dynamics.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-33-motivation-and-curiosity",
+          "label": "Prepares for Motivation and curiosity.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Feedback shapes what children notice about their own effort, strategy, care, and outcome, since children tend to repeat whatever an adult's comments draw their attention toward.",
+        "Specific feedback teaches better than global labels because it names the behavior the child can repeat."
+      ],
+      "difficulty": 2,
+      "example": "Saying 'You kept trying different puzzle pieces' is more informative than only saying 'You're smart.'",
+      "foundational_priority": 0.48,
+      "id": "child-25-praise-and-feedback",
+      "importance": 0.78,
+      "key_takeaway": "Helpful praise points to process and values.",
+      "media": null,
+      "prerequisites": [
+        "child-14-discipline-as-teaching"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Helpful praise points to process and values.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Praise and feedback\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Saying 'You kept trying different puzzle pieces' is more informative than only saying 'You're smart.'",
+          "kind": "application",
+          "prompt": "Look at the example for \"Praise and feedback\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Praise and feedback"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "child-15-routines",
+          "label": "Builds on Routines.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-14-discipline-as-teaching",
+          "label": "Builds on Discipline as teaching.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-48-adolescence-bridge",
+          "label": "Prepares for Adolescence bridge.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Autonomy is the child's growing sense of agency, the felt experience of having real choices and some control over actions, that develops within boundaries adults still protect.",
+        "Choice helps cooperation when options are real, limited, and developmentally appropriate."
+      ],
+      "difficulty": 2,
+      "example": "Letting a preschooler choose between two shirts supports agency without handing over the entire morning schedule.",
+      "foundational_priority": 0.48,
+      "id": "child-26-autonomy",
+      "importance": 0.8,
+      "key_takeaway": "Children need chances to choose inside protected limits.",
+      "media": null,
+      "prerequisites": [
+        "child-15-routines",
+        "child-14-discipline-as-teaching"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Children need chances to choose inside protected limits.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Autonomy\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Letting a preschooler choose between two shirts supports agency without handing over the entire morning schedule.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Autonomy\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Autonomy"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-14-discipline-as-teaching",
+          "label": "Builds on Discipline as teaching.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-25-praise-and-feedback",
+          "label": "Builds on Praise and feedback.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Sibling dynamics mix love, rivalry, imitation, fairness concerns, and competition for caregiver attention.",
+        "Adults can reduce comparison, protect safety, and teach repair without forcing constant harmony."
+      ],
+      "difficulty": 3,
+      "example": "Naming each child's need may work better than declaring one child the winner of a dispute.",
+      "foundational_priority": 0.34,
+      "id": "child-27-sibling-dynamics",
+      "importance": 0.7,
+      "key_takeaway": "Sibling conflict is relationship practice when adults structure it well.",
+      "media": null,
+      "prerequisites": [
+        "child-14-discipline-as-teaching",
+        "child-25-praise-and-feedback"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Sibling conflict is relationship practice when adults structure it well.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Sibling dynamics\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Naming each child's need may work better than declaring one child the winner of a dispute.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Sibling dynamics\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Sibling dynamics"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-06-play",
+          "label": "Builds on Play.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-17-social-learning",
+          "label": "Builds on Social learning.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Peer play teaches negotiation, turn-taking, perspective, boundaries, and social problem solving.",
+        "Children need adult scaffolding when skills are emerging, especially around exclusion or aggression."
+      ],
+      "difficulty": 2,
+      "example": "Two children wanting the same truck can practice timers, trading, or building together.",
+      "foundational_priority": 0.42,
+      "id": "child-28-peer-play",
+      "importance": 0.76,
+      "key_takeaway": "Peers give children a living laboratory for social skills.",
+      "media": null,
+      "prerequisites": [
+        "child-06-play",
+        "child-17-social-learning"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Peers give children a living laboratory for social skills.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Peer play\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Two children wanting the same truck can practice timers, trading, or building together.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Peer play\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Peer play"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "child-01-development-is-uneven",
+          "label": "Builds on Development is uneven.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-16-executive-function",
+          "label": "Builds on Executive function.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-47-supporting-disabled-children",
+          "label": "Prepares for Supporting disabled children.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-49-advocacy-with-professionals",
+          "label": "Prepares for Advocacy with professionals.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Learning differences are variations in how children process information, communicate, attend, move, or demonstrate knowledge.",
+        "Early support can reduce frustration, but labels and interventions should come from qualified evaluation when concerns persist."
+      ],
+      "difficulty": 3,
+      "example": "A child who understands stories but struggles to decode print may need targeted reading support.",
+      "foundational_priority": 0.5,
+      "id": "child-29-learning-differences",
+      "importance": 0.84,
+      "key_takeaway": "Different learning paths need curiosity, not blame.",
+      "media": null,
+      "prerequisites": [
+        "child-01-development-is-uneven",
+        "child-16-executive-function"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Different learning paths need curiosity, not blame.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Learning differences\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A child who understands stories but struggles to decode print may need targeted reading support.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Learning differences\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Learning differences"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "child-05-language-development",
+          "label": "Builds on Language development.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Speech and language concerns involve communication milestones, clarity, comprehension, social use, or fluency.",
+        "Because early support can matter, caregivers should seek professional screening when concerns or regressions appear."
+      ],
+      "difficulty": 3,
+      "example": "A toddler who loses words they once used deserves prompt guidance rather than watchful dismissal.",
+      "foundational_priority": 0.46,
+      "id": "child-30-speech-concerns",
+      "importance": 0.82,
+      "key_takeaway": "Communication concerns are worth checking early.",
+      "media": null,
+      "prerequisites": [
+        "child-05-language-development"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Communication concerns are worth checking early.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Speech concerns\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A toddler who loses words they once used deserves prompt guidance rather than watchful dismissal.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Speech concerns\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-cdc-milestones"
+      ],
+      "title": "Speech concerns"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "child-03-temperament",
+          "label": "Builds on Temperament.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-47-supporting-disabled-children",
+          "label": "Prepares for Supporting disabled children.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Sensory differences affect how a child experiences sound, touch, movement, light, taste, or body position.",
+        "Support often begins by changing environments and expectations before assuming defiance."
+      ],
+      "difficulty": 3,
+      "example": "A child covering ears in a loud cafeteria may be overwhelmed rather than rude.",
+      "foundational_priority": 0.38,
+      "id": "child-31-sensory-differences",
+      "importance": 0.78,
+      "key_takeaway": "Behavior can be a clue about sensory experience.",
+      "media": null,
+      "prerequisites": [
+        "child-03-temperament"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Behavior can be a clue about sensory experience.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Sensory differences\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A child covering ears in a loud cafeteria may be overwhelmed rather than rude.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Sensory differences\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Sensory differences"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-16-executive-function",
+          "label": "Builds on Executive function.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-19-reading-aloud",
+          "label": "Builds on Reading aloud.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "School readiness includes social, emotional, language, motor, self-care, curiosity, and attention skills.",
+        "It is broader than early academics and depends on both the child and the school's ability to welcome learners."
+      ],
+      "difficulty": 2,
+      "example": "Knowing how to ask for help can matter as much as naming letters on the first day.",
+      "foundational_priority": 0.38,
+      "id": "child-32-school-readiness",
+      "importance": 0.76,
+      "key_takeaway": "Readiness is a fit between child skills and school supports.",
+      "media": null,
+      "prerequisites": [
+        "child-16-executive-function",
+        "child-19-reading-aloud"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Readiness is a fit between child skills and school supports.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"School readiness\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Knowing how to ask for help can matter as much as naming letters on the first day.",
+          "kind": "application",
+          "prompt": "Look at the example for \"School readiness\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "School readiness"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "child-06-play",
+          "label": "Builds on Play.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-25-praise-and-feedback",
+          "label": "Builds on Praise and feedback.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Curiosity grows when children feel safe enough to explore and challenged enough to stay engaged.",
+        "Adults can support motivation by offering meaningful choices, questions, models, and achievable difficulty."
+      ],
+      "difficulty": 2,
+      "example": "A child investigating worms after rain is practicing observation, not wasting time.",
+      "foundational_priority": 0.4,
+      "id": "child-33-motivation-and-curiosity",
+      "importance": 0.78,
+      "key_takeaway": "Curiosity is attention pulled by meaningful questions.",
+      "media": null,
+      "prerequisites": [
+        "child-06-play",
+        "child-25-praise-and-feedback"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Curiosity is attention pulled by meaningful questions.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Motivation and curiosity\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A child investigating worms after rain is practicing observation, not wasting time.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Motivation and curiosity\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Motivation and curiosity"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "foundations",
+      "connections": [
+        {
+          "card_id": "child-02-attachment",
+          "label": "Builds on Attachment.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-35-stress-and-resilience",
+          "label": "Prepares for Stress and resilience.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-50-building-a-family-learning-map",
+          "label": "Prepares for Building a family learning map.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Caregiver wellbeing affects patience, responsiveness, safety, and the emotional climate around the child.",
+        "Support for adults is not selfish; it is part of the child's care system, because a caregiver's stress, sleep, and mood directly shape the tone of everyday interactions."
+      ],
+      "difficulty": 2,
+      "example": "A rested caregiver may respond to the same spilled juice with teaching instead of explosion.",
+      "foundational_priority": 0.7,
+      "id": "child-34-caregiver-wellbeing",
+      "importance": 0.92,
+      "key_takeaway": "Children are supported by supporting the people who care for them.",
+      "media": null,
+      "prerequisites": [
+        "child-02-attachment"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Children are supported by supporting the people who care for them.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Caregiver wellbeing\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A rested caregiver may respond to the same spilled juice with teaching instead of explosion.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Caregiver wellbeing\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Caregiver wellbeing"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "mechanisms",
+      "connections": [
+        {
+          "card_id": "child-34-caregiver-wellbeing",
+          "label": "Builds on Caregiver wellbeing.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-36-trauma-informed-lens",
+          "label": "Prepares for Trauma-informed lens.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Stress becomes more or less harmful depending on intensity, duration, predictability, support, and recovery.",
+        "Resilience is built through relationships, routines, coping skills, and reducing avoidable chronic stressors."
+      ],
+      "difficulty": 3,
+      "example": "A hard move is easier for a child when adults explain, listen, and preserve familiar rituals.",
+      "foundational_priority": 0.5,
+      "id": "child-35-stress-and-resilience",
+      "importance": 0.86,
+      "key_takeaway": "Resilience grows in supported recovery, not in endless pressure.",
+      "media": null,
+      "prerequisites": [
+        "child-34-caregiver-wellbeing"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Resilience grows in supported recovery, not in endless pressure.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Stress and resilience\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A hard move is easier for a child when adults explain, listen, and preserve familiar rituals.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Stress and resilience\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Stress and resilience"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "child-35-stress-and-resilience",
+          "label": "Builds on Stress and resilience.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A trauma-informed lens asks what happened to a child and what helps safety, rather than starting with what is wrong with them.",
+        "It does not excuse harmful behavior, but it changes the support plan toward predictability, choice, and repair."
+      ],
+      "difficulty": 4,
+      "example": "A child who panics at loud voices may need calm cues before consequences can teach.",
+      "foundational_priority": 0.34,
+      "id": "child-36-trauma-informed-lens",
+      "importance": 0.8,
+      "key_takeaway": "Safety and understanding make learning possible after stress.",
+      "media": null,
+      "prerequisites": [
+        "child-35-stress-and-resilience"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Safety and understanding make learning possible after stress.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Trauma-informed lens\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A child who panics at loud voices may need calm cues before consequences can teach.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Trauma-informed lens\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Trauma-informed lens"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "child-14-discipline-as-teaching",
+          "label": "Builds on Discipline as teaching.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-38-consistency-across-caregivers",
+          "label": "Prepares for Consistency across caregivers.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Caregiving practices are shaped by culture, family history, community, faith, language, and practical constraints.",
+        "Respecting culture does not remove safety boundaries, but it prevents one narrow style from being mistaken for universal truth."
+      ],
+      "difficulty": 3,
+      "example": "A bedtime routine can look different across households while still offering predictability and warmth.",
+      "foundational_priority": 0.34,
+      "id": "child-37-culture-and-family-values",
+      "importance": 0.76,
+      "key_takeaway": "Good guidance distinguishes core needs from culturally varied practices.",
+      "media": null,
+      "prerequisites": [
+        "child-14-discipline-as-teaching"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Good guidance distinguishes core needs from culturally varied practices.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Culture and family values\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A bedtime routine can look different across households while still offering predictability and warmth.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Culture and family values\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Culture and family values"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-15-routines",
+          "label": "Builds on Routines.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-37-culture-and-family-values",
+          "label": "Builds on Culture and family values.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Consistency across caregivers helps children predict rules, routines, and responses.",
+        "It does not require identical personalities; it requires shared safety boundaries and repair when adults differ."
+      ],
+      "difficulty": 2,
+      "example": "A grandparent and parent can use different bedtime songs while agreeing on screen limits.",
+      "foundational_priority": 0.44,
+      "id": "child-38-consistency-across-caregivers",
+      "importance": 0.8,
+      "key_takeaway": "Children feel safer when adults coordinate the important parts.",
+      "media": null,
+      "prerequisites": [
+        "child-15-routines",
+        "child-37-culture-and-family-values"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Children feel safer when adults coordinate the important parts.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Consistency across caregivers\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A grandparent and parent can use different bedtime songs while agreeing on screen limits.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Consistency across caregivers\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Consistency across caregivers"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "child-08-nutrition-boundaries",
+          "label": "Builds on Nutrition boundaries.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-40-medication-and-medical-advice-boundaries",
+          "label": "Prepares for Medication and medical advice boundaries.",
+          "type": "prepares-for"
+        },
+        {
+          "card_id": "child-49-advocacy-with-professionals",
+          "label": "Prepares for Advocacy with professionals.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Common illness decisions can involve symptoms, age, risk factors, exposures, and local guidance.",
+        "Educational information cannot decide whether an individual child needs urgent care, testing, medication, or isolation."
+      ],
+      "difficulty": 3,
+      "example": "A fever in a young infant has a different risk profile than a mild sniffle in an older child.",
+      "foundational_priority": 0.42,
+      "id": "child-39-illness-boundaries",
+      "importance": 0.88,
+      "key_takeaway": "Health choices need current professional guidance when risk is real.",
+      "media": null,
+      "prerequisites": [
+        "child-08-nutrition-boundaries"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Health choices need current professional guidance when risk is real.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Illness boundaries\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A fever in a young infant has a different risk profile than a mild sniffle in an older child.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Illness boundaries\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-who-health"
+      ],
+      "title": "Illness boundaries"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "child-39-illness-boundaries",
+          "label": "Builds on Illness boundaries.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Medication choices for children depend on age, weight, diagnosis, interactions, dosing, and clinician advice.",
+        "Caregivers should avoid using general educational content as a dosing or treatment plan."
+      ],
+      "difficulty": 3,
+      "example": "An over-the-counter label may still require checking age, concentration, and contraindications.",
+      "foundational_priority": 0.4,
+      "id": "child-40-medication-and-medical-advice-boundaries",
+      "importance": 0.9,
+      "key_takeaway": "Child medication is individualized healthcare, not a generic tip.",
+      "media": null,
+      "prerequisites": [
+        "child-39-illness-boundaries"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Child medication is individualized healthcare, not a generic tip.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Medication and medical advice boundaries\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "An over-the-counter label may still require checking age, concentration, and contraindications.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Medication and medical advice boundaries\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Medication and medical advice boundaries"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-08-nutrition-boundaries",
+          "label": "Builds on Nutrition boundaries.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-10-safety-layers",
+          "label": "Builds on Safety layers.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Food allergies and choking hazards are safety-sensitive because consequences can be sudden and severe.",
+        "General education can name risk categories, but individual allergy plans and emergency steps require qualified guidance."
+      ],
+      "difficulty": 2,
+      "example": "Whole grapes and hard candies pose choking risks for young children unless prepared safely.",
+      "foundational_priority": 0.38,
+      "id": "child-41-food-allergies-and-choking",
+      "importance": 0.88,
+      "key_takeaway": "Food safety combines prevention, preparation, and professional plans when needed.",
+      "media": null,
+      "prerequisites": [
+        "child-08-nutrition-boundaries",
+        "child-10-safety-layers"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Food safety combines prevention, preparation, and professional plans when needed.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Food allergies and choking\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Whole grapes and hard candies pose choking risks for young children unless prepared safely.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Food allergies and choking\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-myplate"
+      ],
+      "title": "Food allergies and choking"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "child-10-safety-layers",
+          "label": "Builds on Safety layers.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-21-gross-motor-development",
+          "label": "Builds on Gross motor development.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Risky play gives children manageable chances to test height, speed, tools, boundaries, and confidence.",
+        "The goal is not danger; it is calibrated challenge where adults remove hazards while allowing learning."
+      ],
+      "difficulty": 3,
+      "example": "Climbing a low tree with supervision teaches judgment differently from banning all climbing.",
+      "foundational_priority": 0.28,
+      "id": "child-42-outdoor-risky-play",
+      "importance": 0.74,
+      "key_takeaway": "Children learn risk by practicing within protected margins.",
+      "media": null,
+      "prerequisites": [
+        "child-10-safety-layers",
+        "child-21-gross-motor-development"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Children learn risk by practicing within protected margins.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Outdoor risky play\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Climbing a low tree with supervision teaches judgment differently from banning all climbing.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Outdoor risky play\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Outdoor risky play"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "child-18-screens-and-attention",
+          "label": "Builds on Screens and attention.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Digital privacy for children includes images, location, habits, educational records, and data collected by apps.",
+        "Adults make choices, like sharing photos or enabling location tracking, that can follow a child for years, well before the child is old enough to understand or consent to that record."
+      ],
+      "difficulty": 3,
+      "example": "Posting a school uniform photo can reveal more about location and routine than intended.",
+      "foundational_priority": 0.26,
+      "id": "child-43-digital-privacy",
+      "importance": 0.76,
+      "key_takeaway": "A child's digital footprint deserves protective judgment.",
+      "media": null,
+      "prerequisites": [
+        "child-18-screens-and-attention"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "A child's digital footprint deserves protective judgment.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Digital privacy\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Posting a school uniform photo can reveal more about location and routine than intended.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Digital privacy\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Digital privacy"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "child-10-safety-layers",
+          "label": "Builds on Safety layers.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Emergency and first-aid knowledge can help caregivers prepare, but urgent situations require local emergency services and trained guidance.",
+        "Plans, emergency numbers, first-aid supplies, and practiced routines reduce hesitation and wasted seconds when stress is high and clear thinking is hardest to sustain."
+      ],
+      "difficulty": 3,
+      "example": "Knowing where the emergency contacts are is part of care, but it is not a substitute for calling for help.",
+      "foundational_priority": 0.34,
+      "id": "child-44-emergencies-and-first-aid-boundaries",
+      "importance": 0.86,
+      "key_takeaway": "Preparation supports action; emergencies need real-time professional help.",
+      "media": null,
+      "prerequisites": [
+        "child-10-safety-layers"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Preparation supports action; emergencies need real-time professional help.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Emergencies and first aid boundaries\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Knowing where the emergency contacts are is part of care, but it is not a substitute for calling for help.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Emergencies and first aid boundaries\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Emergencies and first aid boundaries"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "limitations",
+      "connections": [
+        {
+          "card_id": "child-07-sleep-rhythms",
+          "label": "Builds on Sleep rhythms.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Persistent sleep problems can reflect routines, development, stress, environment, medical issues, or family constraints.",
+        "Professional guidance is appropriate when sleep concerns are severe, unsafe, prolonged, or tied to health symptoms."
+      ],
+      "difficulty": 3,
+      "example": "Snoring, breathing pauses, or extreme daytime sleepiness changes the sleep conversation.",
+      "foundational_priority": 0.3,
+      "id": "child-45-sleep-problems-and-seeking-help",
+      "importance": 0.78,
+      "key_takeaway": "Sleep advice has limits when health or safety signs appear.",
+      "media": null,
+      "prerequisites": [
+        "child-07-sleep-rhythms"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Sleep advice has limits when health or safety signs appear.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Sleep problems and seeking help\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "Snoring, breathing pauses, or extreme daytime sleepiness changes the sleep conversation.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Sleep problems and seeking help\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-cdc-milestones"
+      ],
+      "title": "Sleep problems and seeking help"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "misconceptions",
+      "connections": [
+        {
+          "card_id": "child-24-tantrums",
+          "label": "Builds on Tantrums.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-50-building-a-family-learning-map",
+          "label": "Prepares for Building a family learning map.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Behavior makes more sense when adults look for patterns across time, setting, triggers, skills, and recovery.",
+        "A single label like lazy or bad can block useful observation, since it stops adults from asking what skill is missing, what trigger is present, or what support would help."
+      ],
+      "difficulty": 3,
+      "example": "A child melting down only after noisy school days may be showing overload rather than attitude.",
+      "foundational_priority": 0.42,
+      "id": "child-46-behavior-patterns-and-context",
+      "importance": 0.86,
+      "key_takeaway": "Context turns behavior from a verdict into data.",
+      "media": null,
+      "prerequisites": [
+        "child-24-tantrums"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Context turns behavior from a verdict into data.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Behavior patterns and context\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A child melting down only after noisy school days may be showing overload rather than attitude.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Behavior patterns and context\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Behavior patterns and context"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-29-learning-differences",
+          "label": "Builds on Learning differences.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-31-sensory-differences",
+          "label": "Builds on Sensory differences.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Supporting disabled children means adapting environments, communication, expectations, and access while respecting dignity.",
+        "The child should not be treated as a problem to normalize; barriers and supports matter."
+      ],
+      "difficulty": 3,
+      "example": "A visual schedule can give an autistic child more independence rather than less.",
+      "foundational_priority": 0.34,
+      "id": "child-47-supporting-disabled-children",
+      "importance": 0.84,
+      "key_takeaway": "Support should increase participation and agency.",
+      "media": null,
+      "prerequisites": [
+        "child-29-learning-differences",
+        "child-31-sensory-differences"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Support should increase participation and agency.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Supporting disabled children\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A visual schedule can give an autistic child more independence rather than less.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Supporting disabled children\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Supporting disabled children"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "advanced-horizons",
+      "connections": [
+        {
+          "card_id": "child-26-autonomy",
+          "label": "Builds on Autonomy.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-16-executive-function",
+          "label": "Builds on Executive function.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "Adolescence brings rapid changes in identity, peers, sleep timing, autonomy, risk assessment, and future planning.",
+        "Earlier habits of trust, repair, boundaries, and conversation become the platform for later independence."
+      ],
+      "difficulty": 4,
+      "example": "A child who practiced small choices is better prepared for larger teen decisions.",
+      "foundational_priority": 0.2,
+      "id": "child-48-adolescence-bridge",
+      "importance": 0.72,
+      "key_takeaway": "Teen development is a bridge from protection toward guided independence.",
+      "media": null,
+      "prerequisites": [
+        "child-26-autonomy",
+        "child-16-executive-function"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Teen development is a bridge from protection toward guided independence.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Adolescence bridge\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A child who practiced small choices is better prepared for larger teen decisions.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Adolescence bridge\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Adolescence bridge"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "applications",
+      "connections": [
+        {
+          "card_id": "child-29-learning-differences",
+          "label": "Builds on Learning differences.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-39-illness-boundaries",
+          "label": "Builds on Illness boundaries.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-50-building-a-family-learning-map",
+          "label": "Prepares for Building a family learning map.",
+          "type": "prepares-for"
+        }
+      ],
+      "core_idea": [
+        "Advocacy means bringing observations, questions, records, and respect into conversations with clinicians, teachers, or specialists.",
+        "Clear examples help professionals understand patterns without caregivers needing to diagnose alone."
+      ],
+      "difficulty": 3,
+      "example": "A note listing when speech frustration happens can make an appointment more useful.",
+      "foundational_priority": 0.3,
+      "id": "child-49-advocacy-with-professionals",
+      "importance": 0.8,
+      "key_takeaway": "Caregivers can be informed partners without replacing professionals.",
+      "media": null,
+      "prerequisites": [
+        "child-29-learning-differences",
+        "child-39-illness-boundaries"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Caregivers can be informed partners without replacing professionals.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Advocacy with professionals\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "A note listing when speech frustration happens can make an appointment more useful.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Advocacy with professionals\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren"
+      ],
+      "title": "Advocacy with professionals"
+    },
+    {
+      "boundary_note": "Educational only. Child health, safety, disability, nutrition, mental health, and development concerns need qualified professional guidance for individual decisions or urgent risks.",
+      "category": "bridges",
+      "connections": [
+        {
+          "card_id": "child-34-caregiver-wellbeing",
+          "label": "Builds on Caregiver wellbeing.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-46-behavior-patterns-and-context",
+          "label": "Builds on Behavior patterns and context.",
+          "type": "prerequisite"
+        },
+        {
+          "card_id": "child-49-advocacy-with-professionals",
+          "label": "Builds on Advocacy with professionals.",
+          "type": "prerequisite"
+        }
+      ],
+      "core_idea": [
+        "A family learning map connects development, safety, emotion, routines, culture, and professional guidance into one usable picture.",
+        "The map should reduce shame by asking what skill, support, or boundary is needed next."
+      ],
+      "difficulty": 3,
+      "example": "After a hard week, the map may point to sleep, caregiver rest, and transition routines rather than blame.",
+      "foundational_priority": 0.28,
+      "id": "child-50-building-a-family-learning-map",
+      "importance": 0.9,
+      "key_takeaway": "Good caregiving maps turn scattered advice into compassionate next steps.",
+      "media": null,
+      "prerequisites": [
+        "child-34-caregiver-wellbeing",
+        "child-46-behavior-patterns-and-context",
+        "child-49-advocacy-with-professionals"
+      ],
+      "review_prompts": [
+        {
+          "answer_hint": "Good caregiving maps turn scattered advice into compassionate next steps.",
+          "kind": "recall",
+          "prompt": "In your own words, explain \"Building a family learning map\" and name one way someone could misunderstand it."
+        },
+        {
+          "answer_hint": "After a hard week, the map may point to sleep, caregiver rest, and transition routines rather than blame.",
+          "kind": "application",
+          "prompt": "Look at the example for \"Building a family learning map\". What detail does it show that the definition alone would miss?"
+        }
+      ],
+      "source_refs": [
+        "child-aap-healthychildren",
+        "child-cdc-milestones",
+        "child-who-health"
+      ],
+      "title": "Building a family learning map"
+    }
+  ],
+  "pack_id": "children-rearing-development-and-care",
+  "schema_version": "knowledge-cards.cards.v1",
+  "source_refs": [
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Developmental milestone orientation and when to seek guidance.",
+      "id": "child-cdc-milestones",
+      "publisher": "Centers for Disease Control and Prevention",
+      "title": "Developmental Milestones",
+      "url": "https://www.cdc.gov/act-early/milestones/index.html"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Pediatric health, safety, development, and family guidance.",
+      "id": "child-aap-healthychildren",
+      "publisher": "American Academy of Pediatrics",
+      "title": "HealthyChildren.org",
+      "url": "https://www.healthychildren.org/"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Global child-health principles and public-health framing.",
+      "id": "child-who-health",
+      "publisher": "World Health Organization",
+      "title": "Child health",
+      "url": "https://www.who.int/health-topics/child-health"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Current AAP-aligned safe-sleep recommendations for reducing infant sleep-related risk.",
+      "id": "child-cdc-safe-sleep",
+      "publisher": "Centers for Disease Control and Prevention",
+      "title": "About Sudden Unexpected Infant Death and Safe Sleep",
+      "url": "https://www.cdc.gov/sudden-infant-death/about/index.html"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "Car seat, booster seat, and seat belt guidance by age and size.",
+      "id": "child-cdc-passenger-safety",
+      "publisher": "Centers for Disease Control and Prevention",
+      "title": "Child Passenger Safety",
+      "url": "https://www.cdc.gov/child-passenger-safety/about/"
+    },
+    {
+      "accessed_at": "2026-07-21T00:00:00.000Z",
+      "claim_scope": "General food-group and nutrition education for children.",
+      "id": "child-myplate",
+      "publisher": "US Department of Agriculture",
+      "title": "MyPlate for children",
+      "url": "https://www.myplate.gov/life-stages/children"
+    }
+  ]
+}

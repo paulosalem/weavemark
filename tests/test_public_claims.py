@@ -38,7 +38,7 @@ def test_implementation_claims_are_traceable_not_sandboxed_or_reproducible() -> 
     assert "proves the loop" not in tutorial
     assert "not an operating-system security sandbox" in tutorial
     assert "making the run traceable" in tutorial
-    assert "demonstrates one successful end-to-end run" in tutorial
+    assert "demonstrates one successful end-to-end run of the loop" in tutorial
 
 
 def test_study_headline_is_explicitly_exploratory() -> None:
