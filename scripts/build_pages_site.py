@@ -30,14 +30,6 @@ LIVE_DEMO_LINK_PATTERN = re.compile(
     r'[^"]+/index\.html)"(?P<suffix>[^>]*data-live-demo="(?P<slug>[^"]+)")'
 )
 LIVE_DEMOS: dict[str, tuple[str, tuple[str, ...]]] = {
-    "orbital-drift": (
-        "outputs/implementations/orbital-drift",
-        ("index.html", "styles.css", "favicon.svg", "src/engine.js", "src/main.js"),
-    ),
-    "transit-city-swarm": (
-        "outputs/implementations/transit-city-swarm",
-        ("index.html", "styles.css", "src/app.js", "src/simulation.js"),
-    ),
     "ai-kanban": (
         "outputs/implementations/ai-kanban-browser",
         (

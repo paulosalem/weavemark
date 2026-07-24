@@ -50,14 +50,14 @@ def test_dry_run_uses_exact_compiled_stem_without_prefix_stripping(
     source = (
         tmp_path
         / "studies"
-        / "games"
-        / "orbital"
+        / "software"
+        / "sample-app"
         / "outputs"
         / "compiled-prompts"
-        / "02-treatment-promplet-orbital-drift.md"
+        / "02-treatment-promplet-sample-app.md"
     )
     source.parent.mkdir(parents=True)
-    source.write_text("# Orbital Drift implementation spec\n", encoding="utf-8")
+    source.write_text("# Sample app implementation spec\n", encoding="utf-8")
     settings = load_weavemark_settings(tmp_path).settings
 
     result = run_implementation(
@@ -70,18 +70,18 @@ def test_dry_run_uses_exact_compiled_stem_without_prefix_stripping(
         )
     )
 
-    assert result.implementation_name == "02-treatment-promplet-orbital-drift"
+    assert result.implementation_name == "02-treatment-promplet-sample-app"
     assert result.implementation_dir == (
-        tmp_path / "outputs" / "implementations" / "02-treatment-promplet-orbital-drift"
+        tmp_path / "outputs" / "implementations" / "02-treatment-promplet-sample-app"
     )
     assert result.compiled_spec_snapshot.name == (
-        "02-treatment-promplet-orbital-drift.compiled-spec.md"
+        "02-treatment-promplet-sample-app.compiled-spec.md"
     )
     assert result.agent_prompt.name == (
-        "02-treatment-promplet-orbital-drift.implementation-prompt.md"
+        "02-treatment-promplet-sample-app.implementation-prompt.md"
     )
     assert result.transcript.name == (
-        "02-treatment-promplet-orbital-drift.copilot.transcript.log"
+        "02-treatment-promplet-sample-app.copilot.transcript.log"
     )
     assert (result.implementation_dir / "compiled-spec.md").is_file()
     assert (result.implementation_dir / "implementation-prompt.md").is_file()
@@ -110,7 +110,7 @@ def test_weavemark_source_stem_strips_only_weavemark_compound_suffix(
 
 
 def test_implementation_name_overrides_default(tmp_path: Path) -> None:
-    source = tmp_path / "02-treatment-promplet-orbital-drift.md"
+    source = tmp_path / "02-treatment-promplet-sample-app.md"
     source.write_text("# Spec\n", encoding="utf-8")
     settings = load_weavemark_settings(tmp_path).settings
 
@@ -120,13 +120,13 @@ def test_implementation_name_overrides_default(tmp_path: Path) -> None:
             source_path=source,
             settings=settings.implementation,
             invocation_dir=tmp_path,
-            implementation_name="orbital-drift",
+            implementation_name="sample-app",
             dry_run=True,
         )
     )
 
-    assert result.implementation_name == "orbital-drift"
-    assert result.implementation_dir.name == "orbital-drift"
+    assert result.implementation_name == "sample-app"
+    assert result.implementation_dir.name == "sample-app"
 
 
 def test_cli_parsers_accept_implementation_flags() -> None:
@@ -136,7 +136,7 @@ def test_cli_parsers_accept_implementation_flags() -> None:
             "spec.weavemark.md",
             "--implement",
             "--implementation-name",
-            "orbital-drift",
+            "sample-app",
             "--implementation-profile",
             "copilot",
             "--implementation-dry-run",
@@ -144,7 +144,7 @@ def test_cli_parsers_accept_implementation_flags() -> None:
     )
 
     assert args.implement is True
-    assert args.implementation_name == "orbital-drift"
+    assert args.implementation_name == "sample-app"
     assert args.implementation_profile == "copilot"
     assert args.implementation_dry_run is True
 
@@ -153,14 +153,14 @@ def test_cli_parsers_accept_implementation_flags() -> None:
         [
             "compiled.md",
             "--name",
-            "orbital-drift",
+            "sample-app",
             "--profile",
             "claude-code",
             "--dry-run",
         ]
     )
     assert implement_args.compiled_spec == Path("compiled.md")
-    assert implement_args.name == "orbital-drift"
+    assert implement_args.name == "sample-app"
     assert implement_args.profile == "claude-code"
     assert implement_args.dry_run is True
 

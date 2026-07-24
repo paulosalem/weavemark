@@ -613,22 +613,6 @@ async def test_all_canonical_tutorial_promplets_compile_live() -> None:
             "include_practice": True,
         },
         "language-learning-goal-plan.weavemark.md": {},
-        "metro-lines-pack.weavemark.md": {
-            "game_fantasy": "A living city shaped by transit routes",
-            "target_device": "desktop browser",
-            "visual_mood": "clean transit maps and readable swarms",
-            "session_length": "short",
-            "include_touch_controls": False,
-            "include_accessibility": True,
-        },
-        "metro-lines.weavemark.md": {
-            "game_fantasy": "A living city shaped by transit routes",
-            "target_device": "desktop browser",
-            "visual_mood": "clean transit maps and readable swarms",
-            "session_length": "short",
-            "include_touch_controls": False,
-            "include_accessibility": True,
-        },
         "release-workbench-pack.weavemark.md": {
             "product_name": "LaunchDesk",
             "primary_users": "release managers and support leads",

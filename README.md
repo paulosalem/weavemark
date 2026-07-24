@@ -79,7 +79,8 @@ result.
   different engines.
 - **Specs that become software.** A software promplet compiles into a build-ready
   spec that `weavemark implement` hands to a programming agent — producing a real,
-  runnable project (see [`outputs/implementations/orbital-drift/`](outputs/implementations/orbital-drift/README.md)).
+  runnable project (see the
+  [`AI Kanban browser app`](outputs/implementations/ai-kanban-browser/README.md)).
 - **Programming is still intent.** Agents may write the code—or even draft the
   promplet—but they still need intricate intent. A readable specification gives
   people and agents a durable artifact for negotiating, correcting, and refining
@@ -223,8 +224,8 @@ weavemark implement outputs/fathom/compiled-spec.md --name fathom --profile copi
 ```
 
 This is not hypothetical: the checked-in
-[Orbital Drift](outputs/implementations/orbital-drift/README.md) game was built
-this way — with `package.json`, a test suite, and run instructions.
+[AI Kanban browser app](outputs/implementations/ai-kanban-browser/README.md) was
+built this way, with a test suite and run instructions.
 
 ## Executable promplets
 

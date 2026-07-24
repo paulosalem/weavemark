@@ -456,12 +456,6 @@ Use board-ready language.</code></pre>
           </article>
 
           <article class="build-card">
-            <span class="build-tag"><span class="ic ic-gamepad" aria-hidden="true"></span>Play</span>
-            <h3>Game promplets</h3>
-            <p>Playable browser-game specifications with explicit validation — <a href="../promplets/tutorials/metro-lines.weavemark.md">metro-lines.weavemark.md</a>.</p>
-          </article>
-
-          <article class="build-card">
             <span class="build-tag"><span class="ic ic-target" aria-hidden="true"></span>Decide</span>
             <h3>Decision advisors</h3>
             <p>Decision rules, evidence standards, and output contracts — <a href="../promplets/catalog/standalone/decision-advisor.weavemark.md">decision-advisor.weavemark.md</a>.</p>
@@ -523,10 +517,11 @@ Preserve decisions, risks, evidence, gaps, and next actions.</code></pre>
                 <code>@iterate</code> lets the Processor revisit a transformation
                 instead of accepting the first useful expansion.
               </p>
-              <pre><code><span class="syntax-directive">@iterate</span> 2
-  <span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention <span class="syntax-key">focus:</span> <span class="syntax-string">"playable first build"</span>
-    <a class="code-link" href="../promplets/tutorials/metro-lines.weavemark.md">Metro Lines</a>: draw routes through a living city,
-    manage congestion, and validate the first playable loop.</code></pre>
+              <pre><code><span class="syntax-directive">@iterate</span> 3
+  <span class="syntax-directive">@ask</span> clarifying question <span class="syntax-key">detail_level:</span> 35%
+    <span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention
+      Draft a prompt for the first-run onboarding flow
+      for <a class="code-link" href="../promplets/catalog/standalone/iterative-onboarding-prompt.weavemark.md"><span class="syntax-var">@{product}</span></a>.</code></pre>
             </article>
 
             <article class="snippet-card">
@@ -659,11 +654,11 @@ Problem: <span class="syntax-var">@{problem}</span>
         <div class="section-head demo-section-head">
           <div>
             <p class="section-kicker"><span class="ic ic-bolt" aria-hidden="true"></span>Live results</p>
-            <h2>Play what a promplet produced.</h2>
+            <h2>Explore what a promplet produced.</h2>
           </div>
           <p class="section-lede">
-            These are real, checked-in browser projects generated through the
-            WeaveMark compile-to-implementation workflow. Play them here, then
+            This is a real, checked-in browser project generated through the
+            WeaveMark compile-to-implementation workflow. Open it here, then
             inspect every source file and artifact on GitHub.
           </p>
         </div>
@@ -675,24 +670,6 @@ Problem: <span class="syntax-var">@{problem}</span>
             <div class="demo-actions">
               <a class="button" href="../outputs/implementations/knowledge-cards/index.html" data-live-demo="knowledge-cards">Learn live</a>
               <a href="../outputs/implementations/knowledge-cards/">Browse source</a>
-            </div>
-          </article>
-          <article class="card demo-card">
-            <span class="badge">Strategy game</span>
-            <h3>Transit City Swarm</h3>
-            <p>Draw transit lines through a growing city, follow demand trails, and keep the network reliable.</p>
-            <div class="demo-actions">
-              <a class="button" href="../demos/transit-city-swarm/">Play live</a>
-              <a href="../outputs/implementations/transit-city-swarm/">Browse source</a>
-            </div>
-          </article>
-          <article class="card demo-card">
-            <span class="badge">Keyboard racing game</span>
-            <h3>Orbital Drift</h3>
-            <p>Use W/A/D or arrow keys to thread glowing gates, bend around gravity wells, and chase a faster two-lap time trial.</p>
-            <div class="demo-actions">
-              <a class="button" href="../demos/orbital-drift/">Play live</a>
-              <a href="../outputs/implementations/orbital-drift/">Browse source</a>
             </div>
           </article>
         </div>

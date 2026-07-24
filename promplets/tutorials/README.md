@@ -9,8 +9,6 @@ these promplets and links back here so readers can run the exact source.
 | [`investment-brief.weavemark.md`](../catalog/standalone/investment-brief.weavemark.md) (catalogued promplet) | [Investment brief tutorial](../../docs/tutorial.html) |
 | [`adaptive-tutor.weavemark.md`](adaptive-tutor.weavemark.md) | [Refinement tutorial](../../docs/tutorial-refine.html) |
 | [`adaptive-tutor-guided.weavemark.md`](adaptive-tutor-guided.weavemark.md) | [Refinement tutorial](../../docs/tutorial-refine.html) — with `@ask` |
-| [`metro-lines.weavemark.md`](metro-lines.weavemark.md) | [Game tutorial](../../docs/tutorial-games.html) |
-| [`metro-lines-pack.weavemark.md`](metro-lines-pack.weavemark.md) | [Game tutorial](../../docs/tutorial-games.html) — emission pack |
 | [`release-workbench.weavemark.md`](release-workbench.weavemark.md) | [Product tutorial](../../docs/tutorial-products.html) |
 | [`release-workbench-pack.weavemark.md`](release-workbench-pack.weavemark.md) | [Product tutorial](../../docs/tutorial-products.html) — emission pack |
 | [`language-learning-goal-plan.weavemark.md`](language-learning-goal-plan.weavemark.md) | [Advanced macros tutorial](../../docs/tutorial-advanced.html) |
