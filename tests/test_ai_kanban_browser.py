@@ -92,6 +92,9 @@ def test_ai_kanban_sqlite_schema_and_repository_are_complete() -> None:
 
 def test_ai_kanban_compiled_spec_matches_browser_delivery() -> None:
     compiled = (APP / "compiled-spec.md").read_text(encoding="utf-8")
+    assert compiled.startswith(
+        "# AI Kanban — Browser Workspace for Human-AI Work\n\nBuild a complete"
+    )
     for obligation in (
         "showOpenFilePicker",
         "showSaveFilePicker",
@@ -104,3 +107,15 @@ def test_ai_kanban_compiled_spec_matches_browser_delivery() -> None:
         assert obligation in compiled
     assert "Next.js" not in compiled
     assert "Prisma" not in compiled
+    assert "Write an implementation-ready specification" not in compiled
+    assert "Return an implementation specification" not in compiled
+    assert "final answer" not in compiled.casefold()
+
+
+def test_ai_kanban_live_app_links_its_generation_path() -> None:
+    html = (APP / "index.html").read_text(encoding="utf-8")
+
+    assert "Built from a WeaveMark promplet." in html
+    assert "Source promplet" in html
+    assert "Compiled specification" in html
+    assert "Tutorial" in html

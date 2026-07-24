@@ -1239,28 +1239,6 @@ notes:      Block-scoped output contract (root -> default production, or per-@pr
 ```
 
 
-
-```promplet-schema
-directive:  @structural_constraints
-params:
-  - strict: BOOL
-body-mode:  subspec
-notes:      Declares structural obligations that the composed prompt should preserve.
-```
-
-```promplet-schema
-directive:  @assert
-params:
-  - contains: STRING
-  - not_contains: STRING
-  - section: STRING
-  - variable: STRING
-  - severity: ENUM(error|warning)
-body-mode:  none
-notes:      Declares deterministic compile-time checks. At least one nonempty contains, not_contains, section, or variable check is required; severity defaults to error. Positional/free-text assertions, bodies, and unknown parameters are errors.
-```
-
-
 ### Control Flow Directives
 
 #### `@if` / `@else_if` / `@else`

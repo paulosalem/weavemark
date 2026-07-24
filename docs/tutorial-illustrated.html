@@ -86,6 +86,7 @@
         <a class="repo-link" href="../promplets/catalog/executable/comic-strip.weavemark.md"><span class="repo-tag">Spec</span> comic-strip.weavemark.md</a>
         <a class="repo-link" href="../promplets/catalog/executable/childrens-book.weavemark.md"><span class="repo-tag">Spec</span> childrens-book.weavemark.md</a>
         <a class="repo-link" href="../promplets/domains/creative/fragments/illustrated-story-core.weavemark.md"><span class="repo-tag">Library</span> illustrated-story-core.weavemark.md</a>
+        <a class="repo-link repo-link-live" href="../outputs/implementations/orion-storybook/index.html" data-live-demo="orion-storybook"><span class="repo-tag live">Live</span> Read Orion</a>
         <a class="repo-link" href="https://github.com/paulosalem/weavemark/blob/main/examples/saved-artifact-workflows/comic-strip-en/outputs/comic-strip.png"><span class="repo-tag out">Output</span> comic-strip.png</a>
         <a class="repo-link" href="https://github.com/paulosalem/weavemark/blob/main/examples/saved-artifact-workflows/childrens-book-orion-en/outputs/book.pdf"><span class="repo-tag out">Output</span> book.pdf</a>
         <a class="repo-link" href="../examples/saved-artifact-workflows/comic-strip-en/"><span class="repo-tag">Folder</span> comic-strip-en/</a>
@@ -93,9 +94,10 @@
       </div>
       <p class="repo-resources-note">
         Source and folder links open GitHub. The page previews below are optimized
-        site images. Full-resolution generated PNG/PDF outputs are curated with
-        Git LFS; install Git LFS or use <code>git lfs pull</code> in a clone to
-        retrieve the originals. Commands assume the repository-root setup from
+        site images, and the live reader uses lightweight derivatives of all twelve
+        pages. Full-resolution generated PNG/PDF outputs are curated with Git LFS;
+        install Git LFS or use <code>git lfs pull</code> in a clone to retrieve the
+        originals. Commands assume the repository-root setup from
         <a href="tutorial.html#setup">Tutorial 1</a>.
       </p>
     </section>
@@ -420,7 +422,9 @@ Supplied `panels` beat sheet:
   <span class="syntax-var">@{author}</span></code></pre>
           <p>
             With narration lettered directly into each illustration, every image is
-            a complete, printable page. Run it:
+            a complete, printable page.
+            <a href="../outputs/implementations/orion-storybook/index.html" data-live-demo="orion-storybook">Read the complete generated book online</a>
+            or run it yourself:
           </p>
           <pre><code>bash examples/saved-artifact-workflows/childrens-book-orion-en/run.sh</code></pre>
           <p>
@@ -500,6 +504,7 @@ Supplied `panels` beat sheet:
           </p>
           <div class="callout">
             <strong>What to do with the output:</strong>
+            <a href="../outputs/implementations/orion-storybook/index.html" data-live-demo="orion-storybook">open the lightweight live storybook</a>,
             open
             <code>examples/saved-artifact-workflows/comic-strip-en/outputs/comic-strip.png</code>
             to review or share the finished comic, and open

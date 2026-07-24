@@ -1,6 +1,6 @@
 @promplet version: 0.7
 
-@refine module:weavemark.domains.programming.foundations.base_spec_author mingle: true
+@refine module:weavemark.domains.programming.foundations.software_spec mingle: true
 @refine module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite mingle: true
 @refine module:weavemark.domains.programming.types.local_first_webapp mingle: true
 @refine module:weavemark.domains.programming.modules.workflow_board mingle: true
@@ -175,8 +175,8 @@ Evaluate clustering and resurface quality on a labeled event corpus. Report
 false new-event and missed-material-update rates separately; do not collapse
 them into one accuracy score.
 
-@output enforce: strict
-  Return:
+@structural_constraints strict: true
+  The specification MUST contain exactly these sections in order:
   1. Product promise and user jobs
   2. System architecture and bounded search pipeline
   3. SQLite data model and migration strategy

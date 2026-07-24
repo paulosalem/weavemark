@@ -27,8 +27,8 @@ Critical release risk: @{release_risk}
   Add immutable release events for approvals, waivers, validation runs,
   screenshot evidence, and rollback decisions.
 
-@output enforce: strict
-  Return these sections:
+@structural_constraints strict: true
+  The specification MUST contain exactly these sections in order:
   1. Product promise
   2. User roles and permissions
   3. Screens and core workflows

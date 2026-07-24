@@ -10,6 +10,12 @@ def test_home_hero_examples_show_current_artifacts() -> None:
     html = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
 
     assert "processor-strip" not in html
+    assert 'data-title="Orion storybook — live generated result"' in html
+    assert (
+        'data-href="../outputs/implementations/orion-storybook/index.html"'
+        in html
+    )
+    assert 'data-live-demo="orion-storybook"' in html
     assert 'data-title="AI Kanban — live browser demo"' in html
     assert (
         'data-href="../outputs/implementations/ai-kanban-browser/index.html"'
@@ -30,12 +36,12 @@ def test_home_hero_examples_show_current_artifacts() -> None:
     )
     assert ">Topic monitor</button>" in html
 
-    assert 'data-title="childrens-book.weavemark.md"' in html
-    assert 'data-href="../promplets/catalog/executable/childrens-book.weavemark.md"' in html
     assert ">Storybook</button>" in html
-    assert 'data-title="market-snapshot.weavemark.md"' in html
+    assert 'data-title="VALE3 market dashboard — live generated report"' in html
     assert (
-        'data-href="../promplets/catalog/executable/market-snapshot.weavemark.md"'
+        'data-href="https://paulosalem.github.io/weavemark/examples/'
+        'saved-artifact-workflows/market-snapshot/outputs/'
+        'vale3-market-dashboard.html"'
         in html
     )
     assert ">Market report</button>" in html
@@ -45,6 +51,18 @@ def test_home_hero_examples_show_current_artifacts() -> None:
     assert slide_count == 5
     for index in range(slide_count):
         assert f'data-carousel-index="{index}"' in html
+    assert html.index(">Storybook</button>") < html.index(">Kanban</button>")
+    assert html.index(">Kanban</button>") < html.index(">Market report</button>")
+    for attribute in (
+        "data-example-result",
+        "data-example-source",
+        "data-example-tutorial",
+    ):
+        assert attribute in html
+
+    assert "reflection, functional, FSLM" in html
+    assert "Ten connected lessons" in html
+    assert "reflection, weave, FSLM" not in html
 
 
 def test_home_hero_example_selector_stays_single_line() -> None:

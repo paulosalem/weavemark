@@ -26,7 +26,7 @@ REPOSITORY_LINK_PATTERN = re.compile(
     r'href="\.\./(?P<path>(?:examples|outputs|promplets|src|studies|vscode-extension)/[^"#]*)"'
 )
 LIVE_DEMO_LINK_PATTERN = re.compile(
-    r'(?P<attribute>href|data-href)="(?P<path>\.\./outputs/implementations/'
+    r'(?P<attribute>href|data-href|data-result-href)="(?P<path>\.\./outputs/implementations/'
     r'[^"]+/index\.html)"(?P<suffix>[^>]*data-live-demo="(?P<slug>[^"]+)")'
 )
 LIVE_DEMOS: dict[str, tuple[str, tuple[str, ...]]] = {
@@ -65,6 +65,16 @@ LIVE_DEMOS: dict[str, tuple[str, tuple[str, ...]]] = {
             "src",
             "content",
             "schemas",
+        ),
+    ),
+    "orion-storybook": (
+        "outputs/implementations/orion-storybook",
+        (
+            "index.html",
+            "favicon.svg",
+            "reader.js",
+            "styles.css",
+            "pages",
         ),
     ),
 }
@@ -303,7 +313,11 @@ def _rewrite_repository_links(docs_directory: Path, root: Path) -> None:
         if not source.exists():
             raise FileNotFoundError(f"Documentation source link is missing: {source}")
         kind = "tree" if source.is_dir() else "blob"
-        return f'href="{GITHUB_REPOSITORY_URL}/{kind}/main/{relative.as_posix()}"'
+        plain_view = "?plain=1" if relative.name.endswith(".weavemark.md") else ""
+        return (
+            f'href="{GITHUB_REPOSITORY_URL}/{kind}/main/'
+            f'{relative.as_posix()}{plain_view}"'
+        )
 
     for html_path in docs_directory.glob("*.html"):
         text = html_path.read_text(encoding="utf-8")
@@ -333,7 +347,12 @@ def _rewrite_live_demo_links(docs_directory: Path, root: Path) -> None:
 
     for html_path in docs_directory.glob("*.html"):
         text = html_path.read_text(encoding="utf-8")
-        rewritten = LIVE_DEMO_LINK_PATTERN.sub(replace, text)
+        rewritten = text
+        while True:
+            next_text = LIVE_DEMO_LINK_PATTERN.sub(replace, rewritten)
+            if next_text == rewritten:
+                break
+            rewritten = next_text
         if rewritten != text:
             html_path.write_text(rewritten, encoding="utf-8")
 

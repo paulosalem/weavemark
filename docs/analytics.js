@@ -76,22 +76,23 @@
       .analytics-consent {
         position: fixed;
         z-index: 1000;
-        right: 1rem;
-        bottom: 1rem;
-        width: min(32rem, calc(100vw - 2rem));
-        padding: 1rem;
+        left: 50%;
+        bottom: 0.75rem;
+        width: min(46rem, calc(100vw - 1.5rem));
+        padding: 0.75rem 0.85rem;
         color: #102033;
-        background: #ffffff;
+        background: rgba(255, 255, 255, 0.96);
         border: 1px solid rgba(24, 48, 96, 0.18);
-        border-radius: 0.9rem;
-        box-shadow: 0 1.25rem 4rem rgba(16, 32, 51, 0.2);
-        font: 400 0.93rem/1.5 system-ui, -apple-system, BlinkMacSystemFont,
+        border-radius: 1rem;
+        box-shadow: 0 0.8rem 2.4rem rgba(16, 32, 51, 0.13);
+        font: 400 0.84rem/1.4 system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
+        transform: translateX(-50%);
       }
       .analytics-consent h2 {
-        margin: 0 0 0.35rem;
+        margin: 0 0 0.2rem;
         color: #102033;
-        font: 700 1rem/1.3 system-ui, -apple-system, BlinkMacSystemFont,
+        font: 750 0.9rem/1.25 system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
       }
       .analytics-consent p { margin: 0; }
@@ -100,7 +101,7 @@
         flex-wrap: wrap;
         justify-content: flex-end;
         gap: 0.55rem;
-        margin-top: 0.9rem;
+        margin-top: 0.55rem;
       }
       .analytics-consent button,
       .analytics-preferences {
@@ -136,7 +137,7 @@
         text-underline-offset: 0.16em;
       }
       @media (max-width: 36rem) {
-        .analytics-consent { left: 1rem; right: 1rem; width: auto; }
+        .analytics-consent { width: calc(100vw - 1rem); bottom: 0.5rem; }
         .analytics-consent-actions { justify-content: stretch; }
         .analytics-consent-actions button { flex: 1 1 9rem; }
       }
@@ -155,7 +156,7 @@
     const panel = document.createElement("aside");
     panel.id = "analytics-consent";
     panel.className = "analytics-consent";
-    panel.setAttribute("role", "dialog");
+    panel.setAttribute("role", "region");
     panel.setAttribute("aria-labelledby", "analytics-consent-title");
     panel.innerHTML = `
       <h2 id="analytics-consent-title">Help improve the WeaveMark site</h2>
@@ -192,7 +193,6 @@
       });
 
     document.body.append(panel);
-    panel.querySelector(".analytics-consent-allow").focus();
   }
 
   function addPreferencesButton() {

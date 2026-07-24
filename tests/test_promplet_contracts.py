@@ -67,9 +67,9 @@ def _bodyless_calls(source: str, names: set[str]) -> list[str]:
     return bodyless
 
 
-def test_all_149_promplets_use_canonical_assert_and_tool_syntax() -> None:
+def test_all_148_promplets_use_canonical_assert_and_tool_syntax() -> None:
     promplets = _all_promplets()
-    assert len(promplets) == 149
+    assert len(promplets) == 148
 
     invalid_assertions: list[str] = []
     invalid_parameters: list[str] = []
@@ -269,7 +269,11 @@ async def test_market_functional_metadata_and_two_node_execution(
                 "if useful for identification.\n\nRetain Portuguese-real amounts "
                 "and Brazilian-market terminology exactly when\nsupplied. Never "
                 "convert currencies or infer missing values. Keep the final\n"
-                "educational, non-recommendation disclaimer visible but quiet."
+                "educational, non-recommendation disclaimer visible but quiet.\n\n"
+                'End with a quiet "WeaveMark provenance" row linking the source '
+                "promplet,\nexecution trace, and public market-report tutorial. "
+                "Keep these project links\nsecondary to the report and label them "
+                "plainly."
             ),
         }
     ]
@@ -542,12 +546,39 @@ def test_ai_kanban_uses_concise_browser_architecture_modules() -> None:
         "modules.browser_ai_handoff",
     ):
         assert f"module:weavemark.domains.programming.{module}" in source
-    assert "@output enforce: strict" in source
+    assert "@structural_constraints strict: true" in source
+    assert "@output" not in source
     assert "outputs/implementations/ai-kanban-browser/" in source
     assert "Next.js" not in source
     assert "Prisma" not in source
     assert "WebSocket" not in source
     assert len(source.splitlines()) < 120
+
+
+def test_software_specs_are_the_agent_instructions_not_spec_generators() -> None:
+    paths = (
+        CATALOG / "standalone/ai-kanban-board.weavemark.md",
+        CATALOG / "standalone/compoundvision-investment-simulator.weavemark.md",
+        CATALOG / "standalone/knowledge-cards.weavemark.md",
+        CATALOG / "standalone/news-intelligence-board.weavemark.md",
+        CATALOG / "standalone/passive-income-planning-dashboard.weavemark.md",
+        ROOT / "promplets/tutorials/metro-lines.weavemark.md",
+        ROOT / "promplets/tutorials/release-workbench.weavemark.md",
+    )
+
+    for path in paths:
+        source = path.read_text(encoding="utf-8")
+        assert "@structural_constraints" in source, path
+        assert "@output" not in source, path
+        assert "Write an implementation-ready specification" not in source, path
+        assert "Return an implementation specification" not in source, path
+        assert "Return these sections" not in source, path
+
+    all_sources = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in (ROOT / "promplets").rglob("*.weavemark.md")
+    )
+    assert "foundations.base_spec_author" not in all_sources
 
 
 def test_knowledge_cards_uses_concise_reusable_mobile_architecture() -> None:
@@ -569,5 +600,6 @@ def test_knowledge_cards_uses_concise_reusable_mobile_architecture() -> None:
     assert "no runtime LLM calls" in source
     assert "content/packs/<pack-id>/" in source
     assert "IndexedDB" in source
-    assert "@output enforce: strict" in source
+    assert "@structural_constraints strict: true" in source
+    assert "@output" not in source
     assert len(source.splitlines()) < 110

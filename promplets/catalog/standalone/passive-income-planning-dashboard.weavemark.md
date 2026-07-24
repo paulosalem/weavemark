@@ -1,6 +1,6 @@
 @promplet version: 0.7
 
-@refine module:weavemark.domains.programming.foundations.base_spec_author mingle: true
+@refine module:weavemark.domains.programming.foundations.software_spec mingle: true
 @refine module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite mingle: true
 @refine module:weavemark.domains.programming.types.local_first_webapp mingle: true
 @refine module:weavemark.domains.programming.modules.dashboard mingle: true
@@ -84,8 +84,8 @@ evidence.
 - Keep imported statements and planning data local by default.
 - Never request brokerage credentials or execute financial transactions.
 
-@output enforce: strict
-  Return:
+@structural_constraints strict: true
+  The specification MUST contain exactly these sections in order:
   1. Product promise and explicit non-goals
   2. Local-first architecture and SQLite persistence
   3. Financial data model and calculation provenance

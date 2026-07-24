@@ -26,10 +26,10 @@ Visual mood: @{visual_mood}
 @if include_accessibility
   Add keyboard-only play, reduced-motion mode, and non-color-only demand cues.
 
-@output enforce: strict
-  Return game loop, entities, controls, progression,
-  scoring, accessibility, failure states, browser validation steps,
-  and first-build scope.
+@structural_constraints strict: true
+  The specification MUST cover the game loop, entities, controls, progression,
+  scoring, accessibility, failure states, browser validation steps, and
+  first-build scope.
 
 @assert contains: "first-build scope"
 @assert contains: "browser validation"

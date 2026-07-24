@@ -1,6 +1,6 @@
 @promplet version: 0.7
 
-@refine module:weavemark.domains.programming.foundations.base_spec_author
+@refine module:weavemark.domains.programming.foundations.software_spec
 @refine module:weavemark.domains.programming.stacks.browser_static_esmodules
 @refine module:weavemark.domains.programming.types.browser_file_backed_webapp
 @refine module:weavemark.domains.programming.modules.browser_sqlite_file_store
@@ -12,7 +12,7 @@
 
 # AI Kanban — Browser Workspace for Human-AI Work
 
-Write an implementation-ready specification for a polished static JavaScript
+This implementation-ready specification defines a polished static JavaScript
 application that runs directly from GitHub Pages with no backend.
 
 ## Product
@@ -73,6 +73,10 @@ Make global actions state-aware: show Open/Create before a workspace is active,
 then Save/New card/Workspace menu after activation. In long card workspaces, keep
 Cancel and Save reachable while plan, output, and activity sections scroll.
 
+Add a quiet footer linking the source promplet, compiled implementation
+specification, and public tutorial so the live result remains traceable to the
+intent and generation path that produced it.
+
 ## Deliverable
 
 Produce a complete static implementation under
@@ -80,8 +84,8 @@ Produce a complete static implementation under
 worker/repository modules, sample data, documentation, deterministic tests, and a
 GitHub Pages live-demo entry.
 
-@output enforce: strict
-  Return an implementation specification with exactly these sections:
+@structural_constraints strict: true
+  The specification MUST contain exactly these sections in order:
   1. Architecture and file lifecycle
   2. SQLite schema and repository operations
   3. Domain behavior and AI handoff protocol

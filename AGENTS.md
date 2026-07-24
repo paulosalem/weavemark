@@ -139,6 +139,22 @@ zsh -lc 'source ~/.zshenv >/dev/null 2>&1; source ~/.zshrc >/dev/null 2>&1; <you
   still scans or compiles with `weavemark <file> --scan`, or a full run where
   feasible, before publishing the doc change.
 
+## Software-spec promplets
+
+- A promplet intended for an AI programming agent is the software specification
+  itself. State the product, behavior, implementation constraints, and acceptance
+  criteria directly.
+- Do not tell the downstream agent to write, return, produce, or output another
+  implementation specification. That creates an accidental meta-generation layer
+  instead of instructing the agent to build the software.
+- Use `@structural_constraints` when the compiled specification must have required
+  sections or ordering. Do not use `@output` to define the shape of a software
+  specification that will itself be passed to a programming agent.
+- Keep `@output` for promplets whose downstream response really is the requested
+  deliverable, such as an analysis, article, image, or structured answer.
+  Compile-time packaging such as `@emit file: "implementation-spec.md"` is also
+  valid when the promplet intentionally produces a multi-file artifact pack.
+
 ## Example script principles
 
 - Treat example `run.sh` scripts as inspectable command transcripts, not product

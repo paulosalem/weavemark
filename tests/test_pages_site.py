@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import re
 import sys
 from pathlib import Path
 
@@ -74,10 +75,17 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         / "cards"
         / "cards.json"
     ).is_file()
+    assert (destination / "demos" / "orion-storybook" / "index.html").is_file()
+    assert (
+        destination / "demos" / "orion-storybook" / "pages" / "page-12.jpg"
+    ).is_file()
     tutorial_html = (destination / "docs" / "tutorial.html").read_text(
         encoding="utf-8"
     )
-    assert "github.com/paulosalem/weavemark/blob/main/promplets/" in tutorial_html
+    assert (
+        "github.com/paulosalem/weavemark/blob/main/promplets/"
+        "catalog/standalone/investment-brief.weavemark.md?plain=1"
+    ) in tutorial_html
     assert "github.com/paulosalem/weavemark/tree/main/examples/" in tutorial_html
     assert 'href="../promplets/' not in tutorial_html
     games_html = (destination / "docs" / "tutorial-games.html").read_text(
@@ -103,6 +111,9 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         'href="../demos/knowledge-cards/" data-live-demo="knowledge-cards"'
         in home_html
     )
+    assert 'href="../demos/orion-storybook/" data-live-demo="orion-storybook"' in home_html
+    assert 'data-result-href="../demos/orion-storybook/"' in home_html
+    assert 'data-result-href="../demos/ai-kanban/"' in home_html
     assert (destination / "docs" / "local-demo-links.js").is_file()
     assert (destination / "docs" / "mobile-navigation.js").is_file()
     assert '<script src="mobile-navigation.js?v=20260723" defer></script>' in home_html
@@ -122,6 +133,21 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         / "outputs"
         / "book.html"
     ).exists()
+
+    source_link_pattern = re.compile(
+        r"https://github\.com/paulosalem/weavemark/blob/"
+        r"""[^"' <>)]+\.weavemark\.md(?:\?[^"' <>)]+)?"""
+    )
+    invalid_source_links: list[str] = []
+    for path in destination.rglob("*"):
+        if path.suffix.casefold() not in {".html", ".md"}:
+            continue
+        for match in source_link_pattern.finditer(path.read_text(encoding="utf-8")):
+            if not match.group(0).endswith("?plain=1"):
+                invalid_source_links.append(
+                    f"{path.relative_to(destination)}: {match.group(0)}"
+                )
+    assert invalid_source_links == []
 
 
 def test_pages_artifact_contains_no_private_context(tmp_path: Path) -> None:

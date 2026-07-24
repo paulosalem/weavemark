@@ -382,6 +382,8 @@ def test_functional_market_snapshot_artifacts_are_grounded_and_transparent() -> 
         assert name in trace
     assert "https://" in output
     assert "VALE3" in output
+    assert "WeaveMark provenance" in dashboard
+    assert "execution trace" in dashboard
     assert re.search(
         r"(?:Current price[^\n]*BRL|BRL[^\n]*Current price)",
         output,

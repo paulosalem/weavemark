@@ -32,6 +32,9 @@ def test_analytics_module_is_consent_first_and_disables_ad_signals() -> None:
     assert "Allow analytics" in source
     assert "Analytics preferences" in source
     assert '"analytics-preview"' in source
+    assert 'panel.setAttribute("role", "region")' in source
+    assert 'panel.setAttribute("role", "dialog")' not in source
+    assert 'panel.querySelector(".analytics-consent-allow").focus()' not in source
 
 
 def test_pages_build_contains_analytics_module(tmp_path: Path) -> None:

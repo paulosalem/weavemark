@@ -17,6 +17,9 @@ specification and may add further details when they are consistent with it.
 ## Core obligations
 
 - Present the specification as the source of truth for building the software.
+- Make every requirement testable. Prefer concrete algorithms, data structures,
+  identifiers, status codes, failure messages, and acceptance checks over abstract
+  intentions.
 - Prefer concrete requirements over exploratory questions.
 - State assumptions and open decisions explicitly, but do not turn the
   specification into a conversation with the user.
@@ -25,6 +28,16 @@ specification and may add further details when they are consistent with it.
 - Use MUST/SHOULD/MAY carefully for requirements, recommendations, and optional
   enhancements.
 - Define what is in scope and out of scope for the first build.
+- Give every entity an explicit lifecycle from creation through valid states to
+  deletion or archival.
+- For each API endpoint, define its method, path, request and response schemas,
+  authentication requirements, and error responses.
+- For each persisted field, define its type, constraints, default, and indexing
+  requirements.
+- Address concurrency and race conditions wherever state can change from more than
+  one execution context.
+- Store monetary values as integer smallest units rather than floating-point
+  numbers, and store timestamps as UTC ISO 8601 values with timezone offsets.
 
 ## Required specification shape
 

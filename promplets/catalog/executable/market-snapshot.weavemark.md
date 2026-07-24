@@ -51,3 +51,7 @@ personal financial advice.
   Retain Portuguese-real amounts and Brazilian-market terminology exactly when
   supplied. Never convert currencies or infer missing values. Keep the final
   educational, non-recommendation disclaimer visible but quiet.
+
+  End with a quiet "WeaveMark provenance" row linking the source promplet,
+  execution trace, and public market-report tutorial. Keep these project links
+  secondary to the report and label them plainly.

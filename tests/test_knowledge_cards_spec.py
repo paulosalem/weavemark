@@ -50,10 +50,11 @@ def test_compiled_knowledge_cards_spec_is_implementation_ready() -> None:
         "## File tree, implementation sequence, tests, and acceptance criteria",
     ]
     assert compiled.startswith("# Knowledge Cards\n")
+    assert "## Product promise, learning model, and non-goals\n\nBuild a polished" in compiled
     assert re.findall(r"^## .+$", compiled, re.MULTILINE) == headings
 
     for obligation in (
-        "Each pack MUST contain exactly 50 cards",
+        "exactly 50 cards per pack",
         "content/packs/<pack-id>/",
         "content/packs/index.json",
         "source_refs",
@@ -71,3 +72,6 @@ def test_compiled_knowledge_cards_spec_is_implementation_ready() -> None:
     assert "Next.js" not in compiled
     assert "Prisma" not in compiled
     assert "WebSocket" not in compiled
+    assert "Write an implementation-ready specification" not in compiled
+    assert "Return an implementation specification" not in compiled
+    assert "final answer" not in compiled.casefold()

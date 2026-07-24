@@ -192,9 +192,9 @@ def test_playwright_mcp_requires_approved_pinned_configuration() -> None:
 
 
 @pytest.mark.asyncio
-async def test_all_52_domain_promplets_scan_and_compile() -> None:
+async def test_all_51_domain_promplets_scan_and_compile() -> None:
     paths = sorted(DOMAINS.rglob("*.weavemark.md"))
-    assert len(paths) == 52
+    assert len(paths) == 51
 
     client = _CompileClient()
     failures: list[str] = []

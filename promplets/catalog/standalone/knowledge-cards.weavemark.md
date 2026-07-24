@@ -1,6 +1,6 @@
 @promplet version: 0.7
 
-@refine module:weavemark.domains.programming.foundations.base_spec_author
+@refine module:weavemark.domains.programming.foundations.software_spec
 @refine module:weavemark.domains.programming.stacks.browser_static_esmodules
 @refine module:weavemark.domains.programming.types.mobile_first_webapp
 @refine module:weavemark.domains.programming.modules.card
@@ -10,9 +10,9 @@
 
 # Knowledge Cards
 
-Write an implementation-ready specification for a polished mobile-first web app
+This implementation-ready specification defines a polished mobile-first web app
 that turns the familiar one-card-at-a-time social feed into cumulative learning.
-It runs entirely as static HTML, CSS, and JavaScript with no backend.
+The app runs entirely as static HTML, CSS, and JavaScript with no backend.
 
 ## Content edition
 
@@ -72,9 +72,10 @@ Produce a complete static implementation under
 the deterministic pack-index/validation command, local-state repository, tests,
 README, and GitHub Pages-ready assets.
 
-@output enforce: strict
-  Return `# Knowledge Cards`, then exactly eight H2 sections in this order, named
-  by the list below. Do not add a preface, extra H2 sections, or a repeated outline.
+@structural_constraints strict: true
+  The specification MUST begin with `# Knowledge Cards`, followed by exactly eight
+  H2 sections in this order. It MUST NOT contain a preface, extra H2 sections, or a
+  repeated outline.
   1. Product promise, learning model, and non-goals
   2. Static architecture, mobile shell, and offline lifecycle
   3. Pack convention, schemas, discovery, and build-time validation

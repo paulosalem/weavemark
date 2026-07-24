@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Read Orion and the Hunt for His Spark, a twelve-page illustrated storybook generated from a WeaveMark promplet."
+    >
+    <title>Orion and the Hunt for His Spark</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./reader.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#book">Skip to the book</a>
+
+    <header class="reader-header">
+      <a class="wordmark" href="https://paulosalem.github.io/weavemark/docs/index.html">
+        <span aria-hidden="true">W</span>
+        <strong>WeaveMark</strong>
+      </a>
+      <nav aria-label="Storybook provenance">
+        <a href="https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/childrens-book.weavemark.md?plain=1">Promplet</a>
+        <a href="https://paulosalem.github.io/weavemark/docs/tutorial-illustrated.html">Tutorial</a>
+        <a href="https://github.com/paulosalem/weavemark/blob/main/examples/saved-artifact-workflows/childrens-book-orion-en/outputs/compiled-chain.json">Compiled chain</a>
+      </nav>
+    </header>
+
+    <main id="book" class="book-reader">
+      <section id="cover" class="cover" aria-labelledby="book-title">
+        <p class="eyebrow">A generated WeaveMark storybook</p>
+        <h1 id="book-title">Orion and the Hunt for His Spark</h1>
+        <p>
+          A small dragon learns that curiosity, patience, and kindness can kindle
+          a spark that force cannot.
+        </p>
+        <button id="startButton" class="primary-button" type="button">Start reading</button>
+      </section>
+
+      <section id="pageView" class="page-view" hidden aria-live="polite">
+        <figure>
+          <img id="pageImage" src="./pages/page-1.jpg" alt="">
+          <figcaption id="pageCaption"></figcaption>
+        </figure>
+      </section>
+    </main>
+
+    <footer class="reader-controls">
+      <button id="previousButton" type="button" disabled>Previous</button>
+      <span id="pageStatus">Cover · 12 illustrated pages</span>
+      <button id="nextButton" class="primary-button" type="button">Start</button>
+    </footer>
+  </body>
+</html>

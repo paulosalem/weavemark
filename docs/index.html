@@ -68,36 +68,10 @@
           <div class="terminal">
             <div class="terminal-top">
               <span class="window-dots" aria-hidden="true"><span></span><span></span><span></span></span>
-              <a data-carousel-title href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">ai-kanban-board.weavemark.md</a>
+              <a data-carousel-title href="../outputs/implementations/orion-storybook/index.html" data-live-demo="orion-storybook">Orion storybook — live generated result</a>
             </div>
             <div class="hero-slides" aria-live="polite">
-              <pre class="hero-slide is-active" data-carousel-slide data-title="AI Kanban — live browser demo" data-href="../outputs/implementations/ai-kanban-browser/index.html" data-live-demo="ai-kanban" data-stat-a-title="real local file" data-stat-a-text="open, create, save, and reopen SQLite" data-stat-b-title="no backend" data-stat-b-text="static JavaScript plus a WASM worker" data-stat-c-title="AI handoff" data-stat-c-text="provider-neutral copy, preview, approve"><code><span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.browser_static_esmodules
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.browser_file_backed_webapp
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_sqlite_file_store
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_ai_handoff
-
-# AI Kanban
-
-A static browser board whose canonical state is
-a user-selected <span class="syntax-string">.aikanban.sqlite</span> file.
-
-Cards carry plans, typed outputs, activity,
-dependencies, and versioned AI handoff packets.</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="recurring-topic-monitor.weavemark.md" data-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-stat-a-title="bound tools" data-stat-a-text="search, crawl, then synthesize" data-stat-b-title="event memory" data-stat-b-text="new, repeat, material update" data-stat-c-title="saved run" data-stat-c-text="digest plus execution trace" hidden><code><span class="syntax-directive">@execute</span> single-call
-  <span class="syntax-key">max_tool_calls:</span> 30
-
-<span class="syntax-directive">@bind</span> search_news <span class="syntax-key">language:</span> python <span class="syntax-key">from:</span> <span class="syntax-string">"./companions/recurring_topic_monitor.py"</span>
-<span class="syntax-directive">@bind</span> crawl_url <span class="syntax-key">language:</span> python <span class="syntax-key">from:</span> <span class="syntax-string">"./companions/recurring_topic_monitor.py"</span>
-
-# Recurring Topic Monitor
-
-Topic: <span class="syntax-var">@{topic}</span>
-Cadence: <span class="syntax-var">@{cadence}</span>
-Lookback window: <span class="syntax-var">@{lookback_window}</span>
-
-Cluster duplicate coverage.
-Resurface only new or materially changed findings.</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="childrens-book.weavemark.md" data-href="../promplets/catalog/executable/childrens-book.weavemark.md" data-stat-a-title="image chain" data-stat-a-text="author once, render every page" data-stat-b-title="output files" data-stat-b-text="pages, book.html, book.pdf" data-stat-c-title="story data" data-stat-c-text="dotted-path page beats" hidden><code><span class="syntax-directive">@execute</span> chain
+              <pre class="hero-slide is-active" data-carousel-slide data-title="Orion storybook — live generated result" data-href="../outputs/implementations/orion-storybook/index.html" data-result-href="../outputs/implementations/orion-storybook/index.html" data-source-href="../promplets/catalog/executable/childrens-book.weavemark.md" data-tutorial-href="tutorial-illustrated.html" data-live-demo="orion-storybook" data-stat-a-title="image chain" data-stat-a-text="author once, render every page" data-stat-b-title="finished media" data-stat-b-text="twelve illustrated pages plus HTML and PDF" data-stat-c-title="reusable core" data-stat-c-text="one story module powers comic and book"><code><span class="syntax-directive">@execute</span> chain
   <span class="syntax-key">repeat:</span> page
   <span class="syntax-key">count:</span> <span class="syntax-var">@{page_count}</span>
 
@@ -113,7 +87,43 @@ Resurface only new or materially changed findings.</code></pre>
 
 <span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.domains.creative.picture_book_html <span class="syntax-key">file:</span> book.html
 <span class="syntax-directive">@package</span> <span class="syntax-key">from:</span> book.html <span class="syntax-key">file:</span> book.pdf</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="creative-ideation.weavemark.md" data-href="../promplets/catalog/standalone/creative-ideation.weavemark.md" data-stat-a-title="@match method" data-stat-a-text="SCAMPER, Six Hats, Reverse" data-stat-b-title="@refine mingle" data-stat-b-text="method becomes local structure" data-stat-c-title="constraints" data-stat-c-text="limits stay visible" hidden><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+              <pre class="hero-slide" data-carousel-slide data-title="AI Kanban — live browser demo" data-href="../outputs/implementations/ai-kanban-browser/index.html" data-result-href="../outputs/implementations/ai-kanban-browser/index.html" data-source-href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md" data-tutorial-href="tutorial-implement.html" data-live-demo="ai-kanban" data-stat-a-title="real local file" data-stat-a-text="open, create, save, and reopen SQLite" data-stat-b-title="no backend" data-stat-b-text="static JavaScript plus a WASM worker" data-stat-c-title="AI handoff" data-stat-c-text="provider-neutral copy, preview, approve" hidden><code><span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.browser_static_esmodules
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.browser_file_backed_webapp
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_sqlite_file_store
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_ai_handoff
+
+# AI Kanban
+
+A static browser board whose canonical state is
+a user-selected <span class="syntax-string">.aikanban.sqlite</span> file.
+
+Cards carry plans, typed outputs, activity,
+dependencies, and versioned AI handoff packets.</code></pre>
+              <pre class="hero-slide" data-carousel-slide data-title="VALE3 market dashboard — live generated report" data-href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/vale3-market-dashboard.html" data-result-href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/vale3-market-dashboard.html" data-source-href="../promplets/catalog/executable/market-snapshot.weavemark.md" data-tutorial-href="tutorial-executable.html" data-stat-a-title="live evidence" data-stat-a-text="finance data plus bounded web search" data-stat-b-title="functional graph" data-stat-b-text="validated capability dependencies" data-stat-c-title="semantic package" data-stat-c-text="Markdown becomes a polished HTML report" hidden><code><span class="syntax-directive">@use</span> weavemark.domains.finance.market_research <span class="syntax-key">exposing</span> fetch_asset_snapshot search_asset_context
+
+<span class="syntax-directive">@execute</span> functional
+  <span class="syntax-key">scheduler:</span> graph-strict
+  <span class="syntax-key">allow_effects:</span> [finance_data, web_search]
+
+<span class="syntax-directive">@fetch_asset_snapshot</span> <span class="syntax-key">ticker:</span> <span class="syntax-string">"@{provider_ticker}"</span> <span class="syntax-key">as:</span> asset_snapshot
+<span class="syntax-directive">@search_asset_context</span> <span class="syntax-key">ticker:</span> <span class="syntax-string">"@{display_ticker}"</span> <span class="syntax-key">as:</span> web_context <span class="syntax-key">uses:</span> asset_snapshot
+
+<span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.std.presentation.information_dashboard_html <span class="syntax-key">file:</span> vale3-market-dashboard.html</code></pre>
+              <pre class="hero-slide" data-carousel-slide data-title="recurring-topic-monitor.weavemark.md" data-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-source-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-stat-a-title="bound tools" data-stat-a-text="search, crawl, then synthesize" data-stat-b-title="event memory" data-stat-b-text="new, repeat, material update" data-stat-c-title="saved run" data-stat-c-text="digest plus execution trace" hidden><code><span class="syntax-directive">@execute</span> single-call
+  <span class="syntax-key">max_tool_calls:</span> 30
+
+<span class="syntax-directive">@bind</span> search_news <span class="syntax-key">language:</span> python <span class="syntax-key">from:</span> <span class="syntax-string">"./companions/recurring_topic_monitor.py"</span>
+<span class="syntax-directive">@bind</span> crawl_url <span class="syntax-key">language:</span> python <span class="syntax-key">from:</span> <span class="syntax-string">"./companions/recurring_topic_monitor.py"</span>
+
+# Recurring Topic Monitor
+
+Topic: <span class="syntax-var">@{topic}</span>
+Cadence: <span class="syntax-var">@{cadence}</span>
+Lookback window: <span class="syntax-var">@{lookback_window}</span>
+
+Cluster duplicate coverage.
+Resurface only new or materially changed findings.</code></pre>
+              <pre class="hero-slide" data-carousel-slide data-title="creative-ideation.weavemark.md" data-href="../promplets/catalog/standalone/creative-ideation.weavemark.md" data-source-href="../promplets/catalog/standalone/creative-ideation.weavemark.md" data-stat-a-title="@match method" data-stat-a-text="SCAMPER, Six Hats, Reverse" data-stat-b-title="@refine mingle" data-stat-b-text="method becomes local structure" data-stat-c-title="constraints" data-stat-c-text="limits stay visible" hidden><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 <span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst <span class="syntax-key">mingle:</span> true
 
 # Creative ideation
@@ -129,40 +139,35 @@ Constraints: <span class="syntax-var">@{constraints}</span>
     <span class="syntax-directive">@refine</span> module:weavemark.std.ideation.six_thinking_hats <span class="syntax-key">mingle:</span> true
   <span class="syntax-string">"reverse"</span> ==&gt;
     <span class="syntax-directive">@refine</span> module:weavemark.std.ideation.reverse_brainstorming <span class="syntax-key">mingle:</span> true</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="market-snapshot.weavemark.md" data-href="../promplets/catalog/executable/market-snapshot.weavemark.md" data-stat-a-title="live evidence" data-stat-a-text="finance data plus bounded web search" data-stat-b-title="functional graph" data-stat-b-text="validated capability dependencies" data-stat-c-title="semantic package" data-stat-c-text="Markdown becomes a polished HTML report" hidden><code><span class="syntax-directive">@use</span> weavemark.domains.finance.market_research <span class="syntax-key">exposing</span> fetch_asset_snapshot search_asset_context
-
-<span class="syntax-directive">@execute</span> functional
-  <span class="syntax-key">scheduler:</span> graph-strict
-  <span class="syntax-key">allow_effects:</span> [finance_data, web_search]
-
-<span class="syntax-directive">@fetch_asset_snapshot</span> <span class="syntax-key">ticker:</span> <span class="syntax-string">"@{provider_ticker}"</span> <span class="syntax-key">as:</span> asset_snapshot
-<span class="syntax-directive">@search_asset_context</span> <span class="syntax-key">ticker:</span> <span class="syntax-string">"@{display_ticker}"</span> <span class="syntax-key">as:</span> web_context <span class="syntax-key">uses:</span> asset_snapshot
-
-<span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.std.presentation.information_dashboard_html <span class="syntax-key">file:</span> vale3-market-dashboard.html</code></pre>
             </div>
           </div>
           <div class="carousel-controls" aria-label="WeaveMark example selector">
             <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Previous example">&lt;</button>
-            <button class="carousel-tab is-active" type="button" data-carousel-index="0" aria-pressed="true">Kanban</button>
-            <button class="carousel-tab" type="button" data-carousel-index="1" aria-pressed="false">Topic monitor</button>
-            <button class="carousel-tab" type="button" data-carousel-index="2" aria-pressed="false">Storybook</button>
-            <button class="carousel-tab" type="button" data-carousel-index="3" aria-pressed="false">Ideas</button>
-            <button class="carousel-tab" type="button" data-carousel-index="4" aria-pressed="false">Market report</button>
+            <button class="carousel-tab is-active" type="button" data-carousel-index="0" aria-pressed="true">Storybook</button>
+            <button class="carousel-tab" type="button" data-carousel-index="1" aria-pressed="false">Kanban</button>
+            <button class="carousel-tab" type="button" data-carousel-index="2" aria-pressed="false">Market report</button>
+            <button class="carousel-tab" type="button" data-carousel-index="3" aria-pressed="false">Topic monitor</button>
+            <button class="carousel-tab" type="button" data-carousel-index="4" aria-pressed="false">Ideas</button>
             <button class="carousel-arrow" type="button" data-carousel-next aria-label="Next example">&gt;</button>
           </div>
+          <nav class="hero-example-actions" aria-label="Active example links">
+            <a class="button" data-example-result href="../outputs/implementations/orion-storybook/index.html" data-live-demo="orion-storybook">Open result</a>
+            <a data-example-source href="../promplets/catalog/executable/childrens-book.weavemark.md">View source</a>
+            <a data-example-tutorial href="tutorial-illustrated.html">Tutorial</a>
+          </nav>
         </div>
         <div class="hero-stats" aria-label="Active example highlights" aria-live="polite">
           <div class="stat" data-stat-card="a">
-            <strong data-stat-title>live cards</strong>
-            <span data-stat-text>AI workspaces, not sticky notes</span>
+            <strong data-stat-title>image chain</strong>
+            <span data-stat-text>author once, render every page</span>
           </div>
           <div class="stat" data-stat-card="b">
-            <strong data-stat-title>output surfaces</strong>
-            <span data-stat-text>text, program, table, diff, status</span>
+            <strong data-stat-title>finished media</strong>
+            <span data-stat-text>twelve illustrated pages plus HTML and PDF</span>
           </div>
           <div class="stat" data-stat-card="c">
-            <strong data-stat-title>local-first</strong>
-            <span data-stat-text>durable board state</span>
+            <strong data-stat-title>reusable core</strong>
+            <span data-stat-text>one story module powers comic and book</span>
           </div>
         </div>
       </div>
@@ -191,7 +196,7 @@ Constraints: <span class="syntax-var">@{constraints}</span>
         <div class="proof-item">
           <span class="ic ic-cpu" aria-hidden="true"></span>
           <strong>8</strong>
-          <span>execution engines — tree-of-thought, self-consistency, reflection, weave, FSLM</span>
+          <span>execution engines — tree-of-thought, self-consistency, reflection, functional, FSLM</span>
         </div>
         <div class="proof-item">
           <span class="ic ic-branch" aria-hidden="true"></span>
@@ -641,7 +646,7 @@ Problem: <span class="syntax-var">@{problem}</span>
             <a class="path-link" href="tutorial.html">
               <span>Learn</span>
               <strong>Tutorial track</strong>
-              <small>Nine connected lessons, from first prompt to running app.</small>
+              <small>Ten connected lessons, from first prompt to running app.</small>
             </a>
             <a class="path-link" href="python-api.html">
               <span>API</span>
@@ -662,37 +667,73 @@ Problem: <span class="syntax-var">@{problem}</span>
             <h2>Play what a promplet produced.</h2>
           </div>
           <p class="section-lede">
-            These are real, checked-in browser projects generated through the
-            WeaveMark compile-to-implementation workflow. Play them here, then
-            inspect every source file and artifact on GitHub.
+            Start with three complete proof paths: multimodal generation, a
+            specification implemented as software, and a tool-grounded report.
+            Open each result directly, then inspect its source and provenance.
           </p>
         </div>
         <div class="demo-grid">
           <article class="card demo-card">
+            <span class="badge">Illustrated storybook</span>
+            <h3>Orion and the Hunt for His Spark</h3>
+            <p>A twelve-page picture book authored, illustrated page by page, and packaged to HTML/PDF by one executable promplet.</p>
+            <div class="demo-actions">
+              <a class="button" href="../outputs/implementations/orion-storybook/index.html" data-live-demo="orion-storybook">Read the book</a>
+              <a href="../promplets/catalog/executable/childrens-book.weavemark.md">Source</a>
+              <a href="tutorial-illustrated.html">Tutorial</a>
+            </div>
+          </article>
+          <article class="card demo-card">
+            <span class="badge">Spec becomes software</span>
+            <h3>AI Kanban</h3>
+            <p>A concise browser-app promplet became a complete static JavaScript workspace backed by a user-selected SQLite file.</p>
+            <div class="demo-actions">
+              <a class="button" href="../outputs/implementations/ai-kanban-browser/index.html" data-live-demo="ai-kanban">Try the app</a>
+              <a href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">Source</a>
+              <a href="tutorial-implement.html">Tutorial</a>
+            </div>
+          </article>
+          <article class="card demo-card">
+            <span class="badge">Tool-grounded report</span>
+            <h3>VALE3 Market Learning Dashboard</h3>
+            <p>Finance data and bounded web-search evidence flow through a validated graph into an auditable report and standalone dashboard.</p>
+            <div class="demo-actions">
+              <a class="button" href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/vale3-market-dashboard.html">Open report</a>
+              <a href="../promplets/catalog/executable/market-snapshot.weavemark.md">Source</a>
+              <a href="../examples/saved-artifact-workflows/market-snapshot/outputs/execution-trace.md">Trace</a>
+            </div>
+          </article>
+        </div>
+        <div class="more-demo-heading">
+          <h3>More live examples</h3>
+          <p>Additional static applications generated from checked-in specifications.</p>
+        </div>
+        <div class="demo-grid demo-grid-secondary">
+          <article class="card demo-card">
             <span class="badge">Mobile learning app</span>
             <h3>Knowledge Cards</h3>
-            <p>Turn one-card scrolling into cumulative learning with four complete packs, private notes, saved cards, and offline reading.</p>
+            <p>Four complete packs, private notes, saved cards, and offline reading.</p>
             <div class="demo-actions">
               <a class="button" href="../outputs/implementations/knowledge-cards/index.html" data-live-demo="knowledge-cards">Learn live</a>
-              <a href="../outputs/implementations/knowledge-cards/">Browse source</a>
+              <a href="../outputs/implementations/knowledge-cards/">Source</a>
             </div>
           </article>
           <article class="card demo-card">
             <span class="badge">Strategy game</span>
             <h3>Transit City Swarm</h3>
-            <p>Draw transit lines through a growing city, follow demand trails, and keep the network reliable.</p>
+            <p>Draw transit lines through a growing city and keep the network reliable.</p>
             <div class="demo-actions">
               <a class="button" href="../demos/transit-city-swarm/">Play live</a>
-              <a href="../outputs/implementations/transit-city-swarm/">Browse source</a>
+              <a href="../outputs/implementations/transit-city-swarm/">Source</a>
             </div>
           </article>
           <article class="card demo-card">
             <span class="badge">Keyboard racing game</span>
             <h3>Orbital Drift</h3>
-            <p>Use W/A/D or arrow keys to thread glowing gates, bend around gravity wells, and chase a faster two-lap time trial.</p>
+            <p>Thread glowing gates, bend around gravity wells, and chase a faster lap.</p>
             <div class="demo-actions">
               <a class="button" href="../demos/orbital-drift/">Play live</a>
-              <a href="../outputs/implementations/orbital-drift/">Browse source</a>
+              <a href="../outputs/implementations/orbital-drift/">Source</a>
             </div>
           </article>
         </div>
@@ -728,6 +769,9 @@ Problem: <span class="syntax-var">@{problem}</span>
         const slides = Array.from(root.querySelectorAll("[data-carousel-slide]"));
         const tabs = Array.from(root.querySelectorAll("[data-carousel-index]"));
         const title = root.querySelector("[data-carousel-title]");
+        const resultLink = root.querySelector("[data-example-result]");
+        const sourceLink = root.querySelector("[data-example-source]");
+        const tutorialLink = root.querySelector("[data-example-tutorial]");
         const statCards = Array.from(document.querySelectorAll("[data-stat-card]"));
         const previous = root.querySelector("[data-carousel-prev]");
         const next = root.querySelector("[data-carousel-next]");
@@ -773,6 +817,15 @@ Problem: <span class="syntax-var">@{problem}</span>
             if (activeSlide.dataset.href) title.href = activeSlide.dataset.href;
             else title.removeAttribute("href");
           }
+          const updateLink = (link, href) => {
+            if (!link) return;
+            link.hidden = !href;
+            if (href) link.href = href;
+            else link.removeAttribute("href");
+          };
+          updateLink(resultLink, activeSlide.dataset.resultHref);
+          updateLink(sourceLink, activeSlide.dataset.sourceHref);
+          updateLink(tutorialLink, activeSlide.dataset.tutorialHref);
           statCards.forEach((card) => {
             const key = card.dataset.statCard;
             const titleTarget = card.querySelector("[data-stat-title]");

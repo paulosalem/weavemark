@@ -1,292 +1,667 @@
 # AI Kanban — Browser Workspace for Human-AI Work
 
-Write an implementation-ready specification for a polished static JavaScript application that runs directly from GitHub Pages with no backend. The specification MUST be concrete enough for a programmer to build, test, and validate the system without further product discovery.
+Build a complete, polished static JavaScript application under `outputs/implementations/ai-kanban-browser/`. The application runs directly from GitHub Pages with no backend, no Node.js runtime, no server routes, no server actions, no serverless functions, and no separately installed local service. It uses semantic HTML, modern CSS, standards-based JavaScript ES modules, a dedicated SQLite WASM worker, and relative asset URLs so it works under a repository subpath.
 
-Use RFC 2119 keywords precisely. Every requirement MUST be testable. Prefer concrete schemas, module boundaries, state machines, worker message contracts, SQLite transactions, typed errors, and acceptance criteria over abstract intentions. Preserve exact literal identifiers, file extensions, enum values, field names, browser API names, and output paths.
-
-Return an implementation specification with exactly these sections:
-
-1. Architecture and file lifecycle
-2. SQLite schema and repository operations
-3. Domain behavior and AI handoff protocol
-4. Interface states and interactions
-5. Security, compatibility, and recovery
-6. File tree and implementation sequence
-7. Test and acceptance matrix
-
-## Product constraints to operationalize
-
-AI Kanban is a local, file-backed board where cards are active workspaces for human-AI collaboration. A user opens an existing `.aikanban.sqlite` file or authorizes a new one; that selected file is the canonical board state.
-
-The useful core MUST NOT require an AI provider. Users can organize work, edit plans, preserve activity, capture outputs, and exchange versioned handoff packets with any assistant. Direct provider integration is an optional adapter.
-
-The deliverable MUST be a complete static implementation under `outputs/implementations/ai-kanban-browser/`, including vendored SQLite WASM, worker/repository modules, sample data, documentation, deterministic tests, and a GitHub Pages live-demo entry.
+AI Kanban is a local, file-backed board where cards are active workspaces for human-AI collaboration. The selected `.aikanban.sqlite` file is the canonical board state. The core workflow must work without any AI provider: users organize work, edit plans, preserve activity, capture outputs, and exchange versioned handoff packets with any assistant. Direct provider integration is an optional adapter.
 
 ## 1. Architecture and file lifecycle
 
-Specify a static browser architecture using semantic HTML, modern CSS, and standards-based JavaScript ES modules. The production artifact MUST run from static hosting without Node.js, server routes, server actions, serverless functions, or a separately installed local service. All asset URLs MUST be relative so `index.html` works under a repository subpath such as GitHub Pages.
+### Static application architecture
 
-Define these required layers and boundaries:
+- Deliver a static browser application rooted at `outputs/implementations/ai-kanban-browser/index.html`.
+- Use semantic HTML, modern CSS, and JavaScript ES modules. Prefer browser standards over frameworks.
+- All production asset URLs must be relative and must work when hosted from a GitHub Pages repository subpath.
+- Host required JavaScript and WebAssembly assets with the application. Core behavior must not depend on a mutable third-party CDN.
+- Include vendored SQLite WASM assets and pin deterministic dependency versions.
+- Keep domain state behind typed repository/service interfaces. UI modules must not issue raw SQL or receive a raw database object.
+- Run SQLite and any CPU-heavy parsing, import/export, search indexing, migration, or transformation work in Web Workers so the main thread remains responsive.
+- Treat the native `hidden` attribute as authoritative; component display rules must not reveal inactive states.
+- The useful core must be offline-capable after the static assets load. External network calls are optional features and require explicit user action, visible destination, purpose, progress, failure, and retry states.
 
-- UI modules for board, card detail, dialogs, toasts, workspace shell, and output renderers.
-- Domain services for cards, columns, plan items, dependencies, outputs, activities, handoff packets, filters, ordering, and validation.
-- Typed repository/service interfaces; UI modules MUST NOT issue raw SQL or receive the raw database object.
-- A dedicated SQLite Web Worker that owns the only live database connection.
-- File lifecycle service for open/create/save/save-as/close/reconnect/import/download.
-- Optional `AIProviderAdapter` boundary that is replaceable and never required for core behavior.
+### File lifecycle
 
-Specify the file lifecycle in detail:
+The application has three honest first-run choices:
 
-- First run MUST foreground three honest choices: Open board, Create board, or Try demo. The demo MUST be clearly labeled memory-only and MUST NOT imply durable persistence.
-- On supporting browsers, use `showOpenFilePicker()` and `showSaveFilePicker()` only from explicit user gestures in a secure context.
-- Store a granted `FileSystemFileHandle` in IndexedDB solely to offer recent workspace reconnection. On return, query permission and request it again only from a user gesture.
-- Show the active file name, connection mode, dirty/saving/saved state, and last successful save time. Never imply data is durable while no writable handle exists.
-- Provide Close workspace and Save As. Close MUST clear in-memory domain state after dirty-work confirmation or successful save.
-- Before Open, Create, Try demo, reconnect, or Close replaces a dirty workspace, require confirmation or a successful save. Cancellation MUST preserve the current workspace unchanged.
-- Serialize writes through one save queue. Coalesce rapid edits without dropping the final state. Explicit Save MUST flush pending mutations immediately.
-- Before overwriting, compare the selected file's latest size, modification time, and content fingerprint with the last-read signature. If another program changed it, stop and offer reload, Save As, or explicit overwrite. Never overwrite a conflict silently.
-- Keep previous database bytes in memory until a write closes successfully. Failed or cancelled writes MUST leave the UI dirty and recoverable.
-- Coordinate tabs with Web Locks when available and `BroadcastChannel` for ownership/status messages. Only one tab may write one workspace at a time; a second tab may open the same file only read-only unless it acquires the workspace lock.
-- On unsupported browsers, allow ordinary file import and explicit download of the updated `.aikanban.sqlite` file. Label this mode `import/download`, not `connected` or `autosaved`.
+1. **Open board**: open an existing `.aikanban.sqlite` workspace file.
+2. **Create board**: authorize creation of a new `.aikanban.sqlite` workspace file with the default board, schema, and sample starter content if requested.
+3. **Try demo**: use a clearly labeled memory-only demo that never implies durable storage.
 
-Use Web Workers for CPU-heavy parsing, database, search, export, import, and transformation work so the main thread remains responsive. The selected external file is canonical. In-memory SQLite, OPFS, IndexedDB, and caches are working state only. Never silently fall back from a connected external file to an unrelated OPFS database.
+On supporting Chromium browsers in secure contexts:
+
+- Use `showOpenFilePicker()` and `showSaveFilePicker()` only from explicit user gestures.
+- Store a granted `FileSystemFileHandle` in IndexedDB only to offer recent workspace reconnection.
+- On return, query permission and request permission again only from a user gesture.
+- Display active file name, connection mode, save mode, dirty/saving/saved state, and last successful save time.
+- Provide **Close workspace** and **Save As** actions.
+- Clear in-memory domain state when the workspace closes.
+
+On unsupported browsers:
+
+- Feature-detect the File System Access API.
+- Support ordinary file import and explicit download of the updated `.aikanban.sqlite` file.
+- Label this mode exactly as `import/download`, not `connected` or `autosaved`.
+- Never imply data is durable while no writable handle exists.
+
+### Save integrity and conflict handling
+
+- The selected external file is canonical. In-memory SQLite, OPFS, IndexedDB, and caches are working state only.
+- Serialize writes through one save queue. Coalesce rapid edits without dropping the final state.
+- Export the complete SQLite database bytes after committed mutations. Explicit Save must flush pending mutations immediately.
+- Before overwriting a connected file, compare the latest file size, modification time, and content fingerprint with the last-read signature.
+- If another program or tab changed the file, stop and offer reload, Save As, or explicit overwrite. Never overwrite a conflict silently.
+- Keep previous bytes in memory until a write closes successfully. Failed or cancelled writes leave the UI dirty and recoverable.
+- Before Open, Create, Try demo, reconnect, or Close replaces a dirty workspace, require confirmation or a successful save. Cancellation preserves the current workspace unchanged.
+- Coordinate tabs with Web Locks when available and `BroadcastChannel` for ownership/status messages. Only one tab may write one workspace at a time.
+- A second tab may open the same file read-only unless it acquires the workspace lock.
+- Never silently fall back from a connected external file to an unrelated OPFS database.
+
+### Workspace status states
+
+The shell must show a state-aware global action area:
+
+- Before activation: Open board, Create board, Try demo.
+- After activation: file/permission/save status, board search, filters, New card, Save, Save As, AI handoff, Workspace menu, Close workspace.
+- File-picker cancellation is neutral and must not show an error toast.
+- Incognito mode, revoked permission, unreadable files, invalid schemas, unsupported future versions, quota/storage failures, corrupt input, and export failures require specific recovery guidance.
 
 ## 2. SQLite schema and repository operations
 
-Specify a browser SQLite file store using a pinned, locally hosted SQLite WASM distribution that can import an existing database from `Uint8Array` and export the complete database bytes. Saves MAY serialize and rewrite the complete database; document a practical workspace-size limit and keep UI responsive while exporting.
+### SQLite worker and repository contract
 
-Define the schema with field name, type, constraints, default value, indexes, and lifecycle rules for every table. Include at minimum:
+- Run SQLite in a dedicated worker, e.g. `src/workers/sqlite.worker.js`.
+- Use a pinned, locally hosted SQLite WASM distribution that can import an existing database from `Uint8Array` and export the complete database bytes.
+- The worker owns the only live database connection.
+- The worker exposes a small message-based repository API with validated request/response envelopes.
+- UI modules call repository services only; they never concatenate SQL or send raw SQL.
+- Validate worker messages and SQL parameters. Do not concatenate user content into SQL.
+- Every mutation returns an updated domain snapshot or precise change record and marks the external file dirty.
+- Surface migration, corruption, lock, conflict, validation, and export failures as typed errors with user-actionable recovery.
 
-- `metadata`: schema version, application name, created/updated timestamps, workspace id, and migration state.
-- `columns`: stable text `id`, display `name`, integer `position`, optional description, archived flag, timestamps. Default columns in order MUST be `Inbox`, `Planning`, `In Progress`, `Review`, `Blocked`, `Done`.
-- `cards`: stable text `id`, `column_id`, integer `position`, `title`, Markdown `description`, `priority` enum `P0`/`P1`/`P2`/`P3`, optional `assignee`, lifecycle state, archived flag, created/updated timestamps.
-- `plan_items`: stable text `id`, `card_id`, integer `position`, text label/body, state enum `pending`/`running`/`done`/`failed`, optional timestamps and failure note.
-- `outputs`: stable text `id`, `card_id`, integer `position`, `type` enum `text`/`status`/`link`/`program`/`table`, `title`, structured content JSON or text payload, `schema_version`, `status` enum `draft`/`streaming`/`complete`/`failed`/`stale`/`superseded`/`approved`, source enum, lineage fields, created/updated timestamps.
-- `activities`: stable text `id`, event `type`, `actor`, target entity fields, timestamp, summary, structured payload JSON, visibility, optional `correlation_id` or `trace_id`. The stream SHOULD be append-only.
-- `dependencies`: stable text `id`, source card id, target card id, dependency type, timestamps, uniqueness constraints, and cycle-prevention behavior.
-- Optional search or denormalized tables only if their refresh rules and rebuild behavior are specified.
+Required repository operations:
 
-All timestamps MUST be UTC ISO 8601 with timezone offset. If any monetary field is ever added, it MUST use integer cents or the smallest currency unit, never floats.
+- `createWorkspace(options)`
+- `openWorkspace(bytes)`
+- `getSnapshot(queryOptions)`
+- `searchCards(query, filters)`
+- `createCard(input)`
+- `updateCard(cardId, patch)`
+- `archiveCard(cardId)`
+- `restoreCard(cardId)`
+- `moveCard(cardId, targetColumnId, targetOrderKey)`
+- `reorderColumn(columnId, orderedCardIds)`
+- `createColumn(input)`
+- `updateColumn(columnId, patch)`
+- `archiveColumn(columnId)`
+- `createPlanItem(cardId, input)`
+- `updatePlanItem(planItemId, patch)`
+- `reorderPlanItems(cardId, orderedPlanItemIds)`
+- `createOutputSurface(cardId, input)`
+- `updateOutputSurface(surfaceId, patch)`
+- `appendActivity(input)`
+- `exportDatabase()`
+- `closeWorkspace()`
+- `healthCheck()`
 
-Specify deterministic, transactional migrations:
+### Schema rules
 
 - Store schema version in `metadata`.
-- Enable foreign keys.
+- Enable foreign keys with `PRAGMA foreign_keys = ON`.
+- Use deterministic, transactional migrations.
 - Reject unsupported future versions and preserve original bytes before migration.
-- Use explicit transactions for multi-table mutations.
 - Use stable text identifiers and integer ordering keys.
-- Define indexes for common board, search, event, dependency, ordering, and card-detail queries.
+- Store timestamps as UTC ISO 8601 strings with timezone offsets.
 - Keep append-only activity/events separate from current entity snapshots.
+- Use explicit transactions for multi-table mutations, especially movement/reordering plus activity insertion.
+- Define indexes for board, search, event, output, and dependency queries.
+- Document a practical workspace-size limit because saves rewrite the complete database.
 
-Define the worker-owned repository API as a small message contract with operation name, request schema, response schema, typed errors, and side effects. Include create, open, snapshot/query, mutation, export, close, and health operations. Required operations include:
+### Required tables
 
-- create new database with default columns and sample/demo seed option;
-- open and validate existing bytes;
-- migrate supported prior versions;
-- load board snapshot with columns, cards, counts, filters, and selected-card detail;
-- create/edit/archive cards;
-- create/edit/reorder/delete plan items;
-- create/update/reorder/delete output surfaces;
-- append activity events;
-- move and reorder cards;
-- set dependencies and reject invalid/self/cyclic dependencies;
-- search/filter/sort board state;
-- export complete database bytes;
-- close and dispose the live database connection;
-- health check SQLite/WASM readiness.
+#### `metadata`
 
-Every mutation MUST validate worker messages and SQL parameters, MUST NOT concatenate user content into SQL, MUST run in a transaction when it affects multiple tables, and MUST return the updated domain snapshot or a precise change record. Every committed mutation MUST mark the external file dirty. Moving or reordering a card and appending its activity event MUST be one SQLite transaction. Column/card order MUST remain stable after save and reopen.
+- `key TEXT PRIMARY KEY`
+- `value TEXT NOT NULL`
 
-Surface migration, corruption, lock, conflict, invalid input, dependency-cycle, future-schema, quota/storage, and export failures as typed errors with user-actionable recovery guidance.
+Required keys:
+
+- `schema_version`: current integer version as text.
+- `workspace_id`: stable text identifier.
+- `created_at`: UTC ISO 8601 timestamp.
+- `updated_at`: UTC ISO 8601 timestamp.
+- `app_name`: `AI Kanban`.
+
+#### `columns`
+
+- `id TEXT PRIMARY KEY`
+- `name TEXT NOT NULL`
+- `description TEXT NOT NULL DEFAULT ''`
+- `order_key INTEGER NOT NULL`
+- `is_system INTEGER NOT NULL DEFAULT 0`
+- `archived_at TEXT NULL`
+- `created_at TEXT NOT NULL`
+- `updated_at TEXT NOT NULL`
+
+Constraints and indexes:
+
+- `name` must be non-empty after trim.
+- Active column order is stable by `order_key`, then `created_at`, then `id`.
+- Index `idx_columns_active_order` on `(archived_at, order_key)`.
+
+Default columns in order:
+
+1. Inbox
+2. Planning
+3. In Progress
+4. Review
+5. Blocked
+6. Done
+
+#### `cards`
+
+- `id TEXT PRIMARY KEY`
+- `column_id TEXT NOT NULL REFERENCES columns(id)`
+- `title TEXT NOT NULL`
+- `description_markdown TEXT NOT NULL DEFAULT ''`
+- `priority TEXT NOT NULL DEFAULT 'P3'`
+- `assignee TEXT NOT NULL DEFAULT ''`
+- `order_key INTEGER NOT NULL`
+- `status TEXT NOT NULL DEFAULT 'active'`
+- `created_at TEXT NOT NULL`
+- `updated_at TEXT NOT NULL`
+- `archived_at TEXT NULL`
+
+Constraints and indexes:
+
+- `priority` is one of `P0`, `P1`, `P2`, `P3`.
+- `status` is one of `active`, `blocked`, `done`, `archived`.
+- `title` must be non-empty after trim.
+- Index `idx_cards_column_order` on `(column_id, archived_at, order_key)`.
+- Index `idx_cards_updated` on `(updated_at)`.
+- Search covers title, description, priority, assignee, column, plan text, output titles, and activity summaries.
+
+#### `plan_items`
+
+- `id TEXT PRIMARY KEY`
+- `card_id TEXT NOT NULL REFERENCES cards(id) ON DELETE CASCADE`
+- `text TEXT NOT NULL`
+- `state TEXT NOT NULL DEFAULT 'pending'`
+- `order_key INTEGER NOT NULL`
+- `created_at TEXT NOT NULL`
+- `updated_at TEXT NOT NULL`
+
+Constraints and indexes:
+
+- `state` is one of `pending`, `running`, `done`, `failed`.
+- `text` must be non-empty after trim.
+- Index `idx_plan_items_card_order` on `(card_id, order_key)`.
+
+#### `output_surfaces`
+
+- `id TEXT PRIMARY KEY`
+- `card_id TEXT NOT NULL REFERENCES cards(id) ON DELETE CASCADE`
+- `type TEXT NOT NULL`
+- `title TEXT NOT NULL`
+- `content TEXT NOT NULL DEFAULT ''`
+- `schema_version INTEGER NOT NULL DEFAULT 1`
+- `status TEXT NOT NULL DEFAULT 'draft'`
+- `source TEXT NOT NULL DEFAULT 'human'`
+- `lineage_json TEXT NOT NULL DEFAULT '{}'`
+- `order_key INTEGER NOT NULL`
+- `created_at TEXT NOT NULL`
+- `updated_at TEXT NOT NULL`
+
+Constraints and indexes:
+
+- `type` is one of `text`, `status`, `link`, `program`, `table` for the first build; schema allows future renderer types.
+- `status` is one of `draft`, `streaming`, `complete`, `failed`, `stale`, `superseded`, `approved`.
+- `source` is one of `human`, `ai`, `integration`, `import`, `system`.
+- `content` for `table` surfaces is JSON with columns and rows.
+- `content` for `program` surfaces is JSON with language, optional file path, and source text.
+- Index `idx_output_surfaces_card_order` on `(card_id, order_key)`.
+
+#### `activity_events`
+
+- `id TEXT PRIMARY KEY`
+- `type TEXT NOT NULL`
+- `actor TEXT NOT NULL`
+- `target_type TEXT NOT NULL`
+- `target_id TEXT NOT NULL`
+- `timestamp TEXT NOT NULL`
+- `summary TEXT NOT NULL`
+- `payload_json TEXT NOT NULL DEFAULT '{}'`
+- `visibility TEXT NOT NULL DEFAULT 'local'`
+- `correlation_id TEXT NULL`
+- `created_at TEXT NOT NULL`
+
+Constraints and indexes:
+
+- Events are append-only. Do not edit or delete events in normal operation.
+- `type` includes `human`, `ai`, `movement`, `output`, `error`, `system`, `handoff_export`, `handoff_import`.
+- `actor` is a human, AI, integration, system, or automation label.
+- `timestamp` is an app-generated UTC ISO 8601 timestamp with timezone offset, and `payload_json` may include clock/source notes when relevant.
+- Avoid secrets, provider credentials, excessive raw internals, and sensitive payloads.
+- Index `idx_activity_target_time` on `(target_type, target_id, timestamp)`.
+- Index `idx_activity_type_time` on `(type, timestamp)`.
+
+#### `card_dependencies`
+
+- `card_id TEXT NOT NULL REFERENCES cards(id) ON DELETE CASCADE`
+- `depends_on_card_id TEXT NOT NULL REFERENCES cards(id) ON DELETE CASCADE`
+- `created_at TEXT NOT NULL`
+- Primary key `(card_id, depends_on_card_id)`.
+
+Constraints:
+
+- `card_id` must not equal `depends_on_card_id`.
+- Prevent direct duplicate dependencies.
+- Warn and block cycles when the user creates a dependency that would make a card depend on itself through a chain.
+
+### Transactional behavior
+
+- Moving or reordering a card and appending its movement activity event is one SQLite transaction.
+- Creating a card inserts the card and an activity event in one transaction.
+- Updating plan items, output surfaces, dependencies, and card metadata must update `updated_at` on the owning card and append activity where user-visible history matters.
+- Failed transactions must rollback completely and preserve the prior snapshot.
+- Column/card order must remain stable after save, export, import, close, and reopen.
 
 ## 3. Domain behavior and AI handoff protocol
 
-Define cards as active workspaces, not just task summaries. Each card includes:
+### Board behavior
 
-- title, Markdown description, priority `P0`-`P3`, assignee, and timestamps;
-- a checklist plan with `pending`, `running`, `done`, and `failed` states;
-- typed text, status, link, program, and table output surfaces;
-- append-only human, AI, movement, output, and error activity;
-- dependencies on other cards.
+- Users can create, edit, archive, search, filter, sort, reorder, and move cards.
+- Users can create, edit, archive, reorder, and describe columns, while the default six columns remain available in new boards.
+- Empty columns and empty boards must show useful states and creation/filter recovery actions.
+- Board scanning should include counts, priority badges, blocked/dependency indicators, and updated timestamps.
+- Reordering uses persistent `order_key` values and supports rollback after invalid moves or save failures.
+- Movement rules are permissive in the first build, but movement must remain auditable and reversible through visible state and activity history.
+- If movement is blocked by validation, the reason appears at the point of interaction.
 
-Specify card lifecycle: creation, editing, movement, dependency changes, output changes, archive, restore if supported, permanent deletion if allowed, export handoff, import AI response packet, and close detail view. Define which fields are required at creation, which are computed, and which changes append activity events.
+### Card model and lifecycle
 
-Specify board behavior:
+Cards are operational workspaces, not only summaries. Each card has:
 
-- Users can create, edit, archive, search, filter, reorder, and move cards with pointer and keyboard controls.
-- Columns have stable identifiers, display names, ordering, optional descriptions, useful empty states, and optional customization only if the spec defines persistence and validation.
-- Drag-and-drop MUST have accessible keyboard alternatives.
-- Movement rules, invalid-move reasons, optimistic-update rollback, and persistence behavior MUST be specified.
-- Board state MUST persist consistently across refreshes and sessions according to the selected file mode.
-- Board scanning SHOULD include counts, WIP indicators, overdue indicators, blocked indicators, dependency indicators, and attention states where useful.
+- stable `id`;
+- `title`;
+- Markdown description;
+- priority `P0`, `P1`, `P2`, or `P3`;
+- assignee;
+- timestamps;
+- current column;
+- stable order within the column;
+- checklist plan items with `pending`, `running`, `done`, and `failed` states;
+- typed output surfaces;
+- append-only activity;
+- dependencies on other cards;
+- archived state.
 
-Specify activity events as audit-grade records. Each event MUST define `id`, `type`, `actor`, `target`, `timestamp`, `summary`, `payload`, `visibility`, and optional `correlation_id` or `trace_id`. Distinguish human actions, AI actions, movement, output updates, errors, decisions, imports, and provider interactions visually but calmly. Show relative time for scanning and exact timestamp in detail. Avoid logging secrets, sensitive payloads, or excessive raw internals. Important events SHOULD be linkable, copyable, and referenceable.
+Lifecycle:
 
-Specify typed output surfaces rather than one undifferentiated text area:
+1. Created in a selected column, defaulting to Inbox.
+2. Edited in compact card view or detail workspace.
+3. Moved/reordered by pointer or keyboard controls.
+4. Enriched with plan items, outputs, dependencies, and activity.
+5. Exported to AI handoff packets when needed.
+6. Archived, restored, or left active.
 
-- Text: rendered Markdown or rich text with safe formatting.
-- Status: key-value state, progress, health, and decision indicators.
-- Link: URL, title, description, validation state, open/copy actions.
-- Program: syntax-highlighted code with language, optional file path, copy/download actions, and no execution by default.
-- Table: structured rows/columns with sorting, filtering, export, and schema validation.
+Compact card view must be scannable and reveal deeper detail through expansion or a detail panel. The full card detail view is the authoritative editing surface for description, plan, outputs, activity, dependencies, and handoff.
 
-Each output surface MUST define `id`, `host_id`, `type`, `title`, `content`, `schema_version`, `status`, `source`, `created_at`, `updated_at`, lineage, and actions. Multiple surfaces SHOULD be orderable, pinnable, minimizable, and openable in a larger detail view. Failed or stale surfaces MUST explain what happened and what the user can do.
+### Activity stream behavior
 
-Specify the provider-neutral AI handoff protocol:
+- Activity is chronological, append-only, and attached primarily to cards, with workspace-level system events where useful.
+- Render compact entries for routine events and expandable details for significant events.
+- Visually distinguish human actions, AI actions, movement, output updates, system events, and errors calmly.
+- Show relative time for scanning and exact timestamp in detail.
+- Provide filters for event type and source in long streams.
+- Preserve enough lineage to connect handoff exports, imported packets, proposed changes, approvals, outputs, and final committed events.
+- Important events should be copyable or referenceable from card detail.
 
-- Export one selected card as a compact, versioned JSON and Markdown packet containing intent, context, plan, relevant activity, outputs, dependencies, and requested response shape.
-- Copy or download the packet so the user can send it to any assistant.
-- Import a versioned AI response packet through paste or file selection.
-- Validate the packet completely before previewing changes.
-- Treat imported AI text and structured values as untrusted data, never HTML or executable instructions.
-- The user MUST approve proposed plan changes, outputs, status changes, dependencies, and activity events before commit.
+### Typed output surfaces
+
+The first build supports these surface types:
+
+- **Text**: rendered Markdown with safe formatting.
+- **Status**: key-value progress, health, or decision indicators.
+- **Link**: URL or local reference with label, notes, and copy action.
+- **Program**: syntax-highlighted program artifacts with language, optional file path, copy, and download actions.
+- **Table**: structured rows and columns with sorting, filtering, and CSV export.
+
+Surface requirements:
+
+- Use the renderer best suited to the type instead of flattening everything into prose.
+- Surfaces are orderable, openable in detail, copyable, and exportable where applicable.
+- Failed or stale surfaces explain what happened and what the user can do.
+- Comments, approvals, and revisions preserve version history when they affect downstream decisions.
+- Generated or imported surfaces carry provenance in `lineage_json`.
+- Applying an output to the workspace is explicit and auditable.
+
+### Provider-neutral AI handoff
+
+AI collaboration must work without hosting an autonomous agent service.
+
+Export one selected card as both JSON and Markdown handoff packets containing:
+
+- packet version;
+- workspace/app identity;
+- card id, title, column, priority, assignee, description, dependencies, plan, selected outputs, and relevant activity;
+- user-selected intent and requested response shape;
+- constraints that imported content is untrusted and must be previewed before commit;
+- timestamp and packet id.
+
+Required actions:
+
+- Copy packet as Markdown.
+- Download packet as `.json`.
+- Download packet as `.md`.
+- Import AI response packet by paste or file selection.
+- Validate the full packet before previewing changes.
+- Preview proposed plan changes, output surfaces, status changes, card edits, and activity events.
+- Require explicit user approval before commit.
 - Preserve the imported packet and resulting activity entry for provenance.
 
-Define exact packet schemas with `schema_version`, `packet_id`, `created_at`, app identifier, selected card snapshot, board context, activity excerpt limits, requested actions, response schema, validation errors, and provenance. Define import preview states, diff rendering, approval/rejection behavior, and rollback on failure.
+Imported AI text and structured values are untrusted data, never HTML and never executable instructions. A failed import leaves the workspace unchanged and displays field-level validation errors.
 
-Specify optional direct provider integration as an adapter:
+### Optional direct provider adapter
 
-- Define a replaceable `AIProviderAdapter`; do not couple domain code to one vendor SDK.
-- A browser-only provider credential is session-memory only, never written to localStorage, IndexedDB, logs, URLs, analytics, or workspace files.
-- Before sending, show provider, endpoint, model, exact selected content, purpose, progress, failure, retry state, and require explicit confirmation.
-- Network failure MUST leave the workspace unchanged and retain a retryable draft.
-- External network calls require explicit user action and visible destination, purpose, progress, failure, and retry states.
+The application may include a disabled-by-default provider adapter seam:
+
+- Define a replaceable `AIProviderAdapter` interface.
+- Do not couple domain code to a vendor SDK.
+- Browser-only provider credentials are session-memory only and must never be written to `localStorage`, IndexedDB, logs, URLs, analytics, or workspace files.
+- Before sending, show provider, endpoint, model, exact selected content, and purpose; require explicit confirmation.
+- Network failure leaves the workspace unchanged and retains a retryable draft.
 - Do not claim background execution, WebSockets, secure secret storage, or multi-user coordination in a static browser deployment.
 
 ## 4. Interface states and interactions
 
-The board should feel calm, capable, and trustworthy rather than like an operations console. Use restrained navy, mineral teal, warm paper, and coral attention accents. Prioritize readable cards, obvious save state, useful empty columns, strong keyboard focus, reduced motion, and responsive desktop/mobile layouts down to 320 CSS pixels.
+### Visual and interaction tone
 
-Define the workspace shell states:
+- The board should feel calm, capable, and trustworthy rather than like an operations console.
+- Use restrained navy, mineral teal, warm paper, and coral attention accents.
+- Prioritize readable cards, obvious save state, useful empty columns, strong keyboard focus, reduced motion, and responsive desktop/mobile layouts.
+- Keep raw database details behind an About workspace panel.
+- Add a quiet footer linking the source promplet, compiled implementation specification, and public tutorial so the live result remains traceable to the intent and generation path that produced it.
 
-- first-run: Open board, Create board, Try demo;
-- loading SQLite/WASM;
-- opening/importing/migrating;
-- active connected workspace;
-- active `import/download` workspace;
-- dirty, saving, saved, save failed, conflict detected;
-- unsupported browser;
-- permission revoked;
-- corrupted or unsupported file;
-- read-only second-tab mode;
-- recovery and close confirmation.
+### Required screens and states
 
-Make global actions state-aware: show Open/Create before a workspace is active, then Save/New card/Workspace menu after activation. Active workspace MUST show file/permission/save status, board search, filters, New card, Save, Save As, AI handoff, and Close workspace.
+Implement these major interface states:
 
-Define board interactions:
+1. **First run**: Open board, Create board, Try demo; explains durability honestly.
+2. **Loading/opening**: parses file, validates schema, migrates if needed, and reports progress.
+3. **Active workspace**: board columns, cards, search, filters, save status, New card, Save, Save As, AI handoff, Workspace menu, Close workspace.
+4. **Dirty workspace**: visible unsaved state with queued save progress.
+5. **Saved workspace**: last successful save displayed.
+6. **Conflict**: external change detected with Reload, Save As, and Explicit overwrite options.
+7. **Unsupported browser**: import/download fallback with clear limitations.
+8. **Recovery**: specific guidance for revoked permission, invalid schema, corrupt file, future schema, quota failure, worker failure, and failed export.
+9. **Empty board/column/search**: useful explanations and recovery actions.
+10. **Card detail workspace**: metadata, description, plan, outputs, activity, dependencies, archive/export/import controls.
 
-- default columns in order: Inbox, Planning, In Progress, Review, Blocked, Done;
-- cards are scannable at rest and reveal deeper detail through a detail panel or route-like state;
-- create, view, edit, duplicate if supported, archive, search, filter, sort, and reorder behavior;
-- pointer drag-and-drop with keyboard-complete movement controls;
-- visible drop targets, drag preview, focus styles, cancellation behavior, rollback on failed persistence;
-- useful empty board and empty column states with creation or filter recovery actions;
-- responsive desktop and mobile layouts.
+### Board interactions
 
-Define card detail interactions:
+- Users can move cards with pointer and keyboard controls.
+- Drag-and-drop must include accessible keyboard alternatives.
+- Reordering has visible drop targets, focus styles, cancellation behavior, optimistic rollback, and persistence.
+- Search and filters must not destroy board order; clearing filters restores the full board.
+- Bulk selection may be omitted from the first build unless implemented completely.
+- Global actions are state-aware: Open/Create before activation, Save/New card/Workspace menu after activation.
 
-- edit metadata and Markdown description;
-- manage plan items and output surfaces;
-- inspect activity;
-- move with keyboard-accessible controls;
-- archive;
-- export handoff;
-- preview/import an AI response packet;
-- show dependencies and dependency errors;
-- keep Cancel and Save reachable while plan, output, and activity sections scroll.
+### Card interactions
 
-Accessibility requirements MUST include accessible native controls where possible, semantic labels, visible focus, sufficient contrast, screen-reader text for icon-only controls, reduced-motion support, keyboard-complete operation, and unambiguous click/double-click/drag/context-menu/inline-edit behavior. Treat the native `hidden` attribute as authoritative; component display rules MUST NOT accidentally reveal inactive states.
+- Compact cards show title, priority, assignee, column/status cues, dependency/blocking cues, plan progress, output count, and recent activity cue.
+- Cards with primary actions expose pointer and keyboard access.
+- Click, double-click, drag, context menu, checkbox selection, and inline editing behavior must be unambiguous and non-conflicting.
+- Detail view supports editing metadata and Markdown description, managing plan items and outputs, inspecting activity, moving with keyboard-accessible controls, archiving, exporting handoff, and previewing/importing AI response packets.
+- In long card workspaces, keep Cancel and Save reachable while plan, output, and activity sections scroll.
+- Provide visible focus, semantic labels, sufficient contrast, and screen-reader text for icon-only controls.
+
+### Responsive and accessibility requirements
+
+- Support responsive layouts down to 320 CSS pixels.
+- Cards remain legible in narrow columns, dense grids, and detail panes.
+- Use accessible native controls where possible.
+- Provide visible focus and keyboard-complete interactions.
+- Support `prefers-reduced-motion`.
+- Browser validation must finish with no uncaught page errors or unexpected console errors/warnings.
 
 ## 5. Security, compatibility, and recovery
 
-Specify privacy boundaries:
+### Privacy and data boundaries
 
-- The selected file remains local unless another explicit feature sends selected content elsewhere.
-- Never upload workspace bytes for analytics, diagnostics, previews, crash reporting, or provider calls without explicit user confirmation of exact selected content.
-- Browser-only provider credentials are session-memory only and never persisted.
-- Imported files, handoff packets, provider responses, Markdown, links, table values, and program outputs are untrusted data.
-- Do not render imported AI content as raw HTML. Sanitize or safely render Markdown.
-- Program output surfaces are displayed and copied/downloaded; they are not executed by default.
+- The selected `.aikanban.sqlite` file remains local unless the user explicitly chooses an export, handoff, or provider-send action.
+- Never upload workspace bytes for analytics, diagnostics, previews, or crash reporting.
+- Do not log provider credentials, packet contents, workspace bytes, secrets, or excessive raw internals.
+- Browser storage may cache preferences, recent handles, permissions hints, and performance data, but the selected file is the canonical durable store.
+- Validate every imported file and external response before it reaches domain state.
 
-Specify compatibility:
+### Browser compatibility
 
-- Feature-detect the File System Access API, secure context, Web Workers, WebAssembly, IndexedDB, Web Locks, and `BroadcastChannel`.
-- Connected autosave is allowed only on supporting Chromium browsers with permission.
-- Elsewhere, use import/download fallback with honest durability language.
-- File-picker cancellation is a neutral outcome, not an error toast.
-- Local JavaScript and WebAssembly assets MUST be hosted with the application; core behavior MUST NOT depend on a mutable third-party CDN.
+- Connected autosave is available only on supporting Chromium browsers with File System Access API in a secure context.
+- Import/download fallback is available elsewhere.
+- Reconnection must remember the recent file handle where supported, request permission from a user gesture, detect external changes, and never overwrite a conflict silently.
+- File-picker cancellation is not an error.
+- The README must name browser support and known limitations.
 
-Specify recovery guidance for incognito/private browsing limitations, revoked permission, unreadable files, invalid schemas, unsupported future versions, corrupt SQLite input, quota/storage failures, worker crashes, save conflicts, lock contention, export failure, provider/network failure, and reload during dirty state.
+### Security posture
 
-Specify concurrency and race handling for shared mutable state:
+- Render Markdown safely. Do not execute scripts from card descriptions, imported packets, outputs, or activity payloads.
+- Treat imported AI content as untrusted data.
+- Do not use `innerHTML` with unsanitized workspace content.
+- Provider adapter requests require explicit confirmation and show destination, endpoint, model, selected content, and purpose.
+- Do not claim secure browser secret storage for provider credentials.
+- Direct provider credentials remain in session memory only.
 
-- one worker-owned database connection;
-- one serialized save queue;
-- one writer per workspace file where possible;
-- `BroadcastChannel` ownership/status messages across tabs;
-- conflict detection by size, modification time, and content fingerprint;
-- typed rollback/reload/Save As/explicit overwrite paths.
+### Recovery requirements
+
+Typed error states must cover:
+
+- invalid file type or unreadable file;
+- corrupt SQLite database;
+- missing schema version;
+- unsupported future schema version;
+- failed migration;
+- permission denied or revoked handle;
+- save cancelled;
+- external file conflict;
+- quota/storage failure;
+- worker initialization failure;
+- SQLite WASM load failure;
+- export failure;
+- invalid handoff packet;
+- direct provider network failure.
+
+Each recovery state must state what happened, what remains safe, and what the user can do next. Failed or cancelled writes leave the current workspace dirty and recoverable.
 
 ## 6. File tree and implementation sequence
 
-Specify the required deliverable under `outputs/implementations/ai-kanban-browser/`. Include a concrete file tree with at least:
+### Required file tree
 
-- `index.html` GitHub Pages live-demo entry;
-- `assets/` for CSS, icons, and vendored SQLite WASM assets;
-- `src/main.js` or equivalent ES module entry;
-- UI modules for workspace shell, board, cards, card detail, dialogs, output surfaces, activity stream, and handoff preview;
-- domain modules for cards, columns, plan items, outputs, activities, dependencies, validation, handoff packets, and sample data;
-- worker modules for SQLite initialization, schema, migrations, repository operations, message validation, and export/import;
-- file lifecycle modules for File System Access API, import/download fallback, recent handles, save queue, conflict detection, locks, and close/reconnect;
-- optional provider adapter interface and disabled-by-default example adapter stub;
-- deterministic tests and fixtures;
-- README and GitHub Pages deployment notes.
+Create the implementation under `outputs/implementations/ai-kanban-browser/` with at least:
 
-Specify deterministic dependency versions and checked-in deployable assets. Include local development command, test command, canonical data boundary, browser support, known limitations, and sample data instructions in README requirements.
+```text
+outputs/implementations/ai-kanban-browser/
+  index.html
+  README.md
+  docs/
+    tutorial.md
+    implementation-spec.md
+  assets/
+    sqlite/
+      sqlite3.js
+      sqlite3.wasm
+    icons.svg
+  src/
+    main.js
+    app.js
+    config.js
+    styles/
+      base.css
+      layout.css
+      board.css
+      card.css
+      outputs.css
+      dialogs.css
+    domain/
+      ids.js
+      schema.js
+      validation.js
+      ordering.js
+      handoff.js
+      markdown.js
+    services/
+      workspace-service.js
+      file-lifecycle.js
+      save-queue.js
+      lock-service.js
+      repository-client.js
+      provider-adapter.js
+    repository/
+      migrations.js
+      sql.js
+      sqlite-repository.js
+      seed.js
+    workers/
+      sqlite.worker.js
+    ui/
+      shell.js
+      board-view.js
+      column-view.js
+      card-view.js
+      card-detail.js
+      plan-editor.js
+      output-surfaces.js
+      activity-stream.js
+      handoff-dialog.js
+      workspace-dialogs.js
+      toasts.js
+      focus.js
+  sample-data/
+    ai-kanban-demo.aikanban.sqlite
+    handoff-request.example.json
+    handoff-response.example.json
+  tests/
+    unit/
+      ordering.test.js
+      validation.test.js
+      handoff.test.js
+      migrations.test.js
+      repository.test.js
+      save-queue.test.js
+    e2e/
+      first-run.spec.js
+      board-flow.spec.js
+      file-lifecycle.spec.js
+      handoff.spec.js
+      responsive.spec.js
+  package.json
+  playwright.config.js
+```
 
-Provide an implementation sequence that builds in safe increments:
+If a build step is used, checked-in deployable assets must still be deterministic and documented.
 
-1. static shell, styling tokens, and first-run states;
-2. SQLite WASM worker boot and health check;
-3. schema, migrations, seed data, and repository tests;
-4. file open/create/import/download/save queue;
-5. board snapshot rendering and default columns;
-6. card CRUD, ordering, movement transaction, and activity append;
-7. card detail, plan items, dependencies, and output surfaces;
-8. search/filter and responsive/accessible interactions;
-9. AI handoff export/import/preview/commit;
-10. conflict detection, reconnection, locks, and recovery states;
-11. deterministic tests, Playwright flows, documentation, and GitHub Pages entry.
+### Implementation sequence
+
+1. **Static shell and styling**: create `index.html`, CSS, responsive layout, state containers, footer links, and accessible base components.
+2. **Domain model**: implement IDs, ordering keys, validation, schema constants, Markdown sanitization, and handoff packet validation.
+3. **SQLite worker**: vendor SQLite WASM, initialize worker, implement migrations, repository API, transactions, export/import, and typed errors.
+4. **Workspace lifecycle**: implement open/create/demo, recent handle storage, permission flow, save queue, conflict fingerprinting, Web Locks, BroadcastChannel, Save As, Close workspace, and import/download fallback.
+5. **Board UI**: implement columns, cards, search, filters, empty states, movement, keyboard reordering, stable persistence, and rollback.
+6. **Card detail**: implement metadata editing, Markdown description, plan editor, dependencies, output surfaces, activity stream, archive/restore, and sticky Cancel/Save controls.
+7. **AI handoff**: implement packet export/copy/download, response paste/file import, validation, preview, approval, activity preservation, and optional provider adapter seam.
+8. **Documentation and sample data**: produce README, tutorial, compiled implementation spec copy, demo database, and packet examples.
+9. **Tests**: implement deterministic unit tests and Playwright flows for critical behavior, narrow viewports, static hosting, fallback modes, and recovery states.
+10. **GitHub Pages demo**: ensure `index.html` and relative assets run from the public static path.
+
+### Documentation requirements
+
+README must include:
+
+- local development command;
+- test command;
+- deploy/static hosting notes;
+- canonical data boundary: selected `.aikanban.sqlite` file;
+- browser support matrix;
+- connected mode vs `import/download` mode;
+- known limitations;
+- privacy notes;
+- workspace-size guidance;
+- AI handoff usage.
+
+Tutorial must show:
+
+- creating a board;
+- opening/reconnecting a board;
+- creating and moving cards;
+- editing a plan;
+- adding output surfaces;
+- exporting a handoff packet;
+- importing and approving an AI response packet;
+- recovering from unsupported browser or conflict states.
 
 ## 7. Test and acceptance matrix
 
-Provide a test and acceptance matrix that names test type, fixture/setup, steps, expected result, and acceptance criteria. Include unit tests for domain/storage modules and Playwright tests for critical browser flows, including narrow viewports and offline/static-host behavior.
+### Unit and repository tests
 
-Required coverage:
+Implement deterministic tests for:
 
-- new database creation with default columns;
-- existing `.aikanban.sqlite` reopen and export/reimport equivalence;
-- deterministic migrations and rollback;
+- new-database creation with default columns;
+- existing-file reopen;
+- schema version storage;
+- migrations and rollback;
 - unsupported future schema rejection;
-- corrupt input rejection with recovery guidance;
-- ordering persistence for columns/cards/plan items/outputs;
-- movement/reordering plus activity insertion in one transaction;
-- dependency validation including self-dependency and cycle rejection;
-- append-only activity behavior and event rendering;
-- typed output surface rendering for text, status, link, program, and table;
-- search, filters, archive behavior, and empty states;
-- keyboard movement, focus order, reduced motion, and screen-reader labels;
-- responsive layouts down to 320 CSS pixels;
-- File System Access connected save path on supporting browsers;
-- import/download fallback path on unsupported browsers;
-- Save As, Close workspace, dirty confirmation, cancellation neutrality;
-- conflict detection by changed file signature;
-- Web Locks or read-only second-tab behavior;
-- permission revocation and recent-handle reconnection;
-- worker error propagation and UI recovery;
-- handoff export packet schema, copy/download, import validation, preview, approval, commit, and provenance activity;
-- optional provider adapter disabled core behavior, confirmation before send, session-only credentials, network failure leaving workspace unchanged;
-- GitHub Pages relative asset loading and no backend dependency;
-- browser validation with no uncaught page errors or unexpected console errors/warnings.
+- corrupt input handling;
+- ordering key generation and stable ordering;
+- card create/update/archive/restore;
+- column create/update/archive/reorder;
+- card movement plus activity insertion in one transaction;
+- plan item state transitions: `pending`, `running`, `done`, `failed`;
+- output surface validation for `text`, `status`, `link`, `program`, and `table`;
+- dependency duplicate and cycle prevention;
+- export/reimport equivalence;
+- worker error propagation;
+- save queue coalescing and final-state preservation;
+- conflict fingerprint detection;
+- handoff request export schema;
+- handoff response import validation;
+- Markdown sanitization.
 
-The final specification MUST be strict, implementation-ready, and limited to the seven required sections above. It MUST not include vague placeholders, unresolved questions, backend assumptions, or claims of durability/security that the static browser architecture cannot provide.
+### Browser and Playwright tests
+
+Implement Playwright tests for:
+
+- first-run choices and honest durability labels;
+- create board, add card, save, close, reopen, and verify persistence;
+- import/download fallback path;
+- keyboard card movement and focus visibility;
+- pointer movement or simulated drag/drop where stable in tests;
+- search/filter and clearing filters;
+- card detail editing with sticky Cancel/Save controls;
+- output surface rendering and actions;
+- activity event append and display;
+- AI handoff export and response preview/approval;
+- conflict state with Reload, Save As, and Explicit overwrite choices;
+- unsupported-browser messaging by feature mock;
+- narrow viewport at 320 CSS pixels;
+- reduced-motion behavior;
+- static-host behavior under a repository subpath;
+- no uncaught page errors and no unexpected console errors/warnings.
+
+### Manual acceptance criteria
+
+The build is acceptable when:
+
+- `outputs/implementations/ai-kanban-browser/index.html` runs as a static app from GitHub Pages.
+- A user can create a `.aikanban.sqlite` board, create cards, move/reorder them, edit plans and outputs, save, close, reopen, and see stable state.
+- Moving or reordering a card and appending movement activity happens atomically.
+- The default columns appear in order: Inbox, Planning, In Progress, Review, Blocked, Done.
+- Connected mode never implies durability before a writable handle exists.
+- `import/download` mode is clearly labeled and usable on browsers without File System Access API.
+- External file changes are detected and never overwritten silently.
+- The app remains useful without any AI provider.
+- Handoff export creates versioned JSON and Markdown packets.
+- Handoff import validates, previews, and requires explicit approval before committing changes.
+- Optional provider integration, if present, uses a replaceable `AIProviderAdapter`, requires explicit confirmation, and stores credentials only in session memory.
+- Activity streams preserve human, AI, movement, output, error, system, handoff export, and handoff import events without leaking secrets.
+- Typed output surfaces render as purpose-built views instead of one undifferentiated text area.
+- The UI is accessible by keyboard, has visible focus, supports reduced motion, and works down to 320 CSS pixels.
+- README, tutorial, sample data, deterministic tests, vendored SQLite WASM, worker/repository modules, and GitHub Pages live-demo entry are present.
+- Browser validation finishes with no uncaught page errors or unexpected console errors/warnings.

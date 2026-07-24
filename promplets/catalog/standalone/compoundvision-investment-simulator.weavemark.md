@@ -3,14 +3,14 @@
 
 # CompoundVision — Interactive Compound Interest & Investment Simulator
 
-@refine module:weavemark.domains.programming.foundations.base_spec_author
+@refine module:weavemark.domains.programming.foundations.software_spec
 @refine module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite
 @refine module:weavemark.domains.finance.finance_safety mingle: true
 @refine module:weavemark.domains.programming.modules.auth
 @refine module:weavemark.domains.programming.modules.dashboard
 
-Write this implementation specification for a senior frontend/full-stack
-developer: be precise, mathematically rigorous, and visualization-focused.
+This implementation specification targets a senior frontend/full-stack developer
+and is precise, mathematically rigorous, and visualization-focused.
 
 ## Product Vision
 
@@ -211,16 +211,15 @@ decimal type without an intermediate JavaScript number.
 | share_token | TEXT | UNIQUE, NULL, length = 32 when set |
 | created_at | TEXT | NOT NULL ISO 8601 UTC timestamp |
 
-Include exact formulas for compound interest, tax drag, and fee erosion in the
-implementation specification.
+The specification MUST include exact formulas for compound interest, tax drag, and fee erosion.
 
 @assert contains: "arbitrary precision"
 @assert contains: "random number generator"
 @assert contains: "data inputs, axes, interactions, and accessibility features"
 @assert contains: "exact formulas for compound interest, tax drag, and fee erosion"
 
-@output "markdown"
-  Structure the output as:
+@structural_constraints strict: true
+  The specification MUST contain exactly these sections in order:
   1. Architecture Overview
   2. Calculation Engine (all formulas, precision requirements, performance targets)
   3. Data Models (full schemas)

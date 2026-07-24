@@ -229,6 +229,8 @@ with `@use`.
 | `catalog/executable/collaborative-investment-strategy.weavemark.md` | Human-in-the-loop investment-strategy drafting workflow; the demo runner can hand each client turn to the surrounding AI agent. |
 | `catalog/executable/crisis-strategy-analyzer.weavemark.md` | Tool-enabled strategy-analysis prompt using reusable reasoning and strategy lenses. |
 | `catalog/executable/financial-independence-goal-plan.weavemark.md` | Weave prompt that imports the reusable goal-planning module and binds `web_search read` to a public-reference companion. |
+| `catalog/executable/childrens-book.weavemark.md` | Multimodal chain that authors a page-by-page picture book, renders every illustration, and packages HTML/PDF; [read the live Orion result](https://paulosalem.github.io/weavemark/demos/orion-storybook/). |
+| `catalog/executable/comic-strip.weavemark.md` | Reflection-powered reference-image workflow that renders, inspects, and revises a complete comic strip. |
 | `catalog/executable/market-snapshot.weavemark.md` | Flagship VALE3 functional workflow: reusable finance capabilities gather market/search evidence, a grounded Markdown brief is drafted, and reusable plus local `@package` instructions produce a standalone HTML dashboard. |
 
 ## Experimental executable prompts

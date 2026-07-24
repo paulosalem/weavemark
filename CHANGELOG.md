@@ -2,6 +2,43 @@
 
 ## Unreleased
 
+## 0.9.2 - 2026-07-23
+
+### Added
+
+- Reusable static-browser, file-backed application, browser SQLite, mobile-first
+  feed, static content-pack, AI-handoff, and knowledge-card curriculum promplets.
+- A backend-free AI Kanban application whose canonical workspace is a
+  user-selected SQLite file, with provider-neutral AI handoffs and conflict-safe
+  persistence.
+- A mobile-first Knowledge Cards application with four reviewed 50-card packs,
+  offline/local state, notes, saved cards, deterministic ordering, and explicit
+  attention safeguards.
+- A lightweight live reader for the generated twelve-page Orion storybook.
+- Accessible collapsible mobile navigation shared by the documentation site,
+  tutorial track, and in-page section menus.
+
+### Changed
+
+- Reframed the README and homepage around three complete proof paths: illustrated
+  storybook, AI Kanban, and the VALE3 market report.
+- Replaced the passive-income/Orbital Drift implementation tutorial with the
+  browser-native AI Kanban source-to-app walkthrough.
+- Clarified `@effect` read/write access modes in the language authority and
+  public reference.
+- Made the analytics consent request a quiet nonmodal banner.
+
+### Fixed
+
+- Prevented save races, cross-workspace writes, hidden-state leaks, corrupt-file
+  dead ends, misleading fallback copy, and mobile action overlap in AI Kanban.
+- Removed nested vertical scrolling from Knowledge Cards, made the document the
+  single scroll owner, and hardened progress, mutation, source, connection, and
+  content-validation behavior.
+- Restored direct local demo links while preserving GitHub Pages demo routes.
+- Replaced undiscoverable narrow-screen horizontal navigation with explicit
+  disclosure menus.
+
 ## 0.9.1 - 2026-07-20
 
 ### Added
