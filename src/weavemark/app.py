@@ -596,7 +596,7 @@ def create_implement_parser() -> argparse.ArgumentParser:
         epilog=(
             "Examples:\n"
             "  weavemark implement compiled-spec.md\n"
-            "  weavemark implement compiled-spec.md --name orbital-drift --profile copilot\n"
+            "  weavemark implement compiled-spec.md --name sample-app --profile copilot\n"
             "  weavemark implement compiled-spec.md --profile claude-code --dry-run\n"
         ),
     )

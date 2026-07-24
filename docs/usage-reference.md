@@ -576,7 +576,7 @@ source stem; WeaveMark only strips the compound `.weavemark.md` suffix for
 source specs. It does not remove study prefixes such as `02-treatment-`.
 
 ```bash
-weavemark implement compiled-spec.md --name orbital-drift --dry-run
+weavemark implement compiled-spec.md --name sample-app --dry-run
 ```
 
 `weavemark implement` writes a fresh workspace under `output_root`, copies the

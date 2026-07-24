@@ -47,12 +47,8 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         assert 'rel="icon" href="weavemark_logo.png"' not in html
     root_html = (destination / "index.html").read_text(encoding="utf-8")
     assert 'rel="icon" href="docs/weavemark_favicon.png"' in root_html
-    assert (destination / "demos" / "orbital-drift" / "index.html").is_file()
-    assert (destination / "demos" / "orbital-drift" / "src" / "main.js").is_file()
-    assert (destination / "demos" / "transit-city-swarm" / "index.html").is_file()
-    assert (
-        destination / "demos" / "transit-city-swarm" / "src" / "simulation.js"
-    ).is_file()
+    assert not (destination / "demos" / "orbital-drift").exists()
+    assert not (destination / "demos" / "transit-city-swarm").exists()
     assert (destination / "demos" / "ai-kanban" / "index.html").is_file()
     assert (destination / "demos" / "ai-kanban" / "src" / "sqlite-worker.js").is_file()
     assert (destination / "demos" / "ai-kanban" / "vendor" / "sql-wasm.wasm").is_file()
@@ -88,14 +84,7 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
     ) in tutorial_html
     assert "github.com/paulosalem/weavemark/tree/main/examples/" in tutorial_html
     assert 'href="../promplets/' not in tutorial_html
-    games_html = (destination / "docs" / "tutorial-games.html").read_text(
-        encoding="utf-8"
-    )
-    assert 'href="../demos/transit-city-swarm/"' in games_html
-    assert (
-        "github.com/paulosalem/weavemark/tree/main/outputs/implementations/"
-        "transit-city-swarm"
-    ) in games_html
+    assert not (destination / "docs" / "tutorial-games.html").exists()
     implement_html = (destination / "docs" / "tutorial-implement.html").read_text(
         encoding="utf-8"
     )
@@ -105,6 +94,8 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         "ai-kanban-browser"
     ) in implement_html
     home_html = (destination / "docs" / "index.html").read_text(encoding="utf-8")
+    assert "Orbital Drift" not in home_html
+    assert "Transit City Swarm" not in home_html
     assert 'data-href="../demos/ai-kanban/"' in home_html
     assert 'href="../demos/ai-kanban/" data-live-demo="ai-kanban"' in home_html
     assert (

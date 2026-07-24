@@ -61,7 +61,7 @@ def test_home_hero_examples_show_current_artifacts() -> None:
         assert attribute in html
 
     assert "reflection, functional, FSLM" in html
-    assert "Ten connected lessons" in html
+    assert "Nine connected lessons" in html
     assert "reflection, weave, FSLM" not in html
 
 

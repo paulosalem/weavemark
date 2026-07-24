@@ -132,7 +132,6 @@ def test_weavemark_tutorial_snippets_do_not_fake_hash_comments() -> None:
     weavemark_tutorials = (
         "tutorial.html",
         "tutorial-advanced.html",
-        "tutorial-games.html",
         "tutorial-products.html",
         "tutorial-refine.html",
         "tutorial-reuse.html",
@@ -155,9 +154,9 @@ def test_tutorial_track_includes_executable_market_report_lesson() -> None:
     for path in tutorial_paths:
         html = path.read_text(encoding="utf-8")
         assert '<a href="tutorial-executable.html"' in html, path
-        assert "<span>8</span> Market report" in html, path
-        assert "<span>9</span> Spec to app" in html, path
-        assert "<span>10</span> Illustrated stories" in html, path
+        assert "<span>7</span> Market report" in html, path
+        assert "<span>8</span> Spec to app" in html, path
+        assert "<span>9</span> Illustrated stories" in html, path
 
     executable = _tutorial("tutorial-executable.html")
     assert "market-snapshot.weavemark.md" in executable
