@@ -45,13 +45,11 @@ Start with these practical paths:
 
 | User goal | Example |
 | --- | --- |
-| Notes to next actions | `examples/terminal-output-only/messy-notes-action-plan/` |
-| Summary of supplied material | `examples/terminal-output-only/deep-summary/` |
-| Research or a decision | `examples/terminal-output-only/research-brief/` or `examples/terminal-output-only/decision-advisor/` |
-| Improve an existing prompt | `examples/terminal-output-only/prompt-refiner/` |
-| Review a program or repository | `examples/terminal-output-only/program-review-checklist/` |
+| Improve an existing prompt | `examples/saved-artifact-workflows/prompt-refactoring-pipeline/` |
+| Recurring research | `examples/saved-artifact-workflows/recurring-topic-monitor/` |
+| Programming-agent specification | `outputs/implementations/ai-kanban-browser/compiled-spec.md` |
 | Monitor a topic | `examples/saved-artifact-workflows/recurring-topic-monitor/` |
-| Market or investment brief | `examples/saved-artifact-workflows/market-snapshot/` or `examples/saved-artifact-workflows/investment-brief/` |
+| Market report | `examples/saved-artifact-workflows/market-snapshot/` |
 | Inspect a creative workflow | `examples/saved-artifact-workflows/childrens-book-orion-en/` or `examples/saved-artifact-workflows/comic-strip-en/` |
 
 Prefer `terminal-output-only/` examples for a first live run. They compose a
@@ -65,7 +63,7 @@ From the repository root:
 
 ```bash
 pip install -e .
-weavemark promplets/catalog/standalone/program-review-checklist.weavemark.md --scan
+weavemark promplets/catalog/standalone/ai-kanban-board.weavemark.md --scan
 ```
 
 The scan is local and does not need model credentials. For a live composition

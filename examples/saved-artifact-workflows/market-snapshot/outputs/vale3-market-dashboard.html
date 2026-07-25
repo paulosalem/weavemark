@@ -7,29 +7,26 @@
   <title>VALE3 Market Learning Dashboard</title>
   <style>
     :root {
-      --ink: #0d1822;
-      --ink-soft: #263746;
-      --slate: #5f6f7d;
-      --muted: #75828d;
-      --paper: #fbf6ec;
-      --surface: #fffdf8;
-      --surface-2: #f2eadf;
-      --line: #d9cec0;
-      --line-strong: #bcae9d;
-      --emerald: #007a5a;
-      --emerald-soft: #e3f2ec;
-      --copper: #a45a2a;
-      --copper-soft: #f4e4d8;
-      --warning: #835200;
-      --warning-soft: #f7ead0;
-      --shadow: 0 18px 50px rgba(13, 24, 34, 0.08);
-      --radius-lg: 22px;
-      --radius-md: 14px;
-      --radius-sm: 10px;
+      --ink: #101820;
+      --navy: #111b2a;
+      --paper: #f7f2e8;
+      --paper-2: #fffaf0;
+      --slate: #536170;
+      --slate-2: #728091;
+      --line: #d8d0c1;
+      --line-strong: #b9ad9b;
+      --emerald: #0d7a5f;
+      --emerald-2: #e3f2ed;
+      --copper: #a35c2d;
+      --copper-2: #f5e7dc;
+      --danger: #7d2f2f;
+      --danger-2: #f1dfdc;
+      --shadow: 0 18px 45px rgba(17, 27, 42, 0.08);
+      --radius: 18px;
+      --radius-sm: 11px;
       --max: 1180px;
-      --measure: 78ch;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
     }
 
     * {
@@ -44,274 +41,193 @@
       margin: 0;
       background: var(--paper);
       color: var(--ink);
-      font-family: var(--sans);
-      font-size: 16px;
+      font-family: var(--font);
       line-height: 1.55;
       text-rendering: optimizeLegibility;
     }
 
     a {
-      color: #005f46;
+      color: #075f78;
       text-underline-offset: 0.18em;
+      text-decoration-thickness: 0.08em;
       overflow-wrap: anywhere;
     }
 
     a:hover {
-      color: var(--copper);
+      color: var(--emerald);
     }
 
     a:focus-visible,
     button:focus-visible {
       outline: 3px solid var(--copper);
       outline-offset: 3px;
-      border-radius: 4px;
+      border-radius: 6px;
     }
 
     .skip-link {
       position: absolute;
-      left: 1rem;
-      top: 1rem;
-      transform: translateY(-160%);
-      background: var(--ink);
-      color: var(--surface);
-      padding: 0.65rem 0.9rem;
-      border-radius: 999px;
+      top: 0.75rem;
+      left: 0.75rem;
       z-index: 10;
-      text-decoration: none;
-      font-weight: 700;
+      padding: 0.65rem 0.85rem;
+      background: var(--navy);
+      color: white;
+      border-radius: 999px;
+      transform: translateY(-160%);
+      transition: transform 0.15s ease;
     }
 
     .skip-link:focus {
       transform: translateY(0);
     }
 
-    header,
-    main,
-    footer {
+    .page {
       width: min(100% - 32px, var(--max));
-      margin-inline: auto;
+      margin: 0 auto;
     }
 
-    header {
-      padding: 34px 0 22px;
-    }
-
-    main {
-      padding-bottom: 38px;
-    }
-
-    footer {
-      padding: 24px 0 42px;
-      color: var(--ink-soft);
-      font-size: 0.94rem;
+    header.site-header {
+      background: var(--navy);
+      color: var(--paper-2);
+      border-bottom: 1px solid rgba(255,255,255,0.12);
     }
 
     .hero {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-      padding: clamp(22px, 4vw, 42px);
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.55fr);
-      gap: 30px;
-      align-items: start;
+      width: min(100% - 32px, var(--max));
+      margin: 0 auto;
+      padding: 56px 0 34px;
     }
 
     .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
-      margin: 0 0 0.8rem;
-      color: var(--emerald);
+      margin: 0 0 0.7rem;
+      color: #b9c7c3;
+      font-size: 0.78rem;
       font-weight: 800;
-      letter-spacing: 0.09em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      font-size: 0.76rem;
     }
 
-    .eyebrow::before {
-      content: "";
-      width: 2.2rem;
-      height: 2px;
-      background: var(--emerald);
-      display: inline-block;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4 {
+    h1, h2, h3, h4 {
+      line-height: 1.13;
       margin: 0;
-      line-height: 1.14;
-      color: var(--ink);
+      color: inherit;
     }
 
     h1 {
-      font-size: clamp(2rem, 5vw, 4.1rem);
+      max-width: 980px;
+      font-size: clamp(2rem, 5vw, 4rem);
       letter-spacing: -0.055em;
-      max-width: 11ch;
-    }
-
-    h2 {
-      font-size: clamp(1.45rem, 3vw, 2.25rem);
-      letter-spacing: -0.035em;
-      margin-bottom: 0.85rem;
-    }
-
-    h3 {
-      font-size: clamp(1.08rem, 2vw, 1.35rem);
-      letter-spacing: -0.018em;
-      margin-bottom: 0.55rem;
-    }
-
-    h4 {
-      font-size: 1rem;
-      margin-bottom: 0.35rem;
-    }
-
-    p {
-      margin: 0 0 1rem;
-      max-width: var(--measure);
-    }
-
-    ul,
-    ol {
-      margin: 0.35rem 0 0;
-      padding-left: 1.25rem;
-    }
-
-    li {
-      margin: 0.32rem 0;
+      font-weight: 820;
     }
 
     .deck {
-      font-size: clamp(1.02rem, 2vw, 1.22rem);
-      color: var(--ink-soft);
-      margin-top: 1.1rem;
-      max-width: 70ch;
-    }
-
-    .identity-card {
-      background: var(--ink);
-      color: var(--surface);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      min-width: 0;
-    }
-
-    .identity-card h2 {
-      color: var(--surface);
-      font-size: 1rem;
-      letter-spacing: 0;
-      margin-bottom: 1rem;
-    }
-
-    .identity-list {
-      display: grid;
-      gap: 0.72rem;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .identity-list li {
-      display: grid;
-      grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-      gap: 12px;
-      margin: 0;
-      border-top: 1px solid rgba(255,255,255,0.16);
-      padding-top: 0.72rem;
-      min-width: 0;
-    }
-
-    .identity-list span:first-child {
-      color: #c7d0d6;
-      font-size: 0.82rem;
-    }
-
-    .identity-list strong {
-      color: #fff;
-      overflow-wrap: anywhere;
-      min-width: 0;
-    }
-
-    .note {
-      border-left: 4px solid var(--emerald);
-      background: var(--emerald-soft);
-      color: var(--ink);
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      padding: 0.9rem 1rem;
+      max-width: 900px;
       margin: 1rem 0 0;
-      max-width: var(--measure);
+      color: #d9dfdc;
+      font-size: clamp(1rem, 1.6vw, 1.22rem);
     }
 
-    .note.warning {
-      border-left-color: var(--warning);
-      background: var(--warning-soft);
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 1.4rem;
+      min-width: 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      min-width: 0;
+      padding: 0.38rem 0.62rem;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 999px;
+      color: #f0efe9;
+      background: rgba(255,255,255,0.055);
+      font-size: 0.86rem;
+      font-weight: 650;
+      overflow-wrap: anywhere;
+    }
+
+    .tag.light {
+      background: var(--emerald-2);
+      border-color: #b8dbd0;
+      color: #174b41;
+    }
+
+    .tag.warn {
+      background: var(--copper-2);
+      border-color: #e3c6af;
+      color: #673515;
+    }
+
+    main {
+      padding: 28px 0 50px;
+    }
+
+    section,
+    article,
+    aside,
+    .card {
+      min-width: 0;
+    }
+
+    .notice {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.55rem;
+      padding: 1rem;
+      border: 1px solid #d7b9aa;
+      border-left: 5px solid var(--copper);
+      border-radius: var(--radius);
+      background: var(--copper-2);
+      box-shadow: var(--shadow);
+    }
+
+    .notice strong {
+      color: #4f290f;
     }
 
     .section {
-      margin-top: 24px;
-      min-width: 0;
+      margin-top: 28px;
     }
 
-    .section-shell {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-      padding: clamp(20px, 3vw, 32px);
-      min-width: 0;
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin: 0 0 1rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--line);
     }
 
-    .section-intro {
-      color: var(--ink-soft);
-      margin-bottom: 1.1rem;
+    .section-head h2 {
+      font-size: clamp(1.35rem, 2.3vw, 2.1rem);
+      letter-spacing: -0.03em;
+      color: var(--navy);
     }
 
-    .metric-strip {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .metric {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      padding: 16px;
-      min-width: 0;
-    }
-
-    .metric .label {
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 0.76rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin-bottom: 0.38rem;
-    }
-
-    .metric .value {
-      font-variant-numeric: tabular-nums;
-      font-size: clamp(1.25rem, 3vw, 1.85rem);
-      line-height: 1.08;
-      letter-spacing: -0.035em;
+    .section-kicker {
+      margin: 0 0 0.25rem;
+      color: var(--emerald);
+      font-size: 0.78rem;
       font-weight: 850;
-      overflow-wrap: anywhere;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
-    .metric .qualifier {
+    .section-note {
+      max-width: 520px;
+      margin: 0;
       color: var(--slate);
-      font-size: 0.86rem;
-      margin-top: 0.45rem;
+      font-size: 0.92rem;
     }
 
     .grid {
       display: grid;
-      gap: 18px;
+      gap: 1rem;
       min-width: 0;
     }
 
@@ -323,182 +239,224 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .grid.sidebar {
-      grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+    .grid.four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .overview {
+      grid-template-columns: 1.15fr 0.85fr;
       align-items: start;
     }
 
     .card {
+      background: var(--paper-2);
       border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      background: #fffdfa;
-      padding: 18px;
-      min-width: 0;
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: var(--shadow);
     }
 
-    .card.subtle {
-      background: var(--surface-2);
+    .card.compact {
+      padding: 0.85rem;
+    }
+
+    .card h3 {
+      margin-bottom: 0.65rem;
+      font-size: 1.06rem;
+      letter-spacing: -0.015em;
+      color: var(--navy);
+    }
+
+    .card h4 {
+      margin: 1rem 0 0.4rem;
+      font-size: 0.96rem;
+      color: var(--navy);
+    }
+
+    .card p {
+      margin: 0.55rem 0 0;
+    }
+
+    .muted {
+      color: var(--slate);
+    }
+
+    .small {
+      font-size: 0.9rem;
+    }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .metric {
+      min-width: 0;
+      padding: 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: #fffcf5;
+    }
+
+    .metric .label {
+      color: var(--slate);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .metric .value {
+      margin-top: 0.25rem;
+      color: var(--navy);
+      font-size: clamp(1.18rem, 2vw, 1.7rem);
+      line-height: 1.08;
+      font-weight: 850;
+      letter-spacing: -0.035em;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
+    }
+
+    .metric .qualifier {
+      margin-top: 0.3rem;
+      color: var(--slate);
+      font-size: 0.78rem;
+    }
+
+    .status-list,
+    .plain-list {
+      padding-left: 1.1rem;
+      margin: 0.5rem 0 0;
+    }
+
+    .status-list li,
+    .plain-list li {
+      margin: 0.42rem 0;
     }
 
     .callout {
-      border: 1px solid var(--line-strong);
-      border-radius: var(--radius-md);
-      padding: 18px;
-      background: #fcf1e7;
-      min-width: 0;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      border: 1px solid currentColor;
-      border-radius: 999px;
-      padding: 0.18rem 0.55rem;
-      font-size: 0.74rem;
-      font-weight: 800;
-      letter-spacing: 0.035em;
-      text-transform: uppercase;
-      margin-bottom: 0.65rem;
-    }
-
-    .tag.reported {
-      color: var(--emerald);
-      background: var(--emerald-soft);
-    }
-
-    .tag.search {
-      color: var(--copper);
-      background: var(--copper-soft);
-    }
-
-    .tag.uncertain {
-      color: var(--warning);
-      background: var(--warning-soft);
-    }
-
-    .tag.next {
-      color: var(--ink-soft);
-      background: #eef1f2;
-    }
-
-    .compact-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 0.6rem;
-    }
-
-    .compact-list li {
-      margin: 0;
-      padding-left: 1rem;
-      border-left: 3px solid var(--line-strong);
-    }
-
-    .driver-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      padding: 0;
-      margin: 0;
-      list-style: none;
-    }
-
-    .driver-list li {
-      margin: 0;
-      background: #fffdfa;
-      border: 1px solid var(--line);
+      padding: 0.85rem;
       border-radius: var(--radius-sm);
-      padding: 14px;
+      border: 1px solid #b8dbd0;
+      background: var(--emerald-2);
+    }
+
+    .callout.warn {
+      border-color: #e3c6af;
+      background: var(--copper-2);
+    }
+
+    .callout.risk {
+      border-color: #dbb5b5;
+      background: var(--danger-2);
+    }
+
+    .labelled {
+      display: inline-block;
+      margin-bottom: 0.25rem;
+      color: var(--navy);
+      font-size: 0.76rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow: visible;
       min-width: 0;
     }
 
-    .data-table {
+    table {
       width: 100%;
       border-collapse: collapse;
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
       font-variant-numeric: tabular-nums;
-      margin: 0.7rem 0 1.15rem;
-      table-layout: fixed;
     }
 
-    .data-table caption {
+    caption {
+      caption-side: top;
+      padding: 0.8rem 0.95rem;
       text-align: left;
+      color: var(--navy);
       font-weight: 850;
-      color: var(--ink);
-      margin-bottom: 0.55rem;
       letter-spacing: -0.015em;
+      background: #fbf6eb;
+      border: 1px solid var(--line);
+      border-bottom: 0;
+      border-radius: var(--radius) var(--radius) 0 0;
     }
 
-    .data-table th,
-    .data-table td {
+    th, td {
+      padding: 0.72rem 0.85rem;
       border-bottom: 1px solid var(--line);
-      padding: 0.72rem 0.75rem;
       vertical-align: top;
-      overflow-wrap: anywhere;
       min-width: 0;
+      overflow-wrap: anywhere;
     }
 
-    .data-table th {
+    th {
       text-align: left;
-      color: var(--ink-soft);
-      background: var(--surface-2);
-      font-size: 0.84rem;
-      letter-spacing: 0.03em;
+      color: #233044;
+      background: #f0eadf;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
-    .data-table td:last-child,
-    .data-table th:last-child {
+    td:last-child,
+    th:last-child {
       text-align: right;
     }
 
-    .data-table td:first-child,
-    .data-table th:first-child {
-      width: 48%;
+    tr:last-child td {
+      border-bottom: 0;
     }
 
-    .evidence-item {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      background: #fffdfa;
-      padding: 17px;
-      min-width: 0;
+    .raw {
+      font-family: var(--mono);
+      font-size: 0.92em;
+      overflow-wrap: anywhere;
     }
 
-    .evidence-item + .evidence-item {
-      margin-top: 12px;
-    }
-
-    .source-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem 0.8rem;
-      align-items: center;
-      color: var(--muted);
-      font-size: 0.86rem;
-      margin: 0.35rem 0 0.8rem;
-    }
-
-    .source-meta span {
-      min-width: 0;
-    }
-
-    .quote {
-      border-left: 3px solid var(--copper);
-      padding-left: 0.9rem;
-      color: var(--ink-soft);
-      margin: 0.5rem 0 0.75rem;
-    }
-
-    .scenario-grid {
+    .evidence-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .source-item {
+      border-top: 1px solid var(--line);
+      padding-top: 0.85rem;
+      margin-top: 0.85rem;
+    }
+
+    .source-item:first-child {
+      border-top: 0;
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .source-title {
+      font-weight: 820;
+      color: var(--navy);
+    }
+
+    blockquote {
+      margin: 0.45rem 0 0;
+      padding-left: 0.85rem;
+      border-left: 3px solid var(--line-strong);
+      color: #334155;
     }
 
     .scenario {
-      border-top: 5px solid var(--line-strong);
+      border-top: 4px solid var(--line-strong);
     }
 
     .scenario.bull {
@@ -506,205 +464,130 @@
     }
 
     .scenario.base {
-      border-top-color: var(--slate);
-    }
-
-    .scenario.bear {
       border-top-color: var(--copper);
     }
 
-    .question {
-      font-size: clamp(1.15rem, 2.2vw, 1.55rem);
-      line-height: 1.35;
-      font-weight: 850;
-      letter-spacing: -0.025em;
-      color: var(--ink);
-      background: var(--ink);
-      color: var(--surface);
-      padding: 20px;
-      border-radius: var(--radius-md);
-      max-width: none;
+    .scenario.bear {
+      border-top-color: var(--danger);
     }
 
-    .quiet {
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 36px;
       color: var(--slate);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
 
-    .source-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .provenance {
       display: grid;
-      gap: 0.75rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
     }
 
-    .source-list li {
-      margin: 0;
-      padding: 0.8rem 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .source-list li:last-child {
-      border-bottom: 0;
-    }
-
-    .url {
-      display: block;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--slate);
-      margin-top: 0.18rem;
-      overflow-wrap: anywhere;
-    }
-
-    .toc {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 18px;
-    }
-
-    .toc a {
-      text-decoration: none;
-      color: var(--ink-soft);
+    .prov-item {
+      min-width: 0;
+      padding: 0.65rem;
       border: 1px solid var(--line);
-      background: var(--surface);
-      border-radius: 999px;
-      padding: 0.45rem 0.72rem;
-      font-size: 0.88rem;
-      font-weight: 700;
-    }
-
-    .toc a:hover {
-      border-color: var(--copper);
-      color: var(--copper);
-    }
-
-    .hr {
-      height: 1px;
-      background: var(--line);
-      margin: 1.2rem 0;
-    }
-
-    .methodology {
-      border-top: 1px solid var(--line-strong);
-      padding-top: 18px;
+      border-radius: var(--radius-sm);
+      background: #fbf6eb;
     }
 
     @media (max-width: 900px) {
-      header,
-      main,
-      footer {
-        width: min(100% - 24px, var(--max));
-      }
-
-      .hero,
-      .grid.sidebar,
       .grid.two,
       .grid.three,
-      .scenario-grid {
+      .grid.four,
+      .overview,
+      .evidence-grid,
+      .provenance {
         grid-template-columns: minmax(0, 1fr);
-      }
-
-      h1 {
-        max-width: 14ch;
       }
 
       .metric-strip {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
-      .driver-list {
-        grid-template-columns: minmax(0, 1fr);
+      .section-head {
+        align-items: start;
+        flex-direction: column;
       }
     }
 
     @media (max-width: 640px) {
-      body {
-        font-size: 15px;
+      .page,
+      .hero {
+        width: min(100% - 22px, var(--max));
       }
 
-      header {
+      .hero {
+        padding: 38px 0 26px;
+      }
+
+      main {
         padding-top: 18px;
-      }
-
-      .hero,
-      .section-shell {
-        border-radius: 16px;
-        padding: 18px;
-      }
-
-      .identity-list li {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 3px;
       }
 
       .metric-strip {
         grid-template-columns: minmax(0, 1fr);
       }
 
-      .toc {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr);
+      .card,
+      .notice {
+        padding: 0.85rem;
+        border-radius: 14px;
       }
 
-      .data-table,
-      .data-table thead,
-      .data-table tbody,
-      .data-table tr,
-      .data-table th,
-      .data-table td {
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td,
+      caption {
         display: block;
         width: 100%;
       }
 
-      .data-table {
-        border-collapse: separate;
-        border-spacing: 0;
+      table {
+        border-radius: 14px;
       }
 
-      .data-table thead {
+      thead {
         position: absolute;
         width: 1px;
         height: 1px;
-        padding: 0;
-        margin: -1px;
         overflow: hidden;
-        clip: rect(0, 0, 0, 0);
+        clip: rect(0 0 0 0);
         white-space: nowrap;
-        border: 0;
       }
 
-      .data-table tr {
-        border: 1px solid var(--line);
-        border-radius: var(--radius-sm);
-        margin-bottom: 0.7rem;
-        background: #fffdfa;
-        overflow: hidden;
-      }
-
-      .data-table td {
+      tr {
         border-bottom: 1px solid var(--line);
-        display: grid;
-        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-        gap: 0.8rem;
-        text-align: left !important;
-        padding: 0.72rem;
+        padding: 0.4rem 0;
       }
 
-      .data-table td:last-child {
+      tr:last-child {
         border-bottom: 0;
       }
 
-      .data-table td::before {
+      td {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+        gap: 0.75rem;
+        text-align: left !important;
+        border-bottom: 0;
+        padding: 0.5rem 0.75rem;
+      }
+
+      td::before {
         content: attr(data-label);
-        color: var(--muted);
-        font-weight: 800;
+        color: var(--slate);
+        font-size: 0.74rem;
+        font-weight: 850;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
-        letter-spacing: 0.03em;
-        font-size: 0.76rem;
-        min-width: 0;
       }
     }
 
@@ -712,658 +595,793 @@
       html {
         scroll-behavior: auto;
       }
+
+      .skip-link {
+        transition: none;
+      }
     }
 
     @media print {
-      @page {
-        margin: 16mm;
-      }
-
       body {
-        background: #fff;
-        color: #000;
-        font-size: 10.5pt;
+        background: white;
+        color: black;
       }
 
-      header,
-      main,
-      footer {
-        width: 100%;
+      header.site-header {
+        background: white;
+        color: black;
+        border-bottom: 1px solid #999;
       }
 
       .hero,
-      .section-shell,
+      .page {
+        width: 100%;
+        max-width: none;
+      }
+
       .card,
-      .callout,
-      .metric,
-      .evidence-item {
-        box-shadow: none !important;
-        border-color: #999;
-        break-inside: avoid;
+      table,
+      .notice,
+      .metric {
+        box-shadow: none;
       }
 
-      .toc,
-      .skip-link {
-        display: none;
-      }
-
-      a {
-        color: #000;
-      }
-
-      a[href]::after {
+      a[href^="http"]::after {
         content: " (" attr(href) ")";
-        font-size: 8.5pt;
-        overflow-wrap: anywhere;
-      }
-
-      .url {
-        color: #000;
+        font-size: 0.84em;
+        color: #444;
       }
 
       tr,
-      li {
+      .card,
+      .metric,
+      .source-item,
+      .notice {
         break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .skip-link {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to dashboard content</a>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
-  <header>
+  <header class="site-header">
     <div class="hero">
-      <div>
-        <p class="eyebrow">Educational market brief</p>
-        <h1>VALE3 Market Learning Dashboard</h1>
-        <p class="deck">Vale S.A. is analyzed here as a B3-listed Brazilian security under ticker <strong>VALE3</strong>. The supplied finance provider may label the same local instrument <strong>VALE3.SA</strong>, where “.SA” indicates the São Paulo market notation used by the tool.</p>
-        <p class="note warning"><strong>Scope note:</strong> This is an educational market brief, not personal financial advice or a buy/sell recommendation. Financial data are from the supplied Yahoo Finance-style finance tools. Outside-context items are grounded only in the supplied web-search titles, snippets, source labels, and URLs; they should be treated as search-result evidence, not full-page readings.</p>
-        <nav class="toc" aria-label="Dashboard sections">
-          <a href="#snapshot">Snapshot</a>
-          <a href="#business">Business drivers</a>
-          <a href="#fundamentals">Market data</a>
-          <a href="#evidence">Evidence quality</a>
-          <a href="#tensions">Tensions & gaps</a>
-          <a href="#scenarios">Scenarios</a>
-          <a href="#watchlist">Watchlist</a>
-          <a href="#sources">Sources</a>
-        </nav>
+      <p class="eyebrow">Market-learning dashboard · evidence reconciliation</p>
+      <h1>VALE3 Market Learning Dashboard</h1>
+      <p class="deck">Requested analyzed security: Vale S.A. on B3 under ticker VALE3. The finance provider may label the instrument <span class="raw">VALE3.SA</span>; in this dashboard, that notation is explained once as provider notation for VALE3 on the São Paulo/B3 market.</p>
+      <div class="hero-meta" aria-label="Security and evidence context">
+        <span class="tag">Requested security: Vale S.A. · B3: VALE3</span>
+        <span class="tag">Provider notation: VALE3.SA</span>
+        <span class="tag">Purpose: education, not advice</span>
+        <span class="tag">Evidence mismatch flagged</span>
       </div>
-      <aside class="identity-card" aria-labelledby="security-id">
-        <h2 id="security-id">Security identity</h2>
-        <ul class="identity-list">
-          <li><span>Company</span><strong>Vale S.A.</strong></li>
-          <li><span>Ticker</span><strong>VALE3 / VALE3.SA</strong></li>
-          <li><span>Exchange in finance data</span><strong>SAO</strong></li>
-          <li><span>Currency for quoted stock data</span><strong>BRL</strong></li>
-          <li><span>Sector / industry</span><strong>Basic Materials / Other Industrial Metals &amp; Mining</strong></li>
-          <li><span>Core exposures</span><strong>Iron ore, iron ore pellets, nickel, copper, and related by-products</strong></li>
-        </ul>
-      </aside>
     </div>
   </header>
 
-  <main id="main">
-    <section id="snapshot" class="section" aria-labelledby="snapshot-title">
-      <div class="section-shell">
-        <p class="eyebrow">Executive snapshot</p>
-        <h2 id="snapshot-title">Decision-relevant facts and caveats</h2>
-        <p class="section-intro">Vale is a large, globally important mining company whose equity case is heavily linked to commodity pricing, operational delivery, capital allocation, and Brazil-specific operating, regulatory, environmental, and governance risks.</p>
-
-        <div class="metric-strip" aria-label="Key market data from supplied finance tools">
-          <article class="metric">
-            <div class="label">Reported current price</div>
-            <div class="value">BRL 71.93</div>
-            <div class="qualifier">Quoted stock data currency: BRL</div>
-          </article>
-          <article class="metric">
-            <div class="label">Previous close</div>
-            <div class="value">BRL 72.94</div>
-            <div class="qualifier">Supplied finance-tool value</div>
-          </article>
-          <article class="metric">
-            <div class="label">Market cap</div>
-            <div class="value">BRL 306.1bn</div>
-            <div class="qualifier">Supplied value: 306,117,017,600.0</div>
-          </article>
-          <article class="metric">
-            <div class="label">52-week range</div>
-            <div class="value">BRL 52.37–91.62</div>
-            <div class="qualifier">Supplied high and low</div>
-          </article>
-          <article class="metric">
-            <div class="label">Trailing P/E</div>
-            <div class="value">21.03</div>
-            <div class="qualifier">Supplied value: 21.032164</div>
-          </article>
-          <article class="metric">
-            <div class="label">Forward P/E</div>
-            <div class="value">8.79</div>
-            <div class="qualifier">Supplied value: 8.78634</div>
-          </article>
-          <article class="metric">
-            <div class="label">EV/EBITDA</div>
-            <div class="value">5.14</div>
-            <div class="qualifier">Supplied value: 5.137</div>
-          </article>
-          <article class="metric">
-            <div class="label">Dividend yield</div>
-            <div class="value">9.45%</div>
-            <div class="qualifier">Payout ratio: 117.46%</div>
-          </article>
-        </div>
-
-        <div class="grid sidebar" style="margin-top:18px">
-          <article class="card">
-            <h3>Main learning takeaway</h3>
-            <ol>
-              <li>Iron ore prices and Chinese steel demand</li>
-              <li>Realized pricing versus benchmark commodity prices</li>
-              <li>Production volumes and unit costs</li>
-              <li>Nickel and copper optionality through Vale Base Metals</li>
-              <li>Capital allocation discipline, dividends, and leverage</li>
-              <li>Brazilian operating, regulatory, environmental, and governance risks</li>
-            </ol>
-          </article>
-          <aside class="callout">
-            <span class="tag uncertain">Caveats</span>
-            <ul class="compact-list">
-              <li>The high stated dividend yield should be tested because the payout ratio is above 100%.</li>
-              <li>Total debt is BRL 111.96 billion versus cash of BRL 27.55 billion.</li>
-              <li>Analyst targets are provided as “$” while the local ticker quote is in BRL. Currency and listing context should be verified before comparing targets to VALE3.SA.</li>
-              <li>Search-result snippets are not substitutes for Vale’s filings, earnings releases, or full analyst reports.</li>
-            </ul>
-          </aside>
-        </div>
-      </div>
+  <main id="main" class="page">
+    <section class="notice" aria-labelledby="evidence-mismatch">
+      <h2 id="evidence-mismatch">Evidence-quality notice: supplied report does not contain VALE3 data</h2>
+      <p><strong>Uncertain:</strong> The completed Markdown report supplied for transformation is titled “Microsoft Corporation (MSFT) — Market-Learning Brief” and contains Microsoft/MSFT finance-tool values, Microsoft business descriptions, and Microsoft-related search-result evidence. It does not provide Vale S.A. operating data, commodity exposure metrics, Portuguese-real amounts, Brazilian-market valuation data, or VALE3-specific source URLs.</p>
+      <p>To avoid inventing facts, this standalone dashboard identifies the requested security as Vale S.A. / VALE3, but it preserves the supplied evidence as an out-of-scope Microsoft evidence packet and marks all VALE3 analytical fields as not supplied. No currency conversion, commodity inference, valuation substitution, or market recommendation is made.</p>
     </section>
 
-    <section id="business" class="section" aria-labelledby="business-title">
-      <div class="section-shell">
-        <p class="eyebrow">Business model</p>
-        <h2 id="business-title">What Vale does, economic drivers, and why the stock is interesting</h2>
-
-        <div class="grid two">
-          <article class="card">
-            <h3>Business description</h3>
-            <p>According to the supplied company profile, Vale S.A. produces and distributes iron ore, iron ore pellets, briquettes, nickel, copper, other ferrous products, and by-products including gold, silver, cobalt, platinum-group metals, and other base metals.</p>
-            <p>The company operates through two main segments:</p>
-            <ol>
-              <li><strong>Iron Ore Solutions</strong></li>
-              <li><strong>Vale Base Metals</strong></li>
-            </ol>
-          </article>
-          <article class="card">
-            <h3>Infrastructure and adjacent activities</h3>
-            <p>Vale operates logistics systems and distribution infrastructure, including mining complexes, railways, maritime terminals, ports, ships, and distribution centers.</p>
-            <p>Vale also participates in hydroelectric, solar, and wind energy generation, mineral exploration, research, and trading activities.</p>
-          </article>
+    <section class="section" aria-labelledby="snapshot">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Executive snapshot</p>
+          <h2 id="snapshot">What is supported for VALE3, and what is not</h2>
         </div>
+        <p class="section-note">The metric strip surfaces only report-supported values. For the requested Vale dashboard, the supplied report provides security identity from the local instruction but no Vale finance-tool metrics.</p>
+      </div>
 
-        <div class="hr" aria-hidden="true"></div>
-
-        <h3>Economic drivers</h3>
-        <ul class="driver-list">
-          <li>
-            <h4>1. Iron ore prices</h4>
-            <p>Iron ore is the central earnings driver. Revenue and margins are highly sensitive to benchmark iron ore prices, product premiums or discounts, freight costs, and realized prices.</p>
-          </li>
-          <li>
-            <h4>2. China demand</h4>
-            <p>China is a critical end-market for global iron ore because of its steel industry. Shifts in Chinese property, infrastructure, manufacturing, or steel production have implications for Vale’s volumes and pricing.</p>
-          </li>
-          <li>
-            <h4>3. Production volumes and costs</h4>
-            <p>Investors typically monitor iron ore fines production, pellet production, nickel and copper output, C1 cash costs, freight and logistics costs, maintenance spending, and project ramp-ups or disruptions.</p>
-          </li>
-          <li>
-            <h4>4. Nickel and copper exposure</h4>
-            <p>Vale Base Metals provides exposure to nickel and copper, often discussed in the context of electrification, batteries, grid investment, and decarbonization. Nickel pricing has been volatile globally, and base metals earnings can diverge from the iron ore cycle.</p>
-          </li>
-          <li>
-            <h4>5. Capital allocation</h4>
-            <p>Vale can attract income-oriented investors because of its dividend history and current stated yield, but distributions are tied to commodity cash flows, leverage, capex needs, legal liabilities, and board decisions.</p>
-          </li>
-          <li>
-            <h4>6. Brazilian operating and governance risk</h4>
-            <p>Operations, regulation, litigation, environmental history, permitting, labor dynamics, and governance issues are central to the risk case.</p>
-          </li>
-        </ul>
-
-        <p class="note"><strong>Search evidence only:</strong> An Ad-Hoc News snippet states that a “2% increase in iron ore fines production to 327.7 million metric tons versus 2024” was framed as an operating comparison that matters because it links volume execution to profit power. A Brasil247/Brazil Stock Guide snippet refers to a Vale board fight involving Previ and an extraordinary shareholders’ meeting. Both items require verification through official materials.</p>
-
-        <article class="card subtle" style="margin-top:18px">
-          <h3>Why the stock is currently interesting</h3>
-          <p>VALE3 combines a large-cap, globally relevant iron ore franchise; a high stated dividend yield; low-looking forward valuation multiples relative to trailing P/E; exposure to base metals; cyclical sensitivity to China and commodity prices; significant balance-sheet and governance questions; and analyst coverage that, in the supplied finance tool, shows a consensus BUY rating.</p>
-          <p>This creates a classic cyclical value setup: potentially attractive valuation and yield, but with earnings, dividends, and sentiment dependent on external commodity and macro variables.</p>
+      <div class="metric-strip" aria-label="Compact metric strip">
+        <article class="metric">
+          <div class="label">Requested company</div>
+          <div class="value">Vale S.A.</div>
+          <div class="qualifier">Reported in local instruction</div>
+        </article>
+        <article class="metric">
+          <div class="label">Requested ticker</div>
+          <div class="value">VALE3</div>
+          <div class="qualifier">B3 terminology supplied</div>
+        </article>
+        <article class="metric">
+          <div class="label">Provider notation</div>
+          <div class="value raw">VALE3.SA</div>
+          <div class="qualifier">Explained once; no quote data supplied</div>
+        </article>
+        <article class="metric">
+          <div class="label">Current price</div>
+          <div class="value">Not supplied</div>
+          <div class="qualifier">No VALE3 price in report</div>
+        </article>
+        <article class="metric">
+          <div class="label">Currency</div>
+          <div class="value">Not supplied</div>
+          <div class="qualifier">No Portuguese-real amount supplied</div>
+        </article>
+        <article class="metric">
+          <div class="label">Recommendation</div>
+          <div class="value">Not supplied</div>
+          <div class="qualifier">No VALE3 analyst data supplied</div>
         </article>
       </div>
-    </section>
 
-    <section id="fundamentals" class="section" aria-labelledby="fundamentals-title">
-      <div class="section-shell">
-        <p class="eyebrow">Reported data</p>
-        <h2 id="fundamentals-title">Current market data and business fundamentals</h2>
-
-        <table class="data-table">
-          <caption>Quote data</caption>
-          <thead>
-            <tr><th>Metric</th><th>Supplied value</th></tr>
-          </thead>
-          <tbody>
-            <tr><td data-label="Metric">Symbol</td><td data-label="Supplied value">VALE3.SA</td></tr>
-            <tr><td data-label="Metric">Name</td><td data-label="Supplied value">Vale S.A.</td></tr>
-            <tr><td data-label="Metric">Current price</td><td data-label="Supplied value">71.93</td></tr>
-            <tr><td data-label="Metric">Previous close</td><td data-label="Supplied value">72.94</td></tr>
-            <tr><td data-label="Metric">Open price</td><td data-label="Supplied value">73.00</td></tr>
-            <tr><td data-label="Metric">Day high</td><td data-label="Supplied value">73.25</td></tr>
-            <tr><td data-label="Metric">Day low</td><td data-label="Supplied value">71.71</td></tr>
-            <tr><td data-label="Metric">Volume</td><td data-label="Supplied value">13,089,500</td></tr>
-            <tr><td data-label="Metric">Market cap</td><td data-label="Supplied value">306,117,017,600.0</td></tr>
-            <tr><td data-label="Metric">P/E ratio</td><td data-label="Supplied value">21.032164</td></tr>
-            <tr><td data-label="Metric">Dividend yield</td><td data-label="Supplied value">9.45</td></tr>
-            <tr><td data-label="Metric">52-week high</td><td data-label="Supplied value">91.62</td></tr>
-            <tr><td data-label="Metric">52-week low</td><td data-label="Supplied value">52.37</td></tr>
-            <tr><td data-label="Metric">Currency</td><td data-label="Supplied value">BRL</td></tr>
-            <tr><td data-label="Metric">Exchange</td><td data-label="Supplied value">SAO</td></tr>
-          </tbody>
-        </table>
-
-        <table class="data-table">
-          <caption>Valuation and profitability metrics</caption>
-          <thead>
-            <tr><th>Metric</th><th>Supplied value</th></tr>
-          </thead>
-          <tbody>
-            <tr><td data-label="Metric">Trailing P/E</td><td data-label="Supplied value">21.032164</td></tr>
-            <tr><td data-label="Metric">Forward P/E</td><td data-label="Supplied value">8.78634</td></tr>
-            <tr><td data-label="Metric">PEG ratio</td><td data-label="Supplied value">0.32</td></tr>
-            <tr><td data-label="Metric">Price/book</td><td data-label="Supplied value">1.6041838</td></tr>
-            <tr><td data-label="Metric">Price/sales</td><td data-label="Supplied value">1.4247012</td></tr>
-            <tr><td data-label="Metric">Enterprise value</td><td data-label="Supplied value">400,160,096,256.0</td></tr>
-            <tr><td data-label="Metric">EV/revenue</td><td data-label="Supplied value">1.862</td></tr>
-            <tr><td data-label="Metric">EV/EBITDA</td><td data-label="Supplied value">5.137</td></tr>
-            <tr><td data-label="Metric">Profit margin</td><td data-label="Supplied value">0.072620004</td></tr>
-            <tr><td data-label="Metric">Operating margin</td><td data-label="Supplied value">0.28124002</td></tr>
-            <tr><td data-label="Metric">Gross margin</td><td data-label="Supplied value">0.35076</td></tr>
-            <tr><td data-label="Metric">Return on assets</td><td data-label="Supplied value">0.081870005</td></tr>
-            <tr><td data-label="Metric">Return on equity</td><td data-label="Supplied value">0.068390004</td></tr>
-            <tr><td data-label="Metric">Revenue growth</td><td data-label="Supplied value">0.027</td></tr>
-            <tr><td data-label="Metric">Earnings growth</td><td data-label="Supplied value">0.22</td></tr>
-          </tbody>
-        </table>
-
-        <div class="grid two">
-          <table class="data-table">
-            <caption>Balance sheet and liquidity metrics</caption>
-            <thead>
-              <tr><th>Metric</th><th>Supplied value</th></tr>
-            </thead>
-            <tbody>
-              <tr><td data-label="Metric">Current ratio</td><td data-label="Supplied value">1.24</td></tr>
-              <tr><td data-label="Metric">Quick ratio</td><td data-label="Supplied value">0.666</td></tr>
-              <tr><td data-label="Metric">Debt/equity</td><td data-label="Supplied value">57.146</td></tr>
-              <tr><td data-label="Metric">Total debt</td><td data-label="Supplied value">111,957,999,616.0</td></tr>
-              <tr><td data-label="Metric">Total cash</td><td data-label="Supplied value">27,552,000,000.0</td></tr>
-              <tr><td data-label="Metric">Book value/share</td><td data-label="Supplied value">44.839</td></tr>
-            </tbody>
-          </table>
-
-          <table class="data-table">
-            <caption>Per-share and shareholder metrics</caption>
-            <thead>
-              <tr><th>Metric</th><th>Supplied value</th></tr>
-            </thead>
-            <tbody>
-              <tr><td data-label="Metric">Revenue/share</td><td data-label="Supplied value">50.334</td></tr>
-              <tr><td data-label="Metric">Earnings/share</td><td data-label="Supplied value">3.42</td></tr>
-              <tr><td data-label="Metric">Dividend rate</td><td data-label="Supplied value">6.9</td></tr>
-              <tr><td data-label="Metric">Dividend yield</td><td data-label="Supplied value">9.45</td></tr>
-              <tr><td data-label="Metric">Payout ratio</td><td data-label="Supplied value">1.1746</td></tr>
-              <tr><td data-label="Metric">Beta</td><td data-label="Supplied value">0.73</td></tr>
-              <tr><td data-label="Metric">Shares outstanding</td><td data-label="Supplied value">4,255,762,753.0</td></tr>
-              <tr><td data-label="Metric">Float shares</td><td data-label="Supplied value">3,965,376,710.0</td></tr>
-              <tr><td data-label="Metric">Shares short</td><td data-label="Supplied value">null</td></tr>
-              <tr><td data-label="Metric">Short ratio</td><td data-label="Supplied value">null</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <table class="data-table">
-          <caption>Analyst recommendation data from finance tool</caption>
-          <thead>
-            <tr><th>Metric</th><th>Supplied value</th></tr>
-          </thead>
-          <tbody>
-            <tr><td data-label="Metric">Recommendation</td><td data-label="Supplied value">BUY</td></tr>
-            <tr><td data-label="Metric">Recommendation mean</td><td data-label="Supplied value">2.00</td></tr>
-            <tr><td data-label="Metric">Scale</td><td data-label="Supplied value">1 = Strong Buy, 5 = Sell</td></tr>
-            <tr><td data-label="Metric">Number of analysts</td><td data-label="Supplied value">11</td></tr>
-            <tr><td data-label="Metric">Mean price target</td><td data-label="Supplied value">$87.67</td></tr>
-            <tr><td data-label="Metric">Median price target</td><td data-label="Supplied value">$90.29</td></tr>
-            <tr><td data-label="Metric">High price target</td><td data-label="Supplied value">$103.59</td></tr>
-            <tr><td data-label="Metric">Low price target</td><td data-label="Supplied value">$59.10</td></tr>
-            <tr><td data-label="Metric">Recent recommendation history</td><td data-label="Supplied value">4 entries available</td></tr>
-          </tbody>
-        </table>
-
-        <p class="note warning"><strong>Important caveat:</strong> The price targets are shown with a “$” symbol in the supplied tool, while VALE3.SA quote data are in BRL. A learner should verify whether these targets refer to local shares, ADRs, or a transformed currency basis before using them.</p>
-      </div>
-    </section>
-
-    <section id="evidence" class="section" aria-labelledby="evidence-title">
-      <div class="section-shell">
-        <p class="eyebrow">Evidence quality</p>
-        <h2 id="evidence-title">Recent news, analyst opinion, official context, and skeptical commentary</h2>
-        <p class="section-intro">The following items are based only on supplied search-result titles, snippets, source labels, and URLs.</p>
-
-        <h3>Recent news search-result evidence</h3>
-        <article class="evidence-item">
-          <span class="tag search">Search evidence</span>
-          <h4><a href="https://www.msn.com/en-us/money/topstocks/vale-sa-vale-exceeds-market-returns-some-facts-to-consider/ar-AA27AuZ3" target="_blank" rel="noopener noreferrer">VALE S.A. (VALE) Exceeds Market Returns: Some Facts to Consider</a></h4>
-          <div class="source-meta"><span>Source label: duckduckgo_news</span></div>
-          <p class="quote">Snippet evidence: Vale closed at $14.22, up 1.21% in the latest trading session, outperforming the S&amp;P 500’s 0.81% gain.</p>
-          <p><strong>Usefulness:</strong> Indicates short-term market movement coverage, likely about the NYSE ADR rather than VALE3.SA. Not enough to infer fundamentals.</p>
+      <div class="grid overview section">
+        <article class="card">
+          <h3>Decision-useful facts supported for the requested Vale dashboard</h3>
+          <ul class="status-list">
+            <li><strong>Reported:</strong> The deliverable title is “VALE3 Market Learning Dashboard.”</li>
+            <li><strong>Reported:</strong> The analyzed security requested by the local instruction is Vale S.A. on B3 under ticker VALE3.</li>
+            <li><strong>Reported:</strong> The provider may label the instrument <span class="raw">VALE3.SA</span>.</li>
+            <li><strong>Uncertain:</strong> No Vale S.A. finance-tool quote, valuation, margins, balance sheet, debt, cash, dividend, production, commodity, or analyst metrics are supplied.</li>
+            <li><strong>Uncertain:</strong> No VALE3-specific web-search result titles, snippets, or URLs are supplied.</li>
+          </ul>
         </article>
 
-        <article class="evidence-item">
-          <span class="tag search">Search evidence</span>
-          <h4><a href="https://www.msn.com/en-us/money/top-stocks/vale-sa-vale-declines-more-than-market-some-information-for-investors/ar-AA284s2Q" target="_blank" rel="noopener noreferrer">Vale SA (VALE) declines more than market: Some information for investors</a></h4>
-          <div class="source-meta"><span>Source label: duckduckgo_news</span></div>
-          <p class="quote">Snippet evidence: Vale closed at $14.22, down 3.07% from the prior day, underperforming the S&amp;P 500’s 0.51% decline.</p>
-          <p><strong>Usefulness:</strong> Another short-term trading item. It shows volatility but does not explain long-term intrinsic value.</p>
-        </article>
-
-        <article class="evidence-item">
-          <span class="tag search">Search evidence</span>
-          <h4><a href="https://www.msn.com/en-us/money/top-stocks/vale-sa-vale-sees-a-more-significant-dip-than-broader-market-some-facts-to-know/ar-AA27qggm" target="_blank" rel="noopener noreferrer">Vale SA (VALE) sees a more significant dip than broader market: Some facts to know</a></h4>
-          <div class="source-meta"><span>Source label: duckduckgo_news</span></div>
-          <p class="quote">Snippet evidence: Vale closed at $14.69, down 2.65%, more than the S&amp;P 500’s 0.45% decline.</p>
-          <p><strong>Usefulness:</strong> Confirms recent stock volatility in the ADR, but does not add commodity, operating, or valuation detail.</p>
-        </article>
-
-        <article class="evidence-item">
-          <span class="tag search">Search evidence</span>
-          <h4><a href="https://www.brasil247.com/brazilstockguide/insights/vale-board-fight-puts-previs-clout-to-the-test/" target="_blank" rel="noopener noreferrer">Vale Board Fight Puts Previ's Clout to the Test</a></h4>
-          <div class="source-meta"><span>Source label: duckduckgo_news</span></div>
-          <p class="quote">Snippet evidence: Vale called an extraordinary shareholders’ meeting for July 22 to vote on whether Daniel Stieler should be removed from the board; the request came from Previ, the pension fund for Banco do Brasil employees.</p>
-          <p><strong>Usefulness:</strong> Potentially important governance signal. Needs verification through Vale’s official investor relations notices and meeting materials.</p>
-        </article>
-
-        <article class="evidence-item">
-          <span class="tag search">Search evidence</span>
-          <h4><a href="https://www.insidermonkey.com/blog/vale-s-a-vale-launches-ai%E2%80%91driven-model-plant-in-itabira-1789906/" target="_blank" rel="noopener noreferrer">Vale S.A. (VALE) Launches AI‑Driven Model Plant in Itabira</a></h4>
-          <div class="source-meta"><span>Source label: duckduckgo_news</span></div>
-          <p class="quote">Snippet evidence: Vale inaugurated its first high-tech “Model Plant” at the Conceição 2 unit in Itabira, Minas Gerais.</p>
-          <p><strong>Usefulness:</strong> Potentially relevant to productivity, automation, and cost efficiency, but the snippet alone does not quantify financial impact.</p>
-        </article>
-
-        <div class="hr" aria-hidden="true"></div>
-
-        <h3>Analyst / market-opinion search-result evidence</h3>
-        <article class="evidence-item">
-          <span class="tag search">Search evidence</span>
-          <h4><a href="https://quartr.com/companies/vale-s-a_4387" target="_blank" rel="noopener noreferrer">Vale (VALE3) Investor Relations, Earnings Summary &amp; Outlook</a></h4>
-          <div class="source-meta"><span>Source label: google</span></div>
-          <p class="quote">Snippet evidence: Vale aims to lead value creation in mining through ethical and sustainable practices, focusing on iron ore, copper, and nickel with emphasis on decarbonization, operational efficiency, and growth in critical minerals.</p>
-          <p><strong>Usefulness:</strong> Supports the idea that Vale’s narrative is tied to iron ore, copper, nickel, decarbonization, and operational efficiency. The result appears to reference “Jun 30, 2026,” so date context should be verified.</p>
-        </article>
-
-        <article class="evidence-item">
-          <span class="tag search">Search evidence</span>
-          <h4><a href="https://www.stocktitan.net/sec-filings/VALE/" target="_blank" rel="noopener noreferrer">VALE SEC Filings - Vale S A 10-K, 10-Q, 8-K Forms</a></h4>
-          <div class="source-meta"><span>Source label: google</span></div>
-          <p class="quote">Snippet evidence: Vale’s Form 20-F framework and related disclosures address risks for mining operations, metals prices, capital markets, competition, and jurisdictions where the company operates, including Brazil and Canada.</p>
-          <p><strong>Usefulness:</strong> Good pointer to primary-risk disclosure categories. Learners should read Vale’s actual Form 20-F rather than rely on the search snippet.</p>
-        </article>
-
-        <article class="evidence-item">
-          <span class="tag search">Search evidence</span>
-          <h4><a href="https://www.marketbeat.com/stocks/NYSE/VALE/sec-filings/" target="_blank" rel="noopener noreferrer">Vale (VALE) 10K Form and Latest SEC Filings 2026 - MarketBeat</a></h4>
-          <div class="source-meta"><span>Source label: google</span></div>
-          <p class="quote">Snippet evidence: A 10-K contains audited financial statements, revenue and earnings trends, debt obligations, risk factors, and management’s assessment of the business. Reading risk factors and comparing year-over-year financials can reveal issues not shown in analyst summaries.</p>
-          <p><strong>Usefulness:</strong> General filing-literacy pointer rather than Vale-specific analysis.</p>
-        </article>
-
-        <article class="evidence-item">
-          <span class="tag search">Search evidence</span>
-          <h4><a href="https://www.ad-hoc-news.de/boerse/news/ueberblick/vale-stock-holds-firm-as-iron-ore-and-output-data-frame-the-day/69788328" target="_blank" rel="noopener noreferrer">Vale stock holds firm as iron ore and output data frame the day</a></h4>
-          <div class="source-meta"><span>Source label: google</span></div>
-          <p class="quote">Snippet evidence: A 2% increase in iron ore fines production to 327.7 million metric tons versus 2024 matters because it links volume execution to profit power.</p>
-          <p><strong>Usefulness:</strong> Relevant to the operating case, but the snippet does not provide realized prices, costs, margins, or full-period reconciliation.</p>
-        </article>
-
-        <div class="hr" aria-hidden="true"></div>
-
-        <h3>Official context search-result evidence</h3>
-        <div class="grid three">
-          <article class="card">
-            <span class="tag reported">Official context</span>
-            <h4><a href="https://www.vale.com/investors" target="_blank" rel="noopener noreferrer">Investors - Vale</a></h4>
-            <p class="quote">Quarterly reports, latest financial and operating results, historical annual balance sheets, and detailed presentations are available.</p>
-            <p><strong>Usefulness:</strong> Primary source hub; should be the first stop for serious research.</p>
-          </article>
-          <article class="card">
-            <span class="tag reported">Official context</span>
-            <h4><a href="https://www.vale.com/w/financial-results-3q24" target="_blank" rel="noopener noreferrer">Financial results 3Q24 - Vale</a></h4>
-            <p class="quote">New CEO commentary referenced a path to make Vale more agile and efficient, fostering innovation and a performance culture, while also mentioning safety.</p>
-            <p><strong>Usefulness:</strong> Official management narrative. Learners should read full quarterly materials for actual numbers and guidance.</p>
-          </article>
-          <article class="card">
-            <span class="tag reported">Official context</span>
-            <h4><a href="https://ri-vale.mz-sites.com/en/information-to-the-market/quarterly-results/" target="_blank" rel="noopener noreferrer">Quarterly Results - Vale</a></h4>
-            <p class="quote">The page lists materials such as 1Q26 conference call transcript, conference call presentation, performance report, XLS file, and production and sales release.</p>
-            <p><strong>Usefulness:</strong> Important official repository for operating data, financial statements, and management commentary. The “1Q26” references should be checked directly on the page.</p>
-          </article>
-        </div>
-
-        <aside class="note warning">
-          <strong>Skeptical outside commentary:</strong> The supplied skeptical-view query “Vale S.A. VALE3 risks bear case competition” returned no results, with total results of 0. This is not evidence that no bear case exists. It only means the supplied search query did not return results. The risk discussion therefore must rely on company filings, financial metrics, commodity-cycle logic, and available search snippets.
+        <aside class="card">
+          <h3>Extractive-industry dashboard fields requiring primary evidence</h3>
+          <p class="muted">The requested research character emphasizes commodity exposure, operational drivers, balance-sheet signals, cyclical risks, and watchlist items. The supplied report does not contain Vale-specific evidence for those fields.</p>
+          <div class="callout warn">
+            <span class="labelled">Next check</span>
+            <p>Use Vale S.A. investor relations materials, B3/finance-provider quote data, SEC/CVM-style filings where applicable, production and sales reports, debt schedules, and earnings-call commentary before interpreting VALE3.</p>
+          </div>
         </aside>
       </div>
     </section>
 
-    <section id="tensions" class="section" aria-labelledby="tensions-title">
-      <div class="section-shell">
-        <p class="eyebrow">Interpretation discipline</p>
-        <h2 id="tensions-title">Agreements, tensions, and evidence gaps</h2>
+    <section class="section" aria-labelledby="vale-research-frame">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Requested commodity dashboard frame</p>
+          <h2 id="vale-research-frame">Vale-specific analysis cannot be completed from the supplied evidence</h2>
+        </div>
+        <p class="section-note">Labels below are intentionally conservative: they show the analytical areas a learner would normally inspect, while stating that the report did not supply the underlying facts.</p>
+      </div>
 
-        <div class="grid two">
-          <article class="card">
-            <span class="tag reported">Agreements</span>
-            <ol>
-              <li><strong>Vale is fundamentally a mining and commodity-exposed company.</strong> The company profile and search snippets consistently emphasize iron ore, nickel, and copper.</li>
-              <li><strong>Iron ore production and operational execution matter.</strong> The Ad-Hoc News snippet links iron ore fines production to profit power.</li>
-              <li><strong>Official filings and IR materials are essential.</strong> Search results point to Vale investor relations, quarterly results, and SEC filings as important primary sources.</li>
-              <li><strong>Analyst sentiment is constructive in the finance-tool data.</strong> The supplied analyst recommendation is BUY with a mean score of 2.00 from 11 analysts.</li>
-            </ol>
-          </article>
+      <div class="grid three">
+        <article class="card">
+          <h3>Commodity exposure</h3>
+          <p><strong>Evidence status:</strong> Not supplied.</p>
+          <p class="muted">No commodity mix, realized pricing, production volume, shipment volume, cost curve, or sensitivity data were included in the supplied report.</p>
+        </article>
+        <article class="card">
+          <h3>Operational drivers</h3>
+          <p><strong>Evidence status:</strong> Not supplied.</p>
+          <p class="muted">No mine, logistics, port, rail, capex, maintenance, licensing, production-guidance, or safety-performance evidence was included.</p>
+        </article>
+        <article class="card">
+          <h3>Balance-sheet signals</h3>
+          <p><strong>Evidence status:</strong> Not supplied.</p>
+          <p class="muted">No VALE3 cash, debt, leverage, maturity, dividend, buyback, or free-cash-flow figures were included.</p>
+        </article>
+        <article class="card">
+          <h3>Cyclical risks</h3>
+          <p><strong>Evidence status:</strong> Not supplied.</p>
+          <p class="muted">No Vale-specific macro, commodity-cycle, China-demand, FX, regulatory, environmental, legal, or operational-risk evidence was supplied.</p>
+        </article>
+        <article class="card">
+          <h3>Evidence quality</h3>
+          <p><strong>Evidence status:</strong> Mismatched.</p>
+          <p class="muted">The available finance-tool snapshot and search-result evidence describe Microsoft Corporation, not Vale S.A.</p>
+        </article>
+        <article class="card">
+          <h3>Watchlist items</h3>
+          <p><strong>Evidence status:</strong> Requires new sources.</p>
+          <p class="muted">VALE3 watchlist signals should be rebuilt only after Vale-specific primary and market-data sources are collected.</p>
+        </article>
+      </div>
+    </section>
 
-          <article class="callout">
-            <span class="tag uncertain">Tensions</span>
-            <ol>
-              <li><strong>High dividend yield versus high payout ratio:</strong> A 9.45% yield may appear attractive, but the payout ratio of 1.1746 means distributions exceeded earnings over the measured period.</li>
-              <li><strong>Trailing P/E versus forward P/E:</strong> 21.03 versus 8.79 implies expectations for improved earnings or a cyclical rebound, requiring validation.</li>
-              <li><strong>Large debt load versus balance-sheet resilience:</strong> Total debt is BRL 111.96 billion and cash is BRL 27.55 billion. Liquidity ratios are mixed: current ratio of 1.24 but quick ratio of 0.666.</li>
-              <li><strong>Operational efficiency narrative versus limited quantified evidence:</strong> Search snippets mention an AI-driven model plant and efficiency emphasis, but not quantified financial impact.</li>
-              <li><strong>Governance signal versus incomplete context:</strong> The board-fight snippet may matter, but official shareholder meeting materials are needed.</li>
-            </ol>
-          </article>
+    <section class="section" aria-labelledby="supplied-msft">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Out-of-scope evidence packet</p>
+          <h2 id="supplied-msft">Preserved source-report evidence: Microsoft Corporation (MSFT)</h2>
+        </div>
+        <p class="section-note">The following material is preserved because it was present in the completed Markdown report. It is not evidence about Vale S.A. or VALE3.</p>
+      </div>
+
+      <article class="card">
+        <h3>Purpose and evidence base from the supplied report</h3>
+        <p><strong>Purpose:</strong> Asset education and evidence organization, not personal financial advice or a buy/sell recommendation.</p>
+        <p><strong>Evidence base:</strong> Yahoo Finance-style finance tool snapshot plus web-search result titles/snippets/URLs. Web-search items are treated only as <strong>search-result evidence</strong>, not full article readings.</p>
+      </article>
+
+      <div class="grid two section">
+        <article class="card">
+          <h3>MSFT executive snapshot from supplied report</h3>
+          <ul class="plain-list">
+            <li><strong>Company:</strong> Microsoft Corporation</li>
+            <li><strong>Ticker:</strong> MSFT</li>
+            <li><strong>Exchange:</strong> NMS</li>
+            <li><strong>Sector / Industry:</strong> Technology / Software - Infrastructure</li>
+            <li><strong>Current price:</strong> $384.95 USD</li>
+            <li><strong>Market cap:</strong> $2.8596 trillion</li>
+            <li><strong>P/E:</strong> 22.93x</li>
+            <li><strong>Forward P/E:</strong> 19.86x</li>
+            <li><strong>Dividend yield:</strong> 0.95%</li>
+            <li><strong>52-week range:</strong> $349.20–$555.45</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>MSFT caveats from supplied report</h3>
+          <ul class="status-list">
+            <li>Search results are snippets only; they are not full article readings.</li>
+            <li>The “official context” web search returned no results, so the brief does not incorporate Microsoft’s latest earnings release or 10-Q/10-K language beyond the finance-tool company profile.</li>
+            <li>Some snippets refer to upcoming earnings, technical weakness, AI capex, and analyst optimism, but details are incomplete without primary filings, earnings call transcripts, and segment disclosures.</li>
+            <li>No personal suitability assessment is possible from this information.</li>
+          </ul>
+        </article>
+      </div>
+
+      <article class="card section">
+        <h3>Most decision-relevant MSFT facts in the supplied report</h3>
+        <ul class="plain-list">
+          <li>Microsoft remains one of the largest software and cloud infrastructure companies globally, with exposure to Microsoft 365, Azure, GitHub, LinkedIn, Dynamics, Windows, Xbox, search, and AI-related products such as Copilot.</li>
+          <li>Finance-tool fundamentals show high profitability: gross margin 68.31%, operating margin 46.33%, profit margin 39.34%, ROE 34.01%.</li>
+          <li>Growth metrics are strong in the provided snapshot: revenue growth 18.3% and earnings growth 23.4%.</li>
+          <li>Analysts in the finance tool are highly positive: STRONG_BUY, recommendation mean 1.33, with 55 analysts and a mean price target of $556.75. This is provider-supplied analyst data, not an independent forecast.</li>
+          <li>The central market debate in search-result evidence is whether Microsoft’s AI and cloud investment cycle—especially Azure, Copilot, and AI infrastructure capex—will generate sufficient returns.</li>
+          <li>Using provider values, $384.95 is about 30.7% below the $555.45 52-week high and about 10.2% above the $349.20 52-week low.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section" aria-labelledby="msft-business">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Business model in supplied report</p>
+          <h2 id="msft-business">Microsoft activities, drivers, and market interest</h2>
+        </div>
+        <p class="section-note">This section remains Microsoft-specific and should not be read as Vale evidence.</p>
+      </div>
+
+      <div class="grid three">
+        <article class="card">
+          <h3>Productivity and Business Processes</h3>
+          <ul class="plain-list">
+            <li>Microsoft 365 commercial</li>
+            <li>Enterprise mobility and security</li>
+            <li>Windows commercial</li>
+            <li>Power BI</li>
+            <li>Exchange, SharePoint, Microsoft Teams</li>
+            <li>Security and compliance</li>
+            <li>Copilot</li>
+            <li>Microsoft 365 consumer subscriptions</li>
+            <li>Office licensed products</li>
+            <li>LinkedIn</li>
+            <li>Dynamics 365 and related ERP/CRM offerings</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Intelligent Cloud</h3>
+          <ul class="plain-list">
+            <li>Azure and other cloud services</li>
+            <li>GitHub</li>
+            <li>Nuance Healthcare</li>
+            <li>Virtual desktop offerings</li>
+            <li>SQL Server and Windows Server</li>
+            <li>Visual Studio, System Center, and client access licenses</li>
+            <li>Enterprise support and partner services</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Personal Computing</h3>
+          <ul class="plain-list">
+            <li>Windows OEM licensing</li>
+            <li>Devices and Surface</li>
+            <li>PC accessories</li>
+            <li>Xbox hardware, content, subscriptions, and cloud gaming</li>
+            <li>Search and news advertising</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="grid two section">
+        <article class="card">
+          <h3>Core economic drivers described for Microsoft</h3>
+          <ol class="plain-list">
+            <li><strong>Recurring enterprise software revenue:</strong> Microsoft 365, Teams, security, Dynamics, and other productivity products benefit from enterprise adoption and renewal cycles.</li>
+            <li><strong>Cloud infrastructure consumption:</strong> Azure is framed by search-result evidence as central to the stock narrative.</li>
+            <li><strong>AI monetization:</strong> Copilot, GitHub, Azure AI services, and AI infrastructure are a key focus.</li>
+            <li><strong>Pricing power and margin structure:</strong> Provider metrics show gross margin 68.31%, operating margin 46.33%, and profit margin 39.34%.</li>
+            <li><strong>Balance-sheet capacity and capital allocation:</strong> Microsoft has $78.23 billion in total cash and $125.43 billion in total debt; debt-to-equity is 30.271; payout ratio is 20.73%.</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Why MSFT was described as interesting</h3>
+          <ul class="plain-list">
+            <li>AI growth expectations around Azure, Copilot, and GitHub.</li>
+            <li>Capex scrutiny around AI infrastructure spending.</li>
+            <li>Valuation reset after a recent slide.</li>
+            <li>Technical weakness from one search result: 11% below its 200-day average and a “death cross,” subject to verification.</li>
+            <li>Analyst optimism versus execution risk.</li>
+          </ul>
+          <p class="muted small">The profile also notes strategic collaborations with Mayo Clinic, Inc. for a frontier AI model for healthcare and Global Objects, Inc. to build a retrieval-grounded generative AI world model.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="msft-data">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Finance-tool snapshot</p>
+          <h2 id="msft-data">MSFT market data and fundamentals supplied</h2>
+        </div>
+        <p class="section-note">Provider: <span class="raw">ellements.domain_specific.finance.yahoo_finance</span>. Values are not applicable to VALE3.</p>
+      </div>
+
+      <div class="grid two">
+        <div class="table-wrap">
+          <table>
+            <caption>Quote data</caption>
+            <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Metric">Symbol</td><td data-label="Value">MSFT</td></tr>
+              <tr><td data-label="Metric">Name</td><td data-label="Value">Microsoft Corporation</td></tr>
+              <tr><td data-label="Metric">Current price</td><td data-label="Value">$384.95</td></tr>
+              <tr><td data-label="Metric">Previous close</td><td data-label="Value">$381.58</td></tr>
+              <tr><td data-label="Metric">Open price</td><td data-label="Value">$387.05</td></tr>
+              <tr><td data-label="Metric">Day high</td><td data-label="Value">$389.03</td></tr>
+              <tr><td data-label="Metric">Day low</td><td data-label="Value">$380.66</td></tr>
+              <tr><td data-label="Metric">Volume</td><td data-label="Value">11,572,870</td></tr>
+              <tr><td data-label="Metric">Market cap</td><td data-label="Value">$2,859,576,066,048</td></tr>
+              <tr><td data-label="Metric">P/E ratio</td><td data-label="Value">22.927338</td></tr>
+              <tr><td data-label="Metric">Dividend yield</td><td data-label="Value">0.95</td></tr>
+              <tr><td data-label="Metric">52-week high</td><td data-label="Value">$555.45</td></tr>
+              <tr><td data-label="Metric">52-week low</td><td data-label="Value">$349.20</td></tr>
+              <tr><td data-label="Metric">Currency</td><td data-label="Value">USD</td></tr>
+              <tr><td data-label="Metric">Exchange</td><td data-label="Value">NMS</td></tr>
+            </tbody>
+          </table>
         </div>
 
-        <article class="card" style="margin-top:18px">
-          <span class="tag next">Evidence gaps</span>
-          <p>A learner should not consider the current evidence sufficient to answer the following:</p>
-          <ul class="driver-list">
-            <li>What are Vale’s current realized iron ore prices versus benchmark prices?</li>
-            <li>What are current C1 cash costs and all-in costs?</li>
-            <li>How much of EBITDA comes from iron ore versus base metals?</li>
-            <li>What is the dividend policy under different commodity-price scenarios?</li>
-            <li>What are the latest provisions or liabilities related to environmental, dam, or legal matters?</li>
-            <li>How exposed is Vale to China property-sector weakness versus other steel demand sources?</li>
-            <li>What are current nickel segment margins and impairment risks?</li>
-            <li>How much capex is required to sustain or grow production?</li>
-            <li>What is management’s latest net debt target?</li>
-            <li>Are analyst price targets for VALE3.SA local shares, ADRs, or another currency basis?</li>
+        <div class="table-wrap">
+          <table>
+            <caption>Valuation metrics</caption>
+            <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Metric">P/E ratio</td><td data-label="Value">22.927338</td></tr>
+              <tr><td data-label="Metric">Forward P/E</td><td data-label="Value">19.864481</td></tr>
+              <tr><td data-label="Metric">PEG ratio</td><td data-label="Value">1.23</td></tr>
+              <tr><td data-label="Metric">Price/book</td><td data-label="Value">6.9015903</td></tr>
+              <tr><td data-label="Metric">Price/sales</td><td data-label="Value">8.984665</td></tr>
+              <tr><td data-label="Metric">Enterprise value</td><td data-label="Value">$2,881,746,108,416</td></tr>
+              <tr><td data-label="Metric">EV/revenue</td><td data-label="Value">9.054</td></tr>
+              <tr><td data-label="Metric">EV/EBITDA</td><td data-label="Value">15.623</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Profitability and returns</caption>
+            <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Metric">Gross margin</td><td data-label="Value">0.68309</td></tr>
+              <tr><td data-label="Metric">Operating margin</td><td data-label="Value">0.46326</td></tr>
+              <tr><td data-label="Metric">Profit margin</td><td data-label="Value">0.39341998</td></tr>
+              <tr><td data-label="Metric">Return on assets</td><td data-label="Value">0.14814</td></tr>
+              <tr><td data-label="Metric">Return on equity</td><td data-label="Value">0.34013999</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <article class="card">
+          <h3>Provider decimals interpreted as percentages</h3>
+          <ul class="plain-list">
+            <li>Gross margin: 68.31%</li>
+            <li>Operating margin: 46.33%</li>
+            <li>Profit margin: 39.34%</li>
+            <li>ROA: 14.81%</li>
+            <li>ROE: 34.01%</li>
+          </ul>
+        </article>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Growth</caption>
+            <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Metric">Revenue growth</td><td data-label="Value">0.183</td></tr>
+              <tr><td data-label="Metric">Earnings growth</td><td data-label="Value">0.234</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <article class="card">
+          <h3>Growth interpretation caveat</h3>
+          <p>Interpreted as percentages, revenue growth is 18.3% and earnings growth is 23.4%. The finance tool does not specify the exact measurement period for these growth figures in the supplied data, so period interpretation should be checked against the provider’s methodology or Microsoft’s filings.</p>
+        </article>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Liquidity, leverage, and balance sheet</caption>
+            <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Metric">Current ratio</td><td data-label="Value">1.283</td></tr>
+              <tr><td data-label="Metric">Quick ratio</td><td data-label="Value">1.142</td></tr>
+              <tr><td data-label="Metric">Debt/equity</td><td data-label="Value">30.271</td></tr>
+              <tr><td data-label="Metric">Total debt</td><td data-label="Value">$125,431,996,416</td></tr>
+              <tr><td data-label="Metric">Total cash</td><td data-label="Value">$78,227,996,672</td></tr>
+              <tr><td data-label="Metric">Book value per share</td><td data-label="Value">$55.777</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <article class="card">
+          <h3>Derived value from provider figures</h3>
+          <p>Total debt minus total cash equals approximately <strong>$47.20 billion</strong> net debt.</p>
+        </article>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Per-share and shareholder metrics</caption>
+            <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Metric">Revenue per share</td><td data-label="Value">$42.836</td></tr>
+              <tr><td data-label="Metric">Earnings per share</td><td data-label="Value">$16.79</td></tr>
+              <tr><td data-label="Metric">Dividend rate</td><td data-label="Value">$3.64</td></tr>
+              <tr><td data-label="Metric">Dividend yield</td><td data-label="Value">0.95</td></tr>
+              <tr><td data-label="Metric">Payout ratio</td><td data-label="Value">0.20729999</td></tr>
+              <tr><td data-label="Metric">Shares outstanding</td><td data-label="Value">7,428,434,704</td></tr>
+              <tr><td data-label="Metric">Float shares</td><td data-label="Value">7,417,366,336</td></tr>
+              <tr><td data-label="Metric">Beta</td><td data-label="Value">1.13</td></tr>
+              <tr><td data-label="Metric">Shares short</td><td data-label="Value">89,063,316</td></tr>
+              <tr><td data-label="Metric">Short ratio</td><td data-label="Value">1.84</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <caption>Analyst recommendations from finance tool</caption>
+            <thead><tr><th>Analyst metric</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Analyst metric">Recommendation</td><td data-label="Value">STRONG_BUY</td></tr>
+              <tr><td data-label="Analyst metric">Recommendation mean</td><td data-label="Value">1.33 where 1 = Strong Buy, 5 = Sell</td></tr>
+              <tr><td data-label="Analyst metric">Number of analysts</td><td data-label="Value">55</td></tr>
+              <tr><td data-label="Analyst metric">Mean price target</td><td data-label="Value">$556.75</td></tr>
+              <tr><td data-label="Analyst metric">Median price target</td><td data-label="Value">$550.00</td></tr>
+              <tr><td data-label="Analyst metric">High price target</td><td data-label="Value">$870.00</td></tr>
+              <tr><td data-label="Analyst metric">Low price target</td><td data-label="Value">$400.00</td></tr>
+              <tr><td data-label="Analyst metric">Recent recommendation history</td><td data-label="Value">4 entries available</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="muted small section">Payout ratio interpreted as a percentage: 20.73%. Analyst information is provider-supplied and should be treated as a summary of sell-side or market-data-provider views, not as a guarantee of future returns.</p>
+    </section>
+
+    <section class="section" aria-labelledby="search-evidence">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Search-result evidence</p>
+          <h2 id="search-evidence">Recent news, analyst opinion, official context, and skeptical commentary</h2>
+        </div>
+        <p class="section-note">All items below are search-result titles and snippets only. They are not full article readings and are not VALE3 evidence.</p>
+      </div>
+
+      <div class="evidence-grid">
+        <article class="card">
+          <h3>Recent news search evidence</h3>
+          <p class="muted small">Search query: “Microsoft Corporation MSFT stock recent news”</p>
+
+          <div class="source-item">
+            <div class="source-title">Seeking Alpha — “Microsoft's AI Transformation Is Misunderstood”</div>
+            <p><a href="https://seekingalpha.com/article/4923897-microsoft-ai-transformation-is-misunderstood" target="_blank" rel="noopener noreferrer">Seeking Alpha source result</a></p>
+            <blockquote>“Microsoft Corporation's shift to consumption-based AI (Azure, Copilot, GitHub) drives recurring revenue. Click for more on MSFT stock prospects.”</blockquote>
+            <p><strong>Relevance:</strong> Supports the idea that AI consumption and recurring revenue are central to the bull narrative.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">MSN — “Microsoft (MSFT) Stock Declines While Market Improves: Some Information for Investors”</div>
+            <p><a href="https://www.msn.com/en-us/money/savingandinvesting/microsoft-msft-stock-declines-while-market-improves-some-information-for-investors/ar-AA27Vk2b" target="_blank" rel="noopener noreferrer">MSN source result</a></p>
+            <blockquote>“In the latest trading session, Microsoft (MSFT) closed at $384.93, marking a -1.55% move from the previous day. The stock fell short of the S&amp;P 500, which registered a gain of 0.38% for the day.”</blockquote>
+            <p><strong>Relevance:</strong> Indicates recent underperformance relative to the broader market in one trading session.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">Yahoo Finance — “Microsoft (MSFT) Stock After Recent Slide Is The Current Valuation An Opportunity?”</div>
+            <p><a href="https://finance.yahoo.com/markets/stocks/articles/microsoft-msft-stock-recent-slide-181007241.html" target="_blank" rel="noopener noreferrer">Yahoo Finance source result</a></p>
+            <blockquote>“How Recent Moves Shape Microsoft's Valuation Story Recent months have given investors plenty of reasons to recheck what they think Microsoft is worth, especially if you are asking whether the current share price lines up with the company's underlying fundamentals.”</blockquote>
+            <p><strong>Relevance:</strong> Frames the stock’s recent weakness as a valuation reassessment question.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">Seeking Alpha — “Microsoft: A Better Entry Point Before Earnings”</div>
+            <p><a href="https://seekingalpha.com/article/4924494-microsoft-stock-better-entry-point-before-q4-earnings" target="_blank" rel="noopener noreferrer">Seeking Alpha source result</a></p>
+            <blockquote>“Microsoft's CapEx surge remains the central tension but is justified by robust Azure and AI-driven growth. Read why MSFT stock is a Buy.”</blockquote>
+            <p><strong>Relevance:</strong> Highlights the core tension: high capex versus Azure and AI growth.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">MSN — “Microsoft stock sits 11% below its 200-day average as earnings approach”</div>
+            <p><a href="https://www.msn.com/en-us/money/top-stocks/microsoft-stock-sits-11-below-its-200-day-average-as-earnings-approach/ar-AA28wWS4" target="_blank" rel="noopener noreferrer">MSN source result</a></p>
+            <blockquote>“Microsoft Corporation MSFT shares are in the spotlight Thursday, with earnings on deck, recent analyst activity, a mixed technical setup and a lingering January death cross all drawing attention. Microsoft stock is trading at depressed levels.”</blockquote>
+            <p><strong>Relevance:</strong> Suggests technical weakness and earnings-event focus, but should be verified with actual price charts and earnings calendar.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Analyst opinion search evidence</h3>
+          <p class="muted small">Search query covered cloud and AI growth, Azure demand, software pricing power, enterprise spending, capital allocation, balance-sheet resilience, regulatory and antitrust risk, competitive dynamics, and valuation concerns.</p>
+
+          <div class="source-item">
+            <div class="source-title">Yahoo Finance — “Microsoft earnings to spotlight Azure growth, AI spending”</div>
+            <p><a href="https://finance.yahoo.com/technology/ai/articles/microsoft-earnings-spotlight-azure-growth-190200926.html?fr=sycsrp_catchall" target="_blank" rel="noopener noreferrer">Yahoo Finance source result</a></p>
+            <blockquote>“Microsoft Corp (NASDAQ: MSFT)'s fiscal fourth quarter results will be a key test of the company's AI execution, with Azure growth, AI infrastructure spending and Microsoft 365...”</blockquote>
+            <p><strong>Relevance:</strong> Reinforces that Azure, AI spending, and Microsoft 365 monetization are central to the upcoming earnings debate.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">Tradingpedia — “Microsoft Shares Face AI and Cloud Growth Scrutiny”</div>
+            <p><a href="https://www.tradingpedia.com/2026/07/17/microsoft-shares-face-ai-and-cloud-growth-scrutiny/" target="_blank" rel="noopener noreferrer">Tradingpedia source result</a></p>
+            <blockquote>“The Pivotal Question: Will Massive CapEx Pay Off? The central issue for investors is whether more than $141B in annual capital expenditure will generate proportional returns. The bullish outcome depends on Azure and AI monetization sustaining cloud growth in the 35–40% range and on Copilot evolving into a meaningful revenue amplifier across over 400M Microsoft 365 seats.”</blockquote>
+            <p><strong>Relevance:</strong> Provides a concrete search-result framing of the capex-payoff debate. The figures should be verified in primary sources before relying on them.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">MarketScreener — “Microsoft Corporation: Analyst Recommendations and Opinions ...”</div>
+            <p><a href="https://www.marketscreener.com/quote/stock/MICROSOFT-CORPORATION-4835/news-broker-research/" target="_blank" rel="noopener noreferrer">MarketScreener source result</a></p>
+            <blockquote>“Microsoft Corporation: Financial analyst guidance for Microsoft Corporation Stock | Nasdaq: MSFT | Nasdaq”</blockquote>
+            <p><strong>Relevance:</strong> Confirms the existence of analyst-guidance aggregation, but the snippet does not provide substantive details.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">TrueValueResearch — “Microsoft Azure Is Growing Faster Than AWS — And Copilot Has ...”</div>
+            <p><a href="https://truevalueresearch.com/articles/msft-azure-copilot-2026.html" target="_blank" rel="noopener noreferrer">TrueValueResearch source result</a></p>
+            <blockquote>“This article makes the case that Microsoft's competitive position in enterprise AI is stronger today than its position in enterprise software was in 2010 — and that the monetisation of Copilot has barely begun.”</blockquote>
+            <p><strong>Relevance:</strong> Represents a bullish search-result claim about Azure, enterprise AI position, and Copilot monetization. Requires verification.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">CoinCentral — “Microsoft (MSFT) Stock: Analysts See 43% Upside as Azure ...”</div>
+            <p><a href="https://coincentral.com/microsoft-msft-stock-analysts-see-43-upside-as-azure-demand-outpaces-supply/" target="_blank" rel="noopener noreferrer">CoinCentral source result</a></p>
+            <blockquote>“The firm highlighted Microsoft as a standout name in the current cloud spending boom, pointing to Azure’s accelerating market share gains as a key reason to stay bullish.”</blockquote>
+            <p><strong>Relevance:</strong> Suggests analyst optimism tied to Azure demand and market-share gains. Details require confirmation.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Official context search evidence</h3>
+          <p><strong>Search query:</strong> “Microsoft Corporation investor relations quarterly results MSFT”</p>
+          <p><strong>Results returned:</strong> 0</p>
+          <div class="callout warn">
+            <span class="labelled">Evidence implication</span>
+            <p>No official Microsoft investor-relations result was captured in the provided web-search output. A learner should separately consult Microsoft’s investor relations website, SEC filings, earnings releases, and earnings call transcripts.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Skeptical / bear-case search evidence</h3>
+          <p class="muted small">Search query: “Microsoft Corporation MSFT risks bear case competition”</p>
+
+          <div class="source-item">
+            <div class="source-title">Seeking Alpha — “Microsoft's Bear Case Is Hard To Buy (NASDAQ:MSFT)”</div>
+            <p><a href="https://seekingalpha.com/article/4892256-microsofts-bear-case-is-hard-to-buy" target="_blank" rel="noopener noreferrer">Seeking Alpha source result</a></p>
+            <blockquote>“For Microsoft, the risk is, at worst, executional friction. Copilot is the response to protect the value of the Office seat, and though competition is intense, the results are promising so...”</blockquote>
+            <p><strong>Relevance:</strong> A skeptical-search result that actually appears to downplay the bear case, framing risk as executional rather than structural.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">VCP Scanner — “MSFT Stock Analysis &amp; Analyst Ratings — 2026”</div>
+            <p><a href="https://vcpscanner.com/stock/msft/analysis" target="_blank" rel="noopener noreferrer">VCP Scanner source result</a></p>
+            <blockquote>“Microsoft Corporation (MSFT) stock analysis: $549 consensus target (+41% upside) — Buy rating from 82 analysts. View bull case, risk factors, and earnings context. Updated July 2026.”</blockquote>
+            <p><strong>Relevance:</strong> Indicates another aggregated bullish analyst framing, but source methodology and analyst count differ from the finance tool’s 55 analysts. This is an evidence gap.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">BearSavings — “Microsoft (MSFT) Stock Analysis: Business Model, Bull Case ...”</div>
+            <p><a href="https://www.bearsavings.com/stocks/dd/msft/" target="_blank" rel="noopener noreferrer">BearSavings source result</a></p>
+            <blockquote>“Comprehensive Microsoft (MSFT) stock analysis with community-curated insights covering its cloud business, AI strategy, financial strength, and key risks.”</blockquote>
+            <p><strong>Relevance:</strong> Broad risk and thesis source, but snippet lacks specific claims.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">Margin of Insight — “Microsoft Corporation (MSFT) — Investment Thesis | Margin of ...”</div>
+            <p><a href="https://app.marginofinsight.com/stocks/msft/thesis" target="_blank" rel="noopener noreferrer">Margin of Insight source result</a></p>
+            <blockquote>“Bear case: The law of large numbers eventually applies. Azure at ~$90–100B (FY2027E) growing 30%+ requires $27–30B of net new revenue annually — equivalent to adding a ServiceNow-sized company every year.”</blockquote>
+            <p><strong>Relevance:</strong> Provides a clear bear-case framing: maintaining high Azure growth becomes harder as the revenue base grows. The FY2027E figures should be checked against source estimates.</p>
+          </div>
+
+          <div class="source-item">
+            <div class="source-title">StrongBuyAnalytics — “MSFT Stock Analysis, Valuation &amp; AI Score (2026 ...”</div>
+            <p><a href="https://strongbuyanalytics.com/stocks/MSFT" target="_blank" rel="noopener noreferrer">StrongBuyAnalytics source result</a></p>
+            <blockquote>“Here are the specific risk factors our analysis identified for Microsoft Corporation: Competitive pressures in the Technology sector. Macroeconomic headwinds including interest rate changes and consumer spending shifts.”</blockquote>
+            <p><strong>Relevance:</strong> Identifies competition and macro sensitivity as risks, but lacks detailed evidence in the snippet.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="tensions">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Evidence synthesis</p>
+          <h2 id="tensions">Agreements, tensions, and gaps in the supplied MSFT report</h2>
+        </div>
+        <p class="section-note">These synthesis points were supplied for Microsoft, not Vale.</p>
+      </div>
+
+      <div class="grid three">
+        <article class="card">
+          <h3>Areas of agreement</h3>
+          <ol class="plain-list">
+            <li>Azure and AI are the central narrative.</li>
+            <li>Capex is a major investor concern.</li>
+            <li>Analyst sentiment is broadly positive.</li>
+            <li>The stock has experienced weakness or valuation reassessment.</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Key tensions</h3>
+          <ol class="plain-list">
+            <li>High-quality fundamentals versus valuation sensitivity.</li>
+            <li>AI monetization versus AI infrastructure cost.</li>
+            <li>Azure growth durability versus law of large numbers.</li>
+            <li>Strong analyst targets versus technical weakness.</li>
+            <li>Balance-sheet resilience versus rising investment intensity.</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Evidence gaps</h3>
+          <ul class="plain-list">
+            <li>No official investor-relations result was captured.</li>
+            <li>Segment-level revenue and operating income data are not provided.</li>
+            <li>No latest quarterly Azure growth rate is provided directly.</li>
+            <li>No actual capex, free cash flow, or AI infrastructure return metrics are included.</li>
+            <li>Regulatory and antitrust risks are not meaningfully discussed in the snippets.</li>
+            <li>Competitive dynamics lack detailed comparisons.</li>
           </ul>
         </article>
       </div>
     </section>
 
-    <section id="scenarios" class="section" aria-labelledby="scenarios-title">
-      <div class="section-shell">
-        <p class="eyebrow">Scenario frame</p>
-        <h2 id="scenarios-title">Bull / base / bear learning cases</h2>
-        <p class="section-intro">No investment recommendation is made. These are scenario-learning frames.</p>
-
-        <div class="scenario-grid">
-          <article class="card scenario bull">
-            <h3>Bull scenario</h3>
-            <p>The bull case would likely depend on:</p>
-            <ul>
-              <li>Stable or rising iron ore prices</li>
-              <li>Better-than-expected Chinese steel demand</li>
-              <li>Strong production execution</li>
-              <li>Lower unit costs from efficiency initiatives</li>
-              <li>Successful modernization such as AI-driven operational improvements</li>
-              <li>Nickel and copper becoming more material profit contributors</li>
-              <li>Continued shareholder returns without materially weakening the balance sheet</li>
-              <li>Governance stability and lower perceived Brazil-specific risk</li>
-            </ul>
-            <p>In this scenario, Vale’s forward valuation metrics, including the supplied <strong>forward P/E of 8.79</strong> and <strong>EV/EBITDA of 5.14</strong>, could appear undemanding if earnings and free cash flow are sustained.</p>
-          </article>
-
-          <article class="card scenario base">
-            <h3>Base scenario</h3>
-            <p>The base case might assume:</p>
-            <ul>
-              <li>Iron ore prices remain cyclical but not distressed</li>
-              <li>Production grows modestly or remains stable</li>
-              <li>Margins normalize rather than expand sharply</li>
-              <li>Dividends remain meaningful but fluctuate with earnings and cash flow</li>
-              <li>Base metals remain strategically important but not the dominant earnings driver</li>
-              <li>Governance and regulatory issues remain manageable but continue to affect the discount rate</li>
-            </ul>
-            <p>In this case, Vale remains a major cash-generating miner, but valuation depends heavily on where the market believes the iron ore cycle is heading.</p>
-          </article>
-
-          <article class="card scenario bear">
-            <h3>Bear scenario</h3>
-            <p>The bear case would likely involve:</p>
-            <ul>
-              <li>A decline in iron ore prices</li>
-              <li>Weaker Chinese steel demand</li>
-              <li>Cost inflation or operational disruptions</li>
-              <li>Lower realized prices relative to benchmarks</li>
-              <li>Nickel market weakness or base metals underperformance</li>
-              <li>Dividend cuts or lower shareholder distributions</li>
-              <li>Higher leverage concerns if EBITDA falls</li>
-              <li>Governance disputes or Brazilian regulatory/legal risks increasing the equity risk premium</li>
-              <li>Environmental, safety, or tailings-related liabilities surprising negatively</li>
-            </ul>
-            <p>In this scenario, the high dividend yield could prove backward-looking, and the forward P/E could be too optimistic if earnings expectations are revised down.</p>
-          </article>
+    <section class="section" aria-labelledby="scenarios">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Scenario frame</p>
+          <h2 id="scenarios">Balanced learning scenarios from the supplied MSFT report</h2>
         </div>
+        <p class="section-note">No scenario is a recommendation. These frameworks describe what would have to be true for Microsoft.</p>
       </div>
-    </section>
 
-    <section id="watchlist" class="section" aria-labelledby="watchlist-title">
-      <div class="section-shell">
-        <p class="eyebrow">Next checks</p>
-        <h2 id="watchlist-title">Key uncertainties, watchlist signals, and primary sources to investigate next</h2>
+      <div class="grid three">
+        <article class="card scenario bull">
+          <h3>Bull scenario</h3>
+          <ul class="plain-list">
+            <li>Azure demand remains strong and capacity-constrained rather than demand-constrained.</li>
+            <li>AI workloads, Copilot, GitHub, and Microsoft 365 AI features become meaningful recurring revenue drivers.</li>
+            <li>Microsoft preserves software pricing power and high margins despite rising AI infrastructure costs.</li>
+            <li>Capex is viewed as productive because cloud and AI revenue growth accelerates or remains elevated.</li>
+            <li>Enterprise spending remains resilient.</li>
+            <li>The balance sheet supports continued investment, dividends, and possibly buybacks without financial stress.</li>
+          </ul>
+          <p><strong>Evidence support:</strong> Strong profitability, growth, returns, STRONG_BUY sentiment, mean price target $556.75, and search snippets emphasizing Azure, Copilot, GitHub, AI monetization, and analyst optimism.</p>
+        </article>
 
-        <div class="grid sidebar">
-          <article class="card">
-            <span class="tag uncertain">Key uncertainties</span>
-            <ol>
-              <li><strong>Iron ore price sensitivity:</strong> How much EBITDA changes for each move in iron ore prices.</li>
-              <li><strong>China demand trajectory:</strong> Whether Chinese steel production, property construction, and infrastructure investment support or pressure iron ore demand.</li>
-              <li><strong>Realized pricing:</strong> Vale’s actual realized prices versus benchmark prices, including product mix, pellet premiums, quality discounts, and freight effects.</li>
-              <li><strong>Cost curve position:</strong> Vale’s current and forecast C1 cash costs, freight costs, sustaining capex, and inflation exposure.</li>
-              <li><strong>Dividend sustainability:</strong> The supplied payout ratio of 117.46% makes dividend coverage a key research item.</li>
-              <li><strong>Balance-sheet resilience:</strong> Total debt, cash, maturity schedule, net debt targets, and credit metrics should be monitored.</li>
-              <li><strong>Base metals execution:</strong> Whether nickel and copper can become more meaningful value drivers or remain secondary to iron ore.</li>
-              <li><strong>Governance and board dynamics:</strong> The board-fight search snippet suggests a governance issue worth checking through official shareholder meeting documents.</li>
-              <li><strong>Environmental and legal risks:</strong> Mining liabilities can be material and long-dated. Vale’s official filings are essential here.</li>
-            </ol>
-          </article>
+        <article class="card scenario base">
+          <h3>Base scenario</h3>
+          <ul class="plain-list">
+            <li>Microsoft continues to grow revenue and earnings, but AI monetization develops gradually.</li>
+            <li>Azure remains a growth driver, though markets become more selective about pace and profitability.</li>
+            <li>Copilot adoption expands, but investors require clearer proof of revenue uplift and margin contribution.</li>
+            <li>Capex remains elevated, limiting near-term free-cash-flow enthusiasm but not undermining the long-term franchise.</li>
+            <li>Valuation remains sensitive to Azure growth, AI commentary, and enterprise IT spending signals.</li>
+          </ul>
+          <p><strong>Evidence support:</strong> Provider revenue growth 18.3% and earnings growth 23.4%; search snippets frame upcoming earnings as a test; recent weakness suggests valuation reassessment.</p>
+        </article>
 
-          <aside class="callout">
-            <span class="tag next">Watchlist signals</span>
-            <ul>
-              <li>Quarterly iron ore production and sales</li>
-              <li>Iron ore fines output</li>
-              <li>Pellet volumes</li>
-              <li>Nickel and copper production</li>
-              <li>Realized prices</li>
-              <li>EBITDA by segment</li>
-              <li>C1 cash costs and freight costs</li>
-              <li>Capex guidance</li>
-              <li>Free cash flow</li>
-              <li>Net debt and gross debt</li>
-              <li>Dividend declarations and payout policy</li>
-              <li>Management commentary on China</li>
-              <li>Safety, dam, and environmental disclosures</li>
-              <li>Board and shareholder meeting notices</li>
-              <li>Credit rating actions</li>
-              <li>Analyst estimate revisions</li>
-            </ul>
-          </aside>
-        </div>
-
-        <article class="card" style="margin-top:18px">
-          <span class="tag next">Primary sources to investigate next</span>
-          <ol class="source-list">
-            <li>
-              <strong><a href="https://www.vale.com/investors" target="_blank" rel="noopener noreferrer">Vale Investor Relations</a></strong>
-              <span class="url">https://www.vale.com/investors</span>
-              <p class="quiet">Use for quarterly reports, financial results, balance sheets, and presentations.</p>
-            </li>
-            <li>
-              <strong><a href="https://ri-vale.mz-sites.com/en/information-to-the-market/quarterly-results/" target="_blank" rel="noopener noreferrer">Vale Quarterly Results page</a></strong>
-              <span class="url">https://ri-vale.mz-sites.com/en/information-to-the-market/quarterly-results/</span>
-              <p class="quiet">Use for production and sales reports, conference call transcripts, presentations, and XLS data.</p>
-            </li>
-            <li>
-              <strong><a href="https://www.vale.com/w/financial-results-3q24" target="_blank" rel="noopener noreferrer">Vale 3Q24 financial results page</a></strong>
-              <span class="url">https://www.vale.com/w/financial-results-3q24</span>
-              <p class="quiet">Use to review management commentary on efficiency, safety, and strategic direction.</p>
-            </li>
-            <li>
-              <strong><a href="https://www.stocktitan.net/sec-filings/VALE/" target="_blank" rel="noopener noreferrer">SEC filing references</a></strong>
-              <span class="url">https://www.stocktitan.net/sec-filings/VALE/</span>
-              <p class="quiet">Use as a pointer, but confirm through Vale’s official filings and SEC/issuer sources.</p>
-            </li>
-            <li>
-              <strong><a href="https://www.brasil247.com/brazilstockguide/insights/vale-board-fight-puts-previs-clout-to-the-test/" target="_blank" rel="noopener noreferrer">Governance item from search result</a></strong>
-              <span class="url">https://www.brasil247.com/brazilstockguide/insights/vale-board-fight-puts-previs-clout-to-the-test/</span>
-              <p class="quiet">Use only as a lead. Verify through official meeting notices and regulatory filings.</p>
-            </li>
-          </ol>
+        <article class="card scenario bear">
+          <h3>Bear scenario</h3>
+          <ul class="plain-list">
+            <li>AI infrastructure spending rises faster than monetizable demand.</li>
+            <li>Copilot adoption or willingness to pay disappoints.</li>
+            <li>Azure growth decelerates as the revenue base becomes very large.</li>
+            <li>Competition pressures pricing, workloads, or margins.</li>
+            <li>Enterprise IT spending weakens due to macro conditions.</li>
+            <li>Regulatory or antitrust scrutiny restricts bundling, AI partnerships, cloud practices, or acquisition strategy, though the supplied snippets do not provide detailed current regulatory evidence.</li>
+          </ul>
+          <p><strong>Evidence support:</strong> Tradingpedia questions capex payoff; Margin of Insight frames law-of-large-numbers risk; StrongBuyAnalytics cites competition and macro headwinds; recent decline and technical weakness suggest sensitivity.</p>
         </article>
       </div>
     </section>
 
-    <section id="sources" class="section" aria-labelledby="sources-title">
-      <div class="section-shell">
-        <p class="eyebrow">Bottom line</p>
-        <h2 id="sources-title">Market-learning conclusion</h2>
-        <p>Vale is a globally significant mining company with a strong iron ore core, additional nickel and copper exposure, and a currently high stated dividend yield. The supplied data show seemingly attractive forward valuation metrics and constructive analyst sentiment, but also important caveats: high commodity cyclicality, large debt, payout ratio above 100%, China-demand sensitivity, and governance or operating risks in Brazil.</p>
-        <p>For a learner, the central question is not simply whether Vale looks “cheap” or “high yield.” The better question is:</p>
-        <p class="question">What level of iron ore prices, production volumes, realized pricing, costs, capex, and dividends is the market currently discounting — and how resilient is Vale if those assumptions deteriorate?</p>
+    <section class="section" aria-labelledby="uncertainties">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Investigation plan</p>
+          <h2 id="uncertainties">Key uncertainties, watchlist signals, and primary sources</h2>
+        </div>
+        <p class="section-note">The supplied lists are Microsoft-specific. For VALE3, new Vale-specific sources are required.</p>
       </div>
+
+      <div class="grid three">
+        <article class="card">
+          <h3>MSFT key uncertainties supplied</h3>
+          <ol class="plain-list">
+            <li>Azure demand durability.</li>
+            <li>AI return on investment.</li>
+            <li>Copilot monetization.</li>
+            <li>Margin trajectory.</li>
+            <li>Enterprise spending environment.</li>
+            <li>Competitive response.</li>
+            <li>Regulatory and antitrust risk.</li>
+            <li>Valuation tolerance at price/sales 8.98x and EV/revenue 9.054x.</li>
+          </ol>
+        </article>
+
+        <article class="card">
+          <h3>MSFT watchlist signals supplied</h3>
+          <ul class="plain-list">
+            <li>Azure and cloud revenue growth rates.</li>
+            <li>Management commentary on AI demand versus supply constraints.</li>
+            <li>AI capex guidance and data-center investment plans.</li>
+            <li>Free cash flow after capital expenditures.</li>
+            <li>Copilot adoption metrics, if disclosed.</li>
+            <li>Microsoft 365 average revenue per user and renewal behavior.</li>
+            <li>Gross and operating margin trends.</li>
+            <li>Enterprise bookings, remaining performance obligations, and commercial cloud backlog.</li>
+            <li>Debt, cash, buybacks, and dividend growth.</li>
+            <li>Regulatory announcements in the U.S., EU, UK, and other major jurisdictions.</li>
+            <li>Competitive signals from AWS, Google Cloud, Oracle, Salesforce, Adobe, and AI-native software providers.</li>
+            <li>Analyst estimate revisions, not just price targets.</li>
+            <li>Technical context if relevant, especially whether recent weakness persists or reverses.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Primary sources to investigate next</h3>
+          <ol class="plain-list">
+            <li>Microsoft Investor Relations: quarterly earnings releases, earnings presentations, call transcripts, annual reports and Form 10-K, quarterly Form 10-Q filings.</li>
+            <li>SEC filings: revenue by segment, operating income by segment, capital expenditures, risk factors, contract liabilities, and remaining performance obligations.</li>
+            <li>Earnings call Q&amp;A focused on Azure growth, AI capacity constraints, capex and depreciation outlook, Copilot adoption, enterprise budget commentary, and AI infrastructure margin impact.</li>
+            <li>Cloud market-share sources for comparing Azure against AWS, Google Cloud, Oracle, and other infrastructure providers.</li>
+            <li>Regulatory filings and agency releases for antitrust and platform-risk context around cloud licensing, AI partnerships, and software bundling.</li>
+          </ol>
+        </article>
+      </div>
+
+      <aside class="card section">
+        <h3>Next check for the requested VALE3 dashboard</h3>
+        <p>Because no VALE3-specific report evidence was supplied, the next investigation should be rebuilt from Vale S.A. primary sources and VALE3 market data before presenting commodity exposure, operational drivers, Portuguese-real amounts, valuation, debt, cash, dividends, cyclical risks, or analyst views.</p>
+      </aside>
+    </section>
+
+    <section class="section" aria-labelledby="bottom-line">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Bottom line for market learning</p>
+          <h2 id="bottom-line">What can be concluded without adding facts</h2>
+        </div>
+      </div>
+
+      <article class="card">
+        <p>For the requested Vale S.A. / VALE3 dashboard, no company-specific market conclusion can be drawn from the supplied evidence. The source report instead concludes that Microsoft combines unusually strong profitability, broad enterprise software reach, major cloud exposure, and a high-profile AI monetization opportunity. It also states that the harder Microsoft market question is: <strong>How much future Azure and AI success is already reflected in valuation, and can Microsoft convert AI capex into durable free-cash-flow growth?</strong></p>
+        <p class="muted">That Microsoft conclusion is preserved as supplied, but it is not transferable to Vale S.A. without separate VALE3 evidence.</p>
+      </article>
     </section>
   </main>
 
-  <footer>
-    <div class="methodology">
-      <p><strong>Methodology / source note:</strong> Financial data are from the supplied Yahoo Finance-style finance tools. Outside-context items are grounded only in the supplied web-search titles, snippets, source labels, and URLs and should be treated as search-result evidence, not full-page readings. Source URLs are retained in the dashboard for follow-up verification.</p>
-      <p><strong>Educational disclaimer:</strong> This dashboard is an educational market brief, not personal financial advice or a buy/sell recommendation.</p>
-      <p><strong>WeaveMark provenance:</strong>
-        <a href="https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/market-snapshot.weavemark.md?plain=1">source promplet</a> ·
-        <a href="https://github.com/paulosalem/weavemark/blob/main/examples/saved-artifact-workflows/market-snapshot/outputs/execution-trace.md">execution trace</a> ·
-        <a href="https://paulosalem.github.io/weavemark/docs/tutorial-executable.html">tutorial</a>
-      </p>
+  <footer class="footer">
+    <div class="page">
+      <p><strong>Methodology/source note:</strong> This dashboard is an evidence-preserving transformation of the supplied Markdown report plus the local instruction requiring a VALE3/Vale S.A. deliverable. Search-result items are treated only as search-result evidence, not full article readings. No unsupported Vale metrics, commodity assumptions, Portuguese-real amounts, dates, quotations, citations, or links were added.</p>
+      <p><strong>Educational disclaimer:</strong> Asset education and evidence organization only; not personal financial advice or a buy/sell recommendation. No personal suitability assessment is possible from this information.</p>
+
+      <div class="provenance" aria-label="WeaveMark provenance">
+        <div class="prov-item"><strong>WeaveMark provenance · source promplet:</strong> URL not supplied</div>
+        <div class="prov-item"><strong>Execution trace:</strong> URL not supplied</div>
+        <div class="prov-item"><strong>Public market-report tutorial:</strong> URL not supplied</div>
+      </div>
     </div>
   </footer>
 </body>

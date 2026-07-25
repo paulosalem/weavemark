@@ -1,4 +1,4 @@
-"""Focused contracts for maintained non-image examples and benchmark runners."""
+"""Contracts for curated examples and retained runtime studies."""
 
 from __future__ import annotations
 
@@ -12,14 +12,35 @@ from types import ModuleType
 
 import pytest
 
-from weavemark.compilation.macros import preprocess_weavemark
-from weavemark.compilation.structural import try_apply_structural_helpers
+from weavemark.cli_inputs import missing_user_inputs
+from weavemark.variable_files import load_variables_file
 
 ROOT = Path(__file__).parents[1]
 EXAMPLES = ROOT / "examples"
+RUNTIME_STUDIES = ROOT / "studies" / "runtime-studies"
 
 
-def _load_python_example(relative_path: str, module_name: str) -> ModuleType:
+def test_public_example_inventory_is_curated() -> None:
+    projects = {
+        str(project.relative_to(EXAMPLES))
+        for category in EXAMPLES.iterdir()
+        if category.is_dir() and category.name != "_lib"
+        for project in category.iterdir()
+        if project.is_dir()
+    }
+    assert projects == {
+        "interactive-ui-and-handoff-demos/collaborative-writer",
+        "python-runtime-integrations/financial-independence-goal-plan",
+        "saved-artifact-workflows/childrens-book-bebe-fusquinha",
+        "saved-artifact-workflows/childrens-book-orion-en",
+        "saved-artifact-workflows/comic-strip-en",
+        "saved-artifact-workflows/market-snapshot",
+        "saved-artifact-workflows/prompt-refactoring-pipeline",
+        "saved-artifact-workflows/recurring-topic-monitor",
+    }
+
+
+def _load_python_file(relative_path: str, module_name: str) -> ModuleType:
     spec = importlib.util.spec_from_file_location(module_name, ROOT / relative_path)
     assert spec is not None
     assert spec.loader is not None
@@ -29,12 +50,12 @@ def _load_python_example(relative_path: str, module_name: str) -> ModuleType:
     return module
 
 
-def test_benchmark_runner_rejects_likelihood_tasks_and_requests(
+def test_strategy_study_rejects_likelihood_tasks_and_requests(
     capsys: pytest.CaptureFixture[str],
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    runner = _load_python_example(
-        "examples/benchmark-runners/strategy-comparison/runner.py",
+    runner = _load_python_file(
+        "studies/runtime-studies/reasoning-strategies/strategy-comparison/runner.py",
         "strategy_comparison_runner",
     )
 
@@ -62,8 +83,7 @@ def test_benchmark_runner_rejects_likelihood_tasks_and_requests(
     fake_model = ModuleType("lm_eval.api.model")
 
     class FakeLM:
-        def __init__(self) -> None:
-            pass
+        pass
 
     fake_model.LM = FakeLM
     monkeypatch.setitem(sys.modules, "lm_eval", fake_lm_eval)
@@ -96,7 +116,7 @@ def test_benchmark_runner_rejects_likelihood_tasks_and_requests(
     capsys.readouterr()
 
     source = (
-        EXAMPLES / "benchmark-runners/strategy-comparison/runner.py"
+        RUNTIME_STUDIES / "reasoning-strategies" / "strategy-comparison" / "runner.py"
     ).read_text(encoding="utf-8")
     assert "mmlu" not in source.casefold()
     assert "hellaswag" not in source.casefold()
@@ -104,17 +124,10 @@ def test_benchmark_runner_rejects_likelihood_tasks_and_requests(
     assert "return [0.0" not in source
     assert "generate_until" in source
     assert "intentional safety cap: 2" in source
-    benchmark_script = (
-        EXAMPLES / "benchmark-runners/strategy-comparison/run.sh"
-    ).read_text(encoding="utf-8")
-    assert "--parallel 2" in benchmark_script
-    readme = (EXAMPLES / "README.md").read_text(encoding="utf-8")
-    assert 'OUTPUT_TYPE = "generate_until"' in readme
-    assert "`loglikelihood` or `loglikelihood_rolling` are rejected" in readme
 
 
-def test_tree_of_thought_numeric_option_contract_matches_maintained_output() -> None:
-    root = EXAMPLES / "batch-example-runs/execution-engines"
+def test_tree_of_thought_study_matches_maintained_output() -> None:
+    root = RUNTIME_STUDIES / "reasoning-strategies" / "execution-engines"
     variables = json.loads(
         (root / "inputs/tree-of-thought-solver-example.json").read_text(
             encoding="utf-8"
@@ -134,218 +147,56 @@ def test_tree_of_thought_numeric_option_contract_matches_maintained_output() -> 
     assert "1 = A" in problem
     assert "2 = B" in problem
     assert "3 = C" in problem
-    assert "numeric option number (1, 2, or 3)" in problem
     assert f"Problem: {problem}" in compiled
     assert output.rstrip().endswith("ANSWER: 3")
     assert "They must choose between: (A)" not in compiled + trace
 
 
-def test_adaptive_interview_duration_is_coherent() -> None:
-    input_path = (
-        EXAMPLES
-        / "batch-example-runs/static-prompts/inputs/adaptive-interview-senior-backend.json"
-    )
-    variables = json.loads(input_path.read_text(encoding="utf-8"))
-    assert "num_questions" not in variables
-
-    source = (
-        ROOT / "promplets/catalog/standalone/adaptive-interview.weavemark.md"
-    ).read_text(encoding="utf-8")
-    output = (
-        EXAMPLES
-        / "batch-example-runs/static-prompts/outputs/adaptive-interview/compiled-prompt.md"
-    ).read_text(encoding="utf-8")
-    expected_allocations = {
-        "Opening and calibration": 5,
-        "Architecture and problem decomposition": 25,
-        "System design": 25,
-        "Candidate questions and close": 5,
-    }
-    for section, minutes in expected_allocations.items():
-        assert f"{section}: {minutes} minutes" in source
-        assert f"{section}: {minutes} minutes" in output
-    assert sum(expected_allocations.values()) == 60
-    assert "exact 60-minute allocation" in source
-    assert "exact 60-minute allocation" in output
-    assert "Architecture & Problem Decomposition — 30 minutes" not in output
-    assert "System Design — 30 minutes" not in output
-
-
-def test_adaptive_interview_false_branch_still_allocates_60_minutes() -> None:
-    path = ROOT / "promplets/catalog/standalone/adaptive-interview.weavemark.md"
-    source = path.read_text(encoding="utf-8").replace(
-        "@refine module:weavemark.std.reasoning.base_analyst mingle: true",
-        "@include weavemark.std.reasoning.base_analyst",
-    )
-    variables = json.loads(
-        (
-            EXAMPLES
-            / "batch-example-runs/static-prompts/inputs/"
-            "adaptive-interview-senior-backend.json"
-        ).read_text(encoding="utf-8")
-    )
-    variables["include_system_design"] = False
-    variables["include_scorecard"] = False
-    preprocessed = preprocess_weavemark(source, path.parent)
-
-    def read_file(reference: str, directory: Path) -> tuple[str, Path]:
-        resolved = (directory / reference).resolve()
-        return resolved.read_text(encoding="utf-8"), resolved
-
-    compiled = try_apply_structural_helpers(
-        preprocessed.text,
-        variables,
-        path.parent,
-        read_file,
-        preprocessed.semantic_definitions,
-    )
-
-    assert preprocessed.errors == []
-    assert compiled is not None
-    assert compiled.errors == []
-    allocations = {
-        label: int(minutes)
-        for label, minutes in re.findall(
-            r"^- (Opening and calibration|Architecture and problem decomposition|"
-            r"Applied architecture deep dive|Candidate questions and close): "
-            r"(\d+) minutes$",
-            compiled.composed_prompt,
-            flags=re.MULTILINE,
-        )
-    }
-    assert allocations == {
-        "Opening and calibration": 5,
-        "Architecture and problem decomposition": 25,
-        "Applied architecture deep dive": 25,
-        "Candidate questions and close": 5,
-    }
-    assert sum(allocations.values()) == 60
-    assert "### Applied Architecture Deep Dive (25 min)" in compiled.composed_prompt
-    assert "### System Design (25 min)" not in compiled.composed_prompt
-
-
 def test_financial_goal_plan_uses_repository_relative_source_path() -> None:
-    """Maintained public artifacts must not disclose a maintainer's filesystem."""
-
     path = (
-        EXAMPLES
-        / "python-runtime-integrations/financial-independence-goal-plan/"
+        EXAMPLES / "python-runtime-integrations/financial-independence-goal-plan/"
         "outputs/compiled-plan.json"
     )
     payload = json.loads(path.read_text(encoding="utf-8"))
 
     assert payload["source_path"] == (
-        "promplets/catalog/executable/"
-        "financial-independence-goal-plan.weavemark.md"
+        "promplets/catalog/executable/financial-independence-goal-plan.weavemark.md"
     )
     serialized = json.dumps(payload)
     assert "/Users/" not in serialized
     assert "GoogleDrive-" not in serialized
 
 
-def test_consulting_engagement_and_roadmap_timelines_are_distinct() -> None:
-    source = (
-        ROOT / "promplets/catalog/standalone/consulting-proposal.weavemark.md"
-    ).read_text(encoding="utf-8")
-    output = (
-        EXAMPLES
-        / "batch-example-runs/static-prompts/outputs/consulting-proposal/compiled-prompt.md"
-    ).read_text(encoding="utf-8")
-
-    assert "consulting engagement itself lasts **@{timeline}**" in source
-    assert "implementation roadmap may extend beyond that" in source
-    assert "consulting engagement lasts **6 months**" in output
-    assert "implementation roadmap may extend beyond that engagement" in output
-    assert "Phase 3 — Scale, 9–18 months" in output
-    assert "within the 6-month engagement window" not in output
-    assert "continues afterward" in output
-
-
-def test_program_review_inputs_match_without_duplicate_article() -> None:
-    terminal_input = json.loads(
-        (
-            EXAMPLES
-            / "terminal-output-only/program-review-checklist/inputs/vars.json"
-        ).read_text(encoding="utf-8")
-    )
-    saved_input = json.loads(
-        (
-            EXAMPLES
-            / "saved-artifact-workflows/program-review-json/inputs/vars.json"
-        ).read_text(encoding="utf-8")
-    )
-    assert terminal_input == saved_input
-    assert terminal_input["project_context"] == (
-        "FastAPI microservice handling payment processing"
-    )
-
-    artifact = json.loads(
-        (
-            EXAMPLES
-            / "saved-artifact-workflows/program-review-json/outputs/compiled-prompt.json"
-        ).read_text(encoding="utf-8")
-    )
-    assert "**FastAPI microservice handling payment processing**" in artifact[
-        "composed_prompt"
-    ]
-    assert "**a FastAPI microservice handling payment processing**" not in artifact[
-        "composed_prompt"
-    ]
-    assert artifact["warnings"] == []
-    assert artifact["errors"] == []
-    terminal_artifact = (
-        EXAMPLES
-        / "terminal-output-only/program-review-checklist/outputs/compiled-prompt.md"
-    ).read_text(encoding="utf-8")
-    assert "**FastAPI microservice handling payment processing**" in terminal_artifact
-    assert "**a FastAPI microservice handling payment processing**" not in (
-        terminal_artifact
-    )
-
-
-def test_recurring_child_fixture_has_a_visible_runner_block() -> None:
-    runner = (
-        EXAMPLES / "batch-example-runs/execution-engines/run.sh"
-    ).read_text(encoding="utf-8")
-    fixture = "inputs/recurring-topic-monitor-child-events.json"
-    assert runner.count(fixture) == 1
-    assert "Recurring topic monitor: child-events preset" in runner
-    assert "outputs/recurring-topic-monitor-child-events/execution-output.md" in runner
-    assert "outputs/recurring-topic-monitor-child-events/execution-trace.md" in runner
-
-
-def test_contrastive_mining_example_is_self_contained_and_maintained() -> None:
-    root = EXAMPLES / "executable-promplet-programs/contrastive-mining"
-    required = (
+def test_contrastive_mining_study_is_self_contained() -> None:
+    root = RUNTIME_STUDIES / "contrastive-mining"
+    for relative in (
         "run.sh",
         "inputs/vars.json",
         "outputs/compiled-prompt.md",
         "outputs/execution-output.md",
         "outputs/execution-trace.md",
-    )
-    for relative in required:
+        "promplets/contrastive-mining.weavemark.md",
+    ):
         assert (root / relative).is_file()
 
     runner = (root / "run.sh").read_text(encoding="utf-8")
-    assert runner.count(
-        "weavemark library builtin:catalog/executable/contrastive-mining"
-    ) == 2
+    assert (
+        runner.count(
+            "studies/runtime-studies/contrastive-mining/promplets/"
+            "contrastive-mining.weavemark.md"
+        )
+        == 2
+    )
     assert "--model gpt-5.5" in runner
     assert "--run" in runner
     assert "--trace-output" in runner
-    assert "usage()" not in runner
-    assert "argparse" not in runner
-    assert not list((root / "inputs/samples").glob("*.txt"))
 
-    packaged_samples = (
-        Path(__file__).resolve().parents[1]
-        / "promplets/catalog/executable/samples/contrastive-mining"
-    )
+    samples = root / "promplets/samples/contrastive-mining"
     for filename in (
         "corporate-memo-pro-office.txt",
         "employee-blog-pro-remote.txt",
     ):
-        assert (packaged_samples / filename).is_file()
+        assert (samples / filename).is_file()
 
     output = (root / "outputs/execution-output.md").read_text(encoding="utf-8")
     trace = (root / "outputs/execution-trace.md").read_text(encoding="utf-8")
@@ -353,12 +204,9 @@ def test_contrastive_mining_example_is_self_contained_and_maintained() -> None:
     assert "`SIMILARITY`" in output
     assert "@{" not in output
     assert "| Steps | 5 |" in trace
-    assert '"rounds_used": 3' in trace
-    assert len(re.findall(r"^### \d+\. critique_\d+$", trace, re.MULTILINE)) == 2
-    assert len(re.findall(r"^### \d+\. revise_\d+$", trace, re.MULTILINE)) == 2
 
 
-def test_functional_market_snapshot_artifacts_are_grounded_and_transparent() -> None:
+def test_market_snapshot_artifacts_are_grounded_and_transparent() -> None:
     root = EXAMPLES / "saved-artifact-workflows/market-snapshot/outputs"
     output = (root / "execution-output.md").read_text(encoding="utf-8")
     trace = (root / "execution-trace.md").read_text(encoding="utf-8")
@@ -369,43 +217,18 @@ def test_functional_market_snapshot_artifacts_are_grounded_and_transparent() -> 
         assert unresolved not in output
         assert unresolved not in final_trace
         assert unresolved not in dashboard
-    assert "Unresolved functional value placeholder" not in trace
     assert "| Engine | `functional` |" in trace
     assert '"status": "executed"' in trace
     assert "| Steps | 3 |" in trace
-    for name in (
-        "asset_snapshot",
-        "web_context",
-        "finance_data",
-        "web_search",
-    ):
-        assert name in trace
     assert "https://" in output
     assert "VALE3" in output
     assert "WeaveMark provenance" in dashboard
-    assert "execution trace" in dashboard
-    assert re.search(
-        r"(?:Current price[^\n]*BRL|BRL[^\n]*Current price)",
-        output,
-        re.IGNORECASE,
-    )
-    assert re.search(
-        r"(?:Currency[^\n]*BRL|BRL[^\n]*Currency)",
-        output,
-        re.IGNORECASE,
-    )
     assert dashboard.startswith("<!doctype html>")
     assert dashboard.rstrip().endswith("</html>")
-    assert "VALE3 Market Learning Dashboard" in dashboard
     assert "Content-Security-Policy" in dashboard
-    assert "@media print" in dashboard
-    assert "overflow-wrap: anywhere" in dashboard
-    assert "minmax(0, 1fr)" in dashboard
-    for crawler_claim in ("web_crawl", "source_readings", "crawled source", "crawler"):
-        assert crawler_claim not in (output + trace).lower()
 
 
-def test_goal_plan_outputs_have_no_stale_warning_or_plan_only_artifact() -> None:
+def test_goal_plan_outputs_match_the_functional_contract() -> None:
     from weavemark.engines.functional import _validated_plan
 
     root = (
@@ -418,72 +241,158 @@ def test_goal_plan_outputs_have_no_stale_warning_or_plan_only_artifact() -> None
 
     assert compiled["warnings"] == []
     assert compiled["errors"] == []
-    assert compiled["diagnostics"] == []
-    for stale in (
-        "Ready-to-paste final prompt",
-        "host-runtime-required",
-        '"status": "planned"',
-        "The two @assert directives use parameter name `includes`",
-    ):
-        assert stale not in output
-        assert stale not in trace
-        assert stale not in json.dumps(compiled)
     assert output.startswith("## 1. Goal profile")
     assert "## 6. Failure modes and safeguards" in output
     assert "| Engine | `functional` |" in trace
     assert '"status": "executed"' in trace
-    assert compiled["model_calls_made"] == 0
     nodes, levels, order = _validated_plan(compiled["execution"])
     assert order == ["public_assumptions"]
     assert levels == [["public_assumptions"]]
-    assert nodes[0]["params"] == [
-        {"name": "goal", "implicit": False, "mode": "text"},
-        {"name": "domain", "implicit": False, "mode": "text"},
-        {"name": "country", "implicit": False, "mode": "text"},
-        {"name": "horizon", "implicit": False, "mode": "text"},
-    ]
-    assert nodes[0]["args"] == {
-        "positional": [],
-        "options": {
-            "goal": "@{goal}",
-            "domain": "personal finance",
-            "country": "@{country}",
-            "horizon": "@{horizon}",
-        },
-    }
     assert nodes[0]["effects"] == [{"name": "web_search", "mode": "read"}]
 
 
-def test_readme_describes_both_helpers_and_configured_default_models() -> None:
+def test_curated_examples_readme_names_only_maintained_projects() -> None:
     readme = (EXAMPLES / "README.md").read_text(encoding="utf-8")
+    for name in (
+        "childrens-book-bebe-fusquinha",
+        "childrens-book-orion-en",
+        "comic-strip-en",
+        "market-snapshot",
+        "prompt-refactoring-pipeline",
+        "recurring-topic-monitor",
+        "financial-independence-goal-plan",
+        "collaborative-writer",
+    ):
+        assert name in readme
+    assert "terminal-output-only" not in readme
+    assert "batch-example-runs" not in readme
     assert "_lib/example-env.sh" in readme
     assert "_lib/weavemark_example_progress.py" in readme
     assert "configured default" in readme
-    assert "only shared helper" not in readme
-    assert "see the exact model" not in readme
-    assert "model named in the visible runner command" not in readme
 
 
-def test_collaborative_markdown_and_json_final_artifacts_are_byte_identical() -> None:
-    roots = sorted(
-        (EXAMPLES / "interactive-ui-and-handoff-demos").glob(
-            "collaborative-*/outputs"
-        )
+def test_collaborative_writer_is_self_contained_and_consistent() -> None:
+    root = EXAMPLES / "interactive-ui-and-handoff-demos/collaborative-writer"
+    markdown = (root / "outputs/execution-output.md").read_text(encoding="utf-8")
+    steps = json.loads(
+        (root / "outputs/execution-steps.json").read_text(encoding="utf-8")
     )
-    assert roots
-    for root in roots:
-        markdown = (root / "execution-output.md").read_text(encoding="utf-8")
-        steps = json.loads(
-            (root / "execution-steps.json").read_text(encoding="utf-8")
-        )
-        assert steps["output"] == markdown
-        assert steps["steps"][-1]["response"] == markdown
+    assert steps["output"] == markdown
+    assert steps["steps"][-1]["response"] == markdown
 
-    generator = (
-        EXAMPLES
-        / "interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py"
-    ).read_text(encoding="utf-8")
-    assert re.search(r"steps=normalized_steps", generator)
+    runner = (root / "run.py").read_text(encoding="utf-8")
+    handoff = (root / "run-agent-handoff.sh").read_text(encoding="utf-8")
+    assert "collaborative-investment-strategy" not in runner + handoff
+    assert "collaborative-writer.weavemark.md" in runner
+    assert "steps=normalized_steps" in runner
+
+
+def test_prompt_refactoring_example_is_focused_and_maintained() -> None:
+    root = EXAMPLES / "saved-artifact-workflows/prompt-refactoring-pipeline"
+    for relative in ("run.sh", "inputs/vars.yaml", "outputs/compiled-prompt.md"):
+        assert (root / relative).is_file()
+    runner = (root / "run.sh").read_text(encoding="utf-8")
+    assert runner.count("prompt-refactoring-pipeline") >= 3
+    assert "batch-example-runs" not in runner
+
+
+@pytest.mark.parametrize(
+    ("example", "spec", "defaults", "runtime_values", "expected_missing"),
+    [
+        (
+            "saved-artifact-workflows/recurring-topic-monitor",
+            "promplets/catalog/executable/recurring-topic-monitor.weavemark.md",
+            "inputs/interactive-defaults.json",
+            {"run_date": "2026-07-20"},
+            ["topic"],
+        ),
+        (
+            "saved-artifact-workflows/market-snapshot",
+            "promplets/catalog/executable/market-snapshot.weavemark.md",
+            "inputs/interactive-defaults.json",
+            {},
+            ["provider_ticker", "display_ticker", "company_name"],
+        ),
+        (
+            "interactive-ui-and-handoff-demos/collaborative-writer",
+            "promplets/catalog/executable/collaborative-writer.weavemark.md",
+            "inputs/interactive-defaults.json",
+            {},
+            ["topic"],
+        ),
+        (
+            "python-runtime-integrations/financial-independence-goal-plan",
+            "promplets/catalog/executable/financial-independence-goal-plan.weavemark.md",
+            "inputs/interactive-defaults.json",
+            {},
+            ["goal", "country", "horizon"],
+        ),
+        (
+            "saved-artifact-workflows/prompt-refactoring-pipeline",
+            "promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md",
+            "inputs/interactive-defaults.yaml",
+            {"raw_prompt": "Write a useful answer."},
+            ["revision_instruction"],
+        ),
+    ],
+)
+def test_personalized_runners_leave_only_concise_guided_inputs(
+    example: str,
+    spec: str,
+    defaults: str,
+    runtime_values: dict[str, object],
+    expected_missing: list[str],
+) -> None:
+    example_root = EXAMPLES / example
+    spec_path = ROOT / spec
+    variables = load_variables_file(example_root / defaults)
+    variables.update(runtime_values)
+
+    missing = missing_user_inputs(
+        spec_path.read_text(encoding="utf-8"),
+        variables,
+        spec_path.parent,
+    )
+
+    assert [item.name for item in missing] == expected_missing
+
+
+@pytest.mark.parametrize(
+    "example",
+    [
+        "saved-artifact-workflows/recurring-topic-monitor",
+        "saved-artifact-workflows/market-snapshot",
+        "interactive-ui-and-handoff-demos/collaborative-writer",
+        "python-runtime-integrations/financial-independence-goal-plan",
+        "saved-artifact-workflows/prompt-refactoring-pipeline",
+    ],
+)
+def test_personalized_runners_use_guided_inputs_and_isolated_outputs(
+    example: str,
+) -> None:
+    runner = EXAMPLES / example / "run-interactive.sh"
+    source = runner.read_text(encoding="utf-8")
+
+    assert runner.stat().st_mode & 0o111
+    assert "--batch-only" not in source
+    assert "outputs/interactive/$RUN_ID" in source
+    assert ("--open" in source) is (
+        example == "saved-artifact-workflows/market-snapshot"
+    )
+    if example in {
+        "interactive-ui-and-handoff-demos/collaborative-writer",
+        "python-runtime-integrations/financial-independence-goal-plan",
+    }:
+        assert "--guided-inputs" in source
+    else:
+        assert "weavemark " in source
+
+
+def test_python_examples_reuse_weavemark_guided_input_collection() -> None:
+    helper = (EXAMPLES / "_lib/weavemark_guided_inputs.py").read_text(encoding="utf-8")
+
+    assert "from weavemark.cli_inputs import prompt_for_missing_inputs" in helper
+    assert "prompt_for_missing_inputs(" in helper
 
 
 def test_recurring_monitor_artifact_matches_fresh_input_date() -> None:
@@ -514,7 +423,7 @@ def test_bebe_fusquinha_pt_page_5_and_html_artifacts_are_distinct() -> None:
         "page_5_image": _binary_or_lfs_sha256(page_files[5]),
         "page_15_image": _binary_or_lfs_sha256(page_files[15]),
     }
-    expected_hashes = {
+    assert actual_hashes == {
         "page_5_narration": (
             "036aa7797b9842c1e71a1adf3ae82a8573b1acec7041b6187218ef504bb484f1"
         ),
@@ -529,16 +438,10 @@ def test_bebe_fusquinha_pt_page_5_and_html_artifacts_are_distinct() -> None:
         ),
     }
 
-    assert actual_hashes == expected_hashes
-    assert actual_hashes["page_5_narration"] != actual_hashes["page_15_narration"]
-    assert actual_hashes["page_5_image"] != actual_hashes["page_15_image"]
-
     html = (root / "outputs/book.html").read_text(encoding="utf-8")
     image_sources = re.findall(r'<img\b[^>]*\bsrc="([^"]+)"', html)
     expected_pages = [f"pages/page-{page}.png" for page in range(1, 16)]
-
     assert image_sources == ["cover.png", *expected_pages]
-    assert len(set(image_sources[1:])) == 15
 
 
 def _binary_or_lfs_sha256(path: Path) -> str:

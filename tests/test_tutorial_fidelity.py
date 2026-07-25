@@ -177,13 +177,16 @@ def test_docs_have_no_legacy_execute_mode_even_across_markup() -> None:
         assert not re.search(r"@execute\s*weave\b", flattened, re.IGNORECASE), path
 
 
-def test_every_tutorial_promplet_filename_has_a_checked_in_source() -> None:
-    known_names = {path.name for path in PROMPLETS.rglob("*.weavemark.md")}
+def test_every_linked_tutorial_promplet_has_a_checked_in_source() -> None:
     for path in TUTORIALS:
-        names = set(
-            re.findall(r"[A-Za-z0-9_.-]+\.weavemark\.md", path.read_text())
+        references = set(
+            re.findall(
+                r'href="\.\./promplets/([^"]+\.weavemark\.md)"',
+                path.read_text(),
+            )
         )
-        assert names <= known_names, (path, sorted(names - known_names))
+        missing = [relative for relative in references if not (PROMPLETS / relative).is_file()]
+        assert missing == [], (path, missing)
 
 
 def test_saved_tutorial_snippets_trace_to_their_canonical_promplets() -> None:
@@ -203,19 +206,19 @@ def test_saved_tutorial_snippets_trace_to_their_canonical_promplets() -> None:
             )
 
 
-def test_investment_tutorial_stages_reduce_the_canonical_source() -> None:
-    source = _read_promplet("catalog/standalone/investment-brief.weavemark.md")
+def test_investment_tutorial_is_self_contained() -> None:
+    tutorial = _tutorial("tutorial.html")
     blocks = [
         _block_text(block)
         for block in _parsed_blocks(DOCS / "tutorial.html")
         if re.search(r"(?m)^\s*@(?:promplet|refine|match)\b", _block_text(block))
     ]
     assert len(blocks) == 4
-    for block in blocks:
-        _assert_line_subsequence(block, source)
     assert "@style" not in "\n".join(blocks)
     assert "investment_decision" not in "\n".join(blocks)
     assert "@assert contains:" in blocks[0]
+    assert "catalog/standalone/investment-brief" not in tutorial
+    assert "outputs/tutorial-investment/investment-brief.weavemark.md" in tutorial
 
 
 def test_advanced_tutorial_snippets_are_canonical() -> None:
@@ -223,10 +226,6 @@ def test_advanced_tutorial_snippets_are_canonical() -> None:
         (
             "@module weavemark.std.planning.goals",
             "stdlib/definitions/planning/goals.weavemark.md",
-        ),
-        (
-            "# Financial Independence Goal-to-Plan Prompt",
-            "catalog/standalone/financial-independence-goal-plan-prompt.weavemark.md",
         ),
         (
             "@define lookup_public_goal_assumptions",
@@ -246,6 +245,9 @@ def test_advanced_tutorial_snippets_are_canonical() -> None:
             _find_block("tutorial-advanced.html", needle),
             _read_promplet(source_path),
         )
+    assert "# Financial Independence Goal-to-Plan Prompt" in _tutorial(
+        "tutorial-advanced.html"
+    )
 
 
 def test_illustrated_tutorial_uses_dynamic_sources_and_package_module() -> None:

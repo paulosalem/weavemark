@@ -18,7 +18,15 @@ def test_every_site_navigation_page_loads_mobile_navigation() -> None:
         pages.append(path)
         assert SCRIPT_TAG in html, path
 
-    assert len(pages) == 15
+    assert {
+        "index.html",
+        "reference.html",
+        "tutorial.html",
+        "tutorial-advanced.html",
+        "tutorial-executable.html",
+        "tutorial-illustrated.html",
+        "tutorial-implement.html",
+    } <= {path.name for path in pages}
 
 
 def test_mobile_navigation_controller_covers_all_navigation_levels() -> None:

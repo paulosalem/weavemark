@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| Spec | `promplets/catalog/executable/self-consistency-solver.weavemark.md` |
+| Spec | `studies/runtime-studies/reasoning-strategies/promplets/self-consistency-solver.weavemark.md` |
 | Model | `gpt-5.5` |
 | Engine | `self-consistency` |
 | Steps | 6 |

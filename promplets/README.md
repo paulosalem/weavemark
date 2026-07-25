@@ -37,8 +37,12 @@ Complete, ready-to-use entrypoints.
 - `executable/` declares an execution workflow, engine, tools, or packaged
   outputs.
 
-Catalog promplets usually do not need module declarations: their library path is
-their entrypoint identity.
+The catalog is intentionally curated rather than exhaustive. It contains nine
+entrypoints with distinct validated proof paths; reusable or specialized material
+belongs in `stdlib/`, `domains/`, `tutorials/`, or `studies/`.
+
+Catalog promplets do not need module declarations: their library path is their
+entrypoint identity.
 
 ### `tutorials/`
 
@@ -94,7 +98,7 @@ artifacts; duplicate module identities are errors.
 Use `weavemark library` to run or browse the effective library:
 
 ```bash
-weavemark library tutorial-generator
+weavemark library prompt-refactoring-pipeline
 weavemark library list --collection stdlib --kind fragment
 weavemark library show module:weavemark.std.reasoning.base_analyst
 ```

@@ -167,30 +167,36 @@ class TestWeaveMarkE2E:
 
     @pytest.mark.integration
     @pytest.mark.asyncio
-    async def test_market_research_spec_full(self):
-        """Full composition of the market research spec with all variables."""
+    async def test_prompt_refactoring_spec_full(self):
+        """Full composition of the prompt-refactoring spec with all variables."""
         from weavemark.controller import (
             WeaveMarkConfig,
             WeaveMarkController,
         )
+        from weavemark.variable_files import load_variables_file
 
-        vars_path = EXAMPLES_DIR / "batch-example-runs/static-prompts/inputs/market-research-example.json"
-        variables = json.loads(vars_path.read_text(encoding="utf-8"))
-
-        spec_text = (PROMPLETS_DIR / "market-research-brief.weavemark.md").read_text(
-            encoding="utf-8"
+        vars_path = (
+            EXAMPLES_DIR
+            / "saved-artifact-workflows/prompt-refactoring-pipeline/inputs/vars.yaml"
         )
+        variables = load_variables_file(vars_path)
+
+        spec_path = (
+            PROMPLETS_DIR
+            / "catalog/standalone/prompt-refactoring-pipeline.weavemark.md"
+        )
+        spec_text = spec_path.read_text(encoding="utf-8")
 
         controller = WeaveMarkController(WeaveMarkConfig())
         result = await controller.compose(
             spec_text=spec_text,
             variables=variables,
-            base_dir=PROMPLETS_DIR,
+            base_dir=spec_path.parent,
         )
 
         assert result.composed_prompt, "Should produce a non-empty result"
         prompt_lower = result.composed_prompt.lower()
-        assert "rivian" in prompt_lower or "electric" in prompt_lower
+        assert "customer support" in prompt_lower
 
     @pytest.mark.integration
     @pytest.mark.asyncio
@@ -201,24 +207,17 @@ class TestWeaveMarkE2E:
             WeaveMarkController,
         )
 
-        vars_path = EXAMPLES_DIR / "batch-example-runs/static-prompts/inputs/tutorial-fastapi.json"
-        variables = json.loads(vars_path.read_text(encoding="utf-8"))
-
-        spec_text = (PROMPLETS_DIR / "tutorial-generator.weavemark.md").read_text(
-            encoding="utf-8"
-        )
+        variables = {}
+        spec_text = "Tell the reader to contact @@support for help."
 
         controller = WeaveMarkController(WeaveMarkConfig())
         result = await controller.compose(
             spec_text=spec_text,
             variables=variables,
-            base_dir=PROMPLETS_DIR,
         )
 
         assert result.composed_prompt, "Should produce a non-empty result"
-        # The @@ should render as literal @ in decorator references
-        prompt_lower = result.composed_prompt.lower()
-        assert "fastapi" in prompt_lower or "rest" in prompt_lower
+        assert "@support" in result.composed_prompt
 
     @pytest.mark.integration
     @pytest.mark.asyncio
@@ -285,53 +284,57 @@ class TestWeaveMarkOutputQuality:
 
     @pytest.mark.integration
     @pytest.mark.asyncio
-    async def test_market_research_no_raw_directives(self):
-        """The market-research spec must be fully resolved."""
+    async def test_prompt_refactoring_no_raw_directives(self):
+        """The prompt-refactoring spec must be fully resolved."""
         from weavemark.controller import (
             WeaveMarkConfig,
             WeaveMarkController,
         )
+        from weavemark.variable_files import load_variables_file
 
-        vars_path = EXAMPLES_DIR / "batch-example-runs/static-prompts/inputs/market-research-example.json"
-        variables = json.loads(vars_path.read_text(encoding="utf-8"))
-        spec_text = (PROMPLETS_DIR / "market-research-brief.weavemark.md").read_text(
-            encoding="utf-8"
+        vars_path = (
+            EXAMPLES_DIR
+            / "saved-artifact-workflows/prompt-refactoring-pipeline/inputs/vars.yaml"
         )
+        variables = load_variables_file(vars_path)
+        spec_path = (
+            PROMPLETS_DIR
+            / "catalog/standalone/prompt-refactoring-pipeline.weavemark.md"
+        )
+        spec_text = spec_path.read_text(encoding="utf-8")
 
         controller = WeaveMarkController(WeaveMarkConfig())
         result = await controller.compose(
             spec_text=spec_text,
             variables=variables,
-            base_dir=PROMPLETS_DIR,
+            base_dir=spec_path.parent,
         )
 
-        _assert_no_raw_directives(result.composed_prompt, "market-research")
-        _assert_no_xml_tags(result.composed_prompt, "market-research")
+        _assert_no_raw_directives(result.composed_prompt, "prompt-refactoring")
+        _assert_no_xml_tags(result.composed_prompt, "prompt-refactoring")
 
     @pytest.mark.integration
     @pytest.mark.asyncio
-    async def test_code_review_no_raw_directives(self):
-        """The program-review spec must be fully resolved."""
+    async def test_ai_kanban_no_raw_directives(self):
+        """The AI Kanban specification must be fully resolved."""
         from weavemark.controller import (
             WeaveMarkConfig,
             WeaveMarkController,
         )
 
-        vars_path = PROMPLETS_DIR / "vars" / "program-review-python.json"
-        variables = json.loads(vars_path.read_text(encoding="utf-8"))
-        spec_text = (PROMPLETS_DIR / "program-review-checklist.weavemark.md").read_text(
-            encoding="utf-8"
-        )
+        variables = {}
+        spec_path = PROMPLETS_DIR / "catalog/standalone/ai-kanban-board.weavemark.md"
+        spec_text = spec_path.read_text(encoding="utf-8")
 
         controller = WeaveMarkController(WeaveMarkConfig())
         result = await controller.compose(
             spec_text=spec_text,
             variables=variables,
-            base_dir=PROMPLETS_DIR,
+            base_dir=spec_path.parent,
         )
 
-        _assert_no_raw_directives(result.composed_prompt, "program-review")
-        _assert_no_xml_tags(result.composed_prompt, "program-review")
+        _assert_no_raw_directives(result.composed_prompt, "ai-kanban")
+        _assert_no_xml_tags(result.composed_prompt, "ai-kanban")
 
     @pytest.mark.integration
     @pytest.mark.asyncio
@@ -342,17 +345,16 @@ class TestWeaveMarkOutputQuality:
             WeaveMarkController,
         )
 
-        vars_path = EXAMPLES_DIR / "batch-example-runs/static-prompts/inputs/tutorial-fastapi.json"
+        vars_path = PROMPLETS_DIR / "tutorials/support-ticket-prompt-pack.vars.json"
         variables = json.loads(vars_path.read_text(encoding="utf-8"))
-        spec_text = (PROMPLETS_DIR / "tutorial-generator.weavemark.md").read_text(
-            encoding="utf-8"
-        )
+        spec_path = PROMPLETS_DIR / "tutorials/support-ticket-prompt-pack.weavemark.md"
+        spec_text = spec_path.read_text(encoding="utf-8")
 
         controller = WeaveMarkController(WeaveMarkConfig())
         result = await controller.compose(
             spec_text=spec_text,
             variables=variables,
-            base_dir=PROMPLETS_DIR,
+            base_dir=spec_path.parent,
         )
 
         _assert_no_raw_directives(result.composed_prompt, "tutorial")
@@ -391,18 +393,24 @@ class TestWeaveMarkOutputQuality:
             WeaveMarkConfig,
             WeaveMarkController,
         )
+        from weavemark.variable_files import load_variables_file
 
-        vars_path = EXAMPLES_DIR / "batch-example-runs/static-prompts/inputs/market-research-example.json"
-        variables = json.loads(vars_path.read_text(encoding="utf-8"))
-        spec_text = (PROMPLETS_DIR / "market-research-brief.weavemark.md").read_text(
-            encoding="utf-8"
+        vars_path = (
+            EXAMPLES_DIR
+            / "saved-artifact-workflows/prompt-refactoring-pipeline/inputs/vars.yaml"
         )
+        variables = load_variables_file(vars_path)
+        spec_path = (
+            PROMPLETS_DIR
+            / "catalog/standalone/prompt-refactoring-pipeline.weavemark.md"
+        )
+        spec_text = spec_path.read_text(encoding="utf-8")
 
         controller = WeaveMarkController(WeaveMarkConfig())
         result = await controller.compose(
             spec_text=spec_text,
             variables=variables,
-            base_dir=PROMPLETS_DIR,
+            base_dir=spec_path.parent,
         )
 
         prompt = result.composed_prompt
@@ -486,44 +494,23 @@ class TestWeaveMarkImports:
         assert callable(create_parser)
 
     def test_specs_exist(self):
-        """All example specs and var files must be present."""
+        """Curated catalog, reusable modules, studies, and examples must be present."""
         assert (PROMPLETS_DIR / "stdlib/fragments/reasoning/base-analyst.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/market-research-brief.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/program-review-checklist.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/tutorial-generator.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/consulting-proposal.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/knowledge-base-article.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/api-docs-generator.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/multi-persona-debate.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/adaptive-interview.weavemark.md").is_file()
-        assert (
-            PROMPLETS_DIR / "catalog/standalone/prompt-refactoring-pipeline.weavemark.md"
-        ).is_file()
-        assert (
-            PROMPLETS_DIR / "catalog/standalone/live-investment-decision-brief.weavemark.md"
-        ).is_file()
-        assert (
-            PROMPLETS_DIR
-            / "catalog/standalone/financial-independence-goal-plan-prompt.weavemark.md"
-        ).is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/messy-notes-action-plan.weavemark.md").is_file()
-        assert (
-            PROMPLETS_DIR / "catalog/standalone/deep-summary-prompt.weavemark.md"
-        ).is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/decision-advisor.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/learning-tutor.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/research-brief.weavemark.md").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/prompt-refiner.weavemark.md").is_file()
-        assert (
-            PROMPLETS_DIR / "catalog/standalone/program-debugging-assistant.weavemark.md"
-        ).is_file()
-        assert (
-            PROMPLETS_DIR / "catalog/standalone/news-intelligence-board.weavemark.md"
-        ).is_file()
-        assert (
-            PROMPLETS_DIR
-            / "catalog/standalone/passive-income-planning-dashboard.weavemark.md"
-        ).is_file()
+        expected_catalog = {
+            "executable/childrens-book.weavemark.md",
+            "executable/collaborative-writer.weavemark.md",
+            "executable/comic-strip.weavemark.md",
+            "executable/financial-independence-goal-plan.weavemark.md",
+            "executable/market-snapshot.weavemark.md",
+            "executable/recurring-topic-monitor.weavemark.md",
+            "standalone/ai-kanban-board.weavemark.md",
+            "standalone/knowledge-cards.weavemark.md",
+            "standalone/prompt-refactoring-pipeline.weavemark.md",
+        }
+        assert {
+            str(path.relative_to(PROMPLETS_DIR / "catalog"))
+            for path in (PROMPLETS_DIR / "catalog").rglob("*.weavemark.md")
+        } == expected_catalog
         assert (
             PROMPLETS_DIR
             / "stdlib/fragments/reasoning/unstructured-input-normalization.weavemark.md"
@@ -673,67 +660,18 @@ class TestWeaveMarkImports:
         assert (
             PROMPLETS_DIR / "catalog/executable/companions/public_finance_reference.py"
         ).is_file()
-        static_inputs_dir = EXAMPLES_DIR / "batch-example-runs/static-prompts/inputs"
-        assert (static_inputs_dir / "market-research-example.json").is_file()
-        assert (static_inputs_dir / "news-intelligence-board.yaml").is_file()
-        assert (
-            EXAMPLES_DIR
-            / "batch-example-runs/static-prompts/outputs/news-intelligence-board/compiled-prompt.md"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "terminal-output-only/program-review-checklist/inputs/vars.json"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "terminal-output-only/messy-notes-action-plan/inputs/vars.json"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "terminal-output-only/deep-summary/inputs/vars.json"
-        ).is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/investment-brief.weavemark.md").is_file()
-        assert (
-            EXAMPLES_DIR
-            / "saved-artifact-workflows/investment-brief/inputs/vars.json"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "saved-artifact-workflows/investment-brief/run.sh"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR
-            / "saved-artifact-workflows/investment-brief/outputs/compiled-prompt.md"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "saved-artifact-workflows/recurring-topic-monitor/run.sh"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR
-            / "saved-artifact-workflows/recurring-topic-monitor/inputs/ai-news.json"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR
-            / "saved-artifact-workflows/recurring-topic-monitor/inputs/child-events.json"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "saved-artifact-workflows/market-snapshot/run.sh"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "saved-artifact-workflows/market-snapshot/inputs/vars.json"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "terminal-output-only/decision-advisor/inputs/vars.json"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "terminal-output-only/learning-tutor/inputs/vars.json"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "terminal-output-only/research-brief/inputs/vars.json"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR / "terminal-output-only/prompt-refiner/inputs/vars.json"
-        ).is_file()
-        assert (
-            EXAMPLES_DIR
-            / "terminal-output-only/program-debugging-assistant/inputs/vars.json"
-        ).is_file()
+        for relative in (
+            "interactive-ui-and-handoff-demos/collaborative-writer/run.py",
+            "python-runtime-integrations/financial-independence-goal-plan/run.py",
+            "saved-artifact-workflows/childrens-book-bebe-fusquinha/en/run.sh",
+            "saved-artifact-workflows/childrens-book-bebe-fusquinha/pt/run.sh",
+            "saved-artifact-workflows/childrens-book-orion-en/run.sh",
+            "saved-artifact-workflows/comic-strip-en/run.sh",
+            "saved-artifact-workflows/market-snapshot/run.sh",
+            "saved-artifact-workflows/prompt-refactoring-pipeline/run.sh",
+            "saved-artifact-workflows/recurring-topic-monitor/run.sh",
+        ):
+            assert (EXAMPLES_DIR / relative).is_file()
         assert (STUDIES_DIR / "README.md").is_file()
         assert (STUDIES_DIR / "AGENTS.md").is_file()
         assert (STUDIES_DIR / "controlled-studies/method.md").is_file()
@@ -742,9 +680,15 @@ class TestWeaveMarkImports:
         assert (
             STUDIES_DIR / "controlled-studies/metrics/semantic-information.json"
         ).is_file()
-        assert (STUDIES_DIR / "examples-studies/results.md").is_file()
-        assert (STUDIES_DIR / "examples-studies/results.html").is_file()
-        assert (STUDIES_DIR / "examples-studies/metrics/example-quality.json").is_file()
+        assert (
+            STUDIES_DIR
+            / "runtime-studies/reasoning-strategies/strategy-comparison/runner.py"
+        ).is_file()
+        assert (
+            STUDIES_DIR
+            / "runtime-studies/contrastive-mining/promplets/"
+            "contrastive-mining.weavemark.md"
+        ).is_file()
         assert (
             REPO_ROOT / ".github/skills/weavemark-study-reporting/SKILL.md"
         ).is_file()
@@ -784,16 +728,9 @@ class TestWeaveMarkImports:
             STUDIES_DIR
             / "controlled-studies/games/crowd-factory-puzzle-ablation-study/specs/02-treatment-expand-crowd-factory-puzzle.weavemark.md"
         ).is_file()
-        assert (static_inputs_dir / "tutorial-fastapi.json").is_file()
-        assert (static_inputs_dir / "consulting-proposal-example.json").is_file()
-        assert (static_inputs_dir / "knowledge-base-article-example.json").is_file()
-        assert (PROMPLETS_DIR / "catalog/standalone/api-docs-generator.vars.json").is_file()
-        assert (static_inputs_dir / "multi-persona-debate-agi.json").is_file()
-        assert (static_inputs_dir / "adaptive-interview-senior-backend.json").is_file()
-        assert (static_inputs_dir / "prompt-refactoring-example.yaml").is_file()
         assert (
             EXAMPLES_DIR
-            / "python-runtime-integrations/live-investment-decision/inputs/vars.json"
+            / "saved-artifact-workflows/prompt-refactoring-pipeline/inputs/vars.yaml"
         ).is_file()
         assert (
             EXAMPLES_DIR
@@ -803,12 +740,10 @@ class TestWeaveMarkImports:
             EXAMPLES_DIR
             / "python-runtime-integrations/financial-independence-goal-plan/run.py"
         ).is_file()
-        recurring_monitor_inputs = (
-            EXAMPLES_DIR / "batch-example-runs/execution-engines/inputs"
-        )
-        assert (recurring_monitor_inputs / "recurring-topic-monitor-ai-news.json").is_file()
         assert (
-            recurring_monitor_inputs / "recurring-topic-monitor-child-events.json"
+            STUDIES_DIR
+            / "runtime-studies/reasoning-strategies/execution-engines/inputs/"
+            "tree-of-thought-solver-example.json"
         ).is_file()
         assert not (
             EXAMPLES_DIR / "python-runtime-integrations/recurring-topic-monitor/run.py"
@@ -1514,6 +1449,21 @@ class TestResponseParsing:
 
         assert args.open_artifacts is True
 
+        event_args = create_parser().parse_args(
+            ["test.md", "--events-jsonl", "events.jsonl"]
+        )
+        assert event_args.events_jsonl == Path("events.jsonl")
+        interaction_args = create_parser().parse_args(
+            [
+                "test.md",
+                "--events-jsonl",
+                "events.jsonl",
+                "--interaction-stdin",
+                "jsonl",
+            ]
+        )
+        assert interaction_args.interaction_stdin == "jsonl"
+
     def test_open_package_artifacts_deduplicates_and_warns(
         self,
         tmp_path: Path,
@@ -1545,12 +1495,13 @@ class TestResponseParsing:
                 PackageResult(tmp_path / "failed.pdf", "convert", False),
             ],
             printer,
+            SimpleNamespace(_event_writer=None),
         )
 
         assert opened == [report.resolve().as_uri()]
         assert printer.warnings == []
 
-        _open_package_artifacts([], printer)
+        _open_package_artifacts([], printer, SimpleNamespace(_event_writer=None))
         assert printer.warnings == [
             "No successfully packaged artifacts were produced to open."
         ]
@@ -2503,20 +2454,30 @@ Write a professional email to the team about the Q3 roadmap.
     @pytest.mark.integration
     @pytest.mark.asyncio
     async def test_refine_with_nested_match(self):
-        """@refine + @match work together (market research spec)."""
+        """@refine + @match work together in a retained executable promplet."""
         from weavemark.controller import (
             WeaveMarkConfig,
             WeaveMarkController,
         )
 
-        spec_file = PROMPLETS_DIR / "market-research-brief.weavemark.md"
-        vars_file = EXAMPLES_DIR / "batch-example-runs/static-prompts/inputs/market-research-example.json"
+        spec_file = (
+            PROMPLETS_DIR
+            / "catalog/executable/recurring-topic-monitor.weavemark.md"
+        )
+        vars_file = (
+            EXAMPLES_DIR
+            / "saved-artifact-workflows/recurring-topic-monitor/inputs/ai-news.json"
+        )
 
         spec = spec_file.read_text()
         variables = json.loads(vars_file.read_text())
 
         controller = WeaveMarkController(WeaveMarkConfig())
-        result = await controller.compose(spec, variables=variables)
+        result = await controller.compose(
+            spec,
+            variables=variables,
+            base_dir=spec_file.parent,
+        )
 
         assert result.composed_prompt
         # @refine should have pulled in reasoning/base-analyst.weavemark.md content
@@ -2525,7 +2486,7 @@ Write a professional email to the team about the Q3 roadmap.
             or "analysis" in result.composed_prompt.lower()
         )
         # Variable substitution
-        assert "Rivian" in result.composed_prompt
+        assert variables["topic"] in result.composed_prompt
         # No raw directives
         assert "@refine" not in result.composed_prompt
         assert "@match" not in result.composed_prompt
@@ -2725,7 +2686,7 @@ the `pick` variable. Only the selected fragment must be inlined.
 
 @_skip_no_api_key
 class TestCreativeIdeationSpec:
-    """End-to-end tests for the `creative-ideation.weavemark.md` application.
+    """End-to-end tests for a test-local creative-ideation dispatcher.
 
     This application spec dispatches to one of several pure method specs
     (SCAMPER, Six Thinking Hats, Reverse Brainstorming) via
@@ -2736,8 +2697,22 @@ class TestCreativeIdeationSpec:
 
     SUBJECT = "our company's weekly engineering all-hands meeting"
     OBJECTIVE = "make it more engaging for engineers without making it longer"
-    SPEC_PATH = PROMPLETS_DIR / "catalog/standalone/creative-ideation.weavemark.md"
-    BASE_DIR = PROMPLETS_DIR / "catalog/standalone"
+    SPEC = """
+@promplet version: 0.7
+
+@match method
+  "scamper" ==>
+    @refine module:weavemark.std.ideation.scamper
+  "six-thinking-hats" ==>
+    @refine module:weavemark.std.ideation.six_thinking_hats
+  "reverse-brainstorming" ==>
+    @refine module:weavemark.std.ideation.reverse_brainstorming
+  _ ==>
+    @refine module:weavemark.std.ideation.scamper
+
+Apply the selected method to @{subject} to achieve @{objective}.
+"""
+    BASE_DIR = PROMPLETS_DIR
 
     @pytest.mark.integration
     @pytest.mark.asyncio
@@ -2748,7 +2723,7 @@ class TestCreativeIdeationSpec:
             WeaveMarkController,
         )
 
-        spec = self.SPEC_PATH.read_text()
+        spec = self.SPEC
         controller = WeaveMarkController(WeaveMarkConfig())
         result = await controller.compose(
             spec_text=spec,
@@ -2790,7 +2765,7 @@ class TestCreativeIdeationSpec:
             WeaveMarkController,
         )
 
-        spec = self.SPEC_PATH.read_text()
+        spec = self.SPEC
         controller = WeaveMarkController(WeaveMarkConfig())
         result = await controller.compose(
             spec_text=spec,
@@ -2833,7 +2808,7 @@ class TestCreativeIdeationSpec:
             WeaveMarkController,
         )
 
-        spec = self.SPEC_PATH.read_text()
+        spec = self.SPEC
         controller = WeaveMarkController(WeaveMarkConfig())
         result = await controller.compose(
             spec_text=spec,
@@ -2873,7 +2848,7 @@ class TestCreativeIdeationSpec:
             WeaveMarkController,
         )
 
-        spec = self.SPEC_PATH.read_text()
+        spec = self.SPEC
         controller = WeaveMarkController(WeaveMarkConfig())
         result = await controller.compose(
             spec_text=spec,
@@ -2935,7 +2910,7 @@ class TestMatchWithNestedRefineLLMOnly:
     the composer the right behaviour rather than relying entirely on the
     Python pre-pass.
 
-    The application spec (``creative-ideation.weavemark.md``) is used as
+    The test-local application spec is used as
     the realistic harness — minimal synthetic specs are too sparse for
     the LLM to recognize them as "real specs to compile" rather than as
     "documentation/examples of the language", which is a separate
@@ -2969,8 +2944,7 @@ class TestMatchWithNestedRefineLLMOnly:
     async def _compose_application(self, method: str):
         from weavemark.controller import WeaveMarkController
 
-        spec_path = PROMPLETS_DIR / "catalog/standalone/creative-ideation.weavemark.md"
-        spec = spec_path.read_text()
+        spec = TestCreativeIdeationSpec.SPEC
         controller = WeaveMarkController(self._llm_only_config())
         return await controller.compose(
             spec_text=spec,
@@ -2979,7 +2953,7 @@ class TestMatchWithNestedRefineLLMOnly:
                 "subject": self.SUBJECT,
                 "objective": self.OBJECTIVE,
             },
-            base_dir=spec_path.parent,
+            base_dir=PROMPLETS_DIR,
         )
 
     @pytest.mark.integration

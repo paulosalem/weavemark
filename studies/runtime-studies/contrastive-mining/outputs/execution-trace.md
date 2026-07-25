@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| Spec | `promplets/catalog/executable/contrastive-mining.weavemark.md` |
+| Spec | `studies/runtime-studies/contrastive-mining/promplets/contrastive-mining.weavemark.md` |
 | Model | `gpt-5.5` |
 | Engine | `reflection` |
 | Steps | 5 |

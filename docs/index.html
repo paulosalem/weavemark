@@ -123,22 +123,16 @@ Lookback window: <span class="syntax-var">@{lookback_window}</span>
 
 Cluster duplicate coverage.
 Resurface only new or materially changed findings.</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="creative-ideation.weavemark.md" data-href="../promplets/catalog/standalone/creative-ideation.weavemark.md" data-source-href="../promplets/catalog/standalone/creative-ideation.weavemark.md" data-stat-a-title="@match method" data-stat-a-text="SCAMPER, Six Hats, Reverse" data-stat-b-title="@refine mingle" data-stat-b-text="method becomes local structure" data-stat-c-title="constraints" data-stat-c-text="limits stay visible" hidden><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
-<span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst <span class="syntax-key">mingle:</span> true
+              <pre class="hero-slide" data-carousel-slide data-title="prompt-refactoring-pipeline.weavemark.md" data-href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md" data-source-href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md" data-stat-a-title="semantic pipeline" data-stat-a-text="extract, normalize, revise" data-stat-b-title="coherent output" data-stat-b-text="one contradiction-free prompt" data-stat-c-title="focused proof" data-stat-c-text="source, YAML input, result" hidden><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+<span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.prompt_refinement_core
 
-# Creative ideation
+# Prompt Refactoring Pipeline
 
-Subject: <span class="syntax-var">@{subject}</span>
-Objective: <span class="syntax-var">@{objective}</span>
-Constraints: <span class="syntax-var">@{constraints}</span>
+<span class="syntax-directive">@extract</span> <span class="syntax-string">"Identify requirements, contradictions, and duplication."</span>
+  <span class="syntax-var">@{raw_prompt}</span>
 
-<span class="syntax-directive">@match</span> method
-  <span class="syntax-string">"scamper"</span> ==&gt;
-    <span class="syntax-directive">@refine</span> module:weavemark.std.ideation.scamper <span class="syntax-key">mingle:</span> true
-  <span class="syntax-string">"six-hats"</span> ==&gt;
-    <span class="syntax-directive">@refine</span> module:weavemark.std.ideation.six_thinking_hats <span class="syntax-key">mingle:</span> true
-  <span class="syntax-string">"reverse"</span> ==&gt;
-    <span class="syntax-directive">@refine</span> module:weavemark.std.ideation.reverse_brainstorming <span class="syntax-key">mingle:</span> true</code></pre>
+<span class="syntax-directive">@normalize</span> <span class="syntax-string">"Unify terminology and requirement strength."</span>
+  <span class="syntax-var">@{raw_prompt}</span></code></pre>
             </div>
           </div>
           <div class="carousel-controls" aria-label="WeaveMark example selector">
@@ -444,8 +438,8 @@ Use board-ready language.</code></pre>
         <div class="build-grid">
           <article class="build-card">
             <span class="build-tag"><span class="ic ic-clipboard" aria-hidden="true"></span>Paste</span>
-            <h3>Investment briefs</h3>
-            <p>Evidence-aware prompts for ChatGPT, Claude, Gemini, or Copilot Chat — <a href="../promplets/catalog/standalone/investment-brief.weavemark.md">investment-brief.weavemark.md</a>.</p>
+            <h3>Prompt transformations</h3>
+            <p>Turn contradictory source prompts into coherent reusable instructions — <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>.</p>
           </article>
 
           <article class="build-card">
@@ -456,20 +450,20 @@ Use board-ready language.</code></pre>
 
           <article class="build-card">
             <span class="build-tag"><span class="ic ic-cap" aria-hidden="true"></span>Teach</span>
-            <h3>Adaptive tutors</h3>
-            <p>Adapt instruction with <code>@ask</code>, <code>@refine</code>, and branches — <a href="../promplets/catalog/standalone/learning-tutor.weavemark.md">learning-tutor.weavemark.md</a>.</p>
+            <h3>Learning applications</h3>
+            <p>Describe a mobile-first curriculum feed with validated content and no runtime LLM dependency — <a href="../promplets/catalog/standalone/knowledge-cards.weavemark.md">knowledge-cards.weavemark.md</a>.</p>
           </article>
 
           <article class="build-card">
             <span class="build-tag"><span class="ic ic-target" aria-hidden="true"></span>Decide</span>
-            <h3>Decision advisors</h3>
-            <p>Decision rules, evidence standards, and output contracts — <a href="../promplets/catalog/standalone/decision-advisor.weavemark.md">decision-advisor.weavemark.md</a>.</p>
+            <h3>Grounded plans</h3>
+            <p>Import reusable planning macros and bind public-reference evidence — <a href="../promplets/catalog/executable/financial-independence-goal-plan.weavemark.md">financial-independence-goal-plan.weavemark.md</a>.</p>
           </article>
 
           <article class="build-card">
             <span class="build-tag"><span class="ic ic-bolt" aria-hidden="true"></span>Run</span>
-            <h3>Stock-analysis agents</h3>
-            <p>Executable promplets that bind trusted companion functions — <a href="../promplets/catalog/executable/portfolio-calculator-agent.weavemark.md">portfolio-calculator-agent.weavemark.md</a>.</p>
+            <h3>Recurring research</h3>
+            <p>Search, deduplicate, remember, and resurface only material changes — <a href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md">recurring-topic-monitor.weavemark.md</a>.</p>
           </article>
         </div>
       </section>
@@ -526,7 +520,7 @@ Preserve decisions, risks, evidence, gaps, and next actions.</code></pre>
   <span class="syntax-directive">@ask</span> clarifying question <span class="syntax-key">detail_level:</span> 35%
     <span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention
       Draft a prompt for the first-run onboarding flow
-      for <a class="code-link" href="../promplets/catalog/standalone/iterative-onboarding-prompt.weavemark.md"><span class="syntax-var">@{product}</span></a>.</code></pre>
+      for <span class="syntax-var">@{product}</span>.</code></pre>
             </article>
 
             <article class="snippet-card">
@@ -567,33 +561,25 @@ Name the risk, missing information, and next step.</code></pre>
             <h3>When a prompt should run, make the runtime explicit.</h3>
             <p>
               Declare tool schemas, bind trusted companion implementations, and
-              choose an execution engine — from a single call to tree-of-thought,
-              self-consistency, or reflection, each modeled on established
-              prompting patterns from the literature (Yao et al. 2023, Wang et al.
-              2022, Shinn &amp; Madaan 2023). The readable document stays the
+              choose an execution engine. The readable document stays the
               specification everyone can inspect; when execution is requested,
               the selected engine interprets the compiled artifact at runtime.
             </p>
           </div>
           <div class="code-card">
             <div class="code-title">
-              <span><a href="../promplets/catalog/executable/tree-of-thought-solver.weavemark.md">tree-of-thought-solver.weavemark.md</a></span>
+              <span><a href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md">recurring-topic-monitor.weavemark.md</a></span>
               <span>@execute</span>
             </div>
-            <pre><code><span class="syntax-directive">@execute</span> tree-of-thought
-  <span class="syntax-key">max_depth:</span> 3
-  <span class="syntax-key">branching_factor:</span> 3
+            <pre><code><span class="syntax-directive">@execute</span> single-call
+  <span class="syntax-key">max_tool_calls:</span> 30
 
-Problem: <span class="syntax-var">@{problem}</span>
+<span class="syntax-directive">@bind</span> search_news <span class="syntax-key">language:</span> python <span class="syntax-key">from:</span> <span class="syntax-string">"./companions/recurring_topic_monitor.py"</span> <span class="syntax-key">symbol:</span> search_news
 
-<span class="syntax-directive">@prompt</span> thought_step
-  Provide the next single reasoning step from <span class="syntax-var">@{state}</span>.
+Topic: <span class="syntax-var">@{topic}</span>
+Previous reports: <span class="syntax-var">@{previous_reports_folder}</span>
 
-<span class="syntax-directive">@prompt</span> evaluate_step
-  Rate this partial reasoning: <span class="syntax-string">"sure"</span>, <span class="syntax-string">"maybe"</span>, or <span class="syntax-string">"impossible"</span>.
-
-<span class="syntax-directive">@prompt</span> synthesize
-  State the final answer from the best reasoning path.</code></pre>
+Search, cluster duplicate coverage, and resurface only material changes.</code></pre>
           </div>
         </div>
       </section>

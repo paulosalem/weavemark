@@ -35,8 +35,8 @@ Collaborative execution has three moving parts:
 Important files:
 
 - `src/weavemark/engines/collaborative.py`
-- `examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py`
-- `examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run-agent-handoff.sh`
+- `examples/interactive-ui-and-handoff-demos/collaborative-writer/run.py`
+- `examples/interactive-ui-and-handoff-demos/collaborative-writer/run-agent-handoff.sh`
 - `promplets/catalog/executable/collaborative-*.weavemark.md`
 - `tests/test_engines.py::TestCollaborativeEngine`
 
@@ -48,10 +48,10 @@ Before involving a live editor or handoff loop, smoke-test the spec:
 source ~/.zshenv 2>/dev/null || true
 source ~/.zshrc 2>/dev/null || true
 
-python examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py \
-  --spec promplets/catalog/executable/collaborative-investment-strategy.weavemark.md \
-  --vars examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/inputs/vars.json \
-  --output-dir examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/outputs \
+python examples/interactive-ui-and-handoff-demos/collaborative-writer/run.py \
+  --spec promplets/catalog/executable/collaborative-writer.weavemark.md \
+  --vars examples/interactive-ui-and-handoff-demos/collaborative-writer/inputs/vars.json \
+  --output-dir examples/interactive-ui-and-handoff-demos/collaborative-writer/outputs \
   --non-interactive
 ```
 
@@ -66,7 +66,7 @@ Use agent handoff mode when the example or test should show a real edit turn:
 source ~/.zshenv 2>/dev/null || true
 source ~/.zshrc 2>/dev/null || true
 
-python examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py \
+python examples/interactive-ui-and-handoff-demos/collaborative-writer/run.py \
   --spec promplets/catalog/executable/collaborative-writer.weavemark.md \
   --vars examples/interactive-ui-and-handoff-demos/collaborative-writer/inputs/vars.json \
   --output-dir examples/interactive-ui-and-handoff-demos/collaborative-writer/outputs \
@@ -188,7 +188,7 @@ python -m pytest tests/test_engines.py::TestCollaborativeEngine -q
 
 - Shell `run*.sh` scripts under `examples/interactive-ui-and-handoff-demos/*/` must remain readable command
   transcripts. Do not add wrapper usage functions or argument parsing there.
-- Put orchestration in `examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py` or library code,
+- Put orchestration in `examples/interactive-ui-and-handoff-demos/collaborative-writer/run.py` or library code,
   not in the shell transcript.
 - Save outputs under each example's local `outputs/` folder.
 - For agent-authored turns, make the edit concrete enough that future readers

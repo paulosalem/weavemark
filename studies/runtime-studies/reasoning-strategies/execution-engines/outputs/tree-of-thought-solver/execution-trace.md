@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| Spec | `promplets/catalog/executable/tree-of-thought-solver.weavemark.md` |
+| Spec | `studies/runtime-studies/reasoning-strategies/promplets/tree-of-thought-solver.weavemark.md` |
 | Model | `gpt-5.5` |
 | Engine | `tree-of-thought` |
 | Steps | 43 |

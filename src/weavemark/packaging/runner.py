@@ -33,6 +33,14 @@ from .convert import ConversionError, convert_file
 from .persist import persist_execution_artifacts
 
 _FENCE_RE = re.compile(r"^\s*```[\w-]*\s*\n|\n?```\s*$")
+_UNRESOLVED_PLACEHOLDER_RE = re.compile(
+    r"@\{[A-Za-z_][\w.-]*\}"
+    r"|\{\{[^{}\n]+\}\}"
+    r"|\[(?:insert\b|specific\b|value\b|date\b|source\s+(?:url|title)\b"
+    r"|positive/negative\b|any\s+missing\b|key\s+(?:point|factor|metric|value)\b)"
+    r"[^\]\n]*\]",
+    re.IGNORECASE,
+)
 
 
 @dataclass(frozen=True)
@@ -110,8 +118,19 @@ async def _apply_package(
             target,
             reason="Writing a rendered @package deliverable",
         )
+    output = _strip_fences(application.output)
+    placeholders = sorted(set(_UNRESOLVED_PLACEHOLDER_RE.findall(output)))
+    if placeholders:
+        examples = ", ".join(placeholders[:3])
+        return PackageResult(
+            target,
+            "apply",
+            False,
+            f"generated artifact contains unresolved template placeholders: {examples}",
+            application,
+        )
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(_strip_fences(application.output), encoding="utf-8")
+    target.write_text(output, encoding="utf-8")
     return PackageResult(target, "apply", True, application=application)
 
 

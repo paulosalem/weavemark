@@ -325,6 +325,32 @@ async def test_run_packages_resolves_module_instructions(tmp_path: Path) -> None
 
 
 @pytest.mark.asyncio
+async def test_run_packages_rejects_unresolved_template_placeholders(
+    tmp_path: Path,
+) -> None:
+    template = tmp_path / "template.weavemark.md"
+    template.write_text("Render @{output} as HTML.", encoding="utf-8")
+    target = tmp_path / "report.html"
+
+    results = await run_packages(
+        [{"file": target.name, "instructions": template.name}],
+        {},
+        ExecutionResult(output="Evidence unavailable.", steps=[], metadata={}),
+        base_dir=tmp_path,
+        root=tmp_path,
+        model="test-model",
+        client=_FakePackClient(
+            "<!doctype html><p>Market capitalization: $[value]</p></html>"
+        ),
+    )
+
+    assert len(results) == 1
+    assert results[0].ok is False
+    assert "unresolved template placeholders" in results[0].note
+    assert not target.exists()
+
+
+@pytest.mark.asyncio
 async def test_run_packages_convert_reports_missing_source(tmp_path: Path) -> None:
     results = await run_packages(
         [{"file": "book.pdf", "from": "book.html"}],

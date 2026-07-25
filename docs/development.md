@@ -185,8 +185,8 @@ variables, responses, tools, usage, and errors remain available while binary
 payloads are omitted by default.
 
 ```bash
-weavemark library market-research-brief \
-  --vars-file examples/batch-example-runs/static-prompts/inputs/market-research-example.json \
+weavemark library prompt-refactoring-pipeline \
+  --vars-file examples/saved-artifact-workflows/prompt-refactoring-pipeline/inputs/vars.yaml \
   --batch-only --verbose
 ```
 

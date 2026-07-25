@@ -82,8 +82,7 @@
     <section class="shell repo-resources" aria-label="Repository files for this tutorial">
       <h2>In the repository</h2>
       <div class="repo-resources-links">
-        <a class="repo-link" href="../promplets/catalog/standalone/financial-independence-decision.weavemark.md"><span class="repo-tag">Spec</span> financial-independence-decision.weavemark.md</a>
-        <a class="repo-link" href="../promplets/catalog/standalone/passive-income-planning-dashboard.weavemark.md"><span class="repo-tag">Spec</span> passive-income-planning-dashboard.weavemark.md</a>
+        <a class="repo-link" href="../promplets/catalog/executable/financial-independence-goal-plan.weavemark.md"><span class="repo-tag">Related</span> financial-independence-goal-plan.weavemark.md</a>
         <a class="repo-link" href="../promplets/domains/finance/fragments/passive-income-forecasting.weavemark.md"><span class="repo-tag">Library</span> passive-income-forecasting.weavemark.md</a>
         <a class="repo-link" href="../promplets/catalog/standalone/"><span class="repo-tag">Folder</span> standalone catalog/</a>
       </div>
@@ -178,7 +177,8 @@
 <span class="syntax-var">@{person_name}</span> is deciding whether their household has enough financial
 resilience to reduce dependence on a high-pressure job ...</code></pre>
           <p class="snippet-source">
-            From <a href="../promplets/catalog/standalone/financial-independence-decision.weavemark.md">financial-independence-decision.weavemark.md</a>.
+            Save this tutorial source as
+            <code>outputs/reuse/financial-independence-decision.weavemark.md</code>.
           </p>
           <p>
             The full decision promplet asks for a realistic household snapshot.
@@ -206,7 +206,7 @@ cat &gt; outputs/reuse/decision-vars.json &lt;&lt;'JSON'
   "principal_drawdown_preference": "Avoid principal drawdown"
 }
 JSON</code></pre>
-          <pre><code>weavemark library builtin:catalog/standalone/financial-independence-decision \
+          <pre><code>weavemark outputs/reuse/financial-independence-decision.weavemark.md \
   --batch-only \
   --vars-file outputs/reuse/decision-vars.json \
   --output outputs/reuse/decision.md</code></pre>
@@ -222,7 +222,7 @@ JSON</code></pre>
           <h2>Output B &mdash; an app specification</h2>
           <p>
             The second spec is a <strong>software</strong> promplet. It refines an
-            a local-first web stack, durable SQLite storage, a dashboard module, and the
+            local-first web stack, durable SQLite storage, a dashboard module, and the
             <em>same two finance fragments</em>.
           </p>
           <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
@@ -238,9 +238,10 @@ JSON</code></pre>
 Design <span class="syntax-var">@{app_name}</span>, a local-first web application for people pursuing financial
 independence through passive income and disciplined capital growth ...</code></pre>
           <p class="snippet-source">
-            From <a href="../promplets/catalog/standalone/passive-income-planning-dashboard.weavemark.md">passive-income-planning-dashboard.weavemark.md</a>.
+            Save this tutorial source as
+            <code>outputs/reuse/passive-income-planning-dashboard.weavemark.md</code>.
           </p>
-          <pre><code>weavemark library builtin:catalog/standalone/passive-income-planning-dashboard \
+          <pre><code>weavemark outputs/reuse/passive-income-planning-dashboard.weavemark.md \
   --batch-only \
   --var app_name=Fathom \
   --output outputs/reuse/app-spec.md</code></pre>

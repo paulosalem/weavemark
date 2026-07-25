@@ -221,7 +221,8 @@ def test_implementation_process_receives_reduced_environment(
         ProtectionSettings(subprocess_environment=("PATH",)),
         entrypoint_dir=tmp_path,
         invocation_dir=tmp_path,
-        approval_handler=lambda request: decisions.append(request.capability) or True,
+        approval_handler=lambda request: decisions.append(request.capability)
+        or "allow_once",
         approvals_path=tmp_path / "approvals.json",
     )
     monkeypatch.setenv("PATH", os.environ.get("PATH", ""))

@@ -37,21 +37,22 @@ Cover:
 Do not make a buy/sell recommendation. Treat this as asset education, not
 personal financial advice.
 
-@package instructions: module:weavemark.std.presentation.information_dashboard_html file: vale3-market-dashboard.html
-  Title the deliverable "VALE3 Market Learning Dashboard" and identify the
-  analyzed security as Vale S.A. on B3 under ticker VALE3. The finance provider
-  may label the instrument VALE3.SA; explain that notation once, compactly.
+@package instructions: module:weavemark.std.presentation.information_dashboard_html file: market-dashboard.html
+  Title the deliverable "@{display_ticker} Market Learning Dashboard" and
+  identify the analyzed security as @{company_name} under display ticker
+  @{display_ticker}. If the finance provider uses a different symbol
+  (@{provider_ticker}), explain that notation once, compactly.
 
-  Give the dashboard an extractive-industry research character without adding
-  decorative imagery: make commodity exposure, operational drivers, balance
-  sheet signals, evidence quality, cyclical risks, and watchlist items easy to
-  scan. Use the current company name, Vale S.A.; mention the historical
-  Companhia Vale do Rio Doce name only if useful for identification.
+  Give the dashboard a research character appropriate to the company's actual
+  industry and evidence. Make economic drivers, financial signals, evidence
+  quality, risks, scenario tensions, and watchlist items easy to scan without
+  adding decorative imagery or unsupported facts.
 
-  Retain Portuguese-real amounts and Brazilian-market terminology exactly when
-  supplied. Never convert currencies or infer missing values. Keep the final
-  educational, non-recommendation disclaimer visible but quiet.
+  Retain supplied currencies, units, periods, and market terminology exactly.
+  Never convert currencies, infer missing values, or render template
+  placeholders for unavailable facts. Omit unsupported metric cards instead.
+  Keep the final educational, non-recommendation disclaimer visible but quiet.
 
-  End with a quiet "WeaveMark provenance" row linking the source promplet,
-  execution trace, and public market-report tutorial. Keep these project links
-  secondary to the report and label them plainly.
+  End with a quiet "WeaveMark provenance" row linking the source promplet and
+  execution trace when those URLs are present in the source report. Keep
+  provenance secondary to the report and label it plainly.

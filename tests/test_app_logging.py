@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import io
 import json
 import logging
 import os
@@ -13,6 +14,7 @@ from pathlib import Path
 
 import pytest
 
+from weavemark.events import EventJsonlWriter
 from weavemark.logging_policy import LoggingSettings
 from weavemark.logging_setup import (
     LOGGER_NAME,
@@ -214,3 +216,99 @@ def test_configure_logging_disabled_returns_none(
         assert not (tmp_path / "weavemark.log").exists()
     finally:
         _clear_app_handlers()
+
+
+def test_event_jsonl_writer_flushes_ordered_records(tmp_path: Path) -> None:
+    events_file = tmp_path / "events.jsonl"
+
+    with EventJsonlWriter(events_file) as writer:
+        writer.emit("run_started", {"mode": "batch"})
+        writer.emit("done", {"count": 1}, phase="composition")
+
+    events = [
+        json.loads(line)
+        for line in events_file.read_text(encoding="utf-8").splitlines()
+    ]
+    assert [event["sequence"] for event in events] == [1, 2]
+    assert [event["type"] for event in events] == ["run_started", "done"]
+    assert events[1]["phase"] == "composition"
+    assert events[0]["timestamp"].endswith("+00:00")
+
+
+def test_event_jsonl_writer_disables_itself_after_stream_failure(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class BrokenStream(io.StringIO):
+        def write(self, value: str) -> int:
+            raise BrokenPipeError
+
+    monkeypatch.setattr(sys, "stdout", BrokenStream())
+    writer = EventJsonlWriter("-")
+
+    writer.emit("first")
+    writer.emit("second")
+
+
+def test_batch_cli_streams_structured_events(tmp_path: Path) -> None:
+    repository_root = Path(__file__).parents[1]
+    promplet = tmp_path / "example.weavemark.md"
+    promplet.write_text("Hello @{name}.\n", encoding="utf-8")
+    events_file = tmp_path / "events.jsonl"
+    environment = {
+        **os.environ,
+        "PYTHONPATH": str(repository_root / "src"),
+        "WEAVEMARK_LOG": "0",
+    }
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "weavemark.app",
+            str(promplet),
+            "--var",
+            "name=Ada",
+            "--batch-only",
+            "--format",
+            "json",
+            "--events-jsonl",
+            str(events_file),
+        ],
+        cwd=tmp_path,
+        env=environment,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert completed.returncode == 0, completed.stderr
+    events = [
+        json.loads(line)
+        for line in events_file.read_text(encoding="utf-8").splitlines()
+    ]
+    event_types = [event["type"] for event in events]
+    assert event_types[0] == "run_started"
+    assert "result" in event_types
+    assert event_types[-1] == "run_completed"
+    result_event = next(event for event in events if event["type"] == "result")
+    assert result_event["data"]["composed_prompt"] == "Hello Ada."
+
+
+def test_runtime_error_data_classifies_retryable_openai_failure() -> None:
+    from weavemark.app import _runtime_error_data
+
+    error = RuntimeError(
+        "Completion failed: litellm.InternalServerError: OpenAIException - "
+        "Error code: 500 (request ID req_example123)"
+    )
+
+    assert _runtime_error_data(error) == {
+        "kind": "provider",
+        "message": (
+            "OpenAI returned a temporary server error after all retry attempts."
+        ),
+        "retryable": True,
+        "provider": "OpenAI",
+        "status_code": 500,
+        "request_id": "req_example123",
+    }

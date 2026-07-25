@@ -5,7 +5,7 @@
 WeaveMark is a prompt notation (**WeaveMark**) and toolchain for composing, executing, and benchmarking LLM prompting strategies. It includes:
 - `src/weavemark/` — Core library (controller, parser, composition)
 - `promplets/` — WeaveMark files (`.weavemark.md`) for various strategies
-- `examples/benchmark-runners/strategy-comparison/runner.py` — Benchmark runner using lm-eval
+- `studies/runtime-studies/reasoning-strategies/strategy-comparison/runner.py` — Benchmark runner using lm-eval
 - `vscode-extension/` — VS Code language support
 - Depends on public `ellements` packages for LLM client, execution strategies, benchmarking helpers, and shared CLI presentation
 
@@ -200,8 +200,8 @@ python -m pytest tests/ -q
 ## Key Files
 
 - `src/weavemark/controller.py` — Composition engine, root text cascading (`_extract_root_text`, `_cascade_root_context`)
-- `examples/benchmark-runners/strategy-comparison/runner.py` — Benchmark runner (single event loop for strategies)
+- `studies/runtime-studies/reasoning-strategies/strategy-comparison/runner.py` — Benchmark runner (single event loop for strategies)
 - `promplets/stdlib/fragments/reasoning/chain-of-thought.weavemark.md` — CoT spec (also serves as @refine target)
-- `promplets/catalog/executable/self-consistency-solver.weavemark.md` — SC spec
-- `promplets/catalog/executable/tree-of-thought-solver.weavemark.md` — ToT spec (parallel independent paths)
-- `examples/benchmark-runners/strategy-comparison/run.sh` — Demo script for running benchmarks
+- `studies/runtime-studies/reasoning-strategies/promplets/self-consistency-solver.weavemark.md` — SC study spec
+- `studies/runtime-studies/reasoning-strategies/promplets/tree-of-thought-solver.weavemark.md` — ToT study spec
+- `studies/runtime-studies/reasoning-strategies/strategy-comparison/run.sh` — Study script for running benchmarks

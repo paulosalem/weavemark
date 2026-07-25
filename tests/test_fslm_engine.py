@@ -172,7 +172,7 @@ async def test_python_fslm_requires_remembered_protection_approval(
     approved_context = ProtectionContext.create(
         ProtectionSettings(),
         entrypoint_dir=tmp_path,
-        approval_handler=lambda _request: True,
+        approval_handler=lambda _request: "allow_once",
         approvals_path=tmp_path / "approvals.json",
     )
     executed = await FSLMEngine(client=MockLLMClient()).execute(

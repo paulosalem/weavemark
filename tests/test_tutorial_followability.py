@@ -15,8 +15,8 @@ def _tutorial(name: str) -> str:
 
 def test_batch_tutorial_commands_supply_all_documented_inputs() -> None:
     first = _tutorial("tutorial.html")
-    assert "--var depth=committee" in first
-    assert "--var include_watchlist=true" in first
+    assert "outputs/tutorial-investment/investment-brief.weavemark.md" in first
+    assert "outputs/tutorial-investment/brief.md" in first
 
     reuse = _tutorial("tutorial-reuse.html")
     for key in (
@@ -99,7 +99,7 @@ def test_programming_tutorials_use_maintained_surfaces() -> None:
     implement = _tutorial("tutorial-implement.html")
     refine = _tutorial("tutorial-refine.html")
 
-    assert "passive-income-planning-dashboard" in reuse
+    assert "outputs/reuse/passive-income-planning-dashboard.weavemark.md" in reuse
     assert "ai-kanban-board.weavemark.md" in implement
     assert "browser_sqlite_file_store" in implement
     assert "passive-income-planning-dashboard" not in implement
@@ -109,23 +109,8 @@ def test_programming_tutorials_use_maintained_surfaces() -> None:
     assert "Python async task cancellation" in refine
     assert "Rust ownership" not in refine
 
-    assert (
-        ROOT
-        / "outputs"
-        / "examples"
-        / "compiled-prompt-snapshots"
-        / "passive-income-planning-dashboard"
-        / "compiled-prompt.md"
-    ).is_file()
-    assert (
-        ROOT
-        / "examples"
-        / "batch-example-runs"
-        / "static-prompts"
-        / "outputs"
-        / "news-intelligence-board"
-        / "compiled-prompt.md"
-    ).is_file()
+    assert "promplets/catalog/standalone/passive-income-planning-dashboard" not in reuse
+    assert "news-intelligence-board" not in reuse + implement
 
 
 def test_weavemark_tutorial_snippets_do_not_fake_hash_comments() -> None:

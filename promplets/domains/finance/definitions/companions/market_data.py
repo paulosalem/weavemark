@@ -3,14 +3,7 @@
 from __future__ import annotations
 
 import json
-import warnings
 from typing import Any
-
-warnings.filterwarnings(
-    "ignore",
-    message=r"Timestamp\.utcnow is deprecated.*",
-    module=r"yfinance\..*",
-)
 
 
 async def fetch_asset_snapshot(ticker: str) -> dict[str, Any]:
@@ -165,9 +158,6 @@ def _matches_category(result: dict[str, Any], category: str) -> bool:
     haystack = " ".join(
         str(result.get(field, "")) for field in ("title", "url", "snippet", "body")
     ).lower()
-    if category == "official_context":
-        url = str(result.get("url", "")).lower()
-        return "vale.com/" in url or "ri-vale" in url
     if category == "skeptical_view":
         return any(
             marker in haystack

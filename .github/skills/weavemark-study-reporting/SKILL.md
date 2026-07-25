@@ -15,13 +15,14 @@ WeaveMark studies are self-supporting quality/property studies. They are not
 release-positioning artifacts and should not refer to public-release, internal,
 or audience framing.
 
-There are two report classes:
+There are two study classes:
 
 1. `studies/controlled-studies/` contains matched control-versus-treatment
    studies. They compare `[C1]` compact/manual controls, `[C2]` strongest matched
    reusable-template or matched-prose controls, and `[T]` WeaveMark treatments.
-2. `studies/examples-studies/` contains absolute quality checks for public
-   examples. They have no controls and no contrastive scores.
+2. `studies/runtime-studies/` contains self-contained engine, benchmark, and
+   specialized executable investigations that do not belong in the curated
+   catalog.
 
 Controlled reports must keep `[C1]`, `[C2]`, and `[T]` everywhere variants appear
 in study-facing text, tables, badges, and comparisons.
@@ -48,8 +49,6 @@ The consolidated report lives at:
 ```text
 studies/controlled-studies/results.md
 studies/controlled-studies/results.html
-studies/examples-studies/results.md
-studies/examples-studies/results.html
 ```
 
 Markdown and HTML reports are synchronized companions. Do not hand-edit one
@@ -71,11 +70,6 @@ Controlled studies use exactly these seven criteria:
 Report both wins and failures. In particular, call out when `[T]` loses
 information density, information yield, leverage, readability, or raw fact
 units.
-
-Example studies use absolute metrics plus a rubric: intention fit, completeness,
-writing/structure, no leakage/pathologies, and direct usefulness. They should
-compile examples into their own `examples/.../outputs/` folders and put study
-reports under `studies/examples-studies/`.
 
 ## Contrastive gain/loss scale
 
@@ -233,18 +227,10 @@ From the repository root:
 
 ```bash
 python studies/tools/regenerate_reports.py --clear
-python studies/tools/regenerate_example_studies.py --clear
 ```
 
-This updates controlled metrics/reports and example-study metrics/reports from
-saved source and compiled-output artifacts. It does not call an LLM and it does
-not compile WeaveMark sources.
-
-To refresh example outputs before reporting, run:
-
-```bash
-python studies/tools/regenerate_example_studies.py --clear --run-examples
-```
+This updates controlled metrics/reports from saved source and compiled-output
+artifacts. It does not call an LLM and it does not compile WeaveMark sources.
 
 ## Validation checklist
 

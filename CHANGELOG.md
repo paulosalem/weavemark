@@ -27,6 +27,18 @@
 - Clarified `@effect` read/write access modes in the language authority and
   public reference.
 - Made the analytics consent request a quiet nonmodal banner.
+- Curated the public catalog to nine distinct, validated entrypoints and the
+  public examples to eight focused projects.
+- Moved reasoning-engine benchmarks and contrastive mining into self-contained
+  runtime studies; moved `@emit` and reference-context fixtures into tutorials.
+
+### Removed
+
+- Redundant catalog wrappers, unimplemented product specifications, duplicate
+  finance/research examples, broad batch runners, and artifact-free terminal
+  examples.
+- Example-study reports whose source projects were removed from the curated
+  public surface.
 
 ### Fixed
 

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/_lib/example-env.sh"
+
+RUN_ID="$(date +%Y%m%d-%H%M%S)"
+OUTPUT_DIR="examples/saved-artifact-workflows/market-snapshot/outputs/interactive/$RUN_ID"
+
+mkdir -p "$OUTPUT_DIR"
+
+weavemark promplets/catalog/executable/market-snapshot.weavemark.md \
+  --vars-file examples/saved-artifact-workflows/market-snapshot/inputs/interactive-defaults.json \
+  --run \
+  --no-protections \
+  --output "$OUTPUT_DIR/execution-output.md" \
+  --trace-output "$OUTPUT_DIR/execution-trace.md" \
+  --show-output \
+  --no-file-summary \
+  --verbose \
+  --open
+
+printf '\nPersonalized artifacts: %s\n' "$OUTPUT_DIR"

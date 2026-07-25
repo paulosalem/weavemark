@@ -19,10 +19,11 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import re
 import sys
 import time
 import webbrowser
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -77,18 +78,21 @@ from weavemark.controller import (
     _cleanup_litellm_logging_worker,
 )
 from weavemark.defaults import DEFAULT_MODEL
+from weavemark.events import EventJsonlWriter
 from weavemark.implementation import (
     ImplementationError,
     ImplementationRequest,
     print_dry_run,
     run_implementation,
 )
+from weavemark.interactions import JsonlStdinInteraction
 from weavemark.logging_setup import (
     configure_logging,
     get_logger,
     log_cli_invocation,
 )
 from weavemark.protection import (
+    ApprovalDecision,
     ProtectionContext,
     ProtectionError,
     ProtectionRequest,
@@ -304,6 +308,104 @@ class WeaveMarkEventRenderer:
             )
 
 
+def _event_writer(args: argparse.Namespace) -> EventJsonlWriter | None:
+    writer = getattr(args, "_event_writer", None)
+    return writer if isinstance(writer, EventJsonlWriter) else None
+
+
+def _emit_event(
+    args: argparse.Namespace,
+    event_type: str,
+    data: dict[str, Any] | None = None,
+    *,
+    phase: str | None = None,
+) -> None:
+    writer = _event_writer(args)
+    if writer is not None:
+        writer.emit(event_type, data, phase=phase)
+
+
+def _controller_event_sink(
+    printer: CliPrinter,
+    args: argparse.Namespace,
+) -> Callable[[str, dict[str, Any]], None]:
+    def emit(event_type: str, data: dict[str, Any]) -> None:
+        printer.event(event_type, data)
+        _emit_event(args, event_type, data, phase="composition")
+
+    return emit
+
+
+def _runtime_error_data(error: Exception) -> dict[str, Any]:
+    """Classify one escaped runtime failure for machine and human clients."""
+
+    chain: list[str] = []
+    current: BaseException | None = error
+    seen: set[int] = set()
+    while current is not None and id(current) not in seen:
+        seen.add(id(current))
+        chain.append(str(current))
+        current = current.__cause__ or current.__context__
+    text = "\n".join(chain)
+    lower = text.lower()
+    request_match = re.search(r"\b(req_[A-Za-z0-9]+)\b", text)
+    status_match = re.search(r"(?:error code|status(?: code)?)[: ]+(\d{3})", text, re.I)
+    status_code = int(status_match.group(1)) if status_match else None
+    provider = (
+        "OpenAI"
+        if "openai" in lower
+        else "Anthropic"
+        if "anthropic" in lower
+        else "Google"
+        if "gemini" in lower or "google" in lower
+        else None
+    )
+    retryable = bool(
+        status_code == 429
+        or (status_code is not None and status_code >= 500)
+        or any(
+            marker in lower
+            for marker in (
+                "internalservererror",
+                "rate limit",
+                "service unavailable",
+                "temporarily unavailable",
+                "timeout",
+            )
+        )
+    )
+    if provider and retryable:
+        message = (
+            f"{provider} returned a temporary server error after all retry attempts."
+        )
+        kind = "provider"
+    elif provider:
+        message = f"{provider} could not complete the model request."
+        kind = "provider"
+    else:
+        message = "WeaveMark could not complete this run."
+        kind = "runtime"
+    return {
+        "kind": kind,
+        "message": message,
+        "retryable": retryable,
+        **({"provider": provider} if provider else {}),
+        **({"status_code": status_code} if status_code is not None else {}),
+        **({"request_id": request_match.group(1)} if request_match else {}),
+    }
+
+
+def _render_runtime_error(printer: CliPrinter, data: dict[str, Any]) -> None:
+    """Render a concise runtime failure while detailed traceback stays in logs."""
+
+    lines = [str(data["message"])]
+    if data.get("request_id"):
+        lines.append(f"Request ID: {data['request_id']}")
+    if data.get("retryable"):
+        lines.append("This failure is temporary; retry the run.")
+    printer.error("\n".join(lines))
+
+
 def create_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="weavemark",
@@ -487,6 +589,23 @@ def create_parser() -> argparse.ArgumentParser:
         "--verbose",
         action="store_true",
         help="Show detailed step-by-step progress",
+    )
+    parser.add_argument(
+        "--events-jsonl",
+        type=Path,
+        metavar="FILE",
+        help=(
+            "Stream structured composition, execution, artifact, and packaging "
+            "events as JSON Lines. Use '-' for stdout."
+        ),
+    )
+    parser.add_argument(
+        "--interaction-stdin",
+        choices=("jsonl",),
+        help=(
+            "Read versioned machine interaction responses from stdin. "
+            "Requires --events-jsonl and cannot be combined with --stdin."
+        ),
     )
 
     # Model
@@ -1192,7 +1311,7 @@ async def _prompt_for_compile_ask(
 def _confirm_protection_request(
     printer: CliPrinter,
     request: ProtectionRequest,
-) -> bool:
+) -> ApprovalDecision:
     """Render one high-risk capability confirmation."""
 
     printer.console.print()
@@ -1213,13 +1332,14 @@ def _confirm_protection_request(
             padding=(1, 2),
         )
     )
-    return bool(
+    allowed = bool(
         Confirm.ask(
             "[bold yellow]Allow and remember this exact item?[/]",
             default=False,
             console=printer.console,
         )
     )
+    return "allow_remember" if allowed else "deny_remember"
 
 
 def _cli_protection_context(
@@ -1232,17 +1352,36 @@ def _cli_protection_context(
 ) -> ProtectionContext:
     """Build one effective protection context for a CLI invocation."""
 
+    requested_write_roots: list[Path] = []
+    if args.output_dir is not None:
+        requested_write_roots.append(args.output_dir)
+    if args.output is not None:
+        requested_write_roots.append(args.output.parent)
+    if args.trace_output is not None:
+        requested_write_roots.append(args.trace_output.parent)
+    if args.provenance is not None:
+        requested_write_roots.append(args.provenance.parent)
+    if args.record_run is not None:
+        requested_write_roots.append(args.record_run)
+
+    interaction = getattr(args, "_interaction", None)
+    approval_handler = (
+        interaction.request_protection
+        if isinstance(interaction, JsonlStdinInteraction)
+        else (
+            (lambda request: _confirm_protection_request(printer, request))
+            if interactive
+            else None
+        )
+    )
     return ProtectionContext.create(
         settings.protections,
         entrypoint_dir=base_dir,
         invocation_dir=Path.cwd(),
         library_roots=tuple(getattr(args, "library_dir", None) or ()),
+        requested_write_roots=tuple(requested_write_roots),
         bypass=bool(getattr(args, "no_protections", False)),
-        approval_handler=(
-            (lambda request: _confirm_protection_request(printer, request))
-            if interactive
-            else None
-        ),
+        approval_handler=approval_handler,
     )
 
 
@@ -1259,6 +1398,17 @@ async def run_batch(
     args: argparse.Namespace,
 ) -> int:
     """Run in batch mode — no interactivity."""
+    started = time.perf_counter()
+    _emit_event(
+        args,
+        "run_started",
+        {
+            "mode": "batch",
+            "source": _portable_source_label(args),
+            "model": args.model or DEFAULT_MODEL,
+            "variables": sorted(variables),
+        },
+    )
     missing_inputs = missing_user_inputs(spec_text, variables, base_dir)
     if missing_inputs:
         render_missing_inputs_error(
@@ -1300,12 +1450,18 @@ async def run_batch(
         spec_text,
         variables,
         base_dir,
-        on_event=printer.event,
+        on_event=_controller_event_sink(printer, args),
         protection=protection,
         provenance=provenance,
         source_path=_source_path_from_args(args),
     )
     if result.errors:
+        _emit_event(
+            args,
+            "run_failed",
+            {"errors": result.errors},
+            phase="composition",
+        )
         _show_composition_errors(
             printer,
             result,
@@ -1361,6 +1517,25 @@ async def run_batch(
             protection,
         )
 
+    _emit_event(
+        args,
+        "result",
+        {
+            "composed_prompt": result.composed_prompt,
+            "output": result.composed_prompt,
+            "duration_ms": round((time.perf_counter() - started) * 1000),
+        },
+    )
+    _emit_event(
+        args,
+        "run_completed",
+        {
+            "mode": "batch",
+            "duration_ms": round((time.perf_counter() - started) * 1000),
+            "diagnostics_count": len(result.diagnostics),
+            "artifacts_count": len(emit_targets),
+        },
+    )
     return 0
 
 
@@ -1408,7 +1583,7 @@ async def run_interactive(
         spec_text,
         variables,
         base_dir,
-        on_event=printer.event,
+        on_event=_controller_event_sink(printer, args),
         ask_handler=lambda ask: _prompt_for_compile_ask(printer, ask),
         protection=protection,
         provenance=provenance,
@@ -1503,7 +1678,7 @@ async def run_interactive(
             spec_text_updated,
             variables,
             base_dir,
-            on_event=printer.event,
+            on_event=_controller_event_sink(printer, args),
             ask_handler=lambda ask: _prompt_for_compile_ask(printer, ask),
             protection=protection,
         )
@@ -1537,6 +1712,17 @@ async def run_execute(
     args: argparse.Namespace,
 ) -> int:
     """Compile + execute: compose the spec, then run through an engine."""
+    started = time.perf_counter()
+    _emit_event(
+        args,
+        "run_started",
+        {
+            "mode": "run",
+            "source": _portable_source_label(args),
+            "model": args.model or DEFAULT_MODEL,
+            "variables": sorted(variables),
+        },
+    )
     from ellements.execution import StepRecord
 
     from weavemark.engines import (
@@ -1622,7 +1808,7 @@ async def run_execute(
         spec_text,
         variables,
         base_dir,
-        on_event=printer.event,
+        on_event=_controller_event_sink(printer, args),
         ask_handler=(
             None
             if args.batch_only
@@ -1633,6 +1819,12 @@ async def run_execute(
         source_path=_source_path_from_args(args),
     )
     if result.errors:
+        _emit_event(
+            args,
+            "run_failed",
+            {"errors": result.errors},
+            phase="composition",
+        )
         logger.error("compose failed: %s", "; ".join(result.errors))
         _show_composition_errors(
             printer,
@@ -1646,6 +1838,12 @@ async def run_execute(
 
     logger.info("execute start: engine=%s", engine_name)
     printer.status(f"Executing with engine: {engine_name}…")
+    _emit_event(
+        args,
+        "phase_started",
+        {"engine": engine_name, "model": runtime_config.model},
+        phase="execution",
+    )
 
     # Build live-step callback for --verbose
     step_counter = [0]
@@ -1678,15 +1876,27 @@ async def run_execute(
         if step.metadata.get("aggregation"):
             meta_parts.append(step.metadata["aggregation"])
         meta_str = f" ({', '.join(meta_parts)})" if meta_parts else ""
-        printer.console.print(
-            f"  {icon} [bold]Step {step_counter[0]}[/]: "
-            f"[bright_cyan]{step.name}[/]{meta_str}  "
-            f"[dim]{elapsed_so_far:.1f}s[/]"
+        _emit_event(
+            args,
+            "step",
+            {
+                "index": step_counter[0],
+                "name": step.name,
+                "elapsed_ms": round(elapsed_so_far * 1000),
+                "metadata": step.metadata,
+                "response_preview": preview,
+            },
+            phase="execution",
         )
         if args.verbose:
+            printer.console.print(
+                f"  {icon} [bold]Step {step_counter[0]}[/]: "
+                f"[bright_cyan]{step.name}[/]{meta_str}  "
+                f"[dim]{elapsed_so_far:.1f}s[/]"
+            )
             printer.console.print(f"     [dim]{preview}[/]")
 
-    on_step = _on_step if args.verbose else None
+    on_step = _on_step if args.verbose or _event_writer(args) is not None else None
 
     # Stream each produced artifact to disk the moment the engine emits it, so a
     # long multi-image run persists page-by-page (resilient + visible) instead of
@@ -1710,8 +1920,20 @@ async def run_execute(
             stage = str(record.get("stage", "default"))
             streamed_stage_files.setdefault(stage, []).append(written)
             logger.info("streamed artifact: %s (stage=%s)", written, stage)
+            artifact_path = (stream_root / written).resolve()
+            _emit_event(
+                args,
+                "artifact",
+                {
+                    "stage": stage,
+                    "file": Path(written).name,
+                    "path": str(artifact_path),
+                    "kind": "emitted",
+                },
+                phase="execution",
+            )
             if not args.no_file_summary:
-                printer.file_written(stream_root / written)
+                printer.file_written(artifact_path)
 
         on_artifact = _on_artifact
 
@@ -1828,6 +2050,12 @@ async def run_execute(
 
     package_results: list[PackageResult] = []
     if result.packages:
+        _emit_event(
+            args,
+            "phase_started",
+            {"packages_count": len(result.packages)},
+            phase="packaging",
+        )
         package_results = await _run_packaging(
             printer,
             result,
@@ -1854,8 +2082,34 @@ async def run_execute(
             protection,
         )
     if args.open_artifacts:
-        _open_package_artifacts(package_results, printer)
+        _open_package_artifacts(package_results, printer, args)
 
+    successful_packages = [package for package in package_results if package.ok]
+    total_elapsed = time.perf_counter() - started
+    _emit_event(
+        args,
+        "result",
+        {
+            "composed_prompt": result.composed_prompt,
+            "output": exec_result.output,
+            "duration_ms": round(total_elapsed * 1000),
+            "tokens_in": exec_result.metadata.get("tokens_in"),
+            "tokens_out": exec_result.metadata.get("tokens_out"),
+            "cost_usd": exec_result.metadata.get("cost_usd"),
+        },
+    )
+    _emit_event(
+        args,
+        "run_completed",
+        {
+            "mode": "run",
+            "engine": engine_name,
+            "duration_ms": round(total_elapsed * 1000),
+            "steps_count": len(exec_result.steps),
+            "artifacts_count": len(exec_result.metadata.get("artifacts", [])),
+            "packages_count": len(successful_packages),
+        },
+    )
     printer.done()
     return 0
 
@@ -1883,6 +2137,20 @@ def _persist_artifacts(
         emit_root,
         protection,
     )
+    for stage, files in stage_files.items():
+        for relative_path in files:
+            artifact_path = (emit_root / relative_path).resolve()
+            _emit_event(
+                args,
+                "artifact",
+                {
+                    "stage": stage,
+                    "file": artifact_path.name,
+                    "path": str(artifact_path),
+                    "kind": "emitted",
+                },
+                phase="execution",
+            )
     if not args.no_file_summary:
         for files in stage_files.values():
             for rel in files:
@@ -1928,6 +2196,18 @@ async def _run_packaging(
         logging_settings=settings.logging,
     )
     for package in package_results:
+        _emit_event(
+            args,
+            "package",
+            {
+                "file": package.file.name,
+                "path": str(package.file.resolve()),
+                "kind": package.kind,
+                "ok": package.ok,
+                "note": package.note,
+            },
+            phase="packaging",
+        )
         if package.ok:
             logger.info("packaged %s (%s)", package.file.name, package.kind)
             if not args.no_file_summary:
@@ -1941,6 +2221,7 @@ async def _run_packaging(
 def _open_package_artifacts(
     package_results: list[PackageResult],
     printer: CliPrinter,
+    args: argparse.Namespace,
 ) -> None:
     """Open successful package outputs once each, preserving source order."""
 
@@ -1964,8 +2245,24 @@ def _open_package_artifacts(
         try:
             accepted = webbrowser.open(uri)
         except (OSError, webbrowser.Error) as exc:
+            _emit_event(
+                args,
+                "artifact_opened",
+                {
+                    "path": str(artifact),
+                    "accepted": False,
+                    "error": str(exc),
+                },
+                phase="opening",
+            )
             printer.warning(f"Could not open {artifact.name}: {exc}")
             continue
+        _emit_event(
+            args,
+            "artifact_opened",
+            {"path": str(artifact), "accepted": bool(accepted)},
+            phase="opening",
+        )
         if not accepted:
             printer.warning(
                 f"The default application did not accept {artifact.name}."
@@ -2236,6 +2533,32 @@ def cli() -> None:
         verbose=args.verbose,
         event_renderer=WeaveMarkEventRenderer(),
     )
+    event_writer: EventJsonlWriter | None = None
+    if args.events_jsonl is not None:
+        try:
+            event_writer = EventJsonlWriter(args.events_jsonl)
+        except OSError as exc:
+            printer.error(f"Could not open --events-jsonl target: {exc}")
+            sys.exit(2)
+    args._event_writer = event_writer
+    if args.interaction_stdin is not None and args.events_jsonl is None:
+        printer.error("--interaction-stdin requires --events-jsonl.")
+        sys.exit(2)
+    if args.interaction_stdin is not None and args.stdin:
+        printer.error("--interaction-stdin cannot be combined with --stdin.")
+        sys.exit(2)
+    args._interaction = (
+        JsonlStdinInteraction(
+            lambda event_type, data, phase: _emit_event(
+                args,
+                event_type,
+                data,
+                phase=phase,
+            )
+        )
+        if args.interaction_stdin == "jsonl"
+        else None
+    )
 
     if args.output is not None and args.output_dir is not None:
         printer.error("--output and --output-dir are mutually exclusive.")
@@ -2420,6 +2743,11 @@ def cli() -> None:
                 run_interactive(printer, spec_text, variables, base_dir, args),
             )
     except ProtectionError as exc:
+        _emit_event(
+            args,
+            "run_failed",
+            {"error": str(exc), "kind": "protection"},
+        )
         printer.console.print()
         printer.console.print(
             Panel(
@@ -2431,6 +2759,11 @@ def cli() -> None:
         )
         exit_code = 2
     except ReplayMismatchError as exc:
+        _emit_event(
+            args,
+            "run_failed",
+            {"error": str(exc), "kind": "replay"},
+        )
         diagnostic = UserDiagnosticError(
             Diagnostic(
                 code="WM-REPLAY-MISMATCH",
@@ -2446,16 +2779,34 @@ def cli() -> None:
         )
         exit_code = diagnostic.exit_code
     except UserDiagnosticError as exc:
+        _emit_event(
+            args,
+            "run_failed",
+            {"error": str(exc), "kind": "diagnostic"},
+        )
         _render_user_diagnostic(
             printer,
             exc,
             json_output=args.format == "json",
         )
         exit_code = exc.exit_code
+    except Exception as exc:
+        logger.exception("run failed unexpectedly")
+        data = _runtime_error_data(exc)
+        _emit_event(args, "run_failed", data)
+        _render_runtime_error(printer, data)
+        exit_code = 1
     except KeyboardInterrupt:
+        _emit_event(
+            args,
+            "run_failed",
+            {"error": "Interrupted.", "kind": "interrupt"},
+        )
         printer.console.print("\n[dim]Interrupted. 👋[/]")
         exit_code = 130
 
+    if event_writer is not None:
+        event_writer.close()
     sys.exit(exit_code)
 
 

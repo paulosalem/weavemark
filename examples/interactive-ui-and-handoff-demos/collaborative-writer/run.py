@@ -1,24 +1,19 @@
 #!/usr/bin/env python3
 # ruff: noqa: E402
-"""Interactive collaborative editing demo.
+"""Interactive collaborative writing demo.
 
-Demonstrates the Collaborative Editing strategy by drafting an
-investment strategy with the user acting as editor.
+Demonstrates collaborative editing with the user or a surrounding AI agent
+acting as editor.
 
 Usage:
     # Interactive mode (opens $EDITOR for each round):
-    python examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py
+    python examples/interactive-ui-and-handoff-demos/collaborative-writer/run.py
 
     # AI-agent handoff mode (this agent writes each edit response file):
-    python examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py --agent-collaborator
+    python examples/interactive-ui-and-handoff-demos/collaborative-writer/run.py --agent-collaborator
 
     # Non-interactive smoke mode (auto-approves the first draft):
-    python examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py --non-interactive
-
-    # Custom spec + vars:
-    python examples/interactive-ui-and-handoff-demos/collaborative-investment-strategy/run.py \
-        --spec promplets/catalog/executable/collaborative-writer.weavemark.md \
-        --vars examples/interactive-ui-and-handoff-demos/collaborative-writer/inputs/vars.json
+    python examples/interactive-ui-and-handoff-demos/collaborative-writer/run.py --non-interactive
 
 Requires: OPENAI_API_KEY set, WeaveMark installed (pip install -e '.[all,dev]')
 """
@@ -38,10 +33,7 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 REPO_ROOT = Path(__file__).resolve().parents[3]
 EXAMPLE_ROOT = (
-    REPO_ROOT
-    / "examples"
-    / "interactive-ui-and-handoff-demos"
-    / "collaborative-investment-strategy"
+    REPO_ROOT / "examples" / "interactive-ui-and-handoff-demos" / "collaborative-writer"
 )
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(line_buffering=True)
@@ -56,6 +48,7 @@ from weavemark_example_progress import (
     normalize_generated_markdown,
     weavemark_verbose_event,
 )
+from weavemark_guided_inputs import collect_guided_variables
 
 from weavemark.controller import WeaveMarkConfig, WeaveMarkController
 from weavemark.engines.base import RuntimeConfig
@@ -167,6 +160,7 @@ async def run(
     spec_path: Path,
     vars_path: Path | None,
     output_dir: Path,
+    guided_inputs: bool,
     interactive: bool,
     use_editor: bool,
     agent_collaborator: bool,
@@ -174,6 +168,11 @@ async def run(
     agent_poll_seconds: float,
 ) -> None:
     variables = load_variables_file(vars_path) if vars_path else {}
+    if guided_inputs:
+        prompted_variables = collect_guided_variables(spec_path, variables)
+        if prompted_variables is None:
+            raise SystemExit(1)
+        variables = prompted_variables
     config = RuntimeConfig(execution_variables=variables)
 
     # Compose the spec
@@ -295,7 +294,7 @@ async def run(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Collaborative editing demo — draft an investment strategy with LLM + human co-editing."
+        description="Collaborative writing demo with LLM and human or agent editing."
     )
     parser.add_argument(
         "--spec",
@@ -304,7 +303,7 @@ def main() -> None:
         / "promplets"
         / "catalog"
         / "executable"
-        / "collaborative-investment-strategy.weavemark.md",
+        / "collaborative-writer.weavemark.md",
         help="Path to the .weavemark.md file",
     )
     parser.add_argument(
@@ -313,7 +312,7 @@ def main() -> None:
         default=REPO_ROOT
         / "examples"
         / "interactive-ui-and-handoff-demos"
-        / "collaborative-investment-strategy"
+        / "collaborative-writer"
         / "inputs"
         / "vars.json",
         help="Path to the variables JSON/YAML file",
@@ -323,6 +322,11 @@ def main() -> None:
         type=Path,
         default=EXAMPLE_ROOT / "outputs",
         help="Directory where compiled prompt and execution output are saved",
+    )
+    parser.add_argument(
+        "--guided-inputs",
+        action="store_true",
+        help="Ask for missing promplet variables using WeaveMark's guided CLI.",
     )
     parser.add_argument(
         "--non-interactive",
@@ -372,6 +376,7 @@ def main() -> None:
             spec_path=args.spec,
             vars_path=args.vars,
             output_dir=args.output_dir,
+            guided_inputs=args.guided_inputs,
             interactive=not args.non_interactive and not args.agent_collaborator,
             use_editor=args.editor,
             agent_collaborator=args.agent_collaborator,

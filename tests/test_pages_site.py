@@ -31,7 +31,10 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
 
     assert builder.validate_site(destination) == []
     assert Path("docs/index.html") in copied
-    assert Path("promplets/catalog/standalone/program-review-checklist.weavemark.md") in copied
+    assert (
+        Path("promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md")
+        in copied
+    )
     assert (destination / ".nojekyll").is_file()
     assert 'url=docs/index.html' in (destination / "index.html").read_text(
         encoding="utf-8"
@@ -80,9 +83,8 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
     )
     assert (
         "github.com/paulosalem/weavemark/blob/main/promplets/"
-        "catalog/standalone/investment-brief.weavemark.md?plain=1"
+        "catalog/executable/financial-independence-goal-plan.weavemark.md?plain=1"
     ) in tutorial_html
-    assert "github.com/paulosalem/weavemark/tree/main/examples/" in tutorial_html
     assert 'href="../promplets/' not in tutorial_html
     assert not (destination / "docs" / "tutorial-games.html").exists()
     implement_html = (destination / "docs" / "tutorial-implement.html").read_text(

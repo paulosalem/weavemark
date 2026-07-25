@@ -9,9 +9,9 @@ each strategy against ``lm-evaluation-harness`` tasks whose request method is
 chat-strategy adapter cannot produce valid token likelihoods.
 
 Usage:
-    python examples/benchmark-runners/strategy-comparison/runner.py \\
-        --specs promplets/catalog/executable/self-consistency-solver.weavemark.md \\
-               promplets/catalog/executable/tree-of-thought-solver.weavemark.md \\
+    python studies/runtime-studies/reasoning-strategies/strategy-comparison/runner.py \\
+        --specs studies/runtime-studies/reasoning-strategies/promplets/self-consistency-solver.weavemark.md \\
+               studies/runtime-studies/reasoning-strategies/promplets/tree-of-thought-solver.weavemark.md \\
         --tasks gsm8k \\
         --limit 20 \\
         --model gpt-5.5
@@ -53,7 +53,7 @@ def _cancel_pending(loop: asyncio.AbstractEventLoop) -> None:
 # ---------------------------------------------------------------------------
 # Ensure the project is importable
 # ---------------------------------------------------------------------------
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 sys.path.insert(0, str(REPO_ROOT / "examples" / "_lib"))
 
@@ -639,16 +639,16 @@ def parse_args(argv: list[str] | None = None):
         epilog="""\
 Examples:
   # Compare all four strategies on GSM8K (20 samples)
-  python examples/benchmark-runners/strategy-comparison/runner.py \\
+  python studies/runtime-studies/reasoning-strategies/strategy-comparison/runner.py \\
     --specs promplets/stdlib/fragments/reasoning/chain-of-thought.weavemark.md \\
-           promplets/catalog/executable/self-consistency-solver.weavemark.md \\
-           promplets/catalog/executable/tree-of-thought-solver.weavemark.md \\
-           promplets/catalog/executable/reflection-solver.weavemark.md \\
+           studies/runtime-studies/reasoning-strategies/promplets/self-consistency-solver.weavemark.md \\
+           studies/runtime-studies/reasoning-strategies/promplets/tree-of-thought-solver.weavemark.md \\
+           studies/runtime-studies/reasoning-strategies/promplets/reflection-solver.weavemark.md \\
     --tasks gsm8k --limit 20
 
   # Full GSM8K benchmark
-  python examples/benchmark-runners/strategy-comparison/runner.py \\
-    --specs promplets/catalog/executable/self-consistency-solver.weavemark.md \\
+  python studies/runtime-studies/reasoning-strategies/strategy-comparison/runner.py \\
+    --specs studies/runtime-studies/reasoning-strategies/promplets/self-consistency-solver.weavemark.md \\
     --tasks gsm8k
 """,
     )

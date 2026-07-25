@@ -1238,6 +1238,25 @@ body-mode:  dsl:output-kv
 notes:      Block-scoped output contract (root -> default production, or per-@prompt). type text|image selects model kind and API method. text carries the optional format/enforce obligation (replaces @output_format) and injects it into prompt text; image carries size/quality/model/n and injects no prompt text, and edit: on uses reference-guided editing when image inputs are present. Parameter values are variable-substituted at compile time (e.g. size: @{image_size}); file: names where the produced artifact is persisted at execution time (runtime placeholders like @{index} preserved for per-production resolution). Emits per-prompt output metadata.
 ```
 
+```promplet-schema
+directive:  @structural_constraints
+params:
+  - strict: BOOL
+body-mode:  subspec
+notes:      Declares structural obligations that the composed prompt should preserve.
+```
+
+```promplet-schema
+directive:  @assert
+params:
+  - contains: STRING
+  - not_contains: STRING
+  - section: STRING
+  - variable: STRING
+  - severity: ENUM(error|warning)
+body-mode:  none
+notes:      Declares deterministic compile-time checks. At least one nonempty contains, not_contains, section, or variable check is required; severity defaults to error. Positional/free-text assertions, bodies, and unknown parameters are errors.
+```
 
 ### Control Flow Directives
 

@@ -1,0 +1,12 @@
+{
+  "monitor_mode": "news",
+  "cadence": "weekly",
+  "lookback_window": "past week",
+  "region": "global",
+  "audience": "a technically curious reader evaluating practical developments",
+  "research_depth": "standard",
+  "user_constraints": "Prioritize source-grounded developments over generic commentary. Explain why each item matters and what to verify next.",
+  "seed_urls": [],
+  "use_previous_reports": false,
+  "previous_reports": "Not used for this first personalized run."
+}

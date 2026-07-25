@@ -58,23 +58,21 @@ Start with a plain single-spec run when you want the normal user experience:
 
 ```bash
 cd weavemark
-./examples/terminal-output-only/program-review-checklist/run.sh
+./examples/saved-artifact-workflows/prompt-refactoring-pipeline/run.sh
 ```
 
-That script is intentionally boring: it runs one WeaveMark Processor command with
-a vars file and prints the composed prompt directly to the terminal, with no
-saved-file summary.
+That script runs one focused WeaveMark Processor command with a YAML variables
+file and saves the composed prompt for inspection.
 
-Run the curated static suite when you want a tour of many directives:
+Run a complete evidence workflow when you want compilation, execution, and
+packaging together:
 
 ```bash
-./examples/batch-example-runs/static-prompts/run.sh
+./examples/saved-artifact-workflows/market-snapshot/run.sh
 ```
 
-The suite walks through progressively more powerful compositions — from basic
-`@refine` + `@match`, through content pipelines (`@extract` → `@summarize` →
-`@compress`), to the full prompt-refactoring pipeline that treats a messy prompt
-as a program and refactors it semantically.
+The curated examples favor one clear proof path per project rather than broad
+catch-all batches.
 
 Each example folder owns its `run.*`, `inputs/`, and `outputs/` files. The shell
 runners are hardcoded command transcripts: inspect them to see the WeaveMark
@@ -107,8 +105,9 @@ weavemark library list --source builtin
 weavemark library list --collection stdlib --kind fragment
 
 # Run, inspect, or copy promplets.
-weavemark library investment-brief --var ticker=MSFT
-weavemark library show builtin:catalog/standalone/investment-brief
+weavemark library prompt-refactoring-pipeline \
+  --vars-file examples/saved-artifact-workflows/prompt-refactoring-pipeline/inputs/vars.yaml
+weavemark library show builtin:catalog/standalone/prompt-refactoring-pipeline
 weavemark library copy ./weavemark-promplets
 ```
 
@@ -116,8 +115,8 @@ Bare references resolve project, user, additional, then built-in promplets.
 Explicit source and module references remove ambiguity:
 
 ```bash
-weavemark library investment-brief
-weavemark library builtin:catalog/standalone/investment-brief
+weavemark library prompt-refactoring-pipeline
+weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline
 weavemark library module:weavemark.std.reasoning.base_analyst --scan
 ```
 
@@ -322,12 +321,12 @@ directive supports one.
 
 ```bash
 # Guided compile: asks for missing @{variables}, @match choices, and @if flags.
-weavemark library builtin:catalog/standalone/tutorial-generator
+weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline
 
 # Prefill a few values; the Processor asks only for what remains missing.
-weavemark library builtin:catalog/standalone/tutorial-generator \
-  --var topic="FastAPI" \
-  --var audience=intermediate
+weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline \
+  --var add_section=false \
+  --var remove_section=false
 ```
 
 Default mode is the normal human-facing WeaveMark Processor experience. It scans
@@ -345,23 +344,19 @@ runtime concerns.
 ### Batch mode (with `--batch-only`)
 
 ```bash
-# Market research brief with inline variables. Missing inputs fail fast.
-weavemark library builtin:catalog/standalone/market-research-brief \
-  --var industry="electric vehicles" \
-  --var company="Rivian" \
-  --var report_depth=detailed \
-  --var include_competitors=true \
-  --var time_horizon="3 years" \
+# Compile one curated prompt program with reviewed variables.
+weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline \
+  --vars-file examples/saved-artifact-workflows/prompt-refactoring-pipeline/inputs/vars.yaml \
   --format markdown --batch-only
 
-# Program review checklist with JSON vars file, saved to a file
-weavemark library builtin:catalog/standalone/program-review-checklist \
-  --vars-file examples/saved-artifact-workflows/program-review-json/inputs/vars.json \
-  --format json --output review.json --batch-only
+# Save a machine-readable compiled artifact.
+weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline \
+  --vars-file examples/saved-artifact-workflows/prompt-refactoring-pipeline/inputs/vars.yaml \
+  --format json --output refactored-prompt.json --batch-only
 
 # Read spec from stdin. Stdin implies non-interactive behavior.
-cat promplets/catalog/standalone/tutorial-generator.weavemark.md | weavemark --stdin \
-  --vars-file examples/batch-example-runs/static-prompts/inputs/tutorial-fastapi.json --batch-only
+cat promplets/catalog/standalone/ai-kanban-board.weavemark.md |
+  weavemark --stdin --batch-only
 ```
 
 Batch mode is the automation contract: no prompts, no follow-up loop, and no
@@ -373,10 +368,10 @@ before compilation and tells you which variables to provide with `--var` or
 
 ```bash
 # Print the input schema and structural metadata as JSON; no LLM call.
-weavemark library builtin:catalog/standalone/tutorial-generator --scan
+weavemark library builtin:catalog/standalone/ai-kanban-board --scan
 
 # Open the terminal UI with a generated input form and live preview.
-weavemark library builtin:catalog/standalone/tutorial-generator --ui
+weavemark library builtin:catalog/standalone/ai-kanban-board --ui
 ```
 
 `--scan` is designed for IDEs, wrappers, and pre-flight checks. It reports
@@ -387,15 +382,15 @@ the same scanner to build a richer terminal form.
 
 ```bash
 # Produce machine-readable JSON for another program.
-weavemark library builtin:catalog/standalone/tutorial-generator \
-  --vars-file examples/batch-example-runs/static-prompts/inputs/tutorial-fastapi.json \
+weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline \
+  --vars-file examples/saved-artifact-workflows/prompt-refactoring-pipeline/inputs/vars.yaml \
   --format json \
   --batch-only
 
 # Save the primary composed prompt and still show it in the terminal transcript.
-weavemark library builtin:catalog/standalone/tutorial-generator \
-  --vars-file examples/batch-example-runs/static-prompts/inputs/tutorial-fastapi.json \
-  --output tutorial-prompt.md \
+weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline \
+  --vars-file examples/saved-artifact-workflows/prompt-refactoring-pipeline/inputs/vars.yaml \
+  --output refactored-prompt.md \
   --show-output \
   --batch-only
 ```
@@ -790,7 +785,7 @@ In JSON output mode, tool definitions appear in the `tools` array alongside the 
 }
 ```
 
-See [`promplets/catalog/executable/react-agent.weavemark.md`](../promplets/catalog/executable/react-agent.weavemark.md) for a full example.
+See [`promplets/catalog/executable/recurring-topic-monitor.weavemark.md`](../promplets/catalog/executable/recurring-topic-monitor.weavemark.md) for a complete bound-tool example.
 
 ### Deterministic assertions
 
@@ -934,14 +929,14 @@ required model and tool calls, threads intermediate results through its strategy
 and returns a final output with step records and metadata.
 
 ```bash
-# Compile + execute with Tree of Thought
-weavemark library builtin:catalog/executable/tree-of-thought-solver \
-  --vars-file examples/batch-example-runs/execution-engines/inputs/tree-of-thought-solver-example.json \
+# Compile + execute the Tree of Thought runtime study
+weavemark studies/runtime-studies/reasoning-strategies/promplets/tree-of-thought-solver.weavemark.md \
+  --vars-file studies/runtime-studies/reasoning-strategies/execution-engines/inputs/tree-of-thought-solver-example.json \
   --run --batch-only
 
 # Self-consistency with 5 samples + majority vote
-weavemark library builtin:catalog/executable/self-consistency-solver \
-  --vars-file examples/batch-example-runs/execution-engines/inputs/self-consistency-solver-example.json \
+weavemark studies/runtime-studies/reasoning-strategies/promplets/self-consistency-solver.weavemark.md \
+  --vars-file studies/runtime-studies/reasoning-strategies/execution-engines/inputs/self-consistency-solver-example.json \
   --run --batch-only
 ```
 

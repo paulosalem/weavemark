@@ -51,8 +51,18 @@ def missing_user_inputs(
     return [
         spec_input
         for spec_input in discover_user_inputs(spec_text, base_dir)
-        if spec_input.name not in variables or variables[spec_input.name] is None
+        if not _has_supplied_value(variables.get(spec_input.name))
     ]
+
+
+def _has_supplied_value(value: Any) -> bool:
+    """Return whether a batch input contains a meaningful supplied value."""
+
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return bool(value.strip())
+    return True
 
 
 def render_missing_inputs_error(

@@ -41,7 +41,7 @@ a duplicate source copy.
 from weavemark import bundled_promplet, iter_bundled_promplets, read_bundled_promplet
 
 paths = list(iter_bundled_promplets())
-resource = bundled_promplet("catalog/standalone/investment-brief.weavemark.md")
+resource = bundled_promplet("catalog/standalone/prompt-refactoring-pipeline.weavemark.md")
 source = read_bundled_promplet(
     "stdlib/fragments/reasoning/chain-of-thought.weavemark.md"
 )
@@ -54,7 +54,7 @@ external tool requires a real filesystem path, use the context manager:
 from weavemark import bundled_promplet_path
 
 with bundled_promplet_path(
-    "catalog/standalone/investment-brief.weavemark.md"
+    "catalog/standalone/prompt-refactoring-pipeline.weavemark.md"
 ) as path:
     print(path)
 ```

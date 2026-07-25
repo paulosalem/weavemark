@@ -59,8 +59,9 @@
         parts. Starting from a blank file, you will add <strong>variables</strong>,
         borrow reusable <strong>finance and evidence lenses</strong>, add one
         <strong>branch</strong>, and lock the shape with an <strong>output
-        contract</strong> &mdash; ending with a clean, pastable prompt. A completed
-        version lives in <code>promplets/catalog/standalone/investment-brief.weavemark.md</code>.
+        contract</strong> &mdash; ending with a clean, pastable prompt. The lesson
+        is deliberately self-contained; the public catalog remains reserved for
+        examples with maintained proof paths.
       </p>
     </header>
 
@@ -82,10 +83,8 @@
     <section class="shell repo-resources" aria-label="Repository files for this tutorial">
       <h2>In the repository</h2>
       <div class="repo-resources-links">
-        <a class="repo-link" href="../promplets/catalog/standalone/investment-brief.weavemark.md"><span class="repo-tag">Promplet</span> investment-brief.weavemark.md</a>
         <a class="repo-link" href="../promplets/domains/finance/fragments/finance-safety.weavemark.md"><span class="repo-tag">Library</span> finance-safety.weavemark.md</a>
-        <a class="repo-link" href="../examples/saved-artifact-workflows/investment-brief/outputs/compiled-prompt.md"><span class="repo-tag out">Output</span> compiled-prompt.md</a>
-        <a class="repo-link" href="../examples/saved-artifact-workflows/investment-brief/"><span class="repo-tag">Folder</span> investment-brief/</a>
+        <a class="repo-link" href="../promplets/catalog/executable/financial-independence-goal-plan.weavemark.md"><span class="repo-tag">Related</span> grounded financial plan</a>
       </div>
       <p class="repo-resources-note">
         Source and folder links open GitHub. The setup below starts from a repository clone.
@@ -96,7 +95,7 @@
       <aside class="sidebar" aria-label="Tutorial sections">
         <h2>Steps</h2>
         <a href="#setup">0. Setup</a>
-        <a href="#completed-example">Completed example</a>
+        <a href="#completed-example">Destination</a>
         <a href="#first-spec">1. First spec</a>
         <a href="#refine">2. Add analysis lenses</a>
         <a href="#compose">3. Compose</a>
@@ -125,32 +124,18 @@ mkdir -p outputs/tutorial-investment/prompts</code></pre>
         </section>
 
         <section id="completed-example" class="article-section">
-          <h2>Completed example</h2>
+          <h2>Destination</h2>
           <p>
-            This tutorial teaches by building from scratch, but the completed
-            prompt is checked in as a normal public spec:
-            <a href="../promplets/catalog/standalone/investment-brief.weavemark.md">promplets/catalog/standalone/investment-brief.weavemark.md</a>.
+            You will create
+            <code>outputs/tutorial-investment/investment-brief.weavemark.md</code>
+            and compile it to <code>outputs/tutorial-investment/brief.md</code>.
+            The source is the reusable artifact; variables stay in CLI flags or
+            a local vars file.
           </p>
-          <pre><code>weavemark library builtin:catalog/standalone/investment-brief \
-  --var ticker=MSFT \
-  --var audience="investment committee" \
-  --var time_horizon="3 years" \
-  --var source_notes="Paste your source notes here." \
-  --var depth=committee \
-  --var include_watchlist=true \
-  --batch-only \
-  --output outputs/tutorial-investment/compiled-prompt.md</code></pre>
           <div class="callout">
-            <strong>Why keep it in <code>promplets/</code>?</strong> The promplet is the
-            reusable artifact. Put private variables in CLI flags or a local
-            vars file, and keep the reusable prompt specification under version
-            control.
-          </div>
-          <div class="callout">
-            <strong>What to do with the output:</strong>
-            <code>compiled-prompt.md</code> is a pastable prompt. Open it, copy
-            it into ChatGPT, Claude, Gemini, Copilot Chat, or another assistant,
-            then provide any private context you did not want in the spec file.
+            <strong>Why no checked-in catalog copy?</strong> This compact lesson
+            teaches the mechanics. The curated catalog favors examples with
+            maintained runs or live results.
           </div>
         </section>
 

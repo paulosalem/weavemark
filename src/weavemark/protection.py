@@ -18,7 +18,13 @@ from pathlib import Path
 from typing import Any, Literal, cast
 
 ProtectionDecision = Literal["allow", "confirm", "deny"]
-ApprovalHandler = Callable[["ProtectionRequest"], bool]
+ApprovalDecision = Literal[
+    "allow_once",
+    "allow_remember",
+    "deny_once",
+    "deny_remember",
+]
+ApprovalHandler = Callable[["ProtectionRequest"], ApprovalDecision]
 
 _DECISIONS = {"allow", "confirm", "deny"}
 _SENSITIVE_PARTS = frozenset(
@@ -150,6 +156,7 @@ class ProtectionContext:
         entrypoint_dir: Path,
         invocation_dir: Path | None = None,
         library_roots: tuple[Path, ...] = (),
+        requested_write_roots: tuple[Path, ...] = (),
         bypass: bool = False,
         approval_handler: ApprovalHandler | None = None,
         approvals_path: Path | None = None,
@@ -178,6 +185,7 @@ class ProtectionContext:
                 invocation,
                 invocation / "outputs",
                 entrypoint / "outputs",
+                *(path.expanduser().resolve() for path in requested_write_roots),
                 *(
                     _expand_configured_root(value, entrypoint, invocation)
                     for value in effective.write_roots
@@ -544,9 +552,17 @@ class ProtectionContext:
                 request,
                 "This operation requires interactive confirmation, but none is available.",
             )
-        allowed = bool(self.approval_handler(request))
-        _write_approval(self.approvals_path, request, allowed)
-        if not allowed:
+        approval = self.approval_handler(request)
+        if approval == "allow_once":
+            return
+        if approval == "allow_remember":
+            _write_approval(self.approvals_path, request, True)
+            return
+        if approval == "deny_remember":
+            _write_approval(self.approvals_path, request, False)
+        if approval not in {"deny_once", "deny_remember"}:
+            raise ValueError(f"Unknown approval decision: {approval}")
+        if approval in {"deny_once", "deny_remember"}:
             raise self._blocked_from_request(request, "The user denied this operation.")
 
     @staticmethod
@@ -1032,6 +1048,7 @@ def _stricter(
 
 
 __all__ = [
+    "ApprovalDecision",
     "ApprovalHandler",
     "ProtectionContext",
     "ProtectionDecision",

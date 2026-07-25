@@ -6,19 +6,19 @@ these promplets and links back here so readers can run the exact source.
 
 | Promplet | Tutorial |
 |------|----------|
-| [`investment-brief.weavemark.md`](../catalog/standalone/investment-brief.weavemark.md) (catalogued promplet) | [Investment brief tutorial](../../docs/tutorial.html) |
 | [`adaptive-tutor.weavemark.md`](adaptive-tutor.weavemark.md) | [Refinement tutorial](../../docs/tutorial-refine.html) |
 | [`adaptive-tutor-guided.weavemark.md`](adaptive-tutor-guided.weavemark.md) | [Refinement tutorial](../../docs/tutorial-refine.html) — with `@ask` |
 | [`release-workbench.weavemark.md`](release-workbench.weavemark.md) | [Product tutorial](../../docs/tutorial-products.html) |
 | [`release-workbench-pack.weavemark.md`](release-workbench-pack.weavemark.md) | [Product tutorial](../../docs/tutorial-products.html) — emission pack |
 | [`language-learning-goal-plan.weavemark.md`](language-learning-goal-plan.weavemark.md) | [Advanced macros tutorial](../../docs/tutorial-advanced.html) |
+| [`support-ticket-prompt-pack.weavemark.md`](support-ticket-prompt-pack.weavemark.md) | `@emit` multi-file tutorial fixture |
+| [`reference-context/reference-aware-release-note.weavemark.md`](reference-context/reference-aware-release-note.weavemark.md) | `@reference` and inline file-context tutorial fixture |
 
 The goal-planning tutorial ([`tutorial-advanced.html`](../../docs/tutorial-advanced.html))
-uses already-catalogued promplets:
-[`financial-independence-goal-plan-prompt.weavemark.md`](../catalog/standalone/financial-independence-goal-plan-prompt.weavemark.md),
-its executable variant in
-[`catalog/executable/`](../catalog/executable/financial-independence-goal-plan.weavemark.md),
-and the [`weavemark.std.planning.goals`](../stdlib/definitions/planning/goals.weavemark.md) module.
+uses the catalogued executable
+[`financial-independence-goal-plan.weavemark.md`](../catalog/executable/financial-independence-goal-plan.weavemark.md)
+and the [`weavemark.std.planning.goals`](../stdlib/definitions/planning/goals.weavemark.md)
+module.
 The language-learning reuse example has its own canonical tutorial promplet
 listed above.
 

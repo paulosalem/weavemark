@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import argparse
 import asyncio
 import json
 import re
@@ -11,7 +12,12 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-EXAMPLE_ROOT = REPO_ROOT / "examples" / "python-runtime-integrations" / "financial-independence-goal-plan"
+EXAMPLE_ROOT = (
+    REPO_ROOT
+    / "examples"
+    / "python-runtime-integrations"
+    / "financial-independence-goal-plan"
+)
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(line_buffering=True)
@@ -24,12 +30,14 @@ from weavemark_example_progress import (
     normalize_generated_markdown,
     weavemark_verbose_event,
 )
+from weavemark_guided_inputs import collect_guided_variables
 
 from weavemark.api import CompileOptions, execute_file
 from weavemark.defaults import DEFAULT_MODEL
 from weavemark.engines import RuntimeConfig
 from weavemark.protection import ProtectionContext, ProtectionSettings
 from weavemark.traces import render_execution_trace_markdown
+from weavemark.variable_files import load_variables_file
 
 SPEC_PATH = (
     REPO_ROOT
@@ -49,8 +57,18 @@ def _section(title: str) -> None:
     print("=" * 80)
 
 
-async def main() -> None:
-    variables = json.loads(VARS_PATH.read_text(encoding="utf-8"))
+async def run(
+    vars_path: Path,
+    output_dir: Path,
+    *,
+    guided_inputs: bool,
+) -> None:
+    variables = load_variables_file(vars_path)
+    if guided_inputs:
+        prompted_variables = collect_guided_variables(SPEC_PATH, variables)
+        if prompted_variables is None:
+            raise SystemExit(1)
+        variables = prompted_variables
     client = LLMClient(model=DEFAULT_MODEL)
     run = await execute_file(
         SPEC_PATH,
@@ -69,9 +87,7 @@ async def main() -> None:
     if compiled.errors:
         raise RuntimeError("\n".join(compiled.errors))
     composed_prompt = normalize_generated_markdown(compiled.composed_prompt)
-    assumptions = run.execution.metadata.get("results", {}).get(
-        "public_assumptions"
-    )
+    assumptions = run.execution.metadata.get("results", {}).get("public_assumptions")
     if not isinstance(assumptions, dict):
         raise RuntimeError("Functional execution did not return public assumptions.")
     final_output = normalize_generated_markdown(run.output)
@@ -95,12 +111,12 @@ async def main() -> None:
     _section("Final financial-independence plan")
     print(final_output)
 
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    compiled_prompt_path = OUTPUT_DIR / "compiled-prompt.md"
-    compiled_plan_path = OUTPUT_DIR / "compiled-plan.json"
-    assumptions_path = OUTPUT_DIR / "public-assumptions.json"
-    output_path = OUTPUT_DIR / "execution-output.md"
-    trace_path = OUTPUT_DIR / "execution-trace.md"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    compiled_prompt_path = output_dir / "compiled-prompt.md"
+    compiled_plan_path = output_dir / "compiled-plan.json"
+    assumptions_path = output_dir / "public-assumptions.json"
+    output_path = output_dir / "execution-output.md"
+    trace_path = output_dir / "execution-trace.md"
 
     compiled_prompt_path.write_text(composed_prompt, encoding="utf-8")
     compiled_payload = compiled.to_dict()
@@ -146,5 +162,44 @@ def _fence(value: str, language: str = "") -> str:
     return f"{marker}{language}\n{value.rstrip()}\n{marker}"
 
 
+def parse_args() -> argparse.Namespace:
+    """Parse goal-plan example arguments."""
+
+    parser = argparse.ArgumentParser(
+        description="Compile and run the financial-independence goal planner."
+    )
+    parser.add_argument(
+        "--vars",
+        type=Path,
+        default=VARS_PATH,
+        help="Path to a JSON or YAML variables file.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=OUTPUT_DIR,
+        help="Directory where generated artifacts are saved.",
+    )
+    parser.add_argument(
+        "--guided-inputs",
+        action="store_true",
+        help="Ask for missing promplet variables using WeaveMark's guided CLI.",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    """Run the goal-plan example."""
+
+    args = parse_args()
+    asyncio.run(
+        run(
+            args.vars,
+            args.output_dir,
+            guided_inputs=args.guided_inputs,
+        )
+    )
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

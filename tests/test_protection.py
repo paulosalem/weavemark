@@ -54,7 +54,7 @@ def test_local_reads_are_canonical_and_symlink_escapes_require_approval(
     approvals: list[str] = []
     context = _context(
         tmp_path,
-        handler=lambda request: approvals.append(request.subject) or True,
+        handler=lambda request: approvals.append(request.subject) or "allow_remember",
     )
     inside = tmp_path / "entrypoint" / "inside.txt"
     inside.write_text("inside", encoding="utf-8")
@@ -91,12 +91,28 @@ def test_undeclared_model_read_requires_confirmation_inside_project(
 def test_write_roots_allow_normal_outputs_and_confirm_outside(
     tmp_path: Path,
 ) -> None:
-    context = _context(tmp_path, handler=lambda _request: True)
+    context = _context(tmp_path, handler=lambda _request: "allow_once")
     output = tmp_path / "invocation" / "outputs" / "result.md"
     outside = tmp_path / "elsewhere" / "result.md"
 
     assert context.authorize_write(output, reason="test") == output
     assert context.authorize_write(outside, reason="test") == outside
+
+
+def test_requested_cli_write_root_is_authorized(tmp_path: Path) -> None:
+    requested = tmp_path / "desktop-runs" / "run-1"
+    context = ProtectionContext.create(
+        ProtectionSettings(),
+        entrypoint_dir=tmp_path / "entrypoint",
+        invocation_dir=tmp_path / "invocation",
+        requested_write_roots=(requested,),
+    )
+
+    target = requested / "report.html"
+    assert context.authorize_write(
+        target,
+        reason="explicit CLI output",
+    ) == target.resolve()
 
 
 def test_write_symlink_cannot_escape_an_allowed_root(tmp_path: Path) -> None:
@@ -117,7 +133,8 @@ def test_python_approval_is_remembered_and_invalidated_by_content(
     decisions: list[str] = []
     context = _context(
         tmp_path,
-        handler=lambda request: decisions.append(request.fingerprint) or True,
+        handler=lambda request: decisions.append(request.fingerprint)
+        or "allow_remember",
     )
     script = tmp_path / "entrypoint" / "machine.py"
     script.write_text("VALUE = 1\n", encoding="utf-8")
@@ -135,6 +152,16 @@ def test_python_approval_is_remembered_and_invalidated_by_content(
     assert list(approval_data["approvals"].values())[0]["allowed"] is True
     if os.name != "nt":
         assert (tmp_path / "approvals.json").stat().st_mode & 0o777 == 0o600
+
+
+def test_allow_once_does_not_write_approval_store(tmp_path: Path) -> None:
+    context = _context(tmp_path, handler=lambda _request: "allow_once")
+    script = tmp_path / "entrypoint" / "machine.py"
+    script.write_text("VALUE = 1\n", encoding="utf-8")
+
+    context.authorize_python("machine", path=script, reason="test")
+
+    assert not (tmp_path / "approvals.json").exists()
 
 
 def test_confirmation_without_interactive_handler_is_blocked(

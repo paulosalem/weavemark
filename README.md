@@ -127,6 +127,41 @@ the product.
 WeaveMark does not claim formal verification or deterministic prompt quality. It
 provides a durable language surface around generative behavior.
 
+## Structured progress for tools and GUIs
+
+`--verbose` remains the polished human terminal view. Automation should use the
+same underlying lifecycle through `--events-jsonl FILE`, which flushes ordered
+JSON Lines records while composition, execution, artifact persistence,
+packaging, and `--open` are happening:
+
+```bash
+weavemark library market-snapshot \
+  --vars-file inputs.json \
+  --run \
+  --output-dir outputs/market-snapshot \
+  --events-jsonl outputs/market-snapshot/events.jsonl
+```
+
+Each record has an ISO timestamp, monotonic sequence, type, optional phase, and
+structured data. The stream includes the information rendered by verbose mode
+plus absolute artifact/package paths and open outcomes, so desktop and workflow
+clients never need to parse Rich terminal text.
+
+GUI and automation hosts can also opt into bidirectional JSONL interactions:
+
+```bash
+weavemark library market-snapshot \
+  --vars-file inputs.json \
+  --run --batch-only \
+  --events-jsonl events.jsonl \
+  --interaction-stdin jsonl
+```
+
+WeaveMark emits interaction requests through the event stream and reads scoped
+responses from stdin. Without `--interaction-stdin jsonl`, terminal confirmation
+behavior is unchanged. Invalid, closed, or timed-out interaction streams deny
+the requested capability.
+
 ## Installation and safety
 
 ```bash

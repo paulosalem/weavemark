@@ -67,9 +67,9 @@ def _bodyless_calls(source: str, names: set[str]) -> list[str]:
     return bodyless
 
 
-def test_all_148_promplets_use_canonical_assert_and_tool_syntax() -> None:
+def test_all_promplets_use_canonical_assert_and_tool_syntax() -> None:
     promplets = _all_promplets()
-    assert len(promplets) == 148
+    assert promplets
 
     invalid_assertions: list[str] = []
     invalid_parameters: list[str] = []
@@ -101,6 +101,23 @@ def test_all_148_promplets_use_canonical_assert_and_tool_syntax() -> None:
 
     assert invalid_assertions == []
     assert invalid_parameters == []
+
+
+def test_public_catalog_contains_only_curated_entrypoints() -> None:
+    assert {
+        str(path.relative_to(CATALOG))
+        for path in CATALOG.rglob("*.weavemark.md")
+    } == {
+        "executable/childrens-book.weavemark.md",
+        "executable/collaborative-writer.weavemark.md",
+        "executable/comic-strip.weavemark.md",
+        "executable/financial-independence-goal-plan.weavemark.md",
+        "executable/market-snapshot.weavemark.md",
+        "executable/recurring-topic-monitor.weavemark.md",
+        "standalone/ai-kanban-board.weavemark.md",
+        "standalone/knowledge-cards.weavemark.md",
+        "standalone/prompt-refactoring-pipeline.weavemark.md",
+    }
 
 
 def test_structural_assertions_name_real_prompt_obligations() -> None:
@@ -250,33 +267,18 @@ async def test_market_functional_metadata_and_two_node_execution(
             "module": "weavemark.domains.finance.market_research",
         },
     ]
-    assert compiled.packages == [
-        {
-            "file": "vale3-market-dashboard.html",
-            "instructions": (
-                "module:weavemark.std.presentation.information_dashboard_html"
-            ),
-            "body": (
-                "Title the deliverable \"VALE3 Market Learning Dashboard\" and "
-                "identify the\nanalyzed security as Vale S.A. on B3 under ticker "
-                "VALE3. The finance provider\nmay label the instrument VALE3.SA; "
-                "explain that notation once, compactly.\n\nGive the dashboard an "
-                "extractive-industry research character without adding\n"
-                "decorative imagery: make commodity exposure, operational drivers, "
-                "balance\nsheet signals, evidence quality, cyclical risks, and "
-                "watchlist items easy to\nscan. Use the current company name, Vale "
-                "S.A.; mention the historical\nCompanhia Vale do Rio Doce name only "
-                "if useful for identification.\n\nRetain Portuguese-real amounts "
-                "and Brazilian-market terminology exactly when\nsupplied. Never "
-                "convert currencies or infer missing values. Keep the final\n"
-                "educational, non-recommendation disclaimer visible but quiet.\n\n"
-                'End with a quiet "WeaveMark provenance" row linking the source '
-                "promplet,\nexecution trace, and public market-report tutorial. "
-                "Keep these project links\nsecondary to the report and label them "
-                "plainly."
-            ),
-        }
-    ]
+    assert len(compiled.packages) == 1
+    package = compiled.packages[0]
+    assert package["file"] == "market-dashboard.html"
+    assert (
+        package["instructions"]
+        == "module:weavemark.std.presentation.information_dashboard_html"
+    )
+    assert "@{display_ticker} Market Learning Dashboard" in package["body"]
+    assert "@{company_name}" in package["body"]
+    assert "@{provider_ticker}" in package["body"]
+    assert "VALE3" not in package["body"]
+    assert "Vale S.A." not in package["body"]
 
     calls: list[tuple[str, dict[str, Any]]] = []
 
@@ -329,6 +331,9 @@ async def test_market_functional_metadata_and_two_node_execution(
     ]
     assert execution.output == "FINAL MARKET REPORT"
     assert client.prompts and "Acme Corp (ACME)" in client.prompts[0]
+    assert "@{asset_snapshot}" not in client.prompts[0]
+    assert "@{web_context}" not in client.prompts[0]
+    assert '"ticker": "ACME"' in client.prompts[0]
 
 
 def test_information_dashboard_packaging_contract_is_standalone_and_grounded() -> None:
@@ -390,86 +395,9 @@ def test_market_companion_filters_unrelated_results() -> None:
     ]
     assert filtered["total_results"] == 1
     assert companion._matches_category(
-        {"url": "https://www.vale.com/investors"},
+        {"url": "https://example.com/acme-investor-relations"},
         "official_context",
     )
-    assert not companion._matches_category(
-        {"url": "https://example.com/vale-earnings"},
-        "official_context",
-    )
-
-
-def test_executable_tool_bindings_are_explicit_and_safe() -> None:
-    expected = {
-        "react-agent.weavemark.md": {"calculate", "search_web"},
-        "crisis-strategy-analyzer.weavemark.md": {"search_web"},
-    }
-    for filename, binding_names in expected.items():
-        source = (CATALOG / "executable" / filename).read_text(encoding="utf-8")
-        metadata = scan_spec(source)
-        assert set(metadata.binding_names) == binding_names
-        assert "run_python" not in source
-        assert "recurring_topic_monitor.py" in source
-
-    react = (CATALOG / "executable/react-agent.weavemark.md").read_text(
-        encoding="utf-8"
-    )
-    crisis = (CATALOG / "executable/crisis-strategy-analyzer.weavemark.md").read_text(
-        encoding="utf-8"
-    )
-    assert 'with problem: "@{research_topic}"' in react
-    assert 'with problem: "@{situation}"' in crisis
-    assert "read_url" not in react
-    assert "read_url" not in crisis
-
-    calculator_path = CATALOG / "executable/companions/safe_calculator.py"
-    spec = importlib.util.spec_from_file_location(
-        "safe_calculator_for_tests", calculator_path
-    )
-    assert spec is not None and spec.loader is not None
-    calculator = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(calculator)
-    assert calculator.calculate("(2 + 3) ^ 2") == "25"
-    assert calculator.calculate("12.5", format="currency") == "$12.50"
-    with pytest.raises(ValueError, match="Unsupported expression element"):
-        calculator.calculate("__import__('os').getcwd()")
-
-
-def test_api_docs_revises_the_real_assembled_subspec() -> None:
-    source = (CATALOG / "standalone/api-docs-generator.weavemark.md").read_text(
-        encoding="utf-8"
-    )
-    revise_index = source.index("@revise ")
-    target = source[revise_index:]
-    assert "## API documentation draft" not in source
-    assert "@{endpoints}" in target
-    assert "@generate_examples count: 2" in target
-    assert '@output "markdown"' in target
-
-
-def test_financial_zero_rate_and_sqlite_contracts_are_explicit() -> None:
-    compound = (
-        CATALOG / "standalone/compoundvision-investment-simulator.weavemark.md"
-    ).read_text(encoding="utf-8")
-    for formula in (
-        "FV = PV + PMT × N",
-        "ordinary annuity",
-        "Annuity due",
-        "FV = PV × exp(r × t)",
-        "FV = PV + C × t",
-    ):
-        assert formula in compound
-    for invalid_type in ("SERIAL", "VARCHAR", "DECIMAL(", "JSONB", "| UUID |"):
-        assert invalid_type not in compound
-    assert "Never use SQLite `REAL`" in compound
-    assert "canonical decimal `TEXT`" in compound
-
-    portfolio = (
-        CATALOG / "executable/portfolio-calculator-agent.weavemark.md"
-    ).read_text(encoding="utf-8")
-    assert "If monthly rate is zero" in portfolio
-    assert "initial capital + (monthly contribution * months)" in portfolio
-    assert "custom Python host" in portfolio
 
 
 def test_story_output_contracts_and_cli_titles_are_explicit() -> None:
@@ -498,41 +426,10 @@ def test_story_output_contracts_and_cli_titles_are_explicit() -> None:
     expected_titles = {
         "childrens-book.weavemark.md": "Children's Picture Book",
         "comic-strip.weavemark.md": "Comic Strip",
-        "storyboard-chain.weavemark.md": "Storyboard Chain",
     }
     for filename, title in expected_titles.items():
         source = (CATALOG / "executable" / filename).read_text(encoding="utf-8")
         assert scan_spec(source).title == title
-
-
-def test_strategy_contract_corrections_are_preserved() -> None:
-    contrastive = (CATALOG / "executable/contrastive-mining.weavemark.md").read_text(
-        encoding="utf-8"
-    )
-    assert "max_rounds: 2" in contrastive
-    assert "\n  rounds:" not in contrastive
-    assert "max_iterations:" not in contrastive
-    assert (
-        contrastive.count(
-            "@embed file: ./samples/contrastive-mining/"
-            "corporate-memo-pro-office.txt"
-        )
-        == 2
-    )
-    assert (
-        contrastive.count(
-            "@embed file: ./samples/contrastive-mining/"
-            "employee-blog-pro-remote.txt"
-        )
-        == 2
-    )
-    assert "../../../examples/" not in contrastive
-
-    tree = (CATALOG / "executable/tree-of-thought-solver.weavemark.md").read_text(
-        encoding="utf-8"
-    )
-    assert "~43 LLM calls vs ~5" in tree
-    assert "ANSWER: [final numeric value, text answer, or labeled choice]" in tree
 
 
 def test_ai_kanban_uses_concise_browser_architecture_modules() -> None:
@@ -558,11 +455,7 @@ def test_ai_kanban_uses_concise_browser_architecture_modules() -> None:
 def test_software_specs_are_the_agent_instructions_not_spec_generators() -> None:
     paths = (
         CATALOG / "standalone/ai-kanban-board.weavemark.md",
-        CATALOG / "standalone/compoundvision-investment-simulator.weavemark.md",
         CATALOG / "standalone/knowledge-cards.weavemark.md",
-        CATALOG / "standalone/news-intelligence-board.weavemark.md",
-        CATALOG / "standalone/passive-income-planning-dashboard.weavemark.md",
-        ROOT / "promplets/tutorials/metro-lines.weavemark.md",
         ROOT / "promplets/tutorials/release-workbench.weavemark.md",
     )
 

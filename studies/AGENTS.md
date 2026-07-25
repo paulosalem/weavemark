@@ -12,10 +12,9 @@ WeaveMark has two study classes:
    - matched reusable-template or matched-prose controls;
    - WeaveMark treatments using directives such as `@refine`, `@expand`,
      `@iterate`, and scoped `@compress`.
-2. `examples-studies/` evaluate public examples in absolute terms. They compile
-   examples into their own `examples/.../outputs/` folders, then inspect the
-   output with semantic metrics and a quality rubric. They do not have controls,
-   `[C1]`/`[C2]`/`[T]` markers, or contrastive gain/loss scores.
+2. `runtime-studies/` retain focused engine, strategy, and specialized executable
+   investigations that are useful for maintainers but intentionally excluded from
+   the curated catalog and example surface.
 
 The controlled corpus is single-output. Do not add prompt-pack or multi-output
 branching studies to that evidence set without creating a separate evidence
@@ -39,8 +38,8 @@ named game:
 - `controlled-studies/games/transit-city-swarm-ablation-study/`
 - `controlled-studies/games/crowd-factory-puzzle-ablation-study/`
 
-Example studies live under `examples-studies/` and currently cover curated
-plain public examples.
+Runtime studies live under `runtime-studies/`. Each owns its promplets, inputs,
+runner, and saved outputs so it does not depend on public catalog entries.
 
 ## Folder contract
 
@@ -66,21 +65,6 @@ studies/controlled-studies/<study-name>/
 
 Game studies use `studies/controlled-studies/games/<study-name>/` with the same
 inner shape.
-
-Example-study outputs use this shape:
-
-```text
-studies/examples-studies/
-  results.md
-  results.html
-  metrics/example-quality.json
-  <example-id>/
-    results.md
-    results.html
-```
-
-The compiled examples themselves stay under their example folders, e.g.
-`examples/terminal-output-only/research-brief/outputs/compiled-prompt.md`.
 
 ## Evaluation criteria
 
@@ -132,11 +116,6 @@ Each report must include the contrastive gain/loss scale:
 Use this scale for all seven criteria: authoring leverage, information yield,
 grounded expressiveness, input readability, output readability, constraint
 integration, and reusable abstraction quality.
-
-For example studies, do not use contrastive scores. Report the same source,
-variable, output, leverage, fact-unit, density, and yield metrics, plus a rubric:
-intention fit, completeness, writing/structure, no leakage/pathologies, and
-direct usefulness.
 
 ## Blind analysis workflow
 
@@ -225,19 +204,6 @@ This command:
 7. rewrites the consolidated `studies/controlled-studies/results.md` and
    `studies/controlled-studies/results.html`.
 
-Update example-study report artifacts from saved example outputs:
-
-```bash
-python studies/tools/regenerate_example_studies.py --clear
-```
-
-Recompile curated examples first when the example outputs themselves should be
-refreshed:
-
-```bash
-python studies/tools/regenerate_example_studies.py --clear --run-examples
-```
-
 Do not hand-edit generated report files unless you also update
 `studies/tools/regenerate_reports.py` so the next run preserves the change.
 
@@ -324,7 +290,6 @@ Then verify:
 - Markdown links under `studies/` resolve;
 - no deleted study folder names remain in reports or tools;
 - `studies/controlled-studies/metrics/semantic-information.json` contains all registered controlled variants;
-- `studies/examples-studies/metrics/example-quality.json` contains all registered example rows;
 - every generated Markdown report has a same-stem HTML report and vice versa;
 - no `__pycache__/` folders remain under `studies/`;
 - study text files have final newlines and no trailing whitespace.

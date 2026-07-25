@@ -50,9 +50,9 @@ def test_bundled_promplets_are_available_from_source_checkout() -> None:
     names = {path.as_posix() for path in paths}
 
     assert len(paths) > 100
-    assert "catalog/standalone/investment-brief.weavemark.md" in names
+    assert "catalog/standalone/prompt-refactoring-pipeline.weavemark.md" in names
     assert "# " in read_bundled_promplet(
-        "catalog/standalone/investment-brief.weavemark.md"
+        "catalog/standalone/prompt-refactoring-pipeline.weavemark.md"
     )
 
 
@@ -93,25 +93,25 @@ def test_project_promplet_precedes_user_extra_and_builtin(
     project = tmp_path / "project"
     user_home = tmp_path / "home"
     extra = tmp_path / "extra"
-    relative = Path("catalog/standalone/investment-brief.weavemark.md")
-    _write_promplet(project / "promplets" / relative, "Project Investment Brief")
-    _write_promplet(user_home / "promplets" / relative, "User Investment Brief")
-    _write_promplet(extra / relative, "Extra Investment Brief")
+    relative = Path("catalog/standalone/prompt-refactoring-pipeline.weavemark.md")
+    _write_promplet(project / "promplets" / relative, "Project Refactoring Pipeline")
+    _write_promplet(user_home / "promplets" / relative, "User Refactoring Pipeline")
+    _write_promplet(extra / relative, "Extra Refactoring Pipeline")
     monkeypatch.setattr("weavemark.promplet_library.GLOBAL_DIR", user_home)
 
     with library_sources(cwd=project, extra_library_dirs=[extra]) as sources:
         promplets = collect_library_promplets(sources)
         selected = resolve_library_promplet(
             promplets,
-            "catalog/standalone/investment-brief",
+            "catalog/standalone/prompt-refactoring-pipeline",
         )
         builtin = resolve_library_promplet(
             promplets,
-            "builtin:catalog/standalone/investment-brief",
+            "builtin:catalog/standalone/prompt-refactoring-pipeline",
         )
 
     assert selected.source.kind == "project"
-    assert selected.entry.title == "Project Investment Brief"
+    assert selected.entry.title == "Project Refactoring Pipeline"
     assert builtin.source.kind == "builtin"
 
 
@@ -272,7 +272,7 @@ def test_copy_bundled_promplets_preserves_complete_corpus(tmp_path: Path) -> Non
         destination
         / "catalog"
         / "standalone"
-        / "investment-brief.weavemark.md"
+        / "prompt-refactoring-pipeline.weavemark.md"
     ).is_file()
 
 
@@ -327,22 +327,19 @@ def test_library_show_prints_exact_extra_source(tmp_path: Path) -> None:
 
 def test_parse_library_target_returns_processor_arguments() -> None:
     path, remaining = parse_library_target(
-        ["tutorial-generator", "--scan"],
+        ["prompt-refactoring-pipeline", "--scan"],
         cwd=Path.cwd(),
     )
 
-    assert path.name == "tutorial-generator.weavemark.md"
+    assert path.name == "prompt-refactoring-pipeline.weavemark.md"
     assert remaining == ["--scan"]
 
 
 @pytest.mark.parametrize(
     ("target", "expected"),
     (
-        ("deep-summary-prompt", "deep-summary-prompt.weavemark.md"),
-        (
-            "financial-independence-goal-plan-prompt",
-            "financial-independence-goal-plan-prompt.weavemark.md",
-        ),
+        ("ai-kanban-board", "ai-kanban-board.weavemark.md"),
+        ("prompt-refactoring-pipeline", "prompt-refactoring-pipeline.weavemark.md"),
         ("recurring-topic-monitor", "recurring-topic-monitor.weavemark.md"),
     ),
 )
@@ -354,30 +351,6 @@ def test_builtin_public_targets_have_unambiguous_short_names(
 
     assert path.name == expected
     assert remaining == ["--scan"]
-
-
-def test_news_board_reuses_workflow_module_family() -> None:
-    source = (
-        Path("promplets/catalog/standalone/news-intelligence-board.weavemark.md")
-        .read_text(encoding="utf-8")
-    )
-    required_modules = (
-        "workflow_board",
-        "card",
-        "activity_stream",
-        "context_attachments",
-        "output_surfaces",
-        "local_sqlite_storage",
-        "dashboard",
-        "ai_features",
-        "notifications",
-        "realtime",
-        "rest_api",
-    )
-
-    for module in required_modules:
-        assert f"weavemark.domains.programming.modules.{module}" in source
-    assert "weavemark.domains.work_intelligence.topic_intelligence_monitor" in source
 
 
 @pytest.mark.asyncio
