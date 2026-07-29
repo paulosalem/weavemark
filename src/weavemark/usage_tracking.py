@@ -150,23 +150,14 @@ def usage_stats(totals: UsageTotals | None) -> dict[str, str]:
 
     if totals is None or not totals.has_tokens:
         return {}
-    stats = {
-        "Tokens in": _prompt_token_summary(totals),
-        "Tokens out": f"{totals.completion_tokens:,}",
-    }
+    stats = {"Tokens in": f"{totals.prompt_tokens:,}"}
+    hit_rate = totals.cache_hit_rate
+    if totals.cached_prompt_tokens and hit_rate is not None:
+        stats["Tokens cached"] = f"{totals.cached_prompt_tokens:,} ({hit_rate:.0%})"
+    stats["Tokens out"] = f"{totals.completion_tokens:,}"
     if totals.cost_usd is not None:
         stats["Cost"] = format_cost(totals.cost_usd)
     return stats
-
-
-def _prompt_token_summary(totals: UsageTotals) -> str:
-    """Render prompt tokens, noting the provider cache share when present."""
-
-    rendered = f"{totals.prompt_tokens:,}"
-    hit_rate = totals.cache_hit_rate
-    if not totals.cached_prompt_tokens or hit_rate is None:
-        return rendered
-    return f"{rendered} ({hit_rate:.0%} cached)"
 
 
 def format_cost(cost_usd: float) -> str:

@@ -215,8 +215,10 @@ def test_footer_reports_the_cache_share_of_prompt_tokens() -> None:
         )
     )
 
-    assert stats["Tokens in"] == "115,548 (98% cached)"
+    assert stats["Tokens in"] == "115,548"
+    assert stats["Tokens cached"] == "113,536 (98%)"
     assert stats["Tokens out"] == "5,380"
+    assert list(stats) == ["Tokens in", "Tokens cached", "Tokens out", "Cost"]
 
 
 def test_footer_omits_the_cache_share_when_nothing_was_cached() -> None:
@@ -225,6 +227,7 @@ def test_footer_omits_the_cache_share_when_nothing_was_cached() -> None:
     stats = usage_stats(UsageTotals(prompt_tokens=13133, completion_tokens=22342))
 
     assert stats["Tokens in"] == "13,133"
+    assert "Tokens cached" not in stats
 
 
 def test_cache_hit_rate_is_unknown_without_prompt_tokens() -> None:

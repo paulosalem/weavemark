@@ -7,10 +7,11 @@
 - Run statistics now report provider-reported input/output token counts and cost
   alongside the existing composition and execution figures, covering the whole
   invocation rather than a single call.
-- Run statistics now report the share of input tokens served from the provider's
-  prompt cache, as in `Tokens in  115,548 (98% cached)`. Both OpenAI's nested
+- Run statistics now report the number of input tokens served from the provider's
+  prompt cache as their own `Tokens cached` entry, as in
+  `Tokens cached  113,536 (98%)`. Both OpenAI's nested
   `prompt_tokens_details.cached_tokens` and Anthropic's top-level
-  `cache_read_input_tokens` are recognised. The share is omitted when nothing was
+  `cache_read_input_tokens` are recognised. The entry is omitted when nothing was
   cached, so cold runs show no distracting zero.
 
 ### Changed
