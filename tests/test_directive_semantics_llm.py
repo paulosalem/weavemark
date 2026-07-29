@@ -298,7 +298,7 @@ class TestDirectiveSemanticFunctionality:
         source = """
         Draft a triage response.
 
-        @output Return JSON with keys severity, rationale, next_action.
+        @output "Return JSON with keys severity, rationale, next_action."
         """
         output = await _compile(source, tmp_path)
         await _assert_directive_passes(

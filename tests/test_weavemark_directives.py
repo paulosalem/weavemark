@@ -29,7 +29,9 @@ _skip = pytest.mark.skipif(
     reason="OPENAI_API_KEY not set — requires a real LLM",
 )
 
-SPECS_DIR = Path(__file__).resolve().parents[1] / "specs"
+FRAGMENTS_DIR = (
+    Path(__file__).resolve().parents[1] / "promplets" / "stdlib" / "fragments"
+)
 
 
 def _controller():
@@ -252,11 +254,11 @@ class TestRefine:
     async def test_refine_merges_file_content(self):
         """@refine pulls in file and merges content."""
         spec = (
-            "@refine ./library/reasoning/base-analyst.weavemark.md\n\n"
+            "@refine ./reasoning/base-analyst.weavemark.md\n\n"
             "Analyze the housing market."
         )
-        r = await _compose(spec, {}, base_dir=SPECS_DIR)
-        # library/reasoning/base-analyst.weavemark.md content should be integrated
+        r = await _compose(spec, {}, base_dir=FRAGMENTS_DIR)
+        # reasoning/base-analyst.weavemark.md content should be integrated
         p = r.composed_prompt.lower()
         assert "analytical" in p or "evidence" in p or "rigorous" in p
         assert "housing" in p
@@ -267,10 +269,10 @@ class TestRefine:
     async def test_refine_mingle_false(self):
         """@refine mingle: false does minimal merge (preserves wording)."""
         spec = (
-            "@refine ./library/reasoning/base-analyst.weavemark.md mingle: false\n\n"
+            "@refine ./reasoning/base-analyst.weavemark.md mingle: false\n\n"
             "Analyze the housing market."
         )
-        r = await _compose(spec, {}, base_dir=SPECS_DIR)
+        r = await _compose(spec, {}, base_dir=FRAGMENTS_DIR)
         p = r.composed_prompt.lower()
         assert "housing" in p
         assert "@refine" not in r.composed_prompt
@@ -280,7 +282,7 @@ class TestRefine:
     async def test_refine_missing_file_errors(self):
         """Referencing a nonexistent file should emit an error."""
         spec = "@refine ./nonexistent_file_xyz.md\n\n" "Some text."
-        r = await _compose(spec, {}, base_dir=SPECS_DIR)
+        r = await _compose(spec, {}, base_dir=FRAGMENTS_DIR)
         assert len(r.errors) > 0 or len(r.warnings) > 0
 
 
@@ -591,13 +593,11 @@ class TestEdgeCases:
 
     @pytest.mark.integration
     @pytest.mark.asyncio
-    async def test_unknown_directive_warns(self):
-        """An unrecognized @directive should produce a warning."""
+    async def test_unknown_directive_errors(self):
+        """An unrecognized @directive fails the compile."""
         spec = "Some text.\n\n@frobnicate\n  Do something weird.\n"
         r = await _compose(spec, {})
-        # Should warn about unrecognized directive
-        has_warning = len(r.warnings) > 0 or len(r.suggestions) > 0
-        assert has_warning
+        assert any("@frobnicate" in error for error in r.errors)
 
     @pytest.mark.integration
     @pytest.mark.asyncio
@@ -834,9 +834,9 @@ class TestEmbedDirective:
         """@embed file: loads and wraps a file's content."""
         spec = (
             "Here is the reference spec:\n\n"
-            "@embed file: reasoning/chain-of-thought.weavemark.md lang: markdown\n"
+            "@embed file: ./reasoning/chain-of-thought.weavemark.md lang: markdown\n"
         )
-        r = await _compose(spec, {}, base_dir=SPECS_DIR)
+        r = await _compose(spec, {}, base_dir=FRAGMENTS_DIR)
         p = r.composed_prompt
         assert "```" in p
         # The file content should be present

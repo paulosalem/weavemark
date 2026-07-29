@@ -17,6 +17,15 @@
   is `market-dashboard.html` and its title, security identification, and
   research character follow the supplied ticker variables.
 
+### Fixed
+
+- An escaped `@@` immediately after a word character, as in `admin@@example.com`,
+  is no longer mistaken for a reference. The reference scanner now honours the
+  escape before its "preceded by text" rule, so such addresses compile instead of
+  failing with a spurious missing-fragment error.
+- `@output` now rejects an unquoted multi-word format string instead of silently
+  keeping only its first word. Quote the format or move it to an indented body.
+
 ## 0.9.2 - 2026-07-23
 
 ### Added

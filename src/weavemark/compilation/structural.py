@@ -1171,6 +1171,12 @@ def _parse_output_directive(
 
     if positional and "format" not in contract:
         contract["format"] = positional[0]
+    if len(positional) > 1:
+        state.errors.append(
+            "@output takes at most one positional format string; quote the "
+            "whole format or move it to an indented body. Got: "
+            + " ".join(positional)
+        )
     body = textwrap.dedent(block).strip() if block else ""
     if body:
         contract["body"] = body

@@ -122,3 +122,13 @@ async def test_duplicate_structural_declarations_are_errors(
     )
 
     assert message in result.errors
+
+
+@pytest.mark.asyncio
+async def test_unquoted_multi_word_output_format_is_an_error(tmp_path: Path) -> None:
+    result = await WeaveMarkController(WeaveMarkConfig()).compose(
+        "Draft a reply.\n\n@output Return JSON with keys severity and rationale.",
+        base_dir=tmp_path,
+    )
+
+    assert any("@output takes at most one positional" in e for e in result.errors)

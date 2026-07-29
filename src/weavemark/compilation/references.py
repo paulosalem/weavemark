@@ -290,13 +290,13 @@ def _lower_inline_line(
             output.append(line[index])
             index += 1
             continue
-        if index > 0 and (line[index - 1].isalnum() or line[index - 1] in "._+-"):
-            output.append("@")
-            index += 1
-            continue
         if line.startswith("@@", index):
             output.append("@@")
             index += 2
+            continue
+        if index > 0 and (line[index - 1].isalnum() or line[index - 1] in "._+-"):
+            output.append("@")
+            index += 1
             continue
         if line.startswith("@{", index):
             output.append("@")

@@ -6,7 +6,6 @@ correctly. Integration tests (require OPENAI_API_KEY) verify the full
 """
 
 import os
-from pathlib import Path
 
 import pytest
 
@@ -197,8 +196,6 @@ _skip = pytest.mark.skipif(
     reason="OPENAI_API_KEY not set — requires a real LLM",
 )
 
-SPECS_DIR = Path(__file__).resolve().parents[1] / "specs"
-
 
 def _controller():
     from weavemark.controller import WeaveMarkConfig, WeaveMarkController
@@ -223,8 +220,8 @@ class TestToolDirectiveE2E:
             "You are a research assistant.\n\n"
             "@tool search_web\n"
             "  Search the web for information.\n"
-            "  - query: string (required) — The search query\n"
-            "  - max_results: integer — Maximum results\n"
+            "  - query: string (required) - The search query\n"
+            "  - max_results: integer - Maximum results\n"
         )
         r = await _compose(spec)
         assert r.composed_prompt, "Should produce a prompt"
@@ -247,10 +244,10 @@ class TestToolDirectiveE2E:
             "You are an agent.\n\n"
             "@tool get_weather\n"
             "  Get weather conditions.\n"
-            "  - location: string (required) — City name\n\n"
+            "  - location: string (required) - City name\n\n"
             "@tool calculate\n"
             "  Perform a calculation.\n"
-            "  - expression: string (required) — Math expression\n"
+            "  - expression: string (required) - Math expression\n"
         )
         r = await _compose(spec)
         assert len(r.tools) >= 2
@@ -266,8 +263,8 @@ class TestToolDirectiveE2E:
             "You are a weather bot.\n\n"
             "@tool get_weather\n"
             "  Get weather.\n"
-            "  - location: string (required) — City\n"
-            "  - units: string enum: [celsius, fahrenheit] — Temp units\n"
+            "  - location: string (required) - City\n"
+            "  - units: string enum: [celsius, fahrenheit] - Temp units\n"
         )
         r = await _compose(spec)
         assert len(r.tools) >= 1
@@ -293,35 +290,9 @@ class TestToolDirectiveE2E:
             "You are a programming assistant.\n\n"
             "@tool run_program\n"
             "  Execute a program.\n"
-            "  - program: string (required) — Program to run\n"
+            "  - program: string (required) - Program to run\n"
         )
         r = await _compose(spec)
         # The @tool directive should be processed, not passed through
         assert "@tool" not in r.composed_prompt
 
-    @pytest.mark.integration
-    @pytest.mark.asyncio
-    async def test_react_agent_spec(self):
-        """The react-agent.weavemark.md example spec compiles with tools."""
-        spec_path = SPECS_DIR / "react-agent.weavemark.md"
-        if not spec_path.exists():
-            pytest.skip("react-agent.weavemark.md not found")
-        spec = spec_path.read_text(encoding="utf-8")
-        r = await _compose(
-            spec,
-            variables={
-                "research_topic": "renewable energy trends",
-                "audience": "business executives",
-                "depth": "standard",
-                "include_citations": True,
-            },
-            base_dir=SPECS_DIR,
-        )
-        assert r.composed_prompt, "Should produce a prompt"
-        assert len(r.tools) >= 2, f"Expected at least 2 tools, got {len(r.tools)}"
-        names = [t["function"]["name"] for t in r.tools]
-        assert "search_web" in names
-        assert "calculate" in names
-        assert "read_url" not in names
-        # Arbitrary Python execution is not part of the catalog surface.
-        assert "run_python" not in names

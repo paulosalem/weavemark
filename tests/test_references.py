@@ -187,6 +187,22 @@ def test_reference_scanner_preserves_email_addresses(tmp_path: Path) -> None:
     assert result.errors == []
 
 
+def test_reference_scanner_preserves_escaped_at_signs_inside_words(
+    tmp_path: Path,
+) -> None:
+    result = resolve_references(
+        "Contact admin@@example.com.",
+        tmp_path,
+        reader=_reader,
+        known_directives=CORE_DIRECTIVES,
+        enabled=True,
+    )
+
+    assert result.text == "Contact admin@@example.com."
+    assert result.references == []
+    assert result.errors == []
+
+
 def test_reference_scanner_ignores_opaque_directive_bodies(tmp_path: Path) -> None:
     (tmp_path / "guide.md").write_text("Guide.", encoding="utf-8")
     source = "@note\n  @guide.md\n@embed\n  @guide.md\n"

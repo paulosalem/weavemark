@@ -926,12 +926,15 @@ async def test_live_fslm_guard_and_action_through_weavemark() -> None:
 
 @machine live_machine initial: waiting
   @state waiting
+    The machine waits for an approval event before it can finish.
+
     @transition finish event: approval target: done
       @guard approval_is_explicit
         Allow only when the event payload says approved is true.
       @action report_success
         Return exactly FSLM_LIVE_OK and nothing else.
   @state done terminal: true
+    The approval was accepted and the run is complete.
 """
 
     run = await execute_text(
