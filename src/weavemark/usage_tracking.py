@@ -28,6 +28,7 @@ from ellements.core.observability import (
 _PROMPT_TOKEN_KEYS = ("prompt_tokens", "input_tokens")
 _COMPLETION_TOKEN_KEYS = ("completion_tokens", "output_tokens")
 _COST_KEYS = ("cost_usd", "response_cost", "total_cost", "cost")
+_CACHED_TOKEN_KEYS = ("cache_read_input_tokens", "cached_tokens")
 
 
 @dataclass(frozen=True, slots=True)
@@ -36,6 +37,7 @@ class UsageTotals:
 
     prompt_tokens: int = 0
     completion_tokens: int = 0
+    cached_prompt_tokens: int = 0
     cost_usd: float | None = None
 
     @property
@@ -43,6 +45,18 @@ class UsageTotals:
         """Return whether any provider reported usable token counts."""
 
         return self.prompt_tokens > 0 or self.completion_tokens > 0
+
+    @property
+    def cache_hit_rate(self) -> float | None:
+        """Return the share of prompt tokens served from the provider cache.
+
+        ``None`` when no prompt tokens were reported, so callers can tell
+        "nothing to cache" apart from "cached nothing".
+        """
+
+        if self.prompt_tokens <= 0:
+            return None
+        return self.cached_prompt_tokens / self.prompt_tokens
 
 
 class UsageAccumulator:
@@ -52,6 +66,7 @@ class UsageAccumulator:
         self._lock = threading.Lock()
         self._prompt_tokens = 0
         self._completion_tokens = 0
+        self._cached_prompt_tokens = 0
         self._cost_usd = 0.0
         self._cost_reported = False
 
@@ -73,10 +88,12 @@ class UsageAccumulator:
             return
         prompt = _numeric(usage, *_PROMPT_TOKEN_KEYS)
         completion = _numeric(usage, *_COMPLETION_TOKEN_KEYS)
+        cached = _cached_prompt_tokens(usage)
         cost = _reported_cost(usage)
         with self._lock:
             self._prompt_tokens += prompt
             self._completion_tokens += completion
+            self._cached_prompt_tokens += cached
             if cost is not None:
                 self._cost_usd += cost
                 self._cost_reported = True
@@ -88,6 +105,7 @@ class UsageAccumulator:
             return UsageTotals(
                 prompt_tokens=self._prompt_tokens,
                 completion_tokens=self._completion_tokens,
+                cached_prompt_tokens=self._cached_prompt_tokens,
                 cost_usd=self._cost_usd if self._cost_reported else None,
             )
 
@@ -133,12 +151,22 @@ def usage_stats(totals: UsageTotals | None) -> dict[str, str]:
     if totals is None or not totals.has_tokens:
         return {}
     stats = {
-        "Tokens in": f"{totals.prompt_tokens:,}",
+        "Tokens in": _prompt_token_summary(totals),
         "Tokens out": f"{totals.completion_tokens:,}",
     }
     if totals.cost_usd is not None:
         stats["Cost"] = format_cost(totals.cost_usd)
     return stats
+
+
+def _prompt_token_summary(totals: UsageTotals) -> str:
+    """Render prompt tokens, noting the provider cache share when present."""
+
+    rendered = f"{totals.prompt_tokens:,}"
+    hit_rate = totals.cache_hit_rate
+    if not totals.cached_prompt_tokens or hit_rate is None:
+        return rendered
+    return f"{rendered} ({hit_rate:.0%} cached)"
 
 
 def format_cost(cost_usd: float) -> str:
@@ -155,6 +183,29 @@ def _numeric(usage: Mapping[str, Any], *keys: str) -> int:
             continue
         if isinstance(value, int | float):
             return int(value)
+    return 0
+
+
+def _cached_prompt_tokens(usage: Mapping[str, Any]) -> int:
+    """Extract cache-read prompt tokens across provider reporting shapes.
+
+    Anthropic reports ``cache_read_input_tokens`` at the top level; OpenAI
+    nests ``cached_tokens`` under ``prompt_tokens_details``.
+    """
+
+    cached = _numeric(usage, *_CACHED_TOKEN_KEYS)
+    if cached:
+        return cached
+    details = usage.get("prompt_tokens_details")
+    if isinstance(details, Mapping):
+        return _numeric(details, *_CACHED_TOKEN_KEYS)
+    if details is not None:
+        for key in _CACHED_TOKEN_KEYS:
+            value = getattr(details, key, None)
+            if isinstance(value, bool):
+                continue
+            if isinstance(value, int | float):
+                return int(value)
     return 0
 
 

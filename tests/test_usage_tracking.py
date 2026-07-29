@@ -150,3 +150,82 @@ def test_new_client_observes_usage_only_inside_a_tracking_scope() -> None:
         tracked = new_client(model="gpt-5.5")
 
     assert accumulator in tracked.observers
+
+
+def test_openai_nested_cached_tokens_are_accumulated() -> None:
+    """OpenAI reports cache reads under ``prompt_tokens_details``."""
+
+    accumulator = UsageAccumulator()
+
+    accumulator.record(
+        {
+            "prompt_tokens": 115548,
+            "completion_tokens": 5380,
+            "prompt_tokens_details": {"cached_tokens": 113536},
+            "response_cost": 0.228228,
+        }
+    )
+
+    totals = accumulator.totals()
+    assert totals.cached_prompt_tokens == 113536
+    assert totals.cache_hit_rate == pytest.approx(0.98259, rel=1e-4)
+
+
+def test_anthropic_top_level_cache_reads_are_accumulated() -> None:
+    """Anthropic reports cache reads as a sibling of the prompt token count."""
+
+    accumulator = UsageAccumulator()
+
+    accumulator.record(
+        {
+            "prompt_tokens": 400,
+            "completion_tokens": 10,
+            "cache_read_input_tokens": 300,
+        }
+    )
+
+    assert accumulator.totals().cached_prompt_tokens == 300
+
+
+def test_cached_tokens_survive_non_mapping_usage_details() -> None:
+    """LiteLLM may hand back a model object rather than a plain mapping."""
+
+    class Details:
+        cached_tokens = 64
+
+    accumulator = UsageAccumulator()
+    accumulator.record(
+        {
+            "prompt_tokens": 128,
+            "completion_tokens": 8,
+            "prompt_tokens_details": Details(),
+        }
+    )
+
+    assert accumulator.totals().cached_prompt_tokens == 64
+
+
+def test_footer_reports_the_cache_share_of_prompt_tokens() -> None:
+    stats = usage_stats(
+        UsageTotals(
+            prompt_tokens=115548,
+            completion_tokens=5380,
+            cached_prompt_tokens=113536,
+            cost_usd=0.228228,
+        )
+    )
+
+    assert stats["Tokens in"] == "115,548 (98% cached)"
+    assert stats["Tokens out"] == "5,380"
+
+
+def test_footer_omits_the_cache_share_when_nothing_was_cached() -> None:
+    """A cold or uncacheable run must not display a distracting 0%."""
+
+    stats = usage_stats(UsageTotals(prompt_tokens=13133, completion_tokens=22342))
+
+    assert stats["Tokens in"] == "13,133"
+
+
+def test_cache_hit_rate_is_unknown_without_prompt_tokens() -> None:
+    assert UsageTotals(completion_tokens=5).cache_hit_rate is None
