@@ -12,6 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from weavemark.defaults import DEFAULT_MODEL
 from weavemark.protection import ProtectionContext
 
 DEFAULT_IMPLEMENTATION_CONFIG: dict[str, Any] = {
@@ -49,6 +50,8 @@ DEFAULT_IMPLEMENTATION_CONFIG: dict[str, Any] = {
                 "--autopilot",
                 "--max-autopilot-continues",
                 "{max_continues}",
+                "--model",
+                "{model}",
                 "--allow-all-tools",
                 "--name",
                 "{session_name}",
@@ -145,7 +148,7 @@ class ImplementationRequest:
     output_root: Path | None = None
     dry_run: bool = False
     reuse_dir: bool = False
-    model: str | None = None
+    model: str = DEFAULT_MODEL
     extra_instructions: tuple[str, ...] = ()
     protection: ProtectionContext | None = field(
         default=None,
@@ -673,6 +676,7 @@ def _prepare_workspace(
         "source": str(request.source_path) if request.source_path else None,
         "implementation_name": result.implementation_name,
         "profile": result.profile,
+        "model": request.model,
         "command": list(result.command),
         "created_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "dry_run": request.dry_run,
@@ -705,7 +709,7 @@ def _base_template_values(
         "implementation_name": implementation_name,
         "output_root": str(output_root.resolve()),
         "profile": profile,
-        "model": request.model or "",
+        "model": request.model,
     }
 
 
@@ -813,20 +817,54 @@ def _render_prompt(
     parts = [
         "You are implementing a compiled WeaveMark software specification.",
         "",
-        f"Read {spec_reference} and build the smallest complete, runnable "
-        "implementation that satisfies it in the current directory.",
+        f"Read {spec_reference} and build the best possible complete, runnable "
+        "implementation of the specification in the current directory.",
+        "",
+        "Quality mandate:",
+        "- Do not optimize for the smallest or simplest implementation. Optimize for the",
+        "  best implementation of the specification: complete, correct, polished,",
+        "  maintainable, and exceptional in every user-visible and technical detail.",
+        "- Use as much time, reasoning, tool use, and available resources as needed to",
+        "  produce the best possible result. Do not stop at a merely functional or",
+        "  minimally acceptable implementation.",
+        "- Implement, test, inspect, and verify the real result. If it is not yet good",
+        "  enough, improve it and repeat the cycle until it is the best version you can",
+        "  produce.",
+        "- For browser-based applications, use any available browser tools or MCP",
+        "  capabilities to run and inspect the application before declaring it done.",
+        "  Exercise its important flows, states, viewport sizes, and error paths.",
+        "- For anything graphical, whether a productivity application or a game, design",
+        "  and implement the most gorgeous, beautiful, professional, cohesive, and",
+        "  highly polished result possible. Treat visual craft and interaction quality",
+        "  as first-class acceptance criteria, not optional decoration.",
+        "- Every graphical application or game MUST be evaluated through clean production",
+        "  screenshots of its key states, representative content, and required viewport",
+        "  sizes. A DOM, accessibility-tree, source-code, or test-only review is not a",
+        "  substitute for inspecting the rendered pixels.",
+        "- Have a vision-capable model or visual review agent inspect those screenshot",
+        "  pixels and compare them directly with every visual criterion and reference in",
+        "  the specification, including composition, realism, beauty, variety,",
+        "  readability, cohesion, and polish where applicable. Record its scores and",
+        "  concrete findings.",
+        "- Fix every material visual deficit, recapture the affected screenshots, and",
+        "  repeat vision review until the specification's visual thresholds pass and no",
+        "  blocking visual defect remains. If screenshot capture or vision-capable review",
+        "  is unavailable, report visual acceptance as blocked and do not claim completion.",
         "",
         "Operating constraints:",
         "- Work only inside the current directory.",
         "- Do not edit the source WeaveMark repository or the original study/example files.",
-        "- Prefer a simple, inspectable project structure over framework ceremony unless",
-        "  the spec explicitly requires a framework.",
+        "- Use an inspectable, maintainable project structure and the frameworks or tools",
+        "  that best serve the specification.",
         "- If the spec names a platform or stack, use it. If it does not, choose the",
-        "  simplest local stack that can satisfy the behavior.",
+        "  stack that enables the highest-quality implementation.",
         "- Add concise run and verification instructions in README.md.",
         "- Run the relevant available build, test, lint, or smoke checks before finishing.",
+        "- Keep a DEVELOPMENT_NOTES.md with your reasoning, design decisions, and any known gaps",
+        "  or limitations. This file is meant, in particular, to allow arbitrary further development",
+        "  later, so make sure its content is optimized for that purpose.",
         "- If a requirement cannot be implemented in this pass, document the gap clearly",
-        "  in README.md instead of pretending it is complete.",
+        "  in DEVELOPMENT_NOTES.md instead of pretending it is complete.",
     ]
     if request.extra_instructions:
         parts.extend(["", "Additional user instructions:"])
