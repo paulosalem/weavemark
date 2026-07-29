@@ -68,6 +68,7 @@ jobs:
             src/weavemark/settings.py \
             src/weavemark/logging_policy.py \
             src/weavemark/logging_setup.py \
+            src/weavemark/usage_tracking.py \
             src/weavemark/variable_files.py \
             scripts/check_repository_hygiene.py \
             scripts/check_distribution_artifact.py \
@@ -86,6 +87,7 @@ jobs:
             tests/test_markdown_hygiene.py \
             tests/test_release.py \
             tests/test_tutorial_followability.py \
+            tests/test_usage_tracking.py \
             tests/test_variable_files.py
 
       - name: Run focused MyPy checks
@@ -98,6 +100,7 @@ jobs:
             src/weavemark/version.py \
             src/weavemark/protection.py \
             src/weavemark/settings.py \
+            src/weavemark/usage_tracking.py \
             src/weavemark/variable_files.py
           mypy --follow-imports=skip \
             scripts/build_pages_site.py \

@@ -402,6 +402,27 @@ weavemark library builtin:catalog/standalone/prompt-refactoring-pipeline \
 - **`--show-output`** — When paired with `--output` or `--output-dir`, also print the primary composed/executed output before writing file artifacts. This is useful for demos and terminal transcripts that should show the authentic WeaveMark result first.
 - **`--no-file-summary`** — Write requested output files without printing per-file success messages. Demo scripts use this with `--show-output`, then print one clean artifact summary at the end.
 
+### Run statistics
+
+With `--verbose`, the Processor closes each phase with a statistics footer.
+Alongside composition and execution figures it reports the provider-reported
+token counts and cost for the invocation so far:
+
+```text
+Engine: single-call  ·  Steps: 1  ·  Output: 84 chars  ·  Tokens in: 73,487
+·  Tokens out: 1,010  ·  Cost: $0.0694  ·  Time: 27.7s
+```
+
+Totals cover every model call the invocation made — semantic compilation,
+execution engines, and companion-driven steps — not just the last one. Semantic
+compilation dominates the input count, because the compiler ships the language
+contract with each request.
+
+`Tokens in` and `Tokens out` appear only when the provider reports usage, and
+`Cost` only when the provider prices the call. Providers that report neither are
+simply omitted rather than shown as zero. For per-call figures and exact
+lineage, use `--provenance` instead.
+
 ### Multi-file emission
 
 When a spec has **no top-level `@execute`** and every `@prompt` block declares `role:`, the WeaveMark Processor treats the spec as artifact emission: each block becomes a file `<name>.<role>[.<prompt-format-ext-if-different>].<compile-ext>`.

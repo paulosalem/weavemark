@@ -229,24 +229,25 @@ Clearly label snippets as search-result evidence rather than full-page readings.
             <code>@package</code> step then applies reusable HTML-dashboard
             instructions to that canonical <code>@{output}</code>:
           </p>
-          <pre><code><span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.std.presentation.information_dashboard_html <span class="syntax-key">file:</span> vale3-market-dashboard.html
-  Title the deliverable <span class="syntax-string">"VALE3 Market Learning Dashboard"</span> and identify the
-  analyzed security as Vale S.A. on B3 under ticker VALE3. The finance provider
-  may label the instrument VALE3.SA; explain that notation once, compactly.
+          <pre><code><span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.std.presentation.information_dashboard_html <span class="syntax-key">file:</span> market-dashboard.html
+  Title the deliverable <span class="syntax-string">"<span class="syntax-var">@{display_ticker}</span> Market Learning Dashboard"</span> and
+  identify the analyzed security as <span class="syntax-var">@{company_name}</span> under display ticker
+  <span class="syntax-var">@{display_ticker}</span>. If the finance provider uses a different symbol
+  (<span class="syntax-var">@{provider_ticker}</span>), explain that notation once, compactly.
 
-  Give the dashboard an extractive-industry research character without adding
-  decorative imagery: make commodity exposure, operational drivers, balance
-  sheet signals, evidence quality, cyclical risks, and watchlist items easy to
-  scan. Use the current company name, Vale S.A.; mention the historical
-  Companhia Vale do Rio Doce name only if useful for identification.
+  Give the dashboard a research character appropriate to the company's actual
+  industry and evidence. Make economic drivers, financial signals, evidence
+  quality, risks, scenario tensions, and watchlist items easy to scan without
+  adding decorative imagery or unsupported facts.
 
-  Retain Portuguese-real amounts and Brazilian-market terminology exactly when
-  supplied. Never convert currencies or infer missing values. Keep the final
-  educational, non-recommendation disclaimer visible but quiet.</code></pre>
+  Retain supplied currencies, units, periods, and market terminology exactly.
+  Never convert currencies, infer missing values, or render template
+  placeholders for unavailable facts. Omit unsupported metric cards instead.
+  Keep the final educational, non-recommendation disclaimer visible but quiet.</code></pre>
           <p>
             The referenced promplet supplies reusable accessibility, responsive
             layout, source-link, security, print, and visual-design obligations.
-            The local body adds VALE3-specific guidance and wins if the two ever
+            The local body adds report-specific guidance and wins if the two ever
             conflict. Both are compiled and executed in one semantic application
             call.
           </p>
@@ -294,11 +295,11 @@ citations, or links that are absent from the report.
           <ul>
             <li><code>execution-output.md</code> &mdash; the grounded market-learning report.</li>
             <li><code>execution-trace.md</code> &mdash; execution metadata, graph steps, prompts, and responses.</li>
-            <li><code>vale3-market-dashboard.html</code> &mdash; the standalone responsive report produced by semantic packaging.</li>
+            <li><code>market-dashboard.html</code> &mdash; the standalone responsive report produced by semantic packaging.</li>
           </ul>
           <div class="callout">
             <strong>See the finished result:</strong>
-            <a href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/vale3-market-dashboard.html">open the live VALE3 dashboard</a>,
+            <a href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html">open the live VALE3 dashboard</a>,
             or inspect the
             <a href="../examples/saved-artifact-workflows/market-snapshot/outputs/execution-output.md">Markdown report</a>
             and
@@ -319,7 +320,7 @@ citations, or links that are absent from the report.
           </p>
           <div class="callout">
             <strong>What to do with the output:</strong>
-            open <code>vale3-market-dashboard.html</code> to review, share, or
+            open <code>market-dashboard.html</code> to review, share, or
             print the analysis; use <code>execution-output.md</code> in downstream
             text workflows; and retain <code>execution-trace.md</code> when you
             need to audit the evidence and model lineage. Re-run before relying

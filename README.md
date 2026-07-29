@@ -27,51 +27,62 @@ are realized by an LLM. Execution, when requested, relies on predefined engines 
 
 | Illustrated storybook | AI Kanban | Market report |
 |---|---|---|
-| [![Orion storybook page](docs/tutorial-storybook-page.jpg)](https://paulosalem.github.io/weavemark/demos/orion-storybook/) | [![AI Kanban board](docs/showcase-ai-kanban.jpg)](https://paulosalem.github.io/weavemark/demos/ai-kanban/) | [![VALE3 market dashboard](docs/showcase-market-report.jpg)](https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/vale3-market-dashboard.html) |
+| [![Orion storybook page](docs/tutorial-storybook-page.jpg)](https://paulosalem.github.io/weavemark/demos/orion-storybook/) | [![AI Kanban board](docs/showcase-ai-kanban.jpg)](https://paulosalem.github.io/weavemark/demos/ai-kanban/) | [![VALE3 market dashboard](docs/showcase-market-report.jpg)](https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html) |
 | A twelve-page story authored, illustrated page by page, and packaged to HTML/PDF. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/childrens-book.weavemark.md?plain=1) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-illustrated.html) | A concise software promplet compiled into a detailed contract and implemented as a backend-free browser app. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/standalone/ai-kanban-board.weavemark.md?plain=1) · [Compiled spec](https://github.com/paulosalem/weavemark/blob/main/outputs/implementations/ai-kanban-browser/compiled-spec.md) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-implement.html) | Finance data and bounded search evidence executed through a strict graph, then packaged as a standalone report. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/market-snapshot.weavemark.md?plain=1) · [Trace](https://github.com/paulosalem/weavemark/blob/main/examples/saved-artifact-workflows/market-snapshot/outputs/execution-trace.md) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-executable.html) |
 
 These are checked-in outputs, not mockups. The examples retain their source
 promplets, compiled plans or specifications, run artifacts, and tests.
 
-## Try it in 90 seconds
+## Try it yourself
 
-Install the current release:
+The market report above is the easiest of the three to reproduce. Install the
+current release with the finance and web-search extras it uses:
 
 ```bash
-pip install weavemark
+pip install "weavemark[examples]"
 ```
 
 Inspect a bundled promplet without an API key or model call:
 
 ```bash
-weavemark library ai-kanban-board --scan
+weavemark library market-snapshot --scan
 ```
 
-Semantic compilation needs a configured model provider. For OpenAI:
+Semantic compilation needs a configured model provider. The market data and web
+search need no further keys.
 
 ```bash
 export OPENAI_API_KEY="..."
 
-weavemark library ai-kanban-board \
-  --batch-only \
-  --output compiled-spec.md
+weavemark library market-snapshot \
+  --var provider_ticker=VALE3.SA \
+  --var display_ticker=VALE3 \
+  --var "company_name=Vale S.A." \
+  --var "research_focus=iron ore demand, capital allocation, and material risks" \
+  --run --verbose \
+  --output-dir market-report \
+  --open
 ```
 
-Open `compiled-spec.md`: the short product source has become a detailed,
-implementation-ready contract. To inspect the subsequent programming-agent
-handoff without launching it:
+WeaveMark compiles the promplet, runs the finance and search effects as a strict
+dependency graph, writes the brief, packages it into
+`market-report/market-dashboard.html`, and `--open` launches that dashboard in
+your browser. Change the ticker variables for any asset you follow.
 
-```bash
-weavemark implement compiled-spec.md \
-  --name ai-kanban \
-  --profile copilot \
-  --dry-run
-```
+The finance helper is ordinary Python, so WeaveMark asks once before importing
+it and remembers that decision under `~/.weavemark`. Answer `y` to continue.
 
-For a first authored example with variables, follow
-[Your first promplet](docs/tutorial.html). For real image generation, local
-Python bindings, and other effectful runs, use only promplets you trust and read
-the example-specific setup first.
+This is a real effectful run rather than a template expansion. Ours took about
+five minutes and $0.76 of `gpt-5.5` usage; WeaveMark prints the exact token
+counts and provider-reported cost when it finishes, and your numbers will differ
+by model, provider, and how much evidence the search returns.
+
+For the compile-only path, where a short product source becomes a detailed
+implementation contract that a programming agent then builds, follow
+[Spec to app](docs/tutorial-implement.html). For a first authored example with
+variables, follow [Your first promplet](docs/tutorial.html). For image
+generation and other effectful runs, use only promplets you trust and read the
+example-specific setup first.
 
 ## The source stays readable
 

@@ -41,7 +41,7 @@ def test_home_hero_examples_show_current_artifacts() -> None:
     assert (
         'data-href="https://paulosalem.github.io/weavemark/examples/'
         'saved-artifact-workflows/market-snapshot/outputs/'
-        'vale3-market-dashboard.html"'
+        'market-dashboard.html"'
         in html
     )
     assert ">Market report</button>" in html

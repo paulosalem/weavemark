@@ -1,0 +1,1377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'none'; object-src 'none'; frame-src 'none'; connect-src 'none'; form-action 'none'; base-uri 'none'; img-src 'none'">
+  <title>VALE3 Market Learning Dashboard</title>
+  <style>
+    :root {
+      --ink: #101820;
+      --navy: #14212b;
+      --slate: #465866;
+      --muted: #6b7a86;
+      --paper: #f7f2e8;
+      --surface: #fffaf0;
+      --surface-2: #efe7d8;
+      --line: #d7cdbd;
+      --line-strong: #b9ad9c;
+      --emerald: #087f5b;
+      --emerald-soft: #d9eee6;
+      --copper: #a85f2a;
+      --copper-soft: #f1dfcf;
+      --warning: #7a4a11;
+      --shadow: 0 14px 35px rgba(16, 24, 32, 0.08);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --max: 1180px;
+      --measure: 76ch;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.55;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      margin: 0;
+      min-width: 0;
+      overflow-x: hidden;
+      background:
+        linear-gradient(180deg, rgba(20, 33, 43, 0.04), transparent 260px),
+        var(--paper);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *, *::before, *::after {
+        transition-duration: 0.001ms !important;
+        animation-duration: 0.001ms !important;
+      }
+    }
+
+    a {
+      color: #075f46;
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.18em;
+      overflow-wrap: anywhere;
+    }
+
+    a:hover {
+      color: #064c39;
+      text-decoration-thickness: 0.14em;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 3px solid var(--copper);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      z-index: 10;
+      transform: translateY(-160%);
+      padding: 0.65rem 0.9rem;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      transition: transform 0.16s ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    header,
+    main,
+    footer {
+      width: min(var(--max), calc(100% - 32px));
+      margin-inline: auto;
+      min-width: 0;
+    }
+
+    header {
+      padding: 34px 0 18px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.7fr);
+      gap: 22px;
+      align-items: stretch;
+      min-width: 0;
+    }
+
+    .hero-panel {
+      background: var(--navy);
+      color: #f9f4ea;
+      border-radius: calc(var(--radius) + 4px);
+      padding: clamp(1.25rem, 3vw, 2.2rem);
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.7rem;
+      color: #b7c7c0;
+      font-size: 0.78rem;
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      max-width: 12ch;
+    }
+
+    .deck {
+      max-width: 68ch;
+      margin: 1.1rem 0 0;
+      color: #e6ddd0;
+      font-size: clamp(1rem, 1.4vw, 1.18rem);
+    }
+
+    .identity-card {
+      display: grid;
+      gap: 0.8rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 4px);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .ticker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: baseline;
+      min-width: 0;
+    }
+
+    .ticker strong {
+      font-size: 2.25rem;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .ticker span {
+      color: var(--slate);
+      font-weight: 700;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      min-width: 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      max-width: 100%;
+      padding: 0.28rem 0.58rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fffdf7;
+      color: var(--slate);
+      font-size: 0.82rem;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .tag.emerald {
+      background: var(--emerald-soft);
+      border-color: #b8dccf;
+      color: #07513d;
+    }
+
+    .tag.copper {
+      background: var(--copper-soft);
+      border-color: #e0bea4;
+      color: #714119;
+    }
+
+    .note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .note strong {
+      color: var(--ink);
+    }
+
+    main {
+      padding: 10px 0 42px;
+    }
+
+    section {
+      margin-top: 26px;
+      min-width: 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+      min-width: 0;
+    }
+
+    .section-head h2,
+    .section-head h3 {
+      margin: 0;
+    }
+
+    h2 {
+      color: var(--ink);
+      font-size: clamp(1.35rem, 2vw, 1.9rem);
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+    }
+
+    h3 {
+      margin: 0 0 0.65rem;
+      color: var(--ink);
+      font-size: 1.05rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    h4 {
+      margin: 0 0 0.4rem;
+      font-size: 0.96rem;
+      color: var(--ink);
+    }
+
+    p {
+      margin: 0 0 0.9rem;
+      max-width: var(--measure);
+    }
+
+    ul,
+    ol {
+      margin: 0.2rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    li {
+      margin: 0.35rem 0;
+      padding-left: 0.1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.05rem;
+      box-shadow: 0 8px 22px rgba(16, 24, 32, 0.055);
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .card.subtle {
+      background: rgba(255, 250, 240, 0.72);
+      box-shadow: none;
+    }
+
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: 1 / -1; }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .metric {
+      min-width: 0;
+      padding: 0.95rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: #fffdf8;
+    }
+
+    .metric .label {
+      margin: 0;
+      color: var(--slate);
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .metric .value {
+      margin: 0.25rem 0 0;
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(1.2rem, 2vw, 1.65rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      overflow-wrap: anywhere;
+    }
+
+    .metric .qualifier {
+      margin: 0.2rem 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+
+    .callout {
+      border-left: 4px solid var(--emerald);
+      background: #f6fbf8;
+    }
+
+    .callout.caution {
+      border-left-color: var(--copper);
+      background: #fff7ef;
+    }
+
+    .callout.uncertain {
+      border-left-color: var(--warning);
+      background: #fff9ea;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 0 0.55rem;
+      padding: 0.24rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fffdf7;
+      color: var(--slate);
+      font-size: 0.74rem;
+      font-weight: 850;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .status.reported {
+      border-color: #b8dccf;
+      color: #07513d;
+      background: var(--emerald-soft);
+    }
+
+    .status.search {
+      border-color: #d8c3ad;
+      color: #704015;
+      background: var(--copper-soft);
+    }
+
+    .status.uncertain {
+      border-color: #dec77f;
+      color: #664900;
+      background: #fff3bf;
+    }
+
+    .status.next {
+      border-color: #c6d0d8;
+      color: #334b5d;
+      background: #edf3f7;
+    }
+
+    .kicker {
+      color: var(--slate);
+      font-size: 0.86rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .driver-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .driver-list li {
+      margin: 0;
+      padding: 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: #fffdf8;
+      min-width: 0;
+    }
+
+    .driver-list strong {
+      display: block;
+      margin-bottom: 0.2rem;
+      color: var(--ink);
+    }
+
+    .table-card {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .table-title {
+      padding: 1rem 1rem 0.7rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 0.92rem;
+    }
+
+    th,
+    td {
+      padding: 0.72rem 0.85rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    th {
+      background: #f3ecdf;
+      color: #31424f;
+      text-align: left;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    td.value,
+    th.value {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .source-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.45rem;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: #fffdf8;
+      min-width: 0;
+    }
+
+    .source-item p {
+      margin: 0;
+    }
+
+    .source-meta {
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .snippet {
+      color: #2f3d47;
+      font-style: italic;
+    }
+
+    .scenario {
+      display: grid;
+      gap: 0.65rem;
+      min-width: 0;
+    }
+
+    .scenario h3 {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0;
+    }
+
+    .scenario h3 span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .two-col {
+      columns: 2;
+      column-gap: 28px;
+    }
+
+    .two-col li {
+      break-inside: avoid;
+    }
+
+    aside {
+      min-width: 0;
+    }
+
+    .bottom-line {
+      background: var(--navy);
+      color: #f8f1e6;
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .bottom-line h2,
+    .bottom-line h3,
+    .bottom-line strong {
+      color: #fff8ec;
+    }
+
+    .bottom-line p,
+    .bottom-line li {
+      color: #e8ded0;
+    }
+
+    .bottom-line a {
+      color: #a8e4cf;
+    }
+
+    footer {
+      padding: 0 0 30px;
+    }
+
+    .footer-card {
+      display: grid;
+      gap: 0.7rem;
+      background: rgba(255,250,240,0.75);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem;
+      color: var(--slate);
+      font-size: 0.88rem;
+      min-width: 0;
+    }
+
+    .provenance {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem 0.75rem;
+      align-items: baseline;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      min-width: 0;
+    }
+
+    .provenance strong {
+      color: var(--slate);
+    }
+
+    .nowrap {
+      white-space: nowrap;
+    }
+
+    .num {
+      font-variant-numeric: tabular-nums;
+      font-family: var(--mono);
+      font-size: 0.95em;
+    }
+
+    @media (max-width: 900px) {
+      header,
+      main,
+      footer {
+        width: min(100% - 24px, var(--max));
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .span-3,
+      .span-4,
+      .span-5,
+      .span-6,
+      .span-7,
+      .span-8 {
+        grid-column: span 6;
+      }
+
+      .metric-strip {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .driver-list {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .two-col {
+        columns: 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      header,
+      main,
+      footer {
+        width: min(100% - 18px, var(--max));
+      }
+
+      header {
+        padding-top: 24px;
+      }
+
+      .hero-panel,
+      .identity-card,
+      .card {
+        border-radius: 14px;
+      }
+
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .span-3,
+      .span-4,
+      .span-5,
+      .span-6,
+      .span-7,
+      .span-8,
+      .span-12 {
+        grid-column: 1 / -1;
+      }
+
+      .metric-strip {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+
+      thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      tr {
+        border-bottom: 1px solid var(--line);
+        padding: 0.55rem 0;
+      }
+
+      tr:last-child {
+        border-bottom: 0;
+      }
+
+      td {
+        display: grid;
+        grid-template-columns: minmax(7.5rem, 0.48fr) minmax(0, 1fr);
+        gap: 0.65rem;
+        padding: 0.38rem 0.85rem;
+        border: 0;
+        text-align: left !important;
+      }
+
+      td::before {
+        content: attr(data-label);
+        color: var(--slate);
+        font-size: 0.73rem;
+        font-weight: 850;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        overflow-wrap: anywhere;
+      }
+
+      .ticker strong {
+        font-size: 1.85rem;
+      }
+    }
+
+    @media print {
+      @page {
+        margin: 14mm;
+      }
+
+      html,
+      body {
+        background: #fff;
+        color: #000;
+      }
+
+      header,
+      main,
+      footer {
+        width: 100%;
+      }
+
+      .skip-link {
+        display: none;
+      }
+
+      .hero,
+      .grid,
+      .metric-strip {
+        display: block;
+      }
+
+      .card,
+      .identity-card,
+      .hero-panel,
+      .metric,
+      .source-item,
+      .footer-card {
+        box-shadow: none !important;
+        border-color: #bbb;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: 10px;
+      }
+
+      .hero-panel,
+      .bottom-line {
+        background: #fff;
+        color: #000;
+      }
+
+      .hero-panel p,
+      .bottom-line p,
+      .bottom-line li,
+      .bottom-line h2,
+      .bottom-line h3,
+      .bottom-line strong {
+        color: #000;
+      }
+
+      a[href]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.82em;
+        color: #555;
+      }
+
+      tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to dashboard content</a>
+
+  <header>
+    <div class="hero" role="banner">
+      <div class="hero-panel">
+        <p class="eyebrow">Market-learning brief · Asset education · No buy/sell recommendation</p>
+        <h1>VALE3 Market Learning Dashboard</h1>
+        <p class="deck">Vale S.A. is a Brazil-headquartered global mining company with major exposure to <strong>iron ore</strong>, plus <strong>nickel, copper and other base/critical minerals</strong>. The available evidence supports both constructive and cautious interpretations.</p>
+      </div>
+
+      <aside class="identity-card" aria-label="Security identity">
+        <div class="ticker">
+          <strong>VALE3</strong>
+          <span>Vale S.A.</span>
+        </div>
+        <div class="tag-row">
+          <span class="tag emerald">Exchange: SAO</span>
+          <span class="tag">Currency: BRL</span>
+          <span class="tag">Sector: Basic Materials</span>
+          <span class="tag copper">Finance symbol: VALE3.SA</span>
+        </div>
+        <p class="note"><strong>Notation:</strong> the finance provider identifies the SAO listing as <span class="num">VALE3.SA</span>; this dashboard displays the ticker as <span class="num">VALE3</span>.</p>
+        <p class="note"><strong>Purpose:</strong> asset education, not personal financial advice.</p>
+      </aside>
+    </div>
+  </header>
+
+  <main id="main">
+    <section aria-labelledby="snapshot-title">
+      <div class="section-head">
+        <h2 id="snapshot-title">Executive snapshot</h2>
+        <span class="kicker">Decision-relevant facts and caveats</span>
+      </div>
+
+      <div class="metric-strip" aria-label="Compact metric strip">
+        <article class="metric">
+          <p class="label">Current price</p>
+          <p class="value">75.26</p>
+          <p class="qualifier">BRL · finance-tool quote snapshot; period not specified</p>
+        </article>
+        <article class="metric">
+          <p class="label">Dividend yield</p>
+          <p class="value">9.11%</p>
+          <p class="qualifier">Finance-tool field; payout ratio also shown as 1.1746</p>
+        </article>
+        <article class="metric">
+          <p class="label">Trailing P/E</p>
+          <p class="value">22.27</p>
+          <p class="qualifier">Finance metrics · rounded from 22.266272</p>
+        </article>
+        <article class="metric">
+          <p class="label">Forward P/E</p>
+          <p class="value">9.17</p>
+          <p class="qualifier">Provider-labeled forward metric · rounded from 9.1662445</p>
+        </article>
+        <article class="metric">
+          <p class="label">EV/EBITDA</p>
+          <p class="value">5.288</p>
+          <p class="qualifier">Finance metrics · provider period not fully specified</p>
+        </article>
+        <article class="metric">
+          <p class="label">Total debt</p>
+          <p class="value">BRL 111.958bn</p>
+          <p class="qualifier">Finance metrics · against total cash BRL 27.552bn</p>
+        </article>
+      </div>
+
+      <div class="grid" style="margin-top:16px">
+        <article class="card span-4 callout">
+          <span class="status reported">Reported</span>
+          <h3>Operational strength signals</h3>
+          <p>A search-result snippet says Vale reported <strong>Q2 iron ore output at its best since 2018</strong>. Another official-result snippet says <strong>iron ore production reached its highest quarterly level since 2018</strong>, copper had its best Q3 since 2019, and nickel cost competitiveness improved.</p>
+        </article>
+
+        <article class="card span-4 callout caution">
+          <span class="status search">Search evidence</span>
+          <h3>Commodity-price concern</h3>
+          <p>A news search result says Goldman downgraded Vale to Neutral, citing <strong>limited upside amid weakness in metals</strong>.</p>
+        </article>
+
+        <article class="card span-4 callout uncertain">
+          <span class="status uncertain">Uncertain</span>
+          <h3>Evidence-quality caveat</h3>
+          <p>The web-search evidence is limited to result titles, snippets, source labels and URLs. It is <strong>not</strong> based on full-page readings, so outside-news claims are labeled as search-result evidence.</p>
+        </article>
+
+        <article class="card span-6">
+          <h3>Valuation and yield tension</h3>
+          <ul>
+            <li>Finance-tool dividend yield is <strong>9.11%</strong> and dividend rate is <strong>6.9</strong>, but payout ratio is <strong>1.1746</strong>, suggesting dividends may exceed reported earnings per share in the provider dataset.</li>
+            <li>Trailing <strong>P/E 22.27</strong>, forward <strong>P/E 9.17</strong>, <strong>EV/EBITDA 5.288</strong>, <strong>P/B 1.678</strong> and <strong>P/S 1.491</strong> suggest the market may be pricing a materially different forward earnings environment than the trailing one.</li>
+          </ul>
+        </article>
+
+        <article class="card span-6">
+          <h3>Balance sheet, liquidity and analyst tool view</h3>
+          <ul>
+            <li>Total debt is <strong>BRL 111.958bn</strong>, total cash <strong>BRL 27.552bn</strong>, debt/equity <strong>57.146</strong>, current ratio <strong>1.24</strong> and quick ratio <strong>0.666</strong>.</li>
+            <li>The finance tool shows recommendation <strong>BUY</strong>, mean score <strong>2.15</strong> on a 1–5 scale, with <strong>12 analysts</strong>. Price targets display as <strong>$88.53</strong> mean, <strong>$88.14</strong> median, <strong>$107.92</strong> high and <strong>$59.34</strong> low. Because the quote currency is BRL while targets display “$”, currency treatment should be verified before use.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="business-title">
+      <div class="section-head">
+        <h2 id="business-title">Business model and economic drivers</h2>
+        <span class="kicker">What Vale does</span>
+      </div>
+
+      <div class="grid">
+        <article class="card span-5">
+          <h3>Company profile from finance tool</h3>
+          <p>Vale S.A. operates through two main segments: <strong>Iron Ore Solutions</strong> and <strong>Vale Base Metals</strong>.</p>
+          <p>It produces and distributes iron ore, iron ore pellets, briquettes, nickel, copper, other ferrous products, by-products including gold, silver, cobalt, platinum-group metals and other base metals, and low-carbon critical minerals.</p>
+          <p>It also operates logistics systems and distribution centers, including mining complexes, railways, maritime terminals, ports and ships, and it generates energy from hydroelectric, solar and wind sources.</p>
+        </article>
+
+        <article class="card span-7">
+          <h3>Core economic drivers for learners</h3>
+          <ol class="driver-list">
+            <li><strong>Iron ore realized prices</strong>Iron ore is central to Vale’s earnings profile. Demand from steelmaking, especially China-linked construction and industrial activity, is a major macro driver.</li>
+            <li><strong>Production volumes and grade mix</strong>Higher output can improve revenue and unit-cost absorption, but only if realized prices and logistics are favorable.</li>
+            <li><strong>Cash costs and freight/logistics efficiency</strong>Vale’s owned logistics systems are important, but mining, transport, port and regulatory disruptions can materially affect results.</li>
+            <li><strong>Nickel and copper exposure</strong>Vale Base Metals gives exposure to energy-transition metals, but nickel markets can be volatile and sensitive to supply growth, battery chemistry shifts and stainless-steel demand.</li>
+            <li><strong>Brazilian operating and regulatory risk</strong>Learners should investigate permitting, environmental obligations, tailings-dam oversight, taxes, royalties, rail/port logistics, labor and political risk through primary filings.</li>
+            <li><strong>Capital allocation</strong>The dividend yield is high in the finance dataset, but the payout ratio is also above 100%. Sustainability depends on commodity prices, free cash flow, balance sheet policy, capex and legal/environmental obligations.</li>
+          </ol>
+        </article>
+
+        <article class="card span-12 subtle">
+          <h3>Why the stock is currently interesting</h3>
+          <ul>
+            <li>Operational data snippets appear positive: high production levels and improving nickel cost competitiveness.</li>
+            <li>Market sentiment is mixed: analysts broadly rate the stock “BUY” in the finance tool, but a recent search result says Goldman downgraded Vale due to limited upside and weakness in metals.</li>
+            <li>The valuation profile shows cyclicality: trailing P/E is much higher than forward P/E, suggesting expectations of earnings improvement, normalization or cyclically depressed trailing earnings.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="market-data-title">
+      <div class="section-head">
+        <h2 id="market-data-title">Current market data and business fundamentals</h2>
+        <span class="kicker">Provider: ellements.domain_specific.finance.yahoo_finance</span>
+      </div>
+
+      <div class="grid">
+        <article class="card table-card span-6">
+          <div class="table-title">
+            <h3>Quote data</h3>
+            <p class="note">Symbol: <span class="num">VALE3.SA</span> · Exchange: SAO · Currency: BRL · Snapshot period not specified by provider; appears to be current quote snapshot.</p>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Field</th><th class="value">Value</th></tr>
+            </thead>
+            <tbody>
+              <tr><td data-label="Field">Name</td><td data-label="Value" class="value">Vale S.A.</td></tr>
+              <tr><td data-label="Field">Current price</td><td data-label="Value" class="value">75.26</td></tr>
+              <tr><td data-label="Field">Previous close</td><td data-label="Value" class="value">75.69</td></tr>
+              <tr><td data-label="Field">Open price</td><td data-label="Value" class="value">76.01</td></tr>
+              <tr><td data-label="Field">Day high</td><td data-label="Value" class="value">76.20</td></tr>
+              <tr><td data-label="Field">Day low</td><td data-label="Value" class="value">74.65</td></tr>
+              <tr><td data-label="Field">Volume</td><td data-label="Value" class="value">9,930,300</td></tr>
+              <tr><td data-label="Field">Market cap</td><td data-label="Value" class="value">320,288,718,848.0</td></tr>
+              <tr><td data-label="Field">P/E ratio</td><td data-label="Value" class="value">22.266272</td></tr>
+              <tr><td data-label="Field">Dividend yield</td><td data-label="Value" class="value">9.11</td></tr>
+              <tr><td data-label="Field">52-week high</td><td data-label="Value" class="value">91.62</td></tr>
+              <tr><td data-label="Field">52-week low</td><td data-label="Value" class="value">52.37</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="card table-card span-6">
+          <div class="table-title">
+            <h3>Company profile</h3>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Field</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+              <tr><td data-label="Field">Symbol</td><td data-label="Value">VALE3.SA</td></tr>
+              <tr><td data-label="Field">Name</td><td data-label="Value">Vale S.A.</td></tr>
+              <tr><td data-label="Field">Sector</td><td data-label="Value">Basic Materials</td></tr>
+              <tr><td data-label="Field">Industry</td><td data-label="Value">Other Industrial Metals &amp; Mining</td></tr>
+              <tr><td data-label="Field">Country</td><td data-label="Value">Brazil</td></tr>
+              <tr><td data-label="Field">Employees</td><td data-label="Value">65,805</td></tr>
+              <tr><td data-label="Field">Website</td><td data-label="Value"><a href="https://vale.com" target="_blank" rel="noopener noreferrer">https://vale.com</a></td></tr>
+              <tr><td data-label="Field">Address</td><td data-label="Value">Praia de Botafogo, 186 Rio De Janeiro RJ 22250-145</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="card table-card span-8">
+          <div class="table-title">
+            <h3>Financial metrics</h3>
+            <p class="note">Provider periods are not fully specified. Metrics are presented using provider labels; forward metrics are marked where the provider labels them as forward.</p>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Metric</th><th class="value">Value</th></tr>
+            </thead>
+            <tbody>
+              <tr><td data-label="Metric">P/E ratio</td><td data-label="Value" class="value">22.266272</td></tr>
+              <tr><td data-label="Metric">Forward P/E</td><td data-label="Value" class="value">9.1662445</td></tr>
+              <tr><td data-label="Metric">PEG ratio</td><td data-label="Value" class="value">0.34</td></tr>
+              <tr><td data-label="Metric">Price/book</td><td data-label="Value" class="value">1.6784496</td></tr>
+              <tr><td data-label="Metric">Price/sales</td><td data-label="Value" class="value">1.4908558</td></tr>
+              <tr><td data-label="Metric">Enterprise value</td><td data-label="Value" class="value">411,887,566,848.0</td></tr>
+              <tr><td data-label="Metric">EV/revenue</td><td data-label="Value" class="value">1.917</td></tr>
+              <tr><td data-label="Metric">EV/EBITDA</td><td data-label="Value" class="value">5.288</td></tr>
+              <tr><td data-label="Metric">Profit margin</td><td data-label="Value" class="value">0.072620004</td></tr>
+              <tr><td data-label="Metric">Operating margin</td><td data-label="Value" class="value">0.28124002</td></tr>
+              <tr><td data-label="Metric">Gross margin</td><td data-label="Value" class="value">0.35076</td></tr>
+              <tr><td data-label="Metric">Return on assets</td><td data-label="Value" class="value">0.081870005</td></tr>
+              <tr><td data-label="Metric">Return on equity</td><td data-label="Value" class="value">0.068390004</td></tr>
+              <tr><td data-label="Metric">Revenue growth</td><td data-label="Value" class="value">0.027</td></tr>
+              <tr><td data-label="Metric">Earnings growth</td><td data-label="Value" class="value">0.22</td></tr>
+              <tr><td data-label="Metric">Current ratio</td><td data-label="Value" class="value">1.24</td></tr>
+              <tr><td data-label="Metric">Quick ratio</td><td data-label="Value" class="value">0.666</td></tr>
+              <tr><td data-label="Metric">Debt/equity</td><td data-label="Value" class="value">57.146</td></tr>
+              <tr><td data-label="Metric">Total debt</td><td data-label="Value" class="value">111,957,999,616.0</td></tr>
+              <tr><td data-label="Metric">Total cash</td><td data-label="Value" class="value">27,552,000,000.0</td></tr>
+              <tr><td data-label="Metric">Book value/share</td><td data-label="Value" class="value">44.839</td></tr>
+              <tr><td data-label="Metric">Revenue/share</td><td data-label="Value" class="value">50.334</td></tr>
+              <tr><td data-label="Metric">Earnings/share</td><td data-label="Value" class="value">3.38</td></tr>
+              <tr><td data-label="Metric">Dividend rate</td><td data-label="Value" class="value">6.9</td></tr>
+              <tr><td data-label="Metric">Dividend yield</td><td data-label="Value" class="value">9.11</td></tr>
+              <tr><td data-label="Metric">Payout ratio</td><td data-label="Value" class="value">1.1746</td></tr>
+              <tr><td data-label="Metric">Beta</td><td data-label="Value" class="value">0.73</td></tr>
+              <tr><td data-label="Metric">Shares outstanding</td><td data-label="Value" class="value">4,255,762,795.0</td></tr>
+              <tr><td data-label="Metric">Float shares</td><td data-label="Value" class="value">3,964,779,676.0</td></tr>
+              <tr><td data-label="Metric">Shares short</td><td data-label="Value" class="value">null</td></tr>
+              <tr><td data-label="Metric">Short ratio</td><td data-label="Value" class="value">null</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="card table-card span-4">
+          <div class="table-title">
+            <h3>Analyst recommendations from finance tool</h3>
+            <p class="note">Important caveat: quote currency is BRL, but analyst target display uses “$”. Verify target currency and methodology directly from underlying analyst data or broker sources.</p>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Field</th><th class="value">Value</th></tr>
+            </thead>
+            <tbody>
+              <tr><td data-label="Field">Recommendation</td><td data-label="Value" class="value">BUY</td></tr>
+              <tr><td data-label="Field">Recommendation mean</td><td data-label="Value" class="value">2.15, where 1 = Strong Buy and 5 = Sell</td></tr>
+              <tr><td data-label="Field">Number of analysts</td><td data-label="Value" class="value">12</td></tr>
+              <tr><td data-label="Field">Mean price target</td><td data-label="Value" class="value">$88.53</td></tr>
+              <tr><td data-label="Field">Median price target</td><td data-label="Value" class="value">$88.14</td></tr>
+              <tr><td data-label="Field">High price target</td><td data-label="Value" class="value">$107.92</td></tr>
+              <tr><td data-label="Field">Low price target</td><td data-label="Value" class="value">$59.34</td></tr>
+              <tr><td data-label="Field">Recent recommendations history</td><td data-label="Value" class="value">4 entries available</td></tr>
+            </tbody>
+          </table>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="evidence-title">
+      <div class="section-head">
+        <h2 id="evidence-title">Recent news, official context and outside commentary</h2>
+        <span class="kicker">Search-result evidence only</span>
+      </div>
+
+      <article class="card callout uncertain">
+        <span class="status uncertain">Evidence quality</span>
+        <p>The following items are based only on <strong>web-search result titles, snippets, source labels and URLs</strong>. They should be treated as <strong>search-result evidence</strong>, not full-page readings.</p>
+      </article>
+
+      <div class="grid" style="margin-top:16px">
+        <article class="card span-6">
+          <h3>Recent news search-result evidence</h3>
+          <div class="source-list">
+            <div class="source-item">
+              <span class="status search">Search evidence</span>
+              <h4>Vale cut at Goldman with limited upside expected amid weakness in metals</h4>
+              <p><a href="https://seekingalpha.com/news/4618969-vale-cut-at-goldman-with-limited-upside-expected-amid-weakness-in-metals" target="_blank" rel="noopener noreferrer">Seeking Alpha news result</a></p>
+              <p class="snippet">“Vale downgraded to Neutral from Buy at Goldman Sachs, which says the shares are likely to see little growth as metal prices ...”</p>
+              <p class="source-meta">Source label: bing_news · Learning relevance: suggests at least one sell-side view became less constructive due to metals-price weakness and perceived limited upside.</p>
+            </div>
+
+            <div class="source-item">
+              <span class="status search">Search evidence</span>
+              <h4>Vale shareholders elect Oliveira chairman; Q2 iron ore output best since 2018</h4>
+              <p><a href="https://seekingalpha.com/news/4616939-vale-shareholders-elect-oliveira-chairman-q2-iron-ore-output-best-since-2018" target="_blank" rel="noopener noreferrer">Seeking Alpha news result</a></p>
+              <p class="snippet">“Vale rose after shareholders elected Manuel Lino Oliveira as Chairman, and the miner reported its highest Q2 iron ore ...”</p>
+              <p class="source-meta">Source label: bing_news · Learning relevance: points to governance change and strong Q2 iron ore production as recent catalysts.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card span-6">
+          <h3>Analyst-opinion search-result evidence</h3>
+          <div class="source-list">
+            <div class="source-item">
+              <span class="status search">General context</span>
+              <h4>Vale S.A . - Wikipedia</h4>
+              <p><a href="https://en.wikipedia.org/wiki/Vale_S.A." target="_blank" rel="noopener noreferrer">Wikipedia result</a></p>
+              <p class="snippet">“Vale is the largest producer of iron ore and nickel in the world. It also produces manganese, ferroalloys, copper, bauxite, potash, kaolin, and cobalt...”</p>
+              <p class="source-meta">Source label: google · Learning relevance: general company context, not a formal analyst opinion.</p>
+            </div>
+
+            <div class="source-item">
+              <span class="status search">Company self-description</span>
+              <h4>Home - Vale</h4>
+              <p><a href="https://www.vale.com/" target="_blank" rel="noopener noreferrer">Vale website result</a></p>
+              <p class="snippet">“Vale is a global mining company that operates with a focus on safety and sustainability. It produces iron, copper, nickel, and cobalt, which are essential for the energy transition.”</p>
+              <p class="source-meta">Source label: google · Learning relevance: company self-description, useful for business overview but not independent analysis.</p>
+            </div>
+
+            <div class="source-item">
+              <span class="status search">Market-data source</span>
+              <h4>Vale S.A. ( VALE ) Stock Price, News, Quote &amp; History - Yahoo Finance</h4>
+              <p><a href="https://finance.yahoo.com/quote/VALE/" target="_blank" rel="noopener noreferrer">Yahoo Finance result</a></p>
+              <p class="snippet">“Find the latest Vale S.A. (VALE) stock quote, history and other vital information...”</p>
+              <p class="source-meta">Source label: google · Learning relevance: market-data source, not an analyst thesis.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card span-8">
+          <h3>Official context search-result evidence</h3>
+          <div class="source-list">
+            <div class="source-item">
+              <span class="status reported">Official source hub</span>
+              <h4>Investors - Vale</h4>
+              <p><a href="https://www.vale.com/investors" target="_blank" rel="noopener noreferrer">Vale Investor Relations</a></p>
+              <p class="snippet">“Our latest financial and operating results are just a click away, as are our historical annual balance sheets and detailed presentations on results, trends and projections.”</p>
+              <p class="source-meta">Source label: google · Learning relevance: primary source hub for quarterly results, presentations and financial data.</p>
+            </div>
+
+            <div class="source-item">
+              <span class="status reported">Official reports</span>
+              <h4>Comunicados, resultados, apresentações e relatórios - Vale</h4>
+              <p><a href="https://www.vale.com/pt/comunicados-resultados-apresentacoes-e-relatorios" target="_blank" rel="noopener noreferrer">Portuguese results and reports page</a></p>
+              <p class="snippet">“Os resultados trimestrais da Vale e das nossas empresas controladas e coligadas podem ser encontrados aqui. Os documentos arquivados na U.S. Securities and Exchange Commision também estão disponíveis.”</p>
+              <p class="source-meta">Source label: google · Learning relevance: official source for quarterly results and SEC-filed documents.</p>
+            </div>
+
+            <div class="source-item">
+              <span class="status reported">Official result snippet</span>
+              <h4>3Q25 Quarterly results - Vale</h4>
+              <p><a href="https://saladeimprensa.vale.com/w/3q25-quarterly-results" target="_blank" rel="noopener noreferrer">3Q25 quarterly results page</a></p>
+              <p class="snippet">“Iron ore production reached its highest quarterly level since 2018 and copper had its best Q3 result since 2019, while we continued to improve our cost competitiveness on nickel. All of these reflect the operational consistency and relentless dedication of our teams.”</p>
+              <p class="source-meta">Source label: google · Learning relevance: official result snippet supporting the operational-improvement narrative.</p>
+            </div>
+
+            <div class="source-item">
+              <span class="status reported">Official disclosures</span>
+              <h4>Announcements, Results, Presentations and Reports - Vale</h4>
+              <p><a href="https://saladeimprensa.vale.com/announcements-results-presentations-and-reports" target="_blank" rel="noopener noreferrer">Announcements, results, presentations and reports</a></p>
+              <p class="snippet">“Important facts for our shareholders, such as the disclosure of performance reports, purchase and sale of shares and assets, in addition to international certifications, can be accessed through our newsletters...”</p>
+              <p class="source-meta">Source label: google · Learning relevance: official source for company announcements and shareholder-relevant disclosures.</p>
+            </div>
+          </div>
+        </article>
+
+        <aside class="card span-4 callout uncertain">
+          <span class="status uncertain">Evidence gap</span>
+          <h3>Skeptical outside commentary</h3>
+          <p>The skeptical-view search for “Vale S.A. VALE3 risks bear case competition” returned:</p>
+          <ul>
+            <li><strong>Results:</strong> none</li>
+            <li><strong>Total results:</strong> 0</li>
+          </ul>
+          <p>This does <strong>not</strong> mean there are no risks or bear cases; it only means this specific search query returned no results in the provided dataset.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section aria-labelledby="tensions-title">
+      <div class="section-head">
+        <h2 id="tensions-title">Agreements, tensions and evidence gaps</h2>
+        <span class="kicker">Interpretive map</span>
+      </div>
+
+      <div class="grid">
+        <article class="card span-4">
+          <h3>Areas of agreement</h3>
+          <ol>
+            <li><strong>Vale is a major global mining company.</strong> The finance profile and search snippets agree that Vale is a global miner with iron ore, nickel, copper and other metals exposure.</li>
+            <li><strong>Iron ore is central.</strong> The company profile highlights Iron Ore Solutions as a segment, and recent search-result snippets emphasize iron ore production strength.</li>
+            <li><strong>Operational momentum appears positive in recent snippets.</strong> Both a news result and an official-result snippet refer to iron ore production levels being the highest since 2018, though one references Q2 and the other a quarterly result in 3Q25.</li>
+            <li><strong>The stock is commodity-sensitive.</strong> The Goldman-related search result explicitly references weakness in metals as a reason for a downgrade.</li>
+          </ol>
+        </article>
+
+        <article class="card span-4 callout caution">
+          <h3>Key tensions</h3>
+          <ol>
+            <li><strong>Positive production vs. weaker metals pricing.</strong> Stronger volumes can help, but lower iron ore or nickel prices may offset operational gains.</li>
+            <li><strong>High dividend yield vs. payout ratio above 100%.</strong> Yield of <strong>9.11%</strong> is attractive as a headline number, but payout ratio <strong>1.1746</strong> raises sustainability questions if earnings or cash flow weaken.</li>
+            <li><strong>BUY consensus vs. Goldman downgrade snippet.</strong> The finance tool shows a broad <strong>BUY</strong> recommendation from 12 analysts, while the news search shows Goldman cutting the stock to Neutral.</li>
+            <li><strong>Forward P/E much lower than trailing P/E.</strong> Trailing P/E is <strong>22.27</strong>, forward P/E <strong>9.17</strong>. This should be verified with company filings and analyst models.</li>
+            <li><strong>Low beta vs. high commodity cyclicality.</strong> Beta is <strong>0.73</strong>, but Vale’s business is economically cyclical. Beta may understate commodity-specific or Brazil-specific risks.</li>
+          </ol>
+        </article>
+
+        <article class="card span-4 callout uncertain">
+          <span class="status uncertain">Evidence gaps</span>
+          <ol>
+            <li>No full-article reading.</li>
+            <li>No detailed commodity-price deck.</li>
+            <li>No production-cost table.</li>
+            <li>No capex and free-cash-flow breakdown.</li>
+            <li>No direct China demand data.</li>
+            <li>No detailed Brazilian operating-risk evidence.</li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="scenarios-title">
+      <div class="section-head">
+        <h2 id="scenarios-title">Balanced scenario frame</h2>
+        <span class="kicker">Learning framework, not a forecast</span>
+      </div>
+
+      <div class="grid">
+        <article class="card span-4 scenario">
+          <h3>Bull scenario <span>Constructive</span></h3>
+          <p>Vale benefits from a combination of:</p>
+          <ul>
+            <li>Strong iron ore production continuing after the reported high output levels.</li>
+            <li>Stable or improving iron ore realized prices.</li>
+            <li>China steel demand being stronger than feared.</li>
+            <li>Nickel cost competitiveness improving, as suggested by the official 3Q25 search-result snippet.</li>
+            <li>Copper production strength adding diversification.</li>
+            <li>Dividends remaining meaningful because free cash flow supports capital returns.</li>
+            <li>Balance-sheet leverage remaining manageable despite total debt of <strong>BRL 111.958bn</strong>.</li>
+          </ul>
+          <p>In this scenario, the market may focus on Vale’s operational consistency, forward earnings power and cash returns.</p>
+        </article>
+
+        <article class="card span-4 scenario">
+          <h3>Base scenario <span>Cyclical</span></h3>
+          <p>Vale performs as a high-quality but cyclical miner:</p>
+          <ul>
+            <li>Production remains solid, but commodity prices are mixed.</li>
+            <li>Iron ore volumes help offset some pricing weakness.</li>
+            <li>Nickel remains challenging but cost improvements limit downside.</li>
+            <li>Dividends continue but may fluctuate with earnings and free cash flow.</li>
+            <li>Valuation remains anchored by commodity-cycle uncertainty.</li>
+            <li>Analyst views remain mixed: consensus positive, but some brokers more cautious due to metals weakness.</li>
+          </ul>
+          <p>This scenario would be consistent with the tension between strong production snippets and the Goldman downgrade search result.</p>
+        </article>
+
+        <article class="card span-4 scenario">
+          <h3>Bear scenario <span>Cautious</span></h3>
+          <p>Vale faces pressure from:</p>
+          <ul>
+            <li>Falling iron ore and nickel prices.</li>
+            <li>Weak China demand, especially from property or steel sectors.</li>
+            <li>Higher mining, energy, freight or maintenance costs.</li>
+            <li>Brazilian regulatory, environmental, tax or operational disruptions.</li>
+            <li>Dividend cuts or lower shareholder returns if free cash flow deteriorates.</li>
+            <li>Balance-sheet pressure if debt remains high relative to commodity-cycle cash generation.</li>
+            <li>Market reassessment of forward earnings if the low forward P/E proves too optimistic.</li>
+          </ul>
+          <p>In this scenario, the stock’s apparent dividend yield and forward valuation could be value traps rather than signals of undervaluation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="watchlist-title">
+      <div class="section-head">
+        <h2 id="watchlist-title">Key uncertainties, watchlist signals and next checks</h2>
+        <span class="kicker">Primary-source investigation path</span>
+      </div>
+
+      <div class="grid">
+        <article class="card span-4 callout uncertain">
+          <span class="status uncertain">Key uncertainties</span>
+          <ol>
+            <li><strong>Iron ore price path.</strong> Vale’s earnings are highly sensitive to iron ore realized prices.</li>
+            <li><strong>China demand.</strong> Monitor Chinese steel production, property construction, infrastructure spending and port inventories.</li>
+            <li><strong>Nickel market balance.</strong> Nickel pricing and margins depend on global supply growth, Indonesian production, stainless-steel demand and battery-sector demand.</li>
+            <li><strong>Production quality and costs.</strong> High output is positive only if unit costs, grades, logistics and realized prices support margins.</li>
+            <li><strong>Dividend sustainability.</strong> Finance tool shows dividend yield <strong>9.11%</strong>, but payout ratio <strong>1.1746</strong>. Free cash flow coverage is essential.</li>
+            <li><strong>Balance-sheet resilience.</strong> Total debt of <strong>BRL 111.958bn</strong> versus cash of <strong>BRL 27.552bn</strong> should be assessed against EBITDA, maturities, interest costs and commodity downside scenarios.</li>
+            <li><strong>Brazilian operating risk.</strong> Legal, environmental, dam-safety, tax and permitting exposures require primary-source review.</li>
+          </ol>
+        </article>
+
+        <article class="card span-4">
+          <span class="status next">Watchlist signals</span>
+          <ul>
+            <li>Quarterly iron ore production and sales volumes.</li>
+            <li>Realized iron ore prices versus benchmark prices.</li>
+            <li>Iron ore cash cost and freight cost trends.</li>
+            <li>Pellet premiums and product mix.</li>
+            <li>Nickel production, realized prices and unit-cost metrics.</li>
+            <li>Copper production and realized prices.</li>
+            <li>Free cash flow after sustaining and growth capex.</li>
+            <li>Dividend declarations, payout policy and buybacks.</li>
+            <li>Net debt, maturity schedule and credit ratings.</li>
+            <li>China steel output, property indicators and infrastructure policy.</li>
+            <li>Brazilian regulatory and environmental disclosures.</li>
+            <li>Any updates from analysts after commodity-price changes.</li>
+          </ul>
+        </article>
+
+        <article class="card span-4">
+          <span class="status next">Primary sources to investigate next</span>
+          <div class="source-list">
+            <div>
+              <h4>Vale Investor Relations</h4>
+              <p><a href="https://www.vale.com/investors" target="_blank" rel="noopener noreferrer">https://www.vale.com/investors</a></p>
+              <p class="source-meta">Use for quarterly results, annual reports, presentations and balance-sheet history.</p>
+            </div>
+            <div>
+              <h4>Vale announcements, results, presentations and reports</h4>
+              <p><a href="https://saladeimprensa.vale.com/announcements-results-presentations-and-reports" target="_blank" rel="noopener noreferrer">https://saladeimprensa.vale.com/announcements-results-presentations-and-reports</a></p>
+              <p class="source-meta">Use for shareholder-relevant disclosures and official performance reports.</p>
+            </div>
+            <div>
+              <h4>Portuguese results and reports page</h4>
+              <p><a href="https://www.vale.com/pt/comunicados-resultados-apresentacoes-e-relatorios" target="_blank" rel="noopener noreferrer">https://www.vale.com/pt/comunicados-resultados-apresentacoes-e-relatorios</a></p>
+              <p class="source-meta">Useful because Vale is Brazil-based and some documents may be most detailed in Portuguese.</p>
+            </div>
+            <div>
+              <h4>3Q25 quarterly results page</h4>
+              <p><a href="https://saladeimprensa.vale.com/w/3q25-quarterly-results" target="_blank" rel="noopener noreferrer">https://saladeimprensa.vale.com/w/3q25-quarterly-results</a></p>
+              <p class="source-meta">The search snippet references highest quarterly iron ore production since 2018, best Q3 copper since 2019 and improved nickel cost competitiveness.</p>
+            </div>
+            <div>
+              <h4>Underlying analyst and broker reports</h4>
+              <p class="source-meta">The finance tool shows a BUY consensus, while a Seeking Alpha news result reports a Goldman downgrade. Learners should compare original broker assumptions on iron ore, nickel, costs, FX, capex and dividends.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="bottom-line-title">
+      <article class="card bottom-line">
+        <h2 id="bottom-line-title">Bottom line for learners</h2>
+        <p>Vale is a large, globally relevant miner with major iron ore exposure and meaningful base-metals optionality. The current learning question is whether strong production and attractive headline valuation/yield metrics can overcome weaker metals pricing concerns, China-demand uncertainty, high capital intensity and Brazil-specific operating risks.</p>
+        <p>The provided evidence supports both constructive and cautious interpretations, so the next step is to study Vale’s official quarterly production, realized prices, unit costs, free cash flow and balance-sheet disclosures directly.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-card">
+      <p><strong>Methodology/source note:</strong> This standalone dashboard transforms the supplied market-learning brief. Finance data are presented under the provider labels and caveats supplied in the brief. Web-search items are preserved as titles, snippets, source labels and URLs, and are not treated as confirmed full-article readings.</p>
+      <p><strong>Educational disclaimer:</strong> Purpose: asset education, not personal financial advice. No buy/sell recommendation.</p>
+      <div class="provenance">
+        <strong>WeaveMark provenance:</strong>
+        <span>Generator: WeaveMark.</span>
+        <span>Source promplet: <a href="https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/market-snapshot.weavemark.md?plain=1" target="_blank" rel="noopener noreferrer">market-snapshot.weavemark.md</a>.</span>
+        <span>This run's execution trace records every step and effect.</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

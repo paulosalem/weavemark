@@ -210,7 +210,7 @@ def test_market_snapshot_artifacts_are_grounded_and_transparent() -> None:
     root = EXAMPLES / "saved-artifact-workflows/market-snapshot/outputs"
     output = (root / "execution-output.md").read_text(encoding="utf-8")
     trace = (root / "execution-trace.md").read_text(encoding="utf-8")
-    dashboard = (root / "vale3-market-dashboard.html").read_text(encoding="utf-8")
+    dashboard = (root / "market-dashboard.html").read_text(encoding="utf-8")
     final_trace = trace.rsplit("## Final output", maxsplit=1)[-1]
 
     for unresolved in ("@{", "__WEAVEMARK", "example.com"):

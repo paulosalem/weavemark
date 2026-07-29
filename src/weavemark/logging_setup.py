@@ -22,6 +22,7 @@ from ellements.core.observability import (
 from .discovery.config import GLOBAL_DIR
 from .logging_policy import LoggingSettings, sanitize_log_value
 from .protection import ProtectionContext
+from .usage_tracking import active_accumulator
 
 _DISABLED_VALUES = {"0", "off", "false", "no"}
 
@@ -149,7 +150,11 @@ def new_client(
     logging_settings: LoggingSettings | None = None,
     **kwargs: Any,
 ) -> LLMClient:
-    """Construct an LLM client with policy-filtered WeaveMark call logging."""
+    """Construct an LLM client with policy-filtered WeaveMark call logging.
+
+    Clients created inside a :func:`weavemark.usage_tracking.track_usage` scope
+    also report their token usage and cost to that scope's accumulator.
+    """
 
     del protection
     settings = logging_settings or LoggingSettings()
@@ -163,6 +168,9 @@ def new_client(
     if directory is not None and settings.llm_calls:
         _prepare_log_directory(directory, settings)
         observers.append(PolicyPromptLogger(directory, settings))
+    accumulator = active_accumulator()
+    if accumulator is not None:
+        observers.append(accumulator)
     return LLMClient(model=model, observers=observers, **kwargs)
 
 

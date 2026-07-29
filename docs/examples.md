@@ -40,7 +40,7 @@ lives under [`studies/runtime-studies/`](../studies/runtime-studies).
 - [Orion storybook](https://paulosalem.github.io/weavemark/demos/orion-storybook/)
 - [AI Kanban](https://paulosalem.github.io/weavemark/demos/ai-kanban/)
 - [Knowledge Cards](https://paulosalem.github.io/weavemark/demos/knowledge-cards/)
-- [VALE3 market dashboard](https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/vale3-market-dashboard.html)
+- [VALE3 market dashboard](https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html)
 
 ## Run a selected example
 

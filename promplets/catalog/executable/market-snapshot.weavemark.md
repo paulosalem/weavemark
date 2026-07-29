@@ -53,6 +53,8 @@ personal financial advice.
   placeholders for unavailable facts. Omit unsupported metric cards instead.
   Keep the final educational, non-recommendation disclaimer visible but quiet.
 
-  End with a quiet "WeaveMark provenance" row linking the source promplet and
-  execution trace when those URLs are present in the source report. Keep
+  End with a quiet "WeaveMark provenance" row. Name WeaveMark as the generator,
+  link the source promplet
+  (https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/market-snapshot.weavemark.md?plain=1),
+  and state that this run's execution trace records every step and effect. Keep
   provenance secondary to the report and label it plainly.

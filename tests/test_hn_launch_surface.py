@@ -14,7 +14,7 @@ def test_readme_leads_with_three_complete_proof_paths() -> None:
     for artifact in (
         "demos/orion-storybook/",
         "demos/ai-kanban/",
-        "vale3-market-dashboard.html",
+        "market-dashboard.html",
     ):
         assert artifact in first_half
     for preview in (
@@ -60,7 +60,7 @@ def test_primary_showcases_retain_result_provenance() -> None:
         / "saved-artifact-workflows"
         / "market-snapshot"
         / "outputs"
-        / "vale3-market-dashboard.html"
+        / "market-dashboard.html"
     ).read_text(encoding="utf-8")
 
     assert "Storybook provenance" in storybook

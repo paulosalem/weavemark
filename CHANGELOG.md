@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+### Added
+
+- Run statistics now report provider-reported input/output token counts and cost
+  alongside the existing composition and execution figures, covering the whole
+  invocation rather than a single call.
+
+### Changed
+
+- The verbose run footer is now printed once, after packaging, so its tokens,
+  cost, and elapsed time cover every model call the invocation made, including
+  semantic `@package` application.
+- The bundled market snapshot is fully variable-driven: its packaged deliverable
+  is `market-dashboard.html` and its title, security identification, and
+  research character follow the supplied ticker variables.
+
 ## 0.9.2 - 2026-07-23
 
 ### Added

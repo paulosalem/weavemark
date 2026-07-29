@@ -104,6 +104,7 @@ from weavemark.settings import (
 )
 from weavemark.surfaces import lower_weavemark_surface
 from weavemark.traces import execution_result_to_dict, render_execution_trace_markdown
+from weavemark.usage_tracking import active_totals, track_usage, usage_stats
 from weavemark.variable_files import VariablesFileError, load_variables_file
 from weavemark.version import LANGUAGE_VERSION, PROCESSOR_VERSION
 
@@ -227,6 +228,7 @@ class WeaveMarkEventRenderer:
                     "Tool calls": data.get("tool_calls_made", 0),
                     "Diagnostics": data.get("diagnostics_count", 0),
                     "Output": f"{data.get('output_length', 0)} chars",
+                    **usage_stats(active_totals()),
                 },
                 console=console,
             )
@@ -1245,6 +1247,7 @@ def _show_result(
                 "Tool calls": result.tool_calls_made,
                 "Diagnostics": len(result.diagnostics),
                 "Output": f"{len(result.composed_prompt):,} chars",
+                **usage_stats(active_totals()),
             },
             elapsed=elapsed,
         )
@@ -1353,16 +1356,21 @@ def _cli_protection_context(
     """Build one effective protection context for a CLI invocation."""
 
     requested_write_roots: list[Path] = []
-    if args.output_dir is not None:
-        requested_write_roots.append(args.output_dir)
-    if args.output is not None:
-        requested_write_roots.append(args.output.parent)
-    if args.trace_output is not None:
-        requested_write_roots.append(args.trace_output.parent)
-    if args.provenance is not None:
-        requested_write_roots.append(args.provenance.parent)
-    if args.record_run is not None:
-        requested_write_roots.append(args.record_run)
+    output_dir = getattr(args, "output_dir", None)
+    output = getattr(args, "output", None)
+    trace_output = getattr(args, "trace_output", None)
+    provenance = getattr(args, "provenance", None)
+    record_run = getattr(args, "record_run", None)
+    if output_dir is not None:
+        requested_write_roots.append(output_dir)
+    if output is not None:
+        requested_write_roots.append(output.parent)
+    if trace_output is not None:
+        requested_write_roots.append(trace_output.parent)
+    if provenance is not None:
+        requested_write_roots.append(provenance.parent)
+    if record_run is not None:
+        requested_write_roots.append(record_run)
 
     interaction = getattr(args, "_interaction", None)
     approval_handler = (
@@ -1977,10 +1985,6 @@ async def run_execute(
     if output_format == "json":
         output = json.dumps(exec_json, indent=2, ensure_ascii=False)
 
-    stats_before_artifacts = args.show_output and bool(
-        args.output or args.output_dir or args.trace_output
-    )
-
     # When the spec declares @package deliverables and only an output *directory*
     # was given, those packages ARE the deliverables — don't also dump the raw
     # terminal output (e.g. an image's base64) as a primary file. Likewise, when a
@@ -2017,9 +2021,6 @@ async def run_execute(
     elif not suppress_primary:
         printer.result_markdown(exec_result.output)
 
-    if stats_before_artifacts and args.verbose:
-        _show_execution_stats(printer, engine_name, exec_result, elapsed)
-
     if args.trace_output:
         trace = render_execution_trace_markdown(
             spec=_portable_source_label(args),
@@ -2044,9 +2045,6 @@ async def run_execute(
             return 1
         if not args.no_file_summary:
             printer.file_written(trace_output)
-
-    if args.verbose and not stats_before_artifacts:
-        _show_execution_stats(printer, engine_name, exec_result, elapsed)
 
     package_results: list[PackageResult] = []
     if result.packages:
@@ -2086,6 +2084,8 @@ async def run_execute(
 
     successful_packages = [package for package in package_results if package.ok]
     total_elapsed = time.perf_counter() - started
+    if args.verbose:
+        _show_execution_stats(printer, engine_name, exec_result, total_elapsed)
     _emit_event(
         args,
         "result",
@@ -2275,11 +2275,18 @@ def _show_execution_stats(
     exec_result: ExecutionResult,
     elapsed: float,
 ) -> None:
+    """Render one final footer covering the whole invocation.
+
+    This runs after packaging so the reported tokens and cost include every
+    model call the run made, not only the execution engine's calls.
+    """
+
     printer.stats(
         {
             "Engine": engine_name,
             "Steps": len(exec_result.steps),
             "Output": f"{len(exec_result.output):,} chars",
+            **usage_stats(active_totals()),
         },
         elapsed=elapsed,
     )
@@ -2730,18 +2737,19 @@ def cli() -> None:
         sys.exit(0)
 
     try:
-        if args.run:
-            exit_code = asyncio.run(
-                run_execute(printer, spec_text, variables, base_dir, args),
-            )
-        elif args.batch_only or args.stdin:
-            exit_code = asyncio.run(
-                run_batch(printer, spec_text, variables, base_dir, args),
-            )
-        else:
-            exit_code = asyncio.run(
-                run_interactive(printer, spec_text, variables, base_dir, args),
-            )
+        with track_usage():
+            if args.run:
+                exit_code = asyncio.run(
+                    run_execute(printer, spec_text, variables, base_dir, args),
+                )
+            elif args.batch_only or args.stdin:
+                exit_code = asyncio.run(
+                    run_batch(printer, spec_text, variables, base_dir, args),
+                )
+            else:
+                exit_code = asyncio.run(
+                    run_interactive(printer, spec_text, variables, base_dir, args),
+                )
     except ProtectionError as exc:
         _emit_event(
             args,

@@ -99,7 +99,7 @@ a user-selected <span class="syntax-string">.aikanban.sqlite</span> file.
 
 Cards carry plans, typed outputs, activity,
 dependencies, and versioned AI handoff packets.</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="VALE3 market dashboard — live generated report" data-href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/vale3-market-dashboard.html" data-result-href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/vale3-market-dashboard.html" data-source-href="../promplets/catalog/executable/market-snapshot.weavemark.md" data-tutorial-href="tutorial-executable.html" data-stat-a-title="live evidence" data-stat-a-text="finance data plus bounded web search" data-stat-b-title="functional graph" data-stat-b-text="validated capability dependencies" data-stat-c-title="semantic package" data-stat-c-text="Markdown becomes a polished HTML report" hidden><code><span class="syntax-directive">@use</span> weavemark.domains.finance.market_research <span class="syntax-key">exposing</span> fetch_asset_snapshot search_asset_context
+              <pre class="hero-slide" data-carousel-slide data-title="VALE3 market dashboard — live generated report" data-href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html" data-result-href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html" data-source-href="../promplets/catalog/executable/market-snapshot.weavemark.md" data-tutorial-href="tutorial-executable.html" data-stat-a-title="live evidence" data-stat-a-text="finance data plus bounded web search" data-stat-b-title="functional graph" data-stat-b-text="validated capability dependencies" data-stat-c-title="semantic package" data-stat-c-text="Markdown becomes a polished HTML report" hidden><code><span class="syntax-directive">@use</span> weavemark.domains.finance.market_research <span class="syntax-key">exposing</span> fetch_asset_snapshot search_asset_context
 
 <span class="syntax-directive">@execute</span> functional
   <span class="syntax-key">scheduler:</span> graph-strict
@@ -108,7 +108,7 @@ dependencies, and versioned AI handoff packets.</code></pre>
 <span class="syntax-directive">@fetch_asset_snapshot</span> <span class="syntax-key">ticker:</span> <span class="syntax-string">"@{provider_ticker}"</span> <span class="syntax-key">as:</span> asset_snapshot
 <span class="syntax-directive">@search_asset_context</span> <span class="syntax-key">ticker:</span> <span class="syntax-string">"@{display_ticker}"</span> <span class="syntax-key">as:</span> web_context <span class="syntax-key">uses:</span> asset_snapshot
 
-<span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.std.presentation.information_dashboard_html <span class="syntax-key">file:</span> vale3-market-dashboard.html</code></pre>
+<span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.std.presentation.information_dashboard_html <span class="syntax-key">file:</span> market-dashboard.html</code></pre>
               <pre class="hero-slide" data-carousel-slide data-title="recurring-topic-monitor.weavemark.md" data-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-source-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-stat-a-title="bound tools" data-stat-a-text="search, crawl, then synthesize" data-stat-b-title="event memory" data-stat-b-text="new, repeat, material update" data-stat-c-title="saved run" data-stat-c-text="digest plus execution trace" hidden><code><span class="syntax-directive">@execute</span> single-call
   <span class="syntax-key">max_tool_calls:</span> 30
 
@@ -679,7 +679,7 @@ Search, cluster duplicate coverage, and resurface only material changes.</code><
             <h3>VALE3 Market Learning Dashboard</h3>
             <p>Finance data and bounded web-search evidence flow through a validated graph into an auditable report and standalone dashboard.</p>
             <div class="demo-actions">
-              <a class="button" href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/vale3-market-dashboard.html">Open report</a>
+              <a class="button" href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html">Open report</a>
               <a href="../promplets/catalog/executable/market-snapshot.weavemark.md">Source</a>
               <a href="../examples/saved-artifact-workflows/market-snapshot/outputs/execution-trace.md">Trace</a>
             </div>

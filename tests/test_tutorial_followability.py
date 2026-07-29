@@ -153,7 +153,7 @@ def test_tutorial_track_includes_executable_market_report_lesson() -> None:
     assert "information_dashboard_html" in executable
     assert "execution-output.md" in executable
     assert "execution-trace.md" in executable
-    assert "vale3-market-dashboard.html" in executable
+    assert "market-dashboard.html" in executable
 
 
 def test_tutorials_end_with_explicit_output_use_step() -> None:
