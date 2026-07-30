@@ -55,6 +55,13 @@
   failing with a spurious missing-fragment error.
 - `@output` now rejects an unquoted multi-word format string instead of silently
   keeping only its first word. Quote the format or move it to an indented body.
+- The prompt refactoring pipeline no longer leaks its own transformation
+  requirements into the prompt it produces. It stated them in an `@output`
+  block, but an `@output` body is appended to the composed prompt, so the
+  refactorer received them as material to keep rather than as work to perform.
+  Those requirements now live in the `@polish`, `@revise`, and `@normalize`
+  instructions that carry them out. Its assertions check headings the deliverable
+  must actually have instead of strings the composition always contained.
 
 ## 0.9.2 - 2026-07-23
 

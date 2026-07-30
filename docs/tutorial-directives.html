@@ -285,15 +285,34 @@
   3. Constraints and Prohibitions
   4. Output Format
 
-<span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
-  The refactored prompt must be ready to use as-is with an LLM.
-  Resolve cross-references and contradictory instructions.
-  Specify what to do when input is ambiguous.
-
-<span class="syntax-directive">@assert</span> <span class="syntax-key">contains:</span> <span class="syntax-string">"Resolve cross-references and contradictory instructions."</span>
-<span class="syntax-directive">@assert</span> <span class="syntax-key">contains:</span> <span class="syntax-string">"Specify what to do when input is ambiguous."</span> <span class="syntax-key">severity:</span> warning</code></pre>
+<span class="syntax-directive">@assert</span> <span class="syntax-key">section:</span> <span class="syntax-string">"Role and Identity"</span>
+<span class="syntax-directive">@assert</span> <span class="syntax-key">section:</span> <span class="syntax-string">"Output Format"</span>
+<span class="syntax-directive">@assert</span> <span class="syntax-key">not_contains:</span> <span class="syntax-string">"restatement of these transformation instructions"</span> <span class="syntax-key">severity:</span> warning</code></pre>
           <p class="snippet-source">
             From <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>.
+          </p>
+          <p>
+            Assert against the deliverable, not against your own source. An
+            <code>@output</code> body is appended to the composed prompt, so
+            <code>@assert contains:</code> aimed at that text matches whatever the
+            promplet already said and can never fail. The checks above name headings
+            the result must really carry, and one phrase it must never echo back.
+          </p>
+          <p>
+            That same rule decides where a requirement belongs. <code>@output</code>
+            describes the shape of the answer, so the model reads it as part of the
+            material. Requirements about how to <em>do</em> the work belong in the
+            instruction of the directive that does it. Here is <code>@output</code>
+            used for what it is for:
+          </p>
+          <pre><code><span class="syntax-directive">@output</span> <span class="syntax-key">enforce:</span> strict
+  Return Markdown with:
+
+  1. **Monitor snapshot** — brief, run date, actual search/crawl coverage,
+     context status, and evidence grade.
+  2. **Top findings** — ranked, deduplicated clusters.</code></pre>
+          <p class="snippet-source">
+            From <a href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md">recurring-topic-monitor.weavemark.md</a>.
           </p>
         </section>
 
