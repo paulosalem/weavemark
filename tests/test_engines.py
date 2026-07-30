@@ -1371,12 +1371,13 @@ class TestBaseEngineConfigMerge:
         assert config["extra"] is True  # new key from runtime
 
     def test_empty_spec_and_runtime(self):
+        from weavemark.defaults import DEFAULT_MODEL
         from weavemark.engines.base import BaseEngine
 
         engine = BaseEngine()
         result = CompositionResult(composed_prompt="x")
         config = engine._build_strategy_config(result)
-        assert config == {"model": "gpt-5.5"}
+        assert config == {"model": DEFAULT_MODEL}
 
 
 # ═══════════════════════════════════════════════════════════════════
