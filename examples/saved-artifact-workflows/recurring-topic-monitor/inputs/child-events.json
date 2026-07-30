@@ -10,5 +10,5 @@
   "user_constraints": "Prioritize practical details: date, time, location, cost, booking link, age fit, language, cancellation risk, and whether an adult must accompany the child.",
   "seed_urls": [],
   "use_previous_reports": false,
-  "previous_reports": ""
+  "previous_reports": "Not used: this run does not consult previous reports."
 }

@@ -36,6 +36,10 @@
 
 ### Fixed
 
+- The recurring topic monitor example runs again. Its input files supplied
+  `previous_reports` as an empty string, which counts as no value at all, so
+  `run.sh` stopped with a missing-input error before reaching a provider even
+  though the variable is only read when `use_previous_reports` is true.
 - An escaped `@@` immediately after a word character, as in `admin@@example.com`,
   is no longer mistaken for a reference. The reference scanner now honours the
   escape before its "preceded by text" rule, so such addresses compile instead of

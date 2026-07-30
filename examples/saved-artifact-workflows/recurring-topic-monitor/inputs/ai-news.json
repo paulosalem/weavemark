@@ -10,5 +10,5 @@
   "user_constraints": "Prioritize source-grounded developments over generic commentary. Explain why each item matters and what to verify next.",
   "seed_urls": [],
   "use_previous_reports": false,
-  "previous_reports": ""
+  "previous_reports": "Not used: this run does not consult previous reports."
 }
