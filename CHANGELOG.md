@@ -43,6 +43,10 @@
 
 ### Fixed
 
+- The collaborative engine now writes repository-relative response paths into its
+  agent-turn requests when the run happens inside the current working directory.
+  It previously wrote absolute paths, so every committed transcript recorded the
+  author's own directory layout.
 - A `single-call` promplet can now actually spend the tool budget it advertises.
   `max_iterations` bounded model round trips independently of `max_tool_calls`,
   so a promplet offering thirty calls while allowing twenty round trips could

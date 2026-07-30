@@ -441,8 +441,8 @@ def test_tutorial_images_are_deterministic_source_previews() -> None:
             "comic-strip.png",
             DOCS / "tutorial-comic.jpg",
             (1280, 853),
-            "4ae4ce37deda7c4c83855d07ff555fee6f20387f656cf1309e2b3ab39857a549",
-            "e72d4e492e60e0dcdbc36e5db5ee06a66a90a31c7011f4ef2b8f122f7b308021",
+            "5a2f0bebc1944d190808f74b4d68a4277f46384188c7f86fcbe275e2edba22ff",
+            "bef2c26071e92a00e85ed5b40cb22cd6b6977783b4a2e9acb8c0f7a1a7c7555b",
         ),
         (
             ROOT
@@ -450,8 +450,8 @@ def test_tutorial_images_are_deterministic_source_previews() -> None:
             "outputs/pages/page-9.png",
             DOCS / "tutorial-storybook-page.jpg",
             (1100, 733),
-            "a3395bca5011107e7e1764257ec99a144e67b33dbc3a35b364de0a9ec242becd",
-            "6aa917a1c0c37835c7fd2fac5e30b6c1fb70538e0f4d657cac52c739dd8afcc1",
+            "fb4cd2c6f1d66afbac45eb7cccc46b55109610a730bdd01f75c277075fcb8471",
+            "0bf243348ad8b76572872221c69e8e076708bea7b9e4f620e6ca8f3d809644ee",
         ),
     )
     for source_path, preview_path, size, source_hash, preview_hash in pairs:

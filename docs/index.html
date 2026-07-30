@@ -565,6 +565,14 @@ Name the risk, missing information, and next step.</code></pre>
               specification everyone can inspect; when execution is requested,
               the selected engine interprets the compiled artifact at runtime.
             </p>
+            <p class="snippet-note">
+              Every bundled example is exercised on <code>gpt-5.6-terra</code>
+              and <code>gpt-5.5</code>; <code>gpt-5.6-terra</code> is the default
+              and the recommended choice, at roughly half the cost. Override it
+              with <code>--model</code>, and add <code>--verbose</code> to close
+              a run with its token counts, prompt-cache hits, and
+              provider-reported cost.
+            </p>
           </div>
           <div class="code-card">
             <div class="code-title">

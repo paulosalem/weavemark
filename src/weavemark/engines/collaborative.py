@@ -20,6 +20,18 @@ from ..compilation.result import CompositionResult
 from .base import ArtifactCallback, BaseEngine, ExecutionResult, RuntimeConfig
 
 
+def _portable_path(path: Path) -> str:
+    """Render a path relative to the working directory when it lives under it.
+
+    The request file is a durable artifact that examples commit, so an absolute
+    path would bake one machine's directory layout into shared material.
+    """
+    try:
+        return str(path.resolve().relative_to(Path.cwd().resolve()))
+    except ValueError:
+        return str(path)
+
+
 class AgentHandoffEditCallback:
     """Edit callback that asks an external AI agent to author each edit turn."""
 
@@ -83,7 +95,7 @@ class AgentHandoffEditCallback:
             "You are the AI agent collaborating as the human/editor side of this "
             "WeaveMark example. Review the current draft and write the complete "
             "edited document to the response file below.\n\n"
-            f"**Response file:** `{response_path}`\n\n"
+            f"**Response file:** `{_portable_path(response_path)}`\n\n"
             "## Response contract\n\n"
             "- Write the full edited document, not a diff or commentary.\n"
             "- To approve the draft unchanged, copy it exactly.\n"

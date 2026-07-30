@@ -73,9 +73,16 @@ The finance helper is ordinary Python, so WeaveMark asks once before importing
 it and remembers that decision under `~/.weavemark`. Answer `y` to continue.
 
 This is a real effectful run rather than a template expansion. Ours took about
-three minutes and $0.34 of `gpt-5.6-terra` usage; WeaveMark prints the exact
-token counts and provider-reported cost when it finishes, and your numbers will
-differ by model, provider, and how much evidence the search returns.
+three minutes and $0.34 of `gpt-5.6-terra` usage; add `--verbose`, as above, and
+WeaveMark closes with the exact token counts, prompt-cache hits, and
+provider-reported cost. Your numbers will differ by model, provider, and how
+much evidence the search returns.
+
+Every bundled example is exercised on `gpt-5.6-terra` and on `gpt-5.5`.
+`gpt-5.6-terra` is the default and the recommended choice: it matched or beat
+`gpt-5.5` on all of them at roughly half the cost. Use `--model` to pick another
+one. Semantic compilation is demanding, so a cheaper model is not automatically
+a good trade.
 
 For the compile-only path, where a short product source becomes a detailed
 implementation contract that a programming agent then builds, follow

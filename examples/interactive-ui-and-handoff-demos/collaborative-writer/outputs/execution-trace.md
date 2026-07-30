@@ -3,18 +3,18 @@
 | Field | Value |
 | --- | --- |
 | Spec | `promplets/catalog/executable/collaborative-writer.weavemark.md` |
-| Model | `gpt-5.5` |
+| Model | `gpt-5.6-terra` |
 | Engine | `collaborative` |
-| Steps | 2 |
+| Steps | 4 |
 
 ## Execution metadata
 
 ```json
 {
-  "rounds_completed": 1,
+  "rounds_completed": 2,
   "max_rounds": 5,
   "call_settings": {
-    "model": "gpt-5.5",
+    "model": "gpt-5.6-terra",
     "modality": "text",
     "prompt_key": "default",
     "stage": "default",
@@ -39,43 +39,35 @@
 - Response:
 
 ```markdown
-## The Human Work of Small Rituals
+# The Small Rituals That Make Remote Teams Feel Human
 
-Remote work has given teams many useful freedoms: fewer commutes, more flexibility, access to colleagues across cities and time zones. But it has also taken away something we used to receive almost by accident. In an office, people became human to one another in small, ordinary ways. You noticed someone’s new haircut. You heard that a teammate’s child had been sick. You passed each other in the kitchen and discovered you both hated the same meeting room. None of this was “work,” exactly, but it helped work feel less transactional.
+Remote work has given many teams something they once struggled to find: flexibility. People can begin the day without a commute, focus in an environment that suits them, and build work around the realities of family, health, and geography. But flexibility can also create distance. When colleagues mostly meet as rectangles on a screen, it is easy for work to become a stream of tasks, updates, and calendar invitations.
 
-In remote teams, that casual texture does not always appear on its own. The day can become a chain of scheduled calls, task updates, and written decisions. We may know what someone delivered, but not how they are doing. We may see their name in a project management tool more often than we hear their voice. Over time, a team can become efficient and strangely lonely at the same time.
+The challenge is not simply to communicate more. Most remote teams already have plenty of messages. The challenge is to create moments that remind people they are working with human beings—not just names attached to documents, deadlines, and Slack threads.
 
-This is where small daily rituals matter. Not grand culture-building events, not forced fun, not another elaborate program for people to attend. Just simple, repeated moments that remind everyone there are humans on the other side of the screen.
+Small daily rituals can do that work quietly. They do not need to be elaborate, mandatory, or expensive. In fact, the best ones are often almost invisible: a two-minute check-in before a meeting, a shared photo prompt, a habit of celebrating progress in public. Their value comes from repetition. Over time, these gestures create familiarity, trust, and a sense that the team is made of people whose lives extend beyond the next deliverable.
 
-A ritual is different from a rule. A rule says, “You must do this.” A ritual says, “This is how we take care of something together.” The best remote rituals are light enough to fit into the day, but meaningful enough to create rhythm and recognition. They help people feel seen without requiring them to perform.
+A simple example is the opening check-in. Before moving into the agenda, a team might take a minute to answer a low-stakes question: What is your energy level today? What is one thing you are looking forward to? What is the weather like where you are? The questions do not need to be profound. Their purpose is not to turn every meeting into a therapy session. It is to make room for the reality that people arrive at work carrying different moods, pressures, and circumstances.
 
-One of the simplest rituals is the morning check-in. This might be a shared message in Slack or Teams: “What are you focused on today, and how are you arriving?” The first part helps with coordination. The second part adds humanity. Someone might write, “Focused on the client deck; arriving a little tired after a rough night of sleep.” Someone else might say, “Heads down on bug fixes; feeling good after a walk.” These details do not need to become conversations every time. Their value is that they make room for reality.
+A colleague who says, “I’m a little scattered today—my child is home sick,” is offering useful context. Another who says, “I’m energized; I finished a project I’d been stuck on,” gives the team a reason to share in a small win. These details help people interpret one another more generously. A short reply in chat feels less abrupt when you know someone is navigating a difficult day. A burst of enthusiasm makes more sense when you know someone has finally cleared an obstacle.
 
-A team that knows someone is having a hard day can respond with more patience. A manager who sees patterns can offer support earlier. A colleague who discovers another person also starts the day with a walk may feel a small thread of connection. The ritual is brief, but it softens the edges of the workday.
+Rituals also make appreciation more visible. In an office, gratitude can happen casually: someone stops by a desk, brings coffee after a late push, or offers a quick “thank you” in the hallway. Remote teams often have to be more intentional. A daily or weekly gratitude channel can restore some of that informal recognition. The key is to keep it specific. “Thanks to Maya for catching the issue in the client deck before it went out” means more than a generic “Great job, team.”
 
-Another useful ritual is beginning meetings with a real opening, not just a jump into the agenda. This does not mean spending twenty minutes on icebreakers. It can be as simple as asking, “What’s one thing taking up space in your mind today?” or “What is something small that went well this week?” When done with care, these questions help people arrive fully. They create a transition from one context to another, especially for remote workers who may be moving from dishes, childcare, or deep solo work directly into a strategic discussion.
+Specific appreciation does two things at once. It acknowledges effort, and it helps the team see the kinds of contributions that might otherwise go unnoticed. Careful editing, patient onboarding, thoughtful questions, and quiet follow-through are often essential to good work, but they are not always the most visible achievements. A regular habit of naming them tells people that their work matters.
 
-The key is to keep these openings optional and low-pressure. Not everyone wants to share something personal, and not every day calls for emotional depth. A good ritual offers an invitation, not an obligation. “Pass” should always be acceptable. The goal is not to manufacture intimacy, but to make space for genuine presence.
+Another useful ritual is creating a small, predictable space for life outside work. Some teams share a daily photo of a walk, a pet, a favorite lunch, or something funny spotted nearby. Others use a casual “morning hello” thread where people can post a song, a picture of their coffee, or a one-line intention for the day. These practices are not about forcing friendship or demanding personal disclosure. Participation should always be optional. But they give colleagues easy ways to be known without requiring anyone to perform openness.
 
-Celebration rituals also matter. In offices, recognition often happened informally. Someone would say, “Nice job on that presentation,” after a meeting. A manager might stop by a desk. A team might clap when a launch went live. Remotely, appreciation can become invisible unless we deliberately express it.
+That distinction matters. Not everyone wants to share personal details at work, and a healthy ritual respects that boundary. The goal is not to recreate the office break room online or manufacture intimacy. It is to create a warmer surface for collaboration—one where a person can contribute as much or as little of themselves as feels comfortable.
 
-A small weekly ritual of naming wins can change that. On Fridays, a team might post “one thing I appreciated this week” or “one win worth noticing.” These moments help people see the labor behind outcomes. They also spread attention beyond the loudest achievements. A quiet teammate who improved documentation, solved a customer issue, or helped someone get unstuck may receive the recognition that keeps them feeling connected to the group.
+Rituals can also bring shape to the workday. Remote work can blur beginnings and endings, especially when the same room serves as office, kitchen, and living space. A brief team ritual can help create a shared rhythm: a morning priority post, a midday focus block, or a closing note that answers, “What did I move forward today, and what needs attention tomorrow?” These practices are practical as well as human. They reduce ambiguity, make handoffs easier, and give people permission to end the day without carrying every unfinished task in their heads.
 
-Rituals can also protect boundaries, which is another deeply human need. Remote work often blurs the line between work and home. Without a commute or a closing office door, the day can spill outward. A team ritual that marks the end of the day can be surprisingly powerful. Some teams post a simple sign-off: “Closing my laptop now. Back tomorrow.” Others use a status emoji, an end-of-day note, or a shared norm that messages sent after hours do not require a response.
+The most effective rituals are usually the ones that fit the team’s actual culture. A highly social team may enjoy a playful question of the day. A team spread across time zones may prefer asynchronous check-ins so no one has to join an extra call. A group working under intense deadlines may need a simple end-of-day status note more than another meeting. There is no universal format, only a useful principle: choose small habits that make care, clarity, and recognition easier.
 
-These rituals communicate that rest is not a private weakness but a shared value. They remind people that being human includes stopping. A remote team becomes healthier when it does not treat availability as devotion.
+It is also worth resisting the urge to overdesign. Rituals lose their warmth when they become another obligation. If a daily icebreaker starts producing silence, it may be time to make it weekly or change the format. If a gratitude channel feels performative, leaders can model more genuine, concrete appreciation. The measure of a good ritual is not how cheerful it looks from the outside. It is whether people feel more connected, better informed, and more comfortable asking for help.
 
-Of course, rituals can become stale or performative if they are imposed without attention. A daily check-in that no one reads is just clutter. A recurring “fun” meeting that people dread is not culture; it is an obligation wearing a party hat. The best rituals are shaped with the team, not handed down to them. They should be revisited. Is this still useful? Does it help us feel more connected? Is it too frequent, too vague, too much?
+Remote teams do not become human through technology alone. They become human through repeated evidence that people notice one another. A quick check-in says, “Your day matters.” A public thank-you says, “Your effort was seen.” A closing message says, “You do not have to hold everything alone overnight.”
 
-Remote teams need permission to let rituals evolve. A practice that worked for five people may not work for twenty. A team under deadline may need shorter touchpoints. A distributed group across time zones may prefer asynchronous rituals over live ones. The point is not consistency for its own sake. The point is care, repeated in a form people can actually sustain.
-
-What makes these small rituals powerful is not their novelty. It is their repetition. A single check-in may feel ordinary. A single thank-you may seem minor. A single end-of-day sign-off may not transform anything. But over weeks and months, these gestures build a kind of emotional infrastructure. People learn that they will be greeted. Their efforts will be noticed. Their limits will be respected. Their lives outside work will not be treated as interruptions to their usefulness.
-
-That kind of trust rarely comes from a mission statement. It comes from the small ways a team behaves when no one is making a speech about culture.
-
-Remote work asks us to be more intentional about the human parts of collaboration. We cannot rely on hallway conversations or shared lunches to do the work for us. But we can create other forms of connection: a morning note, a thoughtful opening question, a weekly appreciation, a clear goodbye. These rituals do not need to be elaborate. They only need to be sincere.
-
-In the end, remote teams feel more human when people are not reduced to their outputs. Small daily rituals help us remember the person behind the message, the mood behind the meeting, the life around the work. They make room for attention, patience, humor, gratitude, and rest. And in a work culture often obsessed with scale, speed, and productivity, that smallness may be exactly what makes them matter.
+These are small gestures, but small gestures are how culture is built. Over time, they turn a collection of distributed workers into a team that feels present to one another—even from far apart.
 ```
 
 ### 2. user_edit_0
@@ -92,83 +84,188 @@ In the end, remote teams feel more human when people are not reduced to their ou
 - Response:
 
 ```markdown
-## The Human Work of Small Rituals
+# The Small Rituals That Make Remote Teams Feel Human
 
-Remote work has given teams many useful freedoms: fewer commutes, more flexibility, access to colleagues across cities and time zones. But it has also taken away something we used to receive almost by accident. In an office, people became human to one another in small, ordinary ways. You noticed someone’s new haircut. You heard that a teammate’s child had been sick. You passed each other in the kitchen and discovered you both hated the same meeting room. None of this was “work,” exactly, but it helped work feel less transactional.
+At 9:03 on a Tuesday, the team appears one by one in a chat thread. Ana posts a photo of a half-finished coffee beside a notebook. Marcus writes, "Arriving slow today, but moving." Priya adds a picture of her dog under the desk, visibly offended by the existence of meetings. Nobody writes anything profound. Nobody needs to. By 9:10 the team has remembered something that remote work makes easy to forget: there are people on the other side of the tickets.
 
-In remote teams, that casual texture does not always appear on its own. The day can become a chain of scheduled calls, task updates, and written decisions. We may know what someone delivered, but not how they are doing. We may see their name in a project management tool more often than we hear their voice. Over time, a team can become efficient and strangely lonely at the same time.
+Remote work has given many teams something they once struggled to find: flexibility. People can begin the day without a commute, focus in an environment that suits them, and build work around the realities of family, health, and geography. But flexibility can also create distance. When colleagues mostly meet as rectangles on a screen, it is easy for work to become a stream of tasks, updates, and calendar invitations.
 
-This is where small daily rituals matter. Not grand culture-building events, not forced fun, not another elaborate program for people to attend. Just simple, repeated moments that remind everyone there are humans on the other side of the screen.
+The challenge is not simply to communicate more. Most remote teams already have plenty of messages. The challenge is to create moments that remind people they are working with human beings—not just names attached to documents, deadlines, and chat threads.
 
-A ritual is different from a rule. A rule says, “You must do this.” A ritual says, “This is how we take care of something together.” The best remote rituals are light enough to fit into the day, but meaningful enough to create rhythm and recognition. They help people feel seen without requiring them to perform.
+Small daily rituals can do that work quietly. They do not need to be elaborate, mandatory, or expensive. In fact, the best ones are often almost invisible: a two-minute check-in before a meeting, a shared photo prompt, a habit of celebrating progress in public. Their value comes from repetition. Over time, these gestures create familiarity, trust, and a sense that the team is made of people whose lives extend beyond the next deliverable.
 
-One of the simplest rituals is the morning check-in. This might be a shared message in Slack or Teams: “What are you focused on today, and how are you arriving?” The first part helps with coordination. The second part adds humanity. Someone might write, “Focused on the client deck; arriving a little tired after a rough night of sleep.” Someone else might say, “Heads down on bug fixes; feeling good after a walk.” These details do not need to become conversations every time. Their value is that they make room for reality.
+A simple example is the opening check-in. Before moving into the agenda, a team might take a minute to answer a low-stakes question: What is your energy level today? What is one thing you are looking forward to? What is the weather like where you are? The questions do not need to be profound. Their purpose is not to turn every meeting into a therapy session. It is to make room for the reality that people arrive at work carrying different moods, pressures, and circumstances.
 
-A team that knows someone is having a hard day can respond with more patience. A manager who sees patterns can offer support earlier. A colleague who discovers another person also starts the day with a walk may feel a small thread of connection. The ritual is brief, but it softens the edges of the workday.
+A colleague who says, "I'm a little scattered today—my child is home sick," is offering useful context. Another who says, "I'm energized; I finished a project I'd been stuck on," gives the team a reason to share in a small win. These details help people interpret one another more generously. A short reply in chat feels less abrupt when you know someone is navigating a difficult day. A burst of enthusiasm makes more sense when you know someone has finally cleared an obstacle.
 
-Another useful ritual is beginning meetings with a real opening, not just a jump into the agenda. This does not mean spending twenty minutes on icebreakers. It can be as simple as asking, “What’s one thing taking up space in your mind today?” or “What is something small that went well this week?” When done with care, these questions help people arrive fully. They create a transition from one context to another, especially for remote workers who may be moving from dishes, childcare, or deep solo work directly into a strategic discussion.
+Rituals also make appreciation more visible. In an office, gratitude can happen casually: someone stops by a desk, brings coffee after a late push, or offers a quick "thank you" in the hallway. Remote teams often have to be more intentional. A daily or weekly gratitude channel can restore some of that informal recognition. The key is to keep it specific. "Thanks to Maya for catching the issue in the client deck before it went out" means more than a generic "Great job, team."
 
-The key is to keep these openings optional and low-pressure. Not everyone wants to share something personal, and not every day calls for emotional depth. A good ritual offers an invitation, not an obligation. “Pass” should always be acceptable. The goal is not to manufacture intimacy, but to make space for genuine presence.
+Specific appreciation does two things at once. It acknowledges effort, and it helps the team see the kinds of contributions that might otherwise go unnoticed. Careful editing, patient onboarding, thoughtful questions, and quiet follow-through are often essential to good work, but they are not always the most visible achievements. A regular habit of naming them tells people that their work matters.
 
-Celebration rituals also matter. In offices, recognition often happened informally. Someone would say, “Nice job on that presentation,” after a meeting. A manager might stop by a desk. A team might clap when a launch went live. Remotely, appreciation can become invisible unless we deliberately express it.
+Another useful ritual is creating a small, predictable space for life outside work. Some teams share a daily photo of a walk, a pet, a favorite lunch, or something funny spotted nearby. Others use a casual "morning hello" thread where people can post a song, a picture of their coffee, or a one-line intention for the day. These practices are not about forcing friendship or demanding personal disclosure. Participation should always be optional. But they give colleagues easy ways to be known without requiring anyone to perform openness.
 
-A small weekly ritual of naming wins can change that. On Fridays, a team might post “one thing I appreciated this week” or “one win worth noticing.” These moments help people see the labor behind outcomes. They also spread attention beyond the loudest achievements. A quiet teammate who improved documentation, solved a customer issue, or helped someone get unstuck may receive the recognition that keeps them feeling connected to the group.
+That distinction matters. Not everyone wants to share personal details at work, and a healthy ritual respects that boundary. The goal is not to recreate the office break room online or manufacture intimacy. It is to create a warmer surface for collaboration—one where a person can contribute as much or as little of themselves as feels comfortable.
 
-Rituals can also protect boundaries, which is another deeply human need. Remote work often blurs the line between work and home. Without a commute or a closing office door, the day can spill outward. A team ritual that marks the end of the day can be surprisingly powerful. Some teams post a simple sign-off: “Closing my laptop now. Back tomorrow.” Others use a status emoji, an end-of-day note, or a shared norm that messages sent after hours do not require a response.
+Rituals can also bring shape to the workday. Remote work can blur beginnings and endings, especially when the same room serves as office, kitchen, and living space. A brief team ritual can help create a shared rhythm: a morning priority post, a midday focus block, or a closing note that answers, "What did I move forward today, and what needs attention tomorrow?" These practices are practical as well as human. They reduce ambiguity, make handoffs easier, and give people permission to end the day without carrying every unfinished task in their heads.
 
-These rituals communicate that rest is not a private weakness but a shared value. They remind people that being human includes stopping. A remote team becomes healthier when it does not treat availability as devotion.
+The most effective rituals are usually the ones that fit the team's actual culture. A highly social team may enjoy a playful question of the day. A team spread across time zones may prefer asynchronous check-ins so no one has to join an extra call. A group working under intense deadlines may need a simple end-of-day status note more than another meeting. There is no universal format, only a useful principle: choose small habits that make care, clarity, and recognition easier.
 
-Of course, rituals can become stale or performative if they are imposed without attention. A daily check-in that no one reads is just clutter. A recurring “fun” meeting that people dread is not culture; it is an obligation wearing a party hat. The best rituals are shaped with the team, not handed down to them. They should be revisited. Is this still useful? Does it help us feel more connected? Is it too frequent, too vague, too much?
+It is also worth resisting the urge to overdesign. Rituals lose their warmth when they become another obligation. If a daily icebreaker starts producing silence, it may be time to make it weekly or change the format. If a gratitude channel feels performative, leaders can model more genuine, concrete appreciation. The measure of a good ritual is not how cheerful it looks from the outside. It is whether people feel more connected, better informed, and more comfortable asking for help.
 
-Remote teams need permission to let rituals evolve. A practice that worked for five people may not work for twenty. A team under deadline may need shorter touchpoints. A distributed group across time zones may prefer asynchronous rituals over live ones. The point is not consistency for its own sake. The point is care, repeated in a form people can actually sustain.
+It is worth being honest about the limits. Small rituals cannot repair unclear strategy, unreasonable workloads, or a team where it is unsafe to admit a mistake. Used as a substitute for those repairs, they curdle into decoration, and people can tell. A cheerful morning prompt lands badly in a week when everyone is drowning and no one in charge has noticed. The ritual opens the door; the response proves whether the culture is real.
 
-What makes these small rituals powerful is not their novelty. It is their repetition. A single check-in may feel ordinary. A single thank-you may seem minor. A single end-of-day sign-off may not transform anything. But over weeks and months, these gestures build a kind of emotional infrastructure. People learn that they will be greeted. Their efforts will be noticed. Their limits will be respected. Their lives outside work will not be treated as interruptions to their usefulness.
+For a team that wants to try this next week, start small:
 
-That kind of trust rarely comes from a mission statement. It comes from the small ways a team behaves when no one is making a speech about culture.
+1. Pick one recurring moment where people can offer a low-pressure human signal.
+2. Add one practical question that helps the work, such as "Where are you blocked?"
+3. Close the week by naming specific appreciation for effort that would otherwise stay invisible.
 
-Remote work asks us to be more intentional about the human parts of collaboration. We cannot rely on hallway conversations or shared lunches to do the work for us. But we can create other forms of connection: a morning note, a thoughtful opening question, a weekly appreciation, a clear goodbye. These rituals do not need to be elaborate. They only need to be sincere.
+Then watch what actually happens. Notice who joins in easily and who hangs back. Notice whether the habit creates clarity or just more noise. Notice whether people seem a little more able to ask, answer, pause, and be honest.
 
-In the end, remote teams feel more human when people are not reduced to their outputs. Small daily rituals help us remember the person behind the message, the mood behind the meeting, the life around the work. They make room for attention, patience, humor, gratitude, and rest. And in a work culture often obsessed with scale, speed, and productivity, that smallness may be exactly what makes them matter.
+Remote teams do not become human through technology alone. They become human through repeated evidence that people notice one another. A quick check-in says, "Your day matters." A public thank-you says, "Your effort was seen." A closing message says, "You do not have to hold everything alone overnight."
+
+These are small gestures, but small gestures are how culture is built. Over time, they turn a collection of distributed workers into a team that feels present to one another—even from far apart.
+```
+
+### 3. continue_0
+
+- Prompt key: `continue`
+- Metadata:
+
+```json
+{
+  "round": 1,
+  "source": "llm"
+}
+```
+- Response:
+
+```markdown
+# The Small Rituals That Make Remote Teams Feel Human
+
+At 9:03 on a Tuesday, the team appears one by one in a chat thread. Ana posts a photo of a half-finished coffee beside a notebook. Marcus writes, "Arriving slow today, but moving." Priya adds a picture of her dog under the desk, visibly offended by the existence of meetings. Nobody writes anything profound. Nobody needs to. By 9:10, the team has remembered something that remote work makes easy to forget: there are people on the other side of the tickets.
+
+Remote work has given many teams something they once struggled to find: flexibility. People can begin the day without a commute, focus in an environment that suits them, and build work around the realities of family, health, and geography. But flexibility can also create distance. When colleagues mostly meet as rectangles on a screen, work can become a stream of tasks, updates, and calendar invitations.
+
+The challenge is not simply to communicate more. Most remote teams already have plenty of messages. The challenge is to create small moments that remind people they are working with human beings—not just names attached to documents, deadlines, and chat threads.
+
+Small daily rituals can do that work quietly. They do not need to be elaborate, mandatory, or expensive. A two-minute check-in before a meeting, a shared photo prompt, or a habit of celebrating progress in public can be enough. Their value comes from repetition. Over time, these gestures create familiarity, trust, and a sense that the team is made of people whose lives extend beyond the next deliverable.
+
+An opening check-in is a simple place to start. Before moving into the agenda, a team might take a minute to answer a low-stakes question: What is your energy level today? What is one thing you are looking forward to? What is the weather like where you are? The purpose is not to turn every meeting into a therapy session. It is to make room for the fact that people arrive at work carrying different moods, pressures, and circumstances.
+
+A colleague who says, "I'm a little scattered today—my child is home sick," is offering useful context. Another who says, "I'm energized; I finally finished the project I'd been stuck on," gives the team a reason to share in a small win. These details help people interpret one another more generously. A brief reply in chat feels less abrupt when you know someone is navigating a difficult day. A burst of enthusiasm makes more sense when you know someone has cleared an obstacle.
+
+Rituals can also make appreciation more visible. In an office, gratitude often happens casually: someone stops by a desk, brings coffee after a late push, or offers a quick "thank you" in the hallway. Remote teams have to be more intentional. A gratitude channel or a few minutes at the end of the week can restore some of that recognition, especially when it is specific. "Thanks to Maya for catching the issue in the client deck before it went out" means more than a generic "Great job, team."
+
+Specific appreciation acknowledges effort, but it also helps the team see work that might otherwise disappear. Careful editing, patient onboarding, thoughtful questions, and quiet follow-through are essential to good work, though they are not always the most visible achievements. Naming them regularly tells people that those contributions matter.
+
+There can also be a small, predictable space for life outside work: a morning hello thread, a photo of a walk, a pet, a favorite lunch, or something amusing spotted nearby. Participation should be optional. These practices are not about forcing friendship or demanding personal disclosure. They simply give colleagues easy ways to be known without requiring anyone to perform openness. A healthy ritual respects the people who prefer to share very little, too.
+
+The best rituals also make the workday easier to manage. A morning priority post can clarify where attention is going. A closing note—"What did I move forward today, and what needs attention tomorrow?"—can make handoffs smoother and give people permission to stop carrying unfinished work in their heads overnight. For teams across time zones, these rituals may work better asynchronously than as another meeting.
+
+It is worth resisting the urge to overdesign. Rituals lose their warmth when they become one more obligation. If a daily icebreaker produces silence, it may be time to make it weekly, change the format, or let it go. And small rituals cannot repair unclear strategy, unreasonable workloads, or a culture where it is unsafe to admit a mistake. A cheerful morning prompt lands badly when everyone is drowning and no one in charge has noticed. The ritual opens the door; the response proves whether the culture is real.
+
+For a team that wants to try this next week, start small:
+
+1. Pick one recurring moment for a low-pressure human signal.
+2. Add one practical question, such as "Where are you blocked?"
+3. Close the week by naming specific effort that might otherwise stay invisible.
+
+Then watch what happens. Notice whether the habit creates clarity or just more noise, and whether people seem a little more able to ask, answer, pause, and be honest.
+
+Remote teams do not become human through technology alone. They become human through repeated evidence that people notice one another. A quick check-in says, "Your day matters." A public thank-you says, "Your effort was seen." A closing message says, "You do not have to hold everything alone overnight."
+
+These are small gestures, but small gestures are how culture is built.
+```
+
+### 4. user_edit_1
+
+- Prompt key: `continue`
+- Metadata:
+
+```json
+{
+  "round": 2,
+  "source": "user",
+  "done_signal": true
+}
+```
+- Response:
+
+```markdown
+# The Small Rituals That Make Remote Teams Feel Human
+
+At 9:03 on a Tuesday, the team appears one by one in a chat thread. Ana posts a photo of a half-finished coffee beside a notebook. Marcus writes, "Arriving slow today, but moving." Priya adds a picture of her dog under the desk, visibly offended by the existence of meetings. Nobody writes anything profound. Nobody needs to. By 9:10, the team has remembered something that remote work makes easy to forget: there are people on the other side of the tickets.
+
+Remote work has given many teams something they once struggled to find: flexibility. People can begin the day without a commute, focus in an environment that suits them, and build work around the realities of family, health, and geography. But flexibility can also create distance. When colleagues mostly meet as rectangles on a screen, work can become a stream of tasks, updates, and calendar invitations.
+
+The challenge is not simply to communicate more. Most remote teams already have plenty of messages. The challenge is to create small moments that remind people they are working with human beings—not just names attached to documents, deadlines, and chat threads.
+
+Small daily rituals can do that work quietly. They do not need to be elaborate, mandatory, or expensive. A two-minute check-in before a meeting, a shared photo prompt, or a habit of celebrating progress in public can be enough. Their value comes from repetition. Over time, these gestures create familiarity, trust, and a sense that the team is made of people whose lives extend beyond the next deliverable.
+
+An opening check-in is a simple place to start. Before moving into the agenda, a team might take a minute to answer a low-stakes question: What is your energy level today? What is one thing you are looking forward to? What is the weather like where you are? The purpose is not to turn every meeting into a therapy session. It is to make room for the fact that people arrive at work carrying different moods, pressures, and circumstances.
+
+A colleague who says, "I'm a little scattered today—my child is home sick," is offering useful context. Another who says, "I'm energized; I finally finished the project I'd been stuck on," gives the team a reason to share in a small win. These details help people interpret one another more generously. A brief reply in chat feels less abrupt when you know someone is navigating a difficult day. A burst of enthusiasm makes more sense when you know someone has cleared an obstacle.
+
+Rituals can also make appreciation more visible. In an office, gratitude often happens casually: someone stops by a desk, brings coffee after a late push, or offers a quick "thank you" in the hallway. Remote teams have to be more intentional. A gratitude channel or a few minutes at the end of the week can restore some of that recognition, especially when it is specific. "Thanks to Maya for catching the issue in the client deck before it went out" means more than a generic "Great job, team."
+
+Specific appreciation acknowledges effort, but it also helps the team see work that might otherwise disappear. Careful editing, patient onboarding, thoughtful questions, and quiet follow-through are essential to good work, though they are not always the most visible achievements. Naming them regularly tells people that those contributions matter.
+
+There can also be a small, predictable space for life outside work: a morning hello thread, a photo of a walk, a pet, a favorite lunch, or something amusing spotted nearby. Participation should be optional. These practices are not about forcing friendship or demanding personal disclosure. They simply give colleagues easy ways to be known without requiring anyone to perform openness. A healthy ritual respects the people who prefer to share very little, too.
+
+The best rituals also make the workday easier to manage. A morning priority post can clarify where attention is going. A closing note—"What did I move forward today, and what needs attention tomorrow?"—can make handoffs smoother and give people permission to stop carrying unfinished work in their heads overnight. For teams across time zones, these rituals may work better asynchronously than as another meeting.
+
+It is worth resisting the urge to overdesign. Rituals lose their warmth when they become one more obligation. If a daily icebreaker produces silence, it may be time to make it weekly, change the format, or let it go. And small rituals cannot repair unclear strategy, unreasonable workloads, or a culture where it is unsafe to admit a mistake. A cheerful morning prompt lands badly when everyone is drowning and no one in charge has noticed. The ritual opens the door; the response proves whether the culture is real.
+
+For a team that wants to try this next week, start small:
+
+1. Pick one recurring moment for a low-pressure human signal.
+2. Add one practical question, such as "Where are you blocked?"
+3. Close the week by naming specific effort that might otherwise stay invisible.
+
+Then watch what happens. Notice who joins in easily and who hangs back. Notice whether the habit creates clarity or just more noise, and whether people seem a little more able to ask, answer, pause, and be honest. A ritual that only the confident enjoy is not yet doing its job.
+
+Remote teams do not become human through technology alone. They become human through repeated evidence that people notice one another. A quick check-in says, "Your day matters." A public thank-you says, "Your effort was seen." A closing message says, "You do not have to hold everything alone overnight."
+
+These are small gestures, but small gestures are how culture is built.
 ```
 
 ## Final output
 
 ```markdown
-## The Human Work of Small Rituals
+# The Small Rituals That Make Remote Teams Feel Human
 
-Remote work has given teams many useful freedoms: fewer commutes, more flexibility, access to colleagues across cities and time zones. But it has also taken away something we used to receive almost by accident. In an office, people became human to one another in small, ordinary ways. You noticed someone’s new haircut. You heard that a teammate’s child had been sick. You passed each other in the kitchen and discovered you both hated the same meeting room. None of this was “work,” exactly, but it helped work feel less transactional.
+At 9:03 on a Tuesday, the team appears one by one in a chat thread. Ana posts a photo of a half-finished coffee beside a notebook. Marcus writes, "Arriving slow today, but moving." Priya adds a picture of her dog under the desk, visibly offended by the existence of meetings. Nobody writes anything profound. Nobody needs to. By 9:10, the team has remembered something that remote work makes easy to forget: there are people on the other side of the tickets.
 
-In remote teams, that casual texture does not always appear on its own. The day can become a chain of scheduled calls, task updates, and written decisions. We may know what someone delivered, but not how they are doing. We may see their name in a project management tool more often than we hear their voice. Over time, a team can become efficient and strangely lonely at the same time.
+Remote work has given many teams something they once struggled to find: flexibility. People can begin the day without a commute, focus in an environment that suits them, and build work around the realities of family, health, and geography. But flexibility can also create distance. When colleagues mostly meet as rectangles on a screen, work can become a stream of tasks, updates, and calendar invitations.
 
-This is where small daily rituals matter. Not grand culture-building events, not forced fun, not another elaborate program for people to attend. Just simple, repeated moments that remind everyone there are humans on the other side of the screen.
+The challenge is not simply to communicate more. Most remote teams already have plenty of messages. The challenge is to create small moments that remind people they are working with human beings—not just names attached to documents, deadlines, and chat threads.
 
-A ritual is different from a rule. A rule says, “You must do this.” A ritual says, “This is how we take care of something together.” The best remote rituals are light enough to fit into the day, but meaningful enough to create rhythm and recognition. They help people feel seen without requiring them to perform.
+Small daily rituals can do that work quietly. They do not need to be elaborate, mandatory, or expensive. A two-minute check-in before a meeting, a shared photo prompt, or a habit of celebrating progress in public can be enough. Their value comes from repetition. Over time, these gestures create familiarity, trust, and a sense that the team is made of people whose lives extend beyond the next deliverable.
 
-One of the simplest rituals is the morning check-in. This might be a shared message in Slack or Teams: “What are you focused on today, and how are you arriving?” The first part helps with coordination. The second part adds humanity. Someone might write, “Focused on the client deck; arriving a little tired after a rough night of sleep.” Someone else might say, “Heads down on bug fixes; feeling good after a walk.” These details do not need to become conversations every time. Their value is that they make room for reality.
+An opening check-in is a simple place to start. Before moving into the agenda, a team might take a minute to answer a low-stakes question: What is your energy level today? What is one thing you are looking forward to? What is the weather like where you are? The purpose is not to turn every meeting into a therapy session. It is to make room for the fact that people arrive at work carrying different moods, pressures, and circumstances.
 
-A team that knows someone is having a hard day can respond with more patience. A manager who sees patterns can offer support earlier. A colleague who discovers another person also starts the day with a walk may feel a small thread of connection. The ritual is brief, but it softens the edges of the workday.
+A colleague who says, "I'm a little scattered today—my child is home sick," is offering useful context. Another who says, "I'm energized; I finally finished the project I'd been stuck on," gives the team a reason to share in a small win. These details help people interpret one another more generously. A brief reply in chat feels less abrupt when you know someone is navigating a difficult day. A burst of enthusiasm makes more sense when you know someone has cleared an obstacle.
 
-Another useful ritual is beginning meetings with a real opening, not just a jump into the agenda. This does not mean spending twenty minutes on icebreakers. It can be as simple as asking, “What’s one thing taking up space in your mind today?” or “What is something small that went well this week?” When done with care, these questions help people arrive fully. They create a transition from one context to another, especially for remote workers who may be moving from dishes, childcare, or deep solo work directly into a strategic discussion.
+Rituals can also make appreciation more visible. In an office, gratitude often happens casually: someone stops by a desk, brings coffee after a late push, or offers a quick "thank you" in the hallway. Remote teams have to be more intentional. A gratitude channel or a few minutes at the end of the week can restore some of that recognition, especially when it is specific. "Thanks to Maya for catching the issue in the client deck before it went out" means more than a generic "Great job, team."
 
-The key is to keep these openings optional and low-pressure. Not everyone wants to share something personal, and not every day calls for emotional depth. A good ritual offers an invitation, not an obligation. “Pass” should always be acceptable. The goal is not to manufacture intimacy, but to make space for genuine presence.
+Specific appreciation acknowledges effort, but it also helps the team see work that might otherwise disappear. Careful editing, patient onboarding, thoughtful questions, and quiet follow-through are essential to good work, though they are not always the most visible achievements. Naming them regularly tells people that those contributions matter.
 
-Celebration rituals also matter. In offices, recognition often happened informally. Someone would say, “Nice job on that presentation,” after a meeting. A manager might stop by a desk. A team might clap when a launch went live. Remotely, appreciation can become invisible unless we deliberately express it.
+There can also be a small, predictable space for life outside work: a morning hello thread, a photo of a walk, a pet, a favorite lunch, or something amusing spotted nearby. Participation should be optional. These practices are not about forcing friendship or demanding personal disclosure. They simply give colleagues easy ways to be known without requiring anyone to perform openness. A healthy ritual respects the people who prefer to share very little, too.
 
-A small weekly ritual of naming wins can change that. On Fridays, a team might post “one thing I appreciated this week” or “one win worth noticing.” These moments help people see the labor behind outcomes. They also spread attention beyond the loudest achievements. A quiet teammate who improved documentation, solved a customer issue, or helped someone get unstuck may receive the recognition that keeps them feeling connected to the group.
+The best rituals also make the workday easier to manage. A morning priority post can clarify where attention is going. A closing note—"What did I move forward today, and what needs attention tomorrow?"—can make handoffs smoother and give people permission to stop carrying unfinished work in their heads overnight. For teams across time zones, these rituals may work better asynchronously than as another meeting.
 
-Rituals can also protect boundaries, which is another deeply human need. Remote work often blurs the line between work and home. Without a commute or a closing office door, the day can spill outward. A team ritual that marks the end of the day can be surprisingly powerful. Some teams post a simple sign-off: “Closing my laptop now. Back tomorrow.” Others use a status emoji, an end-of-day note, or a shared norm that messages sent after hours do not require a response.
+It is worth resisting the urge to overdesign. Rituals lose their warmth when they become one more obligation. If a daily icebreaker produces silence, it may be time to make it weekly, change the format, or let it go. And small rituals cannot repair unclear strategy, unreasonable workloads, or a culture where it is unsafe to admit a mistake. A cheerful morning prompt lands badly when everyone is drowning and no one in charge has noticed. The ritual opens the door; the response proves whether the culture is real.
 
-These rituals communicate that rest is not a private weakness but a shared value. They remind people that being human includes stopping. A remote team becomes healthier when it does not treat availability as devotion.
+For a team that wants to try this next week, start small:
 
-Of course, rituals can become stale or performative if they are imposed without attention. A daily check-in that no one reads is just clutter. A recurring “fun” meeting that people dread is not culture; it is an obligation wearing a party hat. The best rituals are shaped with the team, not handed down to them. They should be revisited. Is this still useful? Does it help us feel more connected? Is it too frequent, too vague, too much?
+1. Pick one recurring moment for a low-pressure human signal.
+2. Add one practical question, such as "Where are you blocked?"
+3. Close the week by naming specific effort that might otherwise stay invisible.
 
-Remote teams need permission to let rituals evolve. A practice that worked for five people may not work for twenty. A team under deadline may need shorter touchpoints. A distributed group across time zones may prefer asynchronous rituals over live ones. The point is not consistency for its own sake. The point is care, repeated in a form people can actually sustain.
+Then watch what happens. Notice who joins in easily and who hangs back. Notice whether the habit creates clarity or just more noise, and whether people seem a little more able to ask, answer, pause, and be honest. A ritual that only the confident enjoy is not yet doing its job.
 
-What makes these small rituals powerful is not their novelty. It is their repetition. A single check-in may feel ordinary. A single thank-you may seem minor. A single end-of-day sign-off may not transform anything. But over weeks and months, these gestures build a kind of emotional infrastructure. People learn that they will be greeted. Their efforts will be noticed. Their limits will be respected. Their lives outside work will not be treated as interruptions to their usefulness.
+Remote teams do not become human through technology alone. They become human through repeated evidence that people notice one another. A quick check-in says, "Your day matters." A public thank-you says, "Your effort was seen." A closing message says, "You do not have to hold everything alone overnight."
 
-That kind of trust rarely comes from a mission statement. It comes from the small ways a team behaves when no one is making a speech about culture.
-
-Remote work asks us to be more intentional about the human parts of collaboration. We cannot rely on hallway conversations or shared lunches to do the work for us. But we can create other forms of connection: a morning note, a thoughtful opening question, a weekly appreciation, a clear goodbye. These rituals do not need to be elaborate. They only need to be sincere.
-
-In the end, remote teams feel more human when people are not reduced to their outputs. Small daily rituals help us remember the person behind the message, the mood behind the meeting, the life around the work. They make room for attention, patience, humor, gratitude, and rest. And in a work culture often obsessed with scale, speed, and productivity, that smallness may be exactly what makes them matter.
+These are small gestures, but small gestures are how culture is built.
 ```
