@@ -1184,6 +1184,13 @@ routes those models through the Responses API automatically. Set
 `WEAVEMARK_RESPONSES_API=1` to force that route for a model WeaveMark does not
 yet recognise, or `WEAVEMARK_RESPONSES_API=0` to force it off.
 
+That route also pins reasoning effort where Chat Completions leaves the choice
+to the model, and the pinned level is low enough to change results: at `medium`
+the refactoring pipeline copied its `@output` requirements into the deliverable
+instead of applying them. WeaveMark therefore requests `high` there.
+`WEAVEMARK_REASONING_EFFORT` overrides it — lowering it trades compile quality
+for cost.
+
 **Custom engines**: implement the `Engine` protocol or extend `BaseEngine`:
 
 ```python

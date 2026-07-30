@@ -5,10 +5,12 @@ from __future__ import annotations
 import asyncio
 
 import pytest
+from ellements.core import LLMClient
 
 from weavemark.logging_setup import (
     new_client,
     requires_responses_api,
+    responses_reasoning_effort,
     responses_tool_schema,
 )
 from weavemark.usage_tracking import (
@@ -317,3 +319,41 @@ def test_a_blank_override_leaves_detection_alone(
 
     assert requires_responses_api("gpt-5.6-terra")
     assert not requires_responses_api("gpt-5.5")
+
+
+def test_the_responses_route_asks_for_deliberate_reasoning() -> None:
+    """Its pinned ``medium`` measurably fails to apply ``@output`` rules."""
+
+    assert responses_reasoning_effort() == "high"
+
+
+def test_the_reasoning_effort_can_be_dialled_from_the_environment(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("WEAVEMARK_REASONING_EFFORT", "Medium")
+
+    assert responses_reasoning_effort() == "medium"
+
+
+def test_a_blank_reasoning_effort_falls_back_to_the_default(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("WEAVEMARK_REASONING_EFFORT", "  ")
+
+    assert responses_reasoning_effort() == "high"
+
+
+def test_responses_calls_carry_the_reasoning_effort(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    captured: dict[str, object] = {}
+
+    async def fake_invoke(self: object, *, request_params: dict[str, object]) -> None:
+        captured.update(request_params)
+
+    monkeypatch.setattr(LLMClient, "_invoke_litellm", fake_invoke)
+    client = new_client(model="gpt-5.6-terra")
+
+    asyncio.run(client._invoke_litellm(request_params={"temperature": 1.0}))
+
+    assert captured == {"temperature": 1.0, "reasoning_effort": "high"}

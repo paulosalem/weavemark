@@ -19,7 +19,11 @@
   so WeaveMark routes them through OpenAI's Responses API and emits its compiler
   tool definitions in that API's flat schema. Earlier models are unaffected.
   `WEAVEMARK_RESPONSES_API=1` forces that route for any other model with the
-  same constraint; `WEAVEMARK_RESPONSES_API=0` forces it off.
+  same constraint; `WEAVEMARK_RESPONSES_API=0` forces it off. Calls on that
+  route request `high` reasoning effort, overridable with
+  `WEAVEMARK_REASONING_EFFORT`, because the route otherwise pins effort to a
+  level at which compilation copies `@output` requirements into the deliverable
+  instead of applying them.
 
 ### Changed
 

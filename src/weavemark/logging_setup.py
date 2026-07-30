@@ -33,6 +33,8 @@ _APP_HANDLER_TAG = "weavemark_app_file_handler"
 
 _RESPONSES_API_MODEL_MARKERS = ("gpt-5.6",)
 _RESPONSES_API_ENV_VAR = "WEAVEMARK_RESPONSES_API"
+_REASONING_EFFORT_ENV_VAR = "WEAVEMARK_REASONING_EFFORT"
+_RESPONSES_REASONING_EFFORT = "high"
 
 
 def _responses_api_override() -> bool | None:
@@ -81,6 +83,21 @@ def responses_tool_schema(tool: Any) -> Any:
     return {"type": "function", **function}
 
 
+def responses_reasoning_effort() -> str:
+    """Return the reasoning effort to request on the Responses API route.
+
+    The underlying client pins that route to ``medium`` while the Chat
+    Completions route sends nothing and lets the model choose. Compilation is
+    the demanding half of WeaveMark's work — it must apply ``@output``
+    requirements as constraints rather than copy them into the deliverable —
+    and ``medium`` measurably fails at it, so WeaveMark asks for more.
+    """
+
+    return os.environ.get(_REASONING_EFFORT_ENV_VAR, "").strip().lower() or (
+        _RESPONSES_REASONING_EFFORT
+    )
+
+
 class _ResponsesToolClient(LLMClient):
     """Client that emits WeaveMark's tool definitions in the Responses shape.
 
@@ -93,6 +110,8 @@ class _ResponsesToolClient(LLMClient):
     would help. The Responses API is the one route that rejects the Chat
     envelope, so it is the one route that needs a conversion, applied after
     coercion so executable tools keep their normal dialect path.
+
+    The same route also pins reasoning effort, which this client raises.
     """
 
     def _prepare_tool_loop(self, **kwargs: Any) -> tuple[Any, list[dict[str, Any]]]:
@@ -100,6 +119,17 @@ class _ResponsesToolClient(LLMClient):
 
         executor, definitions = super()._prepare_tool_loop(**kwargs)
         return executor, [responses_tool_schema(tool) for tool in definitions]
+
+    async def _invoke_litellm(
+        self,
+        *,
+        request_params: dict[str, Any],
+        **kwargs: Any,
+    ) -> Any:
+        """Ask for WeaveMark's reasoning effort on every call this client makes."""
+
+        params = {**request_params, "reasoning_effort": responses_reasoning_effort()}
+        return await super()._invoke_litellm(request_params=params, **kwargs)
 
 
 class PolicyPromptLogger:
