@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 
+from weavemark.defaults import DEFAULT_MODEL
 from weavemark.discovery.config import (
     PROJECT_CONFIG_NAME,
     WeaveMarkEnvConfig,
@@ -17,7 +18,7 @@ class TestWeaveMarkEnvConfig:
     def test_defaults(self):
         c = WeaveMarkEnvConfig()
         assert c.library_dirs == []
-        assert c.default_model == "gpt-5.5"
+        assert c.default_model == DEFAULT_MODEL
 
     def test_effective_library_dirs_prepends_default(self, tmp_path):
         (tmp_path / "promplets").mkdir()
@@ -74,17 +75,21 @@ class TestFindProjectConfig:
 class TestLoadConfig:
     def test_empty_returns_defaults(self, tmp_path):
         c = load_config(project_dir=tmp_path)
-        assert c.default_model == "gpt-5.5"
+        assert c.default_model == DEFAULT_MODEL
         assert c.library_dirs == []
 
     def test_project_config_loads(self, tmp_path):
         specs = tmp_path / "my_specs"
         specs.mkdir()
         cfg = tmp_path / PROJECT_CONFIG_NAME
-        cfg.write_text(json.dumps({
-            "library_dirs": ["my_specs"],
-            "default_model": "claude-3",
-        }))
+        cfg.write_text(
+            json.dumps(
+                {
+                    "library_dirs": ["my_specs"],
+                    "default_model": "claude-3",
+                }
+            )
+        )
         c = load_config(project_dir=tmp_path)
         assert c.default_model == "claude-3"
         assert specs.resolve() in c.library_dirs
@@ -138,7 +143,7 @@ class TestLoadConfig:
         cfg = tmp_path / PROJECT_CONFIG_NAME
         cfg.write_text("NOT VALID JSON!!!")
         c = load_config(project_dir=tmp_path)
-        assert c.default_model == "gpt-5.5"  # defaults preserved
+        assert c.default_model == DEFAULT_MODEL  # defaults preserved
 
 
 class TestPrintEnv:

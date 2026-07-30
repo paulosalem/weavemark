@@ -94,7 +94,7 @@ their companion implementations before execution.
 ```json
 {
   "weavemark.cliPath": "/absolute/path/to/weavemark",
-  "weavemark.defaultModel": "gpt-5.5",
+  "weavemark.defaultModel": "gpt-5.6-terra",
   "weavemark.extraArgs": ["--library-dir", "/path/to/promplets"]
 }
 ```

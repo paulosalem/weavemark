@@ -127,7 +127,7 @@ result = await compile_file(
     "promplets/brief.weavemark.md",
     variables={"topic": "battery recycling"},
     options=CompileOptions(
-        model="gpt-5.5",
+        model="gpt-5.6-terra",
         max_iterations=12,
         use_structural_helpers=True,
         max_effect_rounds=6,
@@ -230,8 +230,8 @@ run = await execute_file(
     "promplets/tree-solver.weavemark.md",
     variables={"problem": "Design a retention strategy"},
     runtime_config=RuntimeConfig(
-        model="gpt-5.5",
-        allowed_models=("gpt-5.5",),
+        model="gpt-5.6-terra",
+        allowed_models=("gpt-5.6-terra",),
     ),
 )
 

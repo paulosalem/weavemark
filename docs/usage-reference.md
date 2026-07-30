@@ -1164,9 +1164,9 @@ not belong in the promplet. Runtime config is never auto-discovered and does not
 contain promplet variables:
 
 ```yaml
-model: gpt-5.5
+model: gpt-5.6-terra
 image_model: gpt-image-2
-allowed_models: [gpt-5.5, gpt-4.1-mini, gpt-image-2]
+allowed_models: [gpt-5.6-terra, gpt-4.1-mini, gpt-image-2]
 prompts:
   evaluate:
     model: gpt-4.1-mini
@@ -1183,7 +1183,7 @@ the built-in default. `--model` and `--image-model` are explicit overrides; if
 they are omitted, the runtime config remains authoritative. `allowed_models`
 turns model residency into an enforced policy: execution fails before a provider
 call if the resolved model is not listed. Compilation and execution use the same
-text model by default.
+text model by default. The built-in default is `gpt-5.6-terra`.
 
 Some models are only usable over a provider's newer endpoint. OpenAI's GPT-5.6
 family, for instance, refuses function tools combined with any reasoning effort
@@ -1194,8 +1194,8 @@ yet recognise, or `WEAVEMARK_RESPONSES_API=0` to force it off.
 
 That route also pins reasoning effort where Chat Completions leaves the choice
 to the model, and the pinned level is low enough to change results: at `medium`
-the refactoring pipeline copied its `@output` requirements into the deliverable
-instead of applying them. WeaveMark therefore requests `high` there.
+the semantic compiler treated requirements it was given as material to copy
+rather than work to perform. WeaveMark therefore requests `high` there.
 `WEAVEMARK_REASONING_EFFORT` overrides it — lowering it trades compile quality
 for cost.
 

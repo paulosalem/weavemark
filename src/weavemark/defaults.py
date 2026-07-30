@@ -1,6 +1,6 @@
 """Shared WeaveMark defaults."""
 
-DEFAULT_MODEL = "gpt-5.5"
+DEFAULT_MODEL = "gpt-5.6-terra"
 DEFAULT_IMAGE_MODEL = "gpt-image-2"
 
 # Canonical WeaveMark promplet file extension.

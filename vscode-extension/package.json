@@ -194,7 +194,7 @@
           "type": "string",
           "default": "",
           "scope": "machine",
-          "description": "Default LLM model to use (e.g. gpt-5.5). Leave empty for CLI default."
+          "description": "Default LLM model to use (e.g. gpt-5.6-terra). Leave empty for CLI default."
         },
         "weavemark.extraArgs": {
           "type": "array",

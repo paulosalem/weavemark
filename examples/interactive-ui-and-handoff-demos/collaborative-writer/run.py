@@ -51,6 +51,7 @@ from weavemark_example_progress import (
 from weavemark_guided_inputs import collect_guided_variables
 
 from weavemark.controller import WeaveMarkConfig, WeaveMarkController
+from weavemark.defaults import DEFAULT_MODEL
 from weavemark.engines.base import RuntimeConfig
 from weavemark.engines.collaborative import (
     AgentHandoffEditCallback,
@@ -269,7 +270,7 @@ async def run(
     trace_path.write_text(
         render_execution_trace_markdown(
             spec=display_path(spec_path),
-            model="gpt-5.5",
+            model=DEFAULT_MODEL,
             engine="collaborative",
             output=final_output,
             steps=normalized_steps,

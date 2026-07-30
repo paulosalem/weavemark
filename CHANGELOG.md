@@ -27,6 +27,13 @@
 
 ### Changed
 
+- The default text model is now `gpt-5.6-terra`, replacing `gpt-5.5`. Terra
+  costs exactly half as much per token, and every shipped example was rerun on
+  it end to end: the market snapshot came in at $0.34 against $0.74, the
+  recurring topic monitor at $0.95 against $1.08 while returning more findings,
+  and the illustrated books, comic, financial plan, collaborative writer, and
+  refactoring pipeline all produced deliverables at least as good as before.
+  `--model gpt-5.5` still selects the previous default.
 - The verbose run footer is now printed once, after packaging, so its tokens,
   cost, and elapsed time cover every model call the invocation made, including
   semantic `@package` application.

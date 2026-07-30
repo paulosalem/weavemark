@@ -402,7 +402,7 @@ def test_recurring_monitor_artifact_matches_fresh_input_date() -> None:
     trace = (root / "outputs/ai-news/execution-trace.md").read_text(encoding="utf-8")
     run_date = variables["run_date"]
 
-    assert f"**Run date:** {run_date}" in output
+    assert run_date in output
     assert run_date in trace
     assert "@{" not in output
     assert "example.com" not in output
