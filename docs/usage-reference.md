@@ -737,9 +737,17 @@ functions implement only those calls. Use `max_iterations` and
 `max_tool_calls` under `@execute single-call` to bound the loop. Python binding
 imports remain subject to WeaveMark protections.
 
+`max_tool_calls` is the real spending limit: it caps how many bound calls the
+run may make. `max_iterations` bounds model round trips, and because serial tool
+use costs roughly one round trip per call, it is raised automatically whenever
+it would fall below the tool budget the promplet advertises. Otherwise a model
+that takes the offered budget at face value would exhaust the loop instead of
+finishing. Raise `max_iterations` above `max_tool_calls` when you want extra
+reasoning turns; you cannot set it below what you have already promised.
+
 ```markdown
 @execute single-call
-  max_iterations: 12
+  max_iterations: 24
   max_tool_calls: 20
 
 @bind search_web language: python from: "./tools/web.py" symbol: search_web

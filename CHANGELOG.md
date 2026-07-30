@@ -36,6 +36,15 @@
 
 ### Fixed
 
+- A `single-call` promplet can now actually spend the tool budget it advertises.
+  `max_iterations` bounded model round trips independently of `max_tool_calls`,
+  so a promplet offering thirty calls while allowing twenty round trips could
+  never reach its own budget: a model that took the offer at face value ran out
+  of iterations and failed the run instead of finishing it, and one that stopped
+  early passed only by being less thorough. The engine now raises the iteration
+  ceiling to fit the declared tool budget, including the round trip that reports
+  the budget as exhausted. Actual tool use is still bounded by `max_tool_calls`,
+  and a larger `max_iterations` is left untouched.
 - The recurring topic monitor example runs again. Its input files supplied
   `previous_reports` as an empty string, which counts as no value at all, so
   `run.sh` stopped with a missing-input error before reaching a provider even

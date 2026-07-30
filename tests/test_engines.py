@@ -480,8 +480,7 @@ Write a concise report from @{final}.
   @effect calculator read
   @body
     Calculate @{value}.
-""".strip()
-            + "\n",
+""".strip() + "\n",
             encoding="utf-8",
         )
         (tmp_path / "override.py").write_text(
@@ -495,8 +494,7 @@ Write a concise report from @{final}.
 @execute functional
   allow_effects: [calculator]
 @calculate value: "4" as: result
-""".strip()
-            + "\n",
+""".strip() + "\n",
             encoding="utf-8",
         )
         override_path = tmp_path / "override.weavemark.md"
@@ -507,8 +505,7 @@ Write a concise report from @{final}.
 @execute functional
   allow_effects: [calculator]
 @calculate value: "4" as: result
-""".strip()
-            + "\n",
+""".strip() + "\n",
             encoding="utf-8",
         )
 
@@ -1039,7 +1036,9 @@ class TestSingleCallEngine:
         assert executed.metadata["tool_calls"][0]["name"] == "search_web"
 
 
-@pytest.mark.parametrize("name_field", ("name", "capability", "capability_name", "tool"))
+@pytest.mark.parametrize(
+    "name_field", ("name", "capability", "capability_name", "tool")
+)
 def test_compiler_binding_name_is_canonicalized(name_field: str) -> None:
     binding = {
         name_field: "search_web",
@@ -1536,3 +1535,22 @@ class TestPromptValidation:
         )
         exec_result = await engine.execute(result)
         assert exec_result.output == "ok"
+
+
+class TestToolLoopBudget:
+    """A promplet's advertised tool budget must be reachable."""
+
+    def test_the_loop_is_widened_to_fit_the_advertised_tool_budget(self) -> None:
+        from weavemark.engines.single_call import _tool_loop_iterations
+
+        assert _tool_loop_iterations(20, 30) == 32
+
+    def test_a_generous_iteration_count_is_left_alone(self) -> None:
+        from weavemark.engines.single_call import _tool_loop_iterations
+
+        assert _tool_loop_iterations(50, 30) == 50
+
+    def test_the_engine_defaults_can_spend_their_own_budget(self) -> None:
+        from weavemark.engines.single_call import _tool_loop_iterations
+
+        assert _tool_loop_iterations(10, 30) == 32

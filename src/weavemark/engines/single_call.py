@@ -27,6 +27,23 @@ from .bindings import load_tool_executor
 _EDIT_FLAG_VALUES = {"on", "true", "yes", "1"}
 
 
+def _tool_loop_iterations(configured: int, tool_call_budget: int) -> int:
+    """Return a loop budget that can actually spend ``tool_call_budget`` calls.
+
+    Tools are called one round trip at a time, and an exhausted budget comes
+    back as an ordinary error *result* rather than ending the loop, so a
+    promplet offering thirty calls needs thirty-two iterations: thirty to spend
+    the budget, one to be told the budget is gone, and one to answer. Left
+    alone, a lower ``max_iterations`` silently caps research below the budget
+    the prompt advertises, and a model that takes the offer at face value fails
+    the run instead of finishing it. Authors can still raise the iteration
+    count; they just cannot accidentally set it below what they have already
+    promised. Tool use stays bounded by ``tool_call_budget`` either way.
+    """
+
+    return max(configured, tool_call_budget + 2)
+
+
 class SingleCallEngine(BaseEngine):
     """Default engine: one production of the ``default`` prompt.
 
@@ -96,11 +113,12 @@ class SingleCallEngine(BaseEngine):
             prompt_key="default",
             modality="text",
         )
-        temperature = (
-            settings.temperature if settings.temperature is not None else 0.7
-        )
-        max_iterations = int(result.execution.get("max_iterations", 10))
+        temperature = settings.temperature if settings.temperature is not None else 0.7
         max_tool_calls = int(result.execution.get("max_tool_calls", 30))
+        max_iterations = _tool_loop_iterations(
+            int(result.execution.get("max_iterations", 10)),
+            max_tool_calls,
+        )
         response = await self.client.complete_with_tools(
             messages,
             tools=result.tools,
@@ -162,9 +180,7 @@ class SingleCallEngine(BaseEngine):
             prompt_key="default",
             modality="vision",
         )
-        temperature = (
-            settings.temperature if settings.temperature is not None else 0.7
-        )
+        temperature = settings.temperature if settings.temperature is not None else 0.7
         if result.tools:
             response = await self.client.complete_with_tools(
                 messages,
@@ -227,7 +243,9 @@ class SingleCallEngine(BaseEngine):
             self.client, prompt, model=model, kwargs=kwargs, edit_files=edit_files
         )
 
-        output = primary_image_output(generated) or f"<{len(generated)} image(s) generated>"
+        output = (
+            primary_image_output(generated) or f"<{len(generated)} image(s) generated>"
+        )
         return ExecutionResult(
             output=str(output),
             steps=[
