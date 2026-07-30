@@ -32,6 +32,16 @@ _APP_LOG_FILE_NAME = "weavemark.log"
 _APP_HANDLER_TAG = "weavemark_app_file_handler"
 
 _RESPONSES_API_MODEL_MARKERS = ("gpt-5.6",)
+_RESPONSES_API_ENV_VAR = "WEAVEMARK_RESPONSES_API"
+
+
+def _responses_api_override() -> bool | None:
+    """Return the operator's forced API choice, or ``None`` to auto-detect."""
+
+    raw = os.environ.get(_RESPONSES_API_ENV_VAR, "").strip().lower()
+    if not raw:
+        return None
+    return raw not in _DISABLED_VALUES
 
 
 def requires_responses_api(model: str) -> bool:
@@ -41,8 +51,16 @@ def requires_responses_api(model: str) -> bool:
     on ``/v1/chat/completions``. Since the semantic compiler always sends tools
     and always wants reasoning, those models are only usable over
     ``/v1/responses``.
+
+    The marker list only covers families whose behaviour has been observed, so a
+    future model with the same constraint would fail loudly rather than route
+    itself. ``WEAVEMARK_RESPONSES_API`` forces the choice either way, so such a
+    model is usable without waiting for a release.
     """
 
+    override = _responses_api_override()
+    if override is not None:
+        return override
     lowered = model.lower()
     return any(marker in lowered for marker in _RESPONSES_API_MODEL_MARKERS)
 
@@ -64,13 +82,17 @@ def responses_tool_schema(tool: Any) -> Any:
 
 
 class _ResponsesToolClient(LLMClient):
-    """Client that speaks the Responses API's flat tool schema.
+    """Client that emits WeaveMark's tool definitions in the Responses shape.
 
-    WeaveMark declares its compiler tools as raw Chat Completions dicts. The
-    underlying client only recognises that nested shape, and forwards such dicts
-    verbatim instead of routing them through a tool dialect, so they reach the
-    Responses API in a shape it rejects. Flattening after coercion keeps every
-    call site — compiler, engines, and discovery — working against both shapes.
+    WeaveMark declares its tools as Chat Completions dicts, which the underlying
+    client forwards verbatim instead of routing them through a tool dialect.
+    That is the right default rather than an oversight: every WeaveMark call
+    travels through LiteLLM, which expects the Chat shape for OpenAI, Anthropic,
+    and Gemini alike and performs its own translation. Converting those dicts to
+    a provider's native shape would break the very providers it looks like it
+    would help. The Responses API is the one route that rejects the Chat
+    envelope, so it is the one route that needs a conversion, applied after
+    coercion so executable tools keep their normal dialect path.
     """
 
     def _prepare_tool_loop(self, **kwargs: Any) -> tuple[Any, list[dict[str, Any]]]:

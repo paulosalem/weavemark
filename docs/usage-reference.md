@@ -1177,6 +1177,13 @@ turns model residency into an enforced policy: execution fails before a provider
 call if the resolved model is not listed. Compilation and execution use the same
 text model by default.
 
+Some models are only usable over a provider's newer endpoint. OpenAI's GPT-5.6
+family, for instance, refuses function tools combined with any reasoning effort
+on Chat Completions, and the semantic compiler always sends both, so WeaveMark
+routes those models through the Responses API automatically. Set
+`WEAVEMARK_RESPONSES_API=1` to force that route for a model WeaveMark does not
+yet recognise, or `WEAVEMARK_RESPONSES_API=0` to force it off.
+
 **Custom engines**: implement the `Engine` protocol or extend `BaseEngine`:
 
 ```python

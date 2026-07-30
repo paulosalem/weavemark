@@ -18,6 +18,8 @@
   function tools combined with any reasoning effort on `/v1/chat/completions`,
   so WeaveMark routes them through OpenAI's Responses API and emits its compiler
   tool definitions in that API's flat schema. Earlier models are unaffected.
+  `WEAVEMARK_RESPONSES_API=1` forces that route for any other model with the
+  same constraint; `WEAVEMARK_RESPONSES_API=0` forces it off.
 
 ### Changed
 

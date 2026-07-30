@@ -288,3 +288,32 @@ def test_already_flat_and_unrecognised_tools_pass_through_untouched() -> None:
     assert responses_tool_schema(flat) == flat
     assert responses_tool_schema(hosted) == hosted
     assert responses_tool_schema("not a tool") == "not a tool"
+
+
+def test_the_environment_can_force_a_model_onto_the_responses_api(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A future model with the same constraint must not need a release."""
+
+    monkeypatch.setenv("WEAVEMARK_RESPONSES_API", "1")
+
+    assert requires_responses_api("gpt-5.7-hypothetical")
+    assert new_client(model="gpt-5.7-hypothetical").use_responses_api is True
+
+
+def test_the_environment_can_force_a_model_back_onto_chat_completions(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("WEAVEMARK_RESPONSES_API", "0")
+
+    assert not requires_responses_api("gpt-5.6-terra")
+    assert new_client(model="gpt-5.6-terra").use_responses_api is False
+
+
+def test_a_blank_override_leaves_detection_alone(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("WEAVEMARK_RESPONSES_API", "   ")
+
+    assert requires_responses_api("gpt-5.6-terra")
+    assert not requires_responses_api("gpt-5.5")
