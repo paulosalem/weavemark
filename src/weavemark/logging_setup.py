@@ -6,6 +6,7 @@ import json
 import logging
 import os
 from argparse import Namespace
+from collections.abc import Mapping
 from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 from logging.handlers import RotatingFileHandler
@@ -29,6 +30,54 @@ _DISABLED_VALUES = {"0", "off", "false", "no"}
 LOGGER_NAME = "weavemark"
 _APP_LOG_FILE_NAME = "weavemark.log"
 _APP_HANDLER_TAG = "weavemark_app_file_handler"
+
+_RESPONSES_API_MODEL_MARKERS = ("gpt-5.6",)
+
+
+def requires_responses_api(model: str) -> bool:
+    """Report whether ``model`` must be driven through OpenAI's Responses API.
+
+    The GPT-5.6 family rejects function tools combined with any reasoning effort
+    on ``/v1/chat/completions``. Since the semantic compiler always sends tools
+    and always wants reasoning, those models are only usable over
+    ``/v1/responses``.
+    """
+
+    lowered = model.lower()
+    return any(marker in lowered for marker in _RESPONSES_API_MODEL_MARKERS)
+
+
+def responses_tool_schema(tool: Any) -> Any:
+    """Flatten one Chat Completions tool definition for the Responses API.
+
+    Chat Completions nests the callable under a ``function`` key; the Responses
+    API expects those fields at the top level. Anything already flat, or not a
+    recognisable function tool, is returned untouched.
+    """
+
+    if not isinstance(tool, Mapping) or tool.get("type") != "function":
+        return tool
+    function = tool.get("function")
+    if not isinstance(function, Mapping):
+        return tool
+    return {"type": "function", **function}
+
+
+class _ResponsesToolClient(LLMClient):
+    """Client that speaks the Responses API's flat tool schema.
+
+    WeaveMark declares its compiler tools as raw Chat Completions dicts. The
+    underlying client only recognises that nested shape, and forwards such dicts
+    verbatim instead of routing them through a tool dialect, so they reach the
+    Responses API in a shape it rejects. Flattening after coercion keeps every
+    call site — compiler, engines, and discovery — working against both shapes.
+    """
+
+    def _prepare_tool_loop(self, **kwargs: Any) -> tuple[Any, list[dict[str, Any]]]:
+        """Flatten the prepared tool definitions for the Responses API."""
+
+        executor, definitions = super()._prepare_tool_loop(**kwargs)
+        return executor, [responses_tool_schema(tool) for tool in definitions]
 
 
 class PolicyPromptLogger:
@@ -171,7 +220,12 @@ def new_client(
     accumulator = active_accumulator()
     if accumulator is not None:
         observers.append(accumulator)
-    return LLMClient(model=model, observers=observers, **kwargs)
+    use_responses_api = kwargs.setdefault(
+        "use_responses_api",
+        requires_responses_api(model),
+    )
+    client_type = _ResponsesToolClient if use_responses_api else LLMClient
+    return client_type(model=model, observers=observers, **kwargs)
 
 
 def configure_logging(

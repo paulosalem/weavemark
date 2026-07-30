@@ -6,7 +6,11 @@ import asyncio
 
 import pytest
 
-from weavemark.logging_setup import new_client
+from weavemark.logging_setup import (
+    new_client,
+    requires_responses_api,
+    responses_tool_schema,
+)
 from weavemark.usage_tracking import (
     UsageAccumulator,
     UsageTotals,
@@ -232,3 +236,55 @@ def test_footer_omits_the_cache_share_when_nothing_was_cached() -> None:
 
 def test_cache_hit_rate_is_unknown_without_prompt_tokens() -> None:
     assert UsageTotals(completion_tokens=5).cache_hit_rate is None
+
+
+def test_gpt_5_6_models_route_through_the_responses_api() -> None:
+    """The GPT-5.6 family rejects tools plus reasoning on chat completions."""
+
+    for model in ("gpt-5.6-sol", "gpt-5.6-terra", "openai/gpt-5.6", "GPT-5.6-Luna"):
+        assert requires_responses_api(model), model
+
+
+def test_earlier_models_keep_using_chat_completions() -> None:
+    for model in ("gpt-5.5", "gpt-5.4-mini", "claude-opus-4.6", "gemini-3.1-pro"):
+        assert not requires_responses_api(model), model
+
+
+def test_new_client_selects_the_api_its_model_requires() -> None:
+    assert new_client(model="gpt-5.6-terra").use_responses_api is True
+    assert new_client(model="gpt-5.5").use_responses_api is False
+
+
+def test_an_explicit_api_choice_is_never_overridden() -> None:
+    client = new_client(model="gpt-5.6-terra", use_responses_api=False)
+
+    assert client.use_responses_api is False
+
+
+def test_chat_tool_definitions_are_flattened_for_the_responses_api() -> None:
+    """Responses expects the callable's fields at the top level."""
+
+    chat_tool = {
+        "type": "function",
+        "function": {
+            "name": "read_file",
+            "description": "Read a file.",
+            "parameters": {"type": "object", "properties": {}},
+        },
+    }
+
+    assert responses_tool_schema(chat_tool) == {
+        "type": "function",
+        "name": "read_file",
+        "description": "Read a file.",
+        "parameters": {"type": "object", "properties": {}},
+    }
+
+
+def test_already_flat_and_unrecognised_tools_pass_through_untouched() -> None:
+    flat = {"type": "function", "name": "ping", "parameters": {}}
+    hosted = {"type": "web_search"}
+
+    assert responses_tool_schema(flat) == flat
+    assert responses_tool_schema(hosted) == hosted
+    assert responses_tool_schema("not a tool") == "not a tool"

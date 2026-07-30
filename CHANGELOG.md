@@ -13,6 +13,11 @@
   `prompt_tokens_details.cached_tokens` and Anthropic's top-level
   `cache_read_input_tokens` are recognised. The entry is omitted when nothing was
   cached, so cold runs show no distracting zero.
+- GPT-5.6 family models (`gpt-5.6`, `gpt-5.6-sol`, `gpt-5.6-terra`,
+  `gpt-5.6-luna`) can now be selected with `--model`. Those models reject
+  function tools combined with any reasoning effort on `/v1/chat/completions`,
+  so WeaveMark routes them through OpenAI's Responses API and emits its compiler
+  tool definitions in that API's flat schema. Earlier models are unaffected.
 
 ### Changed
 
