@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import importlib.util
 import re
+import subprocess
 import sys
 from pathlib import Path
+
+import pytest
 
 ROOT = Path(__file__).parents[1]
 
@@ -56,6 +59,47 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
     assert (destination / "demos" / "ai-kanban" / "src" / "sqlite-worker.js").is_file()
     assert (destination / "demos" / "ai-kanban" / "vendor" / "sql-wasm.wasm").is_file()
     assert (destination / "demos" / "ai-kanban" / "vendor" / "LICENSE-sql.js").is_file()
+    for module in (
+        "app.js",
+        "bootstrap.js",
+        "constants.js",
+        "coordination.js",
+        "file-workspace.js",
+        "markdown.js",
+        "output-selection.js",
+        "packets.js",
+        "provider-adapter.js",
+        "repository.js",
+        "save-queue.js",
+        "shell-quote.js",
+        "sqlite-client.js",
+        "sqlite-worker.js",
+        "surfaces.js",
+        "validation.js",
+    ):
+        assert (
+            destination / "demos" / "ai-kanban" / "src" / module
+        ).is_file(), module
+    assert (
+        destination / "demos" / "ai-kanban" / "templates" / "root" / "AGENTS.md"
+    ).is_file()
+    assert (
+        destination
+        / "demos"
+        / "ai-kanban"
+        / "templates"
+        / "skill"
+        / "ai_kanban.py"
+    ).is_file()
+    assert (
+        destination / "demos" / "ai-kanban" / "compiled-spec.md"
+    ).is_file()
+    demo_html = (
+        destination / "demos" / "ai-kanban" / "index.html"
+    ).read_text(encoding="utf-8")
+    assert 'href="../../promplets/catalog/standalone/ai-kanban-board.weavemark.md"' in demo_html
+    assert 'href="../../docs/tutorial-implement.html"' in demo_html
+    assert 'href="./compiled-spec.md"' in demo_html
     assert (destination / "demos" / "knowledge-cards" / "index.html").is_file()
     assert (
         destination / "demos" / "knowledge-cards" / "manifest.webmanifest"
@@ -170,3 +214,72 @@ def test_all_tutorial_source_links_resolve_to_github(tmp_path: Path) -> None:
             "vscode-extension",
         ):
             assert f'href="../{root_name}/' not in html
+
+
+def test_pages_publisher_allows_only_explicit_regular_assets_and_rejects_ignored_or_symlinked_entries(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    builder = _load_builder()
+    root = tmp_path / "repository"
+    assets = root / "demo" / "assets"
+    assets.mkdir(parents=True)
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    (root / ".gitignore").write_text("__pycache__/\n*.pyc\n", encoding="utf-8")
+    tracked = assets / "tracked.js"
+    tracked.write_text("console.log('tracked');\n", encoding="utf-8")
+    subprocess.run(
+        ["git", "add", ".gitignore", "demo/assets/tracked.js"],
+        cwd=root,
+        check=True,
+    )
+    monkeypatch.setattr(
+        builder,
+        "LIVE_DEMOS",
+        {"certification": ("demo", ("assets",))},
+    )
+    monkeypatch.setattr(builder, "EXPLICIT_LIVE_DEMO_FILES", frozenset())
+
+    ignored = assets / "__pycache__" / "secret.pyc"
+    ignored.parent.mkdir()
+    ignored.write_bytes(b"credential material")
+    with pytest.raises(ValueError, match="ignored by Git|forbidden sensitive"):
+        builder._publish_live_demos(
+            tmp_path / "ignored-site",
+            root,
+            {tracked},
+            set(),
+        )
+
+    ignored.unlink()
+    ignored.parent.rmdir()
+    symlink = assets / "linked.js"
+    symlink.symlink_to(tracked)
+    with pytest.raises(ValueError, match="symlink"):
+        builder._publish_live_demos(
+            tmp_path / "symlink-site",
+            root,
+            {tracked},
+            set(),
+        )
+
+    symlink.unlink()
+    arbitrary = assets / "arbitrary.js"
+    arbitrary.write_text("console.log('arbitrary');\n", encoding="utf-8")
+    explicit = assets / "explicit.js"
+    explicit.write_text("console.log('explicit');\n", encoding="utf-8")
+    monkeypatch.setattr(
+        builder,
+        "EXPLICIT_LIVE_DEMO_FILES",
+        frozenset({"demo/assets/explicit.js"}),
+    )
+    destination = tmp_path / "safe-site"
+    builder._publish_live_demos(destination, root, {tracked}, set())
+    published = destination / "demos" / "certification" / "assets"
+    assert (published / "tracked.js").is_file()
+    assert (published / "explicit.js").is_file()
+    assert not (published / "arbitrary.js").exists()
+    assert not any(
+        path.name == "__pycache__" or path.suffix == ".pyc"
+        for path in destination.rglob("*")
+    )

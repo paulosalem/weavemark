@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question or idea
+    url: https://github.com/paulosalem/weavemark/discussions
+    about: Ask about the language, share a promplet, or propose a direction.
+  - name: Language and Processor reference
+    url: https://paulosalem.github.io/weavemark/docs/reference.html
+    about: Exact directive syntax and Processor behavior.
+  - name: Security report
+    url: https://github.com/paulosalem/weavemark/blob/main/SECURITY.md
+    about: Please report vulnerabilities privately, not as a public issue.

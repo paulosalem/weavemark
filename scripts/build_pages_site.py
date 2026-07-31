@@ -21,6 +21,7 @@ PUBLIC_TREES = (
     "vscode-extension",
 )
 PUBLIC_ROOT_FILES = ("CHANGELOG.md", "LICENSE", "README.md")
+EXPLICIT_PUBLIC_FILES = ("docs/related-work.html",)
 GITHUB_REPOSITORY_URL = "https://github.com/paulosalem/weavemark"
 REPOSITORY_LINK_PATTERN = re.compile(
     r'href="\.\./(?P<path>(?:examples|outputs|promplets|src|studies|vscode-extension)/[^"#]*)"'
@@ -36,14 +37,11 @@ LIVE_DEMOS: dict[str, tuple[str, tuple[str, ...]]] = {
             "index.html",
             "styles.css",
             "favicon.svg",
-            "src/app.js",
-            "src/file-workspace.js",
-            "src/packets.js",
-            "src/sqlite-client.js",
-            "src/sqlite-worker.js",
-            "vendor/LICENSE-sql.js",
-            "vendor/sql-wasm.js",
-            "vendor/sql-wasm.wasm",
+            "compiled-spec.md",
+            "src",
+            "vendor",
+            "templates",
+            "docs",
         ),
     ),
     "knowledge-cards": (
@@ -70,6 +68,38 @@ LIVE_DEMOS: dict[str, tuple[str, tuple[str, ...]]] = {
         ),
     ),
 }
+EXPLICIT_LIVE_DEMO_FILES = frozenset(
+    f"outputs/implementations/ai-kanban-browser/{path}"
+    for path in (
+        "docs/product-design.md",
+        "docs/recovery.md",
+        "src/app.js",
+        "src/bootstrap.js",
+        "src/constants.js",
+        "src/coordination.js",
+        "src/file-workspace.js",
+        "src/markdown.js",
+        "src/output-selection.js",
+        "src/packets.js",
+        "src/provider-adapter.js",
+        "src/repository.js",
+        "src/save-queue.js",
+        "src/shell-quote.js",
+        "src/sqlite-client.js",
+        "src/sqlite-worker.js",
+        "src/surfaces.js",
+        "src/validation.js",
+        "templates/root/AGENTS.md",
+        "templates/root/CLAUDE.md",
+        "templates/skill/SKILL.md",
+        "templates/skill/ai-kanban.ps1",
+        "templates/skill/ai-kanban.sh",
+        "templates/skill/ai_kanban.py",
+        "vendor/LICENSE-sql.js",
+        "vendor/sql-wasm.js",
+        "vendor/sql-wasm.wasm",
+    )
+)
 CONFIDENTIAL_MARKERS = (
     b"prompting" + b" adventures",
     b"/users/" + b"paulo" + b"salem",
@@ -128,7 +158,7 @@ def tracked_paths(root: Path = ROOT) -> list[Path]:
         if raw
     )
     return sorted(
-        (path for path in paths if path.is_file()),
+        (path for path in paths if path.is_file() or path.is_symlink()),
         key=lambda path: str(path.relative_to(root)),
     )
 
@@ -155,6 +185,33 @@ def lfs_paths(paths: list[Path], root: Path = ROOT) -> set[Path]:
     return result
 
 
+def ignored_paths(paths: list[Path], root: Path = ROOT) -> set[Path]:
+    """Return untracked paths excluded by repository ignore rules."""
+
+    if not paths:
+        return set()
+    relative = [str(path.relative_to(root)) for path in paths]
+    completed = subprocess.run(
+        ["git", "check-ignore", "--stdin", "-z"],
+        cwd=root,
+        input=b"\0".join(item.encode("utf-8") for item in relative) + b"\0",
+        capture_output=True,
+        check=False,
+    )
+    if completed.returncode not in (0, 1):
+        raise subprocess.CalledProcessError(
+            completed.returncode,
+            completed.args,
+            completed.stdout,
+            completed.stderr,
+        )
+    return {
+        root / raw.decode("utf-8")
+        for raw in completed.stdout.split(b"\0")
+        if raw
+    }
+
+
 def build_site(destination: Path, root: Path = ROOT) -> list[Path]:
     """Build a clean public site and return its copied repository paths."""
 
@@ -162,19 +219,22 @@ def build_site(destination: Path, root: Path = ROOT) -> list[Path]:
         shutil.rmtree(destination)
     destination.mkdir(parents=True)
 
+    tracked = set(tracked_paths(root))
     paths = sorted(
         {
-            *tracked_paths(root),
-            *(root / "docs").glob("*.js"),
+            *tracked,
+            *(root / path for path in EXPLICIT_PUBLIC_FILES),
         },
         key=lambda path: str(path.relative_to(root)),
     )
     lfs = lfs_paths(paths, root)
+    ignored = ignored_paths(paths, root)
     copied: list[Path] = []
     for source in paths:
         relative = source.relative_to(root)
         if source in lfs or not _is_public_path(relative):
             continue
+        _assert_publishable_source(source, relative, ignored)
         target = destination / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
@@ -182,7 +242,7 @@ def build_site(destination: Path, root: Path = ROOT) -> list[Path]:
 
     (destination / "index.html").write_text(ROOT_REDIRECT, encoding="utf-8")
     (destination / ".nojekyll").touch()
-    _publish_live_demos(destination, root, set(paths), lfs)
+    _publish_live_demos(destination, root, tracked, lfs)
     _rewrite_live_demo_links(destination / "docs", root)
     _rewrite_repository_links(destination / "docs", root)
     _inject_favicon(destination / "docs")
@@ -235,6 +295,8 @@ def validate_site(destination: Path) -> list[str]:
     for path in destination.rglob("*"):
         if not path.is_file():
             continue
+        if _is_forbidden_public_asset(path.relative_to(destination)):
+            errors.append(f"forbidden public asset: {path.relative_to(destination)}")
         content = path.read_bytes().lower()
         if content.startswith(b"version https://git-lfs.github.com/spec/v1"):
             errors.append(f"Git LFS pointer copied into site: {path.relative_to(destination)}")
@@ -276,18 +338,31 @@ def _publish_live_demos(
     for slug, (source_directory, assets) in LIVE_DEMOS.items():
         for relative_asset in assets:
             source = root / source_directory / relative_asset
+            if source.is_symlink():
+                raise ValueError(f"Live demo asset cannot be a symlink: {source}")
             if not source.exists():
                 raise FileNotFoundError(f"Live demo asset is missing: {source}")
-            sources = (
-                sorted(path for path in source.rglob("*") if path.is_file())
-                if source.is_dir()
-                else [source]
-            )
+            configured_file = source.is_file()
+            entries = sorted(source.rglob("*")) if source.is_dir() else [source]
+            symlinks = [path for path in entries if path.is_symlink()]
+            if symlinks:
+                raise ValueError(f"Live demo asset cannot be a symlink: {symlinks[0]}")
+            sources = [path for path in entries if path.is_file()]
+            ignored = ignored_paths(sources, root)
             for asset_source in sources:
-                if asset_source not in tracked and not asset_source.is_file():
-                    raise FileNotFoundError(
-                        f"Live demo asset is missing: {asset_source}"
-                    )
+                repository_relative = asset_source.relative_to(root)
+                _assert_publishable_source(
+                    asset_source,
+                    repository_relative,
+                    ignored,
+                )
+                if (
+                    asset_source not in tracked
+                    and not configured_file
+                    and repository_relative.as_posix()
+                    not in EXPLICIT_LIVE_DEMO_FILES
+                ):
+                    continue
                 if asset_source in lfs:
                     raise ValueError(
                         f"Live demo asset cannot use Git LFS: {asset_source}"
@@ -296,6 +371,50 @@ def _publish_live_demos(
                 target = destination / "demos" / slug / relative
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(asset_source, target)
+        if slug == "ai-kanban":
+            _rewrite_ai_kanban_demo_links(destination / "demos" / slug / "index.html")
+
+
+def _assert_publishable_source(
+    source: Path,
+    relative: Path,
+    ignored: set[Path],
+) -> None:
+    if source.is_symlink():
+        raise ValueError(f"Public asset cannot be a symlink: {relative}")
+    if not source.is_file():
+        raise ValueError(f"Public asset must be a regular file: {relative}")
+    if source in ignored:
+        raise ValueError(f"Public asset is ignored by Git: {relative}")
+    if _is_forbidden_public_asset(relative):
+        raise ValueError(f"Public asset has a forbidden sensitive path: {relative}")
+
+
+def _is_forbidden_public_asset(relative: Path) -> bool:
+    lowered_parts = tuple(part.casefold() for part in relative.parts)
+    name = relative.name.casefold()
+    return (
+        "__pycache__" in lowered_parts
+        or relative.suffix.casefold() in {".pyc", ".pyo", ".pem", ".key"}
+        or name == ".env"
+        or name.startswith(".env.")
+        or name in {"id_rsa", "id_ed25519"}
+        or any(marker in name for marker in ("secret", "credential"))
+    )
+
+
+def _rewrite_ai_kanban_demo_links(index_path: Path) -> None:
+    """Adjust source/tutorial links for the shallower published demo location."""
+
+    text = index_path.read_text(encoding="utf-8")
+    text = text.replace(
+        'href="../../../promplets/',
+        'href="../../promplets/',
+    ).replace(
+        'href="../../../docs/',
+        'href="../../docs/',
+    )
+    index_path.write_text(text, encoding="utf-8")
 
 
 def _rewrite_repository_links(docs_directory: Path, root: Path) -> None:

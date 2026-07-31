@@ -2,6 +2,7 @@ export class SQLiteClient {
   #worker;
   #pending = new Map();
   #requestId = 0;
+  #failure = null;
 
   constructor(workerUrl = new URL("./sqlite-worker.js", import.meta.url)) {
     this.#worker = new Worker(workerUrl);
@@ -17,66 +18,58 @@ export class SQLiteClient {
       }
     });
     this.#worker.addEventListener("error", (event) => {
-      for (const pending of this.#pending.values()) {
-        pending.reject(new Error(event.message || "SQLite worker crashed."));
-      }
-      this.#pending.clear();
+      const error = new Error(event.message || "SQLite worker crashed.");
+      error.code = "WORKER_CRASHED";
+      this.#fail(error);
     });
+  }
+
+  #fail(error) {
+    if (this.#failure) return;
+    this.#failure = error;
+    for (const pending of this.#pending.values()) pending.reject(error);
+    this.#pending.clear();
   }
 
   request(type, payload = {}, transfer = []) {
+    if (this.#failure) return Promise.reject(this.#failure);
     const id = ++this.#requestId;
     return new Promise((resolve, reject) => {
       this.#pending.set(id, { resolve, reject });
-      this.#worker.postMessage({ id, type, payload }, transfer);
+      try {
+        this.#worker.postMessage({ id, type, payload }, transfer);
+      } catch (error) {
+        this.#pending.delete(id);
+        reject(error);
+      }
     });
   }
 
-  async open(bytes, { seed = false } = {}) {
+  async open(bytes, { seed = false, workspaceId = null } = {}) {
     const buffer = bytes?.buffer
       ? bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
       : null;
-    return this.request("open", { buffer, seed }, buffer ? [buffer] : []);
+    return this.request(
+      bytes ? "open" : "create",
+      { buffer, seed, workspaceId },
+      buffer ? [buffer] : [],
+    );
+  }
+
+  health() {
+    return this.request("health");
   }
 
   snapshot() {
     return this.request("snapshot");
   }
 
-  card(cardId) {
-    return this.request("card", { cardId });
+  query(name, parameters = {}) {
+    return this.request("query", { name, parameters });
   }
 
-  createCard(input) {
-    return this.request("createCard", input);
-  }
-
-  updateCard(input) {
-    return this.request("updateCard", input);
-  }
-
-  moveCard(input) {
-    return this.request("moveCard", input);
-  }
-
-  archiveCard(cardId) {
-    return this.request("archiveCard", { cardId });
-  }
-
-  addPlanItem(input) {
-    return this.request("addPlanItem", input);
-  }
-
-  updatePlanItem(input) {
-    return this.request("updatePlanItem", input);
-  }
-
-  addOutput(input) {
-    return this.request("addOutput", input);
-  }
-
-  applyResponse(input) {
-    return this.request("applyResponse", input);
+  mutate(operation, parameters = {}, context = {}) {
+    return this.request("mutate", { operation, parameters, context });
   }
 
   async exportBytes() {
@@ -89,6 +82,9 @@ export class SQLiteClient {
   }
 
   terminate() {
+    const error = new Error("SQLite worker was terminated.");
+    error.code = "WORKER_TERMINATED";
+    this.#fail(error);
     this.#worker.terminate();
   }
 }

@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f1e8">
     <meta
       name="description"
-      content="AI Kanban is a browser-only, file-backed workspace for human-AI collaboration."
+      content="AI Kanban is a local, folder-backed workspace for durable human–AI work."
     >
     <title>AI Kanban</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
@@ -14,241 +15,389 @@
   <body>
     <a class="skip-link" href="#board">Skip to board</a>
 
-    <header class="app-header">
-      <div class="brand-lockup">
-        <span class="brand-mark" aria-hidden="true">AK</span>
-        <div>
-          <p class="eyebrow">Local human-AI workspace</p>
-          <h1>AI Kanban</h1>
-        </div>
+    <section id="welcome" class="welcome-shell" aria-labelledby="welcomeTitle">
+      <div class="welcome-brand" aria-label="AI Kanban">
+        <span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>AI Kanban</span>
       </div>
-
-      <div class="workspace-status" aria-live="polite">
-        <span id="connectionDot" class="connection-dot" data-state="closed"></span>
-        <div>
-          <strong id="workspaceName">No board open</strong>
-          <span id="saveStatus">Choose or create a local workspace</span>
-        </div>
-      </div>
-
-      <div class="header-actions">
-        <button id="openBoardButton" class="button button-secondary" type="button">Open</button>
-        <button id="createBoardButton" class="button button-secondary" type="button">Create</button>
-        <button id="saveButton" class="button button-secondary" type="button" disabled>Save</button>
-        <button id="newCardButton" class="button" type="button" disabled>New card</button>
-        <button id="moreButton" class="icon-button" type="button" aria-label="Workspace menu" aria-expanded="false">•••</button>
-      </div>
-      <div id="workspaceMenu" class="menu" hidden>
-        <button id="saveAsButton" type="button">Save as…</button>
-        <button id="aboutWorkspaceButton" type="button">About workspace</button>
-        <button id="closeWorkspaceButton" type="button">Close workspace</button>
-      </div>
-    </header>
-
-    <main class="app-main">
-      <section id="welcome" class="welcome-panel" aria-labelledby="welcomeTitle">
+      <div class="welcome-card">
         <div class="welcome-copy">
-          <p class="eyebrow">Your work stays yours</p>
-          <h2 id="welcomeTitle">A real board, backed by a file you control.</h2>
-          <p>
-            Open an existing <code>.aikanban.sqlite</code> workspace or authorize
-            a new one. The database stays on your computer; this site has no
-            backend.
+          <p class="eyebrow">Local-first human–AI work</p>
+          <h1 id="welcomeTitle">Give every piece of work a place to think.</h1>
+          <p class="welcome-lede">
+            A calm board where plans, decisions, agent turns, research memory,
+            and finished results stay together—in a folder you control.
           </p>
-          <div class="welcome-actions">
-            <button id="welcomeOpenButton" class="button" type="button">Open existing board</button>
-            <button id="welcomeCreateButton" class="button button-secondary" type="button">Create new board</button>
-            <button id="demoButton" class="text-button" type="button">Try a memory-only demo</button>
+          <div class="welcome-actions" aria-label="Start AI Kanban">
+            <button id="welcomeOpenButton" class="button button-primary" type="button">
+              <span aria-hidden="true">↗</span> Open Board Workspace
+            </button>
+            <button id="welcomeCreateButton" class="button button-secondary" type="button">
+              <span aria-hidden="true">＋</span> Create Board Workspace
+            </button>
+            <button id="demoButton" class="button button-quiet" type="button">
+              Try demo <span aria-hidden="true">→</span>
+            </button>
           </div>
-          <p id="browserSupportNote" class="support-note"></p>
+          <p id="browserSupportNote" class="support-note" aria-live="polite"></p>
           <button id="recentButton" class="recent-workspace" type="button" hidden>
-            <span>Recent workspace</span>
-            <strong id="recentName"></strong>
-            <small>Reconnect</small>
+            <span class="recent-icon" aria-hidden="true">◷</span>
+            <span><small>Recent workspace</small><strong id="recentName"></strong></span>
+            <span aria-hidden="true">→</span>
           </button>
         </div>
-        <div class="welcome-diagram" aria-label="How local persistence works">
-          <article>
-            <span>1</span>
-            <div><strong>Authorize</strong><small>You choose the file.</small></div>
+        <div class="welcome-visual" aria-label="A work card moving from idea to trusted result">
+          <div class="visual-orbit visual-orbit-one"></div>
+          <div class="visual-orbit visual-orbit-two"></div>
+          <article class="visual-card visual-card-main">
+            <span class="visual-label">Personal research</span>
+            <h2>Choose our July family vacation</h2>
+            <div class="visual-meta"><span>3 options</span><span>Needs your view</span></div>
+            <div class="visual-progress"><i></i></div>
           </article>
-          <i aria-hidden="true"></i>
-          <article>
-            <span>2</span>
-            <div><strong>Work</strong><small>SQLite runs in your browser.</small></div>
+          <article class="visual-card visual-card-back">
+            <span class="visual-dot"></span>
+            <div><strong>Evidence gathered</strong><small>12 sources · current</small></div>
           </article>
-          <i aria-hidden="true"></i>
-          <article>
-            <span>3</span>
-            <div><strong>Save</strong><small>Changes return to that file.</small></div>
-          </article>
-        </div>
-      </section>
-
-      <section id="workspace" hidden>
-        <div class="board-toolbar">
-          <div class="search-field">
-            <label for="searchInput">Find cards</label>
-            <input id="searchInput" type="search" placeholder="Search title, description, assignee…">
-          </div>
-          <div class="filter-group" aria-label="Board filters">
-            <button class="filter-chip is-active" data-priority="all" type="button" aria-pressed="true">All</button>
-            <button class="filter-chip" data-priority="P0" type="button" aria-pressed="false">P0</button>
-            <button class="filter-chip" data-priority="P1" type="button" aria-pressed="false">P1</button>
-            <button class="filter-chip" data-priority="P2" type="button" aria-pressed="false">P2</button>
-            <button class="filter-chip" data-priority="P3" type="button" aria-pressed="false">P3</button>
-          </div>
-          <div class="board-summary" aria-live="polite">
-            <strong id="visibleCardCount">0 cards</strong>
-            <span id="boardSummary">Ready</span>
+          <div class="visual-note">
+            <span aria-hidden="true">✦</span>
+            <div><strong>AI updated</strong><small>Tradeoffs are ready to review</small></div>
           </div>
         </div>
+      </div>
+      <div class="welcome-trust">
+        <span><i aria-hidden="true">◇</i> No backend</span>
+        <span><i aria-hidden="true">□</i> Folder-backed SQLite</span>
+        <span><i aria-hidden="true">⌁</i> Works without an AI provider</span>
+      </div>
+    </section>
 
-        <div id="workspaceAlert" class="workspace-alert" hidden></div>
-        <section id="board" class="board" aria-label="AI Kanban board"></section>
-      </section>
-    </main>
+    <div id="application" hidden>
+      <header class="app-header">
+        <a class="app-brand" href="#" aria-label="AI Kanban home">
+          <span class="brand-symbol brand-symbol-small" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span><strong>AI Kanban</strong><small>Human + AI workspace</small></span>
+        </a>
 
-    <footer class="provenance-footer">
-      <span>Built from a WeaveMark promplet.</span>
-      <a href="https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/standalone/ai-kanban-board.weavemark.md?plain=1">Source promplet</a>
-      <a href="https://github.com/paulosalem/weavemark/blob/main/outputs/implementations/ai-kanban-browser/compiled-spec.md">Compiled specification</a>
-      <a href="https://paulosalem.github.io/weavemark/docs/tutorial-implement.html">Tutorial</a>
-    </footer>
+        <div class="workspace-identity" aria-live="polite">
+          <span id="connectionDot" class="connection-dot" data-state="saved" aria-hidden="true"></span>
+          <span>
+            <strong id="workspaceName">Workspace</strong>
+            <small id="saveStatus">Saved</small>
+          </span>
+        </div>
 
-    <input id="fallbackFileInput" type="file" accept=".sqlite,.aikanban.sqlite,application/vnd.sqlite3" hidden>
+        <nav class="header-actions" aria-label="Workspace actions">
+          <button id="saveButton" class="button button-quiet compact-button" type="button" aria-label="Save workspace">
+            <span aria-hidden="true">↓</span><span>Save</span>
+          </button>
+          <button id="newCardButton" class="button button-primary compact-button" type="button">
+            <span aria-hidden="true">＋</span><span>New card</span>
+          </button>
+          <button id="agentButton" class="button button-quiet compact-button" type="button" aria-label="Agent control">
+            <span id="agentStatusDot" class="mini-dot" data-state="waiting" aria-hidden="true"></span>
+            <span>Agent control</span>
+          </button>
+          <button id="globalHandoffButton" class="button button-quiet compact-button" type="button" aria-label="AI handoff">
+            <span aria-hidden="true">⇄</span><span>AI handoff</span>
+          </button>
+          <button
+            id="workspaceMenuButton"
+            class="icon-button"
+            type="button"
+            aria-label="Workspace menu"
+            aria-expanded="false"
+            aria-controls="workspaceMenu"
+          >•••</button>
+        </nav>
 
-    <dialog id="cardDialog" class="dialog card-dialog">
-      <form id="cardForm" method="dialog">
-        <header class="dialog-header">
+        <div id="workspaceMenu" class="menu" hidden>
+          <button id="exportArchiveButton" type="button"><span>⇩</span> Export archive</button>
+          <button id="repairBootstrapButton" type="button"><span>◇</span> Verify agent files</button>
+          <button id="archivedCardsButton" type="button"><span>▱</span> Archived cards</button>
+          <button id="aboutWorkspaceButton" type="button"><span>ⓘ</span> About workspace</button>
+          <hr>
+          <button id="closeWorkspaceButton" type="button"><span>↙</span> Close workspace</button>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <section class="attention-strip" aria-label="Workspace attention summary">
           <div>
-            <p class="eyebrow" id="cardDialogEyebrow">New workspace card</p>
-            <h2 id="cardDialogTitle">Create card</h2>
+            <p class="eyebrow">Your board</p>
+            <h1 id="boardHeading">Personal Research</h1>
           </div>
+          <div class="attention-counts">
+            <button class="attention-count" type="button" data-attention-filter="needs_you">
+              <span class="attention-icon needs-you" aria-hidden="true">!</span>
+              <span><strong id="needsYouCount">0</strong><small>Needs you</small></span>
+            </button>
+            <button class="attention-count" type="button" data-attention-filter="ai_working">
+              <span class="attention-icon ai-working" aria-hidden="true">◌</span>
+              <span><strong id="aiWorkingCount">0</strong><small>AI working</small></span>
+            </button>
+            <button class="attention-count" type="button" data-attention-filter="ai_updated">
+              <span class="attention-icon ai-updated" aria-hidden="true">✦</span>
+              <span><strong id="aiUpdatedCount">0</strong><small>AI updated</small></span>
+            </button>
+          </div>
+        </section>
+
+        <div id="workspaceAlert" class="workspace-alert" role="status" hidden></div>
+
+        <section class="board-toolbar" aria-label="Board tools">
+          <label class="search-field">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <span class="sr-only">Search cards</span>
+            <input id="searchInput" type="search" placeholder="Search cards…">
+            <kbd>⌘ K</kbd>
+          </label>
+          <button id="filtersButton" class="button button-quiet" type="button">
+            <span aria-hidden="true">≡</span> Filters
+            <span id="activeFilterCount" class="filter-badge" hidden>0</span>
+          </button>
+          <div id="quickFilters" class="quick-filters" aria-label="Quick priority filters">
+            <button type="button" data-priority="" aria-pressed="true">All</button>
+            <button type="button" data-priority="P0" aria-pressed="false">P0</button>
+            <button type="button" data-priority="P1" aria-pressed="false">P1</button>
+            <button type="button" data-priority="P2" aria-pressed="false">P2</button>
+            <button type="button" data-priority="P3" aria-pressed="false">P3</button>
+          </div>
+          <div class="board-result-summary" aria-live="polite">
+            <strong id="visibleCardCount">0 cards</strong>
+            <span id="boardSummary">All work visible</span>
+          </div>
+        </section>
+
+        <section id="emptyBoardState" class="quiet-state" hidden>
+          <span class="quiet-icon" aria-hidden="true">◇</span>
+          <h2>A clear board is a good place to begin.</h2>
+          <p>Create a task, question, or result workspace. Nothing runs until you mark a turn ready.</p>
+          <button class="button button-primary" type="button" data-action="new-card">Create the first card</button>
+        </section>
+
+        <section id="board" class="board" aria-labelledby="boardHeading"></section>
+      </main>
+
+      <footer class="provenance-footer">
+        <span>Built from a WeaveMark promplet.</span>
+        <a href="../../../promplets/catalog/standalone/ai-kanban-board.weavemark.md">Source promplet</a>
+        <a href="./compiled-spec.md">Compiled specification</a>
+        <a href="../../../docs/tutorial-implement.html">Public Tutorial</a>
+      </footer>
+    </div>
+
+    <input id="archiveInput" type="file" accept=".json,.ai-kanban.json,application/json" hidden>
+    <input id="packetFileInput" type="file" accept=".json,application/json" hidden>
+
+    <dialog id="cardComposerDialog" class="dialog composer-dialog">
+      <form id="cardComposerForm" method="dialog">
+        <header class="dialog-header">
+          <div><p class="eyebrow">Shape the work</p><h2 id="composerTitle">New card</h2></div>
           <button class="icon-button" type="button" data-close-dialog aria-label="Close card editor">×</button>
         </header>
-
-        <div class="dialog-scroll">
-          <div class="card-form-grid">
-            <label class="field field-wide">
-              <span>Title</span>
-              <input id="cardTitleInput" name="title" required maxlength="160">
-            </label>
-            <label class="field">
-              <span>Column</span>
-              <select id="cardColumnInput" name="column"></select>
-            </label>
-            <label class="field">
-              <span>Priority</span>
-              <select id="cardPriorityInput" name="priority">
-                <option>P0</option>
-                <option>P1</option>
-                <option selected>P2</option>
-                <option>P3</option>
-              </select>
-            </label>
-            <label class="field field-wide">
-              <span>Assignee</span>
-              <input id="cardAssigneeInput" name="assignee" maxlength="80" placeholder="Unassigned">
-            </label>
-            <label class="field field-wide">
-              <span>Description</span>
-              <textarea id="cardDescriptionInput" name="description" rows="6" placeholder="Intent, constraints, and useful context"></textarea>
-            </label>
-          </div>
-
-          <div id="cardWorkspaceSections" class="card-workspace-sections" hidden>
-            <section class="workspace-section">
-              <div class="section-heading">
-                <div><p class="eyebrow">Execution</p><h3>Plan</h3></div>
-                <button id="addPlanButton" class="text-button" type="button">Add step</button>
-              </div>
-              <div id="planList" class="plan-list"></div>
-            </section>
-
-            <section class="workspace-section">
-              <div class="section-heading">
-                <div><p class="eyebrow">Artifacts</p><h3>Outputs</h3></div>
-                <button id="addOutputButton" class="text-button" type="button">Add output</button>
-              </div>
-              <div id="outputList" class="output-list"></div>
-            </section>
-
-            <section class="workspace-section">
-              <div class="section-heading">
-                <div><p class="eyebrow">Lineage</p><h3>Activity</h3></div>
-                <button id="handoffButton" class="text-button" type="button">AI handoff</button>
-              </div>
-              <ol id="activityList" class="activity-list"></ol>
-            </section>
-          </div>
+        <div class="form-grid">
+          <label class="field field-wide"><span>Title</span><input name="title" required maxlength="160" autofocus></label>
+          <label class="field">
+            <span>Kind</span>
+            <select name="kind"><option value="task">Task</option><option value="question">Question</option><option value="result">Result</option></select>
+          </label>
+          <label class="field"><span>Column</span><select name="columnId" id="composerColumn"></select></label>
+          <label class="field"><span>Priority</span><select name="priority"><option>P0</option><option>P1</option><option selected>P2</option><option>P3</option></select></label>
+          <label class="field"><span>Assignee</span><input name="assignee" maxlength="100" placeholder="You, agent, or team"></label>
+          <label class="field field-wide"><span>Intent and context</span><textarea name="description" rows="7" maxlength="50000" placeholder="What outcome matters? Include constraints and useful context."></textarea></label>
+          <label class="check-field"><input name="decision" type="checkbox"> <span>Use a decision loop</span></label>
+          <label class="check-field"><input name="recurring" type="checkbox"> <span>Recurring topic monitor</span></label>
+          <label class="field recurring-field" hidden><span>Cadence</span><input name="cadence" maxlength="80" placeholder="Monthly · first Monday"></label>
+          <label class="field recurring-field" hidden><span>Lookback window</span><input name="lookbackWindow" maxlength="80" placeholder="35 days"></label>
         </div>
-
         <footer class="dialog-footer">
-          <button id="archiveCardButton" class="danger-button" type="button" hidden>Archive</button>
-          <span class="dialog-spacer"></span>
-          <button class="button button-secondary" type="button" data-close-dialog>Cancel</button>
-          <button id="saveCardButton" class="button" value="default">Save card</button>
+          <button class="button button-quiet" type="button" data-close-dialog>Cancel</button>
+          <button class="button button-primary" value="default">Create card</button>
         </footer>
       </form>
     </dialog>
 
-    <dialog id="textDialog" class="dialog text-dialog">
-      <form id="textDialogForm" method="dialog">
-        <header class="dialog-header">
-          <div><p id="textDialogEyebrow" class="eyebrow"></p><h2 id="textDialogTitle"></h2></div>
-          <button class="icon-button" type="button" data-close-dialog aria-label="Close">×</button>
+    <dialog id="cardDetailDialog" class="dialog detail-dialog">
+      <div class="detail-shell">
+        <header class="detail-header">
+          <div class="detail-title-group">
+            <div id="detailBreadcrumb" class="detail-breadcrumb"></div>
+            <h2 id="detailTitle">Card workspace</h2>
+            <div id="detailMeta" class="detail-meta"></div>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close card workspace">×</button>
         </header>
-        <div id="textDialogFields"></div>
+        <nav id="detailTabs" class="detail-tabs" role="tablist" aria-label="Card workspace sections">
+          <button type="button" role="tab" data-tab="overview" aria-selected="true">Overview</button>
+          <button type="button" role="tab" data-tab="plan" aria-selected="false">Plan</button>
+          <button type="button" role="tab" data-tab="decision" aria-selected="false">Decision</button>
+          <button type="button" role="tab" data-tab="turns" aria-selected="false">Turns</button>
+          <button type="button" role="tab" data-tab="outputs" aria-selected="false">Outputs</button>
+          <button type="button" role="tab" data-tab="memory" aria-selected="false">Memory</button>
+          <button type="button" role="tab" data-tab="activity" aria-selected="false">Activity</button>
+        </nav>
+        <div id="detailBody" class="detail-body" role="tabpanel"></div>
+        <footer class="detail-footer">
+          <button id="archiveCardButton" class="button danger-button" type="button">Archive</button>
+          <button id="publishResultButton" class="button button-quiet" type="button">Publish result</button>
+          <span class="dialog-spacer"></span>
+          <button id="cancelTurnButton" class="button button-quiet" type="button" hidden>Cancel turn</button>
+          <button id="readyForAgentButton" class="button button-primary" type="button">Ready for agent</button>
+        </footer>
+      </div>
+    </dialog>
+
+    <dialog id="filtersDialog" class="dialog small-dialog">
+      <form id="filtersForm" method="dialog">
+        <header class="dialog-header">
+          <div><p class="eyebrow">Find the right work</p><h2>Board filters</h2></div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close filters">×</button>
+        </header>
+        <div class="form-grid">
+          <label class="field"><span>Assignee</span><input name="assignee"></label>
+          <label class="field"><span>Column</span><select name="columnId" id="filterColumn"><option value="">Any column</option></select></label>
+          <label class="field"><span>Kind</span><select name="kind"><option value="">Any kind</option><option>task</option><option>question</option><option>result</option></select></label>
+          <label class="field"><span>Turn status</span><select name="turnStatus"><option value="">Any status</option><option>queued</option><option>claimed</option><option>running</option><option>needs_input</option><option>review</option><option>complete</option><option>failed</option><option>cancelled</option></select></label>
+          <label class="field"><span>Attention</span><select name="attention"><option value="">Any attention</option><option value="needs_you">Needs you</option><option value="ai_working">AI working</option><option value="ai_updated">AI updated</option></select></label>
+          <label class="field"><span>Origin</span><select name="origin"><option value="">Any origin</option><option value="human">Human</option><option value="bundled-demo">Bundled demo</option><option value="handoff">AI handoff</option></select></label>
+          <label class="check-field"><input name="blocked" type="checkbox"> <span>Blocked only</span></label>
+          <label class="check-field"><input name="archived" type="checkbox"> <span>Archived only</span></label>
+        </div>
         <footer class="dialog-footer">
-          <button class="button button-secondary" type="button" data-close-dialog>Cancel</button>
-          <button id="textDialogSubmit" class="button" value="default">Save</button>
+          <button id="clearFiltersButton" class="button button-quiet" type="button">Clear</button>
+          <span class="dialog-spacer"></span>
+          <button class="button button-primary" value="default">Apply filters</button>
         </footer>
       </form>
+    </dialog>
+
+    <dialog id="agentDialog" class="dialog agent-dialog">
+      <div>
+        <header class="dialog-header">
+          <div><p class="eyebrow">Cooperative writer baton</p><h2>Agent control</h2></div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close agent control">×</button>
+        </header>
+        <section id="agentConnectionState" class="agent-connection-state"></section>
+        <section class="agent-start-guide">
+          <div><span class="step-number">1</span><div><strong>Start your agent</strong><p>Open Copilot CLI, Claude Code, or a compatible agent in the Board Workspace folder.</p></div></div>
+          <div><span class="step-number">2</span><div><strong>Let it read the skill</strong><p>The root instructions point to one canonical, versioned skill bundle.</p></div></div>
+          <div><span class="step-number">3</span><div><strong>Grant control when ready</strong><p>The browser saves and closes its writer before an approved agent can mutate SQLite.</p></div></div>
+        </section>
+        <details class="advanced-details">
+          <summary>Fallback instructions and diagnostics</summary>
+          <div class="copy-panel">
+            <p id="agentFallbackText">Read manifest.json and .agents/skills/ai-kanban/SKILL.md, then run the skill preflight.</p>
+            <button id="copyAgentInstructionsButton" class="button button-quiet" type="button">Copy instructions</button>
+          </div>
+          <pre id="agentDiagnostics"></pre>
+        </details>
+        <footer class="dialog-footer">
+          <button id="repairFromAgentButton" class="button button-quiet" type="button">Repair skill</button>
+          <span class="dialog-spacer"></span>
+          <button id="retryAgentButton" class="button button-quiet" type="button">Retry</button>
+          <button id="agentControlAction" class="button button-primary" type="button">Grant agent control</button>
+        </footer>
+      </div>
     </dialog>
 
     <dialog id="handoffDialog" class="dialog handoff-dialog">
-      <form method="dialog">
+      <div>
         <header class="dialog-header">
-          <div><p class="eyebrow">Provider-neutral AI</p><h2>Handoff packet</h2></div>
-          <button class="icon-button" value="cancel" aria-label="Close AI handoff">×</button>
+          <div><p class="eyebrow">Provider-neutral boundary</p><h2>AI handoff</h2></div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close AI handoff">×</button>
         </header>
-        <div class="handoff-tabs" role="tablist">
-          <button class="handoff-tab is-active" data-handoff-tab="export" type="button" role="tab" aria-selected="true">Export context</button>
-          <button class="handoff-tab" data-handoff-tab="import" type="button" role="tab" aria-selected="false">Import response</button>
+        <label class="field handoff-card-field"><span>Card</span><select id="handoffCardSelect"></select></label>
+        <div class="segmented-tabs" role="tablist">
+          <button type="button" role="tab" data-handoff-tab="export" aria-selected="true">Export context</button>
+          <button type="button" role="tab" data-handoff-tab="import" aria-selected="false">Import response</button>
+          <button type="button" role="tab" data-handoff-tab="direct" aria-selected="false">Direct send</button>
         </div>
         <section id="handoffExportPanel">
-          <p>Copy this packet into any assistant. No workspace data leaves the browser automatically.</p>
-          <textarea id="handoffExportText" rows="14" readonly></textarea>
+          <p>Compact intent, context, plan, activity, and requested response shape. Nothing is uploaded.</p>
+          <div class="format-toggle"><button type="button" data-format="json" aria-pressed="true">JSON</button><button type="button" data-format="markdown" aria-pressed="false">Markdown</button></div>
+          <textarea id="handoffExportText" rows="15" readonly></textarea>
           <div class="inline-actions">
-            <button id="copyHandoffButton" class="button" type="button">Copy packet</button>
-            <button id="downloadHandoffButton" class="button button-secondary" type="button">Download JSON</button>
+            <button id="copyHandoffButton" class="button button-primary" type="button">Copy packet</button>
+            <button id="downloadHandoffButton" class="button button-quiet" type="button">Download</button>
           </div>
         </section>
         <section id="handoffImportPanel" hidden>
-          <p>Paste an <code>ai-kanban-response/v1</code> packet. Review the preview before applying it.</p>
+          <p>Paste or choose an <code>ai-kanban-response/v1</code> packet. Validation happens before preview; approval is explicit.</p>
           <textarea id="handoffImportText" rows="12" placeholder='{"schema":"ai-kanban-response/v1", ...}'></textarea>
-          <button id="previewImportButton" class="button button-secondary" type="button">Validate and preview</button>
+          <div class="inline-actions">
+            <button id="choosePacketButton" class="button button-quiet" type="button">Choose file</button>
+            <button id="previewImportButton" class="button button-primary" type="button">Validate and preview</button>
+          </div>
           <div id="handoffPreview" class="handoff-preview" hidden></div>
-          <button id="applyImportButton" class="button" type="button" hidden>Apply approved response</button>
+          <button id="applyImportButton" class="button button-primary" type="button" hidden>Approve and apply</button>
         </section>
+        <section id="handoffDirectPanel" hidden>
+          <div class="caution-note"><strong>Optional direct send</strong><span>Credentials stay in session memory. Review the exact content before confirmation.</span></div>
+          <div class="form-grid">
+            <label class="field"><span>Provider label</span><input id="providerName" placeholder="Custom provider"></label>
+            <label class="field"><span>Model</span><input id="providerModel"></label>
+            <label class="field field-wide"><span>HTTPS endpoint</span><input id="providerEndpoint" type="url" placeholder="https://…"></label>
+            <label class="field field-wide"><span>Session-only credential</span><input id="providerCredential" type="password" autocomplete="off"></label>
+            <label class="field field-wide"><span>Purpose</span><input id="providerPurpose" value="Continue this card workspace"></label>
+          </div>
+          <button id="previewDirectButton" class="button button-quiet" type="button">Preview exact request</button>
+          <div id="directPreview" class="handoff-preview" hidden></div>
+          <button id="sendDirectButton" class="button button-primary" type="button" hidden>Confirm and send</button>
+        </section>
+      </div>
+    </dialog>
+
+    <dialog id="genericDialog" class="dialog small-dialog">
+      <form id="genericForm" method="dialog">
+        <header class="dialog-header">
+          <div><p id="genericEyebrow" class="eyebrow"></p><h2 id="genericTitle"></h2></div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close">×</button>
+        </header>
+        <div id="genericFields" class="form-grid"></div>
+        <footer class="dialog-footer">
+          <button class="button button-quiet" type="button" data-close-dialog>Cancel</button>
+          <span class="dialog-spacer"></span>
+          <button id="genericSubmit" class="button button-primary" value="default">Save</button>
+        </footer>
       </form>
     </dialog>
 
-    <dialog id="aboutDialog" class="dialog about-dialog">
-      <form method="dialog">
+    <dialog id="conflictDialog" class="dialog small-dialog">
+      <div>
         <header class="dialog-header">
-          <div><p class="eyebrow">Local data boundary</p><h2>About this workspace</h2></div>
-          <button class="icon-button" value="cancel" aria-label="Close workspace information">×</button>
+          <div><p class="eyebrow attention-eyebrow">External change detected</p><h2>Your draft is safe.</h2></div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close conflict recovery">×</button>
+        </header>
+        <p>AI Kanban stopped before overwriting the folder. Compare revisions, reload the durable workspace, export your draft, or explicitly recover.</p>
+        <dl id="conflictDetails" class="comparison-list"></dl>
+        <div class="recovery-actions">
+          <button id="reloadConflictButton" class="button button-primary" type="button">Reload workspace</button>
+          <button id="exportDraftButton" class="button button-quiet" type="button">Export draft</button>
+          <button id="recoverConflictButton" class="button danger-button" type="button">Use my draft</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="aboutDialog" class="dialog small-dialog">
+      <div>
+        <header class="dialog-header">
+          <div><p class="eyebrow">Local data boundary</p><h2>About workspace</h2></div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close workspace details">×</button>
         </header>
         <dl id="workspaceDetails" class="workspace-details"></dl>
-        <p>
-          The selected SQLite file is authoritative. IndexedDB remembers only the
-          file handle; analytics never receives workspace bytes.
-        </p>
-      </form>
+        <details class="advanced-details">
+          <summary>Technical model</summary>
+          <p><code>board.sqlite</code> is canonical. A dedicated Worker owns the browser connection. IndexedDB remembers only the recent directory handle.</p>
+          <p>There is no analytics upload, backend, background runner, WebSocket, or secure credential vault.</p>
+        </details>
+      </div>
     </dialog>
 
+    <div id="loadingOverlay" class="loading-overlay" hidden role="status" aria-live="polite">
+      <span class="loading-mark" aria-hidden="true"></span>
+      <strong id="loadingText">Opening workspace…</strong>
+    </div>
     <div id="toastRegion" class="toast-region" aria-live="assertive"></div>
 
     <script type="module" src="./src/app.js"></script>

@@ -399,6 +399,27 @@ Path: @{output_path}
         assert "critique" in meta.prompt_names
         assert "revise" in meta.prompt_names
 
+    def test_chain_item_values_are_not_user_inputs(self):
+        meta = scan_spec(
+            """\
+@execute chain
+  repeat: card
+  items: @{author.render_queue}
+
+@prompt author
+  Build from @{deck}.
+
+@prompt card
+  Render @{item_key}: @{item}.
+"""
+        )
+        assert meta.execution == {
+            "type": "chain",
+            "repeat": "card",
+            "items": "@{author.render_queue}",
+        }
+        assert [item.name for item in meta.inputs] == ["deck"]
+
     def test_tool_names(self):
         meta = scan_spec(SPEC_TOOLS)
         assert "web_search" in meta.tool_names
@@ -418,7 +439,7 @@ Path: @{output_path}
             "allow_effects": ["market_data"],
         }
         assert meta.binding_names == ["market_data"]
-        assert meta.macro_names == ["fetch_market_snapshot"]
+        assert [macro.name for macro in meta.macros] == ["fetch_market_snapshot"]
         assert [input.name for input in meta.inputs] == ["ticker"]
 
     def test_assertions(self):
@@ -627,7 +648,42 @@ Primary prompt.
         assert meta.module_name == "company.review"
         assert meta.use_modules == ["company.presentation"]
         assert meta.include_modules == ["presentation"]
-        assert meta.macro_names == ["checklist"]
+        assert [macro.name for macro in meta.macros] == ["checklist"]
+
+    def test_macro_signatures_are_reported(self):
+        """Macro parameters are the public surface of a definitions module."""
+
+        meta = scan_spec(SPEC_MODULE_MACROS)
+        checklist = meta.macros[0]
+        assert [param.name for param in checklist.params] == ["body"]
+        assert checklist.params[0].description == "review material"
+        # Macro parameters are call-site arguments, never user inputs.
+        assert [input.name for input in meta.inputs] == []
+
+    def test_semantic_macro_signature_is_reported(self):
+        meta = scan_spec(
+            "@module company.research\n\n"
+            "@define lookup\n"
+            "  @phase execute\n"
+            "  @scope self\n"
+            "  @returns value\n"
+            "  @param ticker\n"
+            "    Symbol to fetch.\n"
+            "  @param depth default: 3\n"
+            "    How far to search.\n"
+            "  @effect finance_data read\n"
+            "  @body\n"
+            "    Fetch @{ticker}.\n"
+        )
+        lookup = meta.macros[0]
+        assert lookup.name == "lookup"
+        assert lookup.phase == "execute"
+        assert lookup.scope == "self"
+        assert lookup.returns == "value"
+        assert lookup.effects == ["finance_data read"]
+        assert [param.name for param in lookup.params] == ["ticker", "depth"]
+        assert lookup.params[1].default == "3"
+        assert [input.name for input in meta.inputs] == []
 
     def test_reference_metadata(self):
         meta = scan_spec(

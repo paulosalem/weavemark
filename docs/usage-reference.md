@@ -375,8 +375,10 @@ weavemark library builtin:catalog/standalone/ai-kanban-board --ui
 ```
 
 `--scan` is designed for IDEs, wrappers, and pre-flight checks. It reports
-discovered inputs, output artifacts, tools, and execution metadata. `--ui` uses
-the same scanner to build a richer terminal form.
+discovered inputs, output artifacts, tools, execution metadata, and the full
+signature of every `@define` — parameters, phase, scope, return kind, and
+declared effects — which is the public surface of a definitions module. `--ui`
+uses the same scanner to build a richer terminal form.
 
 ### Output formats
 
@@ -1030,6 +1032,37 @@ You are a problem solver.  # ← shared context (prepended to all prompts)
 @prompt synthesize
   Synthesize the answer from the best path: @{best_path}
 ```
+
+**Data-driven chain repetition** can repeat one stage by count or over a JSON
+array/object produced by an earlier stage:
+
+```markdown
+@execute chain
+  repeat: card
+  items: @{author.render_queue}
+
+@prompt author
+  Return `{"render_queue": [...]}` as strict JSON.
+
+@prompt card
+  @output type: image
+    file: cards/card-@{index}.png
+    edit: on
+    edit_from: first
+  Render item @{index} of @{count}: @{item}
+```
+
+`items:` resolves when the repeated stage begins, so it may use a dotted path
+inside an earlier stage's JSON text output. Arrays preserve order and expose a
+one-based `@{item_key}`; objects preserve their keys and insertion order.
+`@{item}` is serialized as compact valid JSON.
+
+An image stage normally edits the immediately preceding image when `edit: on`.
+Set `edit_from: first` to condition every repetition on that stage's first
+image, or `edit_from: <stage>:first` to reuse another image stage's first output.
+The first render still uses normal image generation when no reference exists.
+This supports prototype-first decks, consistent character sheets, and other
+visual families without sending the whole collection to every image request.
 
 **Functional execution specs** collect execute-phase semantic-function calls into
 a validated plan. With `--run`, the built-in `FunctionalEngine` loads authorized

@@ -120,13 +120,17 @@
 
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.foundations.software_spec
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.browser_static_esmodules
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.browser_file_backed_webapp
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.browser_folder_backed_webapp
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_sqlite_file_store
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_agent_workspace_coordination
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.workflow_board
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.card
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.execution_turns
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.human_agent_decision_loop
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.activity_stream
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.output_surfaces
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_ai_handoff
+<span class="syntax-directive">@refine</span> module:weavemark.domains.research.recurring_topic_monitor
 
 # AI Kanban &mdash; Browser Workspace for Human-AI Work</code></pre>
           <p>
@@ -145,20 +149,28 @@
         <section id="reuse" class="article-section">
           <h2>2. Refine reusable architecture</h2>
           <p>
-            Four general modules make this browser app possible without making the
+            Five general modules make this browser app possible without making the
             AI Kanban source verbose:
           </p>
           <ul>
             <li><strong>Static ES modules:</strong> relative assets, workers, accessibility, responsive behavior, and GitHub Pages delivery.</li>
-            <li><strong>File-backed web app:</strong> open, create, reconnect, fallback import/download, dirty-state guards, and permission recovery.</li>
-            <li><strong>Browser SQLite store:</strong> sql.js in a worker, migrations, transactions, export, conflict detection, and save serialization.</li>
+            <li><strong>Folder-backed web app:</strong> Board Workspace authorization, manifest, artifacts, fallback archive import/export, and permission recovery.</li>
+            <li><strong>Browser SQLite store:</strong> sql.js in a worker, migrations, transactions, conflict detection, and direct file saving.</li>
+            <li><strong>Browser-agent coordination:</strong> generated <code>AGENTS.md</code>, <code>CLAUDE.md</code>, and canonical skill files; filesystem mailbox; single-writer handoff; safe reclamation; and honest watch-mode boundaries.</li>
             <li><strong>AI handoff:</strong> provider-neutral request and response packets with validation, preview, approval, and provenance.</li>
           </ul>
           <p>
-            Domain modules then contribute board, card, activity, and typed-output
-            concepts. The entrypoint composes those capabilities and adds only the
-            decisions that make them AI Kanban.
+            Domain modules then contribute board, card, execution-turn, staged
+            human-agent decision-loop, recurring research-memory, activity, and
+            typed-output concepts. The entrypoint composes those capabilities and
+            adds only the decisions that make them AI Kanban.
           </p>
+          <div class="callout">
+            <strong>Source evolution:</strong> the checked-in live demo demonstrates
+            the earlier single-file baseline. The current promplet now specifies the
+            next Board Workspace and agent-skill iteration without pretending those
+            additions are already present in that generated snapshot.
+          </div>
         </section>
 
         <section id="compile" class="article-section">
@@ -336,7 +348,7 @@ npm test</code></pre>
             <li><code>weavemark implement</code> can hand that contract to a configured programming agent in a separate workspace.</li>
             <li>A static browser app can use a user-selected SQLite file as canonical persistence without a backend.</li>
             <li>Provider-neutral handoff keeps the useful core independent of any AI vendor.</li>
-            <li>The real app, tutorial, home hero, tests, and Pages demo now share the same architecture.</li>
+            <li>The generated app remains a traceable single-file snapshot while the current source defines its next folder-backed collaboration iteration.</li>
           </ul>
           <div class="callout">
             <strong>Next:</strong> continue to

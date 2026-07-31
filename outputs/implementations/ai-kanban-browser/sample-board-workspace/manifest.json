@@ -1,0 +1,83 @@
+{
+  "format": "ai-kanban-workspace",
+  "format_version": 1,
+  "protocol_version": 1,
+  "schema_version": 6,
+  "app_version": "2.0.0",
+  "workspace_id": "sample-personal-research-workspace",
+  "revision": 0,
+  "primary_state": "board.sqlite",
+  "reserved_directories": [
+    "attachments",
+    "artifacts",
+    "exports",
+    ".ai-kanban/coordination",
+    ".agents/skills/ai-kanban"
+  ],
+  "application_files": [
+    {
+      "path": "manifest.json",
+      "owner": "ai-kanban"
+    },
+    {
+      "path": "board.sqlite",
+      "owner": "ai-kanban",
+      "fingerprint": "ba06ebd1f444a1ac84922d8ea9ffca50c480eef7846b810dd1737f01c43758d4"
+    },
+    {
+      "path": "AGENTS.md",
+      "owner": "ai-kanban",
+      "fingerprint": "d6acc66c37fb4863ccdb453ab6d3acef722f86bf64d17265e84ac9833a09ef8e"
+    },
+    {
+      "path": "CLAUDE.md",
+      "owner": "ai-kanban",
+      "fingerprint": "416e9abb4b6a3e25c9209ee912a932ca2d0b34bb3589e0150dfbba9263e911db"
+    },
+    {
+      "path": ".agents/skills/ai-kanban/SKILL.md",
+      "owner": "ai-kanban",
+      "fingerprint": "899a352a2f019b5824b4bb63f56aef494963bc4542bc8272079caac8c663f36a"
+    },
+    {
+      "path": ".agents/skills/ai-kanban/ai_kanban.py",
+      "owner": "ai-kanban",
+      "fingerprint": "758759bce40f130d9f061ec95725ff99ea268136db751d1d8bb4e8f9791d5869"
+    },
+    {
+      "path": ".agents/skills/ai-kanban/ai-kanban.sh",
+      "owner": "ai-kanban",
+      "fingerprint": "7a405230b4a87a2cc3edc07f63fe3dc0444bd6b29bbc08e41cc36b4b8ea67e7d"
+    },
+    {
+      "path": ".agents/skills/ai-kanban/ai-kanban.ps1",
+      "owner": "ai-kanban",
+      "fingerprint": "e0cf4564be3cf6be7e6404170963ecf3cdb6fa05f07efeb5bb465b815c12f8b7"
+    },
+    {
+      "path": ".ai-kanban/coordination/human.json",
+      "owner": "ai-kanban",
+      "fingerprint": "a916b70ea92bbef12f2f116067dd154d7ffaa78bd879aaabaf16f47799a17885"
+    }
+  ],
+  "agent_bootstrap_paths": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    ".agents/skills/ai-kanban/SKILL.md",
+    ".agents/skills/ai-kanban/ai_kanban.py",
+    ".agents/skills/ai-kanban/ai-kanban.sh",
+    ".agents/skills/ai-kanban/ai-kanban.ps1"
+  ],
+  "content_fingerprints": {
+    "board.sqlite": "ba06ebd1f444a1ac84922d8ea9ffca50c480eef7846b810dd1737f01c43758d4",
+    "AGENTS.md": "d6acc66c37fb4863ccdb453ab6d3acef722f86bf64d17265e84ac9833a09ef8e",
+    "CLAUDE.md": "416e9abb4b6a3e25c9209ee912a932ca2d0b34bb3589e0150dfbba9263e911db",
+    ".agents/skills/ai-kanban/SKILL.md": "899a352a2f019b5824b4bb63f56aef494963bc4542bc8272079caac8c663f36a",
+    ".agents/skills/ai-kanban/ai_kanban.py": "758759bce40f130d9f061ec95725ff99ea268136db751d1d8bb4e8f9791d5869",
+    ".agents/skills/ai-kanban/ai-kanban.sh": "7a405230b4a87a2cc3edc07f63fe3dc0444bd6b29bbc08e41cc36b4b8ea67e7d",
+    ".agents/skills/ai-kanban/ai-kanban.ps1": "e0cf4564be3cf6be7e6404170963ecf3cdb6fa05f07efeb5bb465b815c12f8b7",
+    ".ai-kanban/coordination/human.json": "a916b70ea92bbef12f2f116067dd154d7ffaa78bd879aaabaf16f47799a17885"
+  },
+  "created_at": "2026-07-30T12:00:00Z",
+  "updated_at": "2026-07-30T12:00:00Z"
+}

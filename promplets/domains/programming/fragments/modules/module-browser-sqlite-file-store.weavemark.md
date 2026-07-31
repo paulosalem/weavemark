@@ -5,8 +5,9 @@
 # Module: Browser SQLite File Store
 
 Use SQLite compiled to WebAssembly when a browser application needs relational
-transactions while preserving a user-selected SQLite file as its canonical
-portable store.
+transactions while preserving a user-selected SQLite file, or a documented
+SQLite file inside a user-authorized workspace folder, as its canonical portable
+store.
 
 ## Architecture
 
@@ -15,8 +16,8 @@ portable store.
   existing database from `Uint8Array` and export the complete database bytes.
 - The worker owns the only live database connection and exposes a small
   message-based repository API. UI modules never receive the raw database object.
-- The selected external file is canonical. In-memory SQLite, OPFS, IndexedDB, and
-  caches are working state only.
+- The selected external file or workspace-contained SQLite file is canonical.
+  In-memory SQLite, OPFS, IndexedDB, and caches are working state only.
 - Accept that saves serialize and rewrite the complete database. Document a
   practical workspace-size limit and keep UI responsive while exporting.
 

@@ -580,6 +580,25 @@ class TestWeaveMarkImports:
         ).is_file()
         assert (
             PROMPLETS_DIR
+            / "domains/programming/fragments/modules/"
+            "module-browser-agent-workspace-coordination.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR
+            / "domains/programming/fragments/modules/module-execution-turns.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR
+            / "domains/programming/fragments/modules/"
+            "module-human-agent-decision-loop.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR
+            / "domains/programming/fragments/types/"
+            "type-browser-folder-backed-webapp.weavemark.md"
+        ).is_file()
+        assert (
+            PROMPLETS_DIR
             / "domains/programming/fragments/validation/playwright-mcp-browser-validation.weavemark.md"
         ).is_file()
         assert (

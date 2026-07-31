@@ -6,7 +6,6 @@ import json
 import logging
 import os
 from argparse import Namespace
-from collections.abc import Mapping
 from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 from logging.handlers import RotatingFileHandler
@@ -67,22 +66,6 @@ def requires_responses_api(model: str) -> bool:
     return any(marker in lowered for marker in _RESPONSES_API_MODEL_MARKERS)
 
 
-def responses_tool_schema(tool: Any) -> Any:
-    """Flatten one Chat Completions tool definition for the Responses API.
-
-    Chat Completions nests the callable under a ``function`` key; the Responses
-    API expects those fields at the top level. Anything already flat, or not a
-    recognisable function tool, is returned untouched.
-    """
-
-    if not isinstance(tool, Mapping) or tool.get("type") != "function":
-        return tool
-    function = tool.get("function")
-    if not isinstance(function, Mapping):
-        return tool
-    return {"type": "function", **function}
-
-
 def responses_reasoning_effort() -> str:
     """Return the reasoning effort to request on the Responses API route.
 
@@ -98,27 +81,12 @@ def responses_reasoning_effort() -> str:
     )
 
 
-class _ResponsesToolClient(LLMClient):
-    """Client that emits WeaveMark's tool definitions in the Responses shape.
+class _ResponsesClient(LLMClient):
+    """Client that pins WeaveMark's reasoning effort on the Responses route.
 
-    WeaveMark declares its tools as Chat Completions dicts, which the underlying
-    client forwards verbatim instead of routing them through a tool dialect.
-    That is the right default rather than an oversight: every WeaveMark call
-    travels through LiteLLM, which expects the Chat shape for OpenAI, Anthropic,
-    and Gemini alike and performs its own translation. Converting those dicts to
-    a provider's native shape would break the very providers it looks like it
-    would help. The Responses API is the one route that rejects the Chat
-    envelope, so it is the one route that needs a conversion, applied after
-    coercion so executable tools keep their normal dialect path.
-
-    The same route also pins reasoning effort, which this client raises.
+    Tool definitions remain in the Chat Completions envelope expected by
+    LiteLLM, which translates them to the native Responses shape.
     """
-
-    def _prepare_tool_loop(self, **kwargs: Any) -> tuple[Any, list[dict[str, Any]]]:
-        """Flatten the prepared tool definitions for the Responses API."""
-
-        executor, definitions = super()._prepare_tool_loop(**kwargs)
-        return executor, [responses_tool_schema(tool) for tool in definitions]
 
     async def _invoke_litellm(
         self,
@@ -276,7 +244,7 @@ def new_client(
         "use_responses_api",
         requires_responses_api(model),
     )
-    client_type = _ResponsesToolClient if use_responses_api else LLMClient
+    client_type = _ResponsesClient if use_responses_api else LLMClient
     return client_type(model=model, observers=observers, **kwargs)
 
 

@@ -432,20 +432,40 @@ def test_story_output_contracts_and_cli_titles_are_explicit() -> None:
         assert scan_spec(source).title == title
 
 
-def test_ai_kanban_uses_concise_browser_architecture_modules() -> None:
+def test_ai_kanban_uses_concise_workspace_coordination_modules() -> None:
     source = (CATALOG / "standalone/ai-kanban-board.weavemark.md").read_text(
         encoding="utf-8"
     )
     for module in (
-        "stacks.browser_static_esmodules",
-        "types.browser_file_backed_webapp",
-        "modules.browser_sqlite_file_store",
-        "modules.browser_ai_handoff",
+        "weavemark.domains.programming.stacks.browser_static_esmodules",
+        "weavemark.domains.programming.types.browser_folder_backed_webapp",
+        "weavemark.domains.programming.modules.browser_sqlite_file_store",
+        "weavemark.domains.programming.modules.browser_agent_workspace_coordination",
+        "weavemark.domains.programming.modules.execution_turns",
+        "weavemark.domains.programming.modules.human_agent_decision_loop",
+        "weavemark.domains.programming.modules.browser_ai_handoff",
+        "weavemark.domains.research.recurring_topic_monitor",
     ):
-        assert f"module:weavemark.domains.programming.{module}" in source
+        assert f"module:{module}" in source
     assert "@structural_constraints strict: true" in source
     assert "@output" not in source
     assert "outputs/implementations/ai-kanban-browser/" in source
+    assert "types.browser_file_backed_webapp" not in source
+    assert "Board Workspace" in source
+    assert "Personal Research board" in source
+    assert "macroeconomic pulse" in source
+    assert "four-year-old in São Paulo" in source
+    assert "collaborative vacation planner" in source
+    assert "Planning runs broad AI comparison and feedback rounds" in source
+    assert "confirmed move to In\n  Progress queues deep research" in source
+    assert "Review presents the result for revision or acceptance" in source
+    assert "Moving completed work back to Inbox confirms Run again" in source
+    assert "latest result a rich preview" in source
+    assert "`AGENTS.md`, `CLAUDE.md`" in source
+    assert "`.agents/skills/ai-kanban/`" in source
+    assert "start Copilot CLI or Claude Code in that folder" in source
+    assert "resume watching indefinitely while its host remains alive" in source
+    assert "a skill cannot force a terminated host runtime" in source
     assert "Next.js" not in source
     assert "Prisma" not in source
     assert "WebSocket" not in source

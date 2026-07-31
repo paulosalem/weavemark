@@ -1,0 +1,47 @@
+name: Promplet contribution
+description: Propose a promplet for the reusable library or the examples.
+labels: ["promplet"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is the contribution that helps most right now. Promplets from
+        domain experts are especially welcome — you do not need to understand
+        the compiler to write one. See
+        [CONTRIBUTING.md](https://github.com/paulosalem/weavemark/blob/main/CONTRIBUTING.md).
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: What it does
+      description: The task it captures, and who would reuse it.
+    validations:
+      required: true
+
+  - type: input
+    id: domain
+    attributes:
+      label: Domain
+      description: The practice it encodes, if any.
+      placeholder: "medicine, law, teaching, accounting, engineering, translation…"
+    validations:
+      required: false
+
+  - type: textarea
+    id: expertise
+    attributes:
+      label: Constraints and quality criteria
+      description: >-
+        The part outsiders cannot supply: what makes an output good or wrong in
+        this domain, and what a non-expert would get subtly wrong.
+    validations:
+      required: false
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Draft promplet
+      description: Paste the source if you have one. A sketch in prose is fine too.
+      render: markdown
+    validations:
+      required: false

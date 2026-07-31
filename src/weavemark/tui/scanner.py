@@ -57,6 +57,29 @@ class SpecInput:
 
 
 @dataclass
+class SpecMacroParam:
+    """A parameter accepted by a `@define` declaration."""
+
+    name: str
+    description: str = ""
+    default: str | None = None
+    implicit: bool = False
+    mode: str = "text"
+
+
+@dataclass
+class SpecMacro:
+    """A `@define` declaration and its call signature."""
+
+    name: str
+    params: list[SpecMacroParam] = field(default_factory=list)
+    phase: str | None = None
+    scope: str | None = None
+    returns: str | None = None
+    effects: list[str] = field(default_factory=list)
+
+
+@dataclass
 class SpecMetadata:
     """Structured metadata extracted from a promplet file."""
 
@@ -71,7 +94,7 @@ class SpecMetadata:
     module_name: str | None = None
     use_modules: list[str] = field(default_factory=list)
     include_modules: list[str] = field(default_factory=list)
-    macro_names: list[str] = field(default_factory=list)
+    macros: list[SpecMacro] = field(default_factory=list)
     refine_files: list[str] = field(default_factory=list)
     reference_files: list[str] = field(default_factory=list)
     embed_files: list[str] = field(default_factory=list)
@@ -191,7 +214,7 @@ _STRATEGY_INTERNAL_VARS = {
 }
 
 # Loop built-ins the `chain` engine injects per repeated iteration.
-_CHAIN_LOOP_VARS = {"previous", "index", "count"}
+_CHAIN_LOOP_VARS = {"previous", "index", "count", "item", "item_key"}
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -287,7 +310,7 @@ def scan_spec(
         meta.module_name = module_match.group(1)
     meta.use_modules = list(dict.fromkeys(_USE_DIRECTIVE.findall(spec_text)))
     meta.include_modules = list(dict.fromkeys(_INCLUDE_DIRECTIVE.findall(spec_text)))
-    meta.macro_names = list(dict.fromkeys(_DEFINE_DIRECTIVE.findall(spec_text)))
+    meta.macros = _scan_macros(spec_text)
 
     # ── @tool ────────────────────────────────────────────────────
     meta.tool_names = list(dict.fromkeys(_TOOL_DIRECTIVE.findall(spec_text)))
@@ -454,6 +477,44 @@ def scan_spec(
 # ═══════════════════════════════════════════════════════════════════
 # Helpers
 # ═══════════════════════════════════════════════════════════════════
+
+
+def _scan_macros(spec_text: str) -> list[SpecMacro]:
+    """Return `@define` signatures using the authoritative macro parser."""
+
+    # Imported lazily: macros.py reaches the scanner through the promplet
+    # library, so a module-level import would close an import cycle.
+    from weavemark.compilation.macros import parse_definitions
+
+    macros: list[SpecMacro] = []
+    seen: set[str] = set()
+    for definition in parse_definitions(spec_text):
+        if definition.name in seen:
+            continue
+        seen.add(definition.name)
+        macros.append(
+            SpecMacro(
+                name=definition.name,
+                params=[
+                    SpecMacroParam(
+                        name=param.name,
+                        description=param.description,
+                        default=param.default,
+                        implicit=param.implicit,
+                        mode=param.mode,
+                    )
+                    for param in definition.params
+                ],
+                phase=definition.phase,
+                scope=definition.scope,
+                returns=definition.returns,
+                effects=[
+                    f"{effect.name} {effect.mode}".strip()
+                    for effect in definition.effects
+                ],
+            )
+        )
+    return macros
 
 
 def _strip_define_blocks(spec_text: str) -> str:

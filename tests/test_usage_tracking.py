@@ -11,7 +11,6 @@ from weavemark.logging_setup import (
     new_client,
     requires_responses_api,
     responses_reasoning_effort,
-    responses_tool_schema,
 )
 from weavemark.usage_tracking import (
     UsageAccumulator,
@@ -263,9 +262,7 @@ def test_an_explicit_api_choice_is_never_overridden() -> None:
     assert client.use_responses_api is False
 
 
-def test_chat_tool_definitions_are_flattened_for_the_responses_api() -> None:
-    """Responses expects the callable's fields at the top level."""
-
+def test_responses_client_keeps_chat_tools_for_litellm_translation() -> None:
     chat_tool = {
         "type": "function",
         "function": {
@@ -274,22 +271,16 @@ def test_chat_tool_definitions_are_flattened_for_the_responses_api() -> None:
             "parameters": {"type": "object", "properties": {}},
         },
     }
+    client = new_client(model="gpt-5.6-terra")
 
-    assert responses_tool_schema(chat_tool) == {
-        "type": "function",
-        "name": "read_file",
-        "description": "Read a file.",
-        "parameters": {"type": "object", "properties": {}},
-    }
+    _, definitions = client._prepare_tool_loop(
+        tools=[chat_tool],
+        tool_executor=object(),
+        dialect=None,
+        model_override=None,
+    )
 
-
-def test_already_flat_and_unrecognised_tools_pass_through_untouched() -> None:
-    flat = {"type": "function", "name": "ping", "parameters": {}}
-    hosted = {"type": "web_search"}
-
-    assert responses_tool_schema(flat) == flat
-    assert responses_tool_schema(hosted) == hosted
-    assert responses_tool_schema("not a tool") == "not a tool"
+    assert definitions == [chat_tool]
 
 
 def test_the_environment_can_force_a_model_onto_the_responses_api(

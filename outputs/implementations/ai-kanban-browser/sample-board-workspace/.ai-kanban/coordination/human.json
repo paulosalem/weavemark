@@ -1,0 +1,11 @@
+{
+  "workspace_id": "sample-personal-research-workspace",
+  "protocol_version": 1,
+  "actor_id": "human",
+  "holder_id": "human",
+  "sequence": 0,
+  "control_generation": 0,
+  "observed_revision": 0,
+  "requested_state": "human",
+  "timestamp": "2026-07-30T12:00:00Z"
+}

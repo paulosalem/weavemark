@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "WeaveMark: A Specification Language for Readable, Reusable, and Composable Prompts"
+message: "If WeaveMark helps your research, writing, or software work, please cite it as software."
+type: software
+authors:
+  - family-names: Salem
+    given-names: Paulo
+    email: paulosalem@paulosalem.com
+    website: "https://www.paulosalem.com"
+repository-code: "https://github.com/paulosalem/weavemark"
+url: "https://paulosalem.github.io/weavemark/"
+abstract: >-
+  WeaveMark is a Markdown-native specification language for prompts. Authors
+  write readable documents woven with directives for reuse, control flow,
+  output contracts, and validation; the WeaveMark Processor compiles them into
+  concrete prompt artifacts and can execute them through predefined engines.
+keywords:
+  - llm
+  - prompt-engineering
+  - prompt-composition
+  - specification-language
+  - markdown
+license: MIT
+version: 0.9.2
+date-released: "2026-07-21"

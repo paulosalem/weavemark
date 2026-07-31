@@ -3,11 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>WeaveMark - Experimental Prompt Notation</title>
+    <title>WeaveMark — A Specification Language for Prompts</title>
     <meta
       name="description"
       content="WeaveMark is a Markdown-native specification language for promplets: you specify abstract intent and the WeaveMark Processor compiles, inspects, and executes it."
     >
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="WeaveMark">
+    <meta property="og:title" content="WeaveMark — A Specification Language for Prompts">
+    <meta property="og:description" content="Write prompts as readable Markdown woven with directives for reuse, control flow, and output contracts. The WeaveMark Processor compiles them into concrete prompt artifacts, and can execute them.">
+    <meta property="og:url" content="https://paulosalem.github.io/weavemark/">
+    <meta property="og:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_banner_1.png">
+    <meta property="og:image:alt" content="WeaveMark">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WeaveMark — A Specification Language for Prompts">
+    <meta name="twitter:description" content="Write prompts as readable Markdown woven with directives for reuse, control flow, and output contracts. The WeaveMark Processor compiles them into concrete prompt artifacts, and can execute them.">
+    <meta name="twitter:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_banner_1.png">
+    <link rel="canonical" href="https://paulosalem.github.io/weavemark/">
     <link rel="stylesheet" href="site.css?v=20260718-thought">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
     <script src="analytics.js?v=20260720" defer></script>
@@ -31,11 +43,6 @@
       </div>
     </nav>
 
-    <div class="experimental-banner shell" role="note">
-      <span class="ic ic-alert" aria-hidden="true"></span>
-      <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
-    </div>
-
     <header class="shell hero">
       <div>
         <figure class="hero-wordmark">
@@ -58,6 +65,9 @@
         </p>
         <div class="hero-actions">
           <a class="button" href="tutorial.html">Build your first promplet</a>
+          <code class="hero-install">pip install weavemark</code>
+        </div>
+        <div class="hero-actions hero-actions-secondary">
           <a class="button secondary" href="introduction.html">Understand the language</a>
           <a class="button-link" href="python-api.html"><span>Use from Python</span><span class="link-arrow" aria-hidden="true">&#8594;</span></a>
         </div>
@@ -203,6 +213,11 @@ Resurface only new or materially changed findings.</code></pre>
           <span>abstract intent becomes concrete — largely LLM-based, deterministic structure where it helps</span>
         </div>
       </section>
+
+      <div class="experimental-banner shell" role="note">
+        <span class="ic ic-alert" aria-hidden="true"></span>
+        <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
+      </div>
 
       <section id="why-promplet" class="shell">
         <div class="section-head">
@@ -565,14 +580,6 @@ Name the risk, missing information, and next step.</code></pre>
               specification everyone can inspect; when execution is requested,
               the selected engine interprets the compiled artifact at runtime.
             </p>
-            <p class="snippet-note">
-              Every bundled example is exercised on <code>gpt-5.6-terra</code>
-              and <code>gpt-5.5</code>; <code>gpt-5.6-terra</code> is the default
-              and the recommended choice, at roughly half the cost. Override it
-              with <code>--model</code>, and add <code>--verbose</code> to close
-              a run with its token counts, prompt-cache hits, and
-              provider-reported cost.
-            </p>
           </div>
           <div class="code-card">
             <div class="code-title">
@@ -708,6 +715,22 @@ Search, cluster duplicate coverage, and resurface only material changes.</code><
             </div>
           </article>
         </div>
+
+        <aside class="related-note" id="related-work" aria-label="Related work">
+          <p class="section-kicker"><span class="ic ic-target" aria-hidden="true"></span>Related work</p>
+          <h2>Where this sits among prompt tooling.</h2>
+          <p>
+            Most prompt formats (<strong>Prompty</strong>, <strong>POML</strong>,
+            <strong>Dotprompt</strong>, <strong>PromptL</strong>) are deterministic: they substitute
+            values and render at run time. Optimisers (<strong>DSPy</strong>, <strong>SAMMO</strong>)
+            do have a model rewrite prompt text, but a metric over a dataset decides the result.
+            Spec-driven workflows (<strong>Spec Kit</strong>, <strong>Kiro</strong>) let the model's
+            judgement stand, yet expand a single intent and cannot import one specification into
+            another. WeaveMark compiles with a language model and composes reusable modules by
+            meaning.
+          </p>
+          <a class="related-link" href="related-work.html">See the full comparison of 25 projects</a>
+        </aside>
       </section>
     </main>
 

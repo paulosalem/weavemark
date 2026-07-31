@@ -861,6 +861,16 @@ class _WeaveMarkPreprocessor:
             visit(key, [key])
 
 
+def parse_definitions(text: str, source: str = "<scan>") -> list[WeaveMarkDefinition]:
+    """Return the `@define` declarations in a document, ignoring errors.
+
+    Structural, deterministic, and LLM-free, so metadata consumers such as the
+    spec scanner can report macro signatures without duplicating the grammar.
+    """
+
+    return _parse_document(text, source).definitions
+
+
 def _parse_document(text: str, source: str) -> ParsedDocument:
     comment_result = strip_markdown_comments(text, source_name=source)
     text = comment_result.text

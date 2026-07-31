@@ -8,6 +8,18 @@
       name="description"
       content="A conceptual introduction to WeaveMark: promplets, the WeaveMark Processor, mental model, principles, language pieces, output shapes, and execution boundary."
     >
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="WeaveMark">
+    <meta property="og:title" content="WeaveMark Introduction">
+    <meta property="og:description" content="A conceptual introduction to WeaveMark: promplets, the WeaveMark Processor, mental model, principles, language pieces, output shapes, and execution boundary.">
+    <meta property="og:url" content="https://paulosalem.github.io/weavemark/docs/introduction.html">
+    <meta property="og:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_banner_1.png">
+    <meta property="og:image:alt" content="WeaveMark">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WeaveMark Introduction">
+    <meta name="twitter:description" content="A conceptual introduction to WeaveMark: promplets, the WeaveMark Processor, mental model, principles, language pieces, output shapes, and execution boundary.">
+    <meta name="twitter:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_banner_1.png">
+    <link rel="canonical" href="https://paulosalem.github.io/weavemark/docs/introduction.html">
     <link rel="stylesheet" href="site.css?v=20260718-thought">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
     <script src="analytics.js?v=20260720" defer></script>
@@ -380,6 +392,12 @@
               </p>
             </article>
           </div>
+          <p class="section-note">
+            Compilation and execution share one text model, set with
+            <code>--model</code>. <code>gpt-5.6-terra</code> is the default and
+            the current recommendation; <code>--verbose</code> closes a run with
+            its token counts, cache hits, and cost.
+          </p>
         </section>
 
         <section id="compile-model" class="article-section">
@@ -744,11 +762,12 @@
             <strong>2025</strong> without being aware of anyone else using a similar
             term. Since then I have been glad to find that a few other people have
             independently explored <strong>kindred ideas</strong> under the similar
-            name <em>promptlet</em> &mdash; each in their own way: a reusable
+            name <em>promptlet</em> &mdash; each in their own way:
+            <a href="https://github.com/riddles-in-the-dark/Promptlet">composable prompt artifacts</a>, a reusable
             <a href="https://www.josh.ing/promptlet">prompt snippet</a>, a
             <a href="https://geekycuriosity.substack.com/p/midjourney-beginners-4-making-sense">weighted segment of a Midjourney multi-prompt</a>,
             and a unit of
-            <a href="https://breakingrocks.net/Promptlets-The-Full-How-to-Guide-20f3a5cc79f9808a9422fae353036248">prompt reuse and structure</a>.
+            <a href="https://www.breakingrocks.net/Promptlets-The-Full-How-to-Guide-20f3a5cc79f9808a9422fae353036248">prompt reuse and structure</a>.
           </p>
           <p>
             None of these are the same as WeaveMark, and that is part of the fun: the
@@ -842,21 +861,21 @@
           <h2><span class="ic ic-doc" aria-hidden="true"></span>Citation and author</h2>
           <p>
             If WeaveMark helps your research, writing, or software work, please
-            cite it as software. Update the version if you are citing a specific
+            cite it as software. Add the version if you are citing a specific
             release.
           </p>
           <h3>BibTeX</h3>
           <pre><code>@misc{salem2026weavemark,
   author = {Salem, Paulo},
-  title = {{WeaveMark}: An Experimental Language for Readable, Reusable, and Composable Prompts},
+  title = {{WeaveMark}: A Specification Language for Readable, Reusable, and Composable Prompts},
   year = {2026},
   url = {https://github.com/paulosalem/weavemark},
-  note = {Version 0.9.0; computer software}
+  note = {Computer software}
 }</code></pre>
           <h3>APA</h3>
           <p>
-            Salem, P. (2026). <em>WeaveMark: An experimental language for
-            readable, reusable, and composable prompts</em> (Version 0.9.0)
+            Salem, P. (2026). <em>WeaveMark: A specification language for
+            readable, reusable, and composable prompts</em>
             [Computer software]. GitHub.
             <a href="https://github.com/paulosalem/weavemark">https://github.com/paulosalem/weavemark</a>
           </p>

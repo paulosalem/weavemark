@@ -2,8 +2,29 @@
 
 ## Unreleased
 
+## 0.9.2 - 2026-07-31
+
 ### Added
 
+- Reusable static-browser, file-backed application, browser SQLite, mobile-first
+  feed, static content-pack, AI-handoff, and knowledge-card curriculum promplets.
+- A backend-free AI Kanban application whose canonical workspace is a
+  user-selected SQLite file, with provider-neutral AI handoffs and conflict-safe
+  persistence.
+- A mobile-first Knowledge Cards application with four reviewed 50-card packs,
+  offline/local state, notes, saved cards, deterministic ordering, and explicit
+  attention safeguards.
+- A lightweight live reader for the generated twelve-page Orion storybook.
+- Accessible collapsible mobile navigation shared by the documentation site,
+  tutorial track, and in-page section menus.
+- Reusable `adaptive_workspace_shell` and `focus_preserving_inspection` modules
+  now define state-aware setup-to-workspace transitions, compact sticky
+  navigation, accessible drawers, entity-owned disclosures, anchored contextual
+  overlays, asynchronous inspection, and reversible synthesis focus layouts.
+- Chain execution can now repeat a stage over a JSON array or object with
+  `items:`, exposing `@{item}` and `@{item_key}` per iteration. Image stages can
+  use `edit_from: first` or `edit_from: <stage>:first` to condition an entire
+  generated visual family on one fixed prototype.
 - Run statistics now report provider-reported input/output token counts and cost
   alongside the existing composition and execution figures, covering the whole
   invocation rather than a single call.
@@ -27,6 +48,17 @@
 
 ### Changed
 
+- Reframed the README and homepage around three complete proof paths: illustrated
+  storybook, AI Kanban, and the VALE3 market report.
+- Replaced the passive-income/Orbital Drift implementation tutorial with the
+  browser-native AI Kanban source-to-app walkthrough.
+- Clarified `@effect` read/write access modes in the language authority and
+  public reference.
+- Made the analytics consent request a quiet nonmodal banner.
+- Curated the public catalog to nine distinct, validated entrypoints and the
+  public examples to eight focused projects.
+- Moved reasoning-engine benchmarks and contrastive mining into self-contained
+  runtime studies; moved `@emit` and reference-context fixtures into tutorials.
 - The default text model is now `gpt-5.6-terra`, replacing `gpt-5.5`. Terra
   costs exactly half as much per token, and every shipped example was rerun on
   it end to end: the market snapshot came in at $0.34 against $0.74, the
@@ -41,8 +73,24 @@
   is `market-dashboard.html` and its title, security identification, and
   research character follow the supplied ticker variables.
 
+### Removed
+
+- Redundant catalog wrappers, unimplemented product specifications, duplicate
+  finance/research examples, broad batch runners, and artifact-free terminal
+  examples.
+- Example-study reports whose source projects were removed from the curated
+  public surface.
+
 ### Fixed
 
+- Prevented save races, cross-workspace writes, hidden-state leaks, corrupt-file
+  dead ends, misleading fallback copy, and mobile action overlap in AI Kanban.
+- Removed nested vertical scrolling from Knowledge Cards, made the document the
+  single scroll owner, and hardened progress, mutation, source, connection, and
+  content-validation behavior.
+- Restored direct local demo links while preserving GitHub Pages demo routes.
+- Replaced undiscoverable narrow-screen horizontal navigation with explicit
+  disclosure menus.
 - The collaborative engine now writes repository-relative response paths into its
   agent-turn requests when the run happens inside the current working directory.
   It previously wrote absolute paths, so every committed transcript recorded the
@@ -73,55 +121,6 @@
   Those requirements now live in the `@polish`, `@revise`, and `@normalize`
   instructions that carry them out. Its assertions check headings the deliverable
   must actually have instead of strings the composition always contained.
-
-## 0.9.2 - 2026-07-23
-
-### Added
-
-- Reusable static-browser, file-backed application, browser SQLite, mobile-first
-  feed, static content-pack, AI-handoff, and knowledge-card curriculum promplets.
-- A backend-free AI Kanban application whose canonical workspace is a
-  user-selected SQLite file, with provider-neutral AI handoffs and conflict-safe
-  persistence.
-- A mobile-first Knowledge Cards application with four reviewed 50-card packs,
-  offline/local state, notes, saved cards, deterministic ordering, and explicit
-  attention safeguards.
-- A lightweight live reader for the generated twelve-page Orion storybook.
-- Accessible collapsible mobile navigation shared by the documentation site,
-  tutorial track, and in-page section menus.
-
-### Changed
-
-- Reframed the README and homepage around three complete proof paths: illustrated
-  storybook, AI Kanban, and the VALE3 market report.
-- Replaced the passive-income/Orbital Drift implementation tutorial with the
-  browser-native AI Kanban source-to-app walkthrough.
-- Clarified `@effect` read/write access modes in the language authority and
-  public reference.
-- Made the analytics consent request a quiet nonmodal banner.
-- Curated the public catalog to nine distinct, validated entrypoints and the
-  public examples to eight focused projects.
-- Moved reasoning-engine benchmarks and contrastive mining into self-contained
-  runtime studies; moved `@emit` and reference-context fixtures into tutorials.
-
-### Removed
-
-- Redundant catalog wrappers, unimplemented product specifications, duplicate
-  finance/research examples, broad batch runners, and artifact-free terminal
-  examples.
-- Example-study reports whose source projects were removed from the curated
-  public surface.
-
-### Fixed
-
-- Prevented save races, cross-workspace writes, hidden-state leaks, corrupt-file
-  dead ends, misleading fallback copy, and mobile action overlap in AI Kanban.
-- Removed nested vertical scrolling from Knowledge Cards, made the document the
-  single scroll owner, and hardened progress, mutation, source, connection, and
-  content-validation behavior.
-- Restored direct local demo links while preserving GitHub Pages demo routes.
-- Replaced undiscoverable narrow-screen horizontal navigation with explicit
-  disclosure menus.
 
 ## 0.9.1 - 2026-07-20
 

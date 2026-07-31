@@ -8,23 +8,32 @@ output) — so a later stage can build on earlier ones. Each stage carries its o
 with ``edit: on`` also receives the previous image as an edit base, giving visual
 carry ("one panel/page after the other").
 
-A stage may be repeated a data-driven number of times via ``@execute`` config:
+A stage may be repeated by count or over a data-driven collection:
 
     @execute chain
       repeat: page          # the name of the stage to repeat
       count: 5              # how many times (int, or @{var})
 
+    @execute chain
+      repeat: card
+      items: @{author.render_queue}
+
 The repeated stage runs ``count`` times; each iteration sees ``@{index}`` (1..N),
-``@{count}``, and ``@{previous}``. This is the general "iterate a production over
-a sequence" pattern (multi-section documents, image sequences, storyboards, …)
-without being specialized to any one domain.
+``@{count}``, and ``@{previous}``. An ``items`` iteration also sees ``@{item}``
+and ``@{item_key}``. Image stages may declare ``edit_from: first`` to condition
+every repeated render on that stage's first image, or ``edit_from:
+<stage>:first`` to use another stage's first image. This is the general "iterate
+a production over a sequence" pattern (multi-section documents, image sequences,
+storyboards, …) without being specialized to any one domain.
 """
 
 from __future__ import annotations
 
 import asyncio
+import json
 import re
-from typing import Any, Optional
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 from ellements.execution import OnStepCallback, StepRecord
 
@@ -46,6 +55,9 @@ from .base import (
 
 _EDIT_FLAG_VALUES = {"on", "true", "yes", "1"}
 _TEMPLATE_RE = re.compile(r"(?:@\{|\{\{)\s*([A-Za-z_][\w.-]*)\s*(?:\}|\}\})")
+_EXACT_TEMPLATE_RE = re.compile(
+    r"^(?:@\{|\{\{)\s*([A-Za-z_][\w.-]*)\s*(?:\}|\}\})$"
+)
 
 
 def _render(template: str, context: dict[str, Any]) -> str:
@@ -56,10 +68,18 @@ def _render(template: str, context: dict[str, Any]) -> str:
     """
 
     def replace(match: re.Match[str]) -> str:
-        value = resolve_variable_path(context, match.group(1))
-        return match.group(0) if value is MISSING else str(value)
+        value = _resolve_runtime_path(match.group(1), context)
+        return match.group(0) if value is MISSING else _render_value(value)
 
     return _TEMPLATE_RE.sub(replace, template)
+
+
+def _render_value(value: Any) -> str:
+    """Render structured loop values as valid compact JSON."""
+
+    if isinstance(value, (Mapping, list, tuple)):
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+    return str(value)
 
 
 class ChainEngine(BaseEngine):
@@ -68,9 +88,9 @@ class ChainEngine(BaseEngine):
     async def execute(
         self,
         result: CompositionResult,
-        config: Optional[RuntimeConfig] = None,
-        on_step: Optional[OnStepCallback] = None,
-        on_artifact: Optional[ArtifactCallback] = None,
+        config: RuntimeConfig | None = None,
+        on_step: OnStepCallback | None = None,
+        on_artifact: ArtifactCallback | None = None,
     ) -> ExecutionResult:
         base_vars: dict[str, Any] = (
             dict(config.execution_variables) if config else {}
@@ -81,19 +101,30 @@ class ChainEngine(BaseEngine):
         execution = result.execution or {}
         repeat_stage = execution.get("repeat")
         repeat_count = _resolve_count(execution.get("count"), base_vars)
+        repeat_items = execution.get("items")
 
         context: dict[str, Any] = dict(base_vars)
         steps: list[StepRecord] = []
         artifacts: list[dict[str, Any]] = []
         call_settings: list[dict[str, Any]] = []
         previous_text = ""
-        previous_image: Optional[bytes] = None
+        previous_image: bytes | None = None
+        first_stage_images: dict[str, bytes] = {}
         final_output = ""
 
         for stage in stages:
             template = result.prompts.get(stage, result.composed_prompt)
             contract = result.prompt_outputs.get(stage)
-            reps = repeat_count if stage == repeat_stage else 1
+            items = (
+                _resolve_items(repeat_items, context)
+                if stage == repeat_stage and repeat_items is not None
+                else None
+            )
+            reps = (
+                len(items)
+                if items is not None
+                else repeat_count if stage == repeat_stage else 1
+            )
             stage_outputs: list[str] = []
 
             for index in range(1, reps + 1):
@@ -103,17 +134,35 @@ class ChainEngine(BaseEngine):
                     "index": index,
                     "count": reps,
                 }
+                if items is not None:
+                    item_key, item = items[index - 1]
+                    ctx.update({"item": item, "item_key": item_key})
                 prompt = _render(template, ctx)
                 file_target = None
                 if contract is not None and contract.params.get("file"):
                     file_target = _render(str(contract.params["file"]), ctx)
-                iteration_artifact: Optional[dict[str, Any]] = None
+                iteration_artifact: dict[str, Any] | None = None
                 if contract is not None and contract.is_image:
+                    edit_base = _resolve_edit_base(
+                        contract.params.get("edit_from"),
+                        stage=stage,
+                        previous_image=previous_image,
+                        first_stage_images=first_stage_images,
+                    )
                     payload, image_bytes, meta = await self._run_image_stage(
-                        prompt, stage, contract, previous_image, config, result
+                        prompt,
+                        stage,
+                        contract,
+                        edit_base,
+                        config,
+                        result,
                     )
                     previous_image = image_bytes
+                    if image_bytes is not None:
+                        first_stage_images.setdefault(stage, image_bytes)
                     meta.update({"stage": stage, "index": index})
+                    if contract.params.get("edit_from") is not None:
+                        meta["edit_from"] = str(contract.params["edit_from"])
                     call_settings.append(meta["call_settings"])
                     if file_target:
                         meta["file"] = file_target
@@ -186,7 +235,7 @@ class ChainEngine(BaseEngine):
         self,
         prompt: str,
         stage: str,
-        config: Optional[RuntimeConfig],
+        config: RuntimeConfig | None,
         result: CompositionResult,
     ) -> tuple[str, dict[str, Any]]:
         settings = resolve_call_settings(
@@ -212,10 +261,10 @@ class ChainEngine(BaseEngine):
         prompt: str,
         stage: str,
         contract: OutputContract,
-        previous_image: Optional[bytes],
-        config: Optional[RuntimeConfig],
+        edit_base: bytes | None,
+        config: RuntimeConfig | None,
         result: CompositionResult,
-    ) -> tuple[str, Optional[bytes], dict[str, Any]]:
+    ) -> tuple[str, bytes | None, dict[str, Any]]:
         """Render one image; return ``(payload, image_bytes, meta)``.
 
         ``payload`` is the raw provider text (a URL or base64 image) used only as a
@@ -237,8 +286,8 @@ class ChainEngine(BaseEngine):
         kwargs = image_generation_kwargs(params)
         wants_edit = str(params.get("edit", "")).strip().lower() in _EDIT_FLAG_VALUES
         edit_files = (
-            [("previous.png", previous_image)]
-            if (wants_edit and previous_image is not None)
+            [("reference.png", edit_base)]
+            if (wants_edit and edit_base is not None)
             else []
         )
         generated, method = await render_image(
@@ -270,3 +319,69 @@ def _resolve_count(raw: Any, variables: dict[str, Any]) -> int:
         return max(int(text), 0)
     except ValueError:
         return 1
+
+
+def _resolve_items(
+    raw: Any,
+    context: dict[str, Any],
+) -> list[tuple[str | int, Any]]:
+    """Resolve a repeat collection from current chain context."""
+
+    value = raw
+    if isinstance(raw, str):
+        text = raw.strip()
+        match = _EXACT_TEMPLATE_RE.match(text)
+        if match:
+            value = _resolve_runtime_path(match.group(1), context)
+        else:
+            try:
+                value = json.loads(text)
+            except json.JSONDecodeError:
+                value = _resolve_runtime_path(text, context)
+    if value is MISSING:
+        raise ValueError(f"Chain repeat items could not be resolved: {raw!r}.")
+    if isinstance(value, Mapping):
+        return list(value.items())
+    if isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        return list(enumerate(value, start=1))
+    raise ValueError("Chain repeat items must resolve to a JSON array or object.")
+
+
+def _resolve_runtime_path(path: str, context: dict[str, Any]) -> Any:
+    """Resolve a path, decoding JSON stage output when necessary."""
+
+    value = resolve_variable_path(context, path)
+    if value is not MISSING:
+        return value
+    root, separator, _ = path.partition(".")
+    raw_root = context.get(root, MISSING)
+    if not separator or not isinstance(raw_root, str):
+        return MISSING
+    try:
+        decoded = json.loads(raw_root)
+    except json.JSONDecodeError:
+        return MISSING
+    expanded = {**context, root: decoded}
+    return resolve_variable_path(expanded, path)
+
+
+def _resolve_edit_base(
+    raw: Any,
+    *,
+    stage: str,
+    previous_image: bytes | None,
+    first_stage_images: dict[str, bytes],
+) -> bytes | None:
+    """Select the image used by an ``edit: on`` stage."""
+
+    if raw is None or str(raw).strip().lower() == "previous":
+        return previous_image
+    value = str(raw).strip()
+    if value == "first":
+        return first_stage_images.get(stage)
+    source, separator, selector = value.partition(":")
+    if separator and selector == "first" and source:
+        return first_stage_images.get(source)
+    raise ValueError(
+        "Image output edit_from must be 'previous', 'first', or '<stage>:first'."
+    )

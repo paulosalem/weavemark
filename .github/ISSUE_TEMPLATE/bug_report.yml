@@ -1,0 +1,54 @@
+name: Bug report
+description: Something in the Processor, the CLI, or a bundled promplet behaves incorrectly.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        WeaveMark is experimental, so rough edges are expected — but they are
+        still worth reporting. A promplet that reproduces the problem is the
+        single most useful thing you can attach.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you expected, and what occurred instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: promplet
+    attributes:
+      label: Minimal promplet
+      description: The smallest source that reproduces it. Paste the file contents.
+      render: markdown
+    validations:
+      required: false
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and output
+      description: The exact command you ran and what it printed. Add `--verbose` if you can.
+      render: shell
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: WeaveMark version
+      description: Output of `weavemark --version`.
+      placeholder: "0.9.2"
+    validations:
+      required: true
+
+  - type: input
+    id: model
+    attributes:
+      label: Model
+      description: The model used, if the problem involves compilation or execution.
+      placeholder: "gpt-5.6-terra"
+    validations:
+      required: false

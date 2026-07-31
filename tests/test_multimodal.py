@@ -409,6 +409,37 @@ class _FakeChainClient:
         return SimpleNamespace(data=[image])
 
 
+class _SequencedImageClient(_FakeChainClient):
+    """Return distinct bytes and retain edit references for lineage assertions."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._sequence = 0
+        self.edit_references: list[bytes] = []
+
+    async def generate_image(self, prompt, model=None, **kwargs):
+        self.generate_prompts.append(prompt)
+        return self._next_image()
+
+    async def edit_image(self, prompt, images, model=None, **kwargs):
+        references = list(images)
+        self.edit_calls.append(len(references))
+        self.edit_references.append(references[0][1])
+        return self._next_image()
+
+    def _next_image(self):
+        self._sequence += 1
+        encoded = base64.b64encode(f"image-{self._sequence}".encode()).decode("ascii")
+        image = SimpleNamespace(
+            model_dump=lambda b=encoded: {
+                "url": None,
+                "b64_json": b,
+                "revised_prompt": None,
+            }
+        )
+        return SimpleNamespace(data=[image])
+
+
 @pytest.mark.asyncio
 async def test_chain_threads_previous_output(tmp_path: Path) -> None:
     from weavemark.engines.chain import ChainEngine
@@ -465,6 +496,94 @@ async def test_chain_image_visual_carry_via_edit(tmp_path: Path) -> None:
     # first frame generates; second frame edits the previous frame (visual carry).
     assert len(client.generate_prompts) == 1
     assert client.edit_calls == [1]
+
+
+@pytest.mark.asyncio
+async def test_chain_repeat_resolves_items_from_json_stage_output(
+    tmp_path: Path,
+) -> None:
+    from weavemark.engines.chain import ChainEngine
+
+    spec = (
+        "@execute chain\n"
+        "  repeat: card\n"
+        "  items: @{author.render_queue}\n\n"
+        "@prompt author\n  Build the queue.\n\n"
+        "@prompt card\n"
+        "  @output type: image\n"
+        "    size: 512x512\n"
+        "  Card @{index} of @{count}; key @{item_key}; data @{item}.\n"
+    )
+    result = await _compose(spec, tmp_path)
+    client = _FakeChainClient(
+        text='{"render_queue":[{"id":"alpha","brief":"one"},'
+        '{"id":"beta","brief":"two"}]}'
+    )
+    execution = await ChainEngine(client=client).execute(result)
+
+    assert [step.name for step in execution.steps] == ["author", "card_1", "card_2"]
+    assert '"id":"alpha","brief":"one"' in client.generate_prompts[0]
+    assert '"id":"beta","brief":"two"' in client.generate_prompts[1]
+    assert "Card 2 of 2; key 2;" in client.generate_prompts[1]
+
+
+@pytest.mark.asyncio
+async def test_chain_repeat_resolves_items_from_companion_json(
+    tmp_path: Path,
+) -> None:
+    from weavemark.engines.chain import ChainEngine
+
+    spec = (
+        "@execute chain\n"
+        "  repeat: card\n"
+        "  items: @{deck.cards}\n\n"
+        "@prompt card\n"
+        "  @output type: image\n"
+        "    size: 512x512\n"
+        "  Card @{index} of @{count}; key @{item_key}; data @{item}.\n"
+    )
+    result = await _compose(
+        spec,
+        tmp_path,
+        {"deck": {"cards": {"first": {"id": "alpha"}, "second": {"id": "beta"}}}},
+    )
+    client = _FakeChainClient()
+    execution = await ChainEngine(client=client).execute(result)
+
+    assert [step.name for step in execution.steps] == ["card_1", "card_2"]
+    assert '"id":"alpha"' in client.generate_prompts[0]
+    assert '"id":"beta"' in client.generate_prompts[1]
+    assert "Card 2 of 2; key second;" in client.generate_prompts[1]
+
+
+@pytest.mark.asyncio
+async def test_chain_edit_from_first_reuses_prototype_image(tmp_path: Path) -> None:
+    from weavemark.engines.chain import ChainEngine
+
+    spec = (
+        "@execute chain\n  repeat: card\n  count: 3\n\n"
+        "@prompt card\n"
+        "  @output type: image\n"
+        "    size: 512x512\n"
+        "    edit: on\n"
+        "    edit_from: first\n"
+        "  Card @{index}.\n\n"
+        "@prompt back\n"
+        "  @output type: image\n"
+        "    size: 512x512\n"
+        "    edit: on\n"
+        "    edit_from: card:first\n"
+        "  Card back.\n"
+    )
+    result = await _compose(spec, tmp_path)
+    client = _SequencedImageClient()
+    execution = await ChainEngine(client=client).execute(result)
+
+    assert len(client.generate_prompts) == 1
+    assert client.edit_calls == [1, 1, 1]
+    assert client.edit_references == [b"image-1", b"image-1", b"image-1"]
+    image_steps = [step for step in execution.steps if step.metadata["stage"] != "author"]
+    assert image_steps[-1].metadata["stage"] == "back"
 
 
 # ── nested @match + @output variable substitution ─────────────────────

@@ -72,6 +72,106 @@ def test_rest_success_and_problem_media_types_are_distinct() -> None:
     assert "application/json` for all endpoints" not in source
 
 
+def test_browser_agent_workspace_coordination_is_safe_and_honest() -> None:
+    source = _source(
+        "programming/fragments/modules/"
+        "module-browser-agent-workspace-coordination.weavemark.md"
+    )
+
+    for obligation in (
+        "Each actor\n  MUST be the sole writer of its own coordination file",
+        "Enforce one acknowledged writer for the primary state file",
+        "A control generation is an epoch",
+        "`BEGIN IMMEDIATE`",
+        "Never keep a database transaction open during model reasoning",
+        "rollback-journal mode rather than WAL",
+        "Human reclamation has priority",
+        "root `AGENTS.md` and `CLAUDE.md`",
+        "`.agents/skills/<skill-name>/`",
+        "without waiting for another conversational nudge",
+        "Remain in that loop indefinitely while the host session permits",
+        "Never silently overwrite a user-created or user-edited",
+        "open a terminal in the Board Workspace",
+        "Waiting for agent until a valid workspace-matched heartbeat arrives",
+        "does not reveal a portable absolute filesystem path",
+        "dependency-free Python 3 implementation",
+        "Never silently install software or use elevated",
+        "it cannot force\n  every host runtime to remain alive",
+        "Never promise that an ordinary skill\n  will poll or act forever",
+    ):
+        assert obligation in source
+
+
+def test_browser_folder_workspace_is_a_bounded_trust_boundary() -> None:
+    source = _source(
+        "programming/fragments/types/type-browser-folder-backed-webapp.weavemark.md"
+    )
+
+    for obligation in (
+        "`showDirectoryPicker()`",
+        "local trust, portability, and\n  collaboration boundary",
+        "Reject\n  absolute paths, `..` traversal, symlink escapes",
+        "Do not modify or delete unrecognized files",
+        "never execute generated files",
+        "workspace archive import/export flow",
+    ):
+        assert obligation in source
+
+
+def test_execution_turns_preserve_repeated_work_history() -> None:
+    source = _source(
+        "programming/fragments/modules/module-execution-turns.weavemark.md"
+    )
+
+    for obligation in (
+        "The work item is durable intent; an execution turn is one bounded attempt",
+        "Ready for agent state",
+        "first-class Run again or Requeue action",
+        "creates a new queued turn with a fresh id and number",
+        "MUST NOT reopen, clear, or silently mutate the previous turn",
+        "Feature the\n  latest successful result",
+        "place older results in a clearly ordered History view",
+        "Agents read and claim a specific turn",
+    ):
+        assert obligation in source
+
+
+def test_human_agent_decision_loop_requires_a_human_gate() -> None:
+    source = _source(
+        "programming/fragments/modules/module-human-agent-decision-loop.weavemark.md"
+    )
+
+    for obligation in (
+        "`briefing`, `exploring`, `needs_feedback`, `committed`, `deep_work`",
+        "starting suggestions, constraints",
+        "bounded option set through a structured comparison surface",
+        "rank, shortlist, reject, restore, annotate, or add options",
+        "summarizes what it understood",
+        "Deep work requires an explicit human gate",
+        "MUST NOT infer commitment from positive feedback",
+        "complete the exploration turn and queue a new deep-work turn",
+        "Return the item to Review",
+        "complete historical reconstruction",
+    ):
+        assert obligation in source
+
+
+def test_recurring_research_uses_visible_durable_memory() -> None:
+    source = _source("research/fragments/recurring-topic-monitor-core.weavemark.md")
+
+    for obligation in (
+        "read prior reports and a durable, inspectable\n  memory",
+        "Never rely on hidden model-session memory",
+        "source and coverage ledger",
+        "new, materially updated, unchanged context",
+        "Avoid repetition, not continuity",
+        "Never suppress corrections or new evidence",
+        "inspect, search, correct, dismiss, pin, export, and explicitly forget",
+        "latest successful report prominently",
+    ):
+        assert obligation in source
+
+
 def test_investment_materiality_band_keeps_weighted_matched_delta() -> None:
     source = _source("finance/fragments/investment-decision.weavemark.md")
 
@@ -192,9 +292,9 @@ def test_playwright_mcp_requires_approved_pinned_configuration() -> None:
 
 
 @pytest.mark.asyncio
-async def test_all_51_domain_promplets_scan_and_compile() -> None:
+async def test_all_57_domain_promplets_scan_and_compile() -> None:
     paths = sorted(DOMAINS.rglob("*.weavemark.md"))
-    assert len(paths) == 51
+    assert len(paths) == 57
 
     client = _CompileClient()
     failures: list[str] = []

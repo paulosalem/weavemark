@@ -698,7 +698,7 @@ def create_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--scan",
         action="store_true",
-        help="Output promplet metadata as JSON: inputs, title, outputs, tools, and execution strategy.",
+        help="Output promplet metadata as JSON: inputs, title, outputs, tools, macro signatures, and execution strategy.",
     )
 
     return parser
@@ -2695,7 +2695,7 @@ def cli() -> None:
             "module_name": meta.module_name,
             "use_modules": meta.use_modules,
             "include_modules": meta.include_modules,
-            "macro_names": meta.macro_names,
+            "macros": [_dc.asdict(m) for m in meta.macros],
             "refine_files": meta.refine_files,
             "reference_files": meta.reference_files,
             "embed_files": meta.embed_files,
