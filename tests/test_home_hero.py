@@ -62,7 +62,7 @@ def test_home_hero_examples_show_current_artifacts() -> None:
 
     assert "reflection, functional, FSLM" in html
     assert "weavemark library market-snapshot --replay --verbose" in html
-    assert "Nine connected lessons" in html
+    assert "Tour the semantic toolbox" in html
     assert "reflection, weave, FSLM" not in html
 
 

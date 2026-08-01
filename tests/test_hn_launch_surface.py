@@ -84,7 +84,8 @@ def test_home_preserves_principles_and_keeps_replay_compact() -> None:
     home = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
 
     assert home.index("Language is a tool for thought.") < home.index("<main>")
-    assert home.index("Offline replay") < home.index("Why use promplets?")
+    assert home.index("What it gives you") < home.index("Try without a key")
+    assert home.index("Start here") < home.index("Try without a key")
     assert "weavemark library market-snapshot --replay --verbose" in home
     assert "Can an LLM sensibly act as a compiler" not in home
     assert 'id="compiler-proof"' not in home
