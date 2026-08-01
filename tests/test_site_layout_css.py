@@ -43,10 +43,13 @@ def test_home_hero_selector_has_mobile_grid_fallback() -> None:
 
 def test_site_navigation_has_constant_width_and_right_links() -> None:
     css = (ROOT / "docs" / "site.css").read_text(encoding="utf-8")
-    html = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
 
-    assert "home-page" not in html
-    assert ".home-page" not in css
+    # The page chrome must stay identical everywhere: no page-scoped class may
+    # override navigation width, brand visibility, or link alignment. Body
+    # classes remain available for page-scoped *content* rhythm.
+    assert ".home-page .site-nav" not in css
+    assert ".home-page .nav-links" not in css
+    assert ".home-page .brand" not in css
     assert "--site-chrome-max: var(--max);" not in css
     assert "--site-chrome-max: var(--home-hero-max);" in css
     assert "width: min(var(--site-chrome-max), calc(100% - 40px));" in css

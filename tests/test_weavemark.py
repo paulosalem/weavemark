@@ -2256,8 +2256,8 @@ class TestResponseParsing:
             cli()
         assert exc_info.value.code == 2
 
-    def test_open_requires_run(self, tmp_path: Path, monkeypatch):
-        """Passing --open without --run exits with code 2."""
+    def test_open_requires_a_compiling_mode(self, tmp_path: Path, monkeypatch):
+        """Passing --open with a non-compiling mode exits with code 2."""
         import sys as _sys
 
         from weavemark.app import cli
@@ -2267,7 +2267,7 @@ class TestResponseParsing:
         monkeypatch.setattr(
             _sys,
             "argv",
-            ["weavemark", str(spec_path), "--batch-only", "--open"],
+            ["weavemark", str(spec_path), "--batch-only", "--scan", "--open"],
         )
 
         with pytest.raises(SystemExit) as exc_info:

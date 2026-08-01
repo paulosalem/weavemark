@@ -70,7 +70,7 @@ packaged HTML dashboard in the default browser after a successful run.
 Start with a structural check when model access is not needed:
 
 ```bash
-weavemark library market-snapshot --replay --verbose --output market-prompt.md
+weavemark library market-snapshot --replay --verbose --open
 weavemark library ai-kanban-board --replay
 weavemark library market-snapshot --scan
 ```

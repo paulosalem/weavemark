@@ -67,7 +67,7 @@
         </p>
         <div class="hero-actions">
           <a class="button" href="tutorial.html">Build your first promplet</a>
-          <code class="hero-install">pip install weavemark</code>
+          <code class="hero-install cli-command" aria-label="Shell command: pip install weavemark"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">pip</span> <span class="cli-subcommand">install</span> <span class="cli-value">weavemark</span></code>
         </div>
         <div class="hero-actions hero-actions-secondary">
           <a class="button secondary" href="introduction.html">Understand the language</a>
@@ -293,7 +293,7 @@ Resurface only new or materially changed findings.</code></pre>
 
           <div class="weave-grid" aria-label="Worked structural refinement example">
             <article class="weave-card weave-source-card">
-              <span class="snippet-label">1. Reusable promplet to refine</span>
+              <span class="snippet-label">1. Reusable module</span>
               <pre><code># Decision brief refinement
 
 Lead with <mark class="weave-mark source">the decision pressure</mark>.
@@ -307,7 +307,7 @@ Include <mark class="weave-mark source">counter-evidence and reversal triggers</
             <div class="weave-operator weave-plus" aria-hidden="true">+</div>
 
             <article class="weave-card weave-local-card">
-              <span class="snippet-label">2. Local source</span>
+              <span class="snippet-label">2. Local promplet</span>
               <pre><code><span class="syntax-directive">@refine</span> module:weavemark.std.lenses.decision_gate <span class="syntax-key">mingle:</span> true
 
 # Launch gate
@@ -319,12 +319,13 @@ Use <mark class="weave-mark custom"><span class="syntax-var">@{validation_log}</
 <span class="syntax-directive">@if</span> executive_audience
   Compress into board-ready language.</code></pre>
             </article>
+          </div>
 
-            <div class="weave-operator weave-arrow" aria-hidden="true">↓</div>
+          <div class="weave-operator weave-arrow" aria-hidden="true">↓</div>
 
-            <article class="weave-card weave-result">
-              <span class="snippet-label">3. Refined result after structural weaving</span>
-              <pre><code># Launch gate
+          <article class="weave-card weave-result">
+            <span class="snippet-label">3. Compiled result</span>
+            <pre><code># Launch gate
 
 Ship <mark class="weave-mark custom">Aurora 1.0</mark> to <mark class="weave-mark custom">beta teams</mark> this week?
 
@@ -336,9 +337,33 @@ Use <mark class="weave-mark custom">the validation log</mark> and <mark class="w
 
 Include <mark class="weave-mark source">counter-evidence and reversal triggers</mark>.
 Give the smallest safe next action in board-ready language.</code></pre>
-            </article>
-          </div>
+          </article>
         </div>
+      </section>
+
+      <section class="shell">
+        <div class="section-head language-head">
+          <div>
+            <p class="section-kicker"><span class="ic ic-code" aria-hidden="true"></span>Language moves</p>
+            <h2>Directives stay small and local.</h2>
+          </div>
+          <p class="section-lede">
+            Each directive does one visible job while the source continues to
+            read as a document.
+          </p>
+        </div>
+        <div class="directive-map" aria-label="Representative WeaveMark directives">
+          <article><code>@refine</code><span>Weave reusable guidance into local intent.</span></article>
+          <article><code>@if</code><span>Keep controlled variations in one source.</span></article>
+          <article><code>@ask</code><span>Pause for human context before compiling.</span></article>
+          <article><code>@iterate</code><span>Judge and improve a transformation.</span></article>
+          <article><code>@assert</code><span>Make output obligations explicit.</span></article>
+          <article><code>@execute</code><span>Choose how the compiled prompt runs.</span></article>
+        </div>
+        <p class="directive-links">
+          <a href="tutorial-directives.html">Tour the semantic toolbox</a>
+          <a href="reference.html">Open the language reference</a>
+        </p>
       </section>
 
       <section id="batteries" class="shell">
@@ -423,31 +448,6 @@ Give the smallest safe next action in board-ready language.</code></pre>
       </section>
 
       <section class="shell">
-        <div class="section-head language-head">
-          <div>
-            <p class="section-kicker"><span class="ic ic-code" aria-hidden="true"></span>Language moves</p>
-            <h2>Directives stay small and local.</h2>
-          </div>
-          <p class="section-lede">
-            Each directive does one visible job while the source continues to
-            read as a document.
-          </p>
-        </div>
-        <div class="directive-map" aria-label="Representative WeaveMark directives">
-          <article><code>@refine</code><span>Weave reusable guidance into local intent.</span></article>
-          <article><code>@if</code><span>Keep controlled variations in one source.</span></article>
-          <article><code>@ask</code><span>Pause for human context before compiling.</span></article>
-          <article><code>@iterate</code><span>Judge and improve a transformation.</span></article>
-          <article><code>@assert</code><span>Make output obligations explicit.</span></article>
-          <article><code>@execute</code><span>Choose how the compiled prompt runs.</span></article>
-        </div>
-        <p class="directive-links">
-          <a href="tutorial-directives.html">Tour the semantic toolbox</a>
-          <a href="reference.html">Open the language reference</a>
-        </p>
-      </section>
-
-      <section class="shell">
         <div class="section-head">
           <div>
             <p class="section-kicker"><span class="ic ic-bolt" aria-hidden="true"></span>Start here</p>
@@ -495,13 +495,12 @@ Give the smallest safe next action in board-ready language.</code></pre>
             <h3 id="replay-title">Replay the VALE3 Market Snapshot locally.</h3>
             <p>
               Inspect the compilation steps and original token, cache, and cost
-              statistics; save the compiled prompt as an ordinary file.
+              statistics, then open the compiled artifact.
             </p>
           </div>
-          <div class="replay-note-command">
-            <pre><code>pip install weavemark
-weavemark library market-snapshot --replay --verbose \
-  --output vale3-market-prompt.md</code></pre>
+          <div class="replay-note-command" data-command="pip install weavemark&#10;weavemark library market-snapshot --replay --verbose --open">
+            <pre class="command-block" aria-label="Shell commands to install WeaveMark and replay Market Snapshot"><code><span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">pip</span> <span class="cli-subcommand">install</span> <span class="cli-value">weavemark</span></span>
+<span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">weavemark</span> <span class="cli-subcommand">library</span> <span class="cli-value">market-snapshot</span> <span class="cli-flag">--replay</span> <span class="cli-flag">--verbose</span> <span class="cli-flag">--open</span></span></code></pre>
             <p>
               <strong>11,002 input</strong> &middot; <strong>0 cached</strong> &middot;
               <strong>20,728 output</strong> &middot; <strong>$0.3384</strong>.

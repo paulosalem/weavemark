@@ -32,16 +32,14 @@ These are checked-in outputs, not mockups. The examples retain their source prom
 
 ## Try it yourself
 
-Install the current release, then replay two real compilations without an API key or network call. `--verbose` shows the compilation steps and recorded provider statistics; `--output` writes the compiled artifact instead of printing it.
+Install the current release, then replay two real compilations without an API key or network call. `--verbose` shows the compilation steps and recorded provider statistics; `--open` opens the compiled artifact in your default application.
 
 ```bash
 pip install weavemark
 
-weavemark library market-snapshot --replay --verbose \
-  --output vale3-market-prompt.md
+weavemark library market-snapshot --replay --verbose --open
 
-weavemark library ai-kanban-board --replay --verbose \
-  --output ai-kanban-spec.md
+weavemark library ai-kanban-board --replay --verbose --open
 ```
 
 Replay validates the source, inputs, compiler prompt, schema, imported modules, tool results, and recorded call hashes. It replays compilation only: finance and search effects do not run. The original VALE3 run reported 11,002 input tokens, 0 cached, 20,728 output tokens, and $0.3384 total API cost. AI Kanban's recorded compilation reported 133,084 input tokens, 114,603 cached, 11,799 output tokens, and $0.2015 total API cost. Replaying either costs nothing.

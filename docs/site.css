@@ -325,9 +325,9 @@
         max-width: none;
         margin-inline: calc((100% - min(var(--home-hero-max), calc(100vw - 40px))) / 2);
         grid-template-columns: minmax(0, 0.96fr) minmax(540px, 1.04fr);
-        align-items: center;
+        align-items: start;
         gap: clamp(28px, 3.6vw, 58px);
-        padding: 70px 0 64px;
+        padding: 42px 0 52px;
       }
 
       .experimental-banner.shell {
@@ -414,21 +414,65 @@
       .hero-install {
         display: inline-flex;
         align-items: center;
+        gap: 0.42em;
         min-height: 48px;
         padding: 0 16px;
         border: 1px solid var(--code-line);
         border-radius: 999px;
-        background: rgba(16, 32, 51, 0.04);
-        color: var(--ink);
+        color: #dbeafe;
+        background: linear-gradient(180deg, #153050, var(--code));
+        box-shadow:
+          0 14px 34px rgba(14, 29, 54, 0.14),
+          inset 0 1px 0 rgba(255, 255, 255, 0.07);
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
         font-size: 0.86rem;
         white-space: nowrap;
         user-select: all;
       }
 
+      .cli-prompt {
+        color: #67e8f9;
+        font-weight: 900;
+        user-select: none;
+      }
+
+      .cli-tool {
+        color: #f9a8d4;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .cli-subcommand {
+        color: #93c5fd;
+        font-weight: 750;
+        white-space: nowrap;
+      }
+
+      .cli-flag {
+        color: #fde047;
+        white-space: nowrap;
+      }
+
+      .cli-value {
+        color: #a7f3d0;
+        white-space: nowrap;
+      }
+
+      .cli-continuation {
+        color: #94a3b8;
+      }
+
+      .cli-line {
+        display: block;
+      }
+
+      .cli-line-continuation {
+        padding-left: 2.15em;
+      }
+
       @media (min-width: 921px) and (max-height: 1100px) {
         .shell.hero {
-          padding-top: 36px;
+          padding-top: 24px;
         }
 
         .hero-wordmark {
@@ -445,7 +489,7 @@
         }
 
         h1 {
-          font-size: clamp(2.75rem, 5vw, 5.15rem);
+          font-size: clamp(2.75rem, 4.1vw, 4.5rem);
         }
 
         .hero-copy {
@@ -525,7 +569,7 @@
         position: relative;
         align-self: start;
         min-width: 0;
-        margin-top: clamp(80px, 10vw, 135px);
+        margin-top: 64px;
         padding: 14px;
         border: 1px solid rgba(var(--accent-bright-rgb), 0.18);
         border-radius: var(--radius-xl);
@@ -1604,8 +1648,8 @@
       }
 
       .home-page main > section.shell:not(.hero) {
-        padding-top: 44px;
-        padding-bottom: 44px;
+        padding-top: 38px;
+        padding-bottom: 38px;
       }
 
       .home-page main > section.shell:not(.hero) h2 {
@@ -1614,7 +1658,15 @@
 
       .home-page .section-head {
         gap: 24px;
-        margin-bottom: 24px;
+        margin-bottom: 22px;
+      }
+
+      .home-page .section-kicker {
+        margin-bottom: 8px;
+      }
+
+      .home-page .section-lede {
+        line-height: 1.58;
       }
 
       .section-head {
@@ -1759,19 +1811,33 @@
       .proof-strip {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 14px;
-        padding-top: 30px;
-        padding-bottom: 6px;
+        gap: 0;
+        overflow: hidden;
+        border: 1px solid rgba(var(--accent-bright-rgb), 0.16);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.66);
+        box-shadow: var(--shadow-card);
+      }
+
+      .home-page main > section.shell.proof-strip {
+        margin-top: 20px;
+        margin-bottom: 14px;
+        padding: 0;
+      }
+
+      .home-page #why-promplet .card,
+      .home-page .demo-card {
+        padding: 22px;
       }
 
       .proof-item {
         padding: 18px 20px;
-        border: 1px solid rgba(var(--accent-bright-rgb), 0.14);
-        border-radius: var(--radius-md);
-        background:
-          radial-gradient(circle at 100% 0%, rgba(var(--accent-bright-rgb), 0.06), transparent 60%),
-          var(--surface);
-        box-shadow: var(--shadow-card);
+        border-left: 1px solid var(--line);
+        background: radial-gradient(circle at 100% 0%, rgba(var(--accent-bright-rgb), 0.055), transparent 62%);
+      }
+
+      .proof-item:first-child {
+        border-left: 0;
       }
 
       .proof-item strong {
@@ -2029,12 +2095,9 @@
 
       .weave-grid {
         display: grid;
-        grid-template-areas:
-          "source plus local"
-          ". arrow ."
-          "result result result";
+        grid-template-areas: "source plus local";
         grid-template-columns: minmax(0, 1fr) 54px minmax(0, 1fr);
-        gap: 14px 10px;
+        gap: 10px;
         align-items: stretch;
         min-width: 0;
       }
@@ -2106,7 +2169,7 @@
       }
 
       .weave-arrow {
-        grid-area: arrow;
+        grid-column: 1 / -1;
         width: 50px;
         height: 50px;
         color: #0b2537;
@@ -2118,7 +2181,7 @@
       }
 
       .weave-result {
-        grid-area: result;
+        grid-column: 1 / -1;
         border-color: rgba(var(--spark-rgb), 0.42);
         box-shadow:
           0 18px 56px rgba(24, 48, 96, 0.2),
@@ -2189,6 +2252,7 @@
       }
 
       .path-link {
+        position: relative;
         display: grid;
         grid-template-columns: auto minmax(0, 1fr);
         gap: 6px 12px;
@@ -2201,10 +2265,24 @@
         box-shadow: 0 14px 42px rgba(24, 48, 96, 0.07);
       }
 
+      .path-link::after {
+        position: absolute;
+        top: 17px;
+        right: 17px;
+        color: var(--accent);
+        content: "\2192";
+        font-weight: 900;
+        transition: transform 160ms ease;
+      }
+
       .path-link:hover {
         border-color: rgba(var(--spark-rgb), 0.24);
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), var(--spark-soft));
         text-decoration: none;
+      }
+
+      .path-link:hover::after {
+        transform: translateX(3px);
       }
 
       .path-link span {
@@ -2885,6 +2963,8 @@
 
       .demo-card {
         position: relative;
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
       }
 
@@ -2905,7 +2985,8 @@
         align-items: center;
         flex-wrap: wrap;
         gap: 14px;
-        margin-top: 20px;
+        margin-top: auto;
+        padding-top: 20px;
       }
 
       .demo-actions > a:not(.button) {
@@ -3355,6 +3436,14 @@
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
+        .proof-item:nth-child(odd) {
+          border-left: 0;
+        }
+
+        .proof-item:nth-child(n + 3) {
+          border-top: 1px solid var(--line);
+        }
+
         .library-group {
           gap: 10px;
         }
@@ -3363,9 +3452,7 @@
           grid-template-areas:
             "source"
             "plus"
-            "local"
-            "arrow"
-            "result";
+            "local";
           gap: 12px;
         }
 
@@ -4105,6 +4192,48 @@
         .replay-note {
           grid-template-columns: 1fr;
           gap: 16px;
+        }
+      }
+
+      @media (min-width: 601px) and (max-width: 960px) {
+        .home-page .hero-stats {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 600px) {
+        .home-page .hero-stats {
+          gap: 0;
+          overflow: hidden;
+          border: 1px solid var(--line);
+          border-radius: var(--radius-lg);
+          background: rgba(255, 255, 255, 0.72);
+        }
+
+        .home-page .hero-stats .stat {
+          display: grid;
+          grid-template-columns: minmax(88px, 0.34fr) minmax(0, 0.66fr);
+          gap: 10px;
+          align-items: center;
+          padding: 12px 14px;
+          border: 0;
+          border-top: 1px solid var(--line);
+          border-radius: 0;
+          background: transparent;
+        }
+
+        .home-page .hero-stats .stat:first-child {
+          border-top: 0;
+        }
+
+        .home-page .hero-stats .stat strong {
+          font-size: 1rem;
+        }
+
+        .home-page .hero-stats .stat span {
+          margin: 0;
+          font-size: 0.78rem;
+          line-height: 1.35;
         }
       }
 

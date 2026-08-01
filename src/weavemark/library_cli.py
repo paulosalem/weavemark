@@ -83,7 +83,7 @@ def create_library_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Direct execution:\n"
-            "  weavemark library market-snapshot --replay --verbose --output market-prompt.md\n"
+            "  weavemark library market-snapshot --replay --verbose --open\n"
             "  weavemark library ai-kanban-board --replay\n"
             "  weavemark library market-snapshot --scan\n"
             "  weavemark library module:weavemark.std.reasoning.base_analyst --scan\n\n"

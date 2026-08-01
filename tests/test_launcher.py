@@ -206,3 +206,43 @@ def test_ai_kanban_replay_verbose_reports_recorded_usage(
         "$0.2015",
     ):
         assert statistic in rendered
+
+
+@pytest.mark.parametrize("target", ["market-snapshot", "ai-kanban-board"])
+def test_replay_open_publishes_a_real_artifact_without_an_output_path(
+    target: str,
+) -> None:
+    """`--replay --verbose --open` hands a written file to the default opener."""
+
+    env = {**os.environ, "BROWSER": "echo"}
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "weavemark.launcher",
+            "library",
+            target,
+            "--replay",
+            "--verbose",
+            "--open",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    rendered = completed.stdout + completed.stderr
+    assert completed.returncode == 0, rendered
+
+    opened = [
+        line.strip()
+        for line in rendered.splitlines()
+        if line.strip().startswith("file://")
+    ]
+    assert opened, rendered
+
+    artifact = Path(opened[0].removeprefix("file://"))
+    assert artifact.is_file()
+    assert artifact.read_text(encoding="utf-8").strip()

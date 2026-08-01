@@ -22,9 +22,10 @@ import json
 import logging
 import re
 import sys
+import tempfile
 import time
 import webbrowser
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Sequence
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -154,6 +155,16 @@ class WeaveMarkEventRenderer:
             cli_step_log(
                 f"[dim]Source size[/] [bright_cyan]{data.get('spec_length')} chars[/]",
                 position="last",
+                console=console,
+            )
+            return
+
+        if event_type == "local_cache_hit":
+            cli_step_log(
+                "💾 [bold bright_green]LOCAL cache used[/] "
+                f"[dim]{escape(str(data.get('method', 'call')))} · "
+                f"{escape(str(data.get('model', '')))}[/]",
+                position="mid",
                 console=console,
             )
             return
@@ -347,6 +358,19 @@ def _controller_event_sink(
     def emit(event_type: str, data: dict[str, Any]) -> None:
         printer.event(event_type, data)
         _emit_event(args, event_type, data, phase="composition")
+
+    return emit
+
+
+def _cache_hit_sink(
+    printer: CliPrinter,
+    args: argparse.Namespace,
+    *,
+    phase: str,
+) -> Callable[[dict[str, Any]], None]:
+    def emit(data: dict[str, Any]) -> None:
+        printer.event("local_cache_hit", data)
+        _emit_event(args, "local_cache_hit", data, phase=phase)
 
     return emit
 
@@ -571,8 +595,10 @@ def create_parser() -> argparse.ArgumentParser:
         action="store_true",
         dest="open_artifacts",
         help=(
-            "With --run, open every successfully produced @package artifact in "
-            "the default application."
+            "Open the produced artifacts in the default application. With --run, "
+            "opens every successful @package artifact; otherwise opens the "
+            "compiled output, writing it to a temporary file when no output path "
+            "is given."
         ),
     )
     parser.add_argument(
@@ -1039,6 +1065,8 @@ def _resolve_output_layout(
     * ``--output FILE`` mode: primary is ``FILE``; emit root is ``FILE.parent``.
     * ``--output-dir DIR`` mode: primary is ``DIR/<derived-name>.<ext>`` and
       emit root is ``DIR``.
+    * ``--open`` without either: primary is a temporary file so there is a
+      concrete artifact to hand to the default application.
     * Neither set: primary is ``None`` (stdout) and emit root is ``base_dir``.
     """
 
@@ -1048,6 +1076,12 @@ def _resolve_output_layout(
         return primary, root
     if args.output is not None:
         return args.output, args.output.parent
+    open_temp_dir = getattr(args, "_open_temp_dir", None)
+    if open_temp_dir is not None:
+        primary = open_temp_dir / _derive_primary_filename(
+            args.spec_file, primary_extension
+        )
+        return primary, open_temp_dir
     return None, base_dir
 
 
@@ -1407,6 +1441,9 @@ def _cli_protection_context(
         requested_write_roots.append(provenance.parent)
     if record_run is not None:
         requested_write_roots.append(record_run)
+    open_temp_dir = getattr(args, "_open_temp_dir", None)
+    if open_temp_dir is not None:
+        requested_write_roots.append(open_temp_dir)
 
     interaction = getattr(args, "_interaction", None)
     approval_handler = (
@@ -1533,14 +1570,15 @@ async def run_batch(
 
     if (primary_output is None and not args.implement) or args.show_output:
         print(output, flush=True)
-    if primary_output is not None:
-        _write_primary_file(
-            primary_output,
-            output,
-            printer,
-            show_summary=not args.no_file_summary,
-            protection=protection,
-        )
+    written_files: list[Path] = []
+    if primary_output is not None and _write_primary_file(
+        primary_output,
+        output,
+        printer,
+        show_summary=not args.no_file_summary,
+        protection=protection,
+    ):
+        written_files.append(primary_output)
 
     try:
         _write_emit_targets(
@@ -1552,6 +1590,15 @@ async def run_batch(
     except OSError as exc:
         printer.error(f"Failed to write @emit output: {exc}")
         return 1
+    written_files.extend(emit_targets)
+
+    if args.open_artifacts:
+        _open_artifact_files(
+            written_files,
+            printer,
+            args,
+            empty_warning="No compiled artifact was produced to open.",
+        )
 
     if args.implement:
         return _run_compiled_implementation(
@@ -1662,6 +1709,7 @@ async def run_interactive(
         output_format,
         source_label=_portable_source_label(args),
     )
+    written_files: list[Path] = []
     if (primary_output is None and not args.implement) or args.show_output:
         _show_result(
             printer,
@@ -1671,14 +1719,14 @@ async def run_interactive(
             verbose=args.verbose,
             source_label=_portable_source_label(args),
         )
-    if primary_output is not None:
-        _write_primary_file(
-            primary_output,
-            raw,
-            printer,
-            show_summary=not args.no_file_summary,
-            protection=protection,
-        )
+    if primary_output is not None and _write_primary_file(
+        primary_output,
+        raw,
+        printer,
+        show_summary=not args.no_file_summary,
+        protection=protection,
+    ):
+        written_files.append(primary_output)
 
     try:
         _write_emit_targets(
@@ -1690,6 +1738,15 @@ async def run_interactive(
     except OSError as exc:
         printer.error(f"Failed to write @emit output: {exc}")
         return 1
+    written_files.extend(emit_targets)
+
+    if args.open_artifacts:
+        _open_artifact_files(
+            written_files,
+            printer,
+            args,
+            empty_warning="No compiled artifact was produced to open.",
+        )
 
     if args.implement:
         return _run_compiled_implementation(
@@ -2014,6 +2071,8 @@ async def run_execute(
             model=runtime_config.model,
             protection=protection,
             logging_settings=settings.logging,
+            cache_settings=settings.cache,
+            on_cache_hit=_cache_hit_sink(printer, args, phase="execution"),
         ),
         protection=protection,
     )
@@ -2255,6 +2314,7 @@ async def _run_packaging(
         stage_files=stage_files,
         protection=protection or result.protection,
         logging_settings=settings.logging,
+        cache_settings=settings.cache,
     )
     for package in package_results:
         _emit_event(
@@ -2286,22 +2346,38 @@ def _open_package_artifacts(
 ) -> None:
     """Open successful package outputs once each, preserving source order."""
 
+    successful_files = [package.file for package in package_results if package.ok]
+    _open_artifact_files(
+        successful_files,
+        printer,
+        args,
+        empty_warning="No successfully packaged artifacts were produced to open.",
+    )
+
+
+def _open_artifact_files(
+    files: Sequence[Path],
+    printer: CliPrinter,
+    args: argparse.Namespace,
+    *,
+    empty_warning: str,
+) -> None:
+    """Open each distinct file once in the default application, in source order."""
+
     opened: set[Path] = set()
-    successful_files: list[Path] = []
-    for package in package_results:
-        if not package.ok:
-            continue
-        resolved = package.file.resolve()
+    artifacts: list[Path] = []
+    for file in files:
+        resolved = file.resolve()
         if resolved in opened:
             continue
         opened.add(resolved)
-        successful_files.append(resolved)
+        artifacts.append(resolved)
 
-    if not successful_files:
-        printer.warning("No successfully packaged artifacts were produced to open.")
+    if not artifacts:
+        printer.warning(empty_warning)
         return
 
-    for artifact in successful_files:
+    for artifact in artifacts:
         uri = artifact.as_uri()
         try:
             accepted = webbrowser.open(uri)
@@ -2371,6 +2447,7 @@ async def run_discover(args: argparse.Namespace) -> int:
 
     # 1. Load config
     ui.show_step("⚙️ ", "Loading configuration…")
+    settings = load_weavemark_settings(Path.cwd()).settings
     env_config = load_config(
         project_dir=Path.cwd(),
         extra_library_dirs=getattr(args, "library_dir", None),
@@ -2421,6 +2498,8 @@ async def run_discover(args: argparse.Namespace) -> int:
             model=args.model or DEFAULT_MODEL,
             on_progress=on_progress,
             on_error=metadata_errors.append,
+            logging_settings=settings.logging,
+            cache_settings=settings.cache,
         )
         # Mark any cached (not analyzed) specs as completed in the bar
         assert task_id[0] is not None
@@ -2451,6 +2530,8 @@ async def run_discover(args: argparse.Namespace) -> int:
         tool_executor=tool_executor,
         ui=ui,
         model=args.model or DEFAULT_MODEL,
+        logging_settings=settings.logging,
+        cache_settings=settings.cache,
     )
 
     # 6. Run the chat loop
@@ -2644,9 +2725,17 @@ def cli() -> None:
     if args.run and args.implement:
         printer.error("--run and --implement are mutually exclusive.")
         sys.exit(2)
-    if args.open_artifacts and not args.run:
-        printer.error("--open requires --run.")
+    if args.open_artifacts and (args.ui or args.scan or args.discover):
+        printer.error("--open requires a compilation or run mode.")
         sys.exit(2)
+    args._open_temp_dir = (
+        Path(tempfile.mkdtemp(prefix="weavemark-open-"))
+        if args.open_artifacts
+        and not args.run
+        and args.output is None
+        and args.output_dir is None
+        else None
+    )
     if args.ui and args.implement:
         printer.error("--ui and --implement are mutually exclusive.")
         sys.exit(2)
