@@ -70,5 +70,7 @@ packaged HTML dashboard in the default browser after a successful run.
 Start with a structural check when model access is not needed:
 
 ```bash
-weavemark promplets/catalog/standalone/ai-kanban-board.weavemark.md --scan
+weavemark library market-snapshot --replay --verbose --output market-prompt.md
+weavemark library ai-kanban-board --replay
+weavemark library market-snapshot --scan
 ```

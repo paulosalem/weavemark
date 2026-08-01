@@ -1119,6 +1119,8 @@ class WeaveMarkController:
                     "model_calls_made": result.model_calls_made,
                     "diagnostics_count": len(result.diagnostics),
                     "output_length": len(result.composed_prompt),
+                    "replay": provenance is not None
+                    and provenance.replay_dir is not None,
                 },
             )
 
@@ -1366,7 +1368,8 @@ class WeaveMarkController:
                 "directives, analysis, warnings, errors, and suggestions. Do not add "
                 "a code fence, preamble, trailing commentary, or extra fields. Prompt "
                 "values are objects with text and nullable role. Package entries require "
-                "file plus exactly one of template or from. The `references` object "
+                "file plus exactly one of instructions/non-empty body or from. The "
+                "`references` object "
                 "must contain every supplied reference id mapped to its fully resolved "
                 "content, or be empty when no references were supplied."
             )

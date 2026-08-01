@@ -20,6 +20,7 @@ from weavemark.compilation.provenance import (
     ReplayMismatchError,
 )
 from weavemark.protection import ProtectionContext, ProtectionSettings
+from weavemark.usage_tracking import active_totals, track_usage
 
 
 class RecordingFakeClient:
@@ -131,22 +132,29 @@ async def test_recorded_run_reports_usage_cost_and_replays_offline(
         assert (recording / "calls.jsonl").stat().st_mode & 0o777 == 0o600
 
     offline_client = RecordingFakeClient()
-    replayed = await compile_text(
-        source,
-        {"audience": "developers"},
-        base_dir=tmp_path,
-        options=options,
-        client=offline_client,
-        protection_context=_protection(tmp_path),
-        provenance=ProvenanceOptions(replay_dir=recording),
-        source_path=tmp_path / "example.weavemark.md",
-    )
+    with track_usage():
+        replayed = await compile_text(
+            source,
+            {"audience": "developers"},
+            base_dir=tmp_path,
+            options=options,
+            client=offline_client,
+            protection_context=_protection(tmp_path),
+            provenance=ProvenanceOptions(replay_dir=recording),
+            source_path=tmp_path / "example.weavemark.md",
+        )
+        replay_usage = active_totals()
 
     assert offline_client.calls == 0
     assert replayed.composed_prompt == recorded.composed_prompt
     assert replayed.transitions == recorded.transitions
     assert replayed.provenance is not None
     assert replayed.provenance.to_dict()["mode"] == "replay"
+    assert replay_usage is not None
+    assert replay_usage.prompt_tokens == 100
+    assert replay_usage.completion_tokens == 25
+    assert replay_usage.cached_prompt_tokens == 0
+    assert replay_usage.cost_usd == pytest.approx(0.0042)
 
 
 @pytest.mark.asyncio
@@ -208,3 +216,11 @@ def test_version_contract_and_cli_version(capsys: pytest.CaptureFixture[str]) ->
     assert capsys.readouterr().out.strip() == (
         "weavemark 0.9.2 (WeaveMark language 0.9)"
     )
+
+
+def test_public_and_runtime_exceptions_share_one_base() -> None:
+    from weavemark import WeaveMarkCompilationError, WeaveMarkError, exceptions
+
+    assert WeaveMarkError is exceptions.WeaveMarkError
+    assert WeaveMarkCompilationError is exceptions.WeaveMarkCompilationError
+    assert issubclass(WeaveMarkCompilationError, WeaveMarkError)

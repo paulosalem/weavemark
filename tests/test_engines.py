@@ -1555,3 +1555,31 @@ class TestToolLoopBudget:
         from weavemark.engines.single_call import _tool_loop_iterations
 
         assert _tool_loop_iterations(10, 30) == 32
+
+
+def test_bound_python_helper_reloads_after_source_change(tmp_path: Path) -> None:
+    from weavemark.engines.bindings import load_binding_callables
+
+    helper = tmp_path / "helper.py"
+    source = tmp_path / "source.weavemark.md"
+    source.write_text("# Source\n", encoding="utf-8")
+    helper.write_text("def value():\n    return 'first'\n", encoding="utf-8")
+    result = CompositionResult(
+        composed_prompt="",
+        bindings=[
+            {
+                "name": "value",
+                "language": "python",
+                "from": "./helper.py",
+                "symbol": "value",
+            }
+        ],
+        source_path=str(source),
+    )
+
+    first = load_binding_callables(result, ["value"])["value"]
+    helper.write_text("def value():\n    return 'second version'\n", encoding="utf-8")
+    second = load_binding_callables(result, ["value"])["value"]
+
+    assert first() == "first"
+    assert second() == "second version"

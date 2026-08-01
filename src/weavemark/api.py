@@ -33,6 +33,7 @@ from weavemark.engines import (
     resolve_engine,
     resolve_runtime_engine_name,
 )
+from weavemark.exceptions import WeaveMarkCompilationError, WeaveMarkError
 from weavemark.logging_setup import new_client
 from weavemark.protection import ProtectionContext
 from weavemark.settings import (
@@ -99,21 +100,6 @@ class WeaveMarkRunResult:
         """Primary text output produced by the execution engine."""
 
         return str(self.execution.output)
-
-
-class WeaveMarkError(Exception):
-    """Base exception raised by the public WeaveMark library API."""
-
-
-class WeaveMarkCompilationError(WeaveMarkError):
-    """Raised when execution is requested for a spec that did not compile."""
-
-    def __init__(self, result: CompositionResult) -> None:
-        self.result = result
-        message = "WeaveMark compilation failed"
-        if result.errors:
-            message += ": " + "; ".join(result.errors)
-        super().__init__(message)
 
 
 async def compile_text(

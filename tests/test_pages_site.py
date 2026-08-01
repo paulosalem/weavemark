@@ -53,6 +53,26 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         assert 'rel="icon" href="weavemark_logo.png"' not in html
     root_html = (destination / "index.html").read_text(encoding="utf-8")
     assert 'rel="icon" href="docs/weavemark_favicon.png"' in root_html
+    assert "weavemark_social.png" in root_html
+    assert 'rel="canonical" href="https://paulosalem.github.io/weavemark/"' in root_html
+    for public_file in ("llms.txt", "robots.txt", "sitemap.xml"):
+        assert (destination / public_file).is_file()
+    assert (destination / "docs" / "weavemark_social.png").is_file()
+    for collection, target in (
+        ("executable", "market-snapshot"),
+        ("standalone", "ai-kanban-board"),
+    ):
+        replay = (
+            destination
+            / "promplets"
+            / "replays"
+            / "catalog"
+            / collection
+            / target
+        )
+        assert (replay / "manifest.json").is_file()
+        assert (replay / "calls.jsonl").is_file()
+        assert (replay / "result.json").is_file()
     assert not (destination / "demos" / "orbital-drift").exists()
     assert not (destination / "demos" / "transit-city-swarm").exists()
     assert (destination / "demos" / "ai-kanban" / "index.html").is_file()
@@ -122,6 +142,14 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
     assert (
         destination / "demos" / "orion-storybook" / "pages" / "page-12.jpg"
     ).is_file()
+    assert (destination / "demos" / "arcana" / "index.html").is_file()
+    assert (destination / "demos" / "arcana" / "deck-data.js").is_file()
+    assert (
+        destination / "demos" / "arcana" / "assets" / "cards" / "card-54.png"
+    ).is_file()
+    assert (
+        destination / "demos" / "arcana" / "assets" / "card-back.png"
+    ).is_file()
     tutorial_html = (destination / "docs" / "tutorial.html").read_text(
         encoding="utf-8"
     )
@@ -149,6 +177,9 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         in home_html
     )
     assert 'href="../demos/orion-storybook/" data-live-demo="orion-storybook"' in home_html
+    assert 'href="../demos/arcana/" data-live-demo="arcana"' in home_html
+    assert "Fifty-five generated illustrated cards" in home_html
+    assert "weavemark library market-snapshot --replay --verbose" in home_html
     assert 'data-result-href="../demos/orion-storybook/"' in home_html
     assert 'data-result-href="../demos/ai-kanban/"' in home_html
     assert (destination / "docs" / "local-demo-links.js").is_file()
@@ -196,6 +227,30 @@ def test_pages_artifact_contains_no_private_context(tmp_path: Path) -> None:
 
     assert not any("private context" in error for error in errors)
     assert not any("Git LFS pointer" in error for error in errors)
+
+
+def test_arcana_live_demo_is_published_independently(tmp_path: Path) -> None:
+    builder = _load_builder()
+    destination = tmp_path / "site"
+
+    builder.build_site(destination)
+
+    demo = destination / "demos" / "arcana"
+    assert (demo / "index.html").is_file()
+    assert (demo / "deck-data.js").is_file()
+    assert (demo / "assets" / "card-back.png").is_file()
+    assert (demo / "assets" / "cards" / "prototype.png").is_file()
+    assert (demo / "assets" / "cards" / "card-54.png").is_file()
+    home = (destination / "docs" / "index.html").read_text(encoding="utf-8")
+    assert 'href="../demos/arcana/" data-live-demo="arcana"' in home
+    assert (
+        "github.com/paulosalem/weavemark/blob/main/"
+        "promplets/catalog/arcana/app.weavemark.md?plain=1"
+    ) in home
+    assert (
+        "github.com/paulosalem/weavemark/blob/main/"
+        "promplets/catalog/arcana/cards.weavemark.md?plain=1"
+    ) in home
 
 
 def test_all_tutorial_source_links_resolve_to_github(tmp_path: Path) -> None:

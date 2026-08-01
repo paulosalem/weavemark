@@ -488,7 +488,7 @@ Curated reusable promplets declare `@module`. A body-bearing module is a
 operations is a **definition module**:
 
 ```weavemark
-@promplet version: 0.8
+@promplet version: 0.9
 @module company.writing.calm_voice
 
 # Calm voice

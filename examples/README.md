@@ -1,10 +1,14 @@
 # WeaveMark runnable examples
 
 This directory contains the deliberately small set of maintained public example
-projects. Every project owns its inputs, runner, and inspectable outputs.
+projects. Every project owns its inputs, an explicit invocation surface (a runner
+or direct README command), and inspectable outputs.
 
 ## Saved artifact workflows
 
+- [`arcana/`](saved-artifact-workflows/arcana) contains a complete 55-card
+  archetypal deck, executable image pipeline, and packaged reflective browser
+  game with optional OpenAI interpretation and narration.
 - [`childrens-book-bebe-fusquinha/`](saved-artifact-workflows/childrens-book-bebe-fusquinha)
   contains the complete English and Portuguese Bebe Fusquinha editions.
 - [`childrens-book-orion-en/`](saved-artifact-workflows/childrens-book-orion-en)

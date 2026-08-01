@@ -9,9 +9,9 @@ with SHA-256 hash invalidation so only new/changed specs are re-analyzed.
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 from weavemark.defaults import DEFAULT_MODEL
@@ -56,9 +56,16 @@ def _load_cache() -> Dict[str, Dict[str, Any]]:
     if not CACHE_FILE.is_file():
         return {}
     try:
-        return json.loads(CACHE_FILE.read_text(encoding="utf-8"))
-    except Exception:
+        value = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError):
         return {}
+    if not isinstance(value, Mapping):
+        return {}
+    return {
+        str(key): dict(item)
+        for key, item in value.items()
+        if isinstance(item, Mapping)
+    }
 
 
 def _save_cache(cache: Dict[str, Dict[str, Any]]) -> None:
@@ -75,7 +82,7 @@ def _is_cached(cache: Dict[str, Dict[str, Any]], entry: SpecEntry) -> bool:
     key = str(entry.path)
     if key not in cache:
         return False
-    return cache[key].get("content_hash") == entry.content_hash
+    return str(cache[key].get("content_hash", "")) == str(entry.content_hash)
 
 
 async def _analyze_spec(
@@ -136,6 +143,7 @@ async def ensure_metadata(
     entries: List[SpecEntry],
     model: str = DEFAULT_MODEL,
     on_progress: Optional[Callable[[int, int, str], None]] = None,
+    on_error: Optional[Callable[[Exception], None]] = None,
 ) -> Dict[str, SpecMetadataEntry]:
     """Ensure all specs have up-to-date LLM metadata, computing as needed.
 
@@ -184,12 +192,31 @@ async def ensure_metadata(
 
     # Analyze uncached specs
     if to_analyze:
+        from ellements.core.exceptions import LLMError
+
+        analysis_error: Exception | None = None
         for entry in to_analyze:
+            cacheable = True
             if on_progress:
                 on_progress(progress_idx + 1, len(entries), entry.title)
-            try:
-                meta = await _analyze_spec(entry, model=model)
-            except Exception:
+            if analysis_error is None:
+                try:
+                    meta = await _analyze_spec(entry, model=model)
+                except (LLMError, OSError, ValueError) as exc:
+                    analysis_error = exc
+                    cacheable = False
+                    if on_error is not None:
+                        on_error(exc)
+                    meta = SpecMetadataEntry(
+                        content_hash=entry.content_hash,
+                        title=entry.title,
+                        variables=entry.variables,
+                        execution_strategy=entry.execution_strategy,
+                        has_tools=entry.has_tools,
+                        computed_at=datetime.now(timezone.utc).isoformat(),
+                    )
+            else:
+                cacheable = False
                 meta = SpecMetadataEntry(
                     content_hash=entry.content_hash,
                     title=entry.title,
@@ -200,7 +227,8 @@ async def ensure_metadata(
                 )
             key = str(entry.path)
             result[key] = meta
-            cache[key] = asdict(meta)
+            if cacheable:
+                cache[key] = asdict(meta)
             progress_idx += 1
 
         _save_cache(cache)

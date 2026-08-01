@@ -13,12 +13,14 @@
     <meta property="og:title" content="WeaveMark — A Specification Language for Prompts">
     <meta property="og:description" content="Write prompts as readable Markdown woven with directives for reuse, control flow, and output contracts. The WeaveMark Processor compiles them into concrete prompt artifacts, and can execute them.">
     <meta property="og:url" content="https://paulosalem.github.io/weavemark/">
-    <meta property="og:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_banner_1.png">
+    <meta property="og:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_social.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="WeaveMark">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="WeaveMark — A Specification Language for Prompts">
     <meta name="twitter:description" content="Write prompts as readable Markdown woven with directives for reuse, control flow, and output contracts. The WeaveMark Processor compiles them into concrete prompt artifacts, and can execute them.">
-    <meta name="twitter:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_banner_1.png">
+    <meta name="twitter:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_social.png">
     <link rel="canonical" href="https://paulosalem.github.io/weavemark/">
     <link rel="stylesheet" href="site.css?v=20260718-thought">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
@@ -199,7 +201,7 @@ Resurface only new or materially changed findings.</code></pre>
         </div>
         <div class="proof-item">
           <span class="ic ic-cpu" aria-hidden="true"></span>
-          <strong>8</strong>
+          <strong>9</strong>
           <span>execution engines — tree-of-thought, self-consistency, reflection, functional, FSLM</span>
         </div>
         <div class="proof-item">
@@ -210,7 +212,7 @@ Resurface only new or materially changed findings.</code></pre>
         <div class="proof-item">
           <span class="ic ic-sparkles" aria-hidden="true"></span>
           <strong>LLM-compiled</strong>
-          <span>abstract intent becomes concrete — largely LLM-based, deterministic structure where it helps</span>
+          <span>abstract intent becomes concrete — LLM-based where meaning matters, structural where it helps</span>
         </div>
       </section>
 
@@ -218,6 +220,32 @@ Resurface only new or materially changed findings.</code></pre>
         <span class="ic ic-alert" aria-hidden="true"></span>
         <span><strong>Highly experimental.</strong> WeaveMark&rsquo;s notation, Processor, examples, and public interfaces are still evolving &mdash; expect rough edges, surprising results, and breaking changes.</span>
       </div>
+
+      <section class="shell replay-note" aria-labelledby="replay-title">
+        <div class="replay-note-copy">
+          <p class="section-kicker"><span class="ic ic-branch" aria-hidden="true"></span>Offline replay</p>
+          <h2 id="replay-title">Replay the VALE3 Market Snapshot locally.</h2>
+          <p>
+            No API key or network call. <code>--verbose</code> shows compilation
+            steps and the original run&rsquo;s token, cache, and cost statistics;
+            <code>--output</code> saves the compiled prompt.
+          </p>
+        </div>
+        <div class="replay-note-command">
+          <pre><code>pip install weavemark
+weavemark library market-snapshot --replay --verbose \
+  --output vale3-market-prompt.md</code></pre>
+          <p>
+            Original run: <strong>11,002 input</strong> &middot;
+            <strong>0 cached</strong> &middot; <strong>20,728 output</strong> &middot;
+            <strong>$0.3384 API cost</strong>.
+          </p>
+        </div>
+      </section>
+
+      <section class="video-slot" hidden data-video-slot aria-label="One-minute WeaveMark walkthrough">
+        <div class="video-frame"></div>
+      </section>
 
       <section id="why-promplet" class="shell">
         <div class="section-head">
@@ -315,8 +343,8 @@ Every decision brief must:
             <div class="weave-operator weave-plus" aria-hidden="true">+</div>
 
             <article class="weave-card weave-local-card">
-  <span class="snippet-label">2. Local source</span>
-  <p class="snippet-note">
+              <span class="snippet-label">2. Local source</span>
+              <p class="snippet-note">
                 Follow the <mark class="weave-mark custom">coral local values</mark>.
                 They stay concrete while the reusable structure grows around them.
               </p>
@@ -337,7 +365,7 @@ and <mark class="weave-mark custom"><span class="syntax-var">@{open_risks}</span
             <div class="weave-operator weave-arrow" aria-hidden="true">↓</div>
 
             <article class="weave-card weave-result">
-  <span class="snippet-label">3. Refined result after structural weaving</span>
+              <span class="snippet-label">3. Refined result after structural weaving</span>
               <p class="snippet-note">
                 The same colors reappear below: cyan came from the reusable promplet,
                 coral came from the local source. This is a composed prompt, not a filled form.
@@ -370,10 +398,8 @@ Use board-ready language.</code></pre>
             <h2>A library of reusable methods, not just syntax.</h2>
           </div>
           <p class="section-lede">
-            <strong>50+ reusable fragments</strong> across many
-            categories. <code>@refine</code> them into your own promplets instead
-            of re-deriving expertise — reasoning methods, programming stacks,
-            teaching moves, and quality gates.
+            Import reasoning methods, programming stacks, teaching moves, and
+            quality gates instead of rewriting them.
           </p>
         </div>
 
@@ -441,12 +467,11 @@ Use board-ready language.</code></pre>
         <div class="section-head">
           <div>
             <p class="section-kicker"><span class="ic ic-window" aria-hidden="true"></span>What can you build?</p>
-            <h2>One language for many prompt systems.</h2>
+            <h2>One source, three useful paths.</h2>
           </div>
           <p class="section-lede">
-            Promplets are deliberately general: the same readable source style
-            can describe <strong>pastable prompts</strong>, <strong>agent
-            specifications</strong>, and <strong>executable promplets</strong>.
+            Compile a prompt, prepare a software specification, or run an explicit
+            tool-grounded workflow.
           </p>
         </div>
 
@@ -461,18 +486,6 @@ Use board-ready language.</code></pre>
             <span class="build-tag"><span class="ic ic-window" aria-hidden="true"></span>Build</span>
             <h3>Product specifications</h3>
             <p>Implementation-ready specs for Copilot, Claude Code, or Cursor — <a href="tutorial-implement.html">follow the AI Kanban tutorial</a>, <a href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">read its concise source</a>, or <a href="../outputs/implementations/ai-kanban-browser/index.html" data-live-demo="ai-kanban">open the live browser app</a>.</p>
-          </article>
-
-          <article class="build-card">
-            <span class="build-tag"><span class="ic ic-cap" aria-hidden="true"></span>Teach</span>
-            <h3>Learning applications</h3>
-            <p>Describe a mobile-first curriculum feed with validated content and no runtime LLM dependency — <a href="../promplets/catalog/standalone/knowledge-cards.weavemark.md">knowledge-cards.weavemark.md</a>.</p>
-          </article>
-
-          <article class="build-card">
-            <span class="build-tag"><span class="ic ic-target" aria-hidden="true"></span>Decide</span>
-            <h3>Grounded plans</h3>
-            <p>Import reusable planning macros and bind public-reference evidence — <a href="../promplets/catalog/executable/financial-independence-goal-plan.weavemark.md">financial-independence-goal-plan.weavemark.md</a>.</p>
           </article>
 
           <article class="build-card">
@@ -559,56 +572,12 @@ Name the risk, missing information, and next step.</code></pre>
       <section class="shell">
         <div class="section-head">
           <div>
-            <p class="section-kicker">Using the output</p>
-            <h2>Compile artifacts for the job you actually have.</h2>
-          </div>
-          <p class="section-lede">
-            Promplets are not only a nicer way to write one prompt. They can
-            produce <strong>pastable prompts</strong>, <strong>programming-agent
-            specifications</strong>, <strong>prompt packs</strong>, and
-            <strong>prompts the WeaveMark Processor executes</strong>.
-          </p>
-        </div>
-
-        <div class="wide-callout output-callout">
-          <div>
-            <p class="section-kicker">Executable promplets</p>
-            <h3>When a prompt should run, make the runtime explicit.</h3>
-            <p>
-              Declare tool schemas, bind trusted companion implementations, and
-              choose an execution engine. The readable document stays the
-              specification everyone can inspect; when execution is requested,
-              the selected engine interprets the compiled artifact at runtime.
-            </p>
-          </div>
-          <div class="code-card">
-            <div class="code-title">
-              <span><a href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md">recurring-topic-monitor.weavemark.md</a></span>
-              <span>@execute</span>
-            </div>
-            <pre><code><span class="syntax-directive">@execute</span> single-call
-  <span class="syntax-key">max_tool_calls:</span> 30
-
-<span class="syntax-directive">@bind</span> search_news <span class="syntax-key">language:</span> python <span class="syntax-key">from:</span> <span class="syntax-string">"./companions/recurring_topic_monitor.py"</span> <span class="syntax-key">symbol:</span> search_news
-
-Topic: <span class="syntax-var">@{topic}</span>
-Previous reports: <span class="syntax-var">@{previous_reports_folder}</span>
-
-Search, cluster duplicate coverage, and resurface only material changes.</code></pre>
-          </div>
-        </div>
-      </section>
-
-      <section class="shell">
-        <div class="section-head">
-          <div>
             <p class="section-kicker"><span class="ic ic-bolt" aria-hidden="true"></span>Start here</p>
-            <h2>Let the prompting begin.</h2>
+            <h2>Choose the shortest path for your next step.</h2>
           </div>
           <p class="section-lede">
-            <strong>Build one real promplet first.</strong> Then learn the directive
-            moves, explore richer application domains, or jump to the API and
-            reference as needed.
+            Start with one promplet, then use the tutorial, API, or reference only
+            when you need more.
           </p>
         </div>
 
@@ -663,9 +632,8 @@ Search, cluster duplicate coverage, and resurface only material changes.</code><
             <h2>Play what a promplet produced.</h2>
           </div>
           <p class="section-lede">
-            Start with three complete proof paths: multimodal generation, a
-            specification implemented as software, and a tool-grounded report.
-            Open each result directly, then inspect its source and provenance.
+            Open a result, then inspect the source, compiled artifact, or trace
+            that produced it.
           </p>
         </div>
         <div class="demo-grid">
@@ -687,6 +655,17 @@ Search, cluster duplicate coverage, and resurface only material changes.</code><
               <a class="button" href="../outputs/implementations/ai-kanban-browser/index.html" data-live-demo="ai-kanban">Try the app</a>
               <a href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">Source</a>
               <a href="tutorial-implement.html">Tutorial</a>
+            </div>
+          </article>
+          <article class="card demo-card">
+            <span class="badge">Generated deck + agent implementation</span>
+            <h3>Arcana</h3>
+            <p>Fifty-five generated illustrated cards become a private reflective game through a compiled implementation specification, iterative browser work, optional AI interpretation, and narrated readings.</p>
+            <div class="demo-actions">
+              <a class="button" href="../outputs/implementations/arcana/index.html" data-live-demo="arcana">Play Arcana</a>
+              <a href="../promplets/catalog/arcana/app.weavemark.md">App source</a>
+              <a href="../promplets/catalog/arcana/cards.weavemark.md">Card pipeline</a>
+              <a href="../examples/saved-artifact-workflows/arcana/outputs/arcana-app-spec.md">Compiled spec</a>
             </div>
           </article>
           <article class="card demo-card">
@@ -720,16 +699,14 @@ Search, cluster duplicate coverage, and resurface only material changes.</code><
           <p class="section-kicker"><span class="ic ic-target" aria-hidden="true"></span>Related work</p>
           <h2>Where this sits among prompt tooling.</h2>
           <p>
-            Most prompt formats (<strong>Prompty</strong>, <strong>POML</strong>,
-            <strong>Dotprompt</strong>, <strong>PromptL</strong>) are deterministic: they substitute
-            values and render at run time. Optimisers (<strong>DSPy</strong>, <strong>SAMMO</strong>)
-            do have a model rewrite prompt text, but a metric over a dataset decides the result.
-            Spec-driven workflows (<strong>Spec Kit</strong>, <strong>Kiro</strong>) let the model's
-            judgement stand, yet expand a single intent and cannot import one specification into
-            another. WeaveMark compiles with a language model and composes reusable modules by
-            meaning.
+            Templates substitute. Optimizers score candidates against data.
+            WeaveMark uses a language model to compile imported specifications
+            into one reviewable artifact.
           </p>
-          <a class="related-link" href="related-work.html">See the full comparison of 25 projects</a>
+          <div class="related-actions">
+            <a class="related-link" href="related-work.html">Compare 25 projects</a>
+            <a class="related-link secondary" href="../studies/controlled-studies/results.html">Review controlled studies <span>(saved-output evidence, not behavioral proof)</span></a>
+          </div>
         </aside>
       </section>
     </main>

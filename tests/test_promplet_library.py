@@ -335,6 +335,76 @@ def test_parse_library_target_returns_processor_arguments() -> None:
     assert remaining == ["--scan"]
 
 
+def test_parse_library_target_expands_bundled_replay(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("WEAVEMARK_LIBRARY_PATH", "")
+    library = tmp_path / "promplets"
+    promplet = library / "catalog" / "standalone" / "demo.weavemark.md"
+    _write_promplet(promplet, "Replay Demo")
+    replay = library / "replays" / "catalog" / "standalone" / "demo"
+    replay.mkdir(parents=True)
+    (replay / "manifest.json").write_text(
+        json.dumps({"models": ["test/replay-model"]}),
+        encoding="utf-8",
+    )
+    (replay / "calls.jsonl").write_text("{}\n", encoding="utf-8")
+    (replay / "result.json").write_text("{}\n", encoding="utf-8")
+    (replay / "inputs.json").write_text('{"topic": "caching"}\n', encoding="utf-8")
+
+    path, remaining = parse_library_target(
+        ["demo", "--library-dir", str(library), "--replay", "--format", "json"],
+        cwd=tmp_path,
+    )
+
+    assert path == promplet
+    assert remaining == [
+        "--library-dir",
+        str(library),
+        "--format",
+        "json",
+        "--replay-run",
+        str(replay),
+        "--model",
+        "test/replay-model",
+        "--batch-only",
+        "--vars-file",
+        str(replay / "inputs.json"),
+    ]
+
+
+def test_parse_library_target_replay_rejects_runtime_overrides(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("WEAVEMARK_LIBRARY_PATH", "")
+    library = tmp_path / "promplets"
+    promplet = library / "catalog" / "standalone" / "demo.weavemark.md"
+    _write_promplet(promplet, "Replay Demo")
+    replay = library / "replays" / "catalog" / "standalone" / "demo"
+    replay.mkdir(parents=True)
+    for name, content in (
+        ("manifest.json", '{"models": ["test/replay-model"]}\n'),
+        ("calls.jsonl", "{}\n"),
+        ("result.json", "{}\n"),
+    ):
+        (replay / name).write_text(content, encoding="utf-8")
+
+    with pytest.raises(ValueError, match="remove --model"):
+        parse_library_target(
+            [
+                "demo",
+                "--library-dir",
+                str(library),
+                "--replay",
+                "--model",
+                "other/model",
+            ],
+            cwd=tmp_path,
+        )
+
+
 @pytest.mark.parametrize(
     ("target", "expected"),
     (

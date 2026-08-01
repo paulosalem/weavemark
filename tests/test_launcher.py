@@ -1,0 +1,208 @@
+"""Fast console-launch and no-provider discovery behavior."""
+
+from __future__ import annotations
+
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+
+ROOT = Path(__file__).parents[1]
+
+
+def _run_python(code: str, *, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
+def test_package_root_defers_llm_runtime_until_api_use() -> None:
+    completed = _run_python(
+        "import sys, weavemark; "
+        "assert 'litellm' not in sys.modules; "
+        "assert callable(weavemark.compile_text); "
+        "assert 'litellm' in sys.modules"
+    )
+
+    assert completed.returncode == 0, completed.stderr
+
+
+def test_launcher_version_does_not_import_llm_runtime() -> None:
+    completed = _run_python(
+        "import sys; "
+        "sys.argv=['weavemark', '--version']; "
+        "from weavemark.launcher import cli; "
+        "cli(); "
+        "print('LITELLM_LOADED=' + str('litellm' in sys.modules))"
+    )
+
+    assert completed.returncode == 0, completed.stderr
+    assert "weavemark 0.9.2 (WeaveMark language 0.9)" in completed.stdout
+    assert "LITELLM_LOADED=False" in completed.stdout
+
+
+def test_no_key_discovery_fails_once_without_litellm_banners(
+    tmp_path: Path,
+) -> None:
+    env = dict(os.environ)
+    env["HOME"] = str(tmp_path)
+    for name in (
+        "OPENAI_API_KEY",
+        "ANTHROPIC_API_KEY",
+        "GEMINI_API_KEY",
+    ):
+        env.pop(name, None)
+    completed = subprocess.run(
+        [sys.executable, "-m", "weavemark.app", "--discover"],
+        cwd=ROOT,
+        env=env,
+        input="",
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    combined = completed.stdout + completed.stderr
+    assert completed.returncode == 1
+    assert "Semantic discovery needs a configured model provider" in combined
+    assert "Give Feedback / Get Help" not in combined
+
+
+@pytest.mark.parametrize(
+    ("collection", "target"),
+    (
+        ("executable", "market-snapshot"),
+        ("standalone", "ai-kanban-board"),
+    ),
+)
+def test_bundled_library_replays_are_strictly_offline(
+    collection: str,
+    target: str,
+) -> None:
+    env = dict(os.environ)
+    for name in ("OPENAI_API_KEY", "ANTHROPIC_API_KEY", "GEMINI_API_KEY"):
+        env.pop(name, None)
+    env.update(
+        {
+            "HTTP_PROXY": "http://127.0.0.1:9",
+            "HTTPS_PROXY": "http://127.0.0.1:9",
+            "NO_PROXY": "",
+        }
+    )
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "weavemark.launcher",
+            "library",
+            target,
+            "--replay",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    result_path = (
+        ROOT
+        / "promplets"
+        / "replays"
+        / "catalog"
+        / collection
+        / target
+        / "result.json"
+    )
+    expected = json.loads(result_path.read_text(encoding="utf-8"))["composed_prompt"]
+
+    assert completed.returncode == 0, completed.stderr
+    assert completed.stdout.rstrip() == expected
+    assert "Failed to fetch remote model cost map" not in completed.stderr
+
+
+def test_market_replay_verbose_writes_output_and_original_run_stats(
+    tmp_path: Path,
+) -> None:
+    output = tmp_path / "vale3-market-prompt.md"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "weavemark.launcher",
+            "library",
+            "market-snapshot",
+            "--replay",
+            "--verbose",
+            "--output",
+            str(output),
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert completed.returncode == 0, completed.stderr
+    assert output.is_file()
+    assert "# Executable Market Learning Snapshot" in output.read_text(
+        encoding="utf-8"
+    )
+    rendered = " ".join((completed.stdout + completed.stderr).split())
+    for statistic in (
+        "Recorded input",
+        "11,002",
+        "Recorded cached",
+        "0 (0%)",
+        "Recorded output",
+        "20,728",
+        "API cost",
+        "$0.3384",
+    ):
+        assert statistic in rendered
+
+
+def test_ai_kanban_replay_verbose_reports_recorded_usage(
+    tmp_path: Path,
+) -> None:
+    output = tmp_path / "ai-kanban-spec.md"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "weavemark.launcher",
+            "library",
+            "ai-kanban-board",
+            "--replay",
+            "--verbose",
+            "--output",
+            str(output),
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    rendered = " ".join((completed.stdout + completed.stderr).split())
+    assert completed.returncode == 0, rendered
+    assert output.is_file()
+    for statistic in (
+        "Tool calls: 14",
+        "input:",
+        "133,084",
+        "Recorded cached",
+        "114,603 (86%)",
+        "output:",
+        "11,799",
+        "API cost",
+        "$0.2015",
+    ):
+        assert statistic in rendered

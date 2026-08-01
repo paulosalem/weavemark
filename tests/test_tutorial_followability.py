@@ -173,3 +173,17 @@ def test_tutorials_end_with_explicit_output_use_step() -> None:
         finish_index = html.find('<section id="finish"', output_index)
         next_index = html.find('<section id="next"', output_index)
         assert finish_index > output_index or next_index > output_index
+
+
+def test_python_api_examples_use_real_paths_and_async_entrypoints() -> None:
+    markdown = (ROOT / "docs" / "python-api.md").read_text(encoding="utf-8")
+    html = (ROOT / "docs" / "python-api.html").read_text(encoding="utf-8")
+    source = "promplets/catalog/standalone/ai-kanban-board.weavemark.md"
+
+    assert (ROOT / source).is_file()
+    for document in (markdown, html):
+        assert source in document
+        assert "promplets/support-agent.weavemark.md" not in document
+        assert "promplets/agent.weavemark.md" not in document
+        assert "promplets/tree-solver.weavemark.md" not in document
+        assert "asyncio.run(main())" in document

@@ -36,7 +36,7 @@ Every field is mandatory, including empty collections:
 - `emits`: emitted relative paths mapped to string content.
 - `outputs`: output contracts keyed by prompt name (`default` for root output).
 - `packages`: package instructions, each with `file` and exactly one of
-  `template` or `from`.
+  `instructions`/non-empty `body` or `from`.
 - `references`: resolved reference bodies keyed by the host-supplied `Rn`
   identifier; empty when no referenced source context was supplied.
 - `directives`: concrete directive applications for step-local envelopes.

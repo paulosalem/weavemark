@@ -1,0 +1,156 @@
+{
+  "composed_prompt": "# Executable Market Learning Snapshot\n\n@{asset_snapshot}\n\n@{web_context}\n\n## Draft Report\n\nUse @{asset_snapshot} and @{web_context} to write a rigorous market-learning\nbrief about Vale S.A. (VALE3). Ground news and outside-context\nclaims only in the web-search result titles, snippets, source labels, and URLs.\nClearly label snippets as search-result evidence rather than full-page readings.\n\nCover:\n\n1. An executive snapshot with the most decision-relevant facts and caveats.\n2. What the company does, its economic drivers, and why the stock is currently\n   interesting.\n3. Current market data and business fundamentals from the finance tools,\n   preserving provider units, periods, and missing-value signals.\n4. Recent news, analyst opinion, official context, and skeptical outside\n   commentary from web search, with source URLs.\n5. Agreements, tensions, and evidence gaps across the source-grounded results.\n6. A balanced bull/base/bear scenario frame without price targets unless the\n   evidence explicitly supplies them.\n7. Key uncertainties, watchlist signals, and primary sources a learner should\n   investigate next.\n\nDo not make a buy/sell recommendation. Treat this as asset education, not\npersonal financial advice.",
+  "raw_response": "",
+  "analysis": "Resolved structural WeaveMark directives with deterministic helpers.",
+  "warnings": [],
+  "errors": [],
+  "suggestions": [],
+  "diagnostics": [],
+  "transitions": [],
+  "tool_calls_made": 0,
+  "model_calls_made": 0,
+  "prompts": {
+    "default": "# Executable Market Learning Snapshot\n\n@{asset_snapshot}\n\n@{web_context}\n\n## Draft Report\n\nUse @{asset_snapshot} and @{web_context} to write a rigorous market-learning\nbrief about Vale S.A. (VALE3). Ground news and outside-context\nclaims only in the web-search result titles, snippets, source labels, and URLs.\nClearly label snippets as search-result evidence rather than full-page readings.\n\nCover:\n\n1. An executive snapshot with the most decision-relevant facts and caveats.\n2. What the company does, its economic drivers, and why the stock is currently\n   interesting.\n3. Current market data and business fundamentals from the finance tools,\n   preserving provider units, periods, and missing-value signals.\n4. Recent news, analyst opinion, official context, and skeptical outside\n   commentary from web search, with source URLs.\n5. Agreements, tensions, and evidence gaps across the source-grounded results.\n6. A balanced bull/base/bear scenario frame without price targets unless the\n   evidence explicitly supplies them.\n7. Key uncertainties, watchlist signals, and primary sources a learner should\n   investigate next.\n\nDo not make a buy/sell recommendation. Treat this as asset education, not\npersonal financial advice."
+  },
+  "compile": {
+    "weavemark_version": "0.7"
+  },
+  "bindings": [
+    {
+      "name": "finance_data",
+      "language": "python",
+      "from": "./companions/market_data.py",
+      "symbol": "fetch_asset_snapshot",
+      "module": "weavemark.domains.finance.market_research"
+    },
+    {
+      "name": "web_search",
+      "language": "python",
+      "from": "./companions/market_data.py",
+      "symbol": "search_asset_context",
+      "module": "weavemark.domains.finance.market_research"
+    }
+  ],
+  "execution": {
+    "type": "functional",
+    "scheduler": "graph-strict",
+    "allow_effects": [
+      "finance_data",
+      "web_search"
+    ],
+    "plan": {
+      "scheduler": "graph-strict",
+      "order": [
+        "asset_snapshot",
+        "web_context"
+      ],
+      "levels": [
+        [
+          "asset_snapshot"
+        ],
+        [
+          "web_context"
+        ]
+      ]
+    },
+    "nodes": [
+      {
+        "id": "asset_snapshot",
+        "directive": "fetch_asset_snapshot",
+        "definition": "fetch_asset_snapshot",
+        "phase": "execute",
+        "scope": "self",
+        "returns": "value",
+        "effects": [
+          {
+            "name": "finance_data",
+            "mode": "read"
+          }
+        ],
+        "args": {
+          "positional": [],
+          "options": {
+            "ticker": "@{provider_ticker}"
+          }
+        },
+        "params": [
+          {
+            "name": "ticker",
+            "implicit": false,
+            "mode": "text"
+          }
+        ],
+        "body": "",
+        "as": "asset_snapshot"
+      },
+      {
+        "id": "web_context",
+        "directive": "search_asset_context",
+        "definition": "search_asset_context",
+        "phase": "execute",
+        "scope": "self",
+        "returns": "value",
+        "effects": [
+          {
+            "name": "web_search",
+            "mode": "read"
+          }
+        ],
+        "args": {
+          "positional": [],
+          "options": {
+            "ticker": "@{display_ticker}",
+            "company_name": "@{company_name}",
+            "focus": "@{research_focus}"
+          }
+        },
+        "params": [
+          {
+            "name": "ticker",
+            "implicit": false,
+            "mode": "text"
+          },
+          {
+            "name": "company_name",
+            "implicit": false,
+            "mode": "text"
+          },
+          {
+            "name": "focus",
+            "implicit": false,
+            "mode": "text"
+          }
+        ],
+        "body": "",
+        "as": "web_context",
+        "uses": [
+          "asset_snapshot"
+        ]
+      }
+    ],
+    "bindings": [
+      {
+        "name": "finance_data",
+        "language": "python",
+        "from": "./companions/market_data.py",
+        "symbol": "fetch_asset_snapshot",
+        "module": "weavemark.domains.finance.market_research"
+      },
+      {
+        "name": "web_search",
+        "language": "python",
+        "from": "./companions/market_data.py",
+        "symbol": "search_asset_context",
+        "module": "weavemark.domains.finance.market_research"
+      }
+    ]
+  },
+  "packages": [
+    {
+      "file": "market-dashboard.html",
+      "instructions": "module:weavemark.std.presentation.information_dashboard_html",
+      "body": "Title the deliverable \"@{display_ticker} Market Learning Dashboard\" and\nidentify the analyzed security as @{company_name} under display ticker\n@{display_ticker}. If the finance provider uses a different symbol\n(@{provider_ticker}), explain that notation once, compactly.\n\nGive the dashboard a research character appropriate to the company's actual\nindustry and evidence. Make economic drivers, financial signals, evidence\nquality, risks, scenario tensions, and watchlist items easy to scan without\nadding decorative imagery or unsupported facts.\n\nRetain supplied currencies, units, periods, and market terminology exactly.\nNever convert currencies, infer missing values, or render template\nplaceholders for unavailable facts. Omit unsupported metric cards instead.\nKeep the final educational, non-recommendation disclaimer visible but quiet.\n\nEnd with a quiet \"WeaveMark provenance\" row. Name WeaveMark as the generator,\nlink the source promplet\n(https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/market-snapshot.weavemark.md?plain=1),\nand state that this run's execution trace records every step and effect. Keep\nprovenance secondary to the report and label it plainly."
+    }
+  ],
+  "source_path": "library:market-snapshot"
+}

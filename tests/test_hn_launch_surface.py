@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
+
+from PIL import Image
 
 ROOT = Path(__file__).parents[1]
 
@@ -27,8 +30,9 @@ def test_readme_leads_with_three_complete_proof_paths() -> None:
 
     assert "raw.githubusercontent.com/paulosalem/weavemark/main/docs/showcase-" not in first_half
 
-    assert "Inspect a bundled promplet without an API key" in first_half
-    assert "Semantic compilation needs a configured model provider" in first_half
+    assert "weavemark library market-snapshot --replay --verbose" in first_half
+    assert "weavemark library ai-kanban-board --replay" in first_half
+    assert "without an API key or network call" in first_half
     assert "passive-income-planning-dashboard" not in first_half
     assert "Orbital Drift" not in first_half
 
@@ -74,3 +78,62 @@ def test_home_hero_keeps_autorotation() -> None:
     home = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
 
     assert "window.setInterval(() => showSlide(activeIndex + 1), 6500)" in home
+
+
+def test_home_preserves_principles_and_keeps_replay_compact() -> None:
+    home = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+
+    assert home.index("Language is a tool for thought.") < home.index("<main>")
+    assert home.index("Offline replay") < home.index("Why use promplets?")
+    assert "weavemark library market-snapshot --replay --verbose" in home
+    assert "Can an LLM sensibly act as a compiler" not in home
+    assert 'id="compiler-proof"' not in home
+    assert 'class="video-slot" hidden data-video-slot' in home
+    assert '<script src="analytics.js?v=20260720" defer></script>' in home
+
+
+def test_public_replay_metrics_match_recorded_manifests() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    home = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    root = ROOT / "promplets" / "replays" / "catalog" / "standalone"
+    kanban = json.loads((root / "ai-kanban-board" / "manifest.json").read_text())
+    market = json.loads(
+        (
+            ROOT
+            / "promplets"
+            / "replays"
+            / "catalog"
+            / "executable"
+            / "market-snapshot"
+            / "manifest.json"
+        ).read_text()
+    )
+
+    original = market["original_run"]
+    assert original["duration_ms"] == 177_200
+    assert original["output_chars"] == 24_464
+    assert original["usage"] == {
+        "prompt_tokens": 11_002,
+        "cache_read_input_tokens": 0,
+        "completion_tokens": 20_728,
+        "total_tokens": 31_730,
+        "response_cost": 0.3384,
+    }
+    assert kanban["call_count"] == 1
+    assert kanban["duration_ms"] == 79_523
+    assert kanban["usage"]["reported_cost_usd"] == 0.2014706
+    for text in ("11,002", "0 cached", "20,728", "$0.3384", "$0.2015"):
+        assert text in readme
+    for text in ("11,002 input", "0 cached", "20,728 output", "$0.3384"):
+        assert text in home
+
+
+def test_social_preview_has_standard_large_card_dimensions() -> None:
+    image_path = ROOT / "docs" / "weavemark_social.png"
+    with Image.open(image_path) as image:
+        assert image.size == (1200, 630)
+
+    home = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    assert "weavemark_social.png" in home
+    assert '<meta property="og:image:width" content="1200">' in home
+    assert '<meta property="og:image:height" content="630">' in home

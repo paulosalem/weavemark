@@ -8,3 +8,5 @@ examples/saved-artifact-workflows/childrens-book-orion-en/outputs/book.pdf filte
 examples/saved-artifact-workflows/childrens-book-orion-en/outputs/pages/*.png filter=lfs diff=lfs merge=lfs -text
 examples/saved-artifact-workflows/comic-strip-en/inputs/*.png filter=lfs diff=lfs merge=lfs -text
 examples/saved-artifact-workflows/comic-strip-en/outputs/comic-strip.png filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/arcana/outputs/assets/card-back.png filter=lfs diff=lfs merge=lfs -text
+examples/saved-artifact-workflows/arcana/outputs/assets/cards/*.png filter=lfs diff=lfs merge=lfs -text

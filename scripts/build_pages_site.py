@@ -20,7 +20,14 @@ PUBLIC_TREES = (
     "studies",
     "vscode-extension",
 )
-PUBLIC_ROOT_FILES = ("CHANGELOG.md", "LICENSE", "README.md")
+PUBLIC_ROOT_FILES = (
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "llms.txt",
+    "robots.txt",
+    "sitemap.xml",
+)
 EXPLICIT_PUBLIC_FILES = ("docs/related-work.html",)
 GITHUB_REPOSITORY_URL = "https://github.com/paulosalem/weavemark"
 REPOSITORY_LINK_PATTERN = re.compile(
@@ -31,6 +38,16 @@ LIVE_DEMO_LINK_PATTERN = re.compile(
     r'[^"]+/index\.html)"(?P<suffix>[^>]*data-live-demo="(?P<slug>[^"]+)")'
 )
 LIVE_DEMOS: dict[str, tuple[str, tuple[str, ...]]] = {
+    "arcana": (
+        "outputs/implementations/arcana",
+        (
+            "index.html",
+            "deck-data.js",
+            "assets/card-back.png",
+            "assets/cards/prototype.png",
+            *(f"assets/cards/card-{index}.png" for index in range(1, 55)),
+        ),
+    ),
     "ai-kanban": (
         "outputs/implementations/ai-kanban-browser",
         (
@@ -109,10 +126,24 @@ ROOT_REDIRECT = """<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh" content="0; url=docs/index.html">
-    <link rel="canonical" href="docs/index.html">
+    <title>WeaveMark — A Specification Language for Prompts</title>
+    <meta name="description" content="Compose readable Markdown prompt specifications with reusable semantic modules, then compile them into concrete artifacts.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="WeaveMark">
+    <meta property="og:title" content="WeaveMark — A Specification Language for Prompts">
+    <meta property="og:description" content="Compose prompts like software. Read them like Markdown.">
+    <meta property="og:url" content="https://paulosalem.github.io/weavemark/">
+    <meta property="og:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_social.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WeaveMark — A Specification Language for Prompts">
+    <meta name="twitter:description" content="Compose prompts like software. Read them like Markdown.">
+    <meta name="twitter:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_social.png">
+    <link rel="canonical" href="https://paulosalem.github.io/weavemark/">
     <link rel="icon" href="docs/weavemark_favicon.png" type="image/png">
-    <title>WeaveMark</title>
   </head>
   <body>
     <p><a href="docs/index.html">Open the WeaveMark website</a>.</p>

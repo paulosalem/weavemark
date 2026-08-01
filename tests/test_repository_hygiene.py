@@ -42,7 +42,7 @@ def test_repository_candidate_inventory_passes() -> None:
     inventory, errors = hygiene.inspect_repository(ROOT)
 
     assert errors == []
-    assert inventory.lfs_files == 53
+    assert inventory.lfs_files == 109
     assert inventory.lfs_bytes < hygiene.MAX_LFS_TOTAL_BYTES
     assert inventory.ordinary_bytes < hygiene.MAX_NON_LFS_TOTAL_BYTES
 
@@ -66,7 +66,7 @@ def test_core_and_optional_dependencies_have_upper_bounds() -> None:
 def test_lfs_patterns_are_narrow_and_explicit() -> None:
     attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8").splitlines()
 
-    assert len(attributes) == 10
+    assert len(attributes) == 12
     assert all(line.startswith("examples/saved-artifact-workflows/") for line in attributes)
     assert all(" filter=lfs diff=lfs merge=lfs -text" in line for line in attributes)
     assert not any(line.startswith("*.") for line in attributes)

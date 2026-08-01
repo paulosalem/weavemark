@@ -22,6 +22,14 @@ from weavemark.promplet_library import (
 )
 
 LIBRARY_MANAGEMENT_COMMANDS = frozenset({"sources", "list", "show", "copy"})
+_REPLAY_BUNDLE_FILES = ("manifest.json", "calls.jsonl", "result.json")
+_REPLAY_INCOMPATIBLE_OPTIONS = (
+    "--model",
+    "--var",
+    "--vars-file",
+    "--record-run",
+    "--replay-run",
+)
 _SOURCE_CHOICES = ("all", "project", "user", "extra", "builtin")
 _COLLECTION_CHOICES = (
     "stdlib",
@@ -75,14 +83,14 @@ def create_library_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Direct execution:\n"
-            "  weavemark library tutorial-generator\n"
-            "  weavemark library investment-brief --var ticker=MSFT --batch-only\n"
-            "  weavemark library reflection-solver --run --batch-only\n"
+            "  weavemark library market-snapshot --replay --verbose --output market-prompt.md\n"
+            "  weavemark library ai-kanban-board --replay\n"
+            "  weavemark library market-snapshot --scan\n"
             "  weavemark library module:weavemark.std.reasoning.base_analyst --scan\n\n"
             "Management:\n"
             "  weavemark library sources\n"
             "  weavemark library list finance --collection domains\n"
-            "  weavemark library show builtin:catalog/standalone/investment-brief\n"
+            "  weavemark library show builtin:catalog/standalone/ai-kanban-board\n"
             "  weavemark library copy ./weavemark-promplets\n\n"
             "Bare targets search project, user, additional, then built-in roots. "
             "Use project:, user:, extra:, builtin:, or module: explicitly."
@@ -134,6 +142,11 @@ def parse_library_target(
     """Resolve ``library TARGET`` and return its path plus Processor arguments."""
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("target")
+    parser.add_argument(
+        "--replay",
+        action="store_true",
+        help="Replay the target's bundled semantic compilation strictly offline.",
+    )
     _add_library_dirs(parser)
     args, processor_args = parser.parse_known_args(argv)
     working_dir = (cwd or Path.cwd()).resolve()
@@ -149,7 +162,77 @@ def parse_library_target(
             for directory in args.library_dir or []
             for argument in ("--library-dir", str(directory))
         ]
-        return selected.entry.path, [*forwarded_library_dirs, *processor_args]
+        replay_args = (
+            _bundled_replay_arguments(selected, processor_args)
+            if args.replay
+            else []
+        )
+        return selected.entry.path, [
+            *forwarded_library_dirs,
+            *processor_args,
+            *replay_args,
+        ]
+
+
+def _bundled_replay_arguments(
+    selected: LibraryPromplet,
+    processor_args: list[str],
+) -> list[str]:
+    conflicting = next(
+        (
+            option
+            for option in _REPLAY_INCOMPATIBLE_OPTIONS
+            if any(
+                argument == option or argument.startswith(f"{option}=")
+                for argument in processor_args
+            )
+        ),
+        None,
+    )
+    if conflicting is not None:
+        raise ValueError(
+            f"--replay supplies recorded inputs and model; remove {conflicting}."
+        )
+
+    replay_dir = (
+        selected.source.root
+        / "replays"
+        / Path(*selected.relative_path.parent.parts)
+        / selected.entry.short_name
+    )
+    missing = [
+        name for name in _REPLAY_BUNDLE_FILES if not (replay_dir / name).is_file()
+    ]
+    if missing:
+        raise ValueError(
+            f"No bundled replay is available for {selected.entry.short_name!r}."
+        )
+
+    try:
+        manifest = json.loads(
+            (replay_dir / "manifest.json").read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(
+            f"Bundled replay manifest is invalid for {selected.entry.short_name!r}."
+        ) from exc
+    models = manifest.get("models")
+    if not isinstance(models, list) or not models or not isinstance(models[0], str):
+        raise ValueError(
+            f"Bundled replay has no recorded model for {selected.entry.short_name!r}."
+        )
+
+    arguments = [
+        "--replay-run",
+        str(replay_dir),
+        "--model",
+        models[0],
+        "--batch-only",
+    ]
+    inputs = replay_dir / "inputs.json"
+    if inputs.is_file():
+        arguments.extend(("--vars-file", str(inputs)))
+    return arguments
 
 
 def _promplet_data(promplet: LibraryPromplet) -> dict[str, object]:

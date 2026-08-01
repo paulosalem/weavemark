@@ -1,0 +1,24 @@
+# WeaveMark
+
+WeaveMark is an experimental Markdown-native specification language for
+readable, reusable, and composable prompts. Its hybrid Processor handles
+variables, branches, modules, files, contracts, and validation structurally,
+while a language model realizes semantic directives such as @refine.
+
+## Start
+
+- Website: https://paulosalem.github.io/weavemark/
+- Repository: https://github.com/paulosalem/weavemark
+- Tutorial: https://paulosalem.github.io/weavemark/docs/tutorial.html
+- Language reference: https://github.com/paulosalem/weavemark/blob/main/docs/usage-reference.md
+- Python API: https://paulosalem.github.io/weavemark/docs/python-api.html
+- Related work: https://paulosalem.github.io/weavemark/docs/related-work.html
+
+## Offline compiler replays
+
+    pip install weavemark
+    weavemark library market-snapshot --replay --verbose --output market-prompt.md
+    weavemark library ai-kanban-board --replay
+
+Replay is strict and offline: source, inputs, compiler prompt, schema, imported
+modules, tool results, configuration, and recorded call hashes must match.

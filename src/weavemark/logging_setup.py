@@ -12,6 +12,7 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from typing import Any
 
+import litellm
 from ellements.core import JsonlPromptLogger, LLMClient
 from ellements.core.observability import (
     LLMErrorEvent,
@@ -34,6 +35,8 @@ _RESPONSES_API_MODEL_MARKERS = ("gpt-5.6",)
 _RESPONSES_API_ENV_VAR = "WEAVEMARK_RESPONSES_API"
 _REASONING_EFFORT_ENV_VAR = "WEAVEMARK_REASONING_EFFORT"
 _RESPONSES_REASONING_EFFORT = "high"
+
+litellm.suppress_debug_info = True
 
 
 def _responses_api_override() -> bool | None:

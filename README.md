@@ -14,16 +14,12 @@
 [Website](https://paulosalem.github.io/weavemark/) · [Tutorials](https://paulosalem.github.io/weavemark/docs/tutorial.html) · [Language reference](docs/usage-reference.md) · [PyPI](https://pypi.org/project/weavemark/)
 
 > [!WARNING]
-> WeaveMark is highly experimental. Its notation, Processor behavior, examples,
-> and public interfaces are still evolving. Expect rough edges and breaking
-> changes.
+> WeaveMark is highly experimental. Its notation, Processor behavior, examples, and public interfaces are still evolving. Expect rough edges and breaking changes.
 
 Write your prompt (or **promplet**) as readable Markdown plus special directives, *woven* into it. These include reuse (`@refine`), control flow (`@match`), polishing (`@polish`), dynamic clarifications (`@ask`), and many others. Then
 use the **WeaveMark Processor** to: **compile** a concrete prompt, which can then be fed to an AI assistant or programming agent; or, optionally, actually **execute** it directly, independently of any other tool.
 
-Compilation is intentionally hybrid: variables, branches, imports, output
-contracts, and validation are structural; semantic directives such as `@refine`
-are realized by an LLM. Execution, when requested, relies on predefined engines that follow well-established LLM patterns, as well as user-specified companion programs.
+Compilation is intentionally hybrid: variables, branches, imports, output contracts, and validation are structural; semantic directives such as `@refine` are realized by an LLM. Execution, when requested, relies on predefined engines that follow well-established LLM patterns, as well as user-specified companion programs.
 
 ## See what it produced
 
@@ -32,28 +28,34 @@ are realized by an LLM. Execution, when requested, relies on predefined engines 
 | [![Orion storybook page](docs/tutorial-storybook-page.jpg)](https://paulosalem.github.io/weavemark/demos/orion-storybook/) | [![AI Kanban board](docs/showcase-ai-kanban.jpg)](https://paulosalem.github.io/weavemark/demos/ai-kanban/) | [![VALE3 market dashboard](docs/showcase-market-report.jpg)](https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html) |
 | A twelve-page story authored, illustrated page by page, and packaged to HTML/PDF. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/childrens-book.weavemark.md?plain=1) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-illustrated.html) | A concise software promplet compiled into a detailed contract and implemented as a backend-free browser app. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/standalone/ai-kanban-board.weavemark.md?plain=1) · [Compiled spec](https://github.com/paulosalem/weavemark/blob/main/outputs/implementations/ai-kanban-browser/compiled-spec.md) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-implement.html) | Finance data and bounded search evidence executed through a strict graph, then packaged as a standalone report. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/market-snapshot.weavemark.md?plain=1) · [Trace](https://github.com/paulosalem/weavemark/blob/main/examples/saved-artifact-workflows/market-snapshot/outputs/execution-trace.md) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-executable.html) |
 
-These are checked-in outputs, not mockups. The examples retain their source
-promplets, compiled plans or specifications, run artifacts, and tests.
+These are checked-in outputs, not mockups. The examples retain their source promplets, compiled plans or specifications, run artifacts, and tests.
 
 ## Try it yourself
 
-The market report above is the easiest of the three to reproduce. Install the
-current release with the finance and web-search extras it uses:
+Install the current release, then replay two real compilations without an API key or network call. `--verbose` shows the compilation steps and recorded provider statistics; `--output` writes the compiled artifact instead of printing it.
 
 ```bash
-pip install "weavemark[examples]"
+pip install weavemark
+
+weavemark library market-snapshot --replay --verbose \
+  --output vale3-market-prompt.md
+
+weavemark library ai-kanban-board --replay --verbose \
+  --output ai-kanban-spec.md
 ```
 
-Inspect a bundled promplet without an API key or model call:
+Replay validates the source, inputs, compiler prompt, schema, imported modules, tool results, and recorded call hashes. It replays compilation only: finance and search effects do not run. The original VALE3 run reported 11,002 input tokens, 0 cached, 20,728 output tokens, and $0.3384 total API cost. AI Kanban's recorded compilation reported 133,084 input tokens, 114,603 cached, 11,799 output tokens, and $0.2015 total API cost. Replaying either costs nothing.
+
+You can also inspect any bundled promplet structurally:
 
 ```bash
 weavemark library market-snapshot --scan
 ```
 
-Semantic compilation needs a configured model provider. The market data and web
-search need no further keys.
+For a fresh semantic compilation and a real finance/search execution, install the example integrations and configure a model provider. The market data and web search need no additional keys.
 
 ```bash
+pip install "weavemark[examples]"
 export OPENAI_API_KEY="..."
 
 weavemark library market-snapshot \
@@ -72,7 +74,7 @@ dependency graph, writes the brief, packages it into
 your browser. Change the ticker variables for any asset you follow.
 
 The finance helper is ordinary Python, so WeaveMark asks once before importing
-it and remembers that decision under `~/.weavemark`. Answer `y` to continue.
+it. Answer `y` to continue.
 
 This is a real effectful run rather than a template expansion. Ours took about
 three minutes and $0.34 of `gpt-5.6-terra` usage; add `--verbose`, as above, and

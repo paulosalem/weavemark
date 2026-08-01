@@ -73,8 +73,7 @@ from weavemark import compile_file
 
 async def main() -> None:
     result = await compile_file(
-        "promplets/support-agent.weavemark.md",
-        variables={"product": "WeaveMark", "audience": "new users"},
+        "promplets/catalog/standalone/ai-kanban-board.weavemark.md",
     )
     if result.errors:
         raise RuntimeError(result.errors)
@@ -97,22 +96,28 @@ including configured formats and implementation profiles.
 ## Compile in-memory WeaveMark source
 
 ```python
+import asyncio
 from pathlib import Path
 from weavemark import compile_text
 
-source = """
-@promplet version: 0.8 surface: markdown
+async def main() -> None:
+    source = """
+@promplet version: 0.9 surface: markdown
 
 # Support answer
 
 Reply to @{question} in a concise, kind voice.
 """
 
-result = await compile_text(
-    source,
-    {"question": "How do modules work?"},
-    base_dir=Path("prompts"),  # controls relative refs and config lookup
-)
+    result = await compile_text(
+        source,
+        {"question": "How do modules work?"},
+        base_dir=Path("prompts"),  # controls relative refs and config lookup
+    )
+    print(result.composed_prompt)
+
+
+asyncio.run(main())
 ```
 
 Use `compile_text()` when promplets live outside regular files: bundled package
@@ -227,8 +232,8 @@ so execution never proceeds with an invalid spec.
 from weavemark import RuntimeConfig, execute_file
 
 run = await execute_file(
-    "promplets/tree-solver.weavemark.md",
-    variables={"problem": "Design a retention strategy"},
+    "promplets/catalog/standalone/ai-kanban-board.weavemark.md",
+    engine="single-call",
     runtime_config=RuntimeConfig(
         model="gpt-5.6-terra",
         allowed_models=("gpt-5.6-terra",),
@@ -267,8 +272,7 @@ class MyEngine:
 
 
 run = await execute_file(
-    "promplets/support-agent.weavemark.md",
-    {"question": "What changed?"},
+    "promplets/catalog/standalone/ai-kanban-board.weavemark.md",
     engine=MyEngine(),
 )
 ```
@@ -309,7 +313,9 @@ live provider.
 Compilation returns diagnostics instead of throwing for normal spec problems:
 
 ```python
-compiled = await compile_file("promplets/agent.weavemark.md")
+compiled = await compile_file(
+    "promplets/catalog/standalone/ai-kanban-board.weavemark.md"
+)
 for diagnostic in compiled.diagnostics:
     print(diagnostic["type"], diagnostic["message"])
 ```

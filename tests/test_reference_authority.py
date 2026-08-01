@@ -70,6 +70,19 @@ def test_semantic_transform_authority_requires_explicit_targets() -> None:
         assert "enclosing specification scope" not in definition
 
 
+def test_package_wire_contract_matches_canonical_language_authority() -> None:
+    system_prompt = (
+        ROOT / "src" / "weavemark" / "prompts" / "weavemark.system.md"
+    ).read_text(encoding="utf-8")
+    controller = (ROOT / "src" / "weavemark" / "controller.py").read_text(
+        encoding="utf-8"
+    )
+
+    for authority in (system_prompt, controller):
+        assert "instructions/non-empty body or from" in authority.replace("`", "")
+        assert "template or from" not in authority
+
+
 def test_editor_metadata_matches_execution_and_tool_contracts() -> None:
     directives = (ROOT / "vscode-extension" / "src" / "directives.js").read_text(
         encoding="utf-8"

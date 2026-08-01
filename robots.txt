@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://paulosalem.github.io/weavemark/sitemap.xml

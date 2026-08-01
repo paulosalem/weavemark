@@ -498,6 +498,8 @@ class TestWeaveMarkImports:
         assert (PROMPLETS_DIR / "stdlib/fragments/reasoning/base-analyst.weavemark.md").is_file()
         expected_catalog = {
             "executable/childrens-book.weavemark.md",
+            "arcana/app.weavemark.md",
+            "arcana/cards.weavemark.md",
             "executable/collaborative-writer.weavemark.md",
             "executable/comic-strip.weavemark.md",
             "executable/financial-independence-goal-plan.weavemark.md",
@@ -1722,6 +1724,64 @@ class TestResponseParsing:
         assert "Visible final response" in captured.out
         assert "Output written to" in captured.err
         assert output_path.read_text(encoding="utf-8") == "Visible final response"
+
+    @pytest.mark.asyncio
+    async def test_run_execute_writes_emit_files_under_output_dir(
+        self,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ):
+        """Run mode materializes compile-time @emit files beside streamed artifacts."""
+        from ellements.cli import CliPrinter
+
+        import weavemark.engines
+        from weavemark.app import create_parser, run_execute
+        from weavemark.engines import ExecutionResult
+
+        class FakeEngine:
+            async def execute(self, result, config=None, on_step=None):
+                return ExecutionResult(output="done", steps=[], metadata={})
+
+        monkeypatch.setattr(
+            weavemark.engines,
+            "resolve_engine",
+            lambda _name, **_kwargs: FakeEngine(),
+        )
+
+        output_dir = tmp_path / "dist"
+        args = create_parser().parse_args(
+            [
+                str(tmp_path / "emit-run.weavemark.md"),
+                "--run",
+                "--output-dir",
+                str(output_dir),
+                "--batch-only",
+                "--no-file-summary",
+            ]
+        )
+        source = """
+@promplet version: 0.9
+@execute chain
+
+@emit file: runtime-data.js
+  globalThis.RUNTIME_DATA = {"ready": true};
+
+@prompt generate
+  Return the word done.
+""".strip()
+
+        exit_code = await run_execute(
+            CliPrinter("WeaveMark", verbose=False),
+            source,
+            {},
+            tmp_path,
+            args,
+        )
+
+        assert exit_code == 0
+        assert (output_dir / "runtime-data.js").read_text(encoding="utf-8") == (
+            'globalThis.RUNTIME_DATA = {"ready": true};'
+        )
 
     @pytest.mark.asyncio
     async def test_batch_writes_emit_files_relative_to_output(self, tmp_path: Path):

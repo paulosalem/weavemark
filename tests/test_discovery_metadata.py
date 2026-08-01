@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from ellements.core.exceptions import LLMError
 
 from weavemark.discovery.catalog import SpecEntry
 from weavemark.discovery.metadata import (
@@ -160,12 +161,16 @@ class TestEnsureMetadata:
 
         entry = _make_entry(tmp_path)
 
-        with patch("weavemark.discovery.metadata._analyze_spec", side_effect=Exception("API error")):
+        with patch(
+            "weavemark.discovery.metadata._analyze_spec",
+            side_effect=LLMError("API error"),
+        ):
             result = await ensure_metadata([entry])
 
         meta = result[str(entry.path)]
         assert meta.title == "Test Spec"
         assert meta.content_hash == entry.content_hash
+        assert json.loads(cache_file.read_text(encoding="utf-8")) == {}
 
     @pytest.mark.asyncio
     async def test_progress_callback(self, tmp_path, monkeypatch):
@@ -177,7 +182,10 @@ class TestEnsureMetadata:
         entries = [_make_entry(tmp_path, f"s{i}") for i in range(3)]
         progress_calls = []
 
-        with patch("weavemark.discovery.metadata._analyze_spec", side_effect=Exception("skip")):
+        with patch(
+            "weavemark.discovery.metadata._analyze_spec",
+            side_effect=LLMError("skip"),
+        ):
             await ensure_metadata(
                 entries,
                 on_progress=lambda cur, total, title: progress_calls.append((cur, total)),
@@ -198,9 +206,45 @@ class TestEnsureMetadata:
         cache = {str(entry.path): {"content_hash": "old_hash", "summary": "stale"}}
         cache_file.write_text(json.dumps(cache))
 
-        with patch("weavemark.discovery.metadata._analyze_spec", side_effect=Exception("skip")):
+        with patch(
+            "weavemark.discovery.metadata._analyze_spec",
+            side_effect=LLMError("skip"),
+        ):
             result = await ensure_metadata([entry])
 
         meta = result[str(entry.path)]
         assert meta.content_hash == entry.content_hash
         assert meta.summary == ""
+        persisted = json.loads(cache_file.read_text(encoding="utf-8"))
+        assert persisted[str(entry.path)]["content_hash"] == "old_hash"
+
+    @pytest.mark.asyncio
+    async def test_llm_failure_is_retried_on_the_next_run(
+        self,
+        tmp_path,
+        monkeypatch,
+    ):
+        cache_file = tmp_path / "cache.json"
+        monkeypatch.setattr("weavemark.discovery.metadata.CACHE_FILE", cache_file)
+        monkeypatch.setattr("weavemark.discovery.metadata.GLOBAL_DIR", tmp_path)
+        entry = _make_entry(tmp_path)
+
+        with patch(
+            "weavemark.discovery.metadata._analyze_spec",
+            side_effect=LLMError("temporary failure"),
+        ):
+            await ensure_metadata([entry])
+
+        recovered = SpecMetadataEntry(
+            content_hash=entry.content_hash,
+            title=entry.title,
+            summary="Recovered metadata.",
+        )
+        with patch(
+            "weavemark.discovery.metadata._analyze_spec",
+            new=AsyncMock(return_value=recovered),
+        ) as analyze:
+            result = await ensure_metadata([entry])
+
+        analyze.assert_awaited_once()
+        assert result[str(entry.path)].summary == "Recovered metadata."

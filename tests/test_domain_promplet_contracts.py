@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+from hashlib import sha256
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +24,19 @@ def _source(relative: str) -> str:
 
 
 class _CompileClient:
+    async def complete(self, *_args: Any, **_kwargs: Any) -> str:
+        return json.dumps(
+            {
+                "needs_improvement": False,
+                "good_points": ["The compiled specification is complete."],
+                "bad_points": [],
+                "suggestions": [],
+                "compliance_notes": [],
+                "constraint_findings": [],
+                "directive_feedback": {},
+            }
+        )
+
     async def complete_with_tools(
         self, *_args: Any, **_kwargs: Any
     ) -> ToolCallResponse:
@@ -289,6 +304,111 @@ def test_playwright_mcp_requires_approved_pinned_configuration() -> None:
     assert "Never use a floating latest tag" in source
     assert "invent a version" in source
     assert "@latest" not in source
+
+
+@pytest.mark.asyncio
+async def test_arcana_separates_card_execution_from_app_specification() -> None:
+    cards_path = PROMPLETS / "catalog/arcana/cards.weavemark.md"
+    app_path = PROMPLETS / "catalog/arcana/app.weavemark.md"
+    example = ROOT / "examples/saved-artifact-workflows/arcana"
+    variables = json.loads((example / "inputs/vars.json").read_text(encoding="utf-8"))
+
+    cards = await compile_file(cards_path, variables, client=_CompileClient())
+    app = await compile_file(app_path, variables, client=_CompileClient())
+
+    assert cards.errors == []
+    assert app.errors == []
+    assert cards.execution["type"] == "chain"
+    assert cards.execution["repeat"] == "card"
+    assert app.execution == {}
+    assert cards.packages == []
+    assert app.packages == []
+    assert cards.prompt_outputs["author"].params["enforce"] == "strict"
+    assert cards.prompt_outputs["prototype"].params["file"] == (
+        "assets/cards/prototype.png"
+    )
+    assert cards.prompt_outputs["card"].params["file"] == (
+        "assets/cards/card-@{item_key}.png"
+    )
+    assert cards.prompt_outputs["back"].params["file"] == "assets/card-back.png"
+    assert cards.emits["deck-data.js"].startswith(
+        '"use strict";\nglobalThis.ARCANA_DECK = '
+    )
+
+    cards_source = cards_path.read_text(encoding="utf-8")
+    app_source = app_path.read_text(encoding="utf-8")
+    assert "Complete executable specification for Arcana" not in cards_source
+    assert "Complete executable specification for Arcana" not in app_source
+    assert "Executable artifact-generation promplet" in cards_source
+    assert "Non-executable software-specification promplet" in app_source
+    assert "@execute chain" in cards_source
+    assert "@execute" not in app_source
+    assert "@package" not in cards_source
+    assert "@package" not in app_source
+    assert "@iterate" not in app_source
+    for refinement in (
+        "programming.foundations.software_spec",
+        "programming.stacks.browser_static_esmodules",
+        "programming.modules.adaptive_workspace_shell",
+        "programming.modules.focus_preserving_inspection",
+        "programming.validation.playwright_mcp_browser_validation",
+    ):
+        assert f"@refine module:weavemark.domains.{refinement}" in app_source
+    for obligation in (
+        "interactive programming agent",
+        "Playwright MCP",
+        "clean workspace/source file",
+        "Enter without the OpenAI guide?",
+        "Optional OpenAI guide",
+        "Card reflection",
+        "semantic progress",
+        "Reflection depth",
+        "**Whisper**",
+        "warm-gold",
+        "650-850ms",
+        "Double click",
+    ):
+        assert obligation in app_source
+    assert "Output only the final HTML document" not in app_source
+    assert "Do NOT emit HTML, CSS, JavaScript" in app_source
+
+    assert not (
+        DOMAINS / "creative/fragments/archetypal-card-game-html.weavemark.md"
+    ).exists()
+    assert not (PROMPLETS / "catalog/executable/arcana.weavemark.md").exists()
+
+    scripts = [
+        path
+        for path in example.rglob("*")
+        if path.is_file()
+        and path.suffix in {".py", ".sh"}
+    ]
+    assert scripts == [example / "run.sh"]
+    runner_source = scripts[0].read_text(encoding="utf-8")
+    assert runner_source.count('weavemark "$CARDS_SPEC"') == 2
+    assert runner_source.count('weavemark "$APP_SPEC"') == 1
+    assert "--regenerate-cards" in runner_source
+    assert "generation_fingerprint" in runner_source
+    assert "is_hydrated_png" in runner_source
+    assert "89504e470d0a1a0a" in runner_source
+    assert "artifact_manifest_matches" in runner_source
+    assert "write_artifact_manifest" in runner_source
+    assert "validate_deck_input" in runner_source
+    assert "Arcana deck input failed deterministic validation" in runner_source
+    assert 'IMAGE_MODEL="gpt-image-2"' in runner_source
+    assert runner_source.index('rm -f "$CARD_STAMP"') < runner_source.index(
+        'weavemark "$CARDS_SPEC"'
+    )
+
+    expected_fingerprint = sha256(
+        b"text-model=gpt-5.6-terra\nimage-model=gpt-image-2\n"
+        + cards_source.encode("utf-8")
+        + b"\0"
+        + (example / "inputs/vars.json").read_bytes()
+    ).hexdigest()
+    assert (
+        example / "outputs/cards-build.sha256"
+    ).read_text(encoding="utf-8").strip() == expected_fingerprint
 
 
 @pytest.mark.asyncio

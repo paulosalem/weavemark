@@ -2,6 +2,39 @@
 
 ## Unreleased
 
+### Added
+
+- `weavemark library NAME --replay` discovers a bundled strict-offline
+  compilation recording, restores its synthetic inputs and recorded model, and
+  prints the validated compiled artifact without provider credentials.
+- Public VALE3 Market Snapshot and AI Kanban replay bundles, a 1200x630 social
+  preview, and site discovery files (`robots.txt`, `sitemap.xml`, and
+  `llms.txt`).
+- Lightweight Python 3.11-3.13 package smoke jobs cover installation, scanning,
+  library discovery, and offline replay.
+
+### Changed
+
+- Console startup now defers the LLM runtime for package import, version output,
+  and library management; informational, structural, and replay commands use
+  LiteLLM's bundled pricing map without an import-time network fetch.
+- The documentation home page preserves its hero and principles-led structure
+  while adding one compact replay card, original-run telemetry, and a hidden
+  one-minute-video slot.
+- Strict replay now reports recorded input, cached-input, output-token, and API
+  cost statistics in verbose output.
+- Documentation retains consent-first Google Analytics, and GitHub Actions use
+  immutable commit references.
+
+### Fixed
+
+- The semantic compiler's package contract consistently requires
+  `instructions`/body or `from`, never the obsolete `template` field.
+- CLI help and Python API examples now reference maintained, runnable promplets.
+- Public API and runtime exceptions share one `WeaveMarkError` hierarchy.
+- Edited bound Python helpers reload in long-lived processes, and discovery
+  reports one actionable provider error instead of repeated LiteLLM banners.
+
 ## 0.9.2 - 2026-07-31
 
 ### Added

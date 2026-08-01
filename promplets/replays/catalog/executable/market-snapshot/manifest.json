@@ -1,0 +1,106 @@
+{
+  "format_version": 1,
+  "mode": "record",
+  "processor_version": "0.9.2",
+  "language_version": "0.9",
+  "started_at": "2026-08-01T15:19:37.756390+00:00",
+  "finished_at": "2026-08-01T15:19:37.793187+00:00",
+  "duration_ms": 36,
+  "models": [
+    "gpt-5.6-terra"
+  ],
+  "compile_config": {
+    "max_compilation_steps": 64,
+    "max_compile_seconds": 300.0,
+    "max_effect_questions": 20,
+    "max_effect_rounds": 6,
+    "max_iterate_turns": 6,
+    "max_iterations": 15,
+    "max_total_model_calls": 100,
+    "model": "gpt-5.6-terra",
+    "temperature": 0.3,
+    "use_structural_helpers": true
+  },
+  "system_prompt_sha256": "89c73c979a5a2986d60df8e85adfc105f77190059cde2bd55ec21df46e3b1fe1",
+  "response_schema_sha256": "a7d013135a2bac40e4fbabb693baefb00a3b5c072f49f5ede80e5d2b82104745",
+  "source": {
+    "path": "library:market-snapshot",
+    "sha256": "0291160e525872603d46876b26e2cea7ab5a0a2d9147f63f2e786e2cb96340c2"
+  },
+  "variables": {
+    "names": [
+      "company_name",
+      "display_ticker",
+      "provider_ticker",
+      "research_focus"
+    ],
+    "sha256": "bc1ec1457bb2d56cc2c556de21c7245fb0bfe393b893dfac589b6dd8e123e16e",
+    "values_in_manifest": false
+  },
+  "resources": {},
+  "lineage": [
+    {
+      "stage": "surface lowering",
+      "kind": "structural"
+    },
+    {
+      "stage": "macro/module preprocessing",
+      "kind": "structural"
+    },
+    {
+      "stage": "directive validation",
+      "kind": "structural"
+    },
+    {
+      "stage": "composition",
+      "kind": "structural",
+      "model_calls": 0
+    },
+    {
+      "stage": "artifact materialization",
+      "kind": "structural"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "llm_duration_ms": 0,
+    "reported_cost_usd": null,
+    "cost_source": "unavailable",
+    "provider_usage": []
+  },
+  "original_run": {
+    "mode": "compile-and-execute",
+    "description": "Saved VALE3 Market Snapshot run regenerated on gpt-5.6-terra.",
+    "duration_ms": 177200,
+    "output_chars": 24464,
+    "usage": {
+      "prompt_tokens": 11002,
+      "cache_read_input_tokens": 0,
+      "completion_tokens": 20728,
+      "total_tokens": 31730,
+      "response_cost": 0.3384
+    }
+  },
+  "artifacts": [
+    {
+      "name": "composed_prompt",
+      "kind": "primary",
+      "sha256": "9924d65ff2b00cd1c3dc8c436c9568e6814b5621313d4430f6dabc5f563f32ad",
+      "bytes": 1227
+    },
+    {
+      "name": "default",
+      "kind": "prompt",
+      "sha256": "9924d65ff2b00cd1c3dc8c436c9568e6814b5621313d4430f6dabc5f563f32ad",
+      "bytes": 1227
+    }
+  ],
+  "call_count": 0,
+  "recording_contains_sensitive_content": false,
+  "recording": {
+    "calls_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "replay_policy": "strict-no-live-fallback"
+  }
+}

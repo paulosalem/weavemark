@@ -1,0 +1,2928 @@
+"use strict";
+globalThis.ARCANA_DECK = {
+  "schema_version": 2,
+  "id": "arcana",
+  "title": "Arcana",
+  "subtitle": "Fifty-five archetypal models for reflective, instructive play",
+  "language": "English",
+  "card_count": 55,
+  "production": {
+    "prototype_card_id": "the-threshold",
+    "non_prototype_count": 54,
+    "image_model": "gpt-image-2",
+    "image_size": "1024x1536",
+    "image_quality": "high",
+    "front_format": "PNG",
+    "text_in_image": true
+  },
+  "experience": {
+    "audience": "Adults seeking a serious imaginative instrument for exploring problems, tensions, choices, and possible futures",
+    "purpose": "Use structured chance and a broad, epistemically honest vocabulary from philosophy, nature, chemistry, psychology, social thought, mathematics, systems, and computing to make life patterns newly intelligible.",
+    "tone": "Intimate, psychologically exact, spiritually serious, emotionally varied, and non-dogmatic; capable of radiance, tenderness, clarity, awe, grief, conflict, and renewal without treating darkness as a synonym for depth",
+    "default_formation_id": "lantern",
+    "reversals_enabled_by_default": true,
+    "boundary_statement": "Arcana is a reflective game for imagining possibilities. Its scientific and humanistic concepts are models and metaphors, not predictions, diagnoses, pseudoscience, or replacements for professional guidance.",
+    "adult_content_note": "The deck may approach grief, mortality, shame, obsession, domination, loneliness, sacrifice, exclusion, and meaninglessness without gore, sexualization, or sensationalism."
+  },
+  "ai_guide": {
+    "enabled_by_default": false,
+    "provider": "OpenAI",
+    "endpoint": "https://api.openai.com/v1/responses",
+    "model": "gpt-5.4-mini",
+    "reflection_depth": {
+      "minimum": 1,
+      "maximum": 5,
+      "step": 1,
+      "default": 3,
+      "levels": {
+        "1": {
+          "label": "Whisper",
+          "description": "A single sentence"
+        },
+        "2": {
+          "label": "Brief",
+          "description": "One compact paragraph"
+        },
+        "3": {
+          "label": "Balanced",
+          "description": "One substantial paragraph and a question"
+        },
+        "4": {
+          "label": "Deep",
+          "description": "Several short sections with tension and a question"
+        },
+        "5": {
+          "label": "Immersive",
+          "description": "A long-form, fully developed reflection"
+        }
+      }
+    },
+    "speech": {
+      "enabled_by_default": false,
+      "endpoint": "https://api.openai.com/v1/audio/speech",
+      "model": "gpt-4o-mini-tts",
+      "voice": "onyx",
+      "response_format": "mp3",
+      "instructions": "Speak in a low, mysterious, warm, soothing voice. Slow the pace slightly, with calm natural pauses, never theatrical, ominous, breathy, or melodramatic.",
+      "disclosure": "The optional spoken interpretation uses an AI-generated OpenAI voice, not a human voice.",
+      "auto_play": "When enabled by the player, request speech after each card reflection appears and attempt playback automatically; if browser autoplay is blocked, retain a visible Play narration control.",
+      "persistence": "Generated audio and object URLs remain in page memory only and are revoked on replacement, new reading, Forget key, and page exit."
+    },
+    "credential_storage": "Session memory only; never localStorage, sessionStorage, IndexedDB, logs, URLs, exports, analytics, or files",
+    "consent_summary": "When enabled, turning a card sends the private question, that card's written meanings and motifs, its orientation, and its formation position to OpenAI. The complete formation is sent only if the player clicks Contemplate the whole. If Read reflections aloud is also enabled, the visible model-generated reflection text is sent to OpenAI speech after it appears. Card images and private reflection notes are never sent.",
+    "purpose": "Offer one tentative, psychologically and spiritually resonant interpretation grounded in the player's request, the card, and its formation position without predicting events, diagnosing, or replacing the player's judgment",
+    "per_card_timing": "Begin immediately after the player reveals each predealt face-down card",
+    "final_timing": "Only after every position is revealed, per-card requests have settled, and the player explicitly activates Contemplate the whole",
+    "persistence": "AI responses remain in page memory unless the player explicitly saves or exports the completed reading; the API key is never included",
+    "failure_behavior": "Manual play remains complete and unchanged; show a precise retry action and never fabricate an interpretation",
+    "max_question_characters": 1800
+  },
+  "visual_bible": {
+    "format": "One finished vertical 2:3 card-front illustration, designed to remain emotionally and symbolically legible at small card size",
+    "house_style": "Late-Symbolist figurative painting fused with restrained contemporary editorial surrealism; sophisticated, authored, tactile, painterly, and unmistakably intended for adults",
+    "media": "Layered ink, translucent gouache, dry-brush pigment, oxidized-gold leaf accents, charcoal scumbling, and subtle fibrous paper grain; never flat vector art",
+    "palette": {
+      "foundation": [
+        "clear mineral blue",
+        "smoke gray",
+        "old ivory",
+        "weathered bone",
+        "sun-warmed limestone",
+        "pearl daylight"
+      ],
+      "secondary": [
+        "verdigris",
+        "muted ochre",
+        "deep umber",
+        "dried-blood red",
+        "lichen green",
+        "dusty rose",
+        "blue-gold dawn"
+      ],
+      "metal": "Restrained oxidized gold used only for focal edges, sigils, and moments of meaning",
+      "discipline": "Maintain a sophisticated, restrained palette but do not default to black or low-key exposure. Cards may be luminous, high-key, sunlit, overcast, colorful, or shadowed according to their exact emotional brief. Preserve deep values where composition needs them, not as a mandatory field covering most of every image."
+    },
+    "value_distribution": {
+      "principle": "Spiritual power comes from symbolic precision, human gesture, scale, color relation, atmosphere, and emotional truth—not from making every scene dark.",
+      "high_key": "Approximately twenty-two cards: daylight, dawn, pale weather, reflected water, open air, warm interiors, or luminous negative space with fully readable midtones.",
+      "middle_key": "Approximately twenty-four cards: broad tonal range, balanced light and shadow, richly visible environments, and controlled focal contrast.",
+      "low_key": "No more than nine cards, only when darkness is conceptually necessary; even these retain readable shadow detail, localized color, and a motivated source of light.",
+      "sequence_rule": "Do not place more than two low-key cards consecutively in deck order. Across Major Arcana and across each Minor suit and rank, vary value key, color temperature, weather, interior/exterior setting, camera distance, and emotional valence."
+    },
+    "frame_grammar": {
+      "border": "A narrow hand-ruled double border in worn charcoal and oxidized gold, visibly made rather than mathematically perfect",
+      "corners": "Four quiet botanical-geometric corner ornaments derived from the five suit glyphs, never letters or numerals",
+      "title_lettering": "Every front includes exactly its supplied card title, spelled character-for-character, as intentional hand-rendered display lettering integrated into the lower portion of the painted composition. Use an elegant engraved or hand-painted serif compatible with the card's materials, large and high-contrast enough to read at card size, inside a quiet title cartouche or reserved negative-space band that belongs to the artwork. Preserve faces, motifs, and focal action. No other readable words, letters, or numerals are permitted.",
+      "back_text_rule": "The common back contains no readable text, letters, numerals, signature, watermark, or logo.",
+      "major_frame": "Suitless Major Arcana use expanded archetypal scale, a double-gold crown ornament, one abstract Major category mark, and no suit or rank glyph.",
+      "minor_frame": "Minor Arcana use the exact suit sigil and accent near the crown plus one nonnumeric rank mark near the base; title lettering remains dominant."
+    },
+    "composition": "One immediate focal subject, a controlled eye path, deep atmospheric staging, materially credible objects and architecture, purposeful asymmetry, and at least one large quiet area; never a centered icon floating on an empty background",
+    "figures": "Diverse monumental anonymous adults with natural anatomy, expressive hands and posture, obscured or simplified faces, substantial clothing, and no glamour posing; figures are psychologically present rather than stock silhouettes",
+    "world": "Timeless but not faux-medieval architecture: thresholds, wells, weathered rooms, gardens, tidal terraces, workshops, observatories, houses, roads, and civic spaces that feel inhabited and materially specific",
+    "lighting": "Motivated by morning sun, broad daylight, overcast sky, warm rooms, reflected water, dawn, moons, embers, doorways, wells, eclipses, and small lamps. Use strong value design, contact shadows, occlusion, mist, and atmospheric depth while preserving readable midtones and allowing genuinely bright scenes.",
+    "symbolism": "Recurring motifs are small, integrated physical presences that reward study; never oversized logos or decorative clip art",
+    "emotional_standard": "The viewer should feel the named emotional register before reading the card meaning; beauty and disturbance coexist without melodrama",
+    "consistency_rule": "Every production prompt restates this bible. The prototype locks border, material finish, mark-making, anatomy, tonal nuance, and symbolic scale—not one fixed exposure or darkness level. Later cards preserve that grammar while obeying their own value_key and changing scene, camera, silhouette, weather, color temperature, emotional valence, and focal object.",
+    "forbidden": [
+      "geometric placeholder imagery",
+      "flat vector iconography",
+      "UI mockups or card-product photography",
+      "Tarot imitation or Rider-Waite composition",
+      "zodiac wheels and generic occult clip art",
+      "fantasy-game rarity frames",
+      "photoreal stock imagery",
+      "cute storybook styling",
+      "glossy AI gradients and plastic surfaces",
+      "crushed blacks that erase environmental or anatomical detail",
+      "using darkness, desaturation, or gloom as a generic shortcut for seriousness",
+      "copied living-artist style",
+      "readable text other than the exact supplied card title; no extra letters, numerals, labels, notes, formulas, captions, signatures, logos, or watermarks",
+      "gore, sexualized bodies, or sensationalized suffering"
+    ]
+  },
+  "suits": {
+    "ember": {
+      "name": "Ember",
+      "domain": "energy, agency, work, transformation, and consequence",
+      "glyph_brief": "A small open flame held inside a broken circle",
+      "accent": "burnt vermilion"
+    },
+    "tide": {
+      "name": "Tide",
+      "domain": "emotion, attachment, adaptation, intimacy, and grief",
+      "glyph_brief": "Two curved waves surrounding one clear drop",
+      "accent": "mineral blue"
+    },
+    "lens": {
+      "name": "Lens",
+      "domain": "attention, perception, identity, language, and models",
+      "glyph_brief": "A split oval lens with one displaced reflection",
+      "accent": "smoky violet"
+    },
+    "root": {
+      "name": "Root",
+      "domain": "embodiment, ecology, inheritance, material life, and stewardship",
+      "glyph_brief": "A seed line dividing into three living roots",
+      "accent": "lichen green"
+    },
+    "signal": {
+      "name": "Signal",
+      "domain": "information, communication, computation, institutions, and coordination",
+      "glyph_brief": "Three pulses crossing a small open circuit",
+      "accent": "clear amber"
+    }
+  },
+  "motifs": {
+    "doorway": {
+      "name": "Doorway",
+      "meaning": "transition and selective passage",
+      "visual_anchor": "transition and selective passage"
+    },
+    "eclipse": {
+      "name": "Eclipse",
+      "meaning": "partial knowledge and timing",
+      "visual_anchor": "partial knowledge and timing"
+    },
+    "moth": {
+      "name": "Moth",
+      "meaning": "desire drawn toward change or danger",
+      "visual_anchor": "desire drawn toward change or danger"
+    },
+    "key": {
+      "name": "Key",
+      "meaning": "agency, permission, and access",
+      "visual_anchor": "agency, permission, and access"
+    },
+    "red-thread": {
+      "name": "Red thread",
+      "meaning": "connection and consequence",
+      "visual_anchor": "connection and consequence"
+    },
+    "well": {
+      "name": "Well",
+      "meaning": "memory and the unexamined",
+      "visual_anchor": "memory and the unexamined"
+    },
+    "split-tree": {
+      "name": "Split tree",
+      "meaning": "inheritance and branching choice",
+      "visual_anchor": "inheritance and branching choice"
+    },
+    "black-bird": {
+      "name": "Black bird",
+      "meaning": "witness and irreversibility",
+      "visual_anchor": "witness and irreversibility"
+    },
+    "empty-vessel": {
+      "name": "Empty vessel",
+      "meaning": "capacity, receptivity, and loss",
+      "visual_anchor": "capacity, receptivity, and loss"
+    },
+    "spiral": {
+      "name": "Spiral",
+      "meaning": "return with difference",
+      "visual_anchor": "return with difference"
+    },
+    "web": {
+      "name": "Web",
+      "meaning": "distributed relation and dependency",
+      "visual_anchor": "distributed relation and dependency"
+    },
+    "crystal": {
+      "name": "Crystal",
+      "meaning": "structure, constraint, and clarity",
+      "visual_anchor": "structure, constraint, and clarity"
+    },
+    "bridge": {
+      "name": "Bridge",
+      "meaning": "translation and supported passage",
+      "visual_anchor": "translation and supported passage"
+    },
+    "seed": {
+      "name": "Seed",
+      "meaning": "latent potential and conditions",
+      "visual_anchor": "latent potential and conditions"
+    },
+    "circuit": {
+      "name": "Circuit",
+      "meaning": "flow, feedback, and interruption",
+      "visual_anchor": "flow, feedback, and interruption"
+    }
+  },
+  "formations": {
+    "glimpse": {
+      "name": "The Glimpse",
+      "description": "One card from the complete deck for what asks to be seen.",
+      "positions": [
+        {
+          "id": "seen",
+          "label": "What asks to be seen",
+          "prompt": "What model or archetype asks to be considered now?",
+          "draw_from": "any"
+        }
+      ]
+    },
+    "axis": {
+      "name": "The Axis",
+      "description": "One Major reframes the question; two Minor cards locate its lived expression.",
+      "positions": [
+        {
+          "id": "frame",
+          "label": "Deep frame",
+          "prompt": "What life-organizing force changes how this question is understood?",
+          "draw_from": "major"
+        },
+        {
+          "id": "expression",
+          "label": "Present expression",
+          "prompt": "How is that force becoming concrete in ordinary life?",
+          "draw_from": "minor"
+        },
+        {
+          "id": "practice",
+          "label": "Possible practice",
+          "prompt": "What situated response or experiment might become available?",
+          "draw_from": "minor"
+        }
+      ]
+    },
+    "lantern": {
+      "name": "The Lantern",
+      "description": "A Major anchor and four Minor perspectives around one held question.",
+      "positions": [
+        {
+          "id": "anchor",
+          "label": "Anchor",
+          "prompt": "What deep pattern frames the reading?",
+          "draw_from": "major"
+        },
+        {
+          "id": "known",
+          "label": "Known",
+          "prompt": "What concrete condition is already visible?",
+          "draw_from": "minor"
+        },
+        {
+          "id": "hidden",
+          "label": "Hidden",
+          "prompt": "What situated process may be outside present attention?",
+          "draw_from": "minor"
+        },
+        {
+          "id": "friction",
+          "label": "Friction",
+          "prompt": "What cost, resistance, or contradiction matters?",
+          "draw_from": "minor"
+        },
+        {
+          "id": "light",
+          "label": "Light",
+          "prompt": "What grounded response may illuminate a next step?",
+          "draw_from": "minor"
+        }
+      ]
+    },
+    "crossing": {
+      "name": "The Crossing",
+      "description": "Two Major forces and five Minor mechanisms for a consequential transition.",
+      "positions": [
+        {
+          "id": "origin",
+          "label": "Origin",
+          "prompt": "What deep force shaped the shore being left?",
+          "draw_from": "major"
+        },
+        {
+          "id": "threshold",
+          "label": "Threshold",
+          "prompt": "What deep force organizes the crossing?",
+          "draw_from": "major"
+        },
+        {
+          "id": "condition",
+          "label": "Condition",
+          "prompt": "What material condition must be respected?",
+          "draw_from": "minor"
+        },
+        {
+          "id": "relation",
+          "label": "Relation",
+          "prompt": "What relationship or protocol carries influence?",
+          "draw_from": "minor"
+        },
+        {
+          "id": "risk",
+          "label": "Risk",
+          "prompt": "What feedback, scarcity, or distortion could compound?",
+          "draw_from": "minor"
+        },
+        {
+          "id": "resource",
+          "label": "Resource",
+          "prompt": "What capacity or form of care is available?",
+          "draw_from": "minor"
+        },
+        {
+          "id": "far-bank",
+          "label": "Far bank",
+          "prompt": "What situated possibility can be approached without certainty?",
+          "draw_from": "minor"
+        }
+      ]
+    }
+  },
+  "prototype_card": {
+    "number": 1,
+    "arcana_number": 0,
+    "id": "the-threshold",
+    "title": "The Threshold",
+    "category": "major",
+    "suit": null,
+    "rank": null,
+    "concept_source": {
+      "domains": [
+        "philosophy",
+        "anthropology"
+      ],
+      "concept": "liminality",
+      "factual_anchor": "Anthropology uses liminality for the in-between phase of rites and social transitions, when an earlier role has ended and a new one is not yet secured.",
+      "reflective_bridge": "A crossing whose meaning is not settled by either shore.",
+      "epistemic_boundary": "This card does not predict a destined transition or imply that uncertainty is inherently meaningful."
+    },
+    "essence": "The interval in which an old identity no longer governs and a new one has not earned its shape.",
+    "generative": "Pause long enough to learn what the crossing asks: a skill, a grief, a permission, or a revised promise.",
+    "destructive": "Do not romanticize suspension. Indefinite waiting can become avoidance, and a gate can become a prison when no practical next step is named.",
+    "reversed": "You may be forcing closure to escape ambiguity, or lingering at the entrance because beginning would make loss real.",
+    "emotional_register": "Charged, tender, lucid.",
+    "question": "What has ended in practice, even if I have not yet found language for what begins?",
+    "lineage": "Liminality; rites of passage; existential threshold imagery.",
+    "motifs": [
+      "doorway",
+      "key"
+    ],
+    "accessible_visual_description": "A solitary adult stands before a freestanding stone doorway in a salt-flat landscape. Behind them is a worn road; beyond the doorway is a bright, windblown field. A large iron key rests in their open hand.",
+    "image_brief": {
+      "emotional_impact": "Awe with grounded apprehension: the moment before a real commitment.",
+      "value_key": "high key: chalk-white salt, pale sky, and hard dark doorway.",
+      "subject": "A weathered basalt doorway, an adult traveler in an ochre coat, and a large iron key.",
+      "action": "The traveler holds the key without yet placing it in the lock.",
+      "environment": "A vast salt flat split by an old road that ends at the doorway.",
+      "impossible_image": "Through the doorway, the far field has its own weather: summer grass bending under rain while the near landscape remains dry.",
+      "composition": "Frontal monumental doorway centered; figure slightly left; exact title lettering “The Threshold” embossed in a lower ivory artistic cartouche; double-gold crown ornament at top and a discreet Major Arcana category mark.",
+      "camera": "Low, waist-height medium-wide view, symmetrical but not sterile.",
+      "lighting": "Clean late-morning sun, with rain-lit brightness visible only beyond the portal.",
+      "accent": "Oxidized red key ribbon tied to the iron key.",
+      "motif_placement": "Doorway dominates center; key held at the figure's sternum.",
+      "avoid": "No fantasy castle, no glowing aura, no horoscope symbols, no generic fog."
+    }
+  },
+  "cards": {
+    "1": {
+      "number": 2,
+      "arcana_number": 1,
+      "id": "the-furnace",
+      "title": "The Furnace",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "chemistry",
+          "history of alchemy"
+        ],
+        "concept": "activation, heat, and transformation",
+        "factual_anchor": "Chemical reactions often require activation energy; heat can increase molecular collisions and reaction rates, though outcomes depend on materials, conditions, and containment.",
+        "reflective_bridge": "Alchemy contributes historical image-language only; chemistry supplies the factual anchor.",
+        "epistemic_boundary": "Heat and alchemical symbolism are metaphors here, not evidence that suffering automatically purifies or transforms a person."
+      },
+      "essence": "A contained intensity that makes a previously inert arrangement capable of changing.",
+      "generative": "Apply enough honest energy to the stalled matter: practice, conversation, training, mourning, revision, or sustained work.",
+      "destructive": "Intensity without containment burns reserves, damages relationships, and mistakes exhaustion for breakthrough.",
+      "reversed": "Either the heat is being avoided and nothing can move, or it is being raised beyond what the vessel can safely hold.",
+      "emotional_register": "Severe, vital, disciplined.",
+      "question": "What condition would make this change possible without consuming the material that must survive it?",
+      "lineage": "Activation energy in chemistry; furnace and vessel imagery in alchemical history.",
+      "motifs": [
+        "empty-vessel",
+        "crystal"
+      ],
+      "accessible_visual_description": "Inside a brick kiln, a dark clay vessel sits on a firebrick shelf. Its surface is cracked but intact, and a small clear crystal is forming in a cooler side chamber.",
+      "image_brief": {
+        "emotional_impact": "Disciplined heat: danger held in service of making.",
+        "value_key": "low key: charcoal brick, near-black iron, and concentrated orange-white fire.",
+        "subject": "A soot-dark brick kiln, a thick clay vessel, tongs, and a single clear crystal in a cooler recess.",
+        "action": "Heat curls around the vessel while an unseen draft feeds the fire evenly.",
+        "environment": "A spare workshop with ash on the floor and a steel vent disappearing upward.",
+        "impossible_image": "The vessel's interior is shown in cutaway, containing a tiny landscape of molten glass cooling into facets.",
+        "composition": "The circular furnace mouth fills most of the image; lower copper cartouche carries exact title lettering “The Furnace”; double-gold crown ornament above with Major Arcana category mark.",
+        "camera": "Close frontal view, slightly below the kiln shelf.",
+        "lighting": "Firelight is the primary source; a narrow cold daylight seam enters from high right.",
+        "accent": "One deep vermilion heat-warning cord wrapped around the tongs.",
+        "motif_placement": "Empty vessel centered in the furnace; crystal in the upper-right cooling niche.",
+        "avoid": "No occult ritual, no human figure in flames, no magical transmutation claims."
+      }
+    },
+    "2": {
+      "number": 3,
+      "arcana_number": 2,
+      "id": "the-mycelium",
+      "title": "The Mycelium",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "ecology",
+          "mycology"
+        ],
+        "concept": "distributed exchange, decomposition, and interdependence",
+        "factual_anchor": "Fungal mycelium is a network of filamentous hyphae that decomposes organic material and can form varied relationships with plants and other organisms.",
+        "reflective_bridge": "A network may nourish a whole while remaining largely unseen.",
+        "epistemic_boundary": "Fungal networks are not a universal model of harmony or a telepathic collective mind; ecological relationships can be contingent and competitive."
+      },
+      "essence": "The hidden labor of connection: breaking down what is finished so material can become available again.",
+      "generative": "Notice the quiet infrastructures—care, maintenance, introductions, records, mutual aid—that allow life to continue beyond individual display.",
+      "destructive": "Interdependence can become enmeshment, invisible labor can be exploited, and a network can spread harm as efficiently as help.",
+      "reversed": "You may be isolated from needed support, or overextended as the unseen system everyone assumes will hold.",
+      "emotional_register": "Humble, intimate, earthy.",
+      "question": "What unseen exchange sustains me, and where must I make reciprocity more visible?",
+      "lineage": "Mycology and decomposition ecology; network images of mutual dependence.",
+      "motifs": [
+        "web",
+        "seed"
+      ],
+      "accessible_visual_description": "A forest floor is cut open like a cross-section. Fine white fungal threads link a fallen log, roots, leaf litter, and a germinating seed, while mushrooms rise above the soil.",
+      "image_brief": {
+        "emotional_impact": "Quiet astonishment at the labor beneath ordinary ground.",
+        "value_key": "middle key: umber soil, moss green, bone-white filaments, and small amber fungi.",
+        "subject": "A precise soil cross-section with tree roots, a decaying log, mycelial threads, and one germinating seed.",
+        "action": "Threads move through decomposing wood toward several root zones; no thread becomes a literal brain or message line.",
+        "environment": "Temperate forest floor after rain, with fern shadows above the soil line.",
+        "impossible_image": "The underground cross-section extends farther than physically possible, revealing multiple seasons layered in one coherent slice.",
+        "composition": "Horizontal strata lead the eye across the network; exact title lettering “The Mycelium” engraved into a lower dark-wood cartouche; double-gold crown ornament and Major Arcana category mark above.",
+        "camera": "Orthographic cross-section blended with a close natural-history view above ground.",
+        "lighting": "Soft overcast daylight above, warm subterranean bioluminescent suggestion kept subtle.",
+        "accent": "A single rust-red thread of root fiber, not a supernatural beam.",
+        "motif_placement": "Web-like hyphae span the lower two-thirds; seed at lower left beginning to open.",
+        "avoid": "No neon psychedelic network, no sentient mushroom faces, no claim that trees communicate like people."
+      }
+    },
+    "3": {
+      "number": 4,
+      "arcana_number": 3,
+      "id": "the-strange-loop",
+      "title": "The Strange Loop",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "logic, computing,",
+          "philosophy of mind"
+        ],
+        "concept": "recursion and self-reference",
+        "factual_anchor": "Recursion occurs when a procedure refers to itself through defined rules; self-reference in logic and computing can produce useful structures as well as paradoxes and limits.",
+        "reflective_bridge": "The observer and the observed model can recursively alter one another.",
+        "epistemic_boundary": "This card uses recursion as a reflective model and makes no claim to solve consciousness or establish that the self is an illusion."
+      },
+      "essence": "A pattern that turns back on itself, altering the very frame through which it is perceived.",
+      "generative": "Examine the story that is examining you. A revised assumption can interrupt a self-confirming loop.",
+      "destructive": "Self-scrutiny can become an infinite regress: every feeling audited, every choice treated as proof of a fixed identity.",
+      "reversed": "A loop may be denied because it feels familiar, or amplified by treating each recurrence as evidence that change is impossible.",
+      "emotional_register": "Uncanny, intelligent, destabilizing.",
+      "question": "Which interpretation of myself keeps recreating the evidence that appears to support it?",
+      "lineage": "Recursion in logic and computing; philosophical problems of self-reference.",
+      "motifs": [
+        "spiral",
+        "circuit"
+      ],
+      "accessible_visual_description": "An adult sits at a desk facing a monitor that shows the same desk, but each repeated screen contains one changed detail. A copper circuit traces a spiral through the room.",
+      "image_brief": {
+        "emotional_impact": "A lucid vertigo: recognition that can either trap or free.",
+        "value_key": "middle-to-low key: blue-black room, muted monitor glow, warm copper lines.",
+        "subject": "A seated adult seen from behind, nested blank CRT-like screens, a slate tablet, and an exposed copper circuit.",
+        "action": "The figure removes one chalk mark from the slate while the nested blank screens progressively change their geometry.",
+        "environment": "A plain night office with one open window and no futuristic décor.",
+        "impossible_image": "The monitor recursively contains the room seven times, each inner room rotated slightly and carrying one altered object.",
+        "composition": "A square-within-square composition anchored by the back of the seated figure; lower brass cartouche with exact title lettering “The Strange Loop”; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "Centered over-the-shoulder view at seated eye level.",
+        "lighting": "Cool monitor light meets a small warm desk lamp; crisp shadows.",
+        "accent": "A single red circuit jumper breaks and rejoins near the slate.",
+        "motif_placement": "Spiral formed by the nested room edges; circuit runs from desk across floor and into screen.",
+        "avoid": "No cyberpunk clutter, no floating equations everywhere, no mystical third eye."
+      }
+    },
+    "4": {
+      "number": 5,
+      "arcana_number": 4,
+      "id": "the-attractor",
+      "title": "The Attractor",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "dynamical systems",
+          "psychology"
+        ],
+        "concept": "attractors, habit, and recurrent state",
+        "factual_anchor": "In dynamical systems, an attractor is a set of states toward which a system tends under specified conditions; habits can also make behavioral patterns recurrent, though people remain capable of learning and change.",
+        "reflective_bridge": "A life can repeatedly settle into a pattern without that pattern being destiny.",
+        "epistemic_boundary": "This is not a diagnosis, and mathematical attractors do not prove that a person's choices are predetermined."
+      },
+      "essence": "The groove a system finds again and again because its conditions make that return easier than another route.",
+      "generative": "Map the cues, rewards, constraints, and supports around the repeated pattern; alter conditions rather than relying on willpower alone.",
+      "destructive": "A familiar pattern can feel like character, inviting resignation or excuses for harm that requires accountability.",
+      "reversed": "The pattern has lost its hold but you keep rehearsing it, or you mistake one disruption for durable change without building new conditions.",
+      "emotional_register": "Clear-eyed, sobering, practical.",
+      "question": "What reliably pulls this situation back toward its usual shape, and what condition could bend the path?",
+      "lineage": "Dynamical-systems attractors; behavioral habit formation.",
+      "motifs": [
+        "spiral",
+        "circuit"
+      ],
+      "accessible_visual_description": "A steel ball rolls across a broad dark surface carved with several channels. Most paths lead into one deep spiral basin, but a small movable gate can redirect the ball toward a different channel.",
+      "image_brief": {
+        "emotional_impact": "Recognition without fatalism: a pattern made visible as terrain.",
+        "value_key": "high-contrast middle key: graphite surface, cream background, polished steel, and one blue-green gate.",
+        "subject": "A large physical kinetic-sculpture table with channels, a steel ball, a spiral basin, and an adjustable gate.",
+        "action": "The ball circles the familiar basin while a hand reaches in to move the gate by one notch.",
+        "environment": "A sunlit concrete studio, stripped of all incidental objects.",
+        "impossible_image": "The tabletop landscape subtly becomes an aerial map of a city, then resolves again into machined metal channels.",
+        "composition": "The spiral basin occupies lower center; the alternate route rises diagonally toward upper right; exact title lettering “The Attractor” on a lower slate cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "High three-quarter view, like an architectural model photographed close.",
+        "lighting": "Hard afternoon side light emphasizing grooves and trajectories.",
+        "accent": "Blue-green enamel on the movable gate only.",
+        "motif_placement": "Spiral is the central basin; circuit-like channels run outward to the edges.",
+        "avoid": "No chaotic rainbow fractals, no deterministic slogans, no human trapped in a maze."
+      }
+    },
+    "5": {
+      "number": 6,
+      "arcana_number": 5,
+      "id": "the-commons",
+      "title": "The Commons",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "political economy",
+          "institutional studies"
+        ],
+        "concept": "shared resources and collective governance",
+        "factual_anchor": "Research on common-pool resources shows that shared resources can be sustained through context-sensitive rules, monitoring, participation, conflict resolution, and accountability.",
+        "reflective_bridge": "Sustaining what is shared requires rules, trust, accountability, and repair.",
+        "epistemic_boundary": "Neither private ownership nor collective management is universally best; governance depends on the resource, power relations, law, and local conditions."
+      },
+      "essence": "What belongs to no single appetite and therefore asks people to make durable agreements.",
+      "generative": "Participate in the unglamorous work of shared upkeep: clarify access, distribute burdens, repair breaches, and let affected people shape rules.",
+      "destructive": "Sentimental unity conceals unequal power; unmanaged extraction can exhaust the resource while everyone waits for someone else to act.",
+      "reversed": "You may be taking without maintaining, or surrendering legitimate needs because the group has no fair method for hearing them.",
+      "emotional_register": "Civic, warm, demanding.",
+      "question": "What shared thing needs a clearer agreement—not more goodwill alone?",
+      "lineage": "Common-pool resource governance; civic institutional practice.",
+      "motifs": [
+        "well",
+        "bridge"
+      ],
+      "accessible_visual_description": "Several adults of different ages stand around an old stone well in a town square, repairing its wooden cover together. A narrow bridge connects the square to community garden plots.",
+      "image_brief": {
+        "emotional_impact": "Earned solidarity rather than idealized togetherness.",
+        "value_key": "high key: limestone, linen clothing, blue sky, and green garden beds.",
+        "subject": "A stone public well, six working adults, a ledger, buckets, tools, and a small footbridge.",
+        "action": "One person records an agreement, two repair the cover, and others pass timber and water; everyone is engaged in distinct work.",
+        "environment": "A modest civic square opening onto irrigated allotment gardens.",
+        "impossible_image": "The well's water reflects not faces but a clear overhead plan of the town's pipes, paths, and garden channels.",
+        "composition": "The circular well is central; bridge leads to the right background; exact title lettering “The Commons” painted on a lower ceramic cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "Eye-level wide scene with a slight upward openness.",
+        "lighting": "Bright morning with soft tree-shadow patterns.",
+        "accent": "A red-thread binding around the shared ledger.",
+        "motif_placement": "Well in center; bridge recedes toward the gardens; red thread secures the ledger.",
+        "avoid": "No utopian commune cliché, no medieval peasants, no anonymous crowd with raised fists."
+      }
+    },
+    "6": {
+      "number": 7,
+      "arcana_number": 6,
+      "id": "the-shadow",
+      "title": "The Shadow",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "depth psychology",
+          "moral philosophy"
+        ],
+        "concept": "disowned traits and projection",
+        "factual_anchor": "In depth-psychology traditions, shadow names traits or impulses a person disowns; moral reflection also recognizes that judgments can be distorted by self-interest, fear, and selective attention.",
+        "reflective_bridge": "What is rejected in oneself may return through judgment; this is a reflective lens, not diagnosis.",
+        "epistemic_boundary": "Projection is a hypothesis for self-examination, not a license to dismiss criticism, excuse conduct, or diagnose another person."
+      },
+      "essence": "The unclaimed capacity that appears first as disgust, certainty, or accusation directed outward.",
+      "generative": "Let a strong judgment become a question: what value is being defended, and what human capacity in me needs a more responsible form?",
+      "destructive": "Calling every conflict projection can erase real wrongdoing; refusing self-recognition can turn moral concern into persecution.",
+      "reversed": "You may be hiding behind self-critique to avoid naming harm, or projecting shame so completely that another person must carry it.",
+      "emotional_register": "Grave, honest, ethically alert.",
+      "question": "When I feel most certain about another's flaw, what deserves examination in my own stance without denying the facts?",
+      "lineage": "Jungian shadow language; ethical traditions of self-scrutiny and responsibility.",
+      "motifs": [
+        "eclipse",
+        "black-bird"
+      ],
+      "accessible_visual_description": "An adult stands before a large tarnished mirror in a bare courtyard at dusk. Their reflected silhouette holds a black bird, while the real figure holds nothing. A partial eclipse hangs overhead.",
+      "image_brief": {
+        "emotional_impact": "Confrontation without horror: the discomfort of seeing one's implication.",
+        "value_key": "low key: indigo courtyard, black mirror frame, silver-gray skin tones, and eclipse halo.",
+        "subject": "A solitary adult, a tall oxidized mirror, a black bird visible only in reflection, and a partial solar eclipse.",
+        "action": "The adult steadies the mirror with one hand rather than turning away or striking it.",
+        "environment": "A walled concrete courtyard with rain-dark paving and one drained fountain.",
+        "impossible_image": "The reflection has a different posture and holds the bird, while every surrounding object reflects accurately.",
+        "composition": "Figure and reflection create a near-symmetry broken by the bird; exact title lettering “The Shadow” in a lower blackened-silver cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "Straight-on medium-full portrait, just below eye level.",
+        "lighting": "Eclipse-muted daylight with a narrow rim of cold silver.",
+        "accent": "A small matte red thread tied around the mirror's lower corner.",
+        "motif_placement": "Eclipse above the mirror; black bird contained within its reflection.",
+        "avoid": "No demon silhouette, no jump-scare imagery, no claim that darkness equals evil."
+      }
+    },
+    "7": {
+      "number": 8,
+      "arcana_number": 7,
+      "id": "the-witness",
+      "title": "The Witness",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "phenomenology",
+          "metacognition"
+        ],
+        "concept": "attention and observing awareness",
+        "factual_anchor": "Metacognition is the capacity to notice and evaluate aspects of one's thinking; attention can shift what is foregrounded without making experience disappear.",
+        "reflective_bridge": "Attention can create space between an experience and the first story told about it.",
+        "epistemic_boundary": "Observing awareness is not emotional detachment, universal objectivity, or a substitute for action, care, or professional help when needed."
+      },
+      "essence": "The capacity to notice an experience before immediately becoming its loudest interpretation.",
+      "generative": "Name what is occurring in plain terms—sensation, thought, impulse, context—then choose whether the first story deserves your allegiance.",
+      "destructive": "Witnessing can become dissociation-by-style: elegant distance used to evade feeling, responsibility, or contact.",
+      "reversed": "You may be fused with the moment and unable to see options, or over-observing until life becomes something watched rather than lived.",
+      "emotional_register": "Still, spacious, precise.",
+      "question": "What changes if I describe this moment before I explain it?",
+      "lineage": "Phenomenological description; metacognitive awareness practices.",
+      "motifs": [
+        "black-bird",
+        "well"
+      ],
+      "accessible_visual_description": "An adult sits on a simple chair beside a circular well at dawn, placing three small stones in a deliberate row. A black bird watches from the well's stone rim.",
+      "image_brief": {
+        "emotional_impact": "Quiet steadiness in the presence of an unresolved feeling.",
+        "value_key": "high key: pale dawn mist, limestone, cool water, and soft gray-blue clothing.",
+        "subject": "A seated adult, three small stones, weathered walking stick, old circular well, and attentive black bird.",
+        "action": "The adult pauses mid-sentence and looks at ripples in the water, not at the bird.",
+        "environment": "An open hilltop courtyard with sparse grass and a distant horizon.",
+        "impossible_image": "The water reflects the three stones as a calm constellation, while the actual sky remains dawn-gray.",
+        "composition": "Well forms a large circle in the foreground; seated figure at its edge; exact title lettering “The Witness” pressed into a lower pale-leather cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "Quiet medium-wide profile view, at the figure's seated eye level.",
+        "lighting": "Diffuse pre-sunrise illumination, no theatrical spotlight.",
+        "accent": "One muted red cord around the walking stick.",
+        "motif_placement": "Black bird on the well rim; well occupies foreground and reflection.",
+        "avoid": "No meditating guru stereotype, no all-seeing eye, no supernatural clairvoyance."
+      }
+    },
+    "8": {
+      "number": 9,
+      "arcana_number": 8,
+      "id": "the-catalyst",
+      "title": "The Catalyst",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "chemistry",
+          "social psychology"
+        ],
+        "concept": "catalysis and enabling conditions",
+        "factual_anchor": "A catalyst increases the rate of a chemical reaction by providing a lower-activation-energy pathway and is not consumed overall; in social settings, enabling conditions can make coordinated action easier.",
+        "reflective_bridge": "Change may depend less on force than on a condition that lowers the barrier to action.",
+        "epistemic_boundary": "People are not chemical reactions: social change involves agency, consent, institutions, conflict, and consequences, not a single magical trigger."
+      },
+      "essence": "The condition that makes a difficult movement more reachable without doing the movement in another's place.",
+      "generative": "Look for the missing enabling condition: a script, accessible tool, invitation, protected time, introduction, rehearsal, or safer setting.",
+      "destructive": "Do not confuse influence with control. A catalyst can accelerate a process whose risks have not been adequately considered.",
+      "reversed": "You may be waiting for a perfect spark instead of preparing conditions, or pushing acceleration where patience and consent are required.",
+      "emotional_register": "Hopeful, exact, mobilizing.",
+      "question": "What small condition would lower the barrier to the next responsible action?",
+      "lineage": "Chemical catalysis; social conditions that enable participation and change.",
+      "motifs": [
+        "key",
+        "seed"
+      ],
+      "accessible_visual_description": "A laboratory workbench holds two identical sealed glass vessels. In one, a small platinum-colored mesh has been introduced and bubbles rise; beside it, a person offers an accessible ramp leading to a meeting-room door.",
+      "image_brief": {
+        "emotional_impact": "Practical possibility: a blocked process suddenly becomes workable.",
+        "value_key": "high key: white enamel, clear glass, brushed steel, spring green, and crisp daylight.",
+        "subject": "Two glass reaction vessels, catalyst mesh, rising bubbles, an open civic meeting-room door, and a portable ramp.",
+        "action": "A technician's gloved hand places the mesh into one vessel while another adult unfolds the ramp toward the door.",
+        "environment": "A clean shared workshop that plausibly joins lab bench and community room without becoming surreal clutter.",
+        "impossible_image": "Bubbles from the vessel become a precise dotted path across the floor, ending at the open door.",
+        "composition": "Vessels fill left half, ramp and door resolve the right; exact title lettering “The Catalyst” in a lower enamel cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "Three-quarter tabletop-to-room perspective.",
+        "lighting": "Clear skylight with crisp reflected highlights on glass.",
+        "accent": "A single red keycard clipped to the ramp handrail.",
+        "motif_placement": "Seed-shaped catalyst mesh inside left vessel; keycard at the ramp.",
+        "avoid": "No explosive reaction, no miracle cure imagery, no politician-as-savior portrait."
+      }
+    },
+    "9": {
+      "number": 10,
+      "arcana_number": 9,
+      "id": "the-entropy",
+      "title": "The Entropy",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "thermodynamics",
+          "philosophy"
+        ],
+        "concept": "energy dispersal, irreversibility, and maintenance",
+        "factual_anchor": "In thermodynamics, entropy is a state quantity associated with the number of microscopic arrangements compatible with a system; maintaining local order requires energy and often exports heat or waste.",
+        "reflective_bridge": "Order is locally sustained through work; entropy is not a moral decline or mystical force.",
+        "epistemic_boundary": "Entropy does not mean that every life situation inevitably worsens, nor does it provide a scientific justification for despair or social neglect."
+      },
+      "essence": "The reminder that what is arranged must be maintained, and that some changes cannot simply be reversed.",
+      "generative": "Honor maintenance as creation: mend the hinge, replenish supplies, update the record, rest the body, repair the agreement.",
+      "destructive": "Maintenance can become frantic control when impermanence is treated as personal failure; not everything worth saving can be preserved unchanged.",
+      "reversed": "Neglect may be accumulating behind a story of future rescue, or constant upkeep may be crowding out necessary redesign.",
+      "emotional_register": "Sober, domestic, compassionate.",
+      "question": "What requires recurring care here, and what must I grieve rather than endlessly try to restore?",
+      "lineage": "Thermodynamics; philosophical reflection on irreversibility and upkeep.",
+      "motifs": [
+        "empty-vessel",
+        "black-bird"
+      ],
+      "accessible_visual_description": "A long workshop table shows a repaired bicycle, folded laundry, a half-empty water vessel, and a clockmaker replacing a tiny gear. Through an open window, a black bird flies across a fading afternoon sky.",
+      "image_brief": {
+        "emotional_impact": "Dignity in ordinary upkeep, edged by irreversible time.",
+        "value_key": "warm middle key: worn oak, faded blue workwear, brass, and late-afternoon amber.",
+        "subject": "A maintained workshop table, repaired bicycle, laundry, ceramic water vessel, clock movement, and a clockmaker's hands.",
+        "action": "One hand seats a gear while another patches a bicycle tire; visible work is careful rather than frantic.",
+        "environment": "A lived-in repair room with open window and clean, specific tools.",
+        "impossible_image": "Fine brass clock gears gradually become fallen leaves as they move toward the open window, without melting or magical glow.",
+        "composition": "Diagonal table leads from domestic items to clockwork; exact title lettering “The Entropy” on a lower worn-brass cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "Close, low three-quarter still-life with hands entering frame.",
+        "lighting": "Golden lateral daylight, cool shadow under the bench.",
+        "accent": "A red thread wound once around the water vessel handle.",
+        "motif_placement": "Empty vessel at left; black bird crosses the upper window opening.",
+        "avoid": "No decaying skull still life, no apocalyptic ruins, no equations used as decoration."
+      }
+    },
+    "10": {
+      "number": 11,
+      "arcana_number": 10,
+      "id": "the-symbiosis",
+      "title": "The Symbiosis",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "biology",
+          "ecology"
+        ],
+        "concept": "mutualism, commensalism, and parasitism",
+        "factual_anchor": "Symbiosis describes close ecological relationships between species, including mutualism, commensalism, and parasitism; benefits and costs need not be equal or fixed.",
+        "reflective_bridge": "Lives become through relation, but relation includes benefit, cost, asymmetry, and negotiation.",
+        "epistemic_boundary": "Biological symbiosis is not a moral endorsement of every dependency or an excuse for exploitative human relationships."
+      },
+      "essence": "Relation as a living arrangement of exchange, need, advantage, cost, and adjustment.",
+      "generative": "Ask what each party gives, receives, risks, and can renegotiate; mutuality grows through clarity rather than fusion.",
+      "destructive": "The language of partnership can disguise extraction, dependency, or a burden carried by one side without meaningful consent.",
+      "reversed": "A relation may be falsely idealized as reciprocal, or defended as necessary long after its costs have become intolerable.",
+      "emotional_register": "Tender, discerning, unsentimental.",
+      "question": "What is actually being exchanged here, and who has the power to alter the terms?",
+      "lineage": "Ecological accounts of symbiotic association and its varied forms.",
+      "motifs": [
+        "web",
+        "bridge"
+      ],
+      "accessible_visual_description": "A tide-pool cross-section shows sea anemones, small fish, crabs, algae, and a cleaner shrimp. Above the pool, two adults build a narrow footbridge with tools and a visible load-bearing plan.",
+      "image_brief": {
+        "emotional_impact": "Beauty complicated by the fact that every connection has terms.",
+        "value_key": "high key: luminous turquoise water, coral ochre, wet black rock, and pale wood.",
+        "subject": "A detailed tide pool with several species and a small timber footbridge under construction above it.",
+        "action": "Cleaner shrimp works near a fish while two builders check the bridge's joint and counterweight positions together.",
+        "environment": "Rocky shoreline at low tide, with practical tools and survey lines.",
+        "impossible_image": "The bridge's timber grain continues beneath the clear water as branching root-like structures, visually linking but not merging species.",
+        "composition": "Tide pool occupies lower half; bridge crosses upper third; exact title lettering “The Symbiosis” carved into a lower shell-inlaid cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "High oblique view, close enough for natural-history detail.",
+        "lighting": "Clear coastal morning light reflected from water onto the underside of the bridge.",
+        "accent": "A red-thread survey line runs along one bridge rail.",
+        "motif_placement": "Web of tide-pool relations below; bridge spans above as negotiated connection.",
+        "avoid": "No cuddling animals, no perfect harmony tableau, no human couple standing in for biology."
+      }
+    },
+    "11": {
+      "number": 12,
+      "arcana_number": 11,
+      "id": "the-forking-path",
+      "title": "The Forking Path",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "decision theory",
+          "computer science"
+        ],
+        "concept": "branching, opportunity cost, and path dependence",
+        "factual_anchor": "Decision theory compares options under uncertainty and trade-offs; in computing, branching directs a process along different conditional paths, while earlier choices can constrain later possibilities.",
+        "reflective_bridge": "Choosing one branch changes which futures remain reachable.",
+        "epistemic_boundary": "This card does not imply that one choice determines an entire life; uncertainty, revision, luck, and new opportunities remain real."
+      },
+      "essence": "A choice that does not merely select an outcome but reorganizes the map of available next choices.",
+      "generative": "Choose with the costs in view. Name what will be relinquished, what remains reversible, and what information is worth gathering first.",
+      "destructive": "Endless comparison can become an attempt to avoid loss altogether; impulsive branching can ignore commitments and downstream effects.",
+      "reversed": "You may be treating a revisable choice as permanent doom, or acting as if no choice closes any door.",
+      "emotional_register": "Poised, bittersweet, consequential.",
+      "question": "Which cost am I refusing to acknowledge because I want a choice with no excluded future?",
+      "lineage": "Decision theory, opportunity cost, branching computation, and path dependence.",
+      "motifs": [
+        "split-tree",
+        "red-thread"
+      ],
+      "accessible_visual_description": "A large split tree grows at a crossroads, its two trunks supporting different suspended walkways. An adult holds a map whose red thread traces one route and ends before the horizon.",
+      "image_brief": {
+        "emotional_impact": "The ache and agency of choosing under incomplete knowledge.",
+        "value_key": "middle key: silver-green leaves, clay road, storm-blue distance, and parchment cream.",
+        "subject": "A monumental split tree, two elevated wooden paths, one traveler, folded map, and red thread.",
+        "action": "The traveler pins the thread to the map at the junction while looking down both routes, neither route presented as brighter or morally superior.",
+        "environment": "A wind-swept upland crossroads with distant settlements obscured by weather.",
+        "impossible_image": "Each branch path enters a different season within the same continuous landscape: one autumnal, one early spring.",
+        "composition": "Tree fork creates a powerful Y shape; traveler small at the base; exact title lettering “The Forking Path” in a lower carved-maple cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "Low wide view emphasizing the fork overhead and depth of both routes.",
+        "lighting": "Broken cloud light, with equal visual dignity given to each path.",
+        "accent": "Red thread winds from map across the ground toward the junction.",
+        "motif_placement": "Split tree centered; red thread traces only the already chosen approach, not a prophetic destination.",
+        "avoid": "No sign reading good versus evil, no glowing correct path, no deterministic future scenes."
+      }
+    },
+    "12": {
+      "number": 13,
+      "arcana_number": 12,
+      "id": "the-emergent-whole",
+      "title": "The Emergent Whole",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "complex systems",
+          "philosophy of science"
+        ],
+        "concept": "emergence across scales",
+        "factual_anchor": "Complex systems can exhibit collective patterns arising from interactions among components, such as flocking, traffic flow, or neural activity; higher-level patterns remain dependent on physical processes.",
+        "reflective_bridge": "A whole may display patterns not obvious from any isolated part without becoming supernatural.",
+        "epistemic_boundary": "Emergence does not mean that a whole has hidden intention, and it should not erase individual agency, material causes, or accountability."
+      },
+      "essence": "A pattern that becomes visible only when many local actions are seen together.",
+      "generative": "Shift scale. Look for interaction rules, feedback, and context—not only heroes, villains, or isolated components.",
+      "destructive": "The whole can become an abstraction that excuses harm done to particular people, or a vague mystique that blocks concrete analysis.",
+      "reversed": "You may be trapped in fragments and missing the pattern, or speaking grandly about systems to avoid a specific responsibility.",
+      "emotional_register": "Expansive, clarifying, accountable.",
+      "question": "What becomes visible when I widen the frame, and what individual reality must not disappear in that wider view?",
+      "lineage": "Complex-systems emergence; philosophy of scientific explanation across scales.",
+      "motifs": [
+        "web",
+        "crystal"
+      ],
+      "accessible_visual_description": "Hundreds of small paper birds suspended on fine wires form the shape of a larger bird in a museum-scale atrium. A technician on a lift adjusts one wire near the edge.",
+      "image_brief": {
+        "emotional_impact": "A revelation of scale that still preserves the labor of one part.",
+        "value_key": "high key: white atrium, pale paper, glass ceiling, and thin gray shadows.",
+        "subject": "A suspended installation of many individual paper birds forming one enormous black-bird silhouette, plus a technician and lift.",
+        "action": "The technician adjusts a single wire; neighboring birds shift minutely, changing the whole outline.",
+        "environment": "A bright public atrium with exposed trusses and quiet visitors seen only as tiny scale figures.",
+        "impossible_image": "From close range every paper bird is blank, but from distance their arrangement forms a richly feathered giant bird.",
+        "composition": "The large emergent bird spans the upper two-thirds; technician anchors lower right; exact title lettering “The Emergent Whole” in a lower crystalline acrylic cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "Wide architectural view with enough resolution to see individual units.",
+        "lighting": "Diffuse skylight creates a delicate lattice of shadows.",
+        "accent": "One red-thread suspension line at the point being adjusted.",
+        "motif_placement": "Web of suspension wires throughout; crystal-like geometric truss pattern above.",
+        "avoid": "No cosmic god-bird, no flock shaped like a brain, no mystical energy field."
+      }
+    },
+    "13": {
+      "number": 14,
+      "arcana_number": 13,
+      "id": "the-boundary",
+      "title": "The Boundary",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "cell biology, systems theory,",
+          "ethics"
+        ],
+        "concept": "selective permeability and identity",
+        "factual_anchor": "Cell membranes selectively regulate movement of substances through lipid bilayers, channels, and transport proteins; systems also maintain identity through distinctions and regulated exchange.",
+        "reflective_bridge": "A living boundary is neither a wall nor an absence; it regulates exchange.",
+        "epistemic_boundary": "Cell boundaries are a metaphor for ethical limits, not a biological rulebook for relationships or a justification for isolation."
+      },
+      "essence": "The living edge that permits necessary exchange while protecting coherence and capacity.",
+      "generative": "Make the boundary specific: what is welcome, what requires consent, what has a limit, and what repair follows a breach?",
+      "destructive": "A boundary can harden into isolation or be announced as control over another person; openness without discernment can invite depletion.",
+      "reversed": "You may be overexposed and calling it intimacy, or sealed off and calling it safety.",
+      "emotional_register": "Protective, calm, exact.",
+      "question": "What must pass through this boundary, and what must be declined for life to remain possible?",
+      "lineage": "Selective permeability in cell biology; systems boundaries; ethical consent and limits.",
+      "motifs": [
+        "doorway",
+        "crystal"
+      ],
+      "accessible_visual_description": "A translucent cell membrane is imagined as a tall glass-and-stone greenhouse wall. Carefully designed gates admit water, light, and pollinators while keeping a flood outside from rushing in.",
+      "image_brief": {
+        "emotional_impact": "Strength without aggression: the relief of a well-made limit.",
+        "value_key": "high key: luminous clear glass, pale stone, green leaves, and blue floodwater.",
+        "subject": "A greenhouse shaped like a living cell, transparent membrane wall, regulated sluice gate, plants, insects, and rising water outside.",
+        "action": "A gardener opens a measured valve to let a thin stream enter an irrigation channel while a larger flood is held back.",
+        "environment": "A coastal garden at the edge of a storm-swollen estuary.",
+        "impossible_image": "The greenhouse wall is simultaneously magnified membrane texture and full-scale architecture, with protein-channel forms becoming elegant door mechanisms.",
+        "composition": "Curving boundary sweeps from foreground left to background right; exact title lettering “The Boundary” in a lower frosted-glass cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "Three-quarter exterior-interior cutaway at human height.",
+        "lighting": "Clean post-storm sunlight refracted through wet glass.",
+        "accent": "A narrow red gasket around the controlled gate.",
+        "motif_placement": "Doorway-gate at center; crystalline glass geometry across the enclosing wall.",
+        "avoid": "No fortress imagery, no barbed wire, no simplistic 'keep everyone out' message."
+      }
+    },
+    "14": {
+      "number": 15,
+      "arcana_number": 14,
+      "id": "the-return",
+      "title": "The Return",
+      "category": "major",
+      "suit": null,
+      "rank": null,
+      "concept_source": {
+        "domains": [
+          "ecology, narrative,",
+          "existential philosophy"
+        ],
+        "concept": "cycles, integration, and changed return",
+        "factual_anchor": "Ecological cycles involve recurring processes such as seasonal growth and decomposition, but recurrence occurs under changing conditions; narratives likewise can revisit themes with altered understanding.",
+        "reflective_bridge": "Returning never restores an untouched beginning; it reveals what can now be carried differently.",
+        "epistemic_boundary": "Cycles do not guarantee renewal, closure, or redemption. Some losses remain losses, and return may require active repair or may not be possible."
+      },
+      "essence": "The revisit in which the place remains recognizable but the one who arrives—and what can be done there—has changed.",
+      "generative": "Return deliberately: bring evidence of what you learned, make amends where needed, and test whether the old place can hold a new practice.",
+      "destructive": "Nostalgia can demand restoration of what never truly existed; repetition without reflection can renew the same injury under a new date.",
+      "reversed": "You may be refusing a needed revisit because it hurts, or returning compulsively in hope that the past will finally become different by itself.",
+      "emotional_register": "Mature, mournful, quietly hopeful.",
+      "question": "If I return, what can I carry differently—and what must I stop asking the past to give back?",
+      "lineage": "Ecological recurrence; narrative return; existential accounts of repetition and integration.",
+      "motifs": [
+        "spiral",
+        "seed"
+      ],
+      "accessible_visual_description": "An older adult returns to a childhood orchard carrying a young sapling. The old tree is hollow but still flowering, and a spiral footpath circles toward it through several seasonal bands of grass.",
+      "image_brief": {
+        "emotional_impact": "Grief and continuity held together: not restoration, but a changed offering.",
+        "value_key": "golden middle key: flowering white, old bark, autumn grass, and dusk violet.",
+        "subject": "An older adult with a wrapped sapling, a hollow flowering orchard tree, spiral path, and a small black bird in flight.",
+        "action": "The adult kneels to plant the sapling at a respectful distance from the old tree, leaving its roots undisturbed.",
+        "environment": "A familiar hillside orchard where spring blossoms, fallen autumn leaves, and winter-bare branches coexist in distinct bands along the path.",
+        "impossible_image": "The spiral path passes through four seasonal zones in one continuous hillside while the central old tree remains physically coherent.",
+        "composition": "Old tree anchors center; spiral path leads from foreground to it; figure and sapling at lower right; exact title lettering “The Return” in a lower weathered-gold artistic cartouche; double-gold crown ornament and Major Arcana category mark.",
+        "camera": "Wide, low-angle pastoral view with intimate foreground detail.",
+        "lighting": "Late-day sun behind thin cloud, warm on bark and cool in distance.",
+        "accent": "A red thread binds the sapling's root wrap and trails briefly along the path.",
+        "motif_placement": "Spiral path encircles old tree; seedling held at lower right.",
+        "avoid": "No time portal, no resurrection imagery, no sentimental perfect reunion."
+      }
+    },
+    "15": {
+      "number": 16,
+      "arcana_number": null,
+      "id": "activation-energy",
+      "title": "Activation Energy",
+      "category": "minor",
+      "suit": "ember",
+      "rank": "seed",
+      "concept_source": {
+        "domains": [
+          "chemistry"
+        ],
+        "concept": "activation energy",
+        "factual_anchor": "A chemical reaction commonly requires an initial energy input to reach a transition state; a catalyst can lower that barrier without supplying the reaction’s overall energy.",
+        "reflective_bridge": "Beginning may require a threshold of effort without implying that greater force is always better.",
+        "epistemic_boundary": "This is a model for considering starts, not evidence that effort guarantees change or that a person has a measurable chemical threshold."
+      },
+      "essence": "The first true exertion can be a gate, not a verdict on your capacity.",
+      "generative": "Gather the specific conditions that make a beginning possible: a smaller first action, a tool, a witness, a protected hour.",
+      "destructive": "Do not confuse needless strain with commitment. Repeatedly ramming a locked condition can consume the energy needed to find another entrance.",
+      "reversed": "The threshold is being endlessly prepared for, or force is being used where permission, skill, rest, or redesign is required.",
+      "emotional_register": "bracing, practical, quietly daring",
+      "question": "What is the smallest real input that would let this work begin?",
+      "lineage": "Ember — Seed: initial conditions, potential, and first contact in the domain of energy, agency, work, transformation, and consequence.",
+      "motifs": [
+        "seed",
+        "key",
+        "doorway"
+      ],
+      "accessible_visual_description": "A single dark seed rests on a steel threshold. A brass key beside it catches a small orange spark, while an open workshop door reveals pale morning light.",
+      "image_brief": {
+        "emotional_impact": "A compressed moment of courage before motion.",
+        "value_key": "high key: chalk-white workshop light, warm ember accents, clear charcoal shadows.",
+        "subject": "One matte black seed on a brushed steel doorstep; an old brass key and a stamped lower cartouche reading exactly “Activation Energy.”",
+        "action": "A tiny spark jumps from the key’s tooth to the seed’s cracked seam.",
+        "environment": "An orderly industrial workshop opening onto a bright dawn courtyard.",
+        "impossible_image": "Inside the seed, a miniature glowing doorway is visible through the crack.",
+        "composition": "Low frontal view; seed centered, key diagonal from lower left, open door framing the upper background; cartouche anchored along the lower edge.",
+        "camera": "Close macro perspective with crisp material detail and shallow background depth.",
+        "lighting": "Cool dawn backlight with one precise amber spark.",
+        "accent": "Burnished orange enamel and brass.",
+        "motif_placement": "Seed at center, key in lower left, doorway in the upper background.",
+        "avoid": "Flames engulfing the subject, mystical auras, laboratory explosions, illegible or misspelled title text."
+      }
+    },
+    "16": {
+      "number": 17,
+      "arcana_number": null,
+      "id": "metabolism",
+      "title": "Metabolism",
+      "category": "minor",
+      "suit": "ember",
+      "rank": "flow",
+      "concept_source": {
+        "domains": [
+          "biochemistry",
+          "physiology"
+        ],
+        "concept": "metabolic exchange",
+        "factual_anchor": "Metabolism is the network of chemical processes by which organisms obtain, transform, store, and use matter and energy; it depends on inputs, regulation, and waste removal.",
+        "reflective_bridge": "A life continually transforms matter and energy; capacity depends on replenishment as well as output.",
+        "epistemic_boundary": "Metabolism varies among bodies and is not a moral measure of productivity, discipline, or worth."
+      },
+      "essence": "Sustained agency is exchange, not extraction.",
+      "generative": "Account for fuel, recovery, attention, support, and waste. Design work that can be metabolized rather than merely demanded.",
+      "destructive": "Treating output as proof of aliveness turns replenishment into guilt and debt into identity.",
+      "reversed": "The system is overfed with demands and underfed with usable resources—or activity is circulating without becoming nourishment.",
+      "emotional_register": "vital, sober, sustaining",
+      "question": "What must enter, leave, or be transformed for this effort to remain livable?",
+      "lineage": "Ember — Flow: movement, transfer, and changing state in the domain of energy, agency, work, transformation, and consequence.",
+      "motifs": [
+        "circuit",
+        "empty-vessel",
+        "spiral"
+      ],
+      "accessible_visual_description": "Copper pipes carry amber liquid through a glass vessel and a hand-built circuit board. One channel pours into a clay cup while another drains into a dark basin.",
+      "image_brief": {
+        "emotional_impact": "A lucid sense that endurance has a material cost and rhythm.",
+        "value_key": "middle key: oxidized copper, honey amber, teal glass, and umber clay.",
+        "subject": "A transparent glass chamber connected to copper tubing, a clay receiving cup, and a lower cartouche reading exactly “Metabolism.”",
+        "action": "Amber liquid circulates through the chamber while one measured stream fills the cup and another exits toward a basin.",
+        "environment": "A sunlit apothecary-workshop with tiled walls and visible pipe joints.",
+        "impossible_image": "The flowing liquid contains tiny shifting maps of meals, sleep, labor, and rest rather than organs or stars.",
+        "composition": "Circular plumbing creates a broad spiral around the central glass vessel; title cartouche interrupts the lower arc.",
+        "camera": "Straight-on medium close view, like a carefully constructed scientific still life.",
+        "lighting": "Soft side daylight, with translucent liquid casting colored reflections.",
+        "accent": "Vermilion thread tied around one valve handle.",
+        "motif_placement": "Circuit forms the outer loop, empty vessel is the clay cup at lower right, spiral is formed by the pipe route.",
+        "avoid": "Body horror, weight-loss imagery, medical diagnosis cues, neon cyberpunk, illegible or misspelled title text."
+      }
+    },
+    "17": {
+      "number": 18,
+      "arcana_number": null,
+      "id": "covalence",
+      "title": "Covalence",
+      "category": "minor",
+      "suit": "ember",
+      "rank": "bond",
+      "concept_source": {
+        "domains": [
+          "chemistry"
+        ],
+        "concept": "covalent bonding",
+        "factual_anchor": "A covalent bond forms when atoms share one or more pairs of electrons, creating a stable molecular structure under particular conditions.",
+        "reflective_bridge": "Shared structure can arise when participants contribute to a bond, but the metaphor does not make relationships chemical equations.",
+        "epistemic_boundary": "Human bonds involve consent, history, power, and change; they cannot be reduced to atomic bonding or presumed stable because they feel mutual."
+      },
+      "essence": "What is jointly held can become a structure neither party could make alone.",
+      "generative": "Name the shared task, contribution, and boundary. Let mutual investment be visible without demanding sameness.",
+      "destructive": "Shared work becomes enclosure when contribution is coerced, uneven, or treated as a permanent debt.",
+      "reversed": "The bond is either avoided through fear of dependence or overclaimed as proof that no separate self may remain.",
+      "emotional_register": "tender, exacting, collaborative",
+      "question": "What are we freely building together, and what must remain our own?",
+      "lineage": "Ember — Bond: relation, constraint, and mutual influence in the domain of energy, agency, work, transformation, and consequence.",
+      "motifs": [
+        "red-thread",
+        "crystal",
+        "bridge"
+      ],
+      "accessible_visual_description": "Two different gloved hands hold opposite ends of a clear faceted crystal. A red thread passes through the crystal and becomes a small bridge between two stone tables.",
+      "image_brief": {
+        "emotional_impact": "Intimacy made visible as deliberate shared construction, not fusion.",
+        "value_key": "middle key: deep indigo ground balanced by a large luminous crystal plane, restrained red, and gold detail.",
+        "subject": "Two distinct work-worn hands, one in a navy glove and one bare, stabilizing a clear faceted crystal above a narrow gap; lower cartouche reading exactly “Covalence.”",
+        "action": "A red thread passes through paired apertures in the crystal to tension a tiny bridge between the tables.",
+        "environment": "A dark stone studio with two separate workbenches facing one another.",
+        "impossible_image": "Within the crystal, two small lights orbit a shared center while retaining separate paths.",
+        "composition": "Symmetrical bilateral frame divided by the gap; crystal centered, hands entering from left and right, title below.",
+        "camera": "Close, slightly elevated still-life view.",
+        "lighting": "Focused overhead beam refracted by the crystal, with darkness held at the edges.",
+        "accent": "One saturated scarlet thread and minute brass fittings.",
+        "motif_placement": "Crystal at center, red thread crossing it, bridge spanning the central gap beneath.",
+        "avoid": "Romantic clichés, wedding imagery, clasped hands, DNA helixes, illegible or misspelled title text."
+      }
+    },
+    "18": {
+      "number": 19,
+      "arcana_number": null,
+      "id": "oscillation",
+      "title": "Oscillation",
+      "category": "minor",
+      "suit": "ember",
+      "rank": "pattern",
+      "concept_source": {
+        "domains": [
+          "physics",
+          "systems"
+        ],
+        "concept": "oscillation",
+        "factual_anchor": "An oscillation is repeated variation around an equilibrium or between states; its amplitude, frequency, damping, and driving forces shape its behavior.",
+        "reflective_bridge": "Repeated movement may be rhythm, regulation, or unresolved cycling depending on conditions.",
+        "epistemic_boundary": "A recurring human pattern may have many social and personal causes; the physics vocabulary is a reflective analogy, not an explanation or diagnosis."
+      },
+      "essence": "Return is not automatically regression; the question is what the movement is doing.",
+      "generative": "Observe the interval, trigger, amplitude, and recovery. A rhythm can be tuned when its conditions are made legible.",
+      "destructive": "Calling every recurrence a lesson can normalize a cycle that is escalating, injurious, or asking for interruption.",
+      "reversed": "The pendulum is stuck at one extreme, or repetition is being mistaken for progress because it feels familiar.",
+      "emotional_register": "restless, observant, calibrating",
+      "question": "Is this repetition restoring balance, rehearsing harm, or signaling an unmet condition?",
+      "lineage": "Ember — Pattern: repetition, structure, and learned regularity in the domain of energy, agency, work, transformation, and consequence.",
+      "motifs": [
+        "spiral",
+        "eclipse",
+        "circuit"
+      ],
+      "accessible_visual_description": "A long pendulum swings over a black circular dial. Its moving brass bob casts alternating bands of light and shadow across a coiled copper circuit.",
+      "image_brief": {
+        "emotional_impact": "A hypnotic confrontation with recurrence and the possibility of adjustment.",
+        "value_key": "middle-to-low key: slate blue, black enamel, worn brass, and one pale lunar disk.",
+        "subject": "A brass pendulum over a black enamel instrument dial, with a lower cartouche reading exactly “Oscillation.”",
+        "action": "The pendulum’s arc sweeps across a coiled copper circuit, alternately revealing and eclipsing a white calibration mark.",
+        "environment": "A quiet observatory workroom with plaster walls and a single round window.",
+        "impossible_image": "The pendulum’s repeated paths leave a suspended three-dimensional spiral of thin luminous wire.",
+        "composition": "Vertical central pendulum; circular dial fills the lower half; title cartouche follows the dial’s base.",
+        "camera": "Slightly low, frontal view emphasizing the swing’s arc.",
+        "lighting": "A narrow cool window beam meets a warm lamp reflection on brass.",
+        "accent": "A small ember-red indicator needle at the dial’s edge.",
+        "motif_placement": "Spiral suspended behind the pendulum, eclipse at the white mark, circuit coiled on the dial.",
+        "avoid": "Hypnosis imagery, clock faces with numerals, chaotic motion blur, mystical moon worship, illegible or misspelled title text."
+      }
+    },
+    "19": {
+      "number": 20,
+      "arcana_number": null,
+      "id": "resistance",
+      "title": "Resistance",
+      "category": "minor",
+      "suit": "ember",
+      "rank": "friction",
+      "concept_source": {
+        "domains": [
+          "physics, politics,",
+          "psychology"
+        ],
+        "concept": "resistance and dissipation",
+        "factual_anchor": "In physical systems, resistance and friction oppose motion or current and often convert usable energy into heat; in political and psychological contexts, resistance has distinct social and experiential meanings.",
+        "reflective_bridge": "Resistance can waste energy, protect integrity, or reveal where force is poorly applied.",
+        "epistemic_boundary": "These meanings should not be collapsed: political resistance is not a mechanical defect, and psychological reluctance is not proof of pathology or moral failure."
+      },
+      "essence": "The force against you may be a cost, a safeguard, or information about the direction of pressure.",
+      "generative": "Locate what is being protected. Reduce needless drag while honoring the boundary that keeps a person, system, or value from being overrun.",
+      "destructive": "Either crushing all resistance or sanctifying every refusal can turn discernment into damage.",
+      "reversed": "Friction is hidden until it burns through capacity; alternatively, opposition has hardened into an identity that cannot negotiate.",
+      "emotional_register": "defiant, discerning, heat-conscious",
+      "question": "What is this resistance conserving, and what is it merely consuming?",
+      "lineage": "Ember — Friction: resistance, cost, and productive constraint in the domain of energy, agency, work, transformation, and consequence.",
+      "motifs": [
+        "split-tree",
+        "black-bird",
+        "red-thread"
+      ],
+      "accessible_visual_description": "A rough iron wheel presses against a stone rail, throwing a few orange sparks. A split tree grows beside the rail, and a black bird watches from one branch.",
+      "image_brief": {
+        "emotional_impact": "The dignity and cost of holding ground under pressure.",
+        "value_key": "high-contrast low key: coal black, iron gray, pale stone, and sparse orange sparks.",
+        "subject": "A heavy iron wheel meeting a stone rail beside a living split tree; lower cartouche reading exactly “Resistance.”",
+        "action": "The wheel’s rim grinds against the rail, producing a controlled line of sparks while the tree’s two trunks hold their separate directions.",
+        "environment": "A wind-scoured rail bridge over a dry ravine.",
+        "impossible_image": "A red thread runs from the wheel’s axle into the tree’s split and emerges unbroken on both branches.",
+        "composition": "Strong diagonal rail from lower left to upper right; tree counterbalances on the right; bird silhouetted near the upper third; title centered below.",
+        "camera": "Wide, near-ground view emphasizing texture and pressure.",
+        "lighting": "Late-afternoon sidelight with hard shadows and a bright pale sky.",
+        "accent": "Hot orange sparks and the single red thread.",
+        "motif_placement": "Split tree at right, black bird on upper branch, red thread tracing wheel to tree.",
+        "avoid": "Riot scenes, patriotic propaganda, smashed machinery, victim-blaming symbolism, illegible or misspelled title text."
+      }
+    },
+    "20": {
+      "number": 21,
+      "arcana_number": null,
+      "id": "phase-change",
+      "title": "Phase Change",
+      "category": "minor",
+      "suit": "ember",
+      "rank": "rupture",
+      "concept_source": {
+        "domains": [
+          "chemistry",
+          "physics"
+        ],
+        "concept": "phase transition",
+        "factual_anchor": "Changes in temperature or pressure can alter how the same substance is organized—for example, between solid, liquid, and gas—often with energy absorbed or released at a transition.",
+        "reflective_bridge": "The same substance can organize differently when conditions cross a threshold.",
+        "epistemic_boundary": "A physical phase transition does not predict a person’s future or imply that every crisis produces growth."
+      },
+      "essence": "A threshold can rearrange what is possible without changing what you are made of.",
+      "generative": "Attend to conditions, timing, and supports. Some transitions require containment, patience, and permission to become visibly different.",
+      "destructive": "Forcing transformation before conditions can hold it may shatter trust, body, work, or home.",
+      "reversed": "The old form is defended past its usefulness, or rupture is glamorized as the only evidence of change.",
+      "emotional_register": "austere, vulnerable, consequential",
+      "question": "Which condition has changed enough that the old arrangement can no longer carry the work?",
+      "lineage": "Ember — Rupture: discontinuity, loss, and phase transition in the domain of energy, agency, work, transformation, and consequence.",
+      "motifs": [
+        "doorway",
+        "eclipse",
+        "empty-vessel"
+      ],
+      "accessible_visual_description": "A block of ice stands in an open stone doorway, melting into a shallow silver pool. Above it, a partial eclipse darkens one half of a bright sky.",
+      "image_brief": {
+        "emotional_impact": "A solemn recognition that change can be both loss and new arrangement.",
+        "value_key": "high key: white ice, limestone, silver water, and a sharply divided blue sky.",
+        "subject": "A translucent block of ice dissolving at the threshold of a limestone doorway; a lower artistic cartouche reading exactly “Phase Change.”",
+        "action": "Meltwater crosses from the shaded interior into sunlight, leaving the block visibly altered but still present.",
+        "environment": "An empty coastal stone chamber open to a bright horizon.",
+        "impossible_image": "Within the ice, a clear empty vessel remains perfectly dry as the surrounding block melts.",
+        "composition": "Doorway is a tall central rectangle; ice and pool occupy the lower center; eclipse is precisely framed above the lintel; title at the base.",
+        "camera": "Formal straight-on architectural view.",
+        "lighting": "Cold shade inside meets bright sun outside; the eclipse creates a clean half-shadow.",
+        "accent": "A narrow band of rust-red mineral in the stone floor.",
+        "motif_placement": "Doorway frames the scene, eclipse overhead, empty vessel enclosed in the ice.",
+        "avoid": "Explosions, broken-glass clichés, disaster imagery, spiritual ascension imagery, illegible or misspelled title text."
+      }
+    },
+    "21": {
+      "number": 22,
+      "arcana_number": null,
+      "id": "runaway-reaction",
+      "title": "Runaway Reaction",
+      "category": "minor",
+      "suit": "ember",
+      "rank": "feedback",
+      "concept_source": {
+        "domains": [
+          "chemistry",
+          "systems safety"
+        ],
+        "concept": "positive feedback in exothermic reactions",
+        "factual_anchor": "In some exothermic processes, rising temperature increases reaction rate and heat generation, creating positive feedback; cooling, monitoring, and pressure relief are among the controls used to prevent thermal runaway.",
+        "reflective_bridge": "A self-amplifying process can outpace intention; chemistry here is factual, not destiny.",
+        "epistemic_boundary": "This card is not a diagnosis or prediction. Human escalation is shaped by context and choice, and urgent safety concerns warrant concrete help rather than symbolic interpretation."
+      },
+      "essence": "What feeds itself can outrun the intention that started it.",
+      "generative": "Build brakes before speed: limits, check-ins, cooling intervals, dissent, and a clear condition for stopping.",
+      "destructive": "Admiring intensity while removing safeguards invites a cascade no individual can simply will back into control.",
+      "reversed": "Warning signals are dismissed as inconvenience, or fear of escalation freezes a process that could be safely bounded.",
+      "emotional_register": "urgent, lucid, preventive",
+      "question": "What is amplifying this process, and where can a reliable interrupt be placed?",
+      "lineage": "Ember — Feedback: recursive consequence, correction, and amplification in the domain of energy, agency, work, transformation, and consequence.",
+      "motifs": [
+        "circuit",
+        "moth",
+        "well"
+      ],
+      "accessible_visual_description": "A sealed steel reaction vessel sits above a dark cooling well. A red emergency switch breaks a glowing circuit, while a moth hovers near—but not in—a hot inspection lamp.",
+      "image_brief": {
+        "emotional_impact": "Clear-eyed urgency: the moment to install a boundary is before catastrophe.",
+        "value_key": "low key: near-black blue steel, ivory instrument needles, contained amber heat, and emergency red.",
+        "subject": "A bolted steel reactor vessel, pressure gauge, black cooling well, and a large red cutoff switch; lower cartouche reading exactly “Runaway Reaction.”",
+        "action": "A bright circuit races toward the switch, where one open contact interrupts its loop; steam is vented safely through a pipe.",
+        "environment": "A clean industrial control room at night, visibly maintained rather than abandoned.",
+        "impossible_image": "The vessel’s reflected heat appears as a tiny recursive version of the room shrinking inward, stopped at the open switch.",
+        "composition": "Vessel dominates left center; circuit travels across the lower plane to the switch at right; well opens as a dark circle below; title spans the base.",
+        "camera": "Three-quarter close view with engineering-diagram clarity.",
+        "lighting": "Instrument-panel glow and a contained inspection lamp, with no uncontrolled blaze.",
+        "accent": "Safety red switch guard and a single amber moth wing.",
+        "motif_placement": "Circuit along the foreground, moth beside the lamp, well beneath the vessel.",
+        "avoid": "Fireball explosions, gore, disaster spectacle, ominous occult symbols, illegible or misspelled title text."
+      }
+    },
+    "22": {
+      "number": 23,
+      "arcana_number": null,
+      "id": "tempering",
+      "title": "Tempering",
+      "category": "minor",
+      "suit": "ember",
+      "rank": "integration",
+      "concept_source": {
+        "domains": [
+          "materials science",
+          "craft"
+        ],
+        "concept": "controlled heating and cooling",
+        "factual_anchor": "In heat treatment, carefully controlled heating and cooling can change a metal’s microstructure and balance properties such as hardness and toughness; the result depends on the alloy and process.",
+        "reflective_bridge": "Strength and flexibility may depend on cycles of intensity, release, and skilled timing.",
+        "epistemic_boundary": "People are not metal: hardship does not reliably improve character, and no one is obliged to endure damaging conditions in order to become resilient."
+      },
+      "essence": "Durability is not mere hardness; it is a practiced relation between stress, recovery, and form.",
+      "generative": "Choose a measured cycle: exertion, release, reflection, repair, and return. Seek skilled conditions rather than solitary ordeal.",
+      "destructive": "Romanticizing heat makes injury look like training; avoiding every demand can also leave a structure untested and brittle.",
+      "reversed": "The work has been overheated, overcooled, or repeated without recovery. What needs adjustment is the process, not a harsher verdict on the material.",
+      "emotional_register": "forged, compassionate, masterful",
+      "question": "What rhythm of challenge and release would make this commitment more durable?",
+      "lineage": "Ember — Integration: adaptation, coherence, and carrying forward in the domain of energy, agency, work, transformation, and consequence.",
+      "motifs": [
+        "bridge",
+        "crystal",
+        "black-bird"
+      ],
+      "accessible_visual_description": "A smith draws a glowing blade from a small forge and lowers it toward a water trough. The blade reflects a crystal-like internal pattern, and a black bird waits on a wooden bridge rail.",
+      "image_brief": {
+        "emotional_impact": "Earned steadiness: heat held within a larger practice of care and timing.",
+        "value_key": "middle key: smoky umber workshop, blue-black water, warm forge orange, and polished steel.",
+        "subject": "A craftsperson’s tongs holding a half-glowing steel blade above a quench trough, with a lower cartouche reading exactly “Tempering.”",
+        "action": "The blade is paused just before the water, emphasizing timing rather than impact; fine crystalline grain glints along its surface.",
+        "environment": "A working smithy opening onto a rain-dark wooden footbridge.",
+        "impossible_image": "The blade’s reflective surface contains a precise crystalline landscape that bends without breaking as it nears the water.",
+        "composition": "Diagonal blade from upper left toward lower right trough; bridge visible through the open wall; title cartouche centered below.",
+        "camera": "Intimate medium close-up from bench height.",
+        "lighting": "Warm forge light countered by cool rainlight, revealing steel texture and water surface.",
+        "accent": "A deep ember-red cord wrapped around the tong handle.",
+        "motif_placement": "Crystal pattern within blade, bridge in the background, black bird perched on its rail.",
+        "avoid": "Weapon glorification, battle scenes, macho endurance clichés, uncontrolled sparks, illegible or misspelled title text."
+      }
+    },
+    "23": {
+      "number": 24,
+      "arcana_number": null,
+      "id": "sensation",
+      "title": "Sensation",
+      "category": "minor",
+      "suit": "tide",
+      "rank": "seed",
+      "concept_source": {
+        "domains": [
+          "psychology",
+          "neuroscience"
+        ],
+        "concept": "sensory registration",
+        "factual_anchor": "Sensory systems register changes in pressure, temperature, light, sound, and internal bodily state; perception then combines these signals with attention and context.",
+        "reflective_bridge": "Before interpretation, the body receives differences; noticing sensation can loosen premature stories.",
+        "epistemic_boundary": "A sensation is real as an experience, but it does not by itself establish its cause, meaning, or required action."
+      },
+      "essence": "First contact with what the body notices before it becomes a conclusion.",
+      "generative": "Name the raw data—tight throat, warm face, quickened pulse, softened jaw—and let a more accurate choice begin there.",
+      "destructive": "When bodily alarm is treated as a verdict, discomfort can harden into accusation, avoidance, or certainty.",
+      "reversed": "Numbness, flooding, or a practiced refusal to notice may be asking for slower conditions, not harsher self-command.",
+      "emotional_register": "Alert, intimate, elemental.",
+      "question": "What is present in your body before you explain it?",
+      "lineage": "Tide — Seed: initial conditions, potential, and first contact.",
+      "motifs": [
+        "seed",
+        "doorway",
+        "crystal"
+      ],
+      "accessible_visual_description": "High-key card: a close view of an adult hand hovering over pale tidal water, where a single drop makes precise concentric ripples around a small luminous seed. A narrow white doorway stands on the far shore. The exact title “Sensation” appears in a lower pearl-gray cartouche, with a tide sigil and the nonnumeric rank mark “Seed.”",
+      "image_brief": {
+        "emotional_impact": "Clean immediacy; the relief of pausing before a story takes over.",
+        "value_key": "high key: chalk white, sea-glass blue, and silver-gray.",
+        "subject": "A weathered adult hand, palm down, hovering just above a shallow pool; a small translucent seed rests beneath the water.",
+        "action": "One fingertip nearly touches the surface, initiating a ring of ripples.",
+        "environment": "A spare salt-flat threshold with a freestanding doorway far beyond the pool.",
+        "impossible_image": "Within each ripple, tiny refracted landscapes appear only as abstract bands of color, never as literal scenes.",
+        "composition": "Vertical close foreground hand; circular ripple centered low-middle; doorway small and centered on the horizon.",
+        "camera": "Macro-to-medium perspective, sharply focused on skin texture and water tension.",
+        "lighting": "Clear overcast daylight with bright reflected water light.",
+        "accent": "Single coral-red capillary-like thread visible inside the translucent seed.",
+        "motif_placement": "Seed at ripple center; doorway on horizon; faint crystal facets in the wet salt around the pool.",
+        "avoid": "Medical diagrams, glowing chakras, mystical auras, infantilized hands, generic ocean sunsets, or text other than the exact title and required tide/rank marks."
+      }
+    },
+    "24": {
+      "number": 25,
+      "arcana_number": null,
+      "id": "affect",
+      "title": "Affect",
+      "category": "minor",
+      "suit": "tide",
+      "rank": "flow",
+      "concept_source": {
+        "domains": [
+          "psychology"
+        ],
+        "concept": "affect and valence",
+        "factual_anchor": "Affect refers to basic feeling tone, often described through pleasant-unpleasant and activated-deactivated dimensions, that can bias attention and readiness to act.",
+        "reflective_bridge": "Feeling tones orient attention and action without automatically telling the whole truth.",
+        "epistemic_boundary": "A feeling tone can be informative without being a reliable prediction, moral judgment, or complete description of a situation."
+      },
+      "essence": "The shifting current of pleasantness, unease, energy, and depletion beneath the named emotion.",
+      "generative": "Track the direction of the current: what opens, contracts, energizes, or drains you before you decide what it means.",
+      "destructive": "A passing low tone can recruit a bleak interpretation; a bright one can excuse what deserves scrutiny.",
+      "reversed": "When every state is flattened into “fine” or “bad,” finer distinctions may restore room to respond.",
+      "emotional_register": "Fluid, candid, changeable.",
+      "question": "What direction is your feeling tone pulling your attention today?",
+      "lineage": "Tide — Flow: movement, transfer, and changing state.",
+      "motifs": [
+        "spiral",
+        "circuit",
+        "moth"
+      ],
+      "accessible_visual_description": "Middle-key card: an adult figure in a dark blue raincoat stands inside a concrete waterworks chamber while ribbons of teal and amber water stream through clear channels at different heights. A pale moth crosses the upper stream. The exact title “Affect” is engraved in a lower copper cartouche, with a tide sigil and the nonnumeric rank mark “Flow.”",
+      "image_brief": {
+        "emotional_impact": "A sense of being moved by forces that are visible enough to study but not fully command.",
+        "value_key": "middle key: slate, deep teal, oxidized copper, and restrained amber.",
+        "subject": "One adult in a raincoat, face in profile, watching parallel streams pass through a transparent sluice mechanism.",
+        "action": "Their open hand is held near, but not in, the moving water.",
+        "environment": "A monumental yet plausible concrete tidal-control chamber with wet floors and narrow channel gates.",
+        "impossible_image": "The streams carry color as changing density—one turns amber when it accelerates, another deepens blue as it slows—without becoming supernatural light.",
+        "composition": "Figure on right third; diagonal channels sweep from upper left to lower right; a circular spiral drain anchors the lower center.",
+        "camera": "Medium-wide, slightly elevated three-quarter view.",
+        "lighting": "Diffuse industrial skylight, with reflected moving water patterns across the walls.",
+        "accent": "A single ember-orange moth wing against the blue-gray chamber.",
+        "motif_placement": "Spiral drain low center; circuit-like channel layout across the floor; moth near upper-left flow.",
+        "avoid": "Cheerful spa imagery, storm melodrama, anthropomorphic water, occult symbols, rainbow gradients, or text other than the exact title and required tide/rank marks."
+      }
+    },
+    "25": {
+      "number": 26,
+      "arcana_number": null,
+      "id": "attachment",
+      "title": "Attachment",
+      "category": "minor",
+      "suit": "tide",
+      "rank": "bond",
+      "concept_source": {
+        "domains": [
+          "developmental psychology"
+        ],
+        "concept": "attachment systems",
+        "factual_anchor": "Attachment research examines how proximity-seeking, caregiving, separation, and repair shape expectations of support and safety across development.",
+        "reflective_bridge": "The need for reliable connection shapes exploration, protection, and repair without reducing adults to a label.",
+        "epistemic_boundary": "Attachment patterns describe tendencies and relational histories, not fixed adult types, diagnoses, or destinies."
+      },
+      "essence": "The living tether between refuge and exploration.",
+      "generative": "Ask what reliable contact would make courage more possible—for you, for another, or between you.",
+      "destructive": "Closeness becomes a cage when reassurance must be endless, and distance becomes a wound when independence is made into virtue.",
+      "reversed": "The old strategy of pursuing, pleasing, withdrawing, or controlling may have protected something once; it need not govern every bond now.",
+      "emotional_register": "Tender, vigilant, steadying.",
+      "question": "Where do you need both a safe return and room to move?",
+      "lineage": "Tide — Bond: relation, constraint, and mutual influence.",
+      "motifs": [
+        "red-thread",
+        "bridge",
+        "web"
+      ],
+      "accessible_visual_description": "Low-key card: two adults stand on separate rocky banks at night, each holding one end of a deep red climbing rope that forms a supported bridge over black tidal water. A web of smaller ropes anchors the bridge to stone. The exact title “Attachment” appears in a lower brass cartouche, with a tide sigil and the nonnumeric rank mark “Bond.”",
+      "image_brief": {
+        "emotional_impact": "Mutual reliance without sentimentality; distance held by a workable connection.",
+        "value_key": "middle key: blue-hour indigo balanced by broad pearl window light, muted skin tones, pale stone, and brass.",
+        "subject": "Two clothed adults of different ages, each grounded on a separate shore, visible in full figure.",
+        "action": "One tests the rope bridge with a foot while the other braces and holds the line; neither rescues nor abandons the other.",
+        "environment": "A narrow sea-cut ravine at low tide, with barnacled stone and a black water channel below.",
+        "impossible_image": "The red rope subtly divides into many fine strands where it bears weight, revealing distributed support without emitting light.",
+        "composition": "Symmetrical banks with the rope bridge making a deep U-shape across the center; figures offset to prevent static symmetry.",
+        "camera": "Wide, eye-level cinematic view.",
+        "lighting": "Cold moonlight and a small, realistic warm lantern at each anchor point.",
+        "accent": "The saturated red rope against near-black blue water.",
+        "motif_placement": "Red thread as bridge handline; web of anchor cords at both banks; a small bridge silhouette formed by the rope span.",
+        "avoid": "Romantic couple clichés, parent-and-child iconography, binding knots around bodies, diagnostic labels, halos, or text other than the exact title and required tide/rank marks."
+      }
+    },
+    "26": {
+      "number": 27,
+      "arcana_number": null,
+      "id": "mood",
+      "title": "Mood",
+      "category": "minor",
+      "suit": "tide",
+      "rank": "pattern",
+      "concept_source": {
+        "domains": [
+          "psychology"
+        ],
+        "concept": "mood as diffuse context",
+        "factual_anchor": "Mood is a relatively diffuse and sustained affective state that can influence attention, memory, expectation, and interpretation.",
+        "reflective_bridge": "A mood colors the field of interpretation and can be real without being a complete account of the world.",
+        "epistemic_boundary": "A mood can shape perception without proving that the world is as hopeless, hostile, easy, or bright as it appears in that state."
+      },
+      "essence": "The atmospheric filter through which the same room, memory, and possibility may look different.",
+      "generative": "Notice the weather of the mind, then widen the evidence: one walk, one conversation, one postponed conclusion.",
+      "destructive": "When the filter is mistaken for the landscape, temporary atmosphere becomes a total philosophy.",
+      "reversed": "A familiar mood-loop may be repeating itself; change the conditions before asking thought alone to break the pattern.",
+      "emotional_register": "Atmospheric, contemplative, quietly unstable.",
+      "question": "What has your present atmosphere made easy to see—and hard to see?",
+      "lineage": "Tide — Pattern: repetition, structure, and learned regularity.",
+      "motifs": [
+        "eclipse",
+        "spiral",
+        "well"
+      ],
+      "accessible_visual_description": "Middle-key card: an adult sits at a kitchen table facing a window divided into four panes, each showing the same city street under a different weather cast—clear, rain, fog, and amber dusk. A dark well-like spiral appears in the coffee cup. The exact title “Mood” is painted on a lower blue-gray cartouche, with a tide sigil and the nonnumeric rank mark “Pattern.”",
+      "image_brief": {
+        "emotional_impact": "Recognition that the view is altered, while the world beyond it remains larger than the alteration.",
+        "value_key": "middle key: muted blue-gray interior, soft cream, rain-silver, and one amber pane.",
+        "subject": "A solitary adult seated at an ordinary wooden kitchen table, seen from behind and slightly above.",
+        "action": "They rest one hand around a cup while looking toward the changing window panes.",
+        "environment": "A modest apartment kitchen with sparse objects: chair, mug, plant, and an unopened envelope with no visible writing on the table.",
+        "impossible_image": "The four panes depict the identical street geometry under four simultaneous atmospheres, with pedestrians in matching positions.",
+        "composition": "Window dominates upper two-thirds; seated figure forms a dark central anchor; cup spiral sits low foreground.",
+        "camera": "Medium interior shot, gentle overhead angle.",
+        "lighting": "Each pane casts its own restrained color temperature across part of the room.",
+        "accent": "A small eclipse disk partly concealed by cloud in the upper-right pane.",
+        "motif_placement": "Eclipse upper right; spiral in cup; well suggested by the cup’s unusually deep dark reflection.",
+        "avoid": "Depiction of a psychiatric crisis, exaggerated sad-face symbolism, cluttered magical realism, generic gloom, or text other than the exact title and required tide/rank marks."
+      }
+    },
+    "27": {
+      "number": 28,
+      "arcana_number": null,
+      "id": "ambivalence",
+      "title": "Ambivalence",
+      "category": "minor",
+      "suit": "tide",
+      "rank": "friction",
+      "concept_source": {
+        "domains": [
+          "psychology",
+          "philosophy"
+        ],
+        "concept": "conflicting motivations",
+        "factual_anchor": "People can hold competing goals, values, and action tendencies at once; conflict often reflects real trade-offs rather than simple indecision.",
+        "reflective_bridge": "Two sincere tendencies can coexist; forcing one away may sacrifice important information.",
+        "epistemic_boundary": "Ambivalence does not make every option equally sound; reflection still requires evidence, responsibility, and eventual choices."
+      },
+      "essence": "The honest strain of being pulled by more than one value.",
+      "generative": "Give each pull a voice: what does it protect, desire, fear, or refuse to sacrifice?",
+      "destructive": "If conflict is denied, it returns as sabotage; if it is endlessly rehearsed, it can become an alibi for never acting.",
+      "reversed": "The demand for purity may be the real bind. A workable choice can carry regret without being a betrayal.",
+      "emotional_register": "Tense, lucid, dignified.",
+      "question": "What would each side of your hesitation say it is trying to preserve?",
+      "lineage": "Tide — Friction: resistance, cost, and productive constraint.",
+      "motifs": [
+        "split-tree",
+        "moth",
+        "crystal"
+      ],
+      "accessible_visual_description": "High-contrast card: an adult in formal work clothes stands where a single white tree splits into two immense trunks, one growing toward a lit train platform and the other toward a dark home window. Their open hands hold two iron keys that touch but do not fuse. The exact title “Ambivalence” appears in a lower dark-red cartouche, with a tide sigil and the nonnumeric rank mark “Friction.”",
+      "image_brief": {
+        "emotional_impact": "The gravity and legitimacy of a choice that costs something whichever way it turns.",
+        "value_key": "high contrast: bone white, ink black, iron gray, and arterial red.",
+        "subject": "An adult standing at the root-crotch of a monumental split tree, neither heroic nor collapsed.",
+        "action": "They hold two heavy keys at chest height, one in each open palm, considering their unequal shapes.",
+        "environment": "A surreal but materially detailed station-edge landscape: train platform to one side, modest lit house beyond a field to the other.",
+        "impossible_image": "The tree’s two trunks become architectural corridors near their tops, yet retain bark, knots, and root structure.",
+        "composition": "Strong central vertical split; subject small but centered at the decision point; opposing destinations recede diagonally.",
+        "camera": "Low-angle medium-wide shot emphasizing the bifurcation overhead.",
+        "lighting": "Hard late-afternoon sun from the train side; warm domestic window light from the other.",
+        "accent": "One red thread winding from both keys through the exposed roots.",
+        "motif_placement": "Split tree dominates; keys in hands; crystal-like mineral fracture visible in the ground between roots; one moth near each destination.",
+        "avoid": "Binary good-versus-evil coding, a literal crossroads sign, balance scales, melodramatic tears, or text other than the exact title and required tide/rank marks."
+      }
+    },
+    "28": {
+      "number": 29,
+      "arcana_number": null,
+      "id": "grief",
+      "title": "Grief",
+      "category": "minor",
+      "suit": "tide",
+      "rank": "rupture",
+      "concept_source": {
+        "domains": [
+          "psychology",
+          "anthropology"
+        ],
+        "concept": "grief and continuing bonds",
+        "factual_anchor": "Grief responses vary across people and cultures, and many bereaved people maintain an evolving inner or social relationship with what—or whom—they have lost.",
+        "reflective_bridge": "Grief reorganizes relation to what mattered; it is not a failure to complete a task.",
+        "epistemic_boundary": "There is no universal timetable or required sequence for grief; continuing bonds are human practices of memory, not evidence of contact with the dead."
+      },
+      "essence": "Love altered by irreversibility, seeking a form it can still inhabit.",
+      "generative": "Make a place for the bond to change: speak the name, keep the practice, tell the story, let the absence be particular.",
+      "destructive": "Pressure to “move on,” or refusal to let life enlarge around the loss, can isolate the mourner from both memory and the living.",
+      "reversed": "When sorrow becomes unspeakable or all-consuming, companionship and skilled support can help carry what should not be carried alone.",
+      "emotional_register": "Solemn, loving, enduring.",
+      "question": "What relationship is asking to be carried differently rather than erased?",
+      "lineage": "Tide — Rupture: discontinuity, loss, and phase transition.",
+      "motifs": [
+        "black-bird",
+        "empty-vessel",
+        "red-thread"
+      ],
+      "accessible_visual_description": "Low-key card: a middle-aged adult kneels beside an empty clay vessel on a wind-cut shore, carefully tying a red thread around its neck. A black bird stands on a nearby driftwood post, and the receding tide leaves a clean line of wet sand. The exact title “Grief” appears in a lower weathered slate cartouche, with a tide sigil and the nonnumeric rank mark “Rupture.”",
+      "image_brief": {
+        "emotional_impact": "Devastation held with dignity; love given a concrete, nonfinal ritual.",
+        "value_key": "low key: storm charcoal, wet umber, ash gray, and deep red.",
+        "subject": "A middle-aged adult in a worn wool coat, shown in three-quarter profile, kneeling with deliberate attention.",
+        "action": "They tie a red thread around an empty unglazed clay vessel without placing anything inside it.",
+        "environment": "A broad, nearly empty shore at ebb tide, marked by wrack lines, smooth stones, and one driftwood post.",
+        "impossible_image": "The vessel’s inner darkness contains a faint reflected horizon, as though it holds space rather than an object.",
+        "composition": "Vessel and hands large in lower foreground; kneeling figure left; bird on post to right; broad vacancy of sea behind.",
+        "camera": "Low, intimate medium shot with a long horizontal horizon.",
+        "lighting": "After-rain cloudbreak, dim silver light grazing wet sand.",
+        "accent": "The red thread, saturated and tactile, crossing the vessel’s matte clay.",
+        "motif_placement": "Empty vessel foreground center; black bird right; red thread encircling vessel and trailing lightly toward the tide line.",
+        "avoid": "Ghosts, angel wings, graveyards, religious claims, sentimental white doves, theatrical sobbing, or text other than the exact title and required tide/rank marks."
+      }
+    },
+    "29": {
+      "number": 30,
+      "arcana_number": null,
+      "id": "co-regulation",
+      "title": "Co-Regulation",
+      "category": "minor",
+      "suit": "tide",
+      "rank": "feedback",
+      "concept_source": {
+        "domains": [
+          "developmental psychology",
+          "physiology"
+        ],
+        "concept": "co-regulation",
+        "factual_anchor": "People influence one another’s arousal and behavior through cues such as voice, facial expression, pace, proximity, touch, and predictable repair; this influence is reciprocal but not absolute.",
+        "reflective_bridge": "Nervous systems influence one another through presence, rhythm, safety, and rupture-repair.",
+        "epistemic_boundary": "Co-regulation is not mind-reading or control; no person is solely responsible for regulating another adult’s internal state."
+      },
+      "essence": "A shared rhythm that makes steadiness more reachable.",
+      "generative": "Offer a paced voice, a clear boundary, a glass of water, a walk, a return after rupture—small signals of reliable presence.",
+      "destructive": "Care turns into overfunctioning when one person becomes the other’s sole regulator, or when “calm down” is used to silence valid alarm.",
+      "reversed": "The system may need more space, clearer agreements, or additional support before closeness can feel regulating again.",
+      "emotional_register": "Grounding, reciprocal, quietly hopeful.",
+      "question": "What kind of presence helps you come back within reach of yourself?",
+      "lineage": "Tide — Feedback: recursive consequence, correction, and amplification.",
+      "motifs": [
+        "circuit",
+        "bridge",
+        "web"
+      ],
+      "accessible_visual_description": "Bright middle-key card: two adults sit across a small workshop table repairing a brass tide clock together. Flexible blue cables loop between their tools, while the clock’s waterwheel begins to turn evenly. A narrow bridge spans an open channel behind them. The exact title “Co-Regulation” is stamped in a lower enamel cartouche, with a tide sigil and the nonnumeric rank mark “Feedback.”",
+      "image_brief": {
+        "emotional_impact": "Practical mutuality: calm is built through responsive contact, not bestowed by magic.",
+        "value_key": "high key: warm workshop daylight, pale turquoise, brass, cream, and restrained navy shadows.",
+        "subject": "Two adults seated at a shared workbench, one older and one younger, dressed in ordinary work clothes.",
+        "action": "They jointly repair a small brass tide clock: one steadies a gear housing while the other aligns a cable connector; their attention is on the task, not each other’s faces.",
+        "environment": "A coastal repair workshop opening onto a narrow canal crossed by a simple footbridge.",
+        "impossible_image": "The clock’s measured waterwheel movement is echoed by the canal outside at the same rhythm, suggesting coordination without supernatural force.",
+        "composition": "Table and paired hands dominate foreground; circular clock center; open doorway and bridge provide depth behind.",
+        "camera": "Close medium shot at seated eye level.",
+        "lighting": "Late-morning side light through workshop windows, warm on brass and cool on water.",
+        "accent": "A single cobalt-blue cable joining the two tool stations.",
+        "motif_placement": "Circuit formed by cables and clock mechanism; bridge in background; fine web of repair threads visible in the clock’s open backplate.",
+        "avoid": "Brainwave graphics, medical monitors, parent-child sentimental imagery, telepathy, forced smiles, or text other than the exact title and required tide/rank marks."
+      }
+    },
+    "30": {
+      "number": 31,
+      "arcana_number": null,
+      "id": "acceptance",
+      "title": "Acceptance",
+      "category": "minor",
+      "suit": "tide",
+      "rank": "integration",
+      "concept_source": {
+        "domains": [
+          "clinical psychology",
+          "philosophy"
+        ],
+        "concept": "acceptance without resignation",
+        "factual_anchor": "Acceptance-based approaches distinguish making room for difficult internal experiences from approving of circumstances or abandoning values-guided action.",
+        "reflective_bridge": "Accurate contact with what is can create action; acceptance is not approval or passivity.",
+        "epistemic_boundary": "Acceptance is not a demand to tolerate harm, stay in unsafe conditions, suppress protest, or avoid changing what can be changed."
+      },
+      "essence": "Meeting reality clearly enough to choose the next faithful action.",
+      "generative": "Set down the fight with the fact itself, then ask what remains possible, necessary, repairable, or worth protecting.",
+      "destructive": "Acceptance becomes resignation when it is used to excuse injustice, evade grief, or abandon agency before the situation has been honestly assessed.",
+      "reversed": "If “I accept it” sounds like collapse, return to the boundary: what are you refusing to approve, and what action remains yours?",
+      "emotional_register": "Clear, grave, capacious.",
+      "question": "What fact can you stop arguing with today so that you can act on what still matters?",
+      "lineage": "Tide — Integration: adaptation, coherence, and carrying forward.",
+      "motifs": [
+        "doorway",
+        "key",
+        "spiral"
+      ],
+      "accessible_visual_description": "High-key card: an adult stands at the open doorway of a flooded but sunlit greenhouse, wearing tall boots and carrying a ring of keys. Inside, water reflects thriving potted plants on raised benches; outside, they have set a plank bridge toward dry ground. The exact title “Acceptance” appears in a lower ivory cartouche, with a tide sigil and the nonnumeric rank mark “Integration.”",
+      "image_brief": {
+        "emotional_impact": "Sober agency after denial: loss acknowledged, life reorganized, movement resumed.",
+        "value_key": "high key: luminous ivory, rain-washed green, clear water, and sunlit ochre.",
+        "subject": "An adult in practical boots and rolled sleeves standing squarely in a greenhouse doorway, neither smiling nor defeated.",
+        "action": "They hold a key ring and look toward a newly laid plank bridge leading from the flooded threshold to dry soil.",
+        "environment": "A glass greenhouse after a storm; some lower shelves are underwater, while plants on elevated benches remain healthy.",
+        "impossible_image": "Reflections in the floodwater show each plant’s root system as a graceful spiral beneath the surface, while the plants remain physically grounded in their pots.",
+        "composition": "Doorway frames the adult centrally; bridge leads outward from lower foreground; greenhouse benches create balanced side structure.",
+        "camera": "Medium-wide frontal view, with enough depth to see water, plants, and exit path.",
+        "lighting": "Strong clean sunlight breaking through after rain, with bright reflections and crisp shadow edges.",
+        "accent": "A brass key ring catching light at the figure’s side.",
+        "motif_placement": "Doorway central; key in hand; spiral root reflections in water; simple plank bridge crossing from threshold to dry ground.",
+        "avoid": "Meditation clichés, passive seated poses, miraculous flood recession, forced optimism, spiritual iconography, or text other than the exact title and required tide/rank marks."
+      }
+    },
+    "31": {
+      "number": 32,
+      "arcana_number": null,
+      "id": "attention",
+      "title": "Attention",
+      "category": "minor",
+      "suit": "lens",
+      "rank": "seed",
+      "concept_source": {
+        "domains": [
+          "cognitive science",
+          "phenomenology"
+        ],
+        "concept": "selective attention",
+        "factual_anchor": "Selective attention prioritizes some inputs and tasks under limited processing capacity; what is not selected may still matter.",
+        "reflective_bridge": "What is selected becomes vivid while other information recedes; selection is necessary and partial.",
+        "epistemic_boundary": "This is a model of ordinary cognition, not a claim that attention creates reality or that every overlooked detail is psychologically meaningful."
+      },
+      "essence": "The first beam of awareness makes a world by narrowing one.",
+      "generative": "Choose one true object of care and let sustained notice reveal its texture, need, and next small action.",
+      "destructive": "What receives no attention can become a blind cost: a body signal, a relationship, a condition of work, a fact that complicates the preferred story.",
+      "reversed": "Scattered vigilance, compulsive monitoring, or fixation mistaken for devotion.",
+      "emotional_register": "Clear, intimate, quietly urgent.",
+      "question": "What becomes possible if I give this one thing undivided notice—and what am I leaving outside the beam?",
+      "lineage": "Lens · Seed: initial contact with perception; a first selection establishes the conditions of the model that follows.",
+      "motifs": [
+        "seed",
+        "eclipse",
+        "key"
+      ],
+      "accessible_visual_description": "A single brass desk lamp shines onto a tiny green seed resting on an open palm. The surrounding worktable falls away into deep blue shadow, where a ring of unopened blank envelopes and a glass of water are barely visible. The word “Attention” is engraved in the lower edge of the lamp’s circular brass base.",
+      "image_brief": {
+        "emotional_impact": "A hush of deliberate presence, with a slight ache for what remains unseen.",
+        "value_key": "low key: near-black indigo field, warm gold pool of light, one vivid green seed.",
+        "subject": "A weathered human hand, a small seed, and a brass task lamp.",
+        "action": "The hand holds the seed exactly within the lamp’s focused beam while peripheral objects recede.",
+        "environment": "A real wooden worktable at night, with unopened blank envelopes, water, and a closed wooden box at its edges.",
+        "impossible_image": "Within the pool of light, the seed contains a miniature daylight landscape; beyond the beam, the same landscape is absent rather than darkened.",
+        "composition": "Top-down three-quarter view; circular lamp pool centered, hand entering from lower left, neglected objects cropped at the perimeter.",
+        "camera": "50mm macro-leaning still life, shallow but readable depth of field.",
+        "lighting": "One hard-edged tungsten lamp creates a precise circle; no ambient fill.",
+        "accent": "Oxidized brass and a single living green.",
+        "motif_placement": "Seed centered in the palm; a thin eclipse ring forms the edge of the light; a small key lies half-hidden near the lower cartouche.",
+        "avoid": "Eyes, galaxies, mystical auras, cluttered symbolic collage, generic darkness."
+      }
+    },
+    "32": {
+      "number": 33,
+      "arcana_number": null,
+      "id": "perspective",
+      "title": "Perspective",
+      "category": "minor",
+      "suit": "lens",
+      "rank": "flow",
+      "concept_source": {
+        "domains": [
+          "philosophy",
+          "cognitive science"
+        ],
+        "concept": "situated perspective",
+        "factual_anchor": "Perception and judgment are shaped by bodily position, available information, goals, language, and social context; no observer occupies a complete view from nowhere.",
+        "reflective_bridge": "Every view comes from somewhere; changing position can reveal without producing a view from nowhere.",
+        "epistemic_boundary": "Different perspectives do not make all claims equally supported; changing viewpoint supplements evidence rather than replacing it."
+      },
+      "essence": "A view is an opening, not the whole terrain.",
+      "generative": "Move—literally, socially, or conceptually—until another angle makes a previously hidden constraint visible.",
+      "destructive": "Calling one’s vantage point neutral can turn local comfort into an invisible standard and disagreement into presumed defect.",
+      "reversed": "Restless relativism, changing angles to avoid judgment, commitment, or the work of testing a claim.",
+      "emotional_register": "Expansive, sober, mobile.",
+      "question": "From what position am I seeing this, and whose position would alter the map?",
+      "lineage": "Lens · Flow: perception in motion; a change of position transfers information without granting totality.",
+      "motifs": [
+        "bridge",
+        "spiral",
+        "eclipse"
+      ],
+      "accessible_visual_description": "A woman in a red coat stands midway across a narrow footbridge over a city canal. On the left, the water reflects factory walls; on the right, the same canal opens toward gardens and apartment balconies. A long brass cartouche built into the bridge rail reads “Perspective.”",
+      "image_brief": {
+        "emotional_impact": "Liberating but grounded: the invitation to move without pretending to transcend location.",
+        "value_key": "high key: pale morning sky, silver water, cream concrete, one red coat.",
+        "subject": "A solitary adult figure crossing a narrow pedestrian bridge.",
+        "action": "The figure pauses and turns their head back toward one bank while their body faces the other.",
+        "environment": "A believable contemporary canal district where industrial structures transition into lived-in gardens.",
+        "impossible_image": "The canal’s two reflections show genuinely different yet physically coherent horizons, as though each bank supplies a distinct visual world.",
+        "composition": "Wide horizontal scene with bridge on a diagonal; figure at the central turning point; two banks balanced but unequal.",
+        "camera": "35mm environmental portrait, eye-level, moderate depth of field.",
+        "lighting": "Clean overcast morning light with soft reflections from water.",
+        "accent": "A red thread tied to the rail travels from one side of the bridge to the other.",
+        "motif_placement": "Bridge dominates the center; subtle spiral eddies under it; a partial eclipse appears as a dark circular reflection near the far bank.",
+        "avoid": "Floating figures, impossible Escher architecture, rainbow symbolism, tourist-postcard cityscapes."
+      }
+    },
+    "33": {
+      "number": 34,
+      "arcana_number": null,
+      "id": "persona",
+      "title": "Persona",
+      "category": "minor",
+      "suit": "lens",
+      "rank": "bond",
+      "concept_source": {
+        "domains": [
+          "social psychology"
+        ],
+        "concept": "roles and self-presentation",
+        "factual_anchor": "People adapt self-presentation to roles, audiences, norms, and stakes; such adaptation can facilitate coordination while imposing emotional labor or concealment.",
+        "reflective_bridge": "A social role can coordinate belonging and conceal cost; it is neither simply false nor the whole self.",
+        "epistemic_boundary": "A role is not proof of inauthenticity, and outward behavior alone cannot reveal a person’s private motives or identity."
+      },
+      "essence": "The face offered to others is often a tool of relation, not a lie.",
+      "generative": "Honor the role that helps people rely on you, then ask whether it leaves room for need, revision, and an unperformed voice.",
+      "destructive": "When competence, charm, or caretaking becomes compulsory, the person may disappear behind the function that earns belonging.",
+      "reversed": "Rigid performance, strategic self-erasure, or exposing oneself indiscriminately and calling it authenticity.",
+      "emotional_register": "Tender, socially alert, restrained.",
+      "question": "Which role is serving a real bond, and what does it cost me to keep performing it?",
+      "lineage": "Lens · Bond: identity is shaped in relation; the role both connects and constrains.",
+      "motifs": [
+        "web",
+        "empty-vessel",
+        "red-thread"
+      ],
+      "accessible_visual_description": "In a backstage dressing room, an adult in formal work clothes sits before a mirror. Their reflection wears the same clothes but has loosened its collar and rests one hand on a plain ceramic cup. Fine red threads run from the person’s jacket buttons to pinned blank badges on the wall. “Persona” appears in gold lettering on the dark wood mirror frame below.",
+      "image_brief": {
+        "emotional_impact": "Recognition of the dignity and fatigue inside a well-maintained social face.",
+        "value_key": "middle key: tobacco wood, muted skin tones, slate tailoring, warm mirror bulbs.",
+        "subject": "One adult seated before a dressing-room mirror, with their reflected counterpart.",
+        "action": "The person holds still in public attire while the reflection quietly loosens its collar and touches an empty cup.",
+        "environment": "A materially specific backstage or institutional dressing room: pegboard, blank badges, garment bag, worn chair, mirror bulbs.",
+        "impossible_image": "Only the reflection performs the small act of relief; the room otherwise obeys ordinary optics.",
+        "composition": "Symmetrical frontal mirror composition, offset by the person’s slightly turned shoulders; cartouche integrated under the mirror glass.",
+        "camera": "85mm portrait perspective, intimate framing from chest to knees.",
+        "lighting": "Warm practical bulbs around the mirror balanced by cool hallway light from one side.",
+        "accent": "Fine red thread links buttons, blank badges, and the cup handle.",
+        "motif_placement": "Web of threads across the background; empty vessel in reflection’s hand; red thread crosses the lower title cartouche.",
+        "avoid": "Theatrical comedy-tragedy masks, horror doubles, faceless mannequins, glamour-retouch sheen."
+      }
+    },
+    "34": {
+      "number": 35,
+      "arcana_number": null,
+      "id": "narrative",
+      "title": "Narrative",
+      "category": "minor",
+      "suit": "lens",
+      "rank": "pattern",
+      "concept_source": {
+        "domains": [
+          "narrative psychology",
+          "philosophy"
+        ],
+        "concept": "narrative identity",
+        "factual_anchor": "People often organize autobiographical memory through stories that link events, values, and anticipated futures; these stories are selective reconstructions rather than complete records.",
+        "reflective_bridge": "Stories organize memory and purpose, but coherence can illuminate or exclude.",
+        "epistemic_boundary": "A compelling personal narrative is not automatically accurate, morally sufficient, or fixed; memory is fallible and lives can remain unfinished."
+      },
+      "essence": "A life becomes tellable by linking scenes—but every link edits.",
+      "generative": "Find a pattern that gives scattered experience meaning while leaving enough room for contradiction, revision, and the unnamed chapter.",
+      "destructive": "A polished story can recruit every event as evidence, trap another person in a role, or turn ambiguity into a verdict.",
+      "reversed": "Fragmentation without sequence, or repetition of an inherited script after it has stopped describing the life being lived.",
+      "emotional_register": "Reflective, elegiac, quietly organizing.",
+      "question": "What story am I using to connect these events, and which fact does that story have trouble admitting?",
+      "lineage": "Lens · Pattern: recurring structure makes memory legible, while its repetitions can become a script.",
+      "motifs": [
+        "spiral",
+        "well",
+        "split-tree"
+      ],
+      "accessible_visual_description": "A long cloth scroll unrolls across a library floor, joining image fragments, blank travel tokens, and stitched color fields into a winding path. Near the center, the scroll passes over an old stone well; its red thread continues downward into the water and returns beside an open blank section. “Narrative” is lettered on a bookplate-like cartouche attached to the scroll’s near edge.",
+      "image_brief": {
+        "emotional_impact": "The warmth of meaning-making tempered by the presence of omissions.",
+        "value_key": "middle-to-high key: parchment, dust-blue shelves, sunlit floorboards, dark well opening.",
+        "subject": "An unrolled autobiographical cloth scroll made of image fragments, blank tokens, stitching, and distinct material patches.",
+        "action": "The scroll winds through the room and disappears into a well before returning with a visibly blank passage.",
+        "environment": "An old but active public library reading room with tall shelves and afternoon light.",
+        "impossible_image": "A paper narrative can travel continuously down into a stone well and emerge intact, except for one blank segment.",
+        "composition": "Elevated wide view; the scroll creates a spiral path from foreground title cartouche to the well and back toward a split window.",
+        "camera": "28mm overhead-leaning architectural still life, crisp detail across the path.",
+        "lighting": "Late-afternoon sunlight bands across the floor; the well remains cool and opaque.",
+        "accent": "One red thread stitches several distant fragments but breaks at the blank passage.",
+        "motif_placement": "Spiral formed by scroll; well at center; split-tree silhouette visible through the far window.",
+        "avoid": "Fantasy parchment overload, illegible pages everywhere, sentimental scrapbook aesthetic, occult library imagery."
+      }
+    },
+    "35": {
+      "number": 36,
+      "arcana_number": null,
+      "id": "dissonance",
+      "title": "Dissonance",
+      "category": "minor",
+      "suit": "lens",
+      "rank": "friction",
+      "concept_source": {
+        "domains": [
+          "social psychology"
+        ],
+        "concept": "cognitive dissonance",
+        "factual_anchor": "Cognitive dissonance describes discomfort associated with inconsistency among beliefs, actions, and self-conceptions; people may reduce it by changing behavior, beliefs, or interpretation.",
+        "reflective_bridge": "Conflict among commitments creates pressure to revise belief, behavior, or interpretation.",
+        "epistemic_boundary": "Dissonance is not a reliable way to infer another person’s motives, and discomfort alone does not determine which belief or action should change."
+      },
+      "essence": "The inner grind marks commitments that no longer fit together cleanly.",
+      "generative": "Stay with the specific mismatch long enough to distinguish a needed repair from a merely threatened self-image.",
+      "destructive": "Pressure for quick relief can produce rationalization, scapegoating, denial, or a dramatic conversion that avoids practical change.",
+      "reversed": "Numb accommodation to contradiction, or endless self-accusation that never reaches a revisable choice.",
+      "emotional_register": "Tense, lucid, morally serious.",
+      "question": "What two commitments are rubbing against each other, and what would a concrete repair require?",
+      "lineage": "Lens · Friction: a model meets resistance; the cost of inconsistency can become information.",
+      "motifs": [
+        "crystal",
+        "circuit",
+        "split-tree"
+      ],
+      "accessible_visual_description": "Two gloved hands try to align mismatched halves of a clear crystal mechanism on a steel workbench. One half is etched with a house, the other with a factory; sparks appear only at the gap between them. The title “Dissonance” is stamped into a narrow black enamel plate on the bench.",
+      "image_brief": {
+        "emotional_impact": "A sharp, productive unease: there is heat at the point where integrity is tested.",
+        "value_key": "low-to-middle key: charcoal workshop, ice-clear crystal, white sparks, restrained rust-orange.",
+        "subject": "Two hands and an intricate split crystal mechanism that will not fully join.",
+        "action": "The hands hold the pieces near alignment without forcing them; electrical sparks trace the remaining gap.",
+        "environment": "A precise industrial repair bench with steel surface, calipers, and a folded work order.",
+        "impossible_image": "The crystal halves contain tiny, sharply rendered incompatible scenes—a domestic room and a factory floor—without becoming decorative miniatures.",
+        "composition": "Tight overhead close-up; the jagged central seam runs vertically into the lower title plate.",
+        "camera": "90mm macro, high detail on material surfaces and the unresolved gap.",
+        "lighting": "Cold overhead workshop light, supplemented by the brief white flare of sparks.",
+        "accent": "A thin copper circuit line crosses the steel and stops at the break.",
+        "motif_placement": "Split-tree branching engraved inside the crystal; circuit at the lower edge; crystal is the central object.",
+        "avoid": "Explosions, shattered-glass melodrama, horror injury imagery, neon cyberpunk excess."
+      }
+    },
+    "36": {
+      "number": 37,
+      "arcana_number": null,
+      "id": "reframing",
+      "title": "Reframing",
+      "category": "minor",
+      "suit": "lens",
+      "rank": "rupture",
+      "concept_source": {
+        "domains": [
+          "psychology",
+          "design"
+        ],
+        "concept": "frame change",
+        "factual_anchor": "How a problem is framed affects which goals, causes, constraints, and possible actions become salient; reframing can generate alternatives but does not remove material limits.",
+        "reflective_bridge": "Changing the question can reveal different affordances without erasing material constraints.",
+        "epistemic_boundary": "A new frame is not a cure for structural harm, grief, scarcity, or danger; practical conditions and accountability remain real."
+      },
+      "essence": "When the old question breaks, a different opening may appear.",
+      "generative": "Replace the question that only assigns blame with one that reveals conditions, choices, collaborators, and limits.",
+      "destructive": "Reframing can become cosmetic optimism: a clever language trick used to deny injury, power, or the need for material change.",
+      "reversed": "A shattered frame held sacred, or perpetual reinvention that never allows a solution to be built.",
+      "emotional_register": "Bracing, inventive, unsentimental.",
+      "question": "What changes if I ask not “What is wrong with me?” but “What conditions are shaping this, and what can be altered?”",
+      "lineage": "Lens · Rupture: an inherited model fails; the break exposes both loss and a newly usable edge.",
+      "motifs": [
+        "doorway",
+        "key",
+        "bridge"
+      ],
+      "accessible_visual_description": "A large framed architectural blueprint has cracked down the middle in a workshop. Through the break is not a void but an actual open doorway onto a busy accessible ramp, where people carry lumber and tools together. The frame’s lower rail bears the exact title “Reframing” in raised cream lettering.",
+      "image_brief": {
+        "emotional_impact": "A decisive release from confinement, tempered by the visible work required beyond the opening.",
+        "value_key": "high key: chalk-white paper and daylight, blue graphite lines, warm plywood and workwear beyond.",
+        "subject": "A cracked blueprint in a substantial wooden frame, opening into a real building site.",
+        "action": "Workers beyond the break carry materials up a newly built accessible ramp; no one poses for the viewer.",
+        "environment": "A renovation workshop joining a dusty drafting wall to a sunlit civic entryway under construction.",
+        "impossible_image": "The broken plane of a two-dimensional blueprint forms a functional doorway into the three-dimensional site it once only represented.",
+        "composition": "Straight-on view of frame filling most of image; central rupture becomes a vertical doorway; title on lower rail.",
+        "camera": "40mm, graphic frontal perspective with enough depth visible through the opening.",
+        "lighting": "Soft indoor workshop light in foreground, bright natural daylight beyond the doorway.",
+        "accent": "A blue-painted key hangs from a nail beside the frame; one red guideline becomes a handrail outside.",
+        "motif_placement": "Doorway is the crack; key at left edge; bridge implied by the ramp spanning a shallow construction trench.",
+        "avoid": "Broken mirrors, magical portals, inspirational sunburst clichés, empty pristine architecture."
+      }
+    },
+    "37": {
+      "number": 38,
+      "arcana_number": null,
+      "id": "projection",
+      "title": "Projection",
+      "category": "minor",
+      "suit": "lens",
+      "rank": "feedback",
+      "concept_source": {
+        "domains": [
+          "psychodynamic theory",
+          "social cognition"
+        ],
+        "concept": "projection as a reflective hypothesis",
+        "factual_anchor": "People can misattribute feelings, intentions, or traits in social judgment; projection is a tentative interpretive hypothesis, while social-cognitive research also documents ordinary attribution biases.",
+        "reflective_bridge": "Attributions may carry disowned material; use this as inquiry, never diagnosis.",
+        "epistemic_boundary": "Do not use projection to diagnose, dismiss, or invalidate another person. Treat it as a question about one’s own interpretation and seek observable evidence."
+      },
+      "essence": "The image thrown outward may contain both a real other and one’s own unfinished material.",
+      "generative": "Before making an attribution, separate what was observed from what was inferred; ask what in the reaction belongs to the situation, the other person, and you.",
+      "destructive": "“That is your projection” can become a weapon that erases evidence, while certainty about another’s inner life can close a relationship before inquiry begins.",
+      "reversed": "Total self-doubt about perception, or recursive suspicion in which every response is treated as proof of hidden motives.",
+      "emotional_register": "Watchful, humble, relationally careful.",
+      "question": "What did I actually observe, what meaning did I add, and what evidence could revise either?",
+      "lineage": "Lens · Feedback: interpretation returns through relationship; it can correct perception or amplify an untested assumption.",
+      "motifs": [
+        "web",
+        "circuit",
+        "black-bird"
+      ],
+      "accessible_visual_description": "At a rain-streaked bus shelter, two adults sit several feet apart. Across the wet glass, each person’s reflection overlaps the other’s face without replacing it. A black bird stands on the shelter roof, and a small route map carries the title “Projection” in its lower legend panel.",
+      "image_brief": {
+        "emotional_impact": "Interpersonal uncertainty held with restraint: close enough to matter, clear enough not to accuse.",
+        "value_key": "middle key: rain-gray morning, muted transit colors, reflective black glass, small amber route light.",
+        "subject": "Two ordinary adults seated apart in a bus shelter, seen through wet glass.",
+        "action": "Neither person looks directly at the other; passing reflections briefly overlay their faces in the pane.",
+        "environment": "A real urban transit stop with route map, damp pavement, distant traffic, and condensation on glass.",
+        "impossible_image": "The reflected overlays shift only across the glass, producing a plausible but unsettling exchange of facial contours while bodies remain distinct.",
+        "composition": "Oblique exterior view through shelter glass; two seated figures on opposite thirds, route-map cartouche low center.",
+        "camera": "70mm documentary framing, shallow focus on droplets with faces still legible.",
+        "lighting": "Flat rainy daylight punctuated by an amber bus-arrival display.",
+        "accent": "A fine red circuit-like route line loops between the two figures but ends at separate stops.",
+        "motif_placement": "Black bird on roofline; web of rain trails on glass; circuit embedded in transit map.",
+        "avoid": "Accusatory pointing, sinister shadow doubles, psychiatric imagery, surveillance-camera styling."
+      }
+    },
+    "38": {
+      "number": 39,
+      "arcana_number": null,
+      "id": "self-compassion",
+      "title": "Self-Compassion",
+      "category": "minor",
+      "suit": "lens",
+      "rank": "integration",
+      "concept_source": {
+        "domains": [
+          "psychology",
+          "ethics"
+        ],
+        "concept": "self-compassion",
+        "factual_anchor": "Self-compassion practices generally involve responding to one’s own difficulty with kindness, recognition of common humanity, and balanced awareness; they can support coping and responsibility without excusing harm.",
+        "reflective_bridge": "Kindness toward suffering can support responsibility better than humiliation.",
+        "epistemic_boundary": "Self-compassion is not self-diagnosis, a substitute for repair, or permission to disregard others affected by one’s actions."
+      },
+      "essence": "A humane inner response can make repair more possible, not less.",
+      "generative": "Meet the painful fact plainly, speak to yourself without contempt, and take the next accountable action from steadier ground.",
+      "destructive": "Kindness can be diluted into avoidance when it refuses consequence; shame can masquerade as conscience while draining the capacity to change.",
+      "reversed": "Self-punishment called responsibility, or soothing language used to bypass apology, restitution, and boundaries.",
+      "emotional_register": "Warm, grave, restorative.",
+      "question": "What would a response that is both kind and accountable ask of me now?",
+      "lineage": "Lens · Integration: attention returns to the self without collapse, carrying pain and responsibility into a more coherent next act.",
+      "motifs": [
+        "empty-vessel",
+        "bridge",
+        "red-thread"
+      ],
+      "accessible_visual_description": "In early morning, an adult kneels on a kitchen floor gathering broken ceramic pieces into an open bowl. The bowl is visibly mended with gold seams, and a red thread leads from it across a small bridge-shaped crack in the tile toward a sealed envelope with no visible writing. “Self-Compassion” is painted clearly along the bowl’s broad lower rim.",
+      "image_brief": {
+        "emotional_impact": "A grounded tenderness that does not look away from what was broken.",
+        "value_key": "high key: pale dawn kitchen, warm cream tile, soft blue shadows, gold repair lines.",
+        "subject": "An adult’s hands gathering broken ceramic pieces into a repaired bowl.",
+        "action": "The person carefully collects fragments while a sealed blank envelope waits beyond a cracked tile line, suggesting a next act without specifying it.",
+        "environment": "A modest lived-in kitchen at dawn: wooden chair, dish towel, cool window, ordinary household wear.",
+        "impossible_image": "The bowl is simultaneously open and visibly repaired, its gold seams forming a small luminous bridge across the broken pieces it receives.",
+        "composition": "Low floor-level view; bowl in foreground center, hands entering from both sides, sealed blank envelope beyond the tile crack; title on bowl rim.",
+        "camera": "50mm close environmental still life, natural perspective and tactile detail.",
+        "lighting": "Gentle blue dawn from window mixed with warm under-cabinet practical light.",
+        "accent": "Gold ceramic seams and one restrained red thread leading toward the envelope.",
+        "motif_placement": "Empty vessel central; gold seams form bridge; red thread crosses the tile crack toward the future action.",
+        "avoid": "Angel imagery, spa aesthetics, sentimental embrace poses, excessive gold glow."
+      }
+    },
+    "39": {
+      "number": 40,
+      "arcana_number": null,
+      "id": "germination",
+      "title": "Germination",
+      "category": "minor",
+      "suit": "root",
+      "rank": "seed",
+      "concept_source": {
+        "domains": [
+          "botany"
+        ],
+        "concept": "germination and dormancy",
+        "factual_anchor": "Seeds germinate when viable tissues encounter workable combinations of moisture, temperature, oxygen, and sometimes light; many species also persist through dormancy until conditions change.",
+        "reflective_bridge": "Potential becomes growth only under viable conditions; waiting can be active preparation.",
+        "epistemic_boundary": "This is a biological model, not evidence that every delay is meaningful or that readiness guarantees an outcome."
+      },
+      "essence": "A beginning asks for conditions, not applause.",
+      "generative": "Attend to the small material requirements of a new practice, recovery, or commitment: rest, time, tools, privacy, and a tolerable first step.",
+      "destructive": "Do not confuse pressure with cultivation. Forcing an unready beginning can exhaust what you hoped to grow.",
+      "reversed": "Dormancy mistaken for failure; a start announced before its conditions are protected.",
+      "emotional_register": "quiet expectancy",
+      "question": "What condition—not more willpower—would make the next small growth possible?",
+      "lineage": "Minor Arcana · Root · Seed: initial conditions, potential, and first contact.",
+      "motifs": [
+        "seed",
+        "well",
+        "doorway"
+      ],
+      "accessible_visual_description": "A large pale seed has split in dark, damp soil. A white root curls downward toward a round stone well, while one green shoot reaches through a narrow opening in a rusted garden gate.",
+      "image_brief": {
+        "emotional_impact": "Protected hope, intimate and unsentimental.",
+        "value_key": "low key: near-black loam, pearl seed, and one luminous green shoot.",
+        "subject": "A cracked bean seed releasing a root and shoot.",
+        "action": "The root finds moisture while the shoot passes into daylight.",
+        "environment": "A rain-dark allotment bed beside an old iron gate.",
+        "impossible_image": "The seed's open halves contain a tiny moonlit well of clear water.",
+        "composition": "Close ground-level view; the gate opening forms a doorway above the shoot. Integrate exact title lettering “Germination” in a lower earthenware cartouche; include the Root suit sigil and a distinct nonnumeric Seed rank mark.",
+        "camera": "Macro, shallow focus, tactile soil detail.",
+        "lighting": "Cool predawn with a thin warm beam beyond the gate.",
+        "accent": "Fresh chlorophyll green.",
+        "motif_placement": "Seed central, well inside it, doorway upper right.",
+        "avoid": "No floating seeds, magical rays, lush generic jungle, or infant imagery."
+      }
+    },
+    "40": {
+      "number": 41,
+      "arcana_number": null,
+      "id": "homeostasis",
+      "title": "Homeostasis",
+      "category": "minor",
+      "suit": "root",
+      "rank": "flow",
+      "concept_source": {
+        "domains": [
+          "physiology",
+          "systems"
+        ],
+        "concept": "dynamic regulation",
+        "factual_anchor": "Physiological systems regulate variables such as temperature, glucose, and fluid balance through interacting feedback processes; their values fluctuate within viable ranges rather than remaining fixed.",
+        "reflective_bridge": "Stability is active adjustment around viable ranges, not permanent stillness.",
+        "epistemic_boundary": "This is not a demand to self-regulate alone; illness, disability, stress, and unequal conditions can limit available adjustment."
+      },
+      "essence": "Balance is a living series of corrections.",
+      "generative": "Notice which adjustments restore a workable range: food, movement, medication, boundaries, money, companionship, or a change of pace.",
+      "destructive": "A life organized around perfect control can turn every fluctuation into an emergency and every need into a defect.",
+      "reversed": "Rigid equilibrium; compensating so constantly that the system no longer reveals its cost.",
+      "emotional_register": "alert steadiness",
+      "question": "Where are you seeking stillness when a kinder rhythm of adjustment is what the situation permits?",
+      "lineage": "Minor Arcana · Root · Flow: movement, transfer, and changing state.",
+      "motifs": [
+        "circuit",
+        "bridge",
+        "crystal"
+      ],
+      "accessible_visual_description": "A copper vessel hangs between two stone basins, pouring a thin stream first to one side and then the other. A small brass circuit ring encircles it, and a crystal float marks the water level.",
+      "image_brief": {
+        "emotional_impact": "Composure under motion.",
+        "value_key": "high key: chalk white stone, clear water, copper, and restrained blue shadow.",
+        "subject": "A balanced water-regulating apparatus built from ceramic basins and copper valves.",
+        "action": "A floating valve redirects water as one basin rises.",
+        "environment": "An open limestone courtyard after rain.",
+        "impossible_image": "The circuit ring casts a shadow shaped like a bridge over the water.",
+        "composition": "Centered symmetric apparatus, with the stream making a subtle diagonal. Integrate exact title lettering “Homeostasis” in a lower glazed ceramic cartouche; include the Root suit sigil and a distinct nonnumeric Flow rank mark.",
+        "camera": "Straight-on medium-format still life.",
+        "lighting": "Clean overcast daylight, bright but soft.",
+        "accent": "Oxidized verdigris.",
+        "motif_placement": "Circuit around vessel, bridge-shadow below, crystal float at center.",
+        "avoid": "No medical monitor graphics, human organs, sterile laboratory cliché, or neon cyberpunk."
+      }
+    },
+    "41": {
+      "number": 42,
+      "arcana_number": null,
+      "id": "kinship",
+      "title": "Kinship",
+      "category": "minor",
+      "suit": "root",
+      "rank": "bond",
+      "concept_source": {
+        "domains": [
+          "anthropology",
+          "ecology"
+        ],
+        "concept": "kinship and relatedness",
+        "factual_anchor": "Kinship systems organize belonging and obligation through varying combinations of descent, marriage, adoption, residence, care, and social recognition; ecological relations likewise involve interdependence without implying human family roles.",
+        "reflective_bridge": "Obligation and belonging are made through biology, culture, care, and choice.",
+        "epistemic_boundary": "Kinship is neither universally biological nor automatically benevolent; family language must not excuse coercion, exclusion, or harm."
+      },
+      "essence": "Belonging is enacted through accountable relation.",
+      "generative": "Name the people, places, and more-than-human conditions you are already sustaining—and ask what forms of reciprocity they can genuinely bear.",
+      "destructive": "Inherited loyalty can become a cage when obligation is used to silence consent, difference, or necessary distance.",
+      "reversed": "A severed tie treated as moral failure; chosen care dismissed because it lacks sanctioned lineage.",
+      "emotional_register": "warm gravity",
+      "question": "Which bond asks for repair, and which asks for a boundary that makes care more honest?",
+      "lineage": "Minor Arcana · Root · Bond: relation, constraint, and mutual influence.",
+      "motifs": [
+        "web",
+        "red-thread",
+        "split-tree"
+      ],
+      "accessible_visual_description": "Several adult hands of different ages repair a torn fishing net around the roots of a split alder tree. A red thread runs through the net and leads to a small bird nest on a nearby branch.",
+      "image_brief": {
+        "emotional_impact": "Tender obligation with visible strain.",
+        "value_key": "middle key: weathered brown wood, muted hands, slate water, and red thread.",
+        "subject": "A split alder whose roots are held within a mended net.",
+        "action": "Multiple hands stitch the tear together without hiding the split in the trunk.",
+        "environment": "A tidal shore at low water, with shells and working boats far behind.",
+        "impossible_image": "The net's knots subtly map into branching rootlets beneath the sand.",
+        "composition": "Tree split vertical at center; hands and net create a horizontal web. Integrate exact title lettering “Kinship” in a lower stitched-leather cartouche; include the Root suit sigil and a distinct nonnumeric Bond rank mark.",
+        "camera": "Close documentary-style view, no faces required.",
+        "lighting": "Late-afternoon cloud break, warm and gray together.",
+        "accent": "One continuous red thread.",
+        "motif_placement": "Split-tree central, web across roots, red-thread traversing hands.",
+        "avoid": "No sentimental family portrait, ancestry-DNA imagery, matching outfits, or idealized tribal symbolism."
+      }
+    },
+    "42": {
+      "number": 43,
+      "arcana_number": null,
+      "id": "niche",
+      "title": "Niche",
+      "category": "minor",
+      "suit": "root",
+      "rank": "pattern",
+      "concept_source": {
+        "domains": [
+          "ecology"
+        ],
+        "concept": "ecological niche",
+        "factual_anchor": "An ecological niche describes how an organism uses resources and responds to environmental conditions and other species; it is not simply a physical location or a measure of worth.",
+        "reflective_bridge": "Capacity depends on relation between organism and environment, not isolated merit alone.",
+        "epistemic_boundary": "A niche is an ecological concept, not a prescription that people have one fixed social role or naturally belong in any particular hierarchy."
+      },
+      "essence": "Fit is a relation, not a verdict on your worth.",
+      "generative": "Study the conditions under which your particular capacities become useful: scale, rhythm, tools, collaborators, habitat, and limits.",
+      "destructive": "The search for a perfect fit can excuse passivity, obscure structural barriers, or turn adaptation into self-erasure.",
+      "reversed": "Misfit internalized as deficiency; a pattern repeated long after its environment has changed.",
+      "emotional_register": "curious relief",
+      "question": "What environment would let a real capacity of yours function without requiring you to become someone else?",
+      "lineage": "Minor Arcana · Root · Pattern: repetition, structure, and learned regularity.",
+      "motifs": [
+        "key",
+        "web",
+        "crystal"
+      ],
+      "accessible_visual_description": "A small shore crab occupies a precise hollow in a tidepool rock. Its shell pattern echoes the surrounding crystals, while a tiny key lies half buried in wet sand outside the pool.",
+      "image_brief": {
+        "emotional_impact": "Recognition without confinement.",
+        "value_key": "middle-to-high key: milky tidepool water, pink granite, patterned shell, and silver reflections.",
+        "subject": "A shore crab settled in a rock crevice at the waterline.",
+        "action": "The crab braces as a wave enters, using the exact shape of its hollow.",
+        "environment": "A detailed intertidal shelf with anemones, barnacles, and retreating surf.",
+        "impossible_image": "The rock crystal facets repeat the crab's carapace geometry at a larger scale.",
+        "composition": "Tidepool is a natural frame; crab offset lower left, open water beyond. Integrate exact title lettering “Niche” in a lower shell-inlaid cartouche; include the Root suit sigil and a distinct nonnumeric Pattern rank mark.",
+        "camera": "Low macro landscape, crisp texture throughout.",
+        "lighting": "Clear morning side light sparkling on water.",
+        "accent": "Cobalt blue in one pool reflection.",
+        "motif_placement": "Crystal in the rock wall, key in foreground sand, web suggested by tide lines.",
+        "avoid": "No animal-as-spirit-guide trope, human face in nature, or generic underwater scene."
+      }
+    },
+    "43": {
+      "number": 44,
+      "arcana_number": null,
+      "id": "scarcity",
+      "title": "Scarcity",
+      "category": "minor",
+      "suit": "root",
+      "rank": "friction",
+      "concept_source": {
+        "domains": [
+          "economics, ecology,",
+          "psychology"
+        ],
+        "concept": "scarcity constraints",
+        "factual_anchor": "Limited time, money, food, energy, habitat, and attention require tradeoffs. Scarcity can arise from physical limits and from policy, ownership, distribution, and unequal access; sustained deprivation can narrow attention toward urgent demands.",
+        "reflective_bridge": "Limited resources alter attention and tradeoffs; scarcity is material and can also be institutionally produced.",
+        "epistemic_boundary": "Scarcity is not a personal virtue test or a mindset problem, and it should not be used to blame people for deprivation."
+      },
+      "essence": "A limit clarifies; deprivation can also deform.",
+      "generative": "Make the constraint visible. Protect essentials, identify the real tradeoff, share information, and seek collective or institutional remedies where an individual workaround is inadequate.",
+      "destructive": "Urgency can shrink the field of view until every relation becomes transactional and every reserve is consumed.",
+      "reversed": "Hoarding under the banner of prudence; an artificial bottleneck accepted as inevitable.",
+      "emotional_register": "sober urgency",
+      "question": "What is truly limited here, who controls its distribution, and what must not be sacrificed to cope?",
+      "lineage": "Minor Arcana · Root · Friction: resistance, cost, and productive constraint.",
+      "motifs": [
+        "empty-vessel",
+        "key",
+        "crystal"
+      ],
+      "accessible_visual_description": "A nearly empty grain jar sits on a scratched kitchen table beside a small set of wooden counting tokens, a locked metal pantry, and one carefully divided piece of bread. The jar casts a long shadow shaped like a keyhole.",
+      "image_brief": {
+        "emotional_impact": "Dignified pressure, not spectacle.",
+        "value_key": "low key: umber room, charcoal pantry, pale bread, and hard brass highlights.",
+        "subject": "An almost empty glass grain jar and a measured meal.",
+        "action": "A hand divides the final loaf with a plain knife, not yet taking a portion.",
+        "environment": "A modest, real kitchen with worn linoleum and a rain-streaked window.",
+        "impossible_image": "The empty jar contains a faint crystalline map of branching supply routes.",
+        "composition": "Tabletop still life, strong diagonal from jar to locked pantry. Integrate exact title lettering “Scarcity” in a lower stamped-tin cartouche; include the Root suit sigil and a distinct nonnumeric Friction rank mark.",
+        "camera": "Intimate 50mm still life, eye level with table.",
+        "lighting": "One cold window and a small warm overhead bulb.",
+        "accent": "Brass lock and key glint.",
+        "motif_placement": "Empty-vessel left, keyhole-shadow center, crystal map inside jar.",
+        "avoid": "No poverty voyeurism, famine imagery, luxury excess, or moralizing facial expression."
+      }
+    },
+    "44": {
+      "number": 45,
+      "arcana_number": null,
+      "id": "succession",
+      "title": "Succession",
+      "category": "minor",
+      "suit": "root",
+      "rank": "rupture",
+      "concept_source": {
+        "domains": [
+          "ecology"
+        ],
+        "concept": "ecological succession",
+        "factual_anchor": "After disturbance, ecosystems may change through sequences of colonization, soil development, competition, and altered species composition. Pathways vary with climate, site history, dispersal, and ongoing disturbance.",
+        "reflective_bridge": "After disturbance, communities reorganize through stages; recovery is not a return to the exact prior state.",
+        "epistemic_boundary": "Ecological succession does not imply that personal loss follows a predictable healing schedule or culminates in improvement."
+      },
+      "essence": "After the break, life reorganizes rather than rewinds.",
+      "generative": "Let the changed ground teach you its next requirements. Make room for provisional forms, new allies, and evidence of recovery that does not resemble the past.",
+      "destructive": "Demanding restoration of the old arrangement can blind you to what was lost, what remains dangerous, and what new life needs.",
+      "reversed": "Rupture denied; rebuilding the same vulnerability on damaged ground.",
+      "emotional_register": "grieving renewal",
+      "question": "What has ended beyond repair—and what modest, different form of continuity is already taking root?",
+      "lineage": "Minor Arcana · Root · Rupture: discontinuity, loss, and phase transition.",
+      "motifs": [
+        "split-tree",
+        "seed",
+        "spiral"
+      ],
+      "accessible_visual_description": "A burned hillside holds blackened trunks, bright fireweed, moss, and young pine seedlings. A fallen split tree forms a bridge across an ash-gray creek, and its growth rings spiral visibly outward.",
+      "image_brief": {
+        "emotional_impact": "Loss held beside unsentimental renewal.",
+        "value_key": "high key: pale ash, white sky, black trunks, and startling magenta fireweed.",
+        "subject": "A post-fire forest beginning to regenerate.",
+        "action": "New plants emerge through ash while water moves beneath a fallen trunk.",
+        "environment": "A mountain slope one growing season after wildfire.",
+        "impossible_image": "The exposed rings of the fallen tree become a topographic spiral flowing into the creek.",
+        "composition": "Burned trunks create vertical rhythm; split-tree bridge crosses the lower frame. Integrate exact title lettering “Succession” in a lower charred-wood cartouche; include the Root suit sigil and a distinct nonnumeric Rupture rank mark.",
+        "camera": "Wide environmental view with foreground botanical precision.",
+        "lighting": "Brilliant post-storm morning, clear air.",
+        "accent": "Magenta fireweed.",
+        "motif_placement": "Split-tree as bridge, seedling cluster foreground, spiral in cut trunk.",
+        "avoid": "No apocalyptic inferno, pristine forest reset, or triumphant disaster aesthetic."
+      }
+    },
+    "45": {
+      "number": 46,
+      "arcana_number": null,
+      "id": "resilience",
+      "title": "Resilience",
+      "category": "minor",
+      "suit": "root",
+      "rank": "feedback",
+      "concept_source": {
+        "domains": [
+          "ecology",
+          "materials science"
+        ],
+        "concept": "resilience and adaptive capacity",
+        "factual_anchor": "In ecology, resilience concerns the capacity of a system to absorb disturbance and reorganize while retaining important functions; in materials science, repeated stress can produce elastic recovery, fatigue, fracture, or redesign depending on the material and load.",
+        "reflective_bridge": "Persistence can mean recovery, transformation, or redistribution of strain—not endless endurance.",
+        "epistemic_boundary": "Resilience is not an obligation to withstand avoidable harm, nor proof that a person or community should receive less support."
+      },
+      "essence": "Strength includes changing how the load is carried.",
+      "generative": "Track the feedback: what restores capacity, what accumulates strain, and where can support, repair, or redesign interrupt the damage?",
+      "destructive": "Praise for endurance can conceal fatigue until failure is the only remaining signal.",
+      "reversed": "Brittle self-reliance; returning to form while ignoring the forces that keep bending it.",
+      "emotional_register": "sturdy tenderness",
+      "question": "What would resilience look like if it included relief, redistribution, and the right to change shape?",
+      "lineage": "Minor Arcana · Root · Feedback: recursive consequence, correction, and amplification.",
+      "motifs": [
+        "circuit",
+        "bridge",
+        "spiral"
+      ],
+      "accessible_visual_description": "A bent spring of blued steel supports a small footbridge over a ravine. Fine cracks on one support are being measured by a red thread that loops back through a brass circuit-like gauge.",
+      "image_brief": {
+        "emotional_impact": "Earned endurance at the edge of its limit.",
+        "value_key": "middle key: storm blue steel, granite, fog, and warm brass.",
+        "subject": "An engineered footbridge with a visible resilient spring support.",
+        "action": "The bridge flexes under a single walker while a feedback gauge redirects tension.",
+        "environment": "A rocky gorge with wind-bent grasses.",
+        "impossible_image": "The red measuring thread loops through the gauge and returns as a luminous spiral in the bridge's shadow.",
+        "composition": "Bridge sweeps diagonally across the ravine; spring support is foreground focal point. Integrate exact title lettering “Resilience” in a lower riveted-brass cartouche; include the Root suit sigil and a distinct nonnumeric Feedback rank mark.",
+        "camera": "Low wide-angle view from the gorge rim.",
+        "lighting": "Breaks of amber sun through a blue storm.",
+        "accent": "A precise red thread.",
+        "motif_placement": "Bridge spans frame, circuit gauge on support, spiral shadow below.",
+        "avoid": "No superhero imagery, shattered body symbolism, impossible acrobatics, or motivational-poster polish."
+      }
+    },
+    "46": {
+      "number": 47,
+      "arcana_number": null,
+      "id": "stewardship",
+      "title": "Stewardship",
+      "category": "minor",
+      "suit": "root",
+      "rank": "integration",
+      "concept_source": {
+        "domains": [
+          "ethics",
+          "environmental thought"
+        ],
+        "concept": "stewardship",
+        "factual_anchor": "Stewardship is an ethical practice of taking responsibility for resources, institutions, and living conditions held in trust, often emphasizing maintenance, repair, transparency, and obligations to others across time.",
+        "reflective_bridge": "Care for conditions beyond oneself joins power with accountability across time.",
+        "epistemic_boundary": "Stewardship should not presume ownership over land, communities, or future people; legitimate care requires consent, humility, and accountability."
+      },
+      "essence": "To hold power well is to maintain the conditions of others' continuity.",
+      "generative": "Use whatever authority you have to repair infrastructure, share access, document decisions, and leave resources more habitable than you found them.",
+      "destructive": "Care becomes domination when the steward confuses responsibility with possession or speaks for those excluded from the table.",
+      "reversed": "Neglect disguised as neutrality; control disguised as protection.",
+      "emotional_register": "grave devotion",
+      "question": "What are you temporarily holding, and what accountability would make your care worthy of that trust?",
+      "lineage": "Minor Arcana · Root · Integration: adaptation, coherence, and carrying forward.",
+      "motifs": [
+        "key",
+        "well",
+        "web"
+      ],
+      "accessible_visual_description": "An adult groundskeeper repairs the stone rim of a public well while a young tree is tied to a support with red cord. A ring of keys hangs from their belt, and a metal water grate reveals a web of roots beneath.",
+      "image_brief": {
+        "emotional_impact": "Competent care with accountable weight.",
+        "value_key": "middle-to-high key: sun-warmed limestone, deep well water, green leaves, and iron gray.",
+        "subject": "A public well, a newly planted tree, and tools of maintenance.",
+        "action": "A groundskeeper resets a loose stone while leaving the well's access gate open.",
+        "environment": "A civic orchard beside an old neighborhood square, visibly used and cared for.",
+        "impossible_image": "Below the well water, roots form a delicate web connecting to distant foundation stones.",
+        "composition": "Well dominates left foreground; tree and worker balance right; open gate frames the square. Integrate exact title lettering “Stewardship” in a lower carved-stone cartouche; include the Root suit sigil and a distinct nonnumeric Integration rank mark.",
+        "camera": "Human-height 35mm environmental portrait, worker seen from the side.",
+        "lighting": "Clear late-morning sunlight with deep water reflections.",
+        "accent": "Red tree tie and aged iron keys.",
+        "motif_placement": "Well foreground, key belt right, root-web visible through water.",
+        "avoid": "No colonial explorer imagery, pastoral fantasy, pristine emptiness, or saintly halo."
+      }
+    },
+    "47": {
+      "number": 48,
+      "arcana_number": null,
+      "id": "bit",
+      "title": "Bit",
+      "category": "minor",
+      "suit": "signal",
+      "rank": "seed",
+      "concept_source": {
+        "domains": [
+          "information theory",
+          "computing"
+        ],
+        "concept": "binary distinction",
+        "factual_anchor": "In digital systems, a bit conventionally represents one of two distinguishable states, allowing larger strings of bits to encode data.",
+        "reflective_bridge": "A minimal distinction enables representation, but lived reality is not therefore binary.",
+        "epistemic_boundary": "This is a model of encoding and decision-making, not evidence that people, motives, or situations are inherently reducible to two kinds."
+      },
+      "essence": "The first useful difference: this rather than that.",
+      "generative": "Name the smallest distinction that changes what you can do. A clear yes/no, open/closed, sent/not sent, or safe/not safe can create a foothold before a more nuanced account is possible.",
+      "destructive": "A clean division can become a blade. When a provisional category is treated as the whole truth, complexity, ambivalence, and people who do not fit are made to disappear.",
+      "reversed": "The distinction has either hardened into false certainty or dissolved into avoidance. Revisit what the binary was meant to serve, then add the missing conditions.",
+      "emotional_register": "Crisp, tentative, empowering.",
+      "question": "What is the smallest distinction I need to make now—and what important reality must remain outside it?",
+      "lineage": "Signal — Seed: first contact with information begins when a difference can be noticed, marked, and carried forward.",
+      "motifs": [
+        "seed",
+        "key",
+        "crystal"
+      ],
+      "accessible_visual_description": "On an ivory worktable, a small black-and-white punched card stands upright beside an open brass key. A single red seed rests between two precisely cut slots. The title “Bit” is printed in dark letterpress type on a pale lower cartouche.",
+      "image_brief": {
+        "emotional_impact": "A moment of lucid beginning: small, exact, and consequential.",
+        "value_key": "High key: chalk white, warm ivory, charcoal, with one restrained vermilion accent.",
+        "subject": "One upright punched card with two square apertures; a small brass key and one red seed.",
+        "action": "A narrow beam of daylight passes through one aperture while the other remains dark.",
+        "environment": "A materially real drafting table with paper fibers, faint graphite marks, and a worn metal ruler.",
+        "impossible_image": "The light passing through the open square casts a vast, sharply bounded landscape of white and black across the tabletop.",
+        "composition": "Near-symmetrical close still life, with the card centered above a lower artistic cartouche bearing the exact title “Bit.”",
+        "camera": "Straight-on macro-to-medium product-photography perspective, shallow but legible depth of field.",
+        "lighting": "Clean lateral morning light, precise cast shadows.",
+        "accent": "One vermilion seed, no other saturated color.",
+        "motif_placement": "Seed at the base of the card; key angled at lower left; faint crystal-like grid engraved into the card stock.",
+        "avoid": "No floating code, no mystical glow, no generic cyberpunk interface, no binary digits scattered as decoration."
+      }
+    },
+    "48": {
+      "number": 49,
+      "arcana_number": null,
+      "id": "transmission",
+      "title": "Transmission",
+      "category": "minor",
+      "suit": "signal",
+      "rank": "flow",
+      "concept_source": {
+        "domains": [
+          "communication theory"
+        ],
+        "concept": "message transmission",
+        "factual_anchor": "Communication channels carry signals across time and distance with finite capacity; encoding, delay, interference, and receiver context affect what arrives.",
+        "reflective_bridge": "Meaning travels through channels with delay, bandwidth, context, and loss.",
+        "epistemic_boundary": "The channel is a grounded metaphor for communication practices, not a claim that intention guarantees understanding or that every event carries a hidden message."
+      },
+      "essence": "What leaves you is not yet what reaches another.",
+      "generative": "Choose the channel with care. State the purpose, allow time for receipt, and build a way for the other person to answer. Redundancy—written follow-up, examples, confirmation—can be an act of respect.",
+      "destructive": "Urgency can mistake sending for being understood. A message sent into a crowded, frightened, or unequal channel may arrive clipped, delayed, weaponized, or not at all.",
+      "reversed": "The line is overmanaged or abandoned. Stop broadcasting into silence, or loosen the grip on perfect delivery long enough to invite a real reply.",
+      "emotional_register": "Longing, patience, and practical tenderness.",
+      "question": "What must be transmitted, through which channel, and how will I learn what actually arrived?",
+      "lineage": "Signal — Flow: information becomes consequential as it moves between bodies, devices, rooms, and institutions.",
+      "motifs": [
+        "red-thread",
+        "circuit",
+        "moth"
+      ],
+      "accessible_visual_description": "A red thread runs through a brass telegraph relay from a sealed blank message packet toward a distant receiving window. A pale moth hovers near the lamp but does not touch it. The title “Transmission” appears on a weathered lower cartouche.",
+      "image_brief": {
+        "emotional_impact": "The ache and discipline of trying to reach someone across distance.",
+        "value_key": "Middle key: rain-muted slate, aged brass, paper cream, and deep red.",
+        "subject": "A brass relay apparatus, a sealed blank message packet, and a taut red thread used as a visual signal path.",
+        "action": "The thread passes through contact points and continues toward a fogged window where a second, barely visible hand receives it.",
+        "environment": "A railway signal room during rain, with enamel insulators, wet glass, and wood worn by decades of use.",
+        "impossible_image": "The red thread remains physically continuous through the wall and vanishes into a far-off lit window across the rain.",
+        "composition": "Strong horizontal movement from sender at left to receiver at right; lower central cartouche integrates the exact title “Transmission.”",
+        "camera": "Medium-wide cinematic still life at table height, focus traveling along the thread.",
+        "lighting": "Cool overcast window light interrupted by one warm relay lamp.",
+        "accent": "Deep red thread and a small amber filament.",
+        "motif_placement": "Red thread crosses the full frame; circuit contacts under it; moth suspended near the lamp at upper right.",
+        "avoid": "No radio-wave icons, no holograms, no sentimental lovers, no magical beam of telepathy."
+      }
+    },
+    "49": {
+      "number": 50,
+      "arcana_number": null,
+      "id": "protocol",
+      "title": "Protocol",
+      "category": "minor",
+      "suit": "signal",
+      "rank": "bond",
+      "concept_source": {
+        "domains": [
+          "computing",
+          "institutions"
+        ],
+        "concept": "protocols",
+        "factual_anchor": "Protocols specify agreed formats, sequences, and expectations that let independent systems or participants exchange information and coordinate actions.",
+        "reflective_bridge": "Shared rules make coordination possible while privileging some interactions over others.",
+        "epistemic_boundary": "Rules can organize behavior but do not make systems neutral, fair, or free of power; this card is not a justification for compliance at any cost."
+      },
+      "essence": "A shared sequence makes meeting possible—and sets the terms of entry.",
+      "generative": "Make expectations visible: who speaks, what counts as consent, how repair happens, who may access the room, and what follows a breach. Good procedure can lower the burden of guessing.",
+      "destructive": "An inherited script can conceal exclusion behind politeness. Rules that no one can question may preserve order by forcing some people to translate themselves endlessly or remain outside.",
+      "reversed": "Either the container is rigid past usefulness, or every agreement is being treated as oppression. Negotiate the rule, its exceptions, and who has authority to revise it.",
+      "emotional_register": "Formal, watchful, mutually accountable.",
+      "question": "Which agreement makes this relationship or group workable, and whom does its current form leave at the threshold?",
+      "lineage": "Signal — Bond: coordination depends on mutual constraints, legible expectations, and the right to contest their design.",
+      "motifs": [
+        "doorway",
+        "key",
+        "web"
+      ],
+      "accessible_visual_description": "Two people on opposite sides of a blue enamel doorway exchange matching brass tokens through a small pass-through slot. Fine thread lines connect distinctly shaped sockets around the frame. The title “Protocol” is engraved on the lower metal threshold.",
+      "image_brief": {
+        "emotional_impact": "Dignity in agreement, with a visible question about access.",
+        "value_key": "Middle-to-high key: institutional blue, cream, brass, and muted oxblood.",
+        "subject": "A blue enamel doorway, paired brass tokens, two different hands, and a precise pass-through aperture.",
+        "action": "Each hand offers a token in the same ordered gesture, while the doorway remains partly closed.",
+        "environment": "A public records hall with terrazzo floor, patterned lockers and smooth-worn wayfinding shapes without letters or numerals.",
+        "impossible_image": "The thin web of connection lines across the doorway aligns perfectly with the physical sockets, like a hidden connection structure made tangible.",
+        "composition": "Frontal architectural symmetry interrupted by the two human hands; exact title “Protocol” engraved into a lower threshold cartouche.",
+        "camera": "Eye-level, medium-format architectural portrait perspective.",
+        "lighting": "Diffuse clerestory light with quiet reflections on enamel and brass.",
+        "accent": "A single oxblood authorization seal on one token.",
+        "motif_placement": "Doorway dominates center; key-shaped token at the pass-through; web lines radiate subtly across the frame.",
+        "avoid": "No police imagery, no faceless bureaucracy caricature, no fantasy gate, no glowing runes."
+      }
+    },
+    "50": {
+      "number": 51,
+      "arcana_number": null,
+      "id": "algorithm",
+      "title": "Algorithm",
+      "category": "minor",
+      "suit": "signal",
+      "rank": "pattern",
+      "concept_source": {
+        "domains": [
+          "computer science"
+        ],
+        "concept": "algorithmic procedure",
+        "factual_anchor": "An algorithm is a finite, specified procedure for transforming inputs into outputs; its behavior depends on its instructions, data, constraints, and evaluation criteria.",
+        "reflective_bridge": "A procedure makes steps explicit and repeatable, but its goal and inputs remain value-laden.",
+        "epistemic_boundary": "Algorithms do not independently decide what matters. This card uses procedural thinking as reflection, not as a claim that human judgment can be automated away."
+      },
+      "essence": "A repeatable path is never free of chosen priorities.",
+      "generative": "Externalize a recurring task. Ask what inputs you are using, what outcome you optimize for, what exceptions recur, and where a human pause is necessary. A good process can spare attention for what cannot be standardized.",
+      "destructive": "Efficiency can become moral camouflage. If the metric is too narrow, a procedure may repeatedly produce harm while making its operators feel objective and distant from the result.",
+      "reversed": "You may be trapped in ritual steps that no longer serve their aim, or refusing all structure because structure feels controlling. Inspect the goal before changing the method.",
+      "emotional_register": "Clear-eyed, industrious, ethically alert.",
+      "question": "What does my current procedure reliably produce, and whose values did I encode when I chose that outcome?",
+      "lineage": "Signal — Pattern: repeated instructions turn isolated decisions into a system with recognizable consequences.",
+      "motifs": [
+        "circuit",
+        "crystal",
+        "seed"
+      ],
+      "accessible_visual_description": "A baker’s wooden workbench holds a hand-drawn flowchart, measuring spoons, a small circuit board, and rows of identical dough pieces. One red seed interrupts the neat sequence. The title “Algorithm” is stamped into a flour-dusted lower cartouche.",
+      "image_brief": {
+        "emotional_impact": "The seduction of order, pierced by a necessary exception.",
+        "value_key": "Warm high key: flour white, honey wood, ink black, and restrained cobalt.",
+        "subject": "A real workbench combining an unlabeled sequence of shaped wooden instruction tiles, metal measuring tools, dough portions, and a small exposed circuit board.",
+        "action": "A hand pauses above the next indicated step, hovering over one anomalous red seed among orderly inputs.",
+        "environment": "An early-morning bakery workspace, materially tactile: flour dust, knife marks, grease pencil, cooling racks.",
+        "impossible_image": "The hand-drawn arrows on the paper continue as faint raised channels across the bench and enter the circuit board without becoming luminous.",
+        "composition": "Top-down oblique composition organized into a readable branching flow, with a lower flour-dusted cartouche carrying the exact title “Algorithm.”",
+        "camera": "Overhead editorial still-life camera, crisp detail across the working surface.",
+        "lighting": "Soft skylight with warm side bounce; no dramatic darkness.",
+        "accent": "Cobalt circuit traces and one vermilion seed.",
+        "motif_placement": "Circuit board at upper right, subtle crystalline geometry in the chart margins, seed at the skipped decision point.",
+        "avoid": "No humanoid robot, no scrolling source code, no neon AI imagery, no claim of mathematical inevitability."
+      }
+    },
+    "51": {
+      "number": 52,
+      "arcana_number": null,
+      "id": "noise",
+      "title": "Noise",
+      "category": "minor",
+      "suit": "signal",
+      "rank": "friction",
+      "concept_source": {
+        "domains": [
+          "information theory",
+          "communication"
+        ],
+        "concept": "noise",
+        "factual_anchor": "In communication and measurement, noise is unwanted variation or interference that makes a signal harder to detect, estimate, or decode; what counts as noise depends on the task and scale.",
+        "reflective_bridge": "Interference can obscure a message, reveal a weak channel, or become meaningful at another scale.",
+        "epistemic_boundary": "Not every distraction contains a lesson, and not every uncertainty is meaningful. The concept should support better attention and design, not romanticize confusion or distress."
+      },
+      "essence": "Interference asks whether the signal, the channel, or the demand for certainty needs changing.",
+      "generative": "Reduce avoidable interference: rest, clarify the request, change the room, widen the sample, document what is being lost. Sometimes the disturbance reveals that a channel is overloaded or that the original question is poorly formed.",
+      "destructive": "Constant static can exhaust discernment. You may begin treating every detail as equally urgent, or dismiss a vital dissent as mere interference because it complicates your preferred signal.",
+      "reversed": "Silence may be mistaken for clarity, or disruption may be given too much authority. Test your assumptions with another channel and a defined threshold for action.",
+      "emotional_register": "Irritated, investigative, resilient.",
+      "question": "What is actually interfering here, and what have I too quickly labeled as irrelevant?",
+      "lineage": "Signal — Friction: communication encounters cost, ambiguity, competing demands, and limits of attention.",
+      "motifs": [
+        "moth",
+        "eclipse",
+        "well"
+      ],
+      "accessible_visual_description": "In a dim repair shop, a tabletop radio emits a torn strip of paper marked with irregular black static. A mechanic listens beside a deep metal basin reflecting a partial eclipse. The title “Noise” is painted on a chipped lower panel.",
+      "image_brief": {
+        "emotional_impact": "Frustration becoming concentrated attention rather than panic.",
+        "value_key": "Low key with legible warm working light: charcoal, oil-black, dull silver, and sulfur yellow.",
+        "subject": "A disassembled tabletop radio, a paper tape of irregular marks, a mechanic’s hand, and a deep stainless catch basin.",
+        "action": "The hand adjusts a tuning wheel while the tape stutters outward; a moth circles just outside the lamp’s hottest edge.",
+        "environment": "A practical electronics repair shop with pegboard tools, dust, insulated wire, and rain audible beyond the window.",
+        "impossible_image": "In the basin’s dark reflection, a partial eclipse appears despite the indoor setting, suggesting incomplete visibility without supernatural radiance.",
+        "composition": "Dense diagonal from radio speaker to hand to reflective basin; exact title “Noise” hand-painted on a lower chipped-metal cartouche.",
+        "camera": "Close medium, 50mm documentary perspective with sharply resolved textures.",
+        "lighting": "One shielded task lamp against cool ambient darkness; strong but believable shadow detail.",
+        "accent": "Sulfur-yellow tuning marker and one small red wire.",
+        "motif_placement": "Moth at upper left outside lamp glare; eclipse in basin reflection; well implied by basin depth.",
+        "avoid": "No abstract TV static filling the image, no horror aesthetic, no glamorous neon glitch, no occult symbols."
+      }
+    },
+    "52": {
+      "number": 53,
+      "arcana_number": null,
+      "id": "fork",
+      "title": "Fork",
+      "category": "minor",
+      "suit": "signal",
+      "rank": "rupture",
+      "concept_source": {
+        "domains": [
+          "software development",
+          "social systems"
+        ],
+        "concept": "branching versions",
+        "factual_anchor": "In version-control systems, a fork or branch creates a diverging line of development from shared prior work; separate versions can later be maintained, compared, merged, or remain incompatible.",
+        "reflective_bridge": "A fork preserves ancestry while allowing incompatible development; divergence carries maintenance costs.",
+        "epistemic_boundary": "Divergence is not inherently liberation or failure. This card does not predict a destined split; it frames the practical and emotional work of choosing separate paths."
+      },
+      "essence": "A shared past does not require a shared future.",
+      "generative": "Separate with precision. Preserve what remains useful, state what cannot continue, and plan for the labor of maintaining distinct paths. A fork can protect experimentation, safety, and integrity when forced unity would deform everyone involved.",
+      "destructive": "A split can become an identity built on contempt. If each side denies its inheritance or refuses the cost of upkeep, the rupture repeats as blame, duplication, and brittle isolation.",
+      "reversed": "The break may be postponed because grief is feared, or maintained because reconciliation would threaten a cherished story. Identify what must remain separate and what could still be translated.",
+      "emotional_register": "Sober, grieving, self-possessed.",
+      "question": "What shared inheritance can I acknowledge while allowing a necessary divergence to become real?",
+      "lineage": "Signal — Rupture: systems, teams, and lives branch when one continuation can no longer hold all commitments.",
+      "motifs": [
+        "split-tree",
+        "red-thread",
+        "black-bird"
+      ],
+      "accessible_visual_description": "A mature pear tree splits into two living trunks above a workshop table holding two copied wooden pattern blocks with different red edges. A black bird watches from the higher branch. The title “Fork” is carved into a lower wooden plaque.",
+      "image_brief": {
+        "emotional_impact": "A painful division that still honors the life from which both futures grow.",
+        "value_key": "Middle key at cold dawn: wet bark brown, fog blue, paper cream, and oxblood red.",
+        "subject": "A visibly split but living pear tree, two materially distinct wooden pattern blocks, and a black bird.",
+        "action": "A single red thread unwinds from one old pattern block, divides at the trunk, and leads toward each separate block without tying them together.",
+        "environment": "An open-air workshop at the edge of an orchard after rain; sawdust, old tools, damp roots, and mist.",
+        "impossible_image": "The tree’s two trunks grow from one clearly continuous root mass yet cast shadows in opposite directions, making divergence visually unmistakable.",
+        "composition": "Vertical split tree centered above the paired objects; lower carved plaque integrates the exact title “Fork.”",
+        "camera": "Medium-wide, low eye-level portrait with enough depth to show both branches as equal futures.",
+        "lighting": "Cool dawn mist with a narrow warm break on the pattern blocks.",
+        "accent": "Oxblood pattern-block edges and the divided red thread.",
+        "motif_placement": "Split tree dominates center; black bird on right branch; red thread tracks from root to both paths.",
+        "avoid": "No broken-heart symbolism, no violent storm, no simplistic good-versus-evil sides, no software logos."
+      }
+    },
+    "53": {
+      "number": 54,
+      "arcana_number": null,
+      "id": "recursion",
+      "title": "Recursion",
+      "category": "minor",
+      "suit": "signal",
+      "rank": "feedback",
+      "concept_source": {
+        "domains": [
+          "computer science",
+          "logic"
+        ],
+        "concept": "recursion",
+        "factual_anchor": "A recursive procedure solves a problem by invoking itself on smaller or otherwise defined subproblems, and it requires a base case or stopping condition to terminate.",
+        "reflective_bridge": "A process can call upon a version of itself; without a base case, reflection becomes endless.",
+        "epistemic_boundary": "Recursive structure is a model for repeated thought and action, not a diagnosis of rumination or proof that every life pattern has a hidden origin."
+      },
+      "essence": "Return can deepen understanding only when there is a place to stop.",
+      "generative": "Revisit the pattern at a smaller scale: the same conflict, the same delay, the same promise. Define a base case—enough evidence, a time limit, a boundary, a next physical action—so reflection can become learning rather than an infinite loop.",
+      "destructive": "Self-reference can consume the world. Endless analysis of why you analyze may replace contact, repair, and rest; each return becomes proof that no exit exists.",
+      "reversed": "You may be cutting inquiry off too early, or unable to end it. Set a stopping rule that serves the present task, then test what changes after you act.",
+      "emotional_register": "Hypnotic, searching, gently urgent.",
+      "question": "Where does this pattern repeat, and what concrete base case would let me stop revisiting it for now?",
+      "lineage": "Signal — Feedback: outputs return as inputs, amplifying, correcting, or trapping a process over time.",
+      "motifs": [
+        "spiral",
+        "circuit",
+        "well"
+      ],
+      "accessible_visual_description": "A circular stair descends around a central well in a library archive. On each landing sits the same blue chair, smaller and farther away. A brass circuit loop ends at a closed switch. The title “Recursion” appears on the lowest visible stair riser.",
+      "image_brief": {
+        "emotional_impact": "Awe at patterned depth, paired with relief at a visible exit condition.",
+        "value_key": "Deep middle key: ultramarine, limestone gray, old brass, and a small field of warm white.",
+        "subject": "A stone archive stair spiraling around a real dark well, repeated blue chairs, and a brass electrical loop with a mechanical switch.",
+        "action": "A person at the nearest landing reaches toward the closed switch rather than continuing downward.",
+        "environment": "A quiet municipal archive with catalog drawers, worn limestone, distinct drawer pulls, and a skylight far above.",
+        "impossible_image": "Each lower chair is an exact scaled repetition of the upper one, continuing visibly into depth while remaining physically credible within the stair’s architecture.",
+        "composition": "Centered downward spiral, with a decisive switch in the foreground and the exact title “Recursion” integrated into the nearest lower stair-riser cartouche.",
+        "camera": "High-angle wide lens carefully corrected to preserve architectural solidity.",
+        "lighting": "Cool skylight falls down the shaft; one warm pool of light rests at the switch.",
+        "accent": "Ultramarine chair upholstery and a tiny red indicator at the circuit break.",
+        "motif_placement": "Spiral is the full architecture; well at center; circuit loop and break occupy foreground.",
+        "avoid": "No endless mirror cliché, no surreal face repetition, no vertigo-only distortion, no mystical portal."
+      }
+    },
+    "54": {
+      "number": 55,
+      "arcana_number": null,
+      "id": "interoperability",
+      "title": "Interoperability",
+      "category": "minor",
+      "suit": "signal",
+      "rank": "integration",
+      "concept_source": {
+        "domains": [
+          "computing",
+          "institutional design"
+        ],
+        "concept": "interoperability",
+        "factual_anchor": "Interoperability is the capacity of different systems to exchange information and use it meaningfully through compatible interfaces, standards, translation layers, and agreed boundaries.",
+        "reflective_bridge": "Different systems can cooperate through translation and shared boundaries without becoming identical.",
+        "epistemic_boundary": "Compatibility is neither total agreement nor automatic justice. Translation can lose meaning and standards can distribute costs unevenly; this is a prompt for negotiated design, not forced harmony."
+      },
+      "essence": "Connection works when difference is carried, not erased.",
+      "generative": "Build the interface: define terms, document handoffs, compensate translators, and preserve the local knowledge that cannot be flattened into one format. Cooperation can expand capacity without demanding sameness.",
+      "destructive": "Integration can become assimilation disguised as efficiency. The dominant system may call others incompatible when it simply refuses the work of translation, then treat loss of specificity as progress.",
+      "reversed": "The systems may be isolated by habit, or merged so completely that no boundary remains for consent, repair, or dissent. Restore a permeable interface.",
+      "emotional_register": "Hopeful, exacting, plural.",
+      "question": "What shared boundary would let us cooperate without requiring either side to become a copy of the other?",
+      "lineage": "Signal — Integration: mature coordination carries information across differences while retaining traceable limits and responsibilities.",
+      "motifs": [
+        "bridge",
+        "web",
+        "key"
+      ],
+      "accessible_visual_description": "A sunlit bridge joins a brick municipal archive to a modern glass data center. Under the bridge, two different rail gauges meet through a precisely machined adapter. The title “Interoperability” is inlaid into the lower bridge beam.",
+      "image_brief": {
+        "emotional_impact": "Earned optimism: distinct worlds meeting through visible, maintained craft.",
+        "value_key": "high key: pale sky, limestone, brick red, glass blue, and brushed steel.",
+        "subject": "A practical pedestrian-and-service bridge between a brick archive and a glass data center, with a detailed rail-gauge adapter below.",
+        "action": "Two workers from opposite sides align a removable steel interface plate while both systems remain visibly different.",
+        "environment": "A civic river crossing in clear late-afternoon weather; cables, maintenance markings, accessible ramps, and ordinary city life.",
+        "impossible_image": "Fine web-like structural cables carry small differently shaped translation tokens from one building’s architecture to the other, making the bridge’s interfaces visibly legible without becoming fantastical.",
+        "composition": "Wide horizontal panorama with bridge as central supported passage; exact title “Interoperability” inlaid in a lower beam-cartouche.",
+        "camera": "Wide architectural landscape from a nearby embankment, straight verticals, deep focus.",
+        "lighting": "Clear late-afternoon sun with bright but natural reflections in glass and water.",
+        "accent": "A small red safety key clipped to the interface plate.",
+        "motif_placement": "Bridge spans center; web cables radiate overhead; key hangs at lower center beside the adapter.",
+        "avoid": "No seamless futuristic utopia, no handshake stock image, no floating network icons, no implication that technology resolves political conflict."
+      }
+    }
+  },
+  "arcana": {
+    "major": {
+      "name": "Major Arcana",
+      "count": 15,
+      "purpose": "Rare, suitless, reading-reframing forces: deep transformations, enduring dilemmas, and world-scale patterns. Read a Major as changing the frame of the question, not as predicting an event."
+    },
+    "minor": {
+      "name": "Minor Arcana",
+      "count": 40,
+      "purpose": "Situated expressions of larger forces in ordinary life. Suit identifies the domain; rank identifies the process through which it is being lived."
+    },
+    "count_rule": "major_count * 2 < minor_count",
+    "epistemic_boundary": "Scientific concepts retain their established meanings and enter readings as models or metaphors. Historical alchemical imagery may enrich visual language but never overrides chemistry or implies occult causation."
+  },
+  "ranks": {
+    "seed": {
+      "name": "Seed",
+      "meaning": "initial conditions, potential, and first contact"
+    },
+    "flow": {
+      "name": "Flow",
+      "meaning": "movement, transfer, and changing state"
+    },
+    "bond": {
+      "name": "Bond",
+      "meaning": "relation, constraint, and mutual influence"
+    },
+    "pattern": {
+      "name": "Pattern",
+      "meaning": "repetition, structure, and learned regularity"
+    },
+    "friction": {
+      "name": "Friction",
+      "meaning": "resistance, cost, and productive constraint"
+    },
+    "rupture": {
+      "name": "Rupture",
+      "meaning": "discontinuity, loss, and phase transition"
+    },
+    "feedback": {
+      "name": "Feedback",
+      "meaning": "recursive consequence, correction, and amplification"
+    },
+    "integration": {
+      "name": "Integration",
+      "meaning": "adaptation, coherence, and carrying forward"
+    }
+  }
+};

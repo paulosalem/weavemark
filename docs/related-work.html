@@ -13,12 +13,12 @@
     <meta property="og:title" content="Comparing WeaveMark with the alternatives">
     <meta property="og:description" content="Prompt formats, typed DSLs, optimizers, frameworks and spec-driven workflows, classified on the axes that actually separate them: 25 projects across 31 dimensions.">
     <meta property="og:url" content="https://paulosalem.github.io/weavemark/docs/related-work.html">
-    <meta property="og:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_banner_1.png">
+    <meta property="og:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_social.png">
     <meta property="og:image:alt" content="WeaveMark">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Comparing WeaveMark with the alternatives">
     <meta name="twitter:description" content="Prompt formats, typed DSLs, optimizers, frameworks and spec-driven workflows, classified on the axes that actually separate them: 25 projects across 31 dimensions.">
-    <meta name="twitter:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_banner_1.png">
+    <meta name="twitter:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_social.png">
     <link rel="canonical" href="https://paulosalem.github.io/weavemark/docs/related-work.html">
     <link rel="stylesheet" href="site.css?v=20260730-related">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
@@ -339,48 +339,18 @@ body {background:#fff;}}
 
     <main class="shell report" id="report">
       <section class="abstract"><h2>Summary</h2>
-    <p><strong>WeaveMark</strong> is a Markdown-native notation whose compiler is itself a
-      <strong>language model</strong>. Compilation is a declared pass that turns an authored source
-      file into a durable prompt artifact, and this <strong>LLM-based compilation</strong> is the
-      primary departure from the field: comparable authoring formats (<em>Prompty</em>,
-      <em>POML</em>, <em>Dotprompt</em>, <em>PromptL</em>, <em>PDL</em>) are
-      <strong>purely deterministic</strong>, substituting text and rendering at run time, and most
-      produce no durable artifact at all. Because the compiler resolves meaning rather than only
-      syntax, <code>@refine</code> can <strong>merge an imported module into the current document by
-      meaning</strong>, layered over conventional deterministic mechanisms (<code>@include</code>,
-      <code>@use</code>, variables, conditionals).</p>
-    <p>The systems that do let a model write prompt text divide into two groups.
-      <strong>Optimizers</strong> (<em>DSPy</em>, <em>SAMMO</em>, <em>TextGrad</em>,
-      <em>AdalFlow</em>) have a model rewrite candidate text, but a <strong>metric scored over a
-      dataset</strong> adjudicates the result. <strong>Spec-driven workflows</strong>
-      (<em>GitHub Spec Kit</em>, <em>Amazon Kiro</em>) let the model's judgment stand, but expand a
-      single intent against one project-wide context file (<code>constitution.md</code>,
-      <code>.kiro/steering/</code>) and provide no means of importing one specification into
-      another. WeaveMark occupies the remaining position: <strong>model-adjudicated composition over
-      an imported graph of reusable authored modules</strong>, with 111 such modules shipped.</p>
-    <p>The same LLM-based compilation makes the language <strong>extensible from within
-      itself</strong>. <code>@define</code> introduces new named, parameterised constructs of three
-      kinds: <strong>deterministic macros</strong>, which expand to literal text;
-      <strong>semantic macros</strong>, whose body is natural language the compiler executes under a
-      declared <code>@phase</code>, <code>@scope</code>, <code>@returns</code> and
-      <code>@effect</code> contract; and <strong>effectful functions</strong>, bound to reviewed
-      Python by <code>@bind</code> and gated by capability. The standard vocabulary is not
-      privileged &mdash; <code>@refine</code>, <code>@style</code> and <code>@summarize</code> are
-      themselves declared with <code>@define</code> in the prelude rather than built into the
-      compiler. Most
-      projects offer some user-defined abstraction (<em>Jinja2</em> macros, <em>Dotprompt</em>
-      partials and helpers, <em>PDL</em> functions, <em>BAML</em> functions, <em>Semantic Kernel</em>
-      plugins), but in every case the body is code or a template that the <em>host</em> executes.
-      Only the agent workflows come close, since a custom <em>Spec Kit</em> command is
-      natural-language instruction &mdash; though it is a top-level workflow step, not a scoped,
-      parameterised construct that transforms part of a document.</p>
-    <p>Remaining properties are individually unremarkable and shared with neighbours: output
-      contracts and assertions (as in <em>BAML</em>, <em>Dotprompt</em>), direct execution and
-      built-in reasoning strategies (as in <em>DSPy</em> and <em>LangChain</em>, though both require
-      writing Python), and an editor-independent CLI. <strong>Exact offline replay</strong> of a
-      recorded compilation appears to be unshared among the model-using systems. The costs are
-      equally concrete: compilation <strong>spends tokens</strong>, and its output is reproducible
-      only from a recorded run, never from the provider.</p></section>
+    <p><strong>WeaveMark</strong> is a Markdown-native notation whose compiler is a
+      <strong>language model</strong>. Deterministic mechanisms handle variables, branches, includes,
+      modules, and validation; semantic directives such as <code>@refine</code> let the compiler
+      <strong>merge an imported specification into the current document by meaning</strong>.</p>
+    <p>The seven systems here that let a model write prompt text split cleanly. Optimizers have a
+      <strong>metric over a dataset</strong> choose the candidate. Spec-driven workflows let the
+      model's judgment stand but expand one intent against project context. WeaveMark instead performs
+      <strong>model-adjudicated composition over a graph of reusable authored modules</strong>.</p>
+    <p><code>@define</code> extends the language with deterministic macros, parameterized semantic
+      macros, and effectful functions bound to reviewed Python. Compilation spends tokens and varies
+      by provider call; the resulting artifact is durable, and a recorded call can be reproduced
+      exactly with <strong>strict offline replay</strong>.</p></section>
 
       <div class="finding"><h2>The one cell that matters</h2>
     <p>Reduced to counts: of 25 systems, <strong>7</strong> let a model write

@@ -31,6 +31,7 @@ def test_public_example_inventory_is_curated() -> None:
     assert projects == {
         "interactive-ui-and-handoff-demos/collaborative-writer",
         "python-runtime-integrations/financial-independence-goal-plan",
+        "saved-artifact-workflows/arcana",
         "saved-artifact-workflows/childrens-book-bebe-fusquinha",
         "saved-artifact-workflows/childrens-book-orion-en",
         "saved-artifact-workflows/comic-strip-en",
@@ -38,6 +39,82 @@ def test_public_example_inventory_is_curated() -> None:
         "saved-artifact-workflows/prompt-refactoring-pipeline",
         "saved-artifact-workflows/recurring-topic-monitor",
     }
+
+
+def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
+    root = EXAMPLES / "saved-artifact-workflows/arcana"
+    outputs = root / "outputs"
+
+    for relative in (
+        "README.md",
+        "run.sh",
+        "inputs/vars.json",
+        "outputs/arcana-app-spec.md",
+        "outputs/cards-artifacts.sha256",
+        "outputs/cards-build.sha256",
+        "outputs/deck-data.js",
+        "outputs/index.html",
+        "outputs/README.md",
+        "outputs/assets/card-back.png",
+        "outputs/assets/cards/prototype.png",
+    ):
+        assert (root / relative).is_file(), relative
+
+    data_source = (outputs / "deck-data.js").read_text(encoding="utf-8")
+    payload = json.loads(data_source.split("=", 1)[1].rsplit(";", 1)[0])
+    cards = [payload["prototype_card"], *payload["cards"].values()]
+    assert payload["card_count"] == 55
+    assert len(cards) == 55
+    assert sum(card["category"] == "major" for card in cards) == 15
+    assert sum(card["category"] == "minor" for card in cards) == 40
+    assert payload["ai_guide"]["reflection_depth"]["default"] == 3
+
+    assert len(list((outputs / "assets/cards").glob("*.png"))) == 55
+    specification = (outputs / "arcana-app-spec.md").read_text(encoding="utf-8")
+    assert specification.startswith(
+        "# Arcana — browser application implementation specification"
+    )
+    for obligation in (
+        "Playwright MCP",
+        "Reflection depth",
+        "Card reflection",
+        "media controller",
+    ):
+        assert obligation in specification
+
+    html = (outputs / "index.html").read_text(encoding="utf-8")
+    for marker in (
+        "Enter without the OpenAI guide?",
+        "reflection-trigger",
+        "media-transport",
+        "class DeckRepository",
+        "class OpenAIClient",
+        "class MediaController",
+        "text-pending",
+        "voice-pending",
+        "card-turn",
+        "reflection-depth",
+    ):
+        assert marker in html
+    assert "Math.random(" not in html
+    assert "Draw next" not in html
+    assert "Reveal all" not in html
+    readme_text = " ".join(
+        (outputs / "README.md").read_text(encoding="utf-8").split()
+    )
+    assert "does not reuse the previous runtime source" in readme_text
+
+    public = ROOT / "outputs/implementations/arcana"
+    assert (public / "index.html").is_file()
+    assert (public / "deck-data.js").is_file()
+    assert (public / "index.html").read_bytes() == (outputs / "index.html").read_bytes()
+    public_images = [
+        public / "assets/card-back.png",
+        public / "assets/cards/prototype.png",
+        *(public / f"assets/cards/card-{index}.png" for index in range(1, 55)),
+    ]
+    assert all(path.is_file() for path in public_images)
+    assert all(path.stat().st_size < 500_000 for path in public_images)
 
 
 def _load_python_file(relative_path: str, module_name: str) -> ModuleType:

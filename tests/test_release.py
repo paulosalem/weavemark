@@ -105,7 +105,11 @@ def test_release_workflow_uses_oidc_and_immutable_pypi_versions() -> None:
 
     assert 'tags:\n      - "v*.*.*"' in workflow
     assert "id-token: write" in workflow
-    assert "pypa/gh-action-pypi-publish@release/v1" in workflow
+    assert (
+        "pypa/gh-action-pypi-publish@"
+        "dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # release/v1"
+    ) in workflow
+    assert "pypa/gh-action-pypi-publish@release/v1" not in workflow
     assert "password:" not in workflow
     assert "skip-existing:" not in workflow
     assert "GH_REPO: ${{ github.repository }}" in workflow

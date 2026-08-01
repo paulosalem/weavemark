@@ -640,6 +640,21 @@ def finalize_provenance(
         client.assert_consumed()
         calls = client.calls
         mode = "replay"
+        from weavemark.usage_tracking import active_accumulator
+
+        accumulator = active_accumulator()
+        if accumulator is not None:
+            original_run = client.manifest.get("original_run")
+            original_usage = (
+                original_run.get("usage")
+                if isinstance(original_run, Mapping)
+                else None
+            )
+            if isinstance(original_usage, Mapping):
+                accumulator.record(original_usage)
+            else:
+                for call in calls:
+                    accumulator.record(call.usage)
     else:
         calls = recorder.calls if recorder is not None else []
         mode = "record" if options.record_dir is not None else "manifest"
@@ -703,6 +718,10 @@ def finalize_provenance(
         }
     if options.replay_dir is not None:
         manifest_data["replayed_from"] = str(options.replay_dir.resolve())
+        if isinstance(client, ReplayCompilationClient):
+            original_run = client.manifest.get("original_run")
+            if isinstance(original_run, Mapping):
+                manifest_data["original_run"] = _json_safe(dict(original_run))
     manifest = ProvenanceManifest(manifest_data)
     result.provenance = manifest
 

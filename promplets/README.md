@@ -4,7 +4,8 @@ This directory is the canonical, human-browsable source for the promplets shippe
 with WeaveMark. Wheel builds map this same tree to `weavemark/promplets`; there is
 no second maintained copy.
 
-Every maintained file declares `@promplet version: 0.7`.
+Every maintained file declares an explicit `@promplet version`. Stable reusable
+modules currently target 0.7; newer entrypoints may use the current 0.9 language.
 
 ## Collections
 
@@ -37,8 +38,8 @@ Complete, ready-to-use entrypoints.
 - `executable/` declares an execution workflow, engine, tools, or packaged
   outputs.
 
-The catalog is intentionally curated rather than exhaustive. It contains nine
-entrypoints with distinct validated proof paths; reusable or specialized material
+The catalog is intentionally curated rather than exhaustive. Every entrypoint
+must add a distinct validated proof path; reusable or specialized material
 belongs in `stdlib/`, `domains/`, `tutorials/`, or `studies/`.
 
 Catalog promplets do not need module declarations: their library path is their
@@ -98,7 +99,8 @@ artifacts; duplicate module identities are errors.
 Use `weavemark library` to run or browse the effective library:
 
 ```bash
-weavemark library prompt-refactoring-pipeline
+weavemark library market-snapshot --replay --verbose --output market-prompt.md
+weavemark library ai-kanban-board --replay
 weavemark library list --collection stdlib --kind fragment
 weavemark library show module:weavemark.std.reasoning.base_analyst
 ```

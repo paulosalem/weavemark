@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "weavemark"
 version = "0.9.2"
-description = "An LLM-powered prompt composition system with directives and variables"
+description = "A Markdown-native specification language for readable, reusable, and composable prompts"
 authors = [{name = "Paulo Salem", email = "paulosalem@paulosalem.com"}]
 readme = "README.md"
 license = "MIT"
@@ -25,6 +25,8 @@ keywords = [
     "prompting",
     "prompt-engineering",
     "prompt-composition",
+    "specification-language",
+    "markdown",
     "directives",
     "templates",
 ]
@@ -39,12 +41,13 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/paulosalem/weavemark"
+Homepage = "https://paulosalem.github.io/weavemark/"
+Documentation = "https://paulosalem.github.io/weavemark/"
 Repository = "https://github.com/paulosalem/weavemark"
 "Bug Tracker" = "https://github.com/paulosalem/weavemark/issues"
 
 [project.scripts]
-weavemark = "weavemark.app:cli"
+weavemark = "weavemark.launcher:cli"
 
 [project.optional-dependencies]
 dev = [

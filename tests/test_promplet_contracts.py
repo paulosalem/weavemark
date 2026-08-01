@@ -109,6 +109,8 @@ def test_public_catalog_contains_only_curated_entrypoints() -> None:
         for path in CATALOG.rglob("*.weavemark.md")
     } == {
         "executable/childrens-book.weavemark.md",
+        "arcana/app.weavemark.md",
+        "arcana/cards.weavemark.md",
         "executable/collaborative-writer.weavemark.md",
         "executable/comic-strip.weavemark.md",
         "executable/financial-independence-goal-plan.weavemark.md",

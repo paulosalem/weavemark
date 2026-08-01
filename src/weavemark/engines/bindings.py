@@ -137,10 +137,12 @@ def _load_binding(
             reason=f"Executing bound capability {_binding_name(binding)!r}",
         )
 
-    module_name = (
-        "_weavemark_binding_"
-        + hashlib.sha256(str(path).encode("utf-8")).hexdigest()[:16]
-    )
+    try:
+        source_digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError as exc:
+        raise OSError(f"Could not read @bind source: {source_reference}") from exc
+    module_identity = f"{path}\0{source_digest}".encode()
+    module_name = "_weavemark_binding_" + hashlib.sha256(module_identity).hexdigest()[:16]
     module = sys.modules.get(module_name)
     if module is None:
         spec = importlib.util.spec_from_file_location(module_name, path)

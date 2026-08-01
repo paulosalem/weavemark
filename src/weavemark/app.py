@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import logging
 import re
 import sys
 import time
@@ -61,10 +62,6 @@ from weavemark.cli_inputs import (
 )
 from weavemark.compilation.ask import AskPrompt
 from weavemark.compilation.diagnostics import Diagnostic, UserDiagnosticError
-from weavemark.compilation.provenance import (
-    ProvenanceOptions,
-    ReplayMismatchError,
-)
 from weavemark.compilation.result import CompositionResult
 from weavemark.compile_options import (
     DEFAULT_COMPILE_FORMAT,
@@ -72,25 +69,9 @@ from weavemark.compile_options import (
     normalize_compile_format,
     supported_compile_formats_text,
 )
-from weavemark.controller import (
-    WeaveMarkConfig,
-    WeaveMarkController,
-    _cleanup_litellm_logging_worker,
-)
 from weavemark.defaults import DEFAULT_MODEL
 from weavemark.events import EventJsonlWriter
-from weavemark.implementation import (
-    ImplementationError,
-    ImplementationRequest,
-    print_dry_run,
-    run_implementation,
-)
 from weavemark.interactions import JsonlStdinInteraction
-from weavemark.logging_setup import (
-    configure_logging,
-    get_logger,
-    log_cli_invocation,
-)
 from weavemark.protection import (
     ApprovalDecision,
     ProtectionContext,
@@ -104,16 +85,42 @@ from weavemark.settings import (
 )
 from weavemark.surfaces import lower_weavemark_surface
 from weavemark.traces import execution_result_to_dict, render_execution_trace_markdown
-from weavemark.usage_tracking import active_totals, track_usage, usage_stats
+from weavemark.usage_tracking import (
+    UsageTotals,
+    active_totals,
+    format_cost,
+    track_usage,
+    usage_stats,
+)
 from weavemark.variable_files import VariablesFileError, load_variables_file
 from weavemark.version import LANGUAGE_VERSION, PROCESSOR_VERSION
 
 if TYPE_CHECKING:
+    from weavemark.compilation.provenance import ProvenanceOptions
     from weavemark.engines import ExecutionResult
+    from weavemark.implementation import ImplementationRequest
     from weavemark.packaging import PackageResult
 
-logger = get_logger("cli")
+logger = logging.getLogger("weavemark.cli")
 DISCOVERY_SYSTEM_PROMPT = Path(__file__).resolve().parent / "prompts" / "discovery.system.md"
+
+
+def _recorded_usage_stats(totals: UsageTotals | None) -> dict[str, str]:
+    """Render original provider telemetry during strict offline replay."""
+
+    if totals is None or not totals.has_tokens:
+        return {}
+    hit_rate = totals.cache_hit_rate or 0.0
+    stats = {
+        "Recorded input": f"{totals.prompt_tokens:,}",
+        "Recorded cached": (
+            f"{totals.cached_prompt_tokens:,} ({hit_rate:.0%})"
+        ),
+        "Recorded output": f"{totals.completion_tokens:,}",
+    }
+    if totals.cost_usd is not None:
+        stats["Recorded API cost"] = format_cost(totals.cost_usd)
+    return stats
 
 # ------------------------------------------------------------------
 # Argument parsing
@@ -223,12 +230,18 @@ class WeaveMarkEventRenderer:
 
         if event_type == "done":
             cli_success("Composition complete", console=console)
+            totals = active_totals()
+            telemetry = (
+                _recorded_usage_stats(totals)
+                if data.get("replay")
+                else usage_stats(totals)
+            )
             cli_stats_footer(
                 {
                     "Tool calls": data.get("tool_calls_made", 0),
                     "Diagnostics": data.get("diagnostics_count", 0),
                     "Output": f"{data.get('output_length', 0)} chars",
-                    **usage_stats(active_totals()),
+                    **telemetry,
                 },
                 console=console,
             )
@@ -408,6 +421,19 @@ def _render_runtime_error(printer: CliPrinter, data: dict[str, Any]) -> None:
     printer.error("\n".join(lines))
 
 
+def _configure_cli_logging(
+    args: argparse.Namespace,
+    variables: dict[str, Any],
+    settings: Any,
+) -> None:
+    """Load provider-aware logging only for commands that run application logic."""
+
+    from weavemark.logging_setup import configure_logging, log_cli_invocation
+
+    configure_logging(settings=settings)
+    log_cli_invocation(args, variables, settings)
+
+
 def create_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="weavemark",
@@ -429,10 +455,10 @@ def create_parser() -> argparse.ArgumentParser:
             "  library        Run or browse built-in and custom promplets.\n"
             "  implement      Hand a compiled specification to a programming agent.\n\n"
             "Examples:\n"
-            "  weavemark library tutorial-generator\n"
-            "  weavemark library investment-brief --var ticker=MSFT\n"
+            "  weavemark library market-snapshot --replay --verbose --output market-prompt.md\n"
+            "  weavemark library ai-kanban-board --replay\n"
+            "  weavemark library market-snapshot --scan\n"
             "  weavemark library list finance --source all\n"
-            "  weavemark library tree-of-thought-solver --vars-file examples/batch-example-runs/execution-engines/inputs/tree-of-thought-solver-example.json --run --batch-only\n"
             "  weavemark implement compiled-spec.md --name my-app --dry-run\n"
             "  weavemark promplets/catalog/standalone/ai-kanban-board.weavemark.md --implement --implementation-name ai-kanban --implementation-dry-run\n"
         ),
@@ -854,6 +880,8 @@ def _provenance_options(
 ) -> ProvenanceOptions | None:
     """Build optional provenance settings from CLI arguments."""
 
+    from weavemark.compilation.provenance import ProvenanceOptions
+
     manifest_path = getattr(args, "provenance", None)
     record_dir = getattr(args, "record_run", None)
     replay_dir = getattr(args, "replay_run", None)
@@ -1159,6 +1187,8 @@ def _run_compiled_implementation(
 ) -> int:
     """Run the configured implementation profile for a compiled prompt."""
 
+    from weavemark.implementation import ImplementationRequest
+
     if not compiled_output.strip():
         printer.error("Cannot implement an empty compiled output.")
         return 1
@@ -1192,6 +1222,12 @@ def _execute_implementation_request(
     *,
     show_summary: bool,
 ) -> int:
+    from weavemark.implementation import (
+        ImplementationError,
+        print_dry_run,
+        run_implementation,
+    )
+
     try:
         result = run_implementation(request)
     except (ImplementationError, OSError) as exc:
@@ -1406,6 +1442,8 @@ async def run_batch(
     args: argparse.Namespace,
 ) -> int:
     """Run in batch mode — no interactivity."""
+    from weavemark.controller import WeaveMarkConfig, WeaveMarkController
+
     started = time.perf_counter()
     _emit_event(
         args,
@@ -1555,6 +1593,8 @@ async def run_interactive(
     args: argparse.Namespace,
 ) -> int:
     """Run in interactive mode — compose, show result, allow follow-up."""
+    from weavemark.controller import WeaveMarkConfig, WeaveMarkController
+
     prompted_variables = prompt_for_missing_inputs(
         printer,
         spec_text,
@@ -1733,6 +1773,11 @@ async def run_execute(
     )
     from ellements.execution import StepRecord
 
+    from weavemark.controller import (
+        WeaveMarkConfig,
+        WeaveMarkController,
+        _cleanup_litellm_logging_worker,
+    )
     from weavemark.engines import (
         RuntimeConfig,
         resolve_engine,
@@ -1841,6 +1886,22 @@ async def run_execute(
         )
         return 1
     output_format = _resolve_output_format(result, args, printer, settings)
+    primary_output, emit_root = _resolve_output_layout(
+        args,
+        base_dir,
+        extension_for_compile_format(output_format, settings),
+    )
+    try:
+        emit_targets = _resolve_emit_targets(result, emit_root, primary_output)
+        _write_emit_targets(
+            emit_targets,
+            printer,
+            show_summary=not args.no_file_summary,
+            protection=protection,
+        )
+    except (OSError, ValueError) as exc:
+        printer.error(str(exc))
+        return 1
 
     engine_name = resolve_runtime_engine_name(runtime_config, result)
 
@@ -2349,20 +2410,29 @@ async def run_discover(args: argparse.Namespace) -> int:
             progress.update(
                 task_id[0],
                 completed=current,
-                description=f"[gold]Analyzing:[/gold] {title}",
+                description=f"[gold]Indexing:[/gold] {title}",
             )
 
     with progress:
-        task_id[0] = progress.add_task("Analyzing specs…", total=len(entries))
+        task_id[0] = progress.add_task("Indexing specs…", total=len(entries))
+        metadata_errors: list[Exception] = []
         metadata = await ensure_metadata(
             entries,
             model=args.model or DEFAULT_MODEL,
             on_progress=on_progress,
+            on_error=metadata_errors.append,
         )
         # Mark any cached (not analyzed) specs as completed in the bar
         assert task_id[0] is not None
         progress.update(task_id[0], completed=len(entries))
 
+    if metadata_errors:
+        ui.show_error(
+            "Semantic discovery needs a configured model provider. "
+            "For a no-key catalog view, run `weavemark library list`; "
+            "for one promplet's inputs, use `weavemark library NAME --scan`."
+        )
+        return 1
     cached_count[0] = len(entries) - analyzed_count[0]
     ui.show_cache_summary(cached_count[0], analyzed_count[0], len(entries))
 
@@ -2418,6 +2488,8 @@ async def run_discover(args: argparse.Namespace) -> int:
 def run_implement_command(printer: CliPrinter, args: argparse.Namespace) -> int:
     """Run ``weavemark implement COMPILED_SPEC``."""
 
+    from weavemark.implementation import ImplementationRequest
+
     compiled_spec = args.compiled_spec.expanduser().resolve()
     if not compiled_spec.is_file():
         printer.error(
@@ -2429,8 +2501,7 @@ def run_implement_command(printer: CliPrinter, args: argparse.Namespace) -> int:
     if settings_result.errors:
         printer.error("Config loading failed:\n" + "\n".join(settings_result.errors))
         return 1
-    configure_logging(settings=settings_result.settings.logging)
-    log_cli_invocation(args, {}, settings_result.settings.logging)
+    _configure_cli_logging(args, {}, settings_result.settings.logging)
     protection = _cli_protection_context(
         printer,
         settings_result.settings,
@@ -2661,8 +2732,7 @@ def cli() -> None:
         sys.exit(exc.exit_code)
 
     logging_settings = load_weavemark_settings(base_dir).settings.logging
-    configure_logging(settings=logging_settings)
-    log_cli_invocation(args, variables, logging_settings)
+    _configure_cli_logging(args, variables, logging_settings)
 
     # --scan: output promplet metadata as JSON and exit
     if getattr(args, "scan", False):
@@ -2708,6 +2778,8 @@ def cli() -> None:
         }
         print(json.dumps(scan_data, indent=2, ensure_ascii=False))
         sys.exit(0)
+
+    from weavemark.compilation.provenance import ReplayMismatchError
 
     # TUI mode
     if getattr(args, "ui", False):
