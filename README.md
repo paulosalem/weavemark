@@ -44,12 +44,6 @@ weavemark library ai-kanban-board --replay --verbose --open
 
 Replay validates the source, inputs, compiler prompt, schema, imported modules, tool results, and recorded call hashes. It replays compilation only: finance and search effects do not run. The original VALE3 run reported 11,002 input tokens, 0 cached, 20,728 output tokens, and $0.3384 total API cost. AI Kanban's recorded compilation reported 133,084 input tokens, 114,603 cached, 11,799 output tokens, and $0.2015 total API cost. Replaying either costs nothing.
 
-You can also inspect any bundled promplet structurally:
-
-```bash
-weavemark library market-snapshot --scan
-```
-
 For a fresh semantic compilation and a real finance/search execution, install the example integrations and configure a model provider. The market data and web search need no additional keys.
 
 ```bash
@@ -69,21 +63,16 @@ weavemark library market-snapshot \
 WeaveMark compiles the promplet, runs the finance and search effects as a strict
 dependency graph, writes the brief, packages it into
 `market-report/market-dashboard.html`, and `--open` launches that dashboard in
-your browser. Change the ticker variables for any asset you follow.
-
-The finance helper is ordinary Python, so WeaveMark asks once before importing
-it. Answer `y` to continue.
+your browser. Change the ticker variables for any asset you follow. The finance
+helper is ordinary Python, so WeaveMark asks once before importing it.
 
 This is a real effectful run rather than a template expansion. Ours took about
-three minutes and $0.34 of `gpt-5.6-terra` usage; add `--verbose`, as above, and
-WeaveMark closes with the exact token counts, prompt-cache hits, and
-provider-reported cost. `gpt-5.6-terra` is the default and currently recommended
+three minutes and $0.34 of `gpt-5.6-terra` usage — the default and recommended
 model, and what every bundled example is exercised on; `--model` picks another.
-
-You pay that cost once, not on every use. The compiled prompt is an ordinary
-file: write it with `--output`, commit it, review it in a pull request, and reuse
-it as often as you like, recompiling only when the source changes. That is why
-this repository checks its compiled prompts in next to their sources.
+You pay that cost once, not on every use: the compiled prompt is an ordinary
+file, so write it with `--output`, commit it, review it in a pull request, and
+reuse it as often as you like, recompiling only when the source changes. That is
+why this repository checks its compiled prompts in next to their sources.
 
 For the compile-only path, where a short product source becomes a detailed
 implementation contract that a programming agent then builds, follow
@@ -115,67 +104,73 @@ user-selected .aikanban.sqlite file. No backend.
 The reusable modules carry file lifecycle, worker-owned SQLite, compatibility,
 security, accessibility, and AI-handoff rules. The entrypoint stays focused on the product.
 
+Notice what is *absent*: no slots, placeholders, or include points. You never
+design a template to receive the reusable material, and you never rewrite a
+module to fit a new host. `@refine` states *what* to bring in, and the model
+works out where it belongs in this particular document — merging obligations,
+ordering sections, and adapting wording to the surrounding intent. That is why
+reuse here costs one line instead of a refactor.
+
 ## Why use a language?
 
-- **Reuse without copy-paste.** Shared constraints live in one promplet. Every
-  dependent source picks up the new guidance on its next compile; the quality of
-  each realization remains model- and run-dependent.
-- **Semantic composition.** `@refine`, `@style`, `@summarize`, and related
-  directives operate on meaning rather than only substituting text.
+- **Reuse without templating.** Shared constraints live in one promplet, and
+  semantic transformation weaves them into each dependent source — no include
+  points to author, no scaffolding to maintain. Every dependent picks up the new
+  guidance on its next compile; the quality of each realization remains model-
+  and run-dependent.
 - **Readable control flow.** Variables, `@if`, `@match`, modules, assertions, and
-  output contracts remain visible beside ordinary Markdown.
-- **Executable plans.** Promplets can select reflection, chain,
-  self-consistency, tree-of-thought, functional, collaborative, or FSLM
-  execution.
-- **Finished artifacts.** A run can persist images, reports, traces, prompt packs,
-  packaged HTML/PDF, or a software specification.
+  output contracts stay visible beside ordinary Markdown.
+- **Executable plans.** Promplets can select reflection, chain, self-consistency,
+  tree-of-thought, functional, collaborative, or FSLM execution, and persist
+  images, reports, traces, prompt packs, packaged HTML/PDF, or a specification.
 - **Inspectability.** Source, compiled artifacts, bindings, execution metadata,
   and traces can be reviewed independently.
 
-## What is deterministic?
+## The building blocks
 
-| Surface | Behavior |
-|---|---|
-| Parsing, variables, branches, imports, files, assertions | Structural and local |
-| `@refine`, `@style`, `@summarize`, semantic packaging | LLM-judged compilation |
-| Execution engines and graph dependencies | Explicit runtime plan |
-| Bound tools and Python companions | Host-authorized effects; not an OS sandbox |
-| Generated text, code, and images | Model- and run-dependent |
+A promplet is ordinary Markdown plus a small set of directives. Most resolve
+locally; a few are realized by the model while compiling.
 
-WeaveMark does not claim formal verification or deterministic prompt quality. It
-provides a durable language surface around generative behavior.
+| Construct | What it does | Resolved |
+|---|---|---|
+| `@refine` | Weaves another promplet's meaning into this one | by the model |
+| `@expand` `@style` `@summarize` | Elaborates, restyles, or condenses content in place | by the model |
+| `@iterate` | Lets the Processor revisit and improve a transformation | by the model |
+| `@ask` | Pauses for missing human context before compiling | interactively |
+| `@{var}` `@if` `@match` | Inputs and controlled variation from one source | locally |
+| `@use` `@module` `@define` | Imports modules and defines reusable pieces and macros | locally |
+| `@assert` `@output` | Content obligations and strict output contracts | locally |
+| `@bind` `@tool` | Attaches trusted Python companions and tools | locally |
+| `@execute` | Picks reflection, chain, tree-of-thought, functional, FSLM… | at runtime |
+| `@emit` `@package` | Writes files; packages an artifact into HTML or PDF | at runtime |
+
+Generated text, code, and images remain model- and run-dependent. WeaveMark does
+not claim formal verification or deterministic prompt quality; it provides a
+durable language surface around generative behavior.
 
 ## Structured progress for tools and GUIs
 
-`--verbose` remains the polished human terminal view. Automation should use the
-same underlying lifecycle through `--events-jsonl FILE`, which flushes ordered
-JSON Lines records while composition, execution, artifact persistence,
-packaging, and `--open` are happening:
+`--verbose` is the human terminal view; `--events-jsonl FILE` is the machine one,
+flushing ordered JSON Lines records as composition, execution, persistence, and
+packaging happen:
 
 ```bash
-weavemark library market-snapshot \
-  --vars-file inputs.json \
-  --run \
+weavemark library market-snapshot --vars-file inputs.json --run \
   --output-dir outputs/market-snapshot \
   --events-jsonl outputs/market-snapshot/events.jsonl
 ```
 
-Each record carries an ISO timestamp, monotonic sequence, type, optional phase,
-and structured data, including absolute artifact and package paths and open
-outcomes, so desktop and workflow clients never need to parse Rich terminal text.
-Adding `--interaction-stdin jsonl` makes the channel bidirectional: WeaveMark
-emits interaction requests through the stream and reads scoped responses from
-stdin. Terminal confirmation behavior is unchanged without it, and invalid,
-closed, or timed-out interaction streams deny the requested capability.
+Each record carries a timestamp, sequence, type, phase, and structured data —
+including absolute artifact and package paths — so desktop and workflow clients
+never parse Rich terminal text. Adding `--interaction-stdin jsonl` makes the
+channel bidirectional: WeaveMark emits interaction requests and reads scoped
+responses from stdin, and a closed or timed-out stream denies the request.
 
 ## Installation and safety
 
 ```bash
-# Normal installation
-pip install weavemark
-
-# Source development
-pip install -e ".[dev]"
+pip install weavemark          # normal installation
+pip install -e ".[dev]"        # source development
 ```
 
 Protections are enabled by default for local reads/writes, downloads, Python, and
@@ -186,11 +181,9 @@ full threat model.
 
 WeaveMark depends on [ellements](https://pypi.org/project/ellements/), a library
 of LLM building blocks I also maintain and build several projects on; that is why
-it is a required dependency rather than a third-party one.
-
-Full-resolution comic and storybook PNG/PDF artifacts use Git LFS. They are not
-needed for normal installation; run `git lfs pull` in a clone when you want the
-original media.
+it is a required dependency rather than a third-party one. Full-resolution comic
+and storybook PNG/PDF artifacts use Git LFS; run `git lfs pull` in a clone when
+you want the original media.
 
 ## More examples
 
@@ -224,8 +217,17 @@ building blocks live under [promplets/stdlib](promplets/stdlib) and
 For traceability and replay, the Processor supports `--provenance`,
 `--record-run`, and `--replay-run`; see the
 [reference](docs/usage-reference.md#provenance-recording-and-replay).
-
 ## Frequently asked questions
+
+### If AI assistants can already program for me, why use WeaveMark?
+
+They reinforce each other; WeaveMark is itself built almost entirely *with* such
+tools. An assistant can also *use* WeaveMark to organize its own work: instead of
+regenerating sprawling ad-hoc prompts, it captures reusable intent as promplets —
+personas, policies, reasoning methods, output contracts — and composes repeatable
+systems from them. That also makes human–AI collaboration easier, since a person
+can review just the parts that matter (a variable, a constraint, a contract) and
+leave the rest to the model.
 
 ### Why is the language called WeaveMark and the artifacts called promplets?
 

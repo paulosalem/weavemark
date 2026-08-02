@@ -67,9 +67,6 @@
         </p>
         <div class="hero-actions">
           <a class="button" href="tutorial.html">Build your first promplet</a>
-          <code class="hero-install cli-command" aria-label="Shell command: pip install weavemark"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">pip</span> <span class="cli-subcommand">install</span> <span class="cli-value">weavemark</span></code>
-        </div>
-        <div class="hero-actions hero-actions-secondary">
           <a class="button secondary" href="introduction.html">Understand the language</a>
           <a class="button-link" href="python-api.html"><span>Use from Python</span><span class="link-arrow" aria-hidden="true">&#8594;</span></a>
         </div>
@@ -148,19 +145,23 @@ Resurface only new or materially changed findings.</code></pre>
             </div>
           </div>
           <div class="carousel-controls" aria-label="WeaveMark example selector">
-            <button class="carousel-arrow" type="button" data-carousel-prev aria-label="Previous example">&lt;</button>
+            <span class="carousel-label" aria-hidden="true">Example</span>
             <button class="carousel-tab is-active" type="button" data-carousel-index="0" aria-pressed="true">Storybook</button>
             <button class="carousel-tab" type="button" data-carousel-index="1" aria-pressed="false">Kanban</button>
             <button class="carousel-tab" type="button" data-carousel-index="2" aria-pressed="false">Market report</button>
             <button class="carousel-tab" type="button" data-carousel-index="3" aria-pressed="false">Topic monitor</button>
             <button class="carousel-tab" type="button" data-carousel-index="4" aria-pressed="false">Ideas</button>
-            <button class="carousel-arrow" type="button" data-carousel-next aria-label="Next example">&gt;</button>
           </div>
           <nav class="hero-example-actions" aria-label="Active example links">
-            <a class="button" data-example-result href="../outputs/implementations/orion-storybook/index.html" data-live-demo="orion-storybook">Open result</a>
+            <a class="button secondary" data-example-result href="../outputs/implementations/orion-storybook/index.html" data-live-demo="orion-storybook">Open result</a>
             <a data-example-source href="../promplets/catalog/executable/childrens-book.weavemark.md">View source</a>
             <a data-example-tutorial href="tutorial-illustrated.html">Tutorial</a>
           </nav>
+          <div class="hero-quickstart">
+            <p class="hero-quickstart-label"><span class="ic ic-bolt" aria-hidden="true"></span>Run one yourself &mdash; no API key, no network</p>
+            <pre class="command-block" aria-label="Shell commands to install WeaveMark and replay an example"><code><span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">pip</span> <span class="cli-subcommand">install</span> <span class="cli-value">weavemark</span></span>
+<span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">weavemark</span> <span class="cli-subcommand">library</span> <span class="cli-value">market-snapshot</span> <span class="cli-flag">--replay</span> <span class="cli-flag">--open</span></span></code></pre>
+          </div>
         </div>
         <div class="hero-stats" aria-label="Active example highlights" aria-live="polite">
           <div class="stat" data-stat-card="a">
@@ -196,7 +197,7 @@ Resurface only new or materially changed findings.</code></pre>
       <section class="shell proof-strip" aria-label="WeaveMark at a glance">
         <div class="proof-item">
           <span class="ic ic-blocks" aria-hidden="true"></span>
-          <strong>50+</strong>
+          <strong>89</strong>
           <span>reusable method fragments — MECE, ACH, SCAMPER, chain-of-thought, and more</span>
         </div>
         <div class="proof-item">
@@ -353,12 +354,53 @@ Give the smallest safe next action in board-ready language.</code></pre>
           </p>
         </div>
         <div class="directive-map" aria-label="Representative WeaveMark directives">
-          <article><code>@refine</code><span>Weave reusable guidance into local intent.</span></article>
-          <article><code>@if</code><span>Keep controlled variations in one source.</span></article>
-          <article><code>@ask</code><span>Pause for human context before compiling.</span></article>
-          <article><code>@iterate</code><span>Judge and improve a transformation.</span></article>
-          <article><code>@assert</code><span>Make output obligations explicit.</span></article>
-          <article><code>@execute</code><span>Choose how the compiled prompt runs.</span></article>
+          <article>
+            <div class="directive-head">
+              <code>@refine</code>
+              <span>Weave reusable guidance into local intent.</span>
+            </div>
+            <pre><code><span class="syntax-directive">@refine</span> module:weavemark.std.analysis.mece_core</code></pre>
+          </article>
+          <article>
+            <div class="directive-head">
+              <code>@if</code>
+              <span>Keep controlled variations in one source.</span>
+            </div>
+            <pre><code><span class="syntax-directive">@if</span> executive_audience
+  Compress into board-ready language.</code></pre>
+          </article>
+          <article>
+            <div class="directive-head">
+              <code>@ask</code>
+              <span>Pause for human context before compiling.</span>
+            </div>
+            <pre><code><span class="syntax-directive">@ask</span> clarifying question <span class="syntax-key">detail_level:</span> 35%
+  Teach <span class="syntax-var">@{topic}</span> to this learner.</code></pre>
+          </article>
+          <article>
+            <div class="directive-head">
+              <code>@iterate</code>
+              <span>Judge and improve a transformation.</span>
+            </div>
+            <pre><code><span class="syntax-directive">@iterate</span> 3
+  <span class="syntax-directive">@expand</span> <span class="syntax-key">mode:</span> intention
+    Draft the onboarding prompt.</code></pre>
+          </article>
+          <article>
+            <div class="directive-head">
+              <code>@assert</code>
+              <span>Make output obligations explicit.</span>
+            </div>
+            <pre><code><span class="syntax-directive">@assert</span> <span class="syntax-key">contains:</span> <span class="syntax-string">"open questions"</span></code></pre>
+          </article>
+          <article>
+            <div class="directive-head">
+              <code>@execute</code>
+              <span>Choose how the compiled prompt runs.</span>
+            </div>
+            <pre><code><span class="syntax-directive">@execute</span> reflection
+  <span class="syntax-key">max_rounds:</span> 3</code></pre>
+          </article>
         </div>
         <p class="directive-links">
           <a href="tutorial-directives.html">Tour the semantic toolbox</a>
@@ -373,45 +415,78 @@ Give the smallest safe next action in board-ready language.</code></pre>
             <h2>A library of reusable methods, not just syntax.</h2>
           </div>
           <p class="section-lede">
-            Import reasoning methods, programming stacks, teaching moves, and
-            quality gates instead of rewriting them.
+            Eighty-nine reusable fragments ship with WeaveMark. Refine one into
+            your source and its method comes with it.
           </p>
         </div>
 
         <div class="library-groups">
           <div class="library-group">
-            <span class="library-tag"><span class="ic ic-lightbulb" aria-hidden="true"></span>Reasoning</span>
+            <p class="library-need"><span class="ic ic-target" aria-hidden="true"></span>“I have to make a hard call and I keep going in circles.”</p>
             <div class="chips">
-              <a class="chip" href="../promplets/stdlib/fragments/analysis/mece-core.weavemark.md">MECE</a>
-              <a class="chip" href="../promplets/stdlib/fragments/analysis/ach-core.weavemark.md">competing hypotheses</a>
               <a class="chip" href="../promplets/stdlib/fragments/lenses/decision-gate.weavemark.md">decision gates</a>
+              <a class="chip" href="../promplets/stdlib/fragments/analysis/ach-core.weavemark.md">competing hypotheses</a>
+              <a class="chip" href="../promplets/stdlib/fragments/analysis/mece-core.weavemark.md">MECE</a>
+              <a class="chip" href="../promplets/stdlib/fragments/decision/values-tradeoff.weavemark.md">values tradeoffs</a>
+              <a class="chip" href="../promplets/stdlib/fragments/decision/forecast-uncertainty.weavemark.md">forecast &amp; uncertainty</a>
+              <a class="chip" href="../promplets/stdlib/fragments/analysis/optionality-decision.weavemark.md">optionality</a>
             </div>
           </div>
           <div class="library-group">
-            <span class="library-tag"><span class="ic ic-code" aria-hidden="true"></span>Software</span>
+            <p class="library-need"><span class="ic ic-code" aria-hidden="true"></span>“I want an app built, but my spec is three vague sentences.”</p>
             <div class="chips">
               <a class="chip" href="../promplets/domains/programming/fragments/foundations/software-spec.weavemark.md">software specs</a>
               <a class="chip" href="../promplets/domains/programming/fragments/modules/module-dashboard.weavemark.md">dashboards</a>
               <a class="chip" href="../promplets/domains/programming/fragments/modules/module-workflow-board.weavemark.md">workflow boards</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/modules/module-auth.weavemark.md">auth</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/modules/module-rest-api.weavemark.md">REST APIs</a>
+              <a class="chip" href="../promplets/domains/programming/fragments/debugging/root-cause-debugging.weavemark.md">root-cause debugging</a>
             </div>
           </div>
           <div class="library-group">
-            <span class="library-tag"><span class="ic ic-shield" aria-hidden="true"></span>Evidence &amp; quality</span>
+            <p class="library-need"><span class="ic ic-shield" aria-hidden="true"></span>“The answer sounds confident. Should I believe it?”</p>
             <div class="chips">
               <a class="chip" href="../promplets/stdlib/fragments/guidelines/evidence-quality.weavemark.md">evidence quality</a>
               <a class="chip" href="../promplets/stdlib/fragments/guidelines/research-rigor.weavemark.md">research rigor</a>
+              <a class="chip" href="../promplets/stdlib/fragments/guidelines/context-sufficiency.weavemark.md">context sufficiency</a>
+              <a class="chip" href="../promplets/stdlib/fragments/lenses/explainability.weavemark.md">explainability</a>
               <a class="chip" href="../promplets/domains/product/fragments/release-readiness-gate.weavemark.md">release gates</a>
             </div>
           </div>
           <div class="library-group">
-            <span class="library-tag"><span class="ic ic-sparkles" aria-hidden="true"></span>Learning &amp; ideation</span>
+            <p class="library-need"><span class="ic ic-sparkles" aria-hidden="true"></span>“I need ideas that aren't the first three obvious ones.”</p>
             <div class="chips">
-              <a class="chip" href="../promplets/stdlib/fragments/teaching/socratic-tutoring.weavemark.md">Socratic tutoring</a>
               <a class="chip" href="../promplets/stdlib/fragments/ideation/scamper.weavemark.md">SCAMPER</a>
               <a class="chip" href="../promplets/stdlib/fragments/ideation/six-thinking-hats.weavemark.md">Six Thinking Hats</a>
+              <a class="chip" href="../promplets/stdlib/fragments/ideation/reverse-brainstorming.weavemark.md">reverse brainstorming</a>
+              <a class="chip" href="../promplets/stdlib/fragments/ideation/multi-persona-debate-core.weavemark.md">multi-persona debate</a>
+              <a class="chip" href="../promplets/stdlib/fragments/strategy/indirect-strategy-principles.weavemark.md">indirect strategy</a>
+            </div>
+          </div>
+          <div class="library-group">
+            <p class="library-need"><span class="ic ic-cap" aria-hidden="true"></span>“I have to teach this, and they keep getting it wrong.”</p>
+            <div class="chips">
+              <a class="chip" href="../promplets/stdlib/fragments/teaching/socratic-tutoring.weavemark.md">Socratic tutoring</a>
+              <a class="chip" href="../promplets/stdlib/fragments/teaching/misconception-diagnosis.weavemark.md">misconception diagnosis</a>
+              <a class="chip" href="../promplets/stdlib/fragments/teaching/mastery-practice-loop.weavemark.md">mastery loops</a>
+              <a class="chip" href="../promplets/stdlib/fragments/reasoning/learner-model.weavemark.md">learner models</a>
+            </div>
+          </div>
+          <div class="library-group">
+            <p class="library-need"><span class="ic ic-doc" aria-hidden="true"></span>“This pile of notes has to become something readable.”</p>
+            <div class="chips">
+              <a class="chip" href="../promplets/stdlib/fragments/reasoning/deep-summary.weavemark.md">deep summary</a>
+              <a class="chip" href="../promplets/stdlib/fragments/reasoning/action-planning.weavemark.md">action planning</a>
+              <a class="chip" href="../promplets/stdlib/fragments/reasoning/prompt-refinement-core.weavemark.md">prompt refinement</a>
+              <a class="chip" href="../promplets/stdlib/fragments/presentation/information-dashboard-html.weavemark.md">HTML dashboards</a>
+              <a class="chip" href="../promplets/domains/creative/fragments/illustrated-story-core.weavemark.md">illustrated stories</a>
             </div>
           </div>
         </div>
+        <p class="directive-links">
+          <a href="../promplets/stdlib">Browse the standard library</a>
+          <a href="../promplets/domains">Browse domain libraries</a>
+        </p>
       </section>
 
       <section id="what-you-can-build" class="shell">
@@ -524,6 +599,9 @@ Give the smallest safe next action in board-ready language.</code></pre>
         </div>
         <div class="demo-grid">
           <article class="card demo-card">
+            <a class="demo-shot" href="../outputs/implementations/orion-storybook/index.html" data-live-demo="orion-storybook" tabindex="-1" aria-hidden="true">
+              <img src="tutorial-storybook-page.jpg" alt="" loading="lazy" width="1100" height="733">
+            </a>
             <span class="badge">Illustrated storybook</span>
             <h3>Orion and the Hunt for His Spark</h3>
             <p>A twelve-page picture book authored, illustrated page by page, and packaged to HTML/PDF by one executable promplet.</p>
@@ -534,6 +612,9 @@ Give the smallest safe next action in board-ready language.</code></pre>
             </div>
           </article>
           <article class="card demo-card">
+            <a class="demo-shot" href="../outputs/implementations/ai-kanban-browser/index.html" data-live-demo="ai-kanban" tabindex="-1" aria-hidden="true">
+              <img src="showcase-ai-kanban.jpg" alt="" loading="lazy" width="960" height="666">
+            </a>
             <span class="badge">Spec becomes software</span>
             <h3>AI Kanban</h3>
             <p>A concise browser-app promplet became a complete static JavaScript workspace backed by a user-selected SQLite file.</p>
@@ -544,6 +625,9 @@ Give the smallest safe next action in board-ready language.</code></pre>
             </div>
           </article>
           <article class="card demo-card">
+            <a class="demo-shot" href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html" tabindex="-1" aria-hidden="true">
+              <img src="showcase-market-report.jpg" alt="" loading="lazy" width="960" height="600">
+            </a>
             <span class="badge">Tool-grounded report</span>
             <h3>VALE3 Market Learning Dashboard</h3>
             <p>Finance data and bounded web-search evidence flow through a validated graph into an auditable report and standalone dashboard.</p>

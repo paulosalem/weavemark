@@ -55,3 +55,16 @@ def test_study_headline_is_explicitly_exploratory() -> None:
         assert "Why WeaveMark wins" not in text
         assert "single-output studies in this corpus" in text
         assert "positive deltas" in text
+
+
+def test_home_fragment_counts_match_the_shipped_library() -> None:
+    """The home page's fragment claims stay tied to what actually ships."""
+
+    fragments = list((ROOT / "promplets").glob("**/fragments/**/*.weavemark.md"))
+    home = _collapsed(ROOT / "docs" / "index.html")
+
+    assert len(fragments) == 89, (
+        f"{len(fragments)} fragments ship; update the home page claims."
+    )
+    assert "<strong>89</strong>" in home
+    assert "Eighty-nine reusable fragments" in home
