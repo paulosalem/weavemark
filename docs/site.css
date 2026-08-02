@@ -407,31 +407,32 @@
         margin-top: 34px;
       }
 
+      /* Shell tokens reuse the promplet syntax palette: the command reads as a
+         directive, its flags as keys, and its arguments as strings. */
       .cli-prompt {
-        color: #67e8f9;
+        color: #94a3b8;
         font-weight: 900;
         user-select: none;
       }
 
       .cli-tool {
-        color: #f9a8d4;
+        color: #f472b6;
         font-weight: 800;
         white-space: nowrap;
       }
 
       .cli-subcommand {
-        color: #93c5fd;
-        font-weight: 750;
+        color: #dbeafe;
         white-space: nowrap;
       }
 
       .cli-flag {
-        color: #fde047;
+        color: #38bdf8;
         white-space: nowrap;
       }
 
       .cli-value {
-        color: #a7f3d0;
+        color: #facc15;
         white-space: nowrap;
       }
 
@@ -920,6 +921,37 @@
         color: var(--muted);
         font-size: 0.86rem;
         font-weight: 700;
+      }
+
+      .hero-principle {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 16px;
+        align-items: start;
+        margin-top: 30px;
+        padding: 20px 22px;
+        border: 1px solid rgba(var(--accent-bright-rgb), 0.2);
+        border-radius: var(--radius-lg);
+        background:
+          radial-gradient(circle at 94% 14%, rgba(var(--spark-rgb), 0.08), transparent 28%),
+          linear-gradient(120deg, rgba(223, 245, 244, 0.82), rgba(255, 255, 255, 0.76));
+        box-shadow: 0 14px 42px rgba(24, 48, 96, 0.07);
+      }
+
+      .hero-principle h2 {
+        font-size: clamp(1.3rem, 2.1vw, 1.75rem);
+        letter-spacing: -0.045em;
+      }
+
+      .hero-principle p:last-of-type {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+
+      .hero-principle .principle-teaser-link {
+        margin-top: 14px;
       }
 
       .principle-teaser {

@@ -21,7 +21,11 @@ use the **WeaveMark Processor** to: **compile** a concrete prompt, which can the
 
 Compilation is intentionally hybrid: variables, branches, imports, output contracts, and validation are structural; semantic directives such as `@refine` are realized by an LLM. Execution, when requested, relies on predefined engines that follow well-established LLM patterns, as well as user-specified companion programs.
 
-## See what it produced
+> 💡 **Language is a tool for thought.** Prompts formulate ways of thinking, and WeaveMark
+> makes their linguistic and cognitive structure explicit and composable. See
+> [the principles](https://paulosalem.github.io/weavemark/docs/principles.html) for what follows from this.
+
+## 🖼️ See what it produced
 
 | Illustrated storybook | AI Kanban | Market report |
 |---|---|---|
@@ -30,7 +34,7 @@ Compilation is intentionally hybrid: variables, branches, imports, output contra
 
 These are checked-in outputs, not mockups. The examples retain their source promplets, compiled plans or specifications, run artifacts, and tests.
 
-## Try it yourself
+## ⚡ Try it yourself
 
 Install the current release, then replay two real compilations without an API key or network call. `--verbose` shows the compilation steps and recorded provider statistics; `--open` opens the compiled artifact in your default application.
 
@@ -66,25 +70,26 @@ dependency graph, writes the brief, packages it into
 your browser. Change the ticker variables for any asset you follow. The finance
 helper is ordinary Python, so WeaveMark asks once before importing it.
 
-This is a real effectful run rather than a template expansion. Ours took about
-three minutes and $0.34 of `gpt-5.6-terra` usage — the default and recommended
-model, and what every bundled example is exercised on; `--model` picks another.
-You pay that cost once, not on every use: the compiled prompt is an ordinary
-file, so write it with `--output`, commit it, review it in a pull request, and
-reuse it as often as you like, recompiling only when the source changes. That is
-why this repository checks its compiled prompts in next to their sources.
+This is a real effectful run, not a template expansion. Ours took about three
+minutes and $0.34 of `gpt-5.6-terra` — the default model, which every bundled
+example is exercised on; `--model` picks another. You pay that once, not per use:
+the compiled prompt is an ordinary file you can commit and review, recompiling
+only when the source changes. That is why this repository checks its compiled
+prompts in next to their sources.
 
 For the compile-only path, where a short product source becomes a detailed
 implementation contract that a programming agent then builds, follow
-[Spec to app](https://paulosalem.github.io/weavemark/docs/tutorial-implement.html). For a first authored example with
-variables, follow [Your first promplet](https://paulosalem.github.io/weavemark/docs/tutorial.html). For image
-generation and other effectful runs, use only promplets you trust and read the
-example-specific setup first.
+[Spec to app](https://paulosalem.github.io/weavemark/docs/tutorial-implement.html).
+For a first authored example with variables, follow
+[Your first promplet](https://paulosalem.github.io/weavemark/docs/tutorial.html).
+For image generation and other effectful runs, use only promplets you trust.
 
-## The source stays readable
+## 📖 The source stays readable
 
 This abridged AI Kanban source composes reusable architecture instead of repeating
-it:
+it — read the [full promplet](promplets/catalog/standalone/ai-kanban-board.weavemark.md)
+and the [compiled specification](outputs/implementations/ai-kanban-browser/compiled-spec.md)
+it produces:
 
 ```markdown
 @refine module:weavemark.domains.programming.stacks.browser_static_esmodules
@@ -106,12 +111,11 @@ security, accessibility, and AI-handoff rules. The entrypoint stays focused on t
 
 Notice what is *absent*: no slots, placeholders, or include points. You never
 design a template to receive the reusable material, and you never rewrite a
-module to fit a new host. `@refine` states *what* to bring in, and the model
-works out where it belongs in this particular document — merging obligations,
-ordering sections, and adapting wording to the surrounding intent. That is why
-reuse here costs one line instead of a refactor.
+module to fit a new host. `@refine` states *what* to bring in, and the model works
+out where it belongs — merging obligations, ordering sections, and adapting
+wording to the surrounding intent. Reuse costs one line instead of a refactor.
 
-## Why use a language?
+## 🧠 Why use a language?
 
 - **Reuse without templating.** Shared constraints live in one promplet, and
   semantic transformation weaves them into each dependent source — no include
@@ -126,7 +130,7 @@ reuse here costs one line instead of a refactor.
 - **Inspectability.** Source, compiled artifacts, bindings, execution metadata,
   and traces can be reviewed independently.
 
-## The building blocks
+## 🧩 The building blocks
 
 A promplet is ordinary Markdown plus a small set of directives. Most resolve
 locally; a few are realized by the model while compiling.
@@ -148,8 +152,7 @@ Generated text, code, and images remain model- and run-dependent. WeaveMark does
 not claim formal verification or deterministic prompt quality; it provides a
 durable language surface around generative behavior.
 
-## Structured progress for tools and GUIs
-
+## 📡 Structured progress for tools and GUIs
 `--verbose` is the human terminal view; `--events-jsonl FILE` is the machine one,
 flushing ordered JSON Lines records as composition, execution, persistence, and
 packaging happen:
@@ -161,12 +164,11 @@ weavemark library market-snapshot --vars-file inputs.json --run \
 ```
 
 Each record carries a timestamp, sequence, type, phase, and structured data —
-including absolute artifact and package paths — so desktop and workflow clients
-never parse Rich terminal text. Adding `--interaction-stdin jsonl` makes the
-channel bidirectional: WeaveMark emits interaction requests and reads scoped
-responses from stdin, and a closed or timed-out stream denies the request.
+including absolute artifact paths — so clients never parse Rich terminal text.
+`--interaction-stdin jsonl` makes the channel bidirectional, and a closed or
+timed-out stream denies the request.
 
-## Installation and safety
+## 🔐 Installation and safety
 
 ```bash
 pip install weavemark          # normal installation
@@ -180,12 +182,11 @@ disables these checks for one invocation. [SECURITY.md](SECURITY.md) has the
 full threat model.
 
 WeaveMark depends on [ellements](https://pypi.org/project/ellements/), a library
-of LLM building blocks I also maintain and build several projects on; that is why
-it is a required dependency rather than a third-party one. Full-resolution comic
-and storybook PNG/PDF artifacts use Git LFS; run `git lfs pull` in a clone when
-you want the original media.
+of LLM building blocks I also maintain, which is why it is a required dependency
+rather than a third-party one. Full-resolution comic and storybook PNG/PDF
+artifacts use Git LFS; run `git lfs pull` in a clone to fetch the original media.
 
-## More examples
+## 🗂️ More examples
 
 | Example | What it demonstrates |
 |---|---|
@@ -196,11 +197,11 @@ you want the original media.
 | [Recurring topic monitor](promplets/catalog/executable/recurring-topic-monitor.weavemark.md) | Bounded search/news/crawl tools with event memory and material-change detection. |
 | [Reasoning strategies](studies/runtime-studies/reasoning-strategies) | Reflection, self-consistency, and tree-of-thought promplets with their saved runs. |
 
-The full maintained catalog is in [docs/examples.md](docs/examples.md). Reusable
-building blocks live under [promplets/stdlib](promplets/stdlib) and
+The full maintained catalog is in [docs/examples.md](docs/examples.md); the 89
+reusable building blocks live under [promplets/stdlib](promplets/stdlib) and
 [promplets/domains](promplets/domains).
 
-## Project guide
+## 🧭 Project guide
 
 - [Introduction](https://paulosalem.github.io/weavemark/docs/introduction.html) — mental model and execution boundary.
 - [Principles](https://paulosalem.github.io/weavemark/docs/principles.html) — design commitments and refinement model.
@@ -216,8 +217,8 @@ building blocks live under [promplets/stdlib](promplets/stdlib) and
 
 For traceability and replay, the Processor supports `--provenance`,
 `--record-run`, and `--replay-run`; see the
-[reference](docs/usage-reference.md#provenance-recording-and-replay).
-## Frequently asked questions
+[reference](docs/usage-reference.md#optional-provenance-and-exact-run-replay).
+## ❓ Frequently asked questions
 
 ### If AI assistants can already program for me, why use WeaveMark?
 
@@ -225,9 +226,8 @@ They reinforce each other; WeaveMark is itself built almost entirely *with* such
 tools. An assistant can also *use* WeaveMark to organize its own work: instead of
 regenerating sprawling ad-hoc prompts, it captures reusable intent as promplets —
 personas, policies, reasoning methods, output contracts — and composes repeatable
-systems from them. That also makes human–AI collaboration easier, since a person
-can review just the parts that matter (a variable, a constraint, a contract) and
-leave the rest to the model.
+systems from them. That also makes human–AI collaboration easier: a person reviews
+just the parts that matter and leaves the rest to the model.
 
 ### Why is the language called WeaveMark and the artifacts called promplets?
 
@@ -302,17 +302,17 @@ Others spend a full waking day every week doomscrolling Instagram.
 Still others feed the poor. And who sleeps before midnight anyway?
 I do this. It is my idea of fun, and of contributing to the community.
 
-## Related work
+## 🔍 Related work
 
 Most prompt formats (Prompty, POML, Dotprompt) render deterministically; optimizers (DSPy, SAMMO) do let a model rewrite prompt text, but a metric over a dataset decides the result; spec-driven workflows (Spec Kit, Kiro) trust the model's judgement, yet expand a single intent and cannot import one specification into another. WeaveMark compiles with a language model and composes reusable modules by meaning. See the [full comparison of 25 projects](https://paulosalem.github.io/weavemark/docs/related-work.html).
 
-## Citation
+## 📚 Citation
 
 If WeaveMark helps your research, writing, or software work, please cite it as software ([BibTeX and APA](docs/citation.md)):
 
 > Salem, P. (2026). *WeaveMark: A specification language for readable, reusable, and composable prompts* [Computer software]. GitHub. https://github.com/paulosalem/weavemark
 
-## Author
+## ✍️ Author
 
 WeaveMark is authored by Dr. Paulo Salem. Learn more at
 [www.paulosalem.com](https://www.paulosalem.com) or connect on

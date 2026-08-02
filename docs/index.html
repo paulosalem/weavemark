@@ -70,6 +70,19 @@
           <a class="button secondary" href="introduction.html">Understand the language</a>
           <a class="button-link" href="python-api.html"><span>Use from Python</span><span class="link-arrow" aria-hidden="true">&#8594;</span></a>
         </div>
+
+        <aside class="hero-principle" aria-labelledby="home-principle-title">
+          <span class="principle-teaser-mark" aria-hidden="true">Aa</span>
+          <div>
+            <p class="principle-teaser-label">Our premise</p>
+            <h2 id="home-principle-title">Language is a tool for thought.</h2>
+            <p>
+              Prompts formulate ways of thinking. WeaveMark helps make their rich
+              linguistic and cognitive structure explicit and composable.
+            </p>
+            <a class="principle-teaser-link" href="principles.html">Explore the principles <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </aside>
       </div>
 
       <div class="hero-panel" aria-label="WeaveMark examples">
@@ -80,7 +93,7 @@
               <a data-carousel-title href="../outputs/implementations/orion-storybook/index.html" data-live-demo="orion-storybook">Orion storybook — live generated result</a>
             </div>
             <div class="hero-slides" aria-live="polite">
-              <pre class="hero-slide is-active" data-carousel-slide data-title="Orion storybook — live generated result" data-href="../outputs/implementations/orion-storybook/index.html" data-result-href="../outputs/implementations/orion-storybook/index.html" data-source-href="../promplets/catalog/executable/childrens-book.weavemark.md" data-tutorial-href="tutorial-illustrated.html" data-live-demo="orion-storybook" data-stat-a-title="image chain" data-stat-a-text="author once, render every page" data-stat-b-title="finished media" data-stat-b-text="twelve illustrated pages plus HTML and PDF" data-stat-c-title="reusable core" data-stat-c-text="one story module powers comic and book"><code><span class="syntax-directive">@execute</span> chain
+              <pre class="hero-slide is-active" data-carousel-slide data-title="Orion storybook — live generated result" data-href="../outputs/implementations/orion-storybook/index.html" data-result-href="../outputs/implementations/orion-storybook/index.html" data-source-href="../promplets/catalog/executable/childrens-book.weavemark.md" data-tutorial-href="tutorial-illustrated.html" data-quickstart="library childrens-book --run --open" data-quickstart-note="Needs a model provider" data-live-demo="orion-storybook" data-stat-a-title="image chain" data-stat-a-text="author once, render every page" data-stat-b-title="finished media" data-stat-b-text="twelve illustrated pages plus HTML and PDF" data-stat-c-title="reusable core" data-stat-c-text="one story module powers comic and book"><code><span class="syntax-directive">@execute</span> chain
   <span class="syntax-key">repeat:</span> page
   <span class="syntax-key">count:</span> <span class="syntax-var">@{page_count}</span>
 
@@ -96,7 +109,7 @@
 
 <span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.domains.creative.picture_book_html <span class="syntax-key">file:</span> book.html
 <span class="syntax-directive">@package</span> <span class="syntax-key">from:</span> book.html <span class="syntax-key">file:</span> book.pdf</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="AI Kanban — live browser demo" data-href="../outputs/implementations/ai-kanban-browser/index.html" data-result-href="../outputs/implementations/ai-kanban-browser/index.html" data-source-href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md" data-tutorial-href="tutorial-implement.html" data-live-demo="ai-kanban" data-stat-a-title="real local file" data-stat-a-text="open, create, save, and reopen SQLite" data-stat-b-title="no backend" data-stat-b-text="static JavaScript plus a WASM worker" data-stat-c-title="AI handoff" data-stat-c-text="provider-neutral copy, preview, approve" hidden><code><span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.browser_static_esmodules
+              <pre class="hero-slide" data-carousel-slide data-title="AI Kanban — live browser demo" data-href="../outputs/implementations/ai-kanban-browser/index.html" data-result-href="../outputs/implementations/ai-kanban-browser/index.html" data-source-href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md" data-tutorial-href="tutorial-implement.html" data-quickstart="library ai-kanban-board --replay --open" data-quickstart-note="No API key, no network" data-live-demo="ai-kanban" data-stat-a-title="real local file" data-stat-a-text="open, create, save, and reopen SQLite" data-stat-b-title="no backend" data-stat-b-text="static JavaScript plus a WASM worker" data-stat-c-title="AI handoff" data-stat-c-text="provider-neutral copy, preview, approve" hidden><code><span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.browser_static_esmodules
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.browser_file_backed_webapp
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_sqlite_file_store
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_ai_handoff
@@ -108,7 +121,7 @@ a user-selected <span class="syntax-string">.aikanban.sqlite</span> file.
 
 Cards carry plans, typed outputs, activity,
 dependencies, and versioned AI handoff packets.</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="VALE3 market dashboard — live generated report" data-href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html" data-result-href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html" data-source-href="../promplets/catalog/executable/market-snapshot.weavemark.md" data-tutorial-href="tutorial-executable.html" data-stat-a-title="live evidence" data-stat-a-text="finance data plus bounded web search" data-stat-b-title="functional graph" data-stat-b-text="validated capability dependencies" data-stat-c-title="semantic package" data-stat-c-text="Markdown becomes a polished HTML report" hidden><code><span class="syntax-directive">@use</span> weavemark.domains.finance.market_research <span class="syntax-key">exposing</span> fetch_asset_snapshot search_asset_context
+              <pre class="hero-slide" data-carousel-slide data-title="VALE3 market dashboard — live generated report" data-href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html" data-result-href="https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html" data-source-href="../promplets/catalog/executable/market-snapshot.weavemark.md" data-tutorial-href="tutorial-executable.html" data-quickstart="library market-snapshot --replay --open" data-quickstart-note="No API key, no network" data-stat-a-title="live evidence" data-stat-a-text="finance data plus bounded web search" data-stat-b-title="functional graph" data-stat-b-text="validated capability dependencies" data-stat-c-title="semantic package" data-stat-c-text="Markdown becomes a polished HTML report" hidden><code><span class="syntax-directive">@use</span> weavemark.domains.finance.market_research <span class="syntax-key">exposing</span> fetch_asset_snapshot search_asset_context
 
 <span class="syntax-directive">@execute</span> functional
   <span class="syntax-key">scheduler:</span> graph-strict
@@ -118,7 +131,7 @@ dependencies, and versioned AI handoff packets.</code></pre>
 <span class="syntax-directive">@search_asset_context</span> <span class="syntax-key">ticker:</span> <span class="syntax-string">"@{display_ticker}"</span> <span class="syntax-key">as:</span> web_context <span class="syntax-key">uses:</span> asset_snapshot
 
 <span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.std.presentation.information_dashboard_html <span class="syntax-key">file:</span> market-dashboard.html</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="recurring-topic-monitor.weavemark.md" data-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-source-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-stat-a-title="bound tools" data-stat-a-text="search, crawl, then synthesize" data-stat-b-title="event memory" data-stat-b-text="new, repeat, material update" data-stat-c-title="saved run" data-stat-c-text="digest plus execution trace" hidden><code><span class="syntax-directive">@execute</span> single-call
+              <pre class="hero-slide" data-carousel-slide data-title="recurring-topic-monitor.weavemark.md" data-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-source-href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md" data-quickstart="library recurring-topic-monitor --run --open" data-quickstart-note="Needs a model provider" data-stat-a-title="bound tools" data-stat-a-text="search, crawl, then synthesize" data-stat-b-title="event memory" data-stat-b-text="new, repeat, material update" data-stat-c-title="saved run" data-stat-c-text="digest plus execution trace" hidden><code><span class="syntax-directive">@execute</span> single-call
   <span class="syntax-key">max_tool_calls:</span> 30
 
 <span class="syntax-directive">@bind</span> search_news <span class="syntax-key">language:</span> python <span class="syntax-key">from:</span> <span class="syntax-string">"./companions/recurring_topic_monitor.py"</span>
@@ -132,7 +145,7 @@ Lookback window: <span class="syntax-var">@{lookback_window}</span>
 
 Cluster duplicate coverage.
 Resurface only new or materially changed findings.</code></pre>
-              <pre class="hero-slide" data-carousel-slide data-title="prompt-refactoring-pipeline.weavemark.md" data-href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md" data-source-href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md" data-stat-a-title="semantic pipeline" data-stat-a-text="extract, normalize, revise" data-stat-b-title="coherent output" data-stat-b-text="one contradiction-free prompt" data-stat-c-title="focused proof" data-stat-c-text="source, YAML input, result" hidden><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
+              <pre class="hero-slide" data-carousel-slide data-title="prompt-refactoring-pipeline.weavemark.md" data-href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md" data-source-href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md" data-quickstart="library prompt-refactoring-pipeline --open" data-quickstart-note="Needs a model provider" data-stat-a-title="semantic pipeline" data-stat-a-text="extract, normalize, revise" data-stat-b-title="coherent output" data-stat-b-text="one contradiction-free prompt" data-stat-c-title="focused proof" data-stat-c-text="source, YAML input, result" hidden><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 <span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.prompt_refinement_core
 
 # Prompt Refactoring Pipeline
@@ -158,9 +171,9 @@ Resurface only new or materially changed findings.</code></pre>
             <a data-example-tutorial href="tutorial-illustrated.html">Tutorial</a>
           </nav>
           <div class="hero-quickstart">
-            <p class="hero-quickstart-label"><span class="ic ic-bolt" aria-hidden="true"></span>Run one yourself &mdash; no API key, no network</p>
-            <pre class="command-block" aria-label="Shell commands to install WeaveMark and replay an example"><code><span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">pip</span> <span class="cli-subcommand">install</span> <span class="cli-value">weavemark</span></span>
-<span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">weavemark</span> <span class="cli-subcommand">library</span> <span class="cli-value">market-snapshot</span> <span class="cli-flag">--replay</span> <span class="cli-flag">--open</span></span></code></pre>
+            <p class="hero-quickstart-label"><span class="ic ic-bolt" aria-hidden="true"></span><span data-quickstart-note-target>No API key, no network</span></p>
+            <pre class="command-block" aria-label="Shell commands to install WeaveMark and try the selected example"><code><span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">pip</span> <span class="cli-subcommand">install</span> <span class="cli-value">weavemark</span></span>
+<span class="cli-line" data-quickstart-command></span></code></pre>
           </div>
         </div>
         <div class="hero-stats" aria-label="Active example highlights" aria-live="polite">
@@ -179,19 +192,6 @@ Resurface only new or materially changed findings.</code></pre>
         </div>
       </div>
     </header>
-
-    <aside class="shell principle-teaser" aria-labelledby="home-principle-title">
-      <span class="principle-teaser-mark" aria-hidden="true">Aa</span>
-      <div>
-        <p class="principle-teaser-label">Our premise</p>
-        <h2 id="home-principle-title">Language is a tool for thought.</h2>
-        <p>
-          Prompts formulate ways of thinking. WeaveMark helps make their rich
-          linguistic and cognitive structure explicit and composable.
-        </p>
-      </div>
-      <a class="principle-teaser-link" href="principles.html">Explore the principles <span aria-hidden="true">&rarr;</span></a>
-    </aside>
 
     <main>
       <section class="shell proof-strip" aria-label="WeaveMark at a glance">
@@ -695,6 +695,8 @@ Give the smallest safe next action in board-ready language.</code></pre>
         const statCards = Array.from(document.querySelectorAll("[data-stat-card]"));
         const previous = root.querySelector("[data-carousel-prev]");
         const next = root.querySelector("[data-carousel-next]");
+        const quickstartCommand = document.querySelector("[data-quickstart-command]");
+        const quickstartNote = document.querySelector("[data-quickstart-note-target]");
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
         let activeIndex = 0;
         let timerId = null;
@@ -704,6 +706,26 @@ Give the smallest safe next action in board-ready language.</code></pre>
           && !root.matches(":hover")
           && !root.contains(document.activeElement)
         );
+
+        const renderQuickstart = (slide) => {
+          if (quickstartNote && slide.dataset.quickstartNote) {
+            quickstartNote.textContent = slide.dataset.quickstartNote;
+          }
+          if (!quickstartCommand || !slide.dataset.quickstart) return;
+          // Tokens mirror the promplet syntax palette: command, argument, flags.
+          const words = slide.dataset.quickstart.split(" ").filter(Boolean);
+          const spans = ['<span class="cli-prompt" aria-hidden="true">$</span>'];
+          spans.push('<span class="cli-tool">weavemark</span>');
+          words.forEach((word) => {
+            const kind = word.startsWith("--")
+              ? "cli-flag"
+              : word === "library"
+                ? "cli-subcommand"
+                : "cli-value";
+            spans.push(`<span class="${kind}">${word}</span>`);
+          });
+          quickstartCommand.innerHTML = spans.join(" ");
+        };
 
         const stop = () => {
           if (timerId) {
@@ -753,6 +775,7 @@ Give the smallest safe next action in board-ready language.</code></pre>
             if (titleTarget) titleTarget.textContent = activeSlide.dataset[`stat${key.toUpperCase()}Title`] || "";
             if (textTarget) textTarget.textContent = activeSlide.dataset[`stat${key.toUpperCase()}Text`] || "";
           });
+          renderQuickstart(activeSlide);
           if (userRequested) start();
         };
 
