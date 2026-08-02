@@ -382,11 +382,12 @@ When updating a rubric:
 - **Risk:** GitHub and the website may advertise promplets absent from the
   released wheel.
 - **Check:** Build wheel and sdist, inspect their contents, install in a clean
-  environment, and list the library.
+  environment, and list the library from a working directory outside the source
+  checkout so repository resources cannot shadow or collide with packaged ones.
 - **Do:** Package catalog resources explicitly and test against the maintained
   repository inventory.
-- **Pass evidence:** Clean PyPI-style installation exposes every advertised
-  bundled promplet and replay.
+- **Pass evidence:** Clean PyPI-style installation, invoked outside the source
+  checkout, exposes every advertised bundled promplet and replay.
 
 ## 32. Quality density over quantity
 
