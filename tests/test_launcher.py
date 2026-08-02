@@ -209,15 +209,15 @@ def test_ai_kanban_replay_verbose_reports_recorded_usage(
     assert completed.returncode == 0, rendered
     assert output.is_file()
     for statistic in (
-        "Tool calls: 14",
+        "Tool calls: 28",
         "input:",
-        "133,251",
+        "289,861",
         "Recorded cached",
-        "114,705 (86%)",
+        "225,107 (78%)",
         "output:",
-        "10,917",
+        "16,943",
         "API cost",
-        "$0.1910",
+        "$0.3778",
     ):
         assert statistic in rendered
 

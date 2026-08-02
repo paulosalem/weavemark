@@ -155,8 +155,8 @@ def test_public_replay_metrics_match_recorded_manifests() -> None:
         "total_tokens": 31_730,
         "response_cost": 0.3384,
     }
-    assert kanban["call_count"] == 1
-    assert kanban["duration_ms"] == 80_011
+    assert kanban["call_count"] == 2
+    assert kanban["duration_ms"] == 124_269
     assert {
         key: kanban["usage"][key]
         for key in (
@@ -168,11 +168,11 @@ def test_public_replay_metrics_match_recorded_manifests() -> None:
             "cost_source",
         )
     } == {
-        "prompt_tokens": 133_251,
-        "completion_tokens": 10_917,
-        "total_tokens": 144_168,
-        "llm_duration_ms": 79_949,
-        "reported_cost_usd": 0.191037,
+        "prompt_tokens": 289_861,
+        "completion_tokens": 16_943,
+        "total_tokens": 306_804,
+        "llm_duration_ms": 124_161,
+        "reported_cost_usd": 0.3778454,
         "cost_source": "provider",
     }
     for text in (
@@ -180,10 +180,10 @@ def test_public_replay_metrics_match_recorded_manifests() -> None:
         "0 cached",
         "20,728",
         "$0.3384",
-        "133,251",
-        "114,705",
-        "10,917",
-        "$0.1910",
+        "289,861",
+        "225,107",
+        "16,943",
+        "$0.3778",
     ):
         assert text in readme
     for text in ("11,002 input", "0 cached", "20,728 output", "$0.3384"):

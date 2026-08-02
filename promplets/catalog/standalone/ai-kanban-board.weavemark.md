@@ -13,11 +13,8 @@
 @refine module:weavemark.domains.programming.modules.output_surfaces
 @refine module:weavemark.domains.programming.modules.browser_ai_handoff
 @refine module:weavemark.domains.research.recurring_topic_monitor
-
 # AI Kanban — Browser Workspace for Human-AI Work
-
 This implementation-ready specification defines a polished static JavaScript application for GitHub Pages with no backend.
-
 ## Product
 AI Kanban is a local, folder-backed board where cards are active workspaces for
 human-AI collaboration. A user opens or creates a Board Workspace folder. Its
@@ -27,20 +24,11 @@ The useful core does not require an AI provider. Users can organize work, edit
 plans, preserve activity, capture outputs, and use versioned handoff packets.
 A provider-neutral Python skill lets Copilot CLI, Claude Code, and similar agents
 read and update the same workspace directly without a backend.
-
 ## Board
-Use these ordered default columns:
-
-1. Inbox
-2. Planning
-3. In Progress
-4. Review
-5. Blocked
-6. Done
-
+Use these ordered default columns: Inbox, Planning, In Progress, Review, Blocked,
+and Done.
 Users can create, edit, archive, search, filter, reorder, and move cards with
 pointer and keyboard controls. Each card includes:
-
 - title, Markdown description, priority P0-P3, assignee, and timestamps;
 - task, question, or result presentation with human/AI attention state;
 - immutable execution turns and a checklist plan with explicit states;
@@ -48,12 +36,10 @@ pointer and keyboard controls. Each card includes:
 - append-only human, AI, movement, output, and error activity;
 - dated/versioned output history, research memory, dependencies, relative artifact
   paths, provenance, and last-change actor.
-
 Moving or reordering a card and appending its activity event is one SQLite
 transaction. Moving completed work back to Inbox confirms Run again and creates a
 new queued turn without changing prior turns. Cards last changed by an agent carry
 a calm, accessible cue until reviewed.
-
 ## Essential flows
 - First run: Open Board Workspace, Create Board Workspace, or Try demo. Try demo
   offers two explicit choices: visually prefer Create a real demo workspace,
@@ -98,7 +84,6 @@ a calm, accessible cue until reviewed.
   gesture, detect external changes, and never overwrite a conflict silently.
 - Compatibility: connected folder autosave on supporting Chromium browsers;
   explicit workspace archive import/download fallback elsewhere.
-
 ## Experience
 The board should feel calm, capable, and trustworthy rather than like an
 operations console. Keep raw database details behind an About workspace panel.
@@ -107,15 +92,12 @@ Use violet/teal for unreviewed AI changes and amber for Needs you, always with
 icons and text rather than color alone. Prioritize readable cards, obvious save
 and control state, useful empty columns, strong keyboard focus, reduced motion,
 and responsive desktop/mobile layouts.
-
 Make global actions state-aware: show Open/Create before activation, then
 Save/New card/Agent control/Workspace menu. Foreground Needs you, AI working, and
 AI updated counts without adding an operations console or global chat pane. Give
 the latest result a rich preview and keep every older dated version one action away.
-
 Add a quiet footer linking source, compiled specification, and tutorial so the
 live result remains traceable to its intent and generation path.
-
 ## Deliverable
 Under `outputs/implementations/ai-kanban-browser/`, deliver vendored SQLite WASM,
 worker/repository modules, the dependency-free Python skill and launchers, sample
@@ -123,7 +105,6 @@ workspace, root-instruction templates, docs, tests, and a Pages live demo. Inclu
 a real-filesystem browser bridge that runs the actual Python CLI through
 grant, claim, question, human answer, regrant, resume, completion, and yield, plus
 real concurrent claim subprocess coverage.
-
 @structural_constraints strict: true
   Begin with `# AI Kanban — Browser Workspace for Human-AI Work`, then exactly:
   1. Architecture and Board Workspace lifecycle
