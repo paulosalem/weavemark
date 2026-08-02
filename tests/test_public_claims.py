@@ -63,8 +63,8 @@ def test_home_fragment_counts_match_the_shipped_library() -> None:
     fragments = list((ROOT / "promplets").glob("**/fragments/**/*.weavemark.md"))
     home = _collapsed(ROOT / "docs" / "index.html")
 
-    assert len(fragments) == 89, (
+    assert len(fragments) == 90, (
         f"{len(fragments)} fragments ship; update the home page claims."
     )
-    assert "<strong>89</strong>" in home
-    assert "Eighty-nine reusable fragments" in home
+    assert "<strong>90</strong>" in home
+    assert "Ninety reusable fragments" in home

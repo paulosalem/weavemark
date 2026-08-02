@@ -184,7 +184,7 @@ artifacts use Git LFS; run `git lfs pull` in a clone to fetch the original media
 | [Recurring topic monitor](promplets/catalog/executable/recurring-topic-monitor.weavemark.md) | Bounded search/news/crawl tools with event memory and material-change detection. |
 | [Reasoning strategies](studies/runtime-studies/reasoning-strategies) | Reflection, self-consistency, and tree-of-thought promplets with their saved runs. |
 
-The full maintained catalog is in [docs/examples.md](docs/examples.md); the 89
+The full maintained catalog is in [docs/examples.md](docs/examples.md); the 90
 reusable building blocks live under [promplets/stdlib](promplets/stdlib) and
 [promplets/domains](promplets/domains). To add your own, see the
 [manual](docs/manual.md#8-adding-your-own-promplets).
