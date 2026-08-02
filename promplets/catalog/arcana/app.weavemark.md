@@ -187,6 +187,16 @@ setup and in the active OpenAI drawer. Its default option is
 - Where am I confusing safety with stagnation?
 - What part of myself needs attention rather than judgment?
 - What possibility becomes visible if I stop forcing certainty?
+- How can I realize my true calling if my job underuses and ignores my talents?
+- How can I love without losing myself when my feelings are not returned?
+- What is this unrequited love asking me to grieve, learn, or release?
+- How can I distinguish devotion from attachment to an unavailable person?
+- How can I move through loss without closing myself to life?
+- How can I meet loneliness without treating it as proof that I am unlovable?
+- How can I honor my family without abandoning who I am?
+- What would forgiveness mean here without denying the harm?
+- What would courage look like if certainty never comes?
+- How can I make peace with time passing and choices I cannot undo?
 - Write my own question…
 
 Selecting a preset copies it into the private-question textarea while preserving
@@ -202,7 +212,24 @@ On a fresh profile, initialize the reversal control from
 `deck.experience.reversals_enabled_by_default`. A subsequently saved explicit
 player preference may override that default.
 
-Starting without both an accepted key and enabled guide opens one calm dialog:
+Initialize **Read reflections aloud** enabled. If an encrypted key cookie exists,
+initialize **Use OpenAI guide for this reading** enabled but do not connect or
+transmit until the user unlocks it. Retain the unlocked non-extractable derived
+CryptoKey and accepted page-session API key across drawers, setup/active
+navigation, and New reading for as long as the page remains alive; never retain
+the raw passphrase.
+
+Starting without both an accepted key and enabled guide opens one calm dialog.
+If encrypted ciphertext exists but remains locked, specialize it:
+
+- title **Unlock your saved OpenAI key?**;
+- explain that a key is encrypted in this browser but not connected;
+- actions **Enter password** and **Continue without AI**;
+- Enter password opens the OpenAI controls and focuses the encryption passphrase;
+- Continue without AI shuffles once, makes no provider request, and leaves later
+  unlock available.
+
+Otherwise use the ordinary no-guide dialog:
 
 - title **Enter without the OpenAI guide?**;
 - actions **Enter without guide** and **Set up OpenAI**;
@@ -374,13 +401,15 @@ fallback text.
 
 ### Automatic AI interpretation side stage
 
-Per-card AI interpretation comes to the player automatically through one shallow
-stage rather than waiting inside Card reflection:
+Per-card AI interpretation comes to the player automatically through one
+foreground stage rather than waiting inside Card reflection:
 
-- After a revealed card starts its AI request, slide a tall editorial side pane
-  in from the viewport edge beneath the sticky navigation. On wide and iPad-size
-  layouts, reserve sibling space for it so the full card formation remains
-  visible and operable rather than sitting underneath the pane.
+- After a revealed card starts its AI request, slide in one composite foreground
+  overlay beneath the sticky navigation. Magnify that exact revealed card with
+  its art, title, position, and orientation beside a tall editorial interpretation
+  pane. Preserve the deck geometry underneath; do not push or reflow it. The
+  composite may sit over other cards when space requires, because the interpreted
+  card itself remains enlarged and fully appreciable.
 - The pane belongs to the most recently revealed AI-enabled card. A later reveal
   replaces its content in place; completion from an older card MUST NOT steal it
   back. Multiple cards may continue computing independently.
@@ -403,11 +432,11 @@ stage rather than waiting inside Card reflection:
   control inside the pane to close it, return focus without scrolling to the
   owning revealed card; programmatic closure and closure invoked from elsewhere
   do not move focus.
-- Give the side pane most of the available dynamic viewport height, with a
-  comfortably readable width and an independently scrolling interpretation body
-  for Deep/Immersive text. At narrow mobile widths it may become a near-full-width
-  non-modal side sheet, but it must remain dismissible and must not alter scroll
-  or focus when it appears.
+- Give the composite most of the available dynamic viewport height, with a
+  generously sized 2:3 card preview and an independently scrolling interpretation
+  body for Deep/Immersive text. At narrow mobile widths retain the side-by-side
+  relationship with a compact card column and a readable non-modal interpretation
+  sheet. It remains dismissible and must not alter scroll or focus when it appears.
 - Recompute placement after resize, orientation change, media-transport changes,
   and formation layout changes.
 
@@ -418,9 +447,21 @@ layout.
 ## Speech and canonical media transport
 
 Speech is separately opt-in. Display configured AI-voice disclosure. Send only
-visible title/position and generated reflection fields to the configured
-`gpt-4o-mini-tts`, `onyx`, MP3 boundary with exact speaking instructions—never
-original question or notes.
+visible title/position and generated reflection fields, or the visible final
+complete-interpretation fields, to the configured `gpt-4o-mini-tts`, `onyx`, MP3
+boundary with exact speaking instructions—never original question or notes.
+
+The narration control is enabled by default for every fresh and new reading.
+It still sends nothing unless guide consent, a connected key, a private question,
+and a successful generated reflection are all present.
+
+After an explicit **Contemplate the whole** request succeeds, automatically
+narrate the complete interpretation when narration remains enabled. Use the same
+persistent iPad-safe media element, cancellation token, navbar transport, and
+icon-only Play/Pause, Replay, and Stop controls. Mirror those controls beside the
+visible final interpretation and retain tap-to-play recovery when autoplay is
+blocked. Question/key/consent changes, Forget key, New reading, card retries, and
+newer media ownership abort or invalidate final narration.
 
 Keep audio in page-memory Blob/Object URLs and revoke on replacement, new
 reading, Forget key, and exit. Attempt playback only after text is visible. If

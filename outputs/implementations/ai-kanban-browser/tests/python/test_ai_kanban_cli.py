@@ -16,15 +16,19 @@ APP = Path(__file__).parents[2]
 SAMPLE = APP / "sample-board-workspace"
 
 
+def cli_command(workspace: Path, *arguments: str) -> list[str]:
+    return [
+        sys.executable,
+        str(workspace / ".agents" / "skills" / "ai-kanban" / "ai_kanban.py"),
+        "--workspace",
+        str(workspace),
+        *arguments,
+    ]
+
+
 def run_cli(workspace: Path, *arguments: str, check: bool = True) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        [
-            sys.executable,
-            str(workspace / ".agents" / "skills" / "ai-kanban" / "ai_kanban.py"),
-            "--workspace",
-            str(workspace),
-            *arguments,
-        ],
+        cli_command(workspace, *arguments),
         check=check,
         capture_output=True,
         text=True,
@@ -546,6 +550,225 @@ def test_coordination_outbox_republishes_missing_marker(
     connection.close()
     assert durable[0] == marker["sequence"]
     assert json.loads(durable[1]) == marker
+
+
+def test_announce_and_watch_report_typed_coordination_publication_failures(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    workspace = tmp_path / "workspace"
+    shutil.copytree(SAMPLE, workspace)
+    connection = sqlite3.connect(workspace / "board.sqlite")
+    connection.execute("UPDATE metadata SET value='agent' WHERE key='control_state'")
+    connection.execute("UPDATE metadata SET value='test-agent' WHERE key='control_holder'")
+    connection.commit()
+    connection.close()
+    synchronize_manifest(workspace)
+    run_cli(
+        workspace,
+        "register",
+        *protocol_args(revision=0, key="register-publication-fault"),
+        "--name",
+        "Test agent",
+        "--host",
+        "pytest",
+    )
+
+    module_path = workspace / ".agents" / "skills" / "ai-kanban" / "ai_kanban.py"
+    spec = importlib.util.spec_from_file_location("ai_kanban_publication_test", module_path)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    monkeypatch.setattr(
+        module,
+        "publish_record",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(OSError("mailbox unavailable")),
+    )
+    manifest = module.load_manifest(workspace)
+
+    with pytest.raises(module.ProtocolError) as announced:
+        module.command_announce(
+            workspace,
+            manifest,
+            argparse.Namespace(actor="test-agent", run_id="run-1"),
+        )
+    assert announced.value.code == "COORDINATION_PUBLICATION_FAILED"
+
+    with pytest.raises(module.ProtocolError) as watched:
+        module.command_watch(
+            workspace,
+            manifest,
+            argparse.Namespace(
+                actor="test-agent",
+                run_id="run-1",
+                generation=0,
+                once=True,
+            ),
+        )
+    assert watched.value.code == "COORDINATION_PUBLICATION_FAILED"
+
+
+def test_concurrent_claim_processes_have_exactly_one_winner(tmp_path: Path) -> None:
+    workspace = tmp_path / "workspace"
+    shutil.copytree(SAMPLE, workspace)
+    connection = sqlite3.connect(workspace / "board.sqlite")
+    connection.execute("UPDATE metadata SET value='agent' WHERE key='control_state'")
+    connection.execute("UPDATE metadata SET value='test-agent' WHERE key='control_holder'")
+    connection.execute(
+        """INSERT INTO execution_turns(
+             id,card_id,display_number,status,trigger,requester,actor,agent_run_id,
+             idempotency_key,instruction_snapshot,queued_at,memory_lineage
+           ) VALUES(
+             'concurrent-turn','sample-card',1,'queued','test','human','','',
+             'queue-concurrent','Claim exactly once','2026-07-30T12:01:00Z','[]'
+           )"""
+    )
+    connection.execute(
+        "UPDATE cards SET current_turn_id='concurrent-turn' WHERE id='sample-card'"
+    )
+    connection.commit()
+    connection.close()
+    synchronize_manifest(workspace)
+    run_cli(
+        workspace,
+        "register",
+        *protocol_args(revision=0, key="register-concurrent-claim"),
+        "--name",
+        "Test agent",
+        "--host",
+        "pytest",
+    )
+
+    processes = [
+        subprocess.Popen(
+            cli_command(
+                workspace,
+                "claim",
+                *protocol_args(revision=1, key=f"concurrent-claim-{index}"),
+            ),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        for index in range(2)
+    ]
+    results = []
+    for process in processes:
+        stdout, stderr = process.communicate(timeout=30)
+        results.append((process.returncode, stdout, stderr))
+
+    successes = [result for result in results if result[0] == 0]
+    failures = [result for result in results if result[0] != 0]
+    assert len(successes) == 1
+    assert len(failures) == 1
+    assert json.loads(successes[0][1])["turn_id"] == "concurrent-turn"
+    failure = json.loads(failures[0][2])
+    assert failure["code"] in {
+        "MUTATION_BUSY",
+        "REVISION_MISMATCH",
+        "RUN_NOT_ACTIVE",
+    }, failure
+
+    connection = sqlite3.connect(workspace / "board.sqlite")
+    turn = connection.execute(
+        "SELECT status,actor,agent_run_id FROM execution_turns WHERE id='concurrent-turn'"
+    ).fetchone()
+    claimed_count = connection.execute(
+        "SELECT COUNT(*) FROM execution_turns WHERE status='claimed'"
+    ).fetchone()[0]
+    connection.close()
+    assert turn == ("claimed", "test-agent", "run-1")
+    assert claimed_count == 1
+
+
+def test_crash_recovery_cancels_needs_input_before_yielding(tmp_path: Path) -> None:
+    workspace = tmp_path / "workspace"
+    shutil.copytree(SAMPLE, workspace)
+    connection = sqlite3.connect(workspace / "board.sqlite")
+    connection.execute("UPDATE metadata SET value='agent' WHERE key='control_state'")
+    connection.execute("UPDATE metadata SET value='test-agent' WHERE key='control_holder'")
+    connection.execute(
+        """INSERT INTO execution_turns(
+             id,card_id,display_number,status,trigger,requester,actor,agent_run_id,
+             idempotency_key,instruction_snapshot,queued_at,memory_lineage
+           ) VALUES(
+             'recovery-turn','sample-card',1,'queued','test','human','','',
+             'queue-recovery','Recover safely','2026-07-30T12:01:00Z','[]'
+           )"""
+    )
+    connection.execute(
+        "UPDATE cards SET current_turn_id='recovery-turn' WHERE id='sample-card'"
+    )
+    connection.commit()
+    connection.close()
+    synchronize_manifest(workspace)
+
+    run_cli(
+        workspace,
+        "register",
+        *protocol_args(revision=0, key="register-recovery"),
+        "--name",
+        "Test agent",
+        "--host",
+        "pytest",
+    )
+    claimed = json.loads(
+        run_cli(
+            workspace,
+            "claim",
+            *protocol_args(revision=1, key="claim-recovery"),
+        ).stdout
+    )
+    started = json.loads(
+        run_cli(
+            workspace,
+            "start",
+            *protocol_args(revision=claimed["revision"], key="start-recovery"),
+            "--turn-id",
+            "recovery-turn",
+        ).stdout
+    )
+    asked = json.loads(
+        run_cli(
+            workspace,
+            "ask",
+            *protocol_args(revision=started["revision"], key="ask-recovery"),
+            "--turn-id",
+            "recovery-turn",
+            "--question",
+            "Which option?",
+        ).stdout
+    )
+    cancelled = json.loads(
+        run_cli(
+            workspace,
+            "cancel",
+            *protocol_args(revision=asked["revision"], key="cancel-recovery"),
+            "--turn-id",
+            "recovery-turn",
+            "--reason",
+            "Agent runtime stopped before completing this turn.",
+        ).stdout
+    )
+    yielded = json.loads(
+        run_cli(
+            workspace,
+            "yield",
+            *protocol_args(revision=cancelled["revision"], key="yield-recovery"),
+        ).stdout
+    )
+
+    assert yielded["generation"] == 1
+    connection = sqlite3.connect(workspace / "board.sqlite")
+    durable = connection.execute(
+        """SELECT t.status,r.status,m1.value,m2.value
+             FROM execution_turns t
+             JOIN agent_runs r ON r.id='run-1'
+             JOIN metadata m1 ON m1.key='control_state'
+             JOIN metadata m2 ON m2.key='control_holder'
+            WHERE t.id='recovery-turn'"""
+    ).fetchone()
+    connection.close()
+    assert durable == ("cancelled", "stopped", "human", "human")
 
 
 def test_needs_input_resume_requires_durable_answer(tmp_path: Path) -> None:

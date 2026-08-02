@@ -15,7 +15,9 @@ AI Kanban never substitutes unrelated browser storage for a connected folder.
 | Stale/malformed coordination record | Ignore it; retry after a valid workspace-matched heartbeat. |
 | Expired agent lease | Treat it as recovery evidence, not overwrite permission. |
 | Journal or commit-marker delay | Wait for the native agent to close SQLite, then retry stabilization and integrity checks. |
-| Agent crash | Request reclamation first; use explicit recovery only after inspecting the durable revision. |
+| Coordination marker publication fails after a commit | Retry the exact command with the same idempotency key. The durable outbox republishes the marker without repeating the mutation. |
+| Manifest publication fails after a commit | Use the browser-provided `reconcile-manifest` command only when its recovery marker and one-revision gap match the durable SQLite state. |
+| Agent crash | Request reclamation first. After confirming the old process is stopped, copy the guarded recovery command from the browser. It fails on a changed revision or generation; when a turn was active, it cancels that interrupted attempt while retaining partial outputs before yielding control. |
 
 Before destructive cleanup, distinguish manifest-recognized application files
 from user files. Never delete or overwrite an unrecognized path.

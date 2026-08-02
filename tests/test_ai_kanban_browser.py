@@ -166,6 +166,42 @@ def test_ai_kanban_demo_workspace_fix_is_preserved_in_source_and_output() -> Non
     assert "demo: true, connectedOnly: true" in implementation
 
 
+def test_ai_kanban_coordination_hardening_is_preserved_in_source_and_output() -> None:
+    source = (
+        ROOT / "promplets/catalog/standalone/ai-kanban-board.weavemark.md"
+    ).read_text(encoding="utf-8")
+    implementation = "\n".join(
+        (APP / relative).read_text(encoding="utf-8")
+        for relative in (
+            "src/app.js",
+            "src/coordination.js",
+            "templates/skill/ai_kanban.py",
+            "tests/real-coordination.spec.mjs",
+        )
+    )
+
+    for required in (
+        "single-flight",
+        "durable SQLite control holder",
+        "Freeze the user-confirmed grant target",
+        "typed busy result",
+        "same idempotency key",
+        "guarded recovery command",
+        "real-filesystem browser bridge",
+    ):
+        assert required.casefold() in source.casefold()
+    for required in (
+        "workspaceTransition",
+        "selectRelevantAgent",
+        "grantTarget",
+        "MUTATION_BUSY",
+        "COORDINATION_PUBLICATION_FAILED",
+        "Copy guarded recovery command",
+        "resume-real-turn",
+    ):
+        assert required in implementation
+
+
 def test_ai_kanban_live_app_links_its_generation_path() -> None:
     html = (APP / "index.html").read_text(encoding="utf-8")
 

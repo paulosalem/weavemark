@@ -36,6 +36,11 @@ class ProtocolError(RuntimeError):
         self.code = code
 
 
+def is_sqlite_busy(error: BaseException) -> bool:
+    message = str(error).lower()
+    return "locked" in message or "busy" in message
+
+
 def workspace_root(value: str) -> Path:
     root = Path(value).resolve()
     manifest = root / "manifest.json"
@@ -226,26 +231,34 @@ def validate_relative_path(value: str) -> Path:
     return path
 
 
-def connect(root: Path, manifest: dict) -> sqlite3.Connection:
+def connect(
+    root: Path, manifest: dict, *, busy_timeout_ms: int = 5_000
+) -> sqlite3.Connection:
     database = require_beneath(
         root,
         root / validate_relative_path(manifest["primary_state"]),
         "Primary state",
     )
-    connection = sqlite3.connect(database, timeout=5, isolation_level=None)
+    connection = sqlite3.connect(
+        database,
+        timeout=busy_timeout_ms / 1_000,
+        isolation_level=None,
+    )
     connection.row_factory = sqlite3.Row
-    connection.execute("PRAGMA foreign_keys=ON")
-    connection.execute("PRAGMA busy_timeout=5000")
-    if connection.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
+    try:
+        connection.execute("PRAGMA foreign_keys=ON")
+        connection.execute(f"PRAGMA busy_timeout={busy_timeout_ms}")
+        if connection.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
+            raise ProtocolError("INTEGRITY_FAILURE", "SQLite integrity check failed")
+        violations = connection.execute("PRAGMA foreign_key_check").fetchall()
+        if violations:
+            raise ProtocolError(
+                "FOREIGN_KEY_VIOLATION",
+                f"SQLite foreign-key check found {len(violations)} violation(s)",
+            )
+    except Exception:
         connection.close()
-        raise ProtocolError("INTEGRITY_FAILURE", "SQLite integrity check failed")
-    violations = connection.execute("PRAGMA foreign_key_check").fetchall()
-    if violations:
-        connection.close()
-        raise ProtocolError(
-            "FOREIGN_KEY_VIOLATION",
-            f"SQLite foreign-key check found {len(violations)} violation(s)",
-        )
+        raise
     return connection
 
 
@@ -396,8 +409,21 @@ def canonical_request_fingerprint(args: argparse.Namespace, scope: str) -> str:
 def begin_mutation(
     root: Path, manifest: dict, args: argparse.Namespace, scope: str
 ) -> tuple[sqlite3.Connection, dict[str, str], dict | None]:
-    connection = connect(root, manifest)
-    connection.execute("BEGIN IMMEDIATE")
+    try:
+        connection = connect(root, manifest, busy_timeout_ms=0)
+        connection.execute("BEGIN IMMEDIATE")
+    except sqlite3.OperationalError as error:
+        if "connection" in locals():
+            connection.close()
+        if is_sqlite_busy(error):
+            raise ProtocolError(
+                "MUTATION_BUSY",
+                "Another mutation owns the SQLite writer lock; rerun preflight before retrying",
+            ) from error
+        raise ProtocolError(
+            "DATABASE_WRITE_FAILED",
+            f"Could not begin the SQLite mutation: {error}",
+        ) from error
     try:
         values = verify_database_binding(root, manifest, connection)
         request_fingerprint = canonical_request_fingerprint(args, scope)
@@ -881,7 +907,7 @@ def command_announce(root: Path, manifest: dict, args: argparse.Namespace) -> di
     connection = connect(root, manifest)
     values = metadata(connection)
     connection.close()
-    publish_record(
+    publish_live_record(
         root,
         manifest,
         actor=args.actor,
@@ -1609,7 +1635,7 @@ def command_watch(root: Path, manifest: dict, args: argparse.Namespace) -> dict:
         connection.close()
         if not run_state:
             return {"stopped": True, "reason": "run_not_active", **status}
-        publish_record(
+        publish_live_record(
             root,
             manifest,
             actor=args.actor,
@@ -1771,6 +1797,16 @@ def publish_record(
         os.replace(temporary, path)
     finally:
         temporary.unlink(missing_ok=True)
+
+
+def publish_live_record(*args, **kwargs) -> None:
+    try:
+        publish_record(*args, **kwargs)
+    except OSError as error:
+        raise ProtocolError(
+            "COORDINATION_PUBLICATION_FAILED",
+            f"Coordination heartbeat publication failed: {error}",
+        ) from error
 
 
 def utc_now() -> str:
@@ -1945,6 +1981,10 @@ def main(argv: list[str] | None = None) -> int:
     except ProtocolError as error:
         print(json.dumps({"ok": False, "code": error.code, "error": str(error)}), file=sys.stderr)
         return 2
+    except sqlite3.OperationalError as error:
+        code = "MUTATION_BUSY" if is_sqlite_busy(error) else "SQLITE_ERROR"
+        print(json.dumps({"ok": False, "code": code, "error": str(error)}), file=sys.stderr)
+        return 2 if code == "MUTATION_BUSY" else 3
     except sqlite3.Error as error:
         print(json.dumps({"ok": False, "code": "SQLITE_ERROR", "error": str(error)}), file=sys.stderr)
         return 3

@@ -16,6 +16,7 @@ import {
   CoordinationService,
   agentStateLabel,
   isAgentGrantCandidate,
+  selectRelevantAgent,
 } from "./coordination.js";
 import { renderMarkdown, escapeHtml } from "./markdown.js";
 import { latestSuccessfulOutput } from "./output-selection.js";
@@ -46,10 +47,12 @@ const state = {
   readOnly: false,
   detachedForAgent: false,
   loading: false,
+  workspaceTransition: false,
   lock: null,
   coordination: null,
   readRepository: null,
   agent: null,
+  grantTarget: null,
   conflict: null,
   pendingImport: null,
   handoffFormat: "json",
@@ -315,23 +318,27 @@ function bindEvents() {
 }
 
 async function openWorkspace() {
-  if (!(await prepareWorkspaceSwitch())) return;
   if (!nativeFileSystemSupported) {
     elements.archiveInput.click();
     return;
   }
+  if (!beginWorkspaceTransition()) return;
   try {
+    if (!(await prepareWorkspaceSwitch())) return;
     const workspace = await FolderWorkspace.openNative();
     await activateWorkspace(workspace, { create: false });
   } catch (error) {
     handleActionError(error);
+  } finally {
+    endWorkspaceTransition();
   }
 }
 
 async function createWorkspace({ demo = false, connectedOnly = false } = {}) {
-  if (!(await prepareWorkspaceSwitch())) return;
+  if (!beginWorkspaceTransition()) return;
   let creationLock = null;
   try {
+    if (!(await prepareWorkspaceSwitch())) return;
     if (connectedOnly && !nativeFileSystemSupported) {
       throw typedError(
         "CONNECTED_WORKSPACE_UNSUPPORTED",
@@ -390,6 +397,7 @@ async function createWorkspace({ demo = false, connectedOnly = false } = {}) {
     handleActionError(error);
   } finally {
     creationLock?.release();
+    endWorkspaceTransition();
   }
 }
 
@@ -408,23 +416,31 @@ async function createConnectedDemo() {
 
 async function openMemoryDemo() {
   elements.demoDialog.close();
-  if (!(await prepareWorkspaceSwitch())) return;
-  await activateWorkspace(PortableWorkspace.demo(), { create: true, demo: true });
+  if (!beginWorkspaceTransition()) return;
+  try {
+    if (!(await prepareWorkspaceSwitch())) return;
+    await activateWorkspace(PortableWorkspace.demo(), { create: true, demo: true });
+  } finally {
+    endWorkspaceTransition();
+  }
 }
 
 async function reconnectWorkspace() {
-  if (!(await prepareWorkspaceSwitch())) return;
-  const handle = await recentHandle().catch(() => null);
-  if (!handle) {
-    elements.recentButton.hidden = true;
-    return;
-  }
+  if (!beginWorkspaceTransition()) return;
   try {
+    if (!(await prepareWorkspaceSwitch())) return;
+    const handle = await recentHandle().catch(() => null);
+    if (!handle) {
+      elements.recentButton.hidden = true;
+      return;
+    }
     const workspace = await reconnectRecent(handle);
     await activateWorkspace(workspace, { create: false });
   } catch (error) {
     if (error.code === "PERMISSION_DENIED") await clearRecentHandle();
     handleActionError(error);
+  } finally {
+    endWorkspaceTransition();
   }
 }
 
@@ -432,12 +448,43 @@ async function importArchive(event) {
   const [file] = event.target.files;
   event.target.value = "";
   if (!file) return;
+  if (!beginWorkspaceTransition()) return;
   try {
     const workspace = await PortableWorkspace.fromArchiveFile(file);
     await activateWorkspace(workspace, { create: false });
   } catch (error) {
     handleActionError(error);
+  } finally {
+    endWorkspaceTransition();
   }
+}
+
+function beginWorkspaceTransition() {
+  if (state.workspaceTransition) return false;
+  state.workspaceTransition = true;
+  for (const button of [
+    elements.welcomeOpenButton,
+    elements.welcomeCreateButton,
+    elements.demoButton,
+    elements.demoFolderButton,
+    elements.demoMemoryButton,
+    elements.recentButton,
+    elements.closeWorkspaceButton,
+  ]) {
+    button.disabled = true;
+  }
+  return true;
+}
+
+function endWorkspaceTransition() {
+  state.workspaceTransition = false;
+  elements.welcomeOpenButton.disabled = false;
+  elements.welcomeCreateButton.disabled = false;
+  elements.demoButton.disabled = false;
+  elements.demoFolderButton.disabled = !nativeFileSystemSupported;
+  elements.demoMemoryButton.disabled = false;
+  elements.recentButton.disabled = false;
+  elements.closeWorkspaceButton.disabled = false;
 }
 
 async function activateWorkspace(
@@ -621,11 +668,16 @@ async function releaseWorkspace() {
 
 async function closeWorkspace() {
   hideWorkspaceMenu();
-  if (!(await prepareWorkspaceSwitch())) return;
-  await releaseWorkspace();
-  elements.application.hidden = true;
-  elements.welcome.hidden = false;
-  updateChrome();
+  if (!beginWorkspaceTransition()) return;
+  try {
+    if (!(await prepareWorkspaceSwitch())) return;
+    await releaseWorkspace();
+    elements.application.hidden = true;
+    elements.welcome.hidden = false;
+    updateChrome();
+  } finally {
+    endWorkspaceTransition();
+  }
 }
 
 async function persistWorkspace(
@@ -1810,9 +1862,7 @@ function setupCoordination() {
   state.coordination?.stop();
   state.coordination = new CoordinationService(state.workspace, state.snapshot.meta.workspace_id);
   state.coordination.addEventListener("status", ({ detail }) => {
-    state.agent = detail.agents.sort(
-      (left, right) => Date.parse(right.timestamp) - Date.parse(left.timestamp),
-    )[0] || null;
+    state.agent = selectRelevantAgent(detail.agents, state.snapshot.meta);
     updateAgentStatus();
     if (state.agent?.status === "manifest_publication_failed") {
       const command =
@@ -1832,6 +1882,19 @@ function setupCoordination() {
         "The agent yielded a final durable revision. Verify it before accepting returned control.",
         "warning",
         [["Accept returned control", () => acceptYieldedControl(state.agent)]],
+      );
+    } else if (state.detachedForAgent && state.agent?.stale) {
+      const command = crashedAgentRecoveryCommand(state.agent, state.snapshot.meta);
+      setWorkspaceAlert(
+        "The controlling agent heartbeat is stale. Request return first. If the old process is definitely stopped, use the guarded recovery command; it will fail rather than overwrite a changed revision or generation.",
+        "warning",
+        [
+          ["Request control back", requestControlBack],
+          ["Copy guarded recovery command", async () => {
+            await navigator.clipboard.writeText(command);
+            showToast("Guarded recovery command copied.", "success");
+          }],
+        ],
       );
     } else if (
       state.detachedForAgent &&
@@ -1934,14 +1997,18 @@ function openAgentDialog() {
 function renderAgentDialog() {
   const agent = state.agent;
   const meta = state.snapshot.meta;
+  const grantTarget = state.grantTarget;
+  const displayedAgent = grantTarget || agent;
   const label = state.workspace.mode !== "connected"
     ? "Connected agents require a folder workspace"
-    : agentStateLabel(agent);
-  const detail = agent
-    ? `${agent.actor_id} · revision ${agent.observed_revision} · ${relativeTime(agent.timestamp)}`
+    : grantTarget
+      ? `Transferring control to ${grantTarget.actor_id}`
+      : agentStateLabel(agent);
+  const detail = displayedAgent
+    ? `${displayedAgent.actor_id} · revision ${displayedAgent.observed_revision} · ${relativeTime(displayedAgent.timestamp)}`
     : "A valid workspace-matched heartbeat has not arrived yet.";
   elements.agentConnectionState.innerHTML = `
-    <span class="agent-state-icon" aria-hidden="true">${agent ? "✦" : "◌"}</span>
+    <span class="agent-state-icon" aria-hidden="true">${displayedAgent ? "✦" : "◌"}</span>
     <div><strong>${escapeHtml(label)}</strong><span>${escapeHtml(detail)}</span></div>`;
   elements.agentDiagnostics.textContent = JSON.stringify({
     workspaceId: meta.workspace_id,
@@ -1952,10 +2019,16 @@ function renderAgentDialog() {
       holder: meta.control_holder,
       generation: Number(meta.control_generation),
     },
-    heartbeat: agent || "waiting",
+    heartbeat: displayedAgent || "waiting",
   }, null, 2);
   const controlState = meta.control_state;
   const ownsLock = ownsWorkspaceLock();
+  if (grantTarget) {
+    elements.agentControlAction.textContent = `Granting ${grantTarget.actor_id}…`;
+    elements.agentControlAction.disabled = true;
+    elements.repairFromAgentButton.disabled = true;
+    return;
+  }
   if (controlState === "human") {
     const grantCandidate = isAgentGrantCandidate(agent, meta);
     elements.agentControlAction.textContent = grantCandidate
@@ -2008,11 +2081,24 @@ async function grantAgentControl() {
   const agent = state.agent;
   if (!isAgentGrantCandidate(agent, state.snapshot.meta)) return;
   if (!window.confirm(`Save, close the browser writer, and grant control to ${agent.actor_id}?`)) return;
+  state.grantTarget = { ...agent };
+  renderAgentDialog();
   setLoading(true, "Transferring the writer baton…");
   let publicationStarted = false;
   let transferMutationStarted = false;
   try {
     if (state.dirty || saveQueue.pending) await saveNow();
+    await state.coordination.poll();
+    const refreshedAgent = state.coordination.latestAgent(agent.actor_id);
+    if (
+      !isAgentGrantCandidate(refreshedAgent, state.snapshot.meta) ||
+      refreshedAgent.run_id !== state.grantTarget.run_id
+    ) {
+      throw typedError(
+        "AGENT_REQUEST_CHANGED",
+        `The control request from ${state.grantTarget.actor_id} changed while the workspace was saving. Review the current request before granting control.`,
+      );
+    }
     transferMutationStarted = true;
     let result = await repository.mutate("setControl", {
       state: "granting_agent",
@@ -2088,9 +2174,35 @@ async function grantAgentControl() {
     }
     showToast(userMessage(error), "error");
   } finally {
+    state.grantTarget = null;
     setLoading(false);
     updateChrome();
   }
+}
+
+function crashedAgentRecoveryCommand(agent, metadata) {
+  const actor = shellQuote(agent.actor_id);
+  const runId = shellQuote(agent.run_id);
+  const generation = Number(metadata.control_generation);
+  const revision = Math.max(
+    Number(metadata.revision),
+    Number(agent.observed_revision),
+  );
+  const base =
+    `python .agents/skills/ai-kanban/ai_kanban.py`;
+  const protocol =
+    `--actor ${actor} --run-id ${runId} --generation ${generation}`;
+  const keyStem = `manual-recovery-${generation}-${agent.run_id}`;
+  if (!agent.current_turn_id) {
+    return `${base} yield ${protocol} --revision ${revision} ` +
+      `--idempotency-key ${shellQuote(`${keyStem}-yield`)}`;
+  }
+  return `${base} cancel ${protocol} --revision ${revision} ` +
+    `--idempotency-key ${shellQuote(`${keyStem}-cancel`)} ` +
+    `--turn-id ${shellQuote(agent.current_turn_id)} ` +
+    `--reason ${shellQuote("Agent runtime stopped before completing this turn.")} && ` +
+    `${base} yield ${protocol} --revision ${revision + 1} ` +
+    `--idempotency-key ${shellQuote(`${keyStem}-yield`)}`;
 }
 
 async function rollbackUnpublishedGrant() {

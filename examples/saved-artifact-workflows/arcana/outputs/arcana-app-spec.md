@@ -68,11 +68,23 @@ Place **Question inspiration** and its textarea before formations. Its default i
 - Where am I confusing safety with stagnation?
 - What part of myself needs attention rather than judgment?
 - What possibility becomes visible if I stop forcing certainty?
+- How can I realize my true calling if my job underuses and ignores my talents?
+- How can I love without losing myself when my feelings are not returned?
+- What is this unrequited love asking me to grieve, learn, or release?
+- How can I distinguish devotion from attachment to an unavailable person?
+- How can I move through loss without closing myself to life?
+- How can I meet loneliness without treating it as proof that I am unlovable?
+- How can I honor my family without abandoning who I am?
+- What would forgiveness mean here without denying the harm?
+- What would courage look like if certainty never comes?
+- How can I make peace with time passing and choices I cannot undo?
 - Write my own question…
 
 A preset copies into the editable textarea. **Write my own question…** clears and focuses it. Presets are inspiration only: do not persist them as questions or treat them as provider instructions.
 
-On fresh profile initialize reversals from `deck.experience.reversals_enabled_by_default`; an explicit saved player preference may override it. Starting without accepted key plus enabled guide consent opens one calm dialog titled **Enter without the OpenAI guide?**, with **Enter without guide** and **Set up OpenAI**. Close, Escape, and backdrop return without shuffling. Explain manual reading remains complete/private and OpenAI may be enabled later. Preserve typed unaccepted key text as not connected. Manual confirmation shuffles once and does not ask again for that start.
+On fresh profile initialize reversals from `deck.experience.reversals_enabled_by_default`; an explicit saved player preference may override it. Initialize **Read reflections aloud** enabled. When encrypted key ciphertext exists, initialize **Use OpenAI guide for this reading** enabled but do not connect or transmit until explicit unlock. Retain the non-extractable derived CryptoKey and accepted page-session API key across drawers, setup/active navigation, and New reading while the page remains alive; never retain the raw passphrase.
+
+Starting without accepted key plus enabled guide consent opens one calm dialog. When encrypted ciphertext exists but remains locked, title it **Unlock your saved OpenAI key?**, explain that the browser has an encrypted but disconnected key, and offer **Enter password** plus **Continue without AI**. Enter password opens OpenAI controls and focuses the encryption passphrase; Continue without AI shuffles once without provider work and leaves later unlock available. Otherwise use **Enter without the OpenAI guide?**, **Enter without guide**, and **Set up OpenAI**. Close, Escape, and backdrop return without shuffling. Preserve typed unaccepted key text as not connected.
 
 ## Secure deal and card turn
 
@@ -126,13 +138,15 @@ On reveal, send only private question as separate untrusted user role plus forma
 
 During text work, show restrained ivory/mineral-blue/oxidized-gold tracer around exactly that settled card. It remains when reflection closes. Voice transitions continuously to calmer warm-gold through request, decode, Blob creation, and metadata readiness; never flicker. Cards glow independently; final synthesis uses coordinated low-intensity formation glow. Reduced motion uses static luminous frames and explicit phase labels.
 
-Automatic AI interpretation uses one tall editorial side pane beneath sticky navigation for the most recently revealed AI-enabled card. On wide and iPad-size layouts reserve sibling space so the card formation remains visible and operable rather than sitting beneath the pane. A later reveal replaces pane content in place; older completion cannot reclaim it. Multiple cards may compute independently. Do not steal focus, navigate, scroll, or open Card reflection. Pending shows title/position/depth and restrained mineral-blue/oxidized-gold orbit/sweep/breathing-light treatment; reduced motion uses static constellation/status. Ready shows only permitted depth content; failure shows precise error/retry. When narration belongs to the card, show icon-only Play/Pause, Replay, and Stop controls with accessible names/tooltips, mirrored from canonical media state. Include **Close interpretation**; closing is respected until a newly revealed eligible card opens it. Use polite live announcements without focus movement.
+Automatic AI interpretation uses one composite foreground overlay beneath sticky navigation for the most recently revealed AI-enabled card. Magnify that exact revealed card with its art, title, position, and orientation beside a tall editorial interpretation pane. Preserve deck geometry underneath rather than pushing/reflowing it; the composite may sit over other cards because the interpreted card itself remains enlarged and fully appreciable. A later reveal replaces content in place; older completion cannot reclaim it. Multiple cards may compute independently. Do not steal focus, navigate, scroll, or open Card reflection. Pending shows title/position/depth and restrained mineral-blue/oxidized-gold orbit/sweep/breathing-light treatment; reduced motion uses static constellation/status. Ready shows only permitted depth content; failure shows precise error/retry. When narration belongs to the card, show icon-only Play/Pause, Replay, and Stop controls with accessible names/tooltips, mirrored from canonical media state. Include **Close interpretation**; closing is respected until a newly revealed eligible card opens it. Use polite live announcements without focus movement.
 
-Give the pane most of the available dynamic viewport height and a readable width; Deep/Immersive content scrolls internally. At narrow mobile widths it may become a near-full-width non-modal side sheet, but remains dismissible and must not alter focus or scroll when it appears. Recompute after resize, orientation, media transport, and formation layout changes.
+Give the composite most of the available dynamic viewport height, a generous 2:3 card preview, and an independently scrolling Deep/Immersive interpretation body. At narrow mobile widths retain side-by-side columns with a compact card preview and readable non-modal pane. It remains dismissible and must not alter focus or scroll when it appears. Recompute after resize, orientation, media transport, and formation layout changes.
 
 ## Speech and media transport
 
-Speech is separately opt-in. Display: **The optional spoken interpretation uses an AI-generated OpenAI voice, not a human voice.** Send only visible title/position/generated reflection fields, never question/notes. Use exact instruction: **Speak in a low, mysterious, warm, soothing voice. Slow the pace slightly, with calm natural pauses, never theatrical, ominous, breathy, or melodramatic.**
+Speech is separately controllable and enabled by default on every fresh or new reading. It sends nothing unless guide consent, connected key, private question, and generated reflection are all present. Display: **The optional spoken interpretation uses an AI-generated OpenAI voice, not a human voice.** Send only visible title/position/generated reflection fields or visible final complete-interpretation fields, never question/notes. Use exact instruction: **Speak in a low, mysterious, warm, soothing voice. Slow the pace slightly, with calm natural pauses, never theatrical, ominous, breathy, or melodramatic.**
+
+After explicit **Contemplate the whole** succeeds, automatically narrate the complete interpretation when narration remains enabled. Use the same persistent iPad-safe media element, cancellation token, navbar transport, and icon-only Play/Pause, Replay, and Stop controls. Mirror those controls beside the visible final interpretation and retain tap-to-play recovery when autoplay is blocked. Question/key/consent changes, Forget key, New reading, card retries, and newer media ownership abort or invalidate final narration.
 
 Keep audio only in page-memory Blob/Object URLs; revoke on replacement, New reading, Forget key, and exit. Attempt playback only after text visible. Blocked autoplay retains Play narration; failure retains text and Retry narration.
 

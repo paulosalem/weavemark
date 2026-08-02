@@ -45,12 +45,17 @@ Browser validation covers manual and mocked-provider readings, all five
 reflection depths, text/voice glow, TTS retry, card-turn and reflection geometry,
 audio transport, final synthesis restoration, drawers/focus, reduced motion,
 privacy/storage, and 320-pixel rendering. Per-card AI interpretation arrives
-automatically in a tall sliding side stage that reserves card space on desktop
-and iPad-size layouts; manual Card reflection remains click-only. The side stage
-and navbar mirror icon-only narration controls. Narration reuses one
-gesture-primed media element for iOS/iPadOS WebKit compatibility, while blocked
-autoplay remains recoverable through Play. Setup and the active OpenAI drawer
-also provide editable deep-question presets.
+automatically in a tall foreground stage that magnifies the interpreted card
+beside the text without reflowing the deck; manual Card reflection remains
+click-only. The stage and navbar mirror icon-only narration controls. Narration,
+enabled by default, reuses one gesture-primed media element for iOS/iPadOS WebKit
+compatibility, while blocked autoplay remains recoverable through Play. A
+successful explicit complete interpretation is narrated automatically through
+the same transport and mirrored final controls. Setup and the active OpenAI
+drawer also provide editable deep-question presets. When encrypted key ciphertext is
+present, AI consent defaults on and Shuffle offers a focused passphrase-unlock
+prompt; the unlocked derived key and accepted API key survive New reading within
+the same page session.
 
 ## Limitations
 

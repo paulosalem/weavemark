@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   CoordinationService,
   isAgentGrantCandidate,
+  selectRelevantAgent,
 } from "../src/coordination.js";
 
 const record = (sequence, generation = 2) => ({
@@ -97,6 +98,47 @@ test("grant candidates must be live current-generation explicit requests", () =>
   assert.equal(isAgentGrantCandidate({ ...candidate, stale: true }, metadata), false);
   assert.equal(isAgentGrantCandidate({ ...candidate, control_generation: 2 }, metadata), false);
   assert.equal(isAgentGrantCandidate({ ...candidate, observed_revision: 11 }, metadata), false);
+});
+
+test("agent selection follows the durable holder and prefers actionable requests", () => {
+  const olderHolder = {
+    ...record(3),
+    timestamp: "2026-08-02T12:00:00Z",
+  };
+  const newerObserver = {
+    ...record(8),
+    actor_id: "agent-2",
+    holder_id: "agent-2",
+    timestamp: "2026-08-02T12:01:00Z",
+  };
+  assert.equal(
+    selectRelevantAgent(
+      [newerObserver, olderHolder],
+      { control_holder: "agent-1", control_generation: 2, revision: 5 },
+    )?.actor_id,
+    "agent-1",
+  );
+
+  const request = {
+    ...olderHolder,
+    requested_state: "granting_agent",
+    status: "requesting_control",
+    stale: false,
+  };
+  assert.equal(
+    selectRelevantAgent(
+      [newerObserver, request],
+      { control_holder: "human", control_generation: 2, revision: 5 },
+    )?.actor_id,
+    "agent-1",
+  );
+  assert.equal(
+    selectRelevantAgent(
+      [newerObserver],
+      { control_holder: "missing-agent", control_generation: 2, revision: 5 },
+    ),
+    null,
+  );
 });
 
 test("stop invalidates an in-flight poll without dispatch or reschedule", async () => {

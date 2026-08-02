@@ -132,9 +132,19 @@ Lease expiry is recovery evidence, never overwrite permission.
 The browser accepts returned control only after a stopped/yielded final marker,
 journal stabilization, integrity checks, and exact generation/revision
 agreement.
+Concurrent CLI mutations fail fast with a typed `MUTATION_BUSY` result rather
+than waiting on a stale SQLite snapshot; agents must rerun preflight before
+retrying. If only coordination-marker publication fails after a durable commit,
+an exact retry with the same idempotency key republishes the durable outbox
+record without repeating work.
 Failed grants roll back before publication. Once publication may have begun,
 the browser stays read-only and requires cooperative reclamation rather than
 overwriting agent state.
+When the controlling heartbeat is stale, the browser keeps the request-return
+path primary and offers a copyable guarded recovery command only after the user
+confirms the old process is stopped. The command is revision/generation-bound,
+cancels an interrupted active turn while retaining partial outputs, and then
+yields control.
 While an agent holds the writer baton, a separate immutable in-memory
 repository keeps cards, turns, outputs, and history inspectable. Optional direct
 provider credentials and reviewed requests are cleared or invalidated whenever

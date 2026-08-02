@@ -151,3 +151,16 @@ export function isAgentGrantCandidate(agent, metadata) {
     Number(agent.observed_revision) === Number(metadata?.revision),
   );
 }
+
+export function selectRelevantAgent(agents, metadata) {
+  const ordered = [...agents].sort(
+    (left, right) => Date.parse(right.timestamp) - Date.parse(left.timestamp),
+  );
+  const holder = metadata?.control_holder;
+  if (holder && holder !== "human") {
+    return ordered.find((agent) => agent.actor_id === holder) || null;
+  }
+  return ordered.find((agent) => isAgentGrantCandidate(agent, metadata))
+    || ordered[0]
+    || null;
+}

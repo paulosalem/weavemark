@@ -710,3 +710,28 @@ When updating a rubric:
   repeated failing approaches, and create precise handoffs when blocked.
 - **Pass evidence:** The session history clearly shows progress, verification,
   blockers, recovery actions, and final state.
+
+## 61. Cross-runtime single-writer proof
+
+- **Risk:** Browser mocks and sequential command tests may pass while the real
+  filesystem, SQLite locking, marker publication, and UI adoption protocol
+  deadlock, commit twice, or display the wrong actor.
+- **Check:** Exercise the actual browser file API adapter and generated native
+  CLI against one real temporary workspace, including concurrent subprocesses.
+- **Do:** Cover grant, claim, question/answer, yield, regrant, resume, completion,
+  marker faults, holder-oriented actor display, exact durable UI projection, and
+  crash-recovery commands from every active turn lifecycle state.
+- **Pass evidence:** The real cross-runtime lifecycle passes and simultaneous
+  mutations produce exactly one commit plus a typed retryable loser.
+
+## 62. Single-flight lifecycle actions
+
+- **Risk:** Double-clicks or repeated asynchronous actions may open overlapping
+  pickers, create twice, switch workspaces concurrently, or bind confirmations
+  to the wrong operation.
+- **Check:** Delay the first user-triggered transition and invoke the same or a
+  competing action again before it settles.
+- **Do:** Guard the complete transition, disable competing controls, and release
+  the guard on success, cancellation, and failure.
+- **Pass evidence:** Race tests record one picker/transition and leave controls
+  usable afterward.

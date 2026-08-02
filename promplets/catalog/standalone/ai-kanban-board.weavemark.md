@@ -61,6 +61,8 @@ a calm, accessible cue until reviewed.
   Personal Research board for immediate local-agent use. Try in memory creates no
   folder, disables local-agent integration, and requires export to retain changes.
   When folder access is unsupported, explain why only the in-memory path works.
+  Open, Create, demo, reconnect, and import transitions are single-flight: disable
+  competing entry actions until the current picker/activation finishes.
 - Quick start: both paths load the same Personal Research board for a macroeconomic pulse,
   activities with a four-year-old in São Paulo, family trips, a collaborative vacation planner, and other age-appropriate activities.
 - Vacation loop: the human edits candidate destinations and constraints in Inbox;
@@ -75,12 +77,23 @@ a calm, accessible cue until reviewed.
 - Agent startup: create `AGENTS.md`, `CLAUDE.md`, and a canonical
   `.agents/skills/ai-kanban/` bundle in every workspace. After create or reopen,
   tell the user to start Copilot CLI or Claude Code in that folder and confirm its
-  heartbeat before presenting it as connected.
+  heartbeat before presenting it as connected. When several agent records exist,
+  show the durable SQLite control holder rather than an unrelated newer heartbeat.
+  Freeze the user-confirmed grant target and revalidate that exact actor/run after
+  pending saves before transferring control.
 - Continuous work: generated instructions tell the agent to poll, claim, work,
   yield, and resume watching indefinitely while its host remains alive. State
-  plainly that a skill cannot force a terminated host runtime to act.
+  plainly that a skill cannot force a terminated host runtime to act. Concurrent
+  mutations fail fast with a typed busy result and require fresh preflight values.
+  Announce/watch publication failures are typed; an exact post-commit retry with
+  the same idempotency key republishes the durable coordination outbox.
 - Agent turns read prior reports and memory, highlight new or materially changed
   facts, use the single-writer baton, and preserve copy/import handoff as fallback.
+- Recovery: keep cooperative request-return primary. For a stale controlling
+  agent, offer a copyable guarded recovery command bound to revision/generation
+  only after the user confirms the old process is stopped; preserve partial work
+  by cancelling an interrupted active turn before yielding. Never treat
+  staleness as permission to overwrite.
 - Reconnection: remember the recent file handle, request permission from a user
   gesture, detect external changes, and never overwrite a conflict silently.
 - Compatibility: connected folder autosave on supporting Chromium browsers;
@@ -106,7 +119,10 @@ live result remains traceable to its intent and generation path.
 ## Deliverable
 Under `outputs/implementations/ai-kanban-browser/`, deliver vendored SQLite WASM,
 worker/repository modules, the dependency-free Python skill and launchers, sample
-workspace, root-instruction templates, docs, tests, and a Pages live demo.
+workspace, root-instruction templates, docs, tests, and a Pages live demo. Include
+a real-filesystem browser bridge that runs the actual Python CLI through
+grant, claim, question, human answer, regrant, resume, completion, and yield, plus
+real concurrent claim subprocess coverage.
 
 @structural_constraints strict: true
   Begin with `# AI Kanban — Browser Workspace for Human-AI Work`, then exactly:

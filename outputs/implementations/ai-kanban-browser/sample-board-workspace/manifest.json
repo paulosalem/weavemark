@@ -37,12 +37,12 @@
     {
       "path": ".agents/skills/ai-kanban/SKILL.md",
       "owner": "ai-kanban",
-      "fingerprint": "899a352a2f019b5824b4bb63f56aef494963bc4542bc8272079caac8c663f36a"
+      "fingerprint": "b093c99b727219f8bb98dfd33780ff90d419e6e51e5bf983c04b34378d13c4af"
     },
     {
       "path": ".agents/skills/ai-kanban/ai_kanban.py",
       "owner": "ai-kanban",
-      "fingerprint": "758759bce40f130d9f061ec95725ff99ea268136db751d1d8bb4e8f9791d5869"
+      "fingerprint": "146b75d05f3f03f7e861c2041c7d29a4d8991a661d0515adfae62f5c79bee635"
     },
     {
       "path": ".agents/skills/ai-kanban/ai-kanban.sh",
@@ -72,8 +72,8 @@
     "board.sqlite": "ba06ebd1f444a1ac84922d8ea9ffca50c480eef7846b810dd1737f01c43758d4",
     "AGENTS.md": "d6acc66c37fb4863ccdb453ab6d3acef722f86bf64d17265e84ac9833a09ef8e",
     "CLAUDE.md": "416e9abb4b6a3e25c9209ee912a932ca2d0b34bb3589e0150dfbba9263e911db",
-    ".agents/skills/ai-kanban/SKILL.md": "899a352a2f019b5824b4bb63f56aef494963bc4542bc8272079caac8c663f36a",
-    ".agents/skills/ai-kanban/ai_kanban.py": "758759bce40f130d9f061ec95725ff99ea268136db751d1d8bb4e8f9791d5869",
+    ".agents/skills/ai-kanban/SKILL.md": "b093c99b727219f8bb98dfd33780ff90d419e6e51e5bf983c04b34378d13c4af",
+    ".agents/skills/ai-kanban/ai_kanban.py": "146b75d05f3f03f7e861c2041c7d29a4d8991a661d0515adfae62f5c79bee635",
     ".agents/skills/ai-kanban/ai-kanban.sh": "7a405230b4a87a2cc3edc07f63fe3dc0444bd6b29bbc08e41cc36b4b8ea67e7d",
     ".agents/skills/ai-kanban/ai-kanban.ps1": "e0cf4564be3cf6be7e6404170963ecf3cdb6fa05f07efeb5bb465b815c12f8b7",
     ".ai-kanban/coordination/human.json": "a916b70ea92bbef12f2f116067dd154d7ffaa78bd879aaabaf16f47799a17885"

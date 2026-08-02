@@ -34,6 +34,11 @@ portable workspace, working directory, and local trust boundary.
 Run `python .agents/skills/ai-kanban/ai_kanban.py --help` for command details.
 Every mutation requires `--revision`, `--generation`, `--actor`, `--run-id`, and
 `--idempotency-key`. Re-read status after a revision mismatch.
+If a mutation reports `MUTATION_BUSY`, rerun preflight and retry from fresh
+revision and control values. If a committed mutation reports
+`COORDINATION_PUBLICATION_FAILED`, retry that exact command with the same
+idempotency key so its durable outbox can republish the missing marker without
+repeating work.
 Actor ids are portable filename components: letters, numbers, `.`, `_`, and `-`
 only. Idempotency keys bind the canonical operation, actor, run, generation,
 target, and payload.

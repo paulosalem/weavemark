@@ -134,6 +134,17 @@ const installFakeWorkspace = async (page) => {
     window.__failGrantPublication = false;
     window.__failBootstrapRead = false;
     window.__coordinationReads = 0;
+    window.__directoryPickerCalls = 0;
+    window.__directoryPickerDelayMs = 0;
+    window.__copiedText = "";
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async (value) => {
+          window.__copiedText = value;
+        },
+      },
+    });
     window.__fakeRoot = new FakeDirectoryHandle("Research Board");
     window.__fakeReadText = async (path) => {
       const parts = path.split("/");
@@ -164,7 +175,15 @@ const installFakeWorkspace = async (page) => {
     };
     Object.defineProperty(window, "showDirectoryPicker", {
       configurable: true,
-      value: async () => window.__fakeRoot,
+      value: async () => {
+        window.__directoryPickerCalls += 1;
+        if (window.__directoryPickerDelayMs) {
+          await new Promise((resolve) =>
+            window.__nativeSetTimeout(resolve, window.__directoryPickerDelayMs)
+          );
+        }
+        return window.__fakeRoot;
+      },
     });
   });
 };
@@ -223,6 +242,22 @@ test("directory creation lock serializes creators sharing a folder identity", as
     };
   });
   expect(result).toEqual({ first: true, second: false, third: true });
+});
+
+test("duplicate workspace actions collapse into one in-flight transition", async ({ page }) => {
+  await installFakeWorkspace(page);
+  await page.goto("/");
+  const disabledDuringTransition = await page.evaluate(() => {
+    window.__directoryPickerDelayMs = 100;
+    const button = document.getElementById("welcomeCreateButton");
+    button.click();
+    const disabled = button.disabled;
+    button.click();
+    return disabled;
+  });
+  expect(disabledDuringTransition).toBe(true);
+  await expect(page.locator("#workspaceName")).toHaveText("Research Board");
+  expect(await page.evaluate(() => window.__directoryPickerCalls)).toBe(1);
 });
 
 test("demo supports board, detail, decision, turn, filter, and handoff flows", async ({ page }) => {
@@ -764,6 +799,72 @@ test("workspace creation preserves existing bootstrap files until explicitly con
   );
 });
 
+test("grant freezes the confirmed actor while competing requests arrive", async ({ page }) => {
+  await installFakeWorkspace(page);
+  await page.goto("/");
+  await page.getByRole("button", { name: "Create Board Workspace" }).click();
+  await expect(page.locator("#workspaceName")).toHaveText("Research Board");
+  await page.evaluate(async () => {
+    const manifest = JSON.parse(await window.__fakeReadText("manifest.json"));
+    window.__delayWrites = true;
+    window.__writeDelayMs = 120;
+    await window.__fakeSeedText(
+      ".ai-kanban/coordination/agent-confirmed-agent.json",
+      `${JSON.stringify({
+        workspace_id: manifest.workspace_id,
+        protocol_version: 1,
+        actor_id: "confirmed-agent",
+        holder_id: "confirmed-agent",
+        run_id: "confirmed-run",
+        sequence: 1,
+        control_generation: 0,
+        observed_revision: manifest.revision,
+        requested_state: "granting_agent",
+        status: "requesting_control",
+        current_turn_id: null,
+        timestamp: new Date().toISOString(),
+      }, null, 2)}\n`,
+    );
+  });
+  await page.getByRole("button", { name: "Agent control" }).click();
+  await page.getByRole("button", { name: "Retry" }).click();
+  await expect(page.getByRole("button", { name: "Grant agent control" })).toBeEnabled();
+  await page.evaluate(() => {
+    document.getElementById("agentControlAction").addEventListener("click", async () => {
+      const manifest = JSON.parse(await window.__fakeReadText("manifest.json"));
+      await window.__fakeSeedText(
+        ".ai-kanban/coordination/agent-competing-agent.json",
+        `${JSON.stringify({
+          workspace_id: manifest.workspace_id,
+          protocol_version: 1,
+          actor_id: "competing-agent",
+          holder_id: "competing-agent",
+          run_id: "competing-run",
+          sequence: 7,
+          control_generation: 0,
+          observed_revision: manifest.revision,
+          requested_state: "granting_agent",
+          status: "requesting_control",
+          current_turn_id: null,
+          timestamp: new Date(Date.now() + 30_000).toISOString(),
+        }, null, 2)}\n`,
+      );
+    }, { once: true });
+  });
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Grant agent control" }).click();
+  await expect(page.locator("#agentConnectionState")).toContainText(
+    "Transferring control to confirmed-agent",
+  );
+  await expect(page.locator("#saveStatus")).toContainText("confirmed-agent has control");
+  const human = JSON.parse(
+    await page.evaluate(() =>
+      window.__fakeReadText(".ai-kanban/coordination/human.json"),
+    ),
+  );
+  expect(human.holder_id).toBe("confirmed-agent");
+});
+
 test("an unpublished failed grant rolls durable control back to human", async ({ page }) => {
   await installFakeWorkspace(page);
   await page.goto("/");
@@ -916,6 +1017,31 @@ test("handoff saves serialize and stale agents cannot trigger force recovery", a
   await page.getByRole("button", { name: "Grant agent control" }).click();
   await expect(page.locator("#saveStatus")).toContainText("test-agent has control");
   expect(await page.evaluate(() => window.__maxActiveWrites)).toBe(1);
+  await page.evaluate(async () => {
+    const manifest = JSON.parse(await window.__fakeReadText("manifest.json"));
+    await window.__fakeSeedText(
+      ".ai-kanban/coordination/agent-newer-observer.json",
+      `${JSON.stringify({
+        workspace_id: manifest.workspace_id,
+        protocol_version: 1,
+        actor_id: "newer-observer",
+        holder_id: "newer-observer",
+        run_id: "observer-run",
+        sequence: 9,
+        control_generation: 1,
+        observed_revision: manifest.revision,
+        requested_state: "granting_agent",
+        status: "requesting_control",
+        current_turn_id: null,
+        timestamp: new Date(Date.now() + 30_000).toISOString(),
+      }, null, 2)}\n`,
+    );
+  });
+  await page.getByRole("button", { name: "Agent control" }).click();
+  await page.getByRole("button", { name: "Retry" }).click();
+  await expect(page.locator("#agentConnectionState")).toContainText("test-agent");
+  await expect(page.locator("#agentConnectionState")).not.toContainText("newer-observer");
+  await page.getByRole("button", { name: "Close agent control" }).click();
   await expect(page.getByRole("button", { name: "New card" })).toBeDisabled();
   await page.locator(".kanban-card", { hasText: "Pending before handoff" }).click();
   await expect(page.locator("#detailTitle")).toHaveText("Pending before handoff");
@@ -939,7 +1065,7 @@ test("handoff saves serialize and stale agents cannot trigger force recovery", a
         observed_revision: manifest.revision,
         requested_state: "agent",
         status: "watching",
-        current_turn_id: null,
+        current_turn_id: "stale-turn",
         timestamp: "2020-01-01T00:00:00Z",
       }, null, 2)}\n`,
     );
@@ -947,9 +1073,24 @@ test("handoff saves serialize and stale agents cannot trigger force recovery", a
   });
   await page.getByRole("button", { name: "Agent control" }).click();
   await page.getByRole("button", { name: "Retry" }).click();
-  await expect(page.getByRole("button", { name: "Request control back" })).toBeVisible();
+  await expect(page.locator("#agentControlAction")).toHaveText("Request control back");
+  await expect(page.getByRole("button", {
+    name: "Copy guarded recovery command",
+  })).toBeVisible();
   await expect(page.getByRole("button", { name: /Recover control/ })).toHaveCount(0);
-  await page.getByRole("button", { name: "Request control back" }).click();
+  await page.getByRole("button", { name: "Close agent control" }).click();
+  await page.locator("#workspaceAlert").getByRole("button", {
+    name: "Copy guarded recovery command",
+  }).click();
+  const recoveryCommand = await page.evaluate(() => window.__copiedText);
+  expect(recoveryCommand).toContain(" cancel ");
+  expect(recoveryCommand).toContain("--turn-id 'stale-turn'");
+  expect(recoveryCommand).not.toContain(" fail ");
+  expect(recoveryCommand).toContain(" && ");
+  expect(recoveryCommand).toContain(" yield ");
+  await page.locator("#workspaceAlert").getByRole("button", {
+    name: "Request control back",
+  }).click();
   await expect.poll(() => page.evaluate(async () =>
     JSON.parse(
       await window.__fakeReadText(".ai-kanban/coordination/human.json"),
@@ -1011,6 +1152,7 @@ test("handoff saves serialize and stale agents cannot trigger force recovery", a
     );
     return Array.from(bytes);
   });
+  await page.getByRole("button", { name: "Agent control" }).click();
   await page.getByRole("button", { name: "Retry" }).click();
   await expect(page.locator("#agentControlAction")).toHaveText("Accept returned control");
   await page.locator("#agentControlAction").click();

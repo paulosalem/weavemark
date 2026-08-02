@@ -47,6 +47,8 @@ small radii, and sparse motion prioritize clarity over decoration.
   two-path demo choice with durable creation visually preferred.
 - **Quiet board:** useful invitation rather than empty columns competing.
 - **Active board:** attention counts, search, progressive filters, six columns.
+- **Workspace transition:** one picker/activation at a time with competing entry
+  actions visibly disabled.
 - **Detail:** Overview first; advanced history is one tab away.
 - **Read-only/agent:** mutations disable without hiding context.
 - **Conflict/recovery:** foreground draft safety and concrete next actions.

@@ -86,6 +86,7 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
         "AES-256-GCM",
         "PBKDF2-HMAC-SHA-256",
         "Unlock saved key",
+        "automatically narrate the complete interpretation",
     ):
         assert obligation in specification
 
@@ -116,7 +117,11 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
         "Playback needs a tap on Play",
         "ai-stage-media-controls",
         "mediaIconButton",
-        "body.ai-stage-visible .reading-main",
+        "ai-stage-shell",
+        "ai-card-focus",
+        "Unlock your saved OpenAI key?",
+        "How can I realize my true calling",
+        "What is this unrequited love asking me to grieve",
         "Save encrypted key in this browser",
         "Unlock saved key",
         "AES-GCM",
@@ -125,13 +130,21 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
         "arcana-openai-key-v1",
         "document.cookie",
         "Encrypted key cookie is invalid.",
+        "requestFinalNarration",
+        "final-media-controls",
+        "How can I realize my true calling",
+        "Unlock your saved OpenAI key?",
+        "this.preferences.aiConsent=this.keyVault.hasSaved",
+        "this.preferences.speech=true",
+        "savedLocked=this.keyVault.hasSaved&&!this.openAI.connected",
     ):
         assert marker in html
     assert "Math.random(" not in html
+    assert "body.ai-stage-visible .reading-main" not in html
     assert "Draw next" not in html
     assert "Reveal all" not in html
     assert "overflow-x:clip" in html
-    assert "stage.contains(document.activeElement)" in html
+    assert "shell.contains(document.activeElement)" in html
     assert (
         ".position.ai-stage-owner.ai-stage-overlap "
         ".reflection-trigger{display:block"
