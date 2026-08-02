@@ -67,6 +67,8 @@ h3{font-size:1.3rem}
 .optional-settings{margin-top:16px;border-top:1px solid rgba(87,118,110,.36);padding-top:13px}
 .optional-settings summary{font-weight:800;color:var(--blue);cursor:pointer;padding:6px 0}
 .ai-controls{padding-top:11px}
+.key-status{margin:-7px 0 12px;padding:8px 10px;border-left:2px solid var(--blue);background:rgba(216,229,233,.42)}
+.key-status.restored{color:#29473f;border-color:#5d7f70;background:rgba(219,233,224,.72)}
 .small-card{font-size:.88rem;color:var(--muted);padding:9px 11px;background:rgba(216,229,233,.42);border-left:2px solid var(--blue)}
 .depth-control{display:grid;gap:7px;margin:18px 0}
 .depth-head,.depth-scale{display:flex;justify-content:space-between;gap:10px}
@@ -321,13 +323,15 @@ class PreferenceRepository{
 
 class OpenAIClient{
   #key="";
+  #source="none";
   #controllers=new Set();
   #channels=new Map();
   #speechController=null;
   constructor(configuration){this.configuration=configuration}
   get connected(){return Boolean(this.#key)}
-  connect(key){const value=key.trim();if(!value)throw Error("Enter an OpenAI API key.");this.#key=value}
-  forget(){this.#key="";this.abortAll()}
+  get source(){return this.#source}
+  connect(key,source="manual"){const value=key.trim();if(!value)throw Error("Enter an OpenAI API key.");this.#key=value;this.#source=source}
+  forget(){this.#key="";this.#source="none";this.abortAll()}
   abortAll(){for(const controller of this.#controllers)controller.abort();this.#controllers.clear();this.#channels.clear();if(this.#speechController)this.#speechController.abort();this.#speechController=null}
   abortChannel(channel){const controller=this.#channels.get(channel);if(controller)controller.abort();this.#channels.delete(channel)}
   abortSpeech(){if(this.#speechController)this.#speechController.abort();this.#speechController=null}
@@ -496,17 +500,34 @@ class ArcanaApplication{
   buildOpenAIControls(){
     const container=make("section",{class:"ai-controls",attrs:{"aria-label":"OpenAI guide controls"}});
     const consent=this.checkbox("ai-consent","Use OpenAI guide for this reading",!!this.preferences.aiConsent,value=>this.setAIConsent(value));
-    const keyInput=make("input",{id:"ai-key",type:"password",autocomplete:"off",placeholder:"OpenAI API key"});
-    const keyStatus=make("span",{class:"quiet",text:this.openAI.connected?"Key connected for this page session.":"No key connected."});
-    const connect=make("button",{class:"secondary",type:"button",text:"Use key this session",on:{click:()=>{try{this.openAI.connect(keyInput.value);keyInput.value="";keyStatus.textContent="Key connected for this page session.";this.reconcileAI();announce("OpenAI key connected for this page session.")}catch(error){keyStatus.textContent=error.message}}}});
-    const forget=make("button",{class:"secondary danger",type:"button",text:"Forget key",on:{click:()=>{this.voiceSequence++;this.requestSequence++;this.openAI.forget();this.media.stop(true);this.closeAIStage();keyInput.value="";keyStatus.textContent="No key connected.";if(this.reading){this.reading.items.forEach((item,index)=>{if(item.ai.status==="pending")item.ai={status:"cancelled"};if(item.voice.status!=="idle")item.voice={status:"cancelled"};this.renderCard(index);this.refreshReflection(index)});if(this.reading.final.status==="pending"){this.reading.final={status:"idle"};document.getElementById("reading-main")?.classList.remove("final-pending")}if(this.allRevealed())this.renderCompletion()}announce("OpenAI key forgotten, provider work cancelled, and narration cleared.")}}});
+    const keyInput=make("input",{id:"ai-key",name:"openai-api-key",type:"password",autocomplete:"current-password",spellcheck:false,placeholder:"OpenAI API key",attrs:{"aria-describedby":"ai-key-status"}});
+    const keyStatus=make("p",{id:"ai-key-status",class:"key-status quiet",attrs:{role:"status"}});
+    let restored=false,userEdited=false,connect;
+    const isAutofilled=()=>{try{return keyInput.matches(":-webkit-autofill")}catch{return false}};
+    const renderKeyState=()=>{
+      const hasValue=Boolean(keyInput.value.trim()),restoredConnected=this.openAI.connected&&this.openAI.source==="protected-storage";
+      keyStatus.classList.toggle("restored",restored||restoredConnected);
+      if(restoredConnected)keyStatus.textContent="Restored key connected from protected browser storage. Keep using it, or enter a replacement below.";
+      else if(this.openAI.connected)keyStatus.textContent="Key connected for this page session. Enter another key below only if you want to replace it.";
+      else if(restored&&hasValue)keyStatus.textContent="A saved key was restored by your browser from protected credential storage. Use it as-is or replace the field first.";
+      else keyStatus.textContent="No key connected.";
+      connect.textContent=this.openAI.connected?"Replace key":restored&&hasValue?"Use restored key":"Use key this session";
+      connect.disabled=!hasValue;
+    };
+    const detectRestored=()=>{if(!userEdited&&keyInput.value.trim()){restored=true;renderKeyState()}};
+    connect=make("button",{class:"secondary",type:"button",text:"Use key this session",on:{click:()=>{try{const replacing=this.openAI.connected,source=restored?"protected-storage":"manual";this.openAI.connect(keyInput.value,source);keyInput.value="";restored=false;userEdited=false;renderKeyState();this.reconcileAI();announce(source==="protected-storage"?"Restored OpenAI key connected for this page session.":replacing?"OpenAI key replaced for this page session.":"OpenAI key connected for this page session.")}catch(error){keyStatus.textContent=error.message}}}});
+    const forget=make("button",{class:"secondary danger",type:"button",text:"Forget key",on:{click:()=>{this.voiceSequence++;this.requestSequence++;this.openAI.forget();this.media.stop(true);this.closeAIStage();keyInput.value="";restored=false;userEdited=false;renderKeyState();if(this.reading){this.reading.items.forEach((item,index)=>{if(item.ai.status==="pending")item.ai={status:"cancelled"};if(item.voice.status!=="idle")item.voice={status:"cancelled"};this.renderCard(index);this.refreshReflection(index)});if(this.reading.final.status==="pending"){this.reading.final={status:"idle"};document.getElementById("reading-main")?.classList.remove("final-pending")}if(this.allRevealed())this.renderCompletion()}announce("OpenAI key forgotten, provider work cancelled, and narration cleared.")}}});
+    keyInput.addEventListener("input",event=>{if(event.isTrusted&&!isAutofilled())userEdited=true;if(userEdited)restored=false;else if(keyInput.value.trim())restored=true;renderKeyState()});
+    keyInput.addEventListener("focus",detectRestored);keyInput.addEventListener("change",detectRestored);
+    const restoreMonitor=setInterval(()=>{if(userEdited||this.openAI.connected){clearInterval(restoreMonitor);return}detectRestored()},500);setTimeout(()=>clearInterval(restoreMonitor),30000);
     const level=this.deck.ai.depth.levels[this.preferences.depth],depthOutput=make("output",{htmlFor:"reflection-depth",text:level.label}),depthDescription=make("p",{id:"depth-description",class:"quiet",text:level.description});
     const depthInput=make("input",{id:"reflection-depth",type:"range",min:1,max:5,step:1,value:this.preferences.depth,attrs:{"aria-describedby":"depth-description","aria-valuetext":level.label},on:{input:event=>{const value=Number(event.currentTarget.value),selected=this.deck.ai.depth.levels[value];this.preference("depth",value);depthOutput.textContent=selected.label;depthDescription.textContent=selected.description;event.currentTarget.setAttribute("aria-valuetext",selected.label)}}});
     const depth=make("div",{class:"depth-control"},make("div",{class:"depth-head"},make("label",{htmlFor:"reflection-depth",text:"Reflection depth"}),depthOutput),depthInput,depthDescription,make("div",{class:"depth-scale"},make("span",{text:this.deck.ai.depth.levels[1].label}),make("span",{text:this.deck.ai.depth.levels[5].label})));
     const speech=this.checkbox("ai-speech","Read reflections aloud",!!this.preferences.speech,value=>this.setSpeechConsent(value));
     container.append(consent);
     if(this.reading)container.append(this.questionFields(true));
-    container.append(make("div",{class:"field"},make("label",{htmlFor:"ai-key",text:"OpenAI API key"}),keyInput),make("div",{class:"actions"},connect,forget,keyStatus),depth,make("p",{class:"small-card",text:this.deck.ai.consent}),make("p",{class:"quiet",text:"Fixed model: "+this.deck.ai.model+". The key remains only in page memory."}),speech,make("p",{class:"small-card",text:this.deck.ai.speech.disclosure}));
+    renderKeyState();
+    container.append(make("div",{class:"field"},make("label",{htmlFor:"ai-key",text:"OpenAI API key"}),keyInput),keyStatus,make("div",{class:"actions"},connect,forget),depth,make("p",{class:"small-card",text:this.deck.ai.consent}),make("p",{class:"quiet",text:"Fixed model: "+this.deck.ai.model+". Arcana never persists the key; a browser-restored credential remains in protected browser storage and page memory only while connected."}),speech,make("p",{class:"small-card",text:this.deck.ai.speech.disclosure}));
     return container;
   }
   showStatus(message,error=false){this.setupStatus.textContent=message;this.setupStatus.hidden=!message;this.setupStatus.classList.toggle("error",error)}

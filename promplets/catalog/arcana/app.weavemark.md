@@ -139,6 +139,13 @@ Persist only non-secret preferences and explicitly saved readings/notes/history
 in a versioned deck-id namespace. Validate restored data and recover visibly.
 Never persist keys, unsaved private questions, provider request history,
 generated audio, Blob URLs, pending requests, or transient selections.
+If the browser or password manager restores a key from protected credential
+storage, detect the prefilled field without connecting or transmitting it,
+state clearly that the browser restored it rather than Arcana, and offer
+**Use restored key**. Once connected, say the restored key remains usable for
+this page session and let the user keep it or enter and connect a replacement
+without retyping the existing key. Forget key still clears page memory and
+cancels provider/media work; never claim Arcana persisted the credential.
 
 ## Home hierarchy and entry
 

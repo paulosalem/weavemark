@@ -79,6 +79,8 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
         "Reflection depth",
         "Card reflection",
         "media controller",
+        "Use restored key",
+        'autocomplete="current-password"',
     ):
         assert obligation in specification
 
@@ -98,6 +100,10 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
         "voice-pending",
         "card-turn",
         "reflection-depth",
+        "Use restored key",
+        "Restored key connected from protected browser storage",
+        "A saved key was restored by your browser",
+        'autocomplete:"current-password"',
     ):
         assert marker in html
     assert "Math.random(" not in html

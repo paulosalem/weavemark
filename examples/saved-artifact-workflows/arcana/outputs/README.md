@@ -18,7 +18,10 @@ Then open <http://127.0.0.1:4197/>.
   generated artifacts.
 - Manual play is offline and makes no provider requests.
 - OpenAI reflection and narration are separately optional.
-- The API key and generated audio remain in page memory only.
+- Arcana never persists the API key. A browser/password manager may restore a
+  key from protected credential storage; the app identifies that state and lets
+  the user keep it or replace it. Once accepted, the key and generated audio
+  remain in page memory only.
 - Unsaved private questions are not persisted.
 
 ## Browser support
