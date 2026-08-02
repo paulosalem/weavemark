@@ -19,7 +19,7 @@
 @refine module:weavemark.domains.programming.stacks.browser_static_esmodules
   Build Arcana as static browser files beside the pre-generated deck artifacts.
 
-@refine module:weavemark.domains.programming.modules.browser_encrypted_secret_storage
+@refine module:weavemark.domains.programming.modules.browser_encrypted_value_storage
   Configure the imported selectors as follows:
   - requirement: `@{secret_crypto_requirement}`;
   - backend: `@{secret_storage_backend}`;

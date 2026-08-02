@@ -1,6 +1,6 @@
 @promplet version: 0.7
 
-@module weavemark.domains.programming.modules.browser_encrypted_secret_storage
+@module weavemark.domains.programming.modules.browser_encrypted_value_storage
 
 @note
   Reusable browser-secret persistence contract. Consumers configure:

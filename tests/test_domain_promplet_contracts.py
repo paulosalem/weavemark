@@ -349,7 +349,7 @@ async def test_arcana_separates_card_execution_from_app_specification() -> None:
     for refinement in (
         "programming.foundations.software_spec",
         "programming.stacks.browser_static_esmodules",
-        "programming.modules.browser_encrypted_secret_storage",
+        "programming.modules.browser_encrypted_value_storage",
         "programming.modules.adaptive_workspace_shell",
         "programming.modules.focus_preserving_inspection",
         "programming.validation.playwright_mcp_browser_validation",
@@ -382,11 +382,11 @@ async def test_arcana_separates_card_execution_from_app_specification() -> None:
         assert obligation in app_source
     encrypted_storage = _source(
         "programming/fragments/modules/"
-        "module-browser-encrypted-secret-storage.weavemark.md"
+        "module-browser-encrypted-value-storage.weavemark.md"
     )
     assert (
         "@module weavemark.domains.programming.modules."
-        "browser_encrypted_secret_storage"
+        "browser_encrypted_value_storage"
     ) in encrypted_storage
     for selector in (
         "secret_crypto_requirement",
