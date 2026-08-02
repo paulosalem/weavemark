@@ -48,7 +48,7 @@ weavemark library ai-kanban-board --replay --verbose --open
 
 Replay validates source, inputs, prompts, schema, modules, calls, and artifacts,
 then restores outputs without calling effects. VALE3: 11,002 input, 0 cached,
-20,728 output, $0.3384. AI Kanban: 133,084 input, 114,603 cached, 11,799 output, $0.2015. Both cost nothing to replay.
+20,728 output, $0.3384. AI Kanban: 133,251 input, 114,705 cached, 10,917 output, $0.1910. Both cost nothing to replay.
 
 For a fresh semantic compilation and a real finance/search execution, install the example integrations and configure a model provider. The market data and web search need no additional keys.
 
