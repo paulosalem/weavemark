@@ -3,9 +3,9 @@
   "mode": "record",
   "processor_version": "0.9.2",
   "language_version": "0.9",
-  "started_at": "2026-08-01T13:27:48.154130+00:00",
-  "finished_at": "2026-08-01T13:29:07.676846+00:00",
-  "duration_ms": 79523,
+  "started_at": "2026-08-02T13:22:23.054784+00:00",
+  "finished_at": "2026-08-02T13:23:43.065141+00:00",
+  "duration_ms": 80011,
   "models": [
     "gpt-5.6-terra"
   ],
@@ -25,7 +25,7 @@
   "response_schema_sha256": "a7d013135a2bac40e4fbabb693baefb00a3b5c072f49f5ede80e5d2b82104745",
   "source": {
     "path": "library:ai-kanban-board",
-    "sha256": "22f7cf305abfb2a2695584e1cf4d3ef86db10572a7a07d5a13e056a6a9c12e41"
+    "sha256": "b4165be9c83ede5cb9f1b837ff21cdf305ecdcc74e51cab8def966f2cf07ce1b"
   },
   "variables": {
     "names": [],
@@ -110,35 +110,35 @@
     }
   ],
   "usage": {
-    "prompt_tokens": 133084,
-    "completion_tokens": 11799,
-    "total_tokens": 144883,
-    "llm_duration_ms": 79485,
-    "reported_cost_usd": 0.2014706,
+    "prompt_tokens": 133251,
+    "completion_tokens": 10917,
+    "total_tokens": 144168,
+    "llm_duration_ms": 79949,
+    "reported_cost_usd": 0.191037,
     "cost_source": "provider",
     "provider_usage": [
       {
-        "completion_tokens": 11799,
+        "completion_tokens": 10917,
         "completion_tokens_details": {
           "accepted_prediction_tokens": null,
           "audio_tokens": null,
           "image_tokens": null,
-          "reasoning_tokens": 406,
+          "reasoning_tokens": 667,
           "rejected_prediction_tokens": null,
           "text_tokens": null,
           "video_tokens": null
         },
-        "prompt_tokens": 133084,
+        "prompt_tokens": 133251,
         "prompt_tokens_details": {
           "audio_tokens": null,
           "cache_write_tokens": null,
-          "cached_tokens": 114603,
+          "cached_tokens": 114705,
           "image_tokens": null,
           "text_tokens": null,
           "video_tokens": null
         },
-        "response_cost": 0.2014706,
-        "total_tokens": 144883
+        "response_cost": 0.191037,
+        "total_tokens": 144168
       }
     ]
   },
@@ -146,20 +146,20 @@
     {
       "name": "composed_prompt",
       "kind": "primary",
-      "sha256": "53a3c9e329f893d19aea5fe1608426d310f53d976a1de731343745723de7740e",
-      "bytes": 28111
+      "sha256": "b0a18898e156bb8a98fd52c74e71961d98d63a2a9e868959bfc19f8294e85aeb",
+      "bytes": 24200
     },
     {
       "name": "default",
       "kind": "prompt",
-      "sha256": "53a3c9e329f893d19aea5fe1608426d310f53d976a1de731343745723de7740e",
-      "bytes": 28111
+      "sha256": "b0a18898e156bb8a98fd52c74e71961d98d63a2a9e868959bfc19f8294e85aeb",
+      "bytes": 24200
     }
   ],
   "call_count": 1,
   "recording_contains_sensitive_content": false,
   "recording": {
-    "calls_sha256": "5fe88f92ea11885e08b16b4e03e5974791541e6563c5ebba4a27fc6bc968b401",
+    "calls_sha256": "f5c98ca0719d5bd607d5559710237747f84659411c5b2e277f9edad33b7ae57e",
     "replay_policy": "strict-no-live-fallback"
   }
 }

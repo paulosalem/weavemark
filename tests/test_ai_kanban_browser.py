@@ -124,7 +124,8 @@ def test_ai_kanban_sqlite_schema_and_repository_are_complete() -> None:
 def test_ai_kanban_compiled_spec_matches_browser_delivery() -> None:
     compiled = (APP / "compiled-spec.md").read_text(encoding="utf-8")
     assert compiled.startswith(
-        "# AI Kanban — Browser Workspace for Human-AI Work\n\nBuild a polished"
+        "# AI Kanban — Browser Workspace for Human-AI Work\n\n"
+        "## 1. Architecture and Board Workspace lifecycle"
     )
     for obligation in (
         "showDirectoryPicker",
@@ -133,7 +134,7 @@ def test_ai_kanban_compiled_spec_matches_browser_delivery() -> None:
         "import/download",
         "AIProviderAdapter",
         "real demo workspace",
-        "local agents cannot read or update it",
+        "disables local-agent integration",
         "outputs/implementations/ai-kanban-browser/",
     ):
         assert obligation in compiled
@@ -156,11 +157,12 @@ def test_ai_kanban_demo_workspace_fix_is_preserved_in_source_and_output() -> Non
     for required in (
         "Create a real demo workspace",
         "Try in memory",
-        "local agents cannot read or update",
         "Personal Research",
     ):
         assert required.casefold() in source.casefold()
         assert required.casefold() in implementation.casefold()
+    assert "disables local-agent integration" in source
+    assert "Local agents cannot read or update" in implementation
     assert "demo: true, connectedOnly: true" in implementation
 
 

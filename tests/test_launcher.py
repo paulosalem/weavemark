@@ -211,13 +211,13 @@ def test_ai_kanban_replay_verbose_reports_recorded_usage(
     for statistic in (
         "Tool calls: 14",
         "input:",
-        "133,084",
+        "133,251",
         "Recorded cached",
-        "114,603 (86%)",
+        "114,705 (86%)",
         "output:",
-        "11,799",
+        "10,917",
         "API cost",
-        "$0.2015",
+        "$0.1910",
     ):
         assert statistic in rendered
 

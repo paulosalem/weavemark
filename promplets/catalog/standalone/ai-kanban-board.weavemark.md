@@ -55,20 +55,14 @@ new queued turn without changing prior turns. Cards last changed by an agent car
 a calm, accessible cue until reviewed.
 
 ## Essential flows
-- First run: Open Board Workspace, Create Board Workspace, or Try demo without
-  misleading durability or permission language. Try demo opens exactly two
-  explicit choices. Visually prefer Create a real demo workspace: invoke the same
-  folder picker and safety checks as normal creation, create the complete
-  folder-backed Board Workspace and agent bootstrap, and immediately seed it with
-  the Personal Research demo so compatible agents started there can interact at
-  once. The secondary Try in memory path creates no folder and must state before
-  activation that local agents cannot read or update it and that export is
-  required to retain changes. When folder access is unsupported, keep the
-  in-memory choice available and explain why durable demo creation is disabled.
-- Quick start: both demo paths instantly load the same bundled Personal Research
-  board with recurring cards for a macroeconomic pulse, things to do with a
-  four-year-old in São Paulo, family trips, a collaborative vacation planner, and
-  age-appropriate activities.
+- First run: Open Board Workspace, Create Board Workspace, or Try demo. Try demo
+  offers two explicit choices: visually prefer Create a real demo workspace,
+  which uses normal folder checks, installs the agent bootstrap, and seeds the
+  Personal Research board for immediate local-agent use. Try in memory creates no
+  folder, disables local-agent integration, and requires export to retain changes.
+  When folder access is unsupported, explain why only the in-memory path works.
+- Quick start: both paths load the same Personal Research board for a macroeconomic pulse,
+  activities with a four-year-old in São Paulo, family trips, a collaborative vacation planner, and other age-appropriate activities.
 - Vacation loop: the human edits candidate destinations and constraints in Inbox;
   Planning runs broad AI comparison and feedback rounds. A confirmed move to In
   Progress queues deep research of the chosen destination and dated itineraries;
@@ -106,19 +100,16 @@ Save/New card/Agent control/Workspace menu. Foreground Needs you, AI working, an
 AI updated counts without adding an operations console or global chat pane. Give
 the latest result a rich preview and keep every older dated version one action away.
 
-Add a quiet footer linking the source promplet, compiled implementation
-specification, and public tutorial so the live result remains traceable to the
-intent and generation path that produced it.
+Add a quiet footer linking source, compiled specification, and tutorial so the
+live result remains traceable to its intent and generation path.
 
 ## Deliverable
-Produce a complete static implementation under
-`outputs/implementations/ai-kanban-browser/`, including vendored SQLite WASM,
-worker/repository modules, the dependency-free Python skill and launchers, a sample
-Board Workspace and browser templates for its root agent instructions,
-documentation, deterministic tests, and a GitHub Pages live-demo entry.
+Under `outputs/implementations/ai-kanban-browser/`, deliver vendored SQLite WASM,
+worker/repository modules, the dependency-free Python skill and launchers, sample
+workspace, root-instruction templates, docs, tests, and a Pages live demo.
 
 @structural_constraints strict: true
-  The specification MUST contain exactly these sections in order:
+  Begin with `# AI Kanban — Browser Workspace for Human-AI Work`, then exactly:
   1. Architecture and Board Workspace lifecycle
   2. SQLite schema and repository operations
   3. Human-agent coordination and skill protocol
