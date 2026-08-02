@@ -11,12 +11,12 @@
 [![CI](https://github.com/paulosalem/weavemark/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/paulosalem/weavemark/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-[Website](https://paulosalem.github.io/weavemark/) · [Tutorials](https://paulosalem.github.io/weavemark/docs/tutorial.html) · [Language reference](docs/usage-reference.md) · [PyPI](https://pypi.org/project/weavemark/)
+[Website](https://paulosalem.github.io/weavemark/) · [Tutorials](https://paulosalem.github.io/weavemark/docs/tutorial.html) · [Manual](docs/manual.md) · [Language reference](docs/language-reference.md) · [PyPI](https://pypi.org/project/weavemark/)
 
 > [!WARNING]
 > WeaveMark is highly experimental. Its notation, Processor behavior, examples, and public interfaces are still evolving. Expect rough edges and breaking changes.
 
-Write your prompt (or **promplet**) as readable Markdown plus special directives, *woven* into it. These include reuse (`@refine`), control flow (`@match`), polishing (`@polish`), dynamic clarifications (`@ask`), and many others. Then
+**WeaveMark** is a small **specification language** for prompts. Write your prompt (or **promplet**) as readable Markdown plus special directives, *woven* into it. These include reuse (`@refine`), control flow (`@match`), polishing (`@polish`), dynamic clarifications (`@ask`), and many others. Then
 use the **WeaveMark Processor** to: **compile** a concrete prompt, which can then be fed to an AI assistant or programming agent; or, optionally, actually **execute** it directly, independently of any other tool.
 
 Compilation is intentionally hybrid: variables, branches, imports, output contracts, and validation are structural; semantic directives such as `@refine` are realized by an LLM. Execution, when requested, relies on predefined engines that follow well-established LLM patterns, as well as user-specified companion programs.
@@ -42,7 +42,6 @@ Install the current release, then replay two real compilations without an API ke
 pip install weavemark
 
 weavemark library market-snapshot --replay --verbose --open
-
 weavemark library ai-kanban-board --replay --verbose --open
 ```
 
@@ -110,10 +109,10 @@ The reusable modules carry file lifecycle, worker-owned SQLite, compatibility,
 security, accessibility, and AI-handoff rules. The entrypoint stays focused on the product.
 
 Notice what is *absent*: no slots, placeholders, or include points. You never
-design a template to receive the reusable material, and you never rewrite a
-module to fit a new host. `@refine` states *what* to bring in, and the model works
-out where it belongs — merging obligations, ordering sections, and adapting
-wording to the surrounding intent. Reuse costs one line instead of a refactor.
+design a template to receive the reusable material, nor rewrite a module to fit a
+new host. `@refine` states *what* to bring in, and the model works out where it
+belongs — merging obligations, ordering sections, adapting wording to the
+surrounding intent. Reuse costs one line instead of a refactor.
 
 ## 🧠 Why use a language?
 
@@ -122,7 +121,7 @@ wording to the surrounding intent. Reuse costs one line instead of a refactor.
   points to author, no scaffolding to maintain. Every dependent picks up the new
   guidance on its next compile; the quality of each realization remains model-
   and run-dependent.
-- **Readable control flow.** Variables, `@if`, `@match`, modules, assertions, and
+- **Readable intent and control flow.** Variables, `@if`, `@match`, modules, assertions, and
   output contracts stay visible beside ordinary Markdown.
 - **Executable plans.** Promplets can select reflection, chain, self-consistency,
   tree-of-thought, functional, collaborative, or FSLM execution, and persist
@@ -132,41 +131,35 @@ wording to the surrounding intent. Reuse costs one line instead of a refactor.
 
 ## 🧩 The building blocks
 
-A promplet is ordinary Markdown plus a small set of directives. Most resolve
-locally; a few are realized by the model while compiling.
+A promplet is ordinary Markdown annotated with a set of directives. Most are interpreted by an LLM, with some local structural support, to generate the final prompt. Some highlights:
 
-| Construct | What it does | Resolved |
-|---|---|---|
-| `@refine` | Weaves another promplet's meaning into this one | by the model |
-| `@expand` `@style` `@summarize` | Elaborates, restyles, or condenses content in place | by the model |
-| `@iterate` | Lets the Processor revisit and improve a transformation | by the model |
-| `@ask` | Pauses for missing human context before compiling | interactively |
-| `@{var}` `@if` `@match` | Inputs and controlled variation from one source | locally |
-| `@use` `@module` `@define` | Imports modules and defines reusable pieces and macros | locally |
-| `@assert` `@output` | Content obligations and strict output contracts | locally |
-| `@bind` `@tool` | Attaches trusted Python companions and tools | locally |
-| `@execute` | Picks reflection, chain, tree-of-thought, functional, FSLM… | at runtime |
-| `@emit` `@package` | Writes files; packages an artifact into HTML or PDF | at runtime |
+| Construct | What it does |
+|---|---|
+| `@refine` | Weaves another promplet's meaning into this one |
+| `@expand` `@style` `@summarize` | Elaborates, restyles, or condenses content in place |
+| `@iterate` | Lets the Processor revisit and improve a transformation  |
+| `@ask` | Pauses for missing human context before compiling |
+| `@{var}` `@if` `@match` | Inputs and controlled variation from one source |
+| `@use` `@module` `@define` | Imports modules and defines reusable pieces and macros |
+| `@assert` `@output` | Content obligations and strict output contracts  |
+| `@bind` `@tool` | Attaches trusted Python companions and tools |
+| `@execute` | Picks reflection, chain, tree-of-thought, functional, FSLM… |
+| `@emit` `@package` | Writes files; packages an artifact into HTML or PDF |
 
 Generated text, code, and images remain model- and run-dependent. WeaveMark does
-not claim formal verification or deterministic prompt quality; it provides a
-durable language surface around generative behavior.
+not claim formal verification or deterministic prompt quality; rather, it provides a
+durable language surface around generative behavior. Every directive is specified
+in the [language reference](docs/language-reference.md).
 
 ## 📡 Structured progress for tools and GUIs
+
 `--verbose` is the human terminal view; `--events-jsonl FILE` is the machine one,
-flushing ordered JSON Lines records as composition, execution, persistence, and
-packaging happen:
-
-```bash
-weavemark library market-snapshot --vars-file inputs.json --run \
-  --output-dir outputs/market-snapshot \
-  --events-jsonl outputs/market-snapshot/events.jsonl
-```
-
-Each record carries a timestamp, sequence, type, phase, and structured data —
-including absolute artifact paths — so clients never parse Rich terminal text.
-`--interaction-stdin jsonl` makes the channel bidirectional, and a closed or
-timed-out stream denies the request.
+flushing ordered JSON Lines records — with absolute artifact paths — as
+composition, execution, persistence, and packaging happen, so clients never parse
+Rich terminal text. `--interaction-stdin jsonl` makes it bidirectional. For
+traceability, `--provenance` writes a hash/usage manifest, while `--record-run`
+and `--replay-run` capture and re-run a compilation offline. See the
+[manual](docs/manual.md#14-machine-integration).
 
 ## 🔐 Installation and safety
 
@@ -177,9 +170,9 @@ pip install -e ".[dev]"        # source development
 
 Protections are enabled by default for local reads/writes, downloads, Python, and
 external processes. They reduce common risks but are **not an operating-system
-sandbox**. Do not run untrusted promplets; `--no-protections` deliberately
-disables these checks for one invocation. [SECURITY.md](SECURITY.md) has the
-full threat model.
+sandbox**. Do not run untrusted promplets; `--no-protections` disables these
+checks for one invocation. [SECURITY.md](SECURITY.md) has the full threat model,
+and the [manual](docs/manual.md#10-protections) has the policy keys.
 
 WeaveMark depends on [ellements](https://pypi.org/project/ellements/), a library
 of LLM building blocks I also maintain, which is why it is a required dependency
@@ -199,25 +192,29 @@ artifacts use Git LFS; run `git lfs pull` in a clone to fetch the original media
 
 The full maintained catalog is in [docs/examples.md](docs/examples.md); the 89
 reusable building blocks live under [promplets/stdlib](promplets/stdlib) and
-[promplets/domains](promplets/domains).
+[promplets/domains](promplets/domains). To add your own, see the
+[manual](docs/manual.md#8-adding-your-own-promplets).
 
 ## 🧭 Project guide
+
+**Technical references** — the two places to look for precise information:
+
+- 📘 [**Processor manual**](docs/manual.md) — installation, model providers, CLI,
+  library roots, adding your own promplets, configuration, protections, logging,
+  cache, replay, and machine integration.
+- 📐 [**Language reference**](docs/language-reference.md) — grammar, arguments,
+  variables, bodies, the structural/semantic split, and every directive.
+
+Everything else:
 
 - [Introduction](https://paulosalem.github.io/weavemark/docs/introduction.html) — mental model and execution boundary.
 - [Principles](https://paulosalem.github.io/weavemark/docs/principles.html) — design commitments and refinement model.
 - [Tutorial track](https://paulosalem.github.io/weavemark/docs/tutorial.html) — nine connected hands-on lessons.
-- [Processor reference](docs/usage-reference.md) — CLI, configuration, effects,
-  engines, packages, protection, and replay.
+- [Extended notes](docs/usage-reference.md) — worked examples and deeper discussion.
 - [Python API](docs/python-api.md) — async compilation and custom engines.
 - [Agent usage](docs/agent-usage.md) — using WeaveMark from coding agents.
-- [Citation](docs/citation.md) — BibTeX and APA.
-- [Contributing](CONTRIBUTING.md) — what kind of contribution helps most now.
-- [Security](SECURITY.md) — threat model, protections, and how to report issues.
-- [Development](docs/development.md) — architecture and contribution workflow.
+- [Citation](docs/citation.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Development](docs/development.md)
 
-For traceability and replay, the Processor supports `--provenance`,
-`--record-run`, and `--replay-run`; see the
-[reference](docs/usage-reference.md#optional-provenance-and-exact-run-replay).
 ## ❓ Frequently asked questions
 
 ### If AI assistants can already program for me, why use WeaveMark?
@@ -249,10 +246,10 @@ aware of anyone else using a similar term. Since then I realized that a few othe
 people have independently explored **kindred ideas** under the similar name
 *promptlet* -- each in their own way: [composable prompt artifacts](https://github.com/riddles-in-the-dark/Promptlet), a reusable [prompt snippet](https://www.josh.ing/promptlet), a [weighted segment of a Midjourney multi-prompt](https://geekycuriosity.substack.com/p/midjourney-beginners-4-making-sense), and a unit of [prompt reuse and structure](https://www.breakingrocks.net/Promptlets-The-Full-How-to-Guide-20f3a5cc79f9808a9422fae353036248).
 
-None of these are the same as WeaveMark. But the idea of a small, named, reusable
+None of these are the same as WeaveMark, but the idea of a small, named, reusable
 unit of prompting seems to be in the air, and each project takes it somewhere
-different. WeaveMark simply develops it **in its own direction**. (WeaveMark spells
-it *promplet*; several of them use *promptlet*.)
+different. WeaveMark develops it **in its own direction**. (WeaveMark spells it
+*promplet*; several of them use *promptlet*.)
 
 ### Why does the notation use `@` and indentation for scoping?
 
@@ -279,10 +276,10 @@ experiment.
 Template engines are perfect when the result shape is known exactly: substitute
 this variable, include that partial verbatim. Promplets allow more *abstract*
 composition, at the cost of a generative model realizing the final prompt. That
-makes them more reusable and more readable. Some promplets also go further —
-running compiled prompts through engines like reflection or tree-of-thought, and
-binding trusted companion programs — so WeaveMark can act as a prompting engine,
-not only a language.
+makes them more reusable and more readable. Some go further — running compiled
+prompts through engines like reflection or tree-of-thought, and binding trusted
+companion programs — so WeaveMark can act as a prompting engine, not only a
+language.
 
 ### This is not literate programming!
 

@@ -46,10 +46,65 @@ def test_executable_surfaces_are_self_authoritative() -> None:
 def test_downstream_reference_documents_cover_core_provenance_flags() -> None:
     usage = (ROOT / "docs" / "usage-reference.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    manual = (ROOT / "docs" / "manual.md").read_text(encoding="utf-8")
 
     for option in ("--provenance", "--record-run", "--replay-run"):
         assert option in usage
         assert option in readme
+        assert option in manual
+
+
+def test_technical_manuals_track_the_authoritative_surfaces() -> None:
+    """The two technical manuals must not drift from the real CLI and language."""
+
+    manual = (ROOT / "docs" / "manual.md").read_text(encoding="utf-8")
+    language = (ROOT / "docs" / "language-reference.md").read_text(encoding="utf-8")
+
+    parser = create_parser()
+    option_strings = {
+        option for action in parser._actions for option in action.option_strings
+    }
+    documented = {
+        "--batch-only",
+        "--library-dir",
+        "--model",
+        "--no-protections",
+        "--output",
+        "--output-dir",
+        "--run",
+        "--scan",
+        "--stdin",
+        "--var",
+        "--vars-file",
+    }
+    assert documented <= option_strings, "documented flags must exist in the CLI"
+    for option in documented:
+        assert option in manual, f"{option} is missing from docs/manual.md"
+
+    from weavemark.engines.registry import BUILTIN_ENGINES, _lazy_load_builtins
+
+    _lazy_load_builtins()
+    for engine in BUILTIN_ENGINES:
+        assert engine in manual, f"engine {engine} is missing from docs/manual.md"
+        assert engine in language, (
+            f"engine {engine} is missing from docs/language-reference.md"
+        )
+
+    schemas = re.findall(
+        r"```promplet-schema\n(.*?)```",
+        (
+            ROOT / "src" / "weavemark" / "prompts" / "weavemark.system.md"
+        ).read_text(encoding="utf-8"),
+        re.S,
+    )
+    directives = {
+        match.group(1)
+        for schema in schemas
+        if (match := re.search(r"^directive:\s*(@\S+)", schema, re.M))
+    }
+    directives.discard("@<name>")
+    missing = sorted(name for name in directives if name not in language)
+    assert not missing, f"directives missing from docs/language-reference.md: {missing}"
 
 
 def test_semantic_transform_authority_requires_explicit_targets() -> None:

@@ -111,6 +111,36 @@ zsh -lc 'source ~/.zshenv >/dev/null 2>&1; source ~/.zshrc >/dev/null 2>&1; <you
   downstream documentation. Never change the language to match downstream docs;
   update downstream material from the relevant authority.
 
+## Technical reference manuals (MUST be kept current)
+
+Two documents are the designated place readers go for precise technical
+information. They are not marketing surfaces and must never argue for the
+approach — they explain how to set up, configure, and use WeaveMark:
+
+- `docs/manual.md` — Processor operations: installation, model providers, CLI
+  flags and modes, library roots and precedence, adding your own promplets,
+  `weavemark.json` at all three levels, protections, logging, cache, provenance
+  and replay, machine integration, environment variables, and exit codes.
+- `docs/language-reference.md` — the notation: lexical structure, kernel grammar,
+  argument resolution, variables, body modes, the structural/semantic split, the
+  full directive catalogue, modules, and macros.
+
+**Any change to the language or the Processor MUST be reflected in these two
+manuals in the same change**, in addition to every other affected documentation
+surface. This specifically includes:
+
+- adding, removing, or renaming a directive, parameter, flag, or body mode;
+- changing a directive's schema, seam, or structural-versus-semantic status;
+- adding, removing, or renaming a CLI flag, subcommand, or mode;
+- changing a `weavemark.json` key, its default, or its precedence rules;
+- changing library-root resolution or promplet reference prefixes;
+- changing protection policy keys or their defaults;
+- changing environment variables, exit codes, or event-stream records.
+
+Verify factual claims against the authoritative source rather than against older
+prose, and prefer running the command to confirm documented behavior. A change
+that leaves these manuals stale is incomplete.
+
 ## HTML documentation syntax highlighting
 
 - In HTML documentation under `docs/`, every code snippet that shows WeaveMark
