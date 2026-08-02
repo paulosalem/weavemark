@@ -747,44 +747,6 @@
         text-decoration: none;
       }
 
-      .hero-quickstart {
-        margin-top: 12px;
-        padding: 12px 14px;
-        border: 1px solid rgba(var(--accent-bright-rgb), 0.16);
-        border-radius: var(--radius-md);
-        background: rgba(255, 255, 255, 0.62);
-      }
-
-      .hero-quickstart-label {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        margin: 0 0 9px;
-        color: var(--accent-deep);
-        font-size: 0.72rem;
-        font-weight: 900;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-      }
-
-      .hero-quickstart-label .ic {
-        font-size: 14px;
-        color: var(--accent-bright);
-      }
-
-      .hero-quickstart pre {
-        margin: 0;
-        padding: 12px 14px;
-        border-radius: 12px;
-        font-size: 0.74rem;
-        line-height: 1.6;
-      }
-
-      .hero-quickstart code {
-        white-space: pre-wrap;
-        overflow-wrap: anywhere;
-      }
-
       pre,
       code {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
@@ -923,35 +885,35 @@
         font-weight: 700;
       }
 
-      .hero-principle {
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr);
-        gap: 16px;
-        align-items: start;
-        margin-top: 30px;
-        padding: 20px 22px;
-        border: 1px solid rgba(var(--accent-bright-rgb), 0.2);
-        border-radius: var(--radius-lg);
-        background:
-          radial-gradient(circle at 94% 14%, rgba(var(--spark-rgb), 0.08), transparent 28%),
-          linear-gradient(120deg, rgba(223, 245, 244, 0.82), rgba(255, 255, 255, 0.76));
-        box-shadow: 0 14px 42px rgba(24, 48, 96, 0.07);
+      .hero-try {
+        margin-top: 26px;
+        max-width: 620px;
       }
 
-      .hero-principle h2 {
-        font-size: clamp(1.3rem, 2.1vw, 1.75rem);
-        letter-spacing: -0.045em;
+      .hero-try pre {
+        margin: 0;
+        padding: 14px 16px;
+        border-radius: 14px;
+        font-size: 0.78rem;
+        line-height: 1.7;
       }
 
-      .hero-principle p:last-of-type {
-        margin: 6px 0 0;
+      .hero-try code {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+
+      .hero-try > p {
+        margin: 9px 0 0;
         color: var(--muted);
-        font-size: 0.92rem;
+        font-size: 0.85rem;
         line-height: 1.5;
       }
 
-      .hero-principle .principle-teaser-link {
-        margin-top: 14px;
+      .hero-try > p a {
+        color: var(--accent-deep);
+        font-weight: 800;
+        white-space: nowrap;
       }
 
       .principle-teaser {
@@ -2321,35 +2283,33 @@
 
       .path-list {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: minmax(0, 1fr);
+        grid-auto-rows: 1fr;
         gap: 12px;
-      }
-
-      .path-list > :last-child:nth-child(odd) {
-        grid-column: 1 / -1;
       }
 
       .path-link {
         position: relative;
         display: grid;
         grid-template-columns: auto minmax(0, 1fr);
-        gap: 6px 12px;
-        align-content: start;
-        min-height: 112px;
-        padding: 18px;
+        gap: 4px 14px;
+        align-content: center;
+        min-height: 0;
+        padding: 16px 18px;
         border: 1px solid rgba(var(--accent-bright-rgb), 0.14);
-        border-radius: 22px;
+        border-radius: 18px;
         background: rgba(255, 255, 255, 0.78);
         box-shadow: 0 14px 42px rgba(24, 48, 96, 0.07);
       }
 
       .path-link::after {
         position: absolute;
-        top: 17px;
+        top: 50%;
         right: 17px;
         color: var(--accent);
         content: "\2192";
         font-weight: 900;
+        transform: translateY(-50%);
         transition: transform 160ms ease;
       }
 
@@ -2360,7 +2320,7 @@
       }
 
       .path-link:hover::after {
-        transform: translateX(3px);
+        transform: translateY(-50%) translateX(3px);
       }
 
       .path-link span {
@@ -2929,10 +2889,6 @@
         color: #fff;
       }
 
-      .demo-section-head {
-        margin-top: 52px;
-      }
-
       .related-note {
         margin-top: 52px;
         padding: 26px 30px;
@@ -3387,6 +3343,10 @@
         flex-direction: column;
         gap: 14px;
         min-height: 100%;
+      }
+
+      .route-card .badge {
+        align-self: flex-start;
       }
 
       .route-card .button {

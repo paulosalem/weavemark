@@ -80,12 +80,22 @@ def test_home_hero_keeps_autorotation() -> None:
     assert "window.setInterval(() => showSlide(activeIndex + 1), 6500)" in home
 
 
-def test_home_preserves_principles_and_keeps_replay_compact() -> None:
+def test_home_preserves_principles_and_explains_replay_before_claiming_it() -> None:
     home = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    hero = home[: home.index("</header>")]
 
     assert home.index("Language is a tool for thought.") < home.index("<main>")
-    assert home.index("What it gives you") < home.index("Try without a key")
-    assert home.index("Start here") < home.index("Try without a key")
+
+    # The hero may invite a replay, but "no API key" reads as a free live run,
+    # so that claim belongs only beside the explanation of what replay does.
+    assert "no API key" not in hero
+    assert "No API key" not in hero
+    assert "--replay" in hero
+    assert home.index("What it gives you") < home.index("Re-run a recorded")
+    assert home.index("Start here") < home.index("Re-run a recorded")
+    assert "it needs no API key and makes no network" in home
+    assert "still needs a model provider" in home
+
     assert "weavemark library market-snapshot --replay --verbose" in home
     assert "Can an LLM sensibly act as a compiler" not in home
     assert 'id="compiler-proof"' not in home
