@@ -4,11 +4,14 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import AsyncMock, patch
 
 import pytest
 from ellements.core.exceptions import LLMError
 
+from weavemark.cache_policy import CacheSettings
+from weavemark.defaults import DEFAULT_MODEL
 from weavemark.discovery.catalog import SpecEntry
 from weavemark.discovery.metadata import (
     DEFAULT_ANALYZE_CHUNK_SIZE,
@@ -19,6 +22,7 @@ from weavemark.discovery.metadata import (
     _save_cache,
     ensure_metadata,
 )
+from weavemark.logging_policy import LoggingSettings
 
 
 def _make_entry(tmp_path: Path, name: str = "test", content: str = "# Test\n") -> SpecEntry:
@@ -83,10 +87,24 @@ class TestEnsureMetadata:
                 '"tags":["test","demo","spec"],"difficulty":"beginner"}'
             )
         )
+        logging_settings = LoggingSettings(enabled=False)
+        cache_settings = CacheSettings(enabled=False)
 
-        with patch("ellements.core.llm.client.LLMClient.complete", mock_complete):
-            await _analyze_spec(entry)
+        with patch(
+            "weavemark.logging_setup.new_client",
+            return_value=SimpleNamespace(complete=mock_complete),
+        ) as client_factory:
+            await _analyze_spec(
+                entry,
+                logging_settings=logging_settings,
+                cache_settings=cache_settings,
+            )
 
+        client_factory.assert_called_once_with(
+            model=DEFAULT_MODEL,
+            logging_settings=logging_settings,
+            cache_settings=cache_settings,
+        )
         messages = mock_complete.await_args.kwargs["messages"]
         prompt = messages[1]["content"]
         raw = prompt.split("```\n", 1)[1].rsplit("\n```", 1)[0]
@@ -130,7 +148,13 @@ class TestEnsureMetadata:
 
         entry = _make_entry(tmp_path)
 
-        async def mock_analyze(e, model="gpt-5.5"):
+        async def mock_analyze(
+            e,
+            model="gpt-5.5",
+            logging_settings=None,
+            cache_settings=None,
+        ):
+            del model, logging_settings, cache_settings
             return SpecMetadataEntry(
                 content_hash=e.content_hash,
                 title=e.title,

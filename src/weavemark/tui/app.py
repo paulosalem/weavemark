@@ -248,14 +248,14 @@ class WeaveMarkApp(App):
             if runtime_config.engine is None and self._metadata.execution:
                 strategy = self._metadata.execution.get("type", "single-call")
 
+            loaded_settings = load_weavemark_settings(self._spec_path.parent).settings
             engine = resolve_engine(
                 strategy,
                 client=new_client(
                     model=config.model,
                     protection=self._protection,
-                    logging_settings=load_weavemark_settings(
-                        self._spec_path.parent
-                    ).settings.logging,
+                    logging_settings=loaded_settings.logging,
+                    cache_settings=loaded_settings.cache,
                 ),
                 protection=self._protection,
             )

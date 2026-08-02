@@ -11,6 +11,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from weavemark.cache_policy import (
+    CacheSettings,
+    cache_settings_from_config,
+    tighten_cache_settings,
+)
 from weavemark.implementation import (
     DEFAULT_IMPLEMENTATION_CONFIG,
     ImplementationSettings,
@@ -65,6 +70,7 @@ class WeaveMarkSettings:
     )
     protections: ProtectionSettings = field(default_factory=ProtectionSettings)
     logging: LoggingSettings = field(default_factory=LoggingSettings)
+    cache: CacheSettings = field(default_factory=CacheSettings)
     sources: tuple[Path, ...] = ()
 
     def normalize_format(self, value: object) -> str | None:
@@ -119,6 +125,7 @@ class _RawSettings:
     implementation_config: dict[str, Any] | None = None
     protection_config: dict[str, Any] | None = None
     logging_config: dict[str, Any] | None = None
+    cache_config: dict[str, Any] | None = None
 
 
 _BUILTIN_FORMATS: dict[str, FormatDefinition] = {
@@ -157,6 +164,7 @@ def load_weavemark_settings(base_dir: Path | None = None) -> WeaveMarkSettingsRe
     implementation_config = copy.deepcopy(DEFAULT_IMPLEMENTATION_CONFIG)
     protection_config: dict[str, Any] = {}
     logging_config: dict[str, Any] = {}
+    cache_config: dict[str, Any] = {}
     sources: list[Path] = []
 
     global_paths = _configured_paths(
@@ -196,6 +204,8 @@ def load_weavemark_settings(base_dir: Path | None = None) -> WeaveMarkSettingsRe
                 protection_config.update(raw.protection_config)
             if level != "project" and raw.logging_config is not None:
                 logging_config.update(raw.logging_config)
+            if level != "project" and raw.cache_config is not None:
+                cache_config.update(raw.cache_config)
             if level == "project":
                 project_settings[config_path] = raw
                 # Preserve nearest-project-first search order even though formats
@@ -223,6 +233,11 @@ def load_weavemark_settings(base_dir: Path | None = None) -> WeaveMarkSettingsRe
         source="merged user/global settings",
         errors=errors,
     )
+    cache_settings = cache_settings_from_config(
+        cache_config,
+        source="merged user/global settings",
+        errors=errors,
+    )
     for config_path in reversed(project_paths):
         raw = project_settings.get(config_path)
         if raw is not None:
@@ -240,6 +255,13 @@ def load_weavemark_settings(base_dir: Path | None = None) -> WeaveMarkSettingsRe
                 warnings=warnings,
                 errors=errors,
             )
+            cache_settings = tighten_cache_settings(
+                cache_settings,
+                raw.cache_config,
+                source=str(config_path),
+                warnings=warnings,
+                errors=errors,
+            )
 
     return WeaveMarkSettingsResult(
         settings=WeaveMarkSettings(
@@ -251,6 +273,7 @@ def load_weavemark_settings(base_dir: Path | None = None) -> WeaveMarkSettingsRe
             implementation=implementation,
             protections=protections,
             logging=logging_settings,
+            cache=cache_settings,
             sources=tuple(sources),
         ),
         warnings=tuple(warnings),
@@ -364,6 +387,13 @@ def _parse_settings_object(
             logging_config = raw_logging
         else:
             errors.append(f"{path} log must be a JSON object.")
+    raw_cache = data.get("cache")
+    cache_config: dict[str, Any] | None = None
+    if raw_cache is not None:
+        if isinstance(raw_cache, dict):
+            cache_config = raw_cache
+        else:
+            errors.append(f"{path} cache must be a JSON object.")
     return _RawSettings(
         formats=formats,
         default_module_imports=default_module_imports,
@@ -371,6 +401,7 @@ def _parse_settings_object(
         implementation_config=implementation_config,
         protection_config=protection_config,
         logging_config=logging_config,
+        cache_config=cache_config,
     )
 
 

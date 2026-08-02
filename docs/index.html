@@ -22,7 +22,7 @@
     <meta name="twitter:description" content="Write prompts as readable Markdown woven with directives for reuse, control flow, and output contracts. The WeaveMark Processor compiles them into concrete prompt artifacts, and can execute them.">
     <meta name="twitter:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_social.png">
     <link rel="canonical" href="https://paulosalem.github.io/weavemark/">
-    <link rel="stylesheet" href="site.css?v=20260718-thought">
+    <link rel="stylesheet" href="site.css?v=20260802-scan3">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
     <script src="analytics.js?v=20260720" defer></script>
     <script src="mobile-navigation.js?v=20260723" defer></script>
@@ -72,8 +72,8 @@
 
         <div class="hero-try">
           <pre class="command-block" aria-label="Install WeaveMark and replay a saved compilation"><code><span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">pip</span> <span class="cli-subcommand">install</span> <span class="cli-value">weavemark</span></span>
-<span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">weavemark</span> <span class="cli-subcommand">library</span> <span class="cli-value">market-snapshot</span> <span class="cli-flag">--replay</span> <span class="cli-flag">--open</span></span></code></pre>
-          <p>Replays a saved compilation of the market example. <a href="#try-replay">How replay works</a></p>
+<span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">weavemark</span> <span class="cli-subcommand">library</span> <span class="cli-value">market-snapshot</span> <span class="cli-flag">--replay</span> <span class="cli-flag">--verbose</span> <span class="cli-flag">--open</span></span></code></pre>
+          <p>Restores the saved market run and opens its final HTML dashboard. <a href="#try-replay">How replay works</a></p>
         </div>
       </div>
 
@@ -349,8 +349,8 @@ Give the smallest safe next action in board-ready language.</code></pre>
             <h2>Directives stay small and local.</h2>
           </div>
           <p class="section-lede">
-            Each directive does one visible job while the source continues to
-            read as a document.
+            Each directive does <strong>one visible job</strong> while the source
+            continues to <strong>read as a document</strong>.
           </p>
         </div>
         <div class="directive-map" aria-label="Representative WeaveMark directives">
@@ -496,8 +496,8 @@ Give the smallest safe next action in board-ready language.</code></pre>
             <h2>From source file to useful artifact.</h2>
           </div>
           <p class="section-lede">
-            Compile a prompt, prepare a software specification, or run an explicit
-            tool-grounded workflow.
+            <strong>Compile a prompt</strong>, <strong>prepare a software
+            specification</strong>, or <strong>run a tool-grounded workflow</strong>.
           </p>
         </div>
 
@@ -505,19 +505,64 @@ Give the smallest safe next action in board-ready language.</code></pre>
           <article class="build-card">
             <span class="build-tag"><span class="ic ic-clipboard" aria-hidden="true"></span>Paste</span>
             <h3>Prompt transformations</h3>
-            <p>Turn contradictory source prompts into coherent reusable instructions — <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">prompt-refactoring-pipeline.weavemark.md</a>.</p>
+            <p>Turn <strong>contradictory source prompts</strong> into
+              <strong>coherent reusable instructions</strong>.</p>
+            <nav class="build-links" aria-label="Prompt transformation links">
+              <a href="../promplets/catalog/standalone/prompt-refactoring-pipeline.weavemark.md">
+                <span class="ic ic-code" aria-hidden="true"></span>
+                <span>Read the source promplet</span>
+                <span class="link-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+              <a href="tutorial-directives.html">
+                <span class="ic ic-doc" aria-hidden="true"></span>
+                <span>Follow the directive tutorial</span>
+                <span class="link-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </nav>
           </article>
 
           <article class="build-card">
             <span class="build-tag"><span class="ic ic-window" aria-hidden="true"></span>Build</span>
             <h3>Product specifications</h3>
-            <p>Implementation-ready specs for Copilot, Claude Code, or Cursor — <a href="tutorial-implement.html">follow the AI Kanban tutorial</a>, <a href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">read its concise source</a>, or <a href="../outputs/implementations/ai-kanban-browser/index.html" data-live-demo="ai-kanban">open the live browser app</a>.</p>
+            <p>Compile <strong>concise product intent</strong> into an
+              <strong>implementation-ready specification</strong> for a coding
+              agent.</p>
+            <nav class="build-links" aria-label="Product specification links">
+              <a href="tutorial-implement.html">
+                <span class="ic ic-doc" aria-hidden="true"></span>
+                <span>Follow the AI Kanban tutorial</span>
+                <span class="link-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+              <a href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md">
+                <span class="ic ic-code" aria-hidden="true"></span>
+                <span>Read the concise source</span>
+                <span class="link-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+              <a href="../outputs/implementations/ai-kanban-browser/index.html" data-live-demo="ai-kanban">
+                <span class="ic ic-window" aria-hidden="true"></span>
+                <span>Open the live browser app</span>
+                <span class="link-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </nav>
           </article>
 
           <article class="build-card">
             <span class="build-tag"><span class="ic ic-bolt" aria-hidden="true"></span>Run</span>
             <h3>Recurring research</h3>
-            <p>Search, deduplicate, remember, and resurface only material changes — <a href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md">recurring-topic-monitor.weavemark.md</a>.</p>
+            <p><strong>Search, deduplicate, and remember</strong>, then resurface
+              only <strong>material changes</strong>.</p>
+            <nav class="build-links" aria-label="Recurring research links">
+              <a href="../promplets/catalog/executable/recurring-topic-monitor.weavemark.md">
+                <span class="ic ic-code" aria-hidden="true"></span>
+                <span>Read the executable promplet</span>
+                <span class="link-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+              <a href="tutorial-directives.html">
+                <span class="ic ic-doc" aria-hidden="true"></span>
+                <span>See tool-aware directives</span>
+                <span class="link-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </nav>
           </article>
         </div>
       </section>
@@ -567,19 +612,21 @@ Give the smallest safe next action in board-ready language.</code></pre>
         <aside class="replay-note" id="try-replay" aria-labelledby="replay-title">
           <div class="replay-note-copy">
             <p class="section-kicker"><span class="ic ic-branch" aria-hidden="true"></span>How replay works</p>
-            <h3 id="replay-title">Re-run a recorded compilation, offline.</h3>
+            <h3 id="replay-title">Restore a complete recorded run, offline.</h3>
             <p>
-              A replay bundle stores one real compilation — its inputs, prompts,
-              and model responses. Replaying re-runs it from that record and
-              verifies every hash, so it needs no API key and makes no network
-              call. A fresh compilation of your own still needs a model provider.
+              This bundle stores the validated compilation plus the original
+              executed report, trace, and packaged HTML. Replay verifies every
+              hash and restores those final artifacts exactly; it does not call
+              the finance or search tools again. A fresh run still needs a model
+              provider.
             </p>
           </div>
           <div class="replay-note-command" data-command="pip install weavemark&#10;weavemark library market-snapshot --replay --verbose --open">
             <pre class="command-block" aria-label="Shell commands to install WeaveMark and replay Market Snapshot"><code><span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">pip</span> <span class="cli-subcommand">install</span> <span class="cli-value">weavemark</span></span>
 <span class="cli-line"><span class="cli-prompt" aria-hidden="true">$</span> <span class="cli-tool">weavemark</span> <span class="cli-subcommand">library</span> <span class="cli-value">market-snapshot</span> <span class="cli-flag">--replay</span> <span class="cli-flag">--verbose</span> <span class="cli-flag">--open</span></span></code></pre>
             <p>
-              Recorded run: <strong>11,002 input</strong> &middot;
+              Opens <strong>market-dashboard.html</strong> &middot;
+              recorded run: <strong>11,002 input</strong> &middot;
               <strong>0 cached</strong> &middot; <strong>20,728 output</strong> &middot;
               <strong>$0.3384</strong>. Replaying it costs nothing.
             </p>

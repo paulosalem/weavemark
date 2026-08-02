@@ -361,6 +361,9 @@ async def test_arcana_separates_card_execution_from_app_specification() -> None:
         "Enter without the OpenAI guide?",
         "Optional OpenAI guide",
         "Card reflection",
+        "Automatic AI interpretation top stage",
+        "Question inspiration",
+        "What deserves my courage right now?",
         "semantic progress",
         "Reflection depth",
         "**Whisper**",
@@ -394,6 +397,7 @@ async def test_arcana_separates_card_execution_from_app_specification() -> None:
     assert "artifact_manifest_matches" in runner_source
     assert "write_artifact_manifest" in runner_source
     assert "validate_deck_input" in runner_source
+    assert "non_prototype_count()" in runner_source
     assert "Arcana deck input failed deterministic validation" in runner_source
     assert 'IMAGE_MODEL="gpt-image-2"' in runner_source
     assert runner_source.index('rm -f "$CARD_STAMP"') < runner_source.index(

@@ -80,7 +80,7 @@ management subcommands.
 
 ## 3. Running the Processor
 
-```
+```text
 weavemark [SPEC_FILE] [OPTIONS]
 ```
 
@@ -252,7 +252,7 @@ no network. Only promplets that ship a replay bundle support it.
 Create a `promplets/` directory at or above your working directory. Anything in
 it is discoverable by bare name and takes precedence over built-ins:
 
-```
+```text
 my-project/
   promplets/
     house-style.weavemark.md
@@ -472,11 +472,22 @@ weavemark spec.weavemark.md --replay-run ./bundle
   configuration, module and resource hashes, and every recorded call hash. Any
   mismatch, or any attempt to reach the network, fails the run.
 
-Replay reproduces a *recorded* compilation. It is not a free live compilation: a
-fresh compilation of your own input still requires a model provider.
+A bundle may also retain a snapshot of the final artifacts from the execution
+that followed compilation. Each retained artifact declares a safe relative path,
+byte count, and SHA-256 hash. After compilation validates, replay verifies those
+files. With no output option it sends the recorded primary output to stdout;
+`--output`, `--output-dir`, or `--open` restores all retained artifacts
+byte-for-byte. `--open` then opens the bundle's declared final artifact. Market
+Snapshot, for example, restores `execution-output.md`, `execution-trace.md`, and
+`market-dashboard.html`, then opens the HTML dashboard.
 
-`--record-run` and `--replay-run` are mutually exclusive, and neither can be
-combined with `--run` or `--implement`, since both replay compilation only.
+Retained artifacts replay the *result* of effects; they do not call live finance,
+search, Python, or packaging effects again. A fresh compilation or execution of
+your own input still requires the appropriate model provider and capabilities.
+
+`--record-run` and `--replay-run` are mutually exclusive. `--replay-run` cannot
+be combined with `--run` or `--implement`, because it consumes recorded responses
+and retained artifacts rather than performing a new live execution.
 
 ---
 

@@ -145,7 +145,10 @@ def parse_library_target(
     parser.add_argument(
         "--replay",
         action="store_true",
-        help="Replay the target's bundled semantic compilation strictly offline.",
+        help=(
+            "Replay the target's bundled recording strictly offline, restoring "
+            "retained final-run artifacts when available."
+        ),
     )
     _add_library_dirs(parser)
     args, processor_args = parser.parse_known_args(argv)

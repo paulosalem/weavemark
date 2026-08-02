@@ -26,7 +26,7 @@ import tempfile
 import time
 import webbrowser
 from collections.abc import Callable, Mapping, Sequence
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING, Any
 
 from ellements.cli import (
@@ -78,6 +78,11 @@ from weavemark.protection import (
     ProtectionContext,
     ProtectionError,
     ProtectionRequest,
+)
+from weavemark.replay_snapshot import (
+    RecordedRunSnapshot,
+    RecordedRunSnapshotError,
+    load_recorded_run_snapshot,
 )
 from weavemark.settings import (
     WeaveMarkSettings,
@@ -576,8 +581,8 @@ def create_parser() -> argparse.ArgumentParser:
         type=Path,
         metavar="DIR",
         help=(
-            "Replay a recorded compilation strictly offline; fail on any request "
-            "or local-resource mismatch."
+            "Replay a recording strictly offline; fail on any request or "
+            "local-resource mismatch, and restore any retained final-run artifacts."
         ),
     )
     parser.add_argument(
@@ -1190,6 +1195,204 @@ def _write_emit_targets(
             printer.file_written(path)
 
 
+def _restore_recorded_run_snapshot(
+    snapshot: RecordedRunSnapshot,
+    printer: CliPrinter,
+    args: argparse.Namespace,
+    protection: ProtectionContext,
+    *,
+    started: float,
+) -> int:
+    """Restore the exact final artifacts retained from a recorded execution."""
+
+    output_root = args.output_dir
+    if output_root is None and args.output is not None:
+        output_root = args.output.parent
+    if output_root is None:
+        output_root = getattr(args, "_open_temp_dir", None)
+
+    try:
+        destinations = _recorded_run_destinations(snapshot, args, output_root)
+    except ValueError as exc:
+        printer.error(str(exc))
+        return 1
+    if output_root is not None:
+        for artifact in snapshot.artifacts:
+            destination = destinations[artifact.relative_path]
+            destination = protection.authorize_write(
+                destination,
+                reason="Restoring a validated artifact from a recorded run",
+            )
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(artifact.content)
+            destinations[artifact.relative_path] = destination
+            if not args.no_file_summary:
+                printer.file_written(destination)
+
+    primary = snapshot.artifact(snapshot.primary_output)
+    try:
+        primary_text: str | None = primary.content.decode("utf-8")
+    except UnicodeDecodeError:
+        primary_text = None
+    if output_root is None or args.show_output:
+        if primary_text is None:
+            printer.error(
+                "The recorded primary output is binary; use --output or "
+                "--output-dir instead of stdout."
+            )
+            return 1
+        print(primary_text, end="" if primary_text.endswith("\n") else "\n", flush=True)
+
+    if args.open_artifacts:
+        open_path = destinations.get(snapshot.open_artifact)
+        _open_artifact_files(
+            [open_path] if open_path is not None else [],
+            printer,
+            args,
+            empty_warning="No recorded final artifact was restored to open.",
+        )
+
+    duration_ms = round((time.perf_counter() - started) * 1000)
+    _emit_event(
+        args,
+        "result",
+        {
+            "output": primary_text,
+            "output_path": str(
+                destinations.get(snapshot.primary_output, snapshot.primary_output)
+            ),
+            "mode": snapshot.mode,
+            "artifacts": [
+                str(destinations.get(artifact.relative_path, artifact.relative_path))
+                for artifact in snapshot.artifacts
+            ],
+            "duration_ms": duration_ms,
+        },
+    )
+    _emit_event(
+        args,
+        "run_completed",
+        {
+            "mode": "replay",
+            "recorded_mode": snapshot.mode,
+            "duration_ms": duration_ms,
+            "artifacts_count": len(snapshot.artifacts),
+        },
+    )
+    if args.verbose:
+        printer.done()
+    return 0
+
+
+def _recorded_run_destinations(
+    snapshot: RecordedRunSnapshot,
+    args: argparse.Namespace,
+    output_root: Path | None,
+) -> dict[PurePosixPath, Path]:
+    """Resolve safe, distinct destinations before restoring any artifact."""
+
+    if output_root is None:
+        return {}
+    resolved_root = output_root.resolve()
+    source_files = {
+        path.resolve()
+        for path in snapshot.bundle_dir.rglob("*")
+        if path.is_file()
+    }
+    source_identities = {
+        identity
+        for source in source_files
+        if (identity := _filesystem_identity(source)) is not None
+    }
+    destinations: dict[PurePosixPath, Path] = {}
+    occupied: dict[Path, PurePosixPath] = {}
+    occupied_casefolded: dict[str, PurePosixPath] = {}
+    occupied_casefolded_parts: dict[tuple[str, ...], PurePosixPath] = {}
+    occupied_identities: dict[tuple[int, int], PurePosixPath] = {}
+    for artifact in snapshot.artifacts:
+        candidate = (
+            args.output
+            if args.output is not None
+            and artifact.relative_path == snapshot.primary_output
+            else output_root / Path(*artifact.relative_path.parts)
+        )
+        destination = candidate.resolve()
+        try:
+            destination.relative_to(resolved_root)
+        except ValueError as exc:
+            raise ValueError(
+                "Recorded artifact destination escapes the selected output "
+                f"directory: {artifact.relative_path}"
+            ) from exc
+        if _path_is_within_casefold(destination, snapshot.bundle_dir):
+            raise ValueError(
+                "Recorded artifacts cannot be restored inside their replay "
+                f"bundle: {destination}"
+            )
+        identity = _filesystem_identity(destination)
+        if destination in source_files or (
+            identity is not None and identity in source_identities
+        ):
+            raise ValueError(
+                "Recorded artifacts cannot be restored over their replay-bundle "
+                f"sources: {destination}"
+            )
+        previous = occupied.get(destination)
+        if previous is not None:
+            raise ValueError(
+                "Recorded artifacts resolve to the same output path: "
+                f"{previous} and {artifact.relative_path}"
+            )
+        casefolded = str(destination).casefold()
+        previous = occupied_casefolded.get(casefolded)
+        if previous is not None:
+            raise ValueError(
+                "Recorded artifacts resolve to case-equivalent output paths: "
+                f"{previous} and {artifact.relative_path}"
+            )
+        casefolded_parts = tuple(part.casefold() for part in destination.parts)
+        for previous_parts, previous_path in occupied_casefolded_parts.items():
+            shared = min(len(casefolded_parts), len(previous_parts))
+            if casefolded_parts[:shared] == previous_parts[:shared]:
+                raise ValueError(
+                    "Recorded artifact output paths cannot contain one another: "
+                    f"{previous_path} and {artifact.relative_path}"
+                )
+        if identity is not None:
+            previous = occupied_identities.get(identity)
+            if previous is not None:
+                raise ValueError(
+                    "Recorded artifacts resolve to aliases of the same filesystem "
+                    f"object: {previous} and {artifact.relative_path}"
+                )
+            occupied_identities[identity] = artifact.relative_path
+        occupied[destination] = artifact.relative_path
+        occupied_casefolded[casefolded] = artifact.relative_path
+        occupied_casefolded_parts[casefolded_parts] = artifact.relative_path
+        destinations[artifact.relative_path] = destination
+    return destinations
+
+
+def _filesystem_identity(path: Path) -> tuple[int, int] | None:
+    """Return device/inode identity for an existing path."""
+
+    try:
+        stat = path.stat()
+    except OSError:
+        return None
+    return stat.st_dev, stat.st_ino
+
+
+def _path_is_within_casefold(path: Path, root: Path) -> bool:
+    """Return whether ``path`` is lexically inside ``root``, ignoring case."""
+
+    path_parts = tuple(part.casefold() for part in path.parts)
+    root_parts = tuple(part.casefold() for part in root.parts)
+    return len(path_parts) >= len(root_parts) and (
+        path_parts[: len(root_parts)] == root_parts
+    )
+
+
 def _source_path_from_args(args: argparse.Namespace) -> Path | None:
     spec_file = getattr(args, "spec_file", None)
     return Path(spec_file).resolve() if spec_file else None
@@ -1551,6 +1754,29 @@ async def run_batch(
             json_output=args.format == "json",
         )
         return 1
+
+    replay_dir = getattr(args, "replay_run", None)
+    if replay_dir is not None:
+        try:
+            recorded_run = load_recorded_run_snapshot(replay_dir)
+        except RecordedRunSnapshotError as exc:
+            printer.error(f"Recorded run snapshot is invalid: {exc}")
+            return 1
+        if recorded_run is not None:
+            if args.format is not None:
+                printer.error(
+                    "--format cannot reformat exact recorded-run artifacts; "
+                    "remove --format."
+                )
+                return 2
+            return _restore_recorded_run_snapshot(
+                recorded_run,
+                printer,
+                args,
+                protection,
+                started=started,
+            )
+
     output_format = _resolve_output_format(result, args, printer, settings)
     output = _format_raw_output(
         result,
@@ -2744,10 +2970,12 @@ def cli() -> None:
         sys.exit(2)
     if args.replay_run is not None and (args.run or args.implement):
         printer.error(
-            "--replay-run replays compilation only and cannot be combined with "
-            "--run or --implement."
+            "--replay-run uses recorded responses and retained artifacts; it "
+            "cannot be combined with --run or --implement."
         )
         sys.exit(2)
+    if args.replay_run is not None:
+        args.batch_only = True
     if (args.ui or args.scan or args.discover) and any(
         (args.provenance, args.record_run, args.replay_run)
     ):

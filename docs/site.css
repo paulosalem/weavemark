@@ -442,7 +442,7 @@
 
       @media (min-width: 921px) and (max-height: 1100px) {
         .shell.hero {
-          padding-top: 24px;
+          padding-top: 84px;
         }
 
         .hero-wordmark {
@@ -1780,6 +1780,8 @@
       }
 
       .build-card {
+        display: flex;
+        flex-direction: column;
         padding: 18px 20px 18px 22px;
         border: 1px solid rgba(var(--accent-bright-rgb), 0.14);
         border-left: 3px solid rgba(var(--accent-bright-rgb), 0.55);
@@ -1809,6 +1811,51 @@
         color: var(--muted);
         font-size: 0.95rem;
         line-height: 1.5;
+      }
+
+      .build-links {
+        display: grid;
+        gap: 6px;
+        margin-top: 16px;
+        padding-top: 13px;
+        border-top: 1px solid rgba(var(--accent-bright-rgb), 0.14);
+      }
+
+      .build-links a {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 8px;
+        align-items: center;
+        min-height: 36px;
+        padding: 7px 9px;
+        border-radius: 10px;
+        color: var(--accent-deep);
+        background: rgba(var(--accent-bright-rgb), 0.055);
+        font-size: 0.84rem;
+        font-weight: 800;
+        line-height: 1.25;
+        text-decoration: none;
+        transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+      }
+
+      .build-links a:hover {
+        color: var(--spark-dark);
+        background: rgba(var(--spark-rgb), 0.1);
+        transform: translateX(2px);
+      }
+
+      .build-links .ic {
+        color: var(--accent-bright);
+        font-size: 16px;
+      }
+
+      .build-links .link-arrow {
+        color: var(--spark-dark);
+        transition: transform 160ms ease;
+      }
+
+      .build-links a:hover .link-arrow {
+        transform: translateX(2px);
       }
 
       .proof-strip {
@@ -2033,6 +2080,22 @@
         font-weight: 500;
         white-space: pre-wrap;
         overflow-wrap: anywhere;
+      }
+
+      .directive-map .syntax-directive {
+        color: #f472b6;
+      }
+
+      .directive-map .syntax-var {
+        color: #c084fc;
+      }
+
+      .directive-map .syntax-key {
+        color: #38bdf8;
+      }
+
+      .directive-map .syntax-string {
+        color: #facc15;
       }
 
       .directive-links {

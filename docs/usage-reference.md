@@ -241,6 +241,32 @@ logging.
 process-level overrides. Full `--record-run` bundles are separate explicit
 artifacts and always contain replay-critical request/response content.
 
+## Local API-response cache
+
+WeaveMark caches exact API responses locally by default so rerunning the same
+prompt, model, tools, and provider parameters does not incur another provider
+call. Text and Responses API calls use LiteLLM's persistent disk cache; image
+generation and image editing use Ellements' content-addressed image cache,
+including hashes of edited reference images.
+
+The default directory is `~/.weavemark/cache`. Configure or disable it in a user
+or system `weavemark.json`:
+
+```json
+{
+  "cache": {
+    "enabled": true,
+    "directory": null
+  }
+}
+```
+
+A project `weavemark.json` may disable caching but cannot force it on or redirect
+the user-level cache directory. Set `WEAVEMARK_CACHE=0` to disable caching for
+one process, or `WEAVEMARK_CACHE_DIR` to override its directory. Cache hits are
+reported as `LOCAL cache used` in verbose output and logs; provider-side prompt
+caching remains separate usage telemetry.
+
 ## Optional provenance and exact run replay
 
 Normal compilation remains unchanged and produces no provenance files. Add
@@ -276,6 +302,14 @@ differ. Exact replay reproduces the recorded compilation; it does not claim
 that a provider would independently return the same answers later. Interactive
 `@ask` recordings are intentionally not replayed because replay must not invent
 or silently reuse a human decision.
+
+A bundle may additionally retain a snapshot of the final artifacts from the
+execution that followed compilation. Replay verifies each retained path, byte
+count, and SHA-256 hash. With no output option, the recorded primary output goes
+to stdout; `--output`, `--output-dir`, or `--open` restores all artifacts
+byte-for-byte, and `--open` opens the declared final artifact. The snapshot
+reproduces the prior run's outputs; finance, search, Python, and packaging
+effects are not called again.
 
 ## Quoting directive arguments
 

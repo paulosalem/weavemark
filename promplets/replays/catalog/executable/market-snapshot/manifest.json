@@ -75,6 +75,31 @@
     "description": "Saved VALE3 Market Snapshot run regenerated on gpt-5.6-terra.",
     "duration_ms": 177200,
     "output_chars": 24464,
+    "primary_output": "execution-output.md",
+    "open_artifact": "market-dashboard.html",
+    "artifacts": [
+      {
+        "path": "execution-output.md",
+        "bundle_path": "run-artifacts/execution-output.md",
+        "kind": "execution-output",
+        "bytes": 24514,
+        "sha256": "dc7cbc06b289aa086e2ed6a44f9d6c6d079fa29704cadea0b132f38e94bc7f3f"
+      },
+      {
+        "path": "execution-trace.md",
+        "bundle_path": "run-artifacts/execution-trace.md",
+        "kind": "execution-trace",
+        "bytes": 132750,
+        "sha256": "28b5e83dc3cb87c1b86e942a651e802cfe30d57528364f9f233683ce327bd8bd"
+      },
+      {
+        "path": "market-dashboard.html",
+        "bundle_path": "run-artifacts/market-dashboard.html",
+        "kind": "package",
+        "bytes": 57064,
+        "sha256": "e35902ed8a965e08c0c4dd4acb6e050a5ace1d7a5779359ecfe6cba165dab237"
+      }
+    ],
     "usage": {
       "prompt_tokens": 11002,
       "cache_read_input_tokens": 0,

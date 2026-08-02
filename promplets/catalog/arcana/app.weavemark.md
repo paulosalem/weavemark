@@ -132,6 +132,8 @@ AI ready/failed, voice preparing/ready/failed, cancelled, and stale.
 Every asynchronous operation uses a reading generation token, per-card token,
 finite timeout, `AbortController`, and stale-result suppression. New reading,
 replacement, cancellation, Forget key, and `pagehide` abort relevant work.
+Card retries and final-synthesis invalidation MUST also abort the superseded
+named request channel so stale work cannot continue billable execution.
 
 Persist only non-secret preferences and explicitly saved readings/notes/history
 in a versioned deck-id namespace. Validate restored data and recover visibly.
@@ -149,6 +151,30 @@ The page opens as a calm invitation, never a dashboard or catalog.
 - Wide layout is roughly two-thirds ritual and one-third optional guide. Narrow
   layout places ritual first. Never render equal competing panels.
 - The guide has no competing primary action.
+
+Provide a **Question inspiration** select beside the private-question field on
+setup and in the active OpenAI drawer. Its default option is
+**Choose a deep question…**, followed by these exact high-impact presets:
+
+- What am I not seeing clearly about the choice before me?
+- What pattern is asking to change in my life?
+- What deserves my courage right now?
+- What must I release to move forward with integrity?
+- How can I meet this relationship more honestly?
+- What would a wiser relationship with my work look like?
+- Where am I confusing safety with stagnation?
+- What part of myself needs attention rather than judgment?
+- What possibility becomes visible if I stop forcing certainty?
+- Write my own question…
+
+Selecting a preset copies it into the private-question textarea while preserving
+the ability to edit it. **Write my own question…** clears and focuses the
+textarea. Presets are inspiration, never persisted questions, instructions, or
+special provider authority.
+
+On setup, place Question inspiration and its textarea before the formation list
+so this immediate starting path is visible without first scrolling past every
+formation.
 
 On a fresh profile, initialize the reversal control from
 `deck.experience.reversals_enabled_by_default`. A subsequently saved explicit
@@ -225,8 +251,9 @@ orientation meanings, emotional register, question, category/purpose, concept
 source/factual anchor/boundary, reflective bridge, lineage, motifs, and
 Minor suit/rank or explicit Major suitlessness.
 
-Optional AI content appears in the same surface after manual meaning. Completion
-never auto-opens the surface, moves focus, or scrolls.
+The Card reflection surface remains manual-only and hidden until the player
+activates its trigger. It MUST NOT contain or auto-open for AI interpretation.
+Completion never auto-opens the surface, moves focus, or scrolls.
 
 ## Optional OpenAI guide
 
@@ -322,6 +349,47 @@ explicit phase labels.
 
 Failures preserve manual play, explain precisely, and offer retry. Never invent
 fallback text.
+
+### Automatic AI interpretation top stage
+
+Per-card AI interpretation comes to the player automatically through one shallow
+top stage rather than waiting inside Card reflection:
+
+- After a revealed card starts its AI request, slide a pane down from the top of
+  the viewport directly beneath the sticky navigation.
+- The pane belongs to the most recently revealed AI-enabled card. A later reveal
+  replaces its content in place; completion from an older card MUST NOT steal it
+  back. Multiple cards may continue computing independently.
+- Pending, ready, and failed states are visible without focus theft, navigation,
+  page scroll, or opening the manual reflection surface.
+- Pending shows the card title/position/depth plus a soothing magical animation:
+  restrained mineral-blue and oxidized-gold orbit lines, a slow luminous sweep,
+  and quiet breathing light. No flashing, particles, neon, or spectacle. Reduced
+  motion uses one static luminous constellation and status text.
+- Ready shows the generated reflection and only the tension/question sections
+  permitted by the selected depth. Failure shows the precise error and an
+  eligibility-aware retry.
+- Include a clear **Close interpretation** control. Closing is respected for the
+  current request/result; a newly revealed AI-enabled card opens the stage again.
+- Do not move keyboard focus when the pane opens or updates. Announce
+  pending/ready/error through a polite live region. If the player activates a
+  control inside the pane to close it, return focus without scrolling to the
+  owning revealed card; programmatic closure and closure invoked from elsewhere
+  do not move focus.
+- Keep the pane intentionally shallow: normally no deeper than 260 CSS pixels or
+  34% of the dynamic viewport, whichever is smaller. Its interpretation body
+  scrolls internally for Deep/Immersive text.
+- At runtime, measure the sticky navigation bottom and the formation’s first card
+  top. When at least 140 CSS pixels are available, cap the pane so it ends before
+  the cards. If less room exists, allow bounded overlap while keeping the selected
+  card’s title/position and all card controls reachable. A compact mobile preview
+  MUST keep **Card reflection** visibly operable rather than hiding it.
+- Recompute placement after resize, orientation change, media-transport changes,
+  and formation layout changes.
+
+This automatic pane is only for per-card AI interpretation. The explicit
+**Contemplate the whole** synthesis retains its dedicated compact-card focus
+layout.
 
 ## Speech and canonical media transport
 

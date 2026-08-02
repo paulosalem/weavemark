@@ -10,7 +10,7 @@ from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import litellm
 from ellements.core import JsonlPromptLogger, LLMClient
@@ -24,6 +24,10 @@ from .discovery.config import GLOBAL_DIR
 from .logging_policy import LoggingSettings, sanitize_log_value
 from .protection import ProtectionContext
 from .usage_tracking import active_accumulator
+
+if TYPE_CHECKING:
+    from .cache_policy import CacheSettings
+    from .cache_setup import CacheHitCallback
 
 _DISABLED_VALUES = {"0", "off", "false", "no"}
 
@@ -220,6 +224,8 @@ def new_client(
     model: str,
     protection: ProtectionContext | None = None,
     logging_settings: LoggingSettings | None = None,
+    cache_settings: CacheSettings | None = None,
+    on_cache_hit: CacheHitCallback | None = None,
     **kwargs: Any,
 ) -> LLMClient:
     """Construct an LLM client with policy-filtered WeaveMark call logging.
@@ -228,8 +234,11 @@ def new_client(
     also report their token usage and cost to that scope's accumulator.
     """
 
+    from .cache_setup import LocalCacheObserver, local_cache_config
+
     del protection
     settings = logging_settings or LoggingSettings()
+    configured_cache = local_cache_config(cache_settings)
     configured_log_dir = kwargs.pop("log_dir", None)
     directory = (
         Path(configured_log_dir).expanduser()
@@ -243,12 +252,19 @@ def new_client(
     accumulator = active_accumulator()
     if accumulator is not None:
         observers.append(accumulator)
+    if configured_cache is not None:
+        observers.append(LocalCacheObserver(on_cache_hit))
     use_responses_api = kwargs.setdefault(
         "use_responses_api",
         requires_responses_api(model),
     )
     client_type = _ResponsesClient if use_responses_api else LLMClient
-    return client_type(model=model, observers=observers, **kwargs)
+    return client_type(
+        model=model,
+        observers=observers,
+        local_cache=configured_cache,
+        **kwargs,
+    )
 
 
 def configure_logging(

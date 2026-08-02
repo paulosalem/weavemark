@@ -25,6 +25,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from ..cache_policy import CacheSettings
 from ..engines.base import ExecutionResult
 from ..logging_policy import LoggingSettings
 from ..promplet_application import PrompletApplicationResult, apply_promplet
@@ -93,6 +94,7 @@ async def _apply_package(
     client: Any | None = None,
     protection: ProtectionContext | None = None,
     logging_settings: LoggingSettings | None = None,
+    cache_settings: CacheSettings | None = None,
 ) -> PackageResult:
     target = root / package["file"]
     application = await apply_promplet(
@@ -104,6 +106,7 @@ async def _apply_package(
         client=client,
         protection=protection,
         logging_settings=logging_settings,
+        cache_settings=cache_settings,
     )
     if not application.ok:
         return PackageResult(
@@ -139,6 +142,7 @@ async def _convert_package(
     root: Path,
     protection: ProtectionContext | None = None,
     logging_settings: LoggingSettings | None = None,
+    cache_settings: CacheSettings | None = None,
 ) -> PackageResult:
     target = root / package["file"]
     source = root / package["from"]
@@ -183,6 +187,7 @@ async def run_packages(
     stage_files: dict[str, list[str]] | None = None,
     protection: ProtectionContext | None = None,
     logging_settings: LoggingSettings | None = None,
+    cache_settings: CacheSettings | None = None,
 ) -> list[PackageResult]:
     """Persist artifacts (unless already persisted), then run each ``@package`` step.
 
@@ -209,6 +214,7 @@ async def run_packages(
                     client,
                     protection,
                     logging_settings,
+                    cache_settings,
                 )
             )
         elif "from" in package:

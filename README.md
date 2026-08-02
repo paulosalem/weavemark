@@ -27,16 +27,17 @@ Compilation is intentionally hybrid: variables, branches, imports, output contra
 
 ## 🖼️ See what it produced
 
-| Illustrated storybook | AI Kanban | Market report |
-|---|---|---|
-| [![Orion storybook page](docs/tutorial-storybook-page.jpg)](https://paulosalem.github.io/weavemark/demos/orion-storybook/) | [![AI Kanban board](docs/showcase-ai-kanban.jpg)](https://paulosalem.github.io/weavemark/demos/ai-kanban/) | [![VALE3 market dashboard](docs/showcase-market-report.jpg)](https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html) |
-| A twelve-page story authored, illustrated page by page, and packaged to HTML/PDF. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/childrens-book.weavemark.md?plain=1) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-illustrated.html) | A concise software promplet compiled into a detailed contract and implemented as a backend-free browser app. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/standalone/ai-kanban-board.weavemark.md?plain=1) · [Compiled spec](https://github.com/paulosalem/weavemark/blob/main/outputs/implementations/ai-kanban-browser/compiled-spec.md) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-implement.html) | Finance data and bounded search evidence executed through a strict graph, then packaged as a standalone report. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/market-snapshot.weavemark.md?plain=1) · [Trace](https://github.com/paulosalem/weavemark/blob/main/examples/saved-artifact-workflows/market-snapshot/outputs/execution-trace.md) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-executable.html) |
+| Illustrated storybook | AI Kanban | Market report | Arcana |
+|---|---|---|---|
+| [![Orion storybook page](docs/tutorial-storybook-page.jpg)](https://paulosalem.github.io/weavemark/demos/orion-storybook/) | [![AI Kanban board](docs/showcase-ai-kanban.jpg)](https://paulosalem.github.io/weavemark/demos/ai-kanban/) | [![VALE3 market dashboard](docs/showcase-market-report.jpg)](https://paulosalem.github.io/weavemark/examples/saved-artifact-workflows/market-snapshot/outputs/market-dashboard.html) | [![Arcana five-card reading](docs/showcase-arcana.jpg)](https://paulosalem.github.io/weavemark/demos/arcana/) |
+| A twelve-page story authored, illustrated page by page, and packaged to HTML/PDF. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/childrens-book.weavemark.md?plain=1) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-illustrated.html) | A concise software promplet compiled into a detailed contract and implemented as a backend-free browser app. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/standalone/ai-kanban-board.weavemark.md?plain=1) · [Compiled spec](https://github.com/paulosalem/weavemark/blob/main/outputs/implementations/ai-kanban-browser/compiled-spec.md) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-implement.html) | Finance data and bounded search evidence executed through a strict graph, then packaged as a standalone report. [Source](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/executable/market-snapshot.weavemark.md?plain=1) · [Trace](https://github.com/paulosalem/weavemark/blob/main/examples/saved-artifact-workflows/market-snapshot/outputs/execution-trace.md) · [Tutorial](https://paulosalem.github.io/weavemark/docs/tutorial-executable.html) | A 55-card archetypal reflection game generated in two stages: deck artifacts, then a private browser reading experience. [Cards](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/arcana/cards.weavemark.md?plain=1) · [App](https://github.com/paulosalem/weavemark/blob/main/promplets/catalog/arcana/app.weavemark.md?plain=1) · [Compiled spec](examples/saved-artifact-workflows/arcana/outputs/arcana-app-spec.md) |
 
 These are checked-in outputs, not mockups. The examples retain their source promplets, compiled plans or specifications, run artifacts, and tests.
 
 ## ⚡ Try it yourself
 
-Install the current release, then replay two real compilations without an API key or network call. `--verbose` shows the compilation steps and recorded provider statistics; `--open` opens the compiled artifact in your default application.
+Replay two recorded examples without an API key or network call. `--verbose` shows
+validation and statistics; Market Snapshot restores and opens its final HTML.
 
 ```bash
 pip install weavemark
@@ -45,7 +46,9 @@ weavemark library market-snapshot --replay --verbose --open
 weavemark library ai-kanban-board --replay --verbose --open
 ```
 
-Replay validates the source, inputs, compiler prompt, schema, imported modules, tool results, and recorded call hashes. It replays compilation only: finance and search effects do not run. The original VALE3 run reported 11,002 input tokens, 0 cached, 20,728 output tokens, and $0.3384 total API cost. AI Kanban's recorded compilation reported 133,084 input tokens, 114,603 cached, 11,799 output tokens, and $0.2015 total API cost. Replaying either costs nothing.
+Replay validates source, inputs, prompts, schema, modules, calls, and artifacts,
+then restores outputs without calling effects. VALE3: 11,002 input, 0 cached,
+20,728 output, $0.3384. AI Kanban: 133,084 input, 114,603 cached, 11,799 output, $0.2015. Both cost nothing to replay.
 
 For a fresh semantic compilation and a real finance/search execution, install the example integrations and configure a model provider. The market data and web search need no additional keys.
 
@@ -63,56 +66,56 @@ weavemark library market-snapshot \
   --open
 ```
 
-WeaveMark compiles the promplet, runs the finance and search effects as a strict
-dependency graph, writes the brief, packages it into
-`market-report/market-dashboard.html`, and `--open` launches that dashboard in
-your browser. Change the ticker variables for any asset you follow. The finance
-helper is ordinary Python, so WeaveMark asks once before importing it.
+WeaveMark compiles the promplet, runs the finance and search effects as a strict dependency graph,
+writes `market-report/market-dashboard.html`, and opens it. Change the ticker variables for any
+asset you follow. The finance helper is ordinary Python, so WeaveMark asks once before importing it.
 
 This is a real effectful run, not a template expansion. Ours took about three
-minutes and $0.34 of `gpt-5.6-terra` — the default model, which every bundled
-example is exercised on; `--model` picks another. You pay that once, not per use:
-the compiled prompt is an ordinary file you can commit and review, recompiling
-only when the source changes. That is why this repository checks its compiled
-prompts in next to their sources.
+minutes and $0.34 of `gpt-5.6-terra` — the default tested across every bundled example; `--model` picks another.
+You pay that once, not per use: the compiled prompt is an ordinary file you can
+commit and review. Furthermore, LLM API responses are cached by default, so even recompiling should avoid adding cost, provided inputs and selected models are the same.
 
-For the compile-only path, where a short product source becomes a detailed
-implementation contract that a programming agent then builds, follow
-[Spec to app](https://paulosalem.github.io/weavemark/docs/tutorial-implement.html).
-For a first authored example with variables, follow
-[Your first promplet](https://paulosalem.github.io/weavemark/docs/tutorial.html).
-For image generation and other effectful runs, use only promplets you trust.
+Promplets conventionally use `.weavemark.md`. With the provider configured above, save this tested
+[language-plan source](promplets/tutorials/language-learning-goal-plan.weavemark.md) as `language-plan.weavemark.md`:
+
+```markdown
+@use weavemark.std.planning.goals exposing goal_plan
+# Language-learning plan
+@goal_plan goal: "Reach conversational Spanish" domain: "learning" horizon: "9 months" starting_point: "I know basic phrases" constraints: "20 minutes per weekday" assumption_source: "No external lookup needed"
+```
+
+```bash
+weavemark language-plan.weavemark.md --batch-only --output language-plan.md
+```
+
+Change the goal and constraints to make it yours. Continue with
+[Your first promplet](https://paulosalem.github.io/weavemark/docs/tutorial.html) or
+[Spec to app](https://paulosalem.github.io/weavemark/docs/tutorial-implement.html). Use only trusted promplets for effectful runs.
 
 ## 📖 The source stays readable
 
-This abridged AI Kanban source composes reusable architecture instead of repeating
-it — read the [full promplet](promplets/catalog/standalone/ai-kanban-board.weavemark.md)
-and the [compiled specification](outputs/implementations/ai-kanban-browser/compiled-spec.md)
-it produces:
+This abridged AI Kanban source composes reusable architecture instead of repeating it.
+Read the [full promplet](promplets/catalog/standalone/ai-kanban-board.weavemark.md) and
+the [compiled specification](outputs/implementations/ai-kanban-browser/compiled-spec.md) it produces:
 
 ```markdown
+@refine module:weavemark.domains.programming.foundations.software_spec
 @refine module:weavemark.domains.programming.stacks.browser_static_esmodules
-@refine module:weavemark.domains.programming.types.browser_file_backed_webapp
-@refine module:weavemark.domains.programming.modules.browser_sqlite_file_store
-@refine module:weavemark.domains.programming.modules.browser_ai_handoff
+@refine module:weavemark.domains.programming.types.browser_folder_backed_webapp
+@refine module:weavemark.domains.programming.modules.browser_agent_workspace_coordination
 
-# AI Kanban
+# AI Kanban — Browser Workspace for Human-AI Work
 
-Build a polished static JavaScript board whose canonical state is a
-user-selected .aikanban.sqlite file. No backend.
-
-@output enforce: strict
-  Return architecture, storage, interaction, recovery, and test contracts.
+This implementation-ready specification defines a polished static JavaScript
+application for GitHub Pages with no backend.
 ```
 
 The reusable modules carry file lifecycle, worker-owned SQLite, compatibility,
 security, accessibility, and AI-handoff rules. The entrypoint stays focused on the product.
 
-Notice what is *absent*: no slots, placeholders, or include points. You never
-design a template to receive the reusable material, nor rewrite a module to fit a
-new host. `@refine` states *what* to bring in, and the model works out where it
-belongs — merging obligations, ordering sections, adapting wording to the
-surrounding intent. Reuse costs one line instead of a refactor.
+Notice what is *absent*: no slots, placeholders, or include points. `@refine` states
+*what* to bring in, and the model works out where it belongs — merging obligations,
+ordering sections, and adapting wording. Reuse costs one line instead of a refactor.
 
 ## 🧠 Why use a language?
 
@@ -151,16 +154,6 @@ not claim formal verification or deterministic prompt quality; rather, it provid
 durable language surface around generative behavior. Every directive is specified
 in the [language reference](docs/language-reference.md).
 
-## 📡 Structured progress for tools and GUIs
-
-`--verbose` is the human terminal view; `--events-jsonl FILE` is the machine one,
-flushing ordered JSON Lines records — with absolute artifact paths — as
-composition, execution, persistence, and packaging happen, so clients never parse
-Rich terminal text. `--interaction-stdin jsonl` makes it bidirectional. For
-traceability, `--provenance` writes a hash/usage manifest, while `--record-run`
-and `--replay-run` capture and re-run a compilation offline. See the
-[manual](docs/manual.md#14-machine-integration).
-
 ## 🔐 Installation and safety
 
 ```bash
@@ -186,6 +179,7 @@ artifacts use Git LFS; run `git lfs pull` in a clone to fetch the original media
 | [Illustrated stories](https://paulosalem.github.io/weavemark/docs/tutorial-illustrated.html) | Multimodal inputs, image outputs, reflection, repeated page chains, HTML/PDF packaging. |
 | [AI Kanban](https://paulosalem.github.io/weavemark/docs/tutorial-implement.html) | Reusable software architecture, concise source, compiled contract, programming-agent implementation. |
 | [Market report](https://paulosalem.github.io/weavemark/docs/tutorial-executable.html) | Module-owned bindings, effect graph, grounded synthesis, execution trace, semantic HTML packaging. |
+| [Arcana](https://paulosalem.github.io/weavemark/demos/arcana/) | Two-stage deck generation and application compilation, 55 illustrated cards, private browser readings, and optional AI reflection. |
 | [Knowledge Cards](https://paulosalem.github.io/weavemark/demos/knowledge-cards/) | A mobile-first static app with manifest-discovered content packs and local state. |
 | [Recurring topic monitor](promplets/catalog/executable/recurring-topic-monitor.weavemark.md) | Bounded search/news/crawl tools with event memory and material-change detection. |
 | [Reasoning strategies](studies/runtime-studies/reasoning-strategies) | Reflection, self-consistency, and tree-of-thought promplets with their saved runs. |
@@ -195,25 +189,34 @@ reusable building blocks live under [promplets/stdlib](promplets/stdlib) and
 [promplets/domains](promplets/domains). To add your own, see the
 [manual](docs/manual.md#8-adding-your-own-promplets).
 
-## 🧭 Project guide
+## 🗺️ Repository structure
 
-**Technical references** — the two places to look for precise information:
+| Path | What you will find there |
+|---|---|
+| [`src/weavemark/`](src/weavemark) | The Processor: CLI, compilation, engines, packaging, safety, and terminal UI |
+| [`src/weavemark/prompts/weavemark.system.md`](src/weavemark/prompts/weavemark.system.md) | The canonical semantic language and compiler contract |
+| [`promplets/`](promplets) | The maintained catalog, standard library, domain modules, tutorials, and replay bundles |
+| [`examples/`](examples) | Runnable workflows with their inputs, runners, and saved outputs |
+| [`outputs/`](outputs) | Maintained generated applications, compiled specifications, and other showcase artifacts |
+| [`docs/`](docs) | Website, tutorials, Processor manual, language reference, and EBNF grammar |
+| [`tests/`](tests) | Behavioral, documentation, example, packaging, and regression contracts |
+| [`weavemark.json`](weavemark.json) | Repository defaults; see the [configuration manual](docs/manual.md#9-configuration-files) for keys and precedence |
+| [`scripts/`](scripts) · [`studies/`](studies) | Repository/release helpers and controlled/runtime studies |
+| [`vscode-extension/`](vscode-extension) | VS Code highlighting, diagnostics, navigation, forms, and execution commands; see its [installation guide](vscode-extension/README.md#installation) |
 
-- 📘 [**Processor manual**](docs/manual.md) — installation, model providers, CLI,
-  library roots, adding your own promplets, configuration, protections, logging,
-  cache, replay, and machine integration.
-- 📐 [**Language reference**](docs/language-reference.md) — grammar, arguments,
-  variables, bodies, the structural/semantic split, and every directive.
+For precise technical information, use the [Processor manual](docs/manual.md)
+for setup, configuration, CLI, safety, replay, and machine integration, and the
+[language reference](docs/language-reference.md) for grammar and directives.
+For auditable automation, `--provenance` writes a run manifest, while
+`--record-run` and `--replay-run` capture and restore an offline compilation.
 
-Everything else:
-
-- [Introduction](https://paulosalem.github.io/weavemark/docs/introduction.html) — mental model and execution boundary.
-- [Principles](https://paulosalem.github.io/weavemark/docs/principles.html) — design commitments and refinement model.
-- [Tutorial track](https://paulosalem.github.io/weavemark/docs/tutorial.html) — nine connected hands-on lessons.
-- [Extended notes](docs/usage-reference.md) — worked examples and deeper discussion.
-- [Python API](docs/python-api.md) — async compilation and custom engines.
-- [Agent usage](docs/agent-usage.md) — using WeaveMark from coding agents.
-- [Citation](docs/citation.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Development](docs/development.md)
+Explore the [introduction](https://paulosalem.github.io/weavemark/docs/introduction.html),
+[principles](https://paulosalem.github.io/weavemark/docs/principles.html),
+[tutorial track](https://paulosalem.github.io/weavemark/docs/tutorial.html),
+[extended notes](docs/usage-reference.md), [Python API](docs/python-api.md), and
+[agent usage](docs/agent-usage.md). See also [citation](docs/citation.md),
+[changelog](CHANGELOG.md), [contributing](CONTRIBUTING.md), [security](SECURITY.md), and
+[development](docs/development.md).
 
 ## ❓ Frequently asked questions
 

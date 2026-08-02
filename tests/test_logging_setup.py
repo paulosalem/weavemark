@@ -26,6 +26,15 @@ from weavemark.protection import ProtectionContext, ProtectionSettings
 _MODEL = "openai/gpt-5.5"
 
 
+@pytest.fixture(autouse=True)
+def _isolate_local_cache(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    del tmp_path
+    monkeypatch.setenv("WEAVEMARK_CACHE", "0")
+
+
 def test_logging_enabled_by_default(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delenv("WEAVEMARK_LOG", raising=False)
     assert logging_enabled() is True

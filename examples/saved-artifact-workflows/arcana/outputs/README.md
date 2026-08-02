@@ -38,7 +38,10 @@ node --check deck-data.js
 Browser validation covers manual and mocked-provider readings, all five
 reflection depths, text/voice glow, TTS retry, card-turn and reflection geometry,
 audio transport, final synthesis restoration, drawers/focus, reduced motion,
-privacy/storage, and 320-pixel rendering.
+privacy/storage, and 320-pixel rendering. Per-card AI interpretation arrives
+automatically in a shallow sliding top stage; manual Card reflection remains
+click-only. Setup and the active OpenAI drawer also provide editable deep-question
+presets.
 
 ## Limitations
 

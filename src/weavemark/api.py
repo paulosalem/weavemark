@@ -240,6 +240,7 @@ async def execute_text(
     resolved_runtime_config.protection = compiled.protection
     resolved_runtime_config.execution_variables = dict(merged_variables)
 
+    settings = load_weavemark_settings(_resolve_base_dir(base_dir)).settings
     resolved_engine, engine_name = _resolve_execution_engine(
         engine,
         resolved_runtime_config,
@@ -248,9 +249,13 @@ async def execute_text(
         or new_client(
             model=resolved_runtime_config.model or effective_options.model,
             protection=compiled.protection,
-            logging_settings=load_weavemark_settings(
-                _resolve_base_dir(base_dir)
-            ).settings.logging,
+            logging_settings=settings.logging,
+            cache_settings=settings.cache,
+            on_cache_hit=(
+                (lambda data: on_event("local_cache_hit", data))
+                if on_event is not None
+                else None
+            ),
         ),
     )
     execution = await call_engine_execute(

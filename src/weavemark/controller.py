@@ -889,6 +889,12 @@ class WeaveMarkController:
                 model=self.config.model,
                 protection=protection,
                 logging_settings=settings_result.settings.logging,
+                cache_settings=settings_result.settings.cache,
+                on_cache_hit=(
+                    (lambda data: on_event("local_cache_hit", data))
+                    if on_event is not None
+                    else None
+                ),
             )
         client, recorder = create_compilation_client(live_client, provenance)
         validate_replay_context(

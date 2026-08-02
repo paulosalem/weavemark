@@ -112,16 +112,28 @@ def test_bundled_library_replays_are_strictly_offline(
         text=True,
         check=False,
     )
-    result_path = (
+    replay_path = (
         ROOT
         / "promplets"
         / "replays"
         / "catalog"
         / collection
         / target
-        / "result.json"
     )
-    expected = json.loads(result_path.read_text(encoding="utf-8"))["composed_prompt"]
+    manifest = json.loads((replay_path / "manifest.json").read_text(encoding="utf-8"))
+    original_run = manifest.get("original_run", {})
+    if original_run.get("artifacts"):
+        primary_output = original_run["primary_output"]
+        artifact = next(
+            item
+            for item in original_run["artifacts"]
+            if item["path"] == primary_output
+        )
+        expected = (replay_path / artifact["bundle_path"]).read_text(encoding="utf-8")
+    else:
+        expected = json.loads(
+            (replay_path / "result.json").read_text(encoding="utf-8")
+        )["composed_prompt"]
 
     assert completed.returncode == 0, completed.stderr
     assert completed.stdout.rstrip() == expected
@@ -131,7 +143,7 @@ def test_bundled_library_replays_are_strictly_offline(
 def test_market_replay_verbose_writes_output_and_original_run_stats(
     tmp_path: Path,
 ) -> None:
-    output = tmp_path / "vale3-market-prompt.md"
+    output = tmp_path / "vale3-market-report.md"
     completed = subprocess.run(
         [
             sys.executable,
@@ -152,9 +164,11 @@ def test_market_replay_verbose_writes_output_and_original_run_stats(
 
     assert completed.returncode == 0, completed.stderr
     assert output.is_file()
-    assert "# Executable Market Learning Snapshot" in output.read_text(
+    assert "# Vale S.A. (VALE3.SA) — Market-Learning Brief" in output.read_text(
         encoding="utf-8"
     )
+    assert (tmp_path / "execution-trace.md").is_file()
+    assert (tmp_path / "market-dashboard.html").is_file()
     rendered = " ".join((completed.stdout + completed.stderr).split())
     for statistic in (
         "Recorded input",
@@ -246,3 +260,131 @@ def test_replay_open_publishes_a_real_artifact_without_an_output_path(
     artifact = Path(opened[0].removeprefix("file://"))
     assert artifact.is_file()
     assert artifact.read_text(encoding="utf-8").strip()
+    if target == "market-snapshot":
+        assert artifact.name == "market-dashboard.html"
+        assert "VALE3 Market Learning Dashboard" in artifact.read_text(
+            encoding="utf-8"
+        )
+        assert (artifact.parent / "execution-output.md").is_file()
+        assert (artifact.parent / "execution-trace.md").is_file()
+
+
+def test_direct_replay_run_restores_and_opens_the_recorded_dashboard() -> None:
+    replay = (
+        ROOT
+        / "promplets"
+        / "replays"
+        / "catalog"
+        / "executable"
+        / "market-snapshot"
+    )
+    env = {**os.environ, "BROWSER": "echo"}
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "weavemark.launcher",
+            str(
+                ROOT
+                / "promplets"
+                / "catalog"
+                / "executable"
+                / "market-snapshot.weavemark.md"
+            ),
+            "--replay-run",
+            str(replay),
+            "--vars-file",
+            str(replay / "inputs.json"),
+            "--model",
+            "gpt-5.6-terra",
+            "--open",
+        ],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    rendered = completed.stdout + completed.stderr
+    assert completed.returncode == 0, rendered
+    assert "market-dashboard.html" in rendered
+    assert "# Executable Market Learning Snapshot" not in completed.stdout
+
+
+def test_complete_replay_rejects_format_overrides() -> None:
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "weavemark.launcher",
+            "library",
+            "market-snapshot",
+            "--replay",
+            "--format",
+            "json",
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert completed.returncode == 2
+    assert "--format cannot reformat exact recorded-run artifacts" in completed.stderr
+
+
+def test_complete_replay_rejects_output_collisions(tmp_path: Path) -> None:
+    output = tmp_path / "market-dashboard.html"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "weavemark.launcher",
+            "library",
+            "market-snapshot",
+            "--replay",
+            "--output",
+            str(output),
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert completed.returncode == 1
+    assert "resolve to the same output path" in completed.stderr
+    assert not output.exists()
+
+
+def test_complete_replay_rejects_symlinks_outside_output_root(
+    tmp_path: Path,
+) -> None:
+    output_dir = tmp_path / "out"
+    output_dir.mkdir()
+    outside = tmp_path / "outside.html"
+    outside.write_text("do not overwrite", encoding="utf-8")
+    (output_dir / "market-dashboard.html").symlink_to(outside)
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "weavemark.launcher",
+            "library",
+            "market-snapshot",
+            "--replay",
+            "--output-dir",
+            str(output_dir),
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert completed.returncode == 1
+    assert "destination escapes the selected output directory" in completed.stderr
+    assert outside.read_text(encoding="utf-8") == "do not overwrite"
+    assert not (output_dir / "execution-output.md").exists()

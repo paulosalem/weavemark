@@ -5,8 +5,10 @@
 ### Added
 
 - `weavemark library NAME --replay` discovers a bundled strict-offline
-  compilation recording, restores its synthetic inputs and recorded model, and
-  prints the validated compiled artifact without provider credentials.
+  recording, restores its synthetic inputs and recorded model, validates
+  compilation, and can restore retained final-run artifacts. Market Snapshot
+  replay reproduces its executed report, trace, and standalone HTML dashboard
+  without provider credentials or network access.
 - Public VALE3 Market Snapshot and AI Kanban replay bundles, a 1200x630 social
   preview, and site discovery files (`robots.txt`, `sitemap.xml`, and
   `llms.txt`).

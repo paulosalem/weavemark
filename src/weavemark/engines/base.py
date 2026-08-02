@@ -111,6 +111,9 @@ async def render_image(
     """
 
     call_kwargs = dict(kwargs)
+    cache_config = getattr(client, "local_cache", None)
+    if cache_config is not None and cache_config.cache_images:
+        call_kwargs.setdefault("response_format", "b64_json")
     if edit_files:
         call_kwargs.pop("style", None)
         response = await client.edit_image(

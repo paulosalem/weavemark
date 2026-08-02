@@ -12,17 +12,19 @@ ROOT = Path(__file__).parents[1]
 
 def test_readme_leads_with_three_complete_proof_paths() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    first_half = "\n".join(readme.splitlines()[:150])
+    first_half = " ".join(readme.splitlines()[:150])
 
     for artifact in (
         "demos/orion-storybook/",
         "demos/ai-kanban/",
+        "demos/arcana/",
         "market-dashboard.html",
     ):
         assert artifact in first_half
     for preview in (
         "docs/tutorial-storybook-page.jpg",
         "docs/showcase-ai-kanban.jpg",
+        "docs/showcase-arcana.jpg",
         "docs/showcase-market-report.jpg",
     ):
         assert preview in first_half
@@ -80,6 +82,28 @@ def test_home_hero_keeps_autorotation() -> None:
     assert "window.setInterval(() => showSlide(activeIndex + 1), 6500)" in home
 
 
+def test_home_directives_and_artifact_paths_are_visually_scannable() -> None:
+    home = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    css = (ROOT / "docs" / "site.css").read_text(encoding="utf-8")
+
+    for selector in (
+        ".directive-map .syntax-directive",
+        ".directive-map .syntax-var",
+        ".directive-map .syntax-key",
+        ".directive-map .syntax-string",
+    ):
+        assert selector in css
+
+    assert home.count('class="build-links"') == 3
+    for label in (
+        "Read the source promplet",
+        "Follow the AI Kanban tutorial",
+        "Open the live browser app",
+        "Read the executable promplet",
+    ):
+        assert label in home
+
+
 def test_home_preserves_principles_and_explains_replay_before_claiming_it() -> None:
     home = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
     hero = home[: home.index("</header>")]
@@ -91,10 +115,11 @@ def test_home_preserves_principles_and_explains_replay_before_claiming_it() -> N
     assert "no API key" not in hero
     assert "No API key" not in hero
     assert "--replay" in hero
-    assert home.index("What it gives you") < home.index("Re-run a recorded")
-    assert home.index("Start here") < home.index("Re-run a recorded")
-    assert "it needs no API key and makes no network" in home
-    assert "still needs a model provider" in home
+    assert home.index("What it gives you") < home.index("Restore a complete recorded")
+    assert home.index("Start here") < home.index("Restore a complete recorded")
+    assert "does not call" in home
+    assert "A fresh run still needs a model" in home
+    assert "market-dashboard.html" in home
 
     assert "weavemark library market-snapshot --replay --verbose" in home
     assert "Can an LLM sensibly act as a compiler" not in home

@@ -9,14 +9,16 @@ with SHA-256 hash invalidation so only new/changed specs are re-analyzed.
 from __future__ import annotations
 
 import json
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Callable, Dict, List, Optional
+from datetime import UTC, datetime
+from typing import Any
 
+from weavemark.cache_policy import CacheSettings
 from weavemark.defaults import DEFAULT_MODEL
 from weavemark.discovery.catalog import SpecEntry
 from weavemark.discovery.config import GLOBAL_DIR
+from weavemark.logging_policy import LoggingSettings
 
 CACHE_FILE = GLOBAL_DIR / "catalog-cache.json"
 DEFAULT_ANALYZE_CHUNK_SIZE = 32000
@@ -43,15 +45,15 @@ class SpecMetadataEntry:
     title: str
     summary: str = ""
     category: str = "general"
-    tags: List[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
     difficulty: str = "intermediate"
-    variables: List[str] = field(default_factory=list)
-    execution_strategy: Optional[str] = None
+    variables: list[str] = field(default_factory=list)
+    execution_strategy: str | None = None
     has_tools: bool = False
     computed_at: str = ""
 
 
-def _load_cache() -> Dict[str, Dict[str, Any]]:
+def _load_cache() -> dict[str, dict[str, Any]]:
     """Load the cache file, returning {} if missing or corrupt."""
     if not CACHE_FILE.is_file():
         return {}
@@ -68,7 +70,7 @@ def _load_cache() -> Dict[str, Dict[str, Any]]:
     }
 
 
-def _save_cache(cache: Dict[str, Dict[str, Any]]) -> None:
+def _save_cache(cache: dict[str, dict[str, Any]]) -> None:
     """Write the cache file, creating the directory if needed."""
     GLOBAL_DIR.mkdir(parents=True, exist_ok=True)
     CACHE_FILE.write_text(
@@ -77,7 +79,7 @@ def _save_cache(cache: Dict[str, Dict[str, Any]]) -> None:
     )
 
 
-def _is_cached(cache: Dict[str, Dict[str, Any]], entry: SpecEntry) -> bool:
+def _is_cached(cache: dict[str, dict[str, Any]], entry: SpecEntry) -> bool:
     """Check if a spec is cached with a matching hash."""
     key = str(entry.path)
     if key not in cache:
@@ -88,13 +90,19 @@ def _is_cached(cache: Dict[str, Dict[str, Any]], entry: SpecEntry) -> bool:
 async def _analyze_spec(
     entry: SpecEntry,
     model: str = DEFAULT_MODEL,
+    logging_settings: LoggingSettings | None = None,
+    cache_settings: CacheSettings | None = None,
 ) -> SpecMetadataEntry:
     """Use the LLM to analyze a raw spec and produce metadata."""
     import warnings
 
     from weavemark.logging_setup import new_client
 
-    client = new_client(model=model)
+    client = new_client(
+        model=model,
+        logging_settings=logging_settings,
+        cache_settings=cache_settings,
+    )
 
     # Truncate very long specs to save tokens while preserving enough
     # structure and instructions for accurate classification.
@@ -135,16 +143,18 @@ async def _analyze_spec(
         variables=entry.variables,
         execution_strategy=entry.execution_strategy,
         has_tools=entry.has_tools,
-        computed_at=datetime.now(timezone.utc).isoformat(),
+        computed_at=datetime.now(UTC).isoformat(),
     )
 
 
 async def ensure_metadata(
-    entries: List[SpecEntry],
+    entries: list[SpecEntry],
     model: str = DEFAULT_MODEL,
-    on_progress: Optional[Callable[[int, int, str], None]] = None,
-    on_error: Optional[Callable[[Exception], None]] = None,
-) -> Dict[str, SpecMetadataEntry]:
+    on_progress: Callable[[int, int, str], None] | None = None,
+    on_error: Callable[[Exception], None] | None = None,
+    logging_settings: LoggingSettings | None = None,
+    cache_settings: CacheSettings | None = None,
+) -> dict[str, SpecMetadataEntry]:
     """Ensure all specs have up-to-date LLM metadata, computing as needed.
 
     Parameters
@@ -163,8 +173,8 @@ async def ensure_metadata(
     dict mapping file path (str) to SpecMetadataEntry
     """
     cache = _load_cache()
-    result: Dict[str, SpecMetadataEntry] = {}
-    to_analyze: List[SpecEntry] = []
+    result: dict[str, SpecMetadataEntry] = {}
+    to_analyze: list[SpecEntry] = []
 
     # Separate cached vs. needing analysis
     progress_idx = 0
@@ -201,7 +211,12 @@ async def ensure_metadata(
                 on_progress(progress_idx + 1, len(entries), entry.title)
             if analysis_error is None:
                 try:
-                    meta = await _analyze_spec(entry, model=model)
+                    meta = await _analyze_spec(
+                        entry,
+                        model=model,
+                        logging_settings=logging_settings,
+                        cache_settings=cache_settings,
+                    )
                 except (LLMError, OSError, ValueError) as exc:
                     analysis_error = exc
                     cacheable = False
@@ -213,7 +228,7 @@ async def ensure_metadata(
                         variables=entry.variables,
                         execution_strategy=entry.execution_strategy,
                         has_tools=entry.has_tools,
-                        computed_at=datetime.now(timezone.utc).isoformat(),
+                        computed_at=datetime.now(UTC).isoformat(),
                     )
             else:
                 cacheable = False
@@ -223,7 +238,7 @@ async def ensure_metadata(
                     variables=entry.variables,
                     execution_strategy=entry.execution_strategy,
                     has_tools=entry.has_tools,
-                    computed_at=datetime.now(timezone.utc).isoformat(),
+                    computed_at=datetime.now(UTC).isoformat(),
                 )
             key = str(entry.path)
             result[key] = meta

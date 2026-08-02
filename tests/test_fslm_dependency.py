@@ -12,7 +12,7 @@ def test_ellements_dependency_requires_first_fslm_release() -> None:
     )
     dependencies = pyproject["project"]["dependencies"]
 
-    assert "ellements[cli,execution,fslm]>=0.2.0,<0.3" in dependencies
+    assert "ellements[cli,execution,fslm]>=0.2.1,<0.3" in dependencies
 
 
 def test_lm_eval_is_confined_to_the_benchmarking_extra() -> None:

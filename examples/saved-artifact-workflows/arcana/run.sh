@@ -50,29 +50,29 @@ is_hydrated_png() {
   [[ "$signature" == "89504e470d0a1a0a" ]]
 }
 
+non_prototype_count() {
+  jq -er '.deck.production.non_prototype_count
+           | select(type == "number" and . >= 1)
+           | floor' "$VARS"
+}
+
 png_artifacts_complete() {
-  local non_prototype_count index
-  non_prototype_count="$(
-    sed -n 's/.*"non_prototype_count": \([0-9][0-9]*\).*/\1/p' "$VARS" |
-      head -n 1
-  )"
-  [[ -n "$non_prototype_count" ]]
+  local count index
+  count="$(non_prototype_count)"
+  [[ -n "$count" ]]
   [[ -s "$OUT/deck-data.js" ]]
   is_hydrated_png "$OUT/assets/cards/prototype.png"
   is_hydrated_png "$OUT/assets/card-back.png"
-  for ((index = 1; index <= non_prototype_count; index++)); do
+  for ((index = 1; index <= count; index++)); do
     is_hydrated_png "$OUT/assets/cards/card-$index.png"
   done
 }
 
 hash_artifact_files() {
-  local non_prototype_count index
-  non_prototype_count="$(
-    sed -n 's/.*"non_prototype_count": \([0-9][0-9]*\).*/\1/p' "$VARS" |
-      head -n 1
-  )"
+  local count index
+  count="$(non_prototype_count)"
   local files=("assets/cards/prototype.png")
-  for ((index = 1; index <= non_prototype_count; index++)); do
+  for ((index = 1; index <= count; index++)); do
     files+=("assets/cards/card-$index.png")
   done
   files+=("assets/card-back.png")

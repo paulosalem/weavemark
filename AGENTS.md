@@ -141,6 +141,32 @@ Verify factual claims against the authoritative source rather than against older
 prose, and prefer running the command to confirm documented behavior. A change
 that leaves these manuals stale is incomplete.
 
+## Agentic regression checklist (MUST be applied and maintained)
+
+`AGENTIC_REGRESSION_CHECKLIST.md` is the mandatory regression rubric distilled
+from failures and corrections encountered while developing WeaveMark, its
+examples, documentation, generated applications, website, and release process.
+
+For every non-trivial change or audit:
+
+1. Read all 60 rubrics before changing files or finalizing the audit.
+2. Perform an applicability scan across all rubrics. Consider downstream
+   surfaces, not only the files directly edited.
+3. Validate every applicable rubric with concrete evidence such as tests,
+   commands, package inspection, generated-artifact inspection, or live visual
+   validation.
+4. Treat a rubric as `NOT APPLICABLE` only with a concrete reason. Report any
+   applicable rubric that remains failed, deferred, or unverified.
+5. Do not declare the task complete merely because targeted tests pass if an
+   affected rubric requires broader behavioral, documentation, artifact,
+   visual, package, or release verification.
+
+The checklist is a living engineering control. Whenever a fix reveals a new
+reusable failure mode, a stronger correction, a better diagnostic procedure, or
+a more precise pass condition, update `AGENTIC_REGRESSION_CHECKLIST.md` in the
+same change. Merge overlap instead of accumulating duplicates, and do not remove
+or weaken a rubric merely because the current implementation passes it.
+
 ## HTML documentation syntax highlighting
 
 - In HTML documentation under `docs/`, every code snippet that shows WeaveMark

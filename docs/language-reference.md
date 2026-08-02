@@ -34,7 +34,7 @@ A promplet is UTF-8 text. A line is a **directive line** iff its first
 non-whitespace token matches `@IDENT` and the line begins a logical line.
 Otherwise it is a **content line** and passes through as prose.
 
-```
+```ebnf
 IDENT       ::= /[A-Za-z_][A-Za-z0-9_.\-]*/
 bareword    ::= /[A-Za-z0-9_./%\-]+/
 PATH_TOKEN  ::= /[A-Za-z0-9_./~+\-]+/
@@ -285,6 +285,13 @@ Built-in strategies: `single-call`, `self-consistency`, `tree-of-thought`,
 
 Execution occurs only under `--run`. Compilation alone never runs an engine,
 never calls a bound program, and never performs a declared effect.
+
+Replay is a Processor operation, not a language construct. A replay bundle may
+retain the final artifacts from an earlier `--run`; replay verifies those bytes
+and restores them when an artifact destination is requested, but does not
+re-evaluate `@execute`, call `@bind` capabilities, or perform package effects.
+The source language therefore keeps the same execution boundary during live
+compilation and replay.
 
 ### 7.7 Finite-state machines
 

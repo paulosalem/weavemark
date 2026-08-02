@@ -73,6 +73,21 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
         assert (replay / "manifest.json").is_file()
         assert (replay / "calls.jsonl").is_file()
         assert (replay / "result.json").is_file()
+    market_run = (
+        destination
+        / "promplets"
+        / "replays"
+        / "catalog"
+        / "executable"
+        / "market-snapshot"
+        / "run-artifacts"
+    )
+    for artifact in (
+        "execution-output.md",
+        "execution-trace.md",
+        "market-dashboard.html",
+    ):
+        assert (market_run / artifact).is_file()
     assert not (destination / "demos" / "orbital-drift").exists()
     assert not (destination / "demos" / "transit-city-swarm").exists()
     assert (destination / "demos" / "ai-kanban" / "index.html").is_file()
@@ -178,7 +193,7 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
     )
     assert 'href="../demos/orion-storybook/" data-live-demo="orion-storybook"' in home_html
     assert 'href="../demos/arcana/" data-live-demo="arcana"' in home_html
-    assert "Fifty-five generated illustrated cards" in home_html
+    assert ">Arcana</a>" in home_html
     assert "weavemark library market-snapshot --replay --verbose" in home_html
     assert 'data-result-href="../demos/orion-storybook/"' in home_html
     assert 'data-result-href="../demos/ai-kanban/"' in home_html
@@ -241,16 +256,17 @@ def test_arcana_live_demo_is_published_independently(tmp_path: Path) -> None:
     assert (demo / "assets" / "card-back.png").is_file()
     assert (demo / "assets" / "cards" / "prototype.png").is_file()
     assert (demo / "assets" / "cards" / "card-54.png").is_file()
+    assert not (
+        destination
+        / "examples"
+        / "saved-artifact-workflows"
+        / "arcana"
+        / "outputs"
+        / "index.html"
+    ).exists()
     home = (destination / "docs" / "index.html").read_text(encoding="utf-8")
     assert 'href="../demos/arcana/" data-live-demo="arcana"' in home
-    assert (
-        "github.com/paulosalem/weavemark/blob/main/"
-        "promplets/catalog/arcana/app.weavemark.md?plain=1"
-    ) in home
-    assert (
-        "github.com/paulosalem/weavemark/blob/main/"
-        "promplets/catalog/arcana/cards.weavemark.md?plain=1"
-    ) in home
+    assert ">Arcana</a>" in home
 
 
 def test_all_tutorial_source_links_resolve_to_github(tmp_path: Path) -> None:

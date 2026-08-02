@@ -10,10 +10,13 @@ to a pluggable ``ChatUI`` callback.
 
 from __future__ import annotations
 
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
-from typing import Any, Awaitable, Callable, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 
+from weavemark.cache_policy import CacheSettings
 from weavemark.defaults import DEFAULT_MODEL
+from weavemark.logging_policy import LoggingSettings
 
 
 class ChatUI(Protocol):
@@ -23,7 +26,7 @@ class ChatUI(Protocol):
         """Display an assistant message."""
         ...
 
-    def show_tool_call(self, name: str, args: Dict[str, Any]) -> None:
+    def show_tool_call(self, name: str, args: dict[str, Any]) -> None:
         """Display a tool call notification."""
         ...
 
@@ -61,13 +64,15 @@ class ChatEngine:
     """
 
     system_prompt: str
-    tools: List[Dict[str, Any]]
-    tool_executor: Callable[[str, Dict[str, Any]], Awaitable[str]]
+    tools: list[dict[str, Any]]
+    tool_executor: Callable[[str, dict[str, Any]], Awaitable[str]]
     ui: Any  # ChatUI protocol
     model: str = DEFAULT_MODEL
-    history: List[Dict[str, Any]] = field(default_factory=list)
+    history: list[dict[str, Any]] = field(default_factory=list)
+    logging_settings: LoggingSettings | None = None
+    cache_settings: CacheSettings | None = None
 
-    async def run(self) -> Optional[str]:
+    async def run(self) -> str | None:
         """Run the chat loop until the user quits or a tool signals exit.
 
         Returns
@@ -80,7 +85,11 @@ class ChatEngine:
 
         from weavemark.logging_setup import new_client
 
-        client = new_client(model=self.model)
+        client = new_client(
+            model=self.model,
+            logging_settings=self.logging_settings,
+            cache_settings=self.cache_settings,
+        )
 
         # Initialize with system prompt
         if not self.history:
@@ -120,7 +129,7 @@ class ChatEngine:
 
         return None
 
-    async def _wrapped_executor(self, name: str, args: Dict[str, Any]) -> str:
+    async def _wrapped_executor(self, name: str, args: dict[str, Any]) -> str:
         """Wrap the tool executor to show tool calls in the UI."""
         self.ui.show_tool_call(name, args)
         return await self.tool_executor(name, args)

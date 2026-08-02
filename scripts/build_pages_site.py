@@ -340,6 +340,10 @@ def validate_site(destination: Path) -> list[str]:
 
 
 def _is_public_path(relative: Path) -> bool:
+    if relative.as_posix() == (
+        "examples/saved-artifact-workflows/arcana/outputs/index.html"
+    ):
+        return False
     if (
         relative.parts
         and relative.parts[0] == "examples"

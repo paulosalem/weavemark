@@ -86,6 +86,10 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
     for marker in (
         "Enter without the OpenAI guide?",
         "reflection-trigger",
+        "question-preset",
+        "ai-stage",
+        "Close interpretation",
+        "magic-orbit",
         "media-transport",
         "class DeckRepository",
         "class OpenAIClient",
@@ -99,6 +103,17 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
     assert "Math.random(" not in html
     assert "Draw next" not in html
     assert "Reveal all" not in html
+    assert "overflow-x:clip" in html
+    assert "stage.contains(document.activeElement)" in html
+    assert (
+        ".position.ai-stage-owner.ai-stage-overlap "
+        ".reflection-trigger{display:block"
+    ) in html
+    reflection_source = html.split("renderReflection(){", 1)[1].split(
+        "refreshReflection(", 1
+    )[0]
+    assert "Optional OpenAI reflection" not in reflection_source
+    assert "item.ai" not in reflection_source
     readme_text = " ".join(
         (outputs / "README.md").read_text(encoding="utf-8").split()
     )

@@ -780,6 +780,15 @@ wheels = [
 ]
 
 [[package]]
+name = "diskcache"
+version = "5.6.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/3f/21/1c1ffc1a039ddcc459db43cc108658f32c57d271d7289a2794e401d0fdb6/diskcache-5.6.3.tar.gz", hash = "sha256:2c3a3fa2743d8535d832ec61c2054a1641f41775aa7c556758a109941e33e4fc", size = 67916, upload-time = "2023-08-31T06:12:00.316Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3f/27/4570e78fc0bf5ea0ca45eb1de3818a23787af9b390c0b0a0033a1b8236f9/diskcache-5.6.3-py3-none-any.whl", hash = "sha256:5e31b2d5fbad117cc363ebaf6b689474db18a1f6438bc82358b024abd4c2ca19", size = 45550, upload-time = "2023-08-31T06:11:58.822Z" },
+]
+
+[[package]]
 name = "distro"
 version = "1.9.0"
 source = { registry = "https://pypi.org/simple" }
@@ -804,10 +813,11 @@ wheels = [
 
 [[package]]
 name = "ellements"
-version = "0.2.0"
+version = "0.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "chevron" },
+    { name = "diskcache" },
     { name = "litellm" },
     { name = "pydantic" },
     { name = "pyyaml" },
@@ -815,9 +825,9 @@ dependencies = [
     { name = "tiktoken" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/55/35/6e5e0f1f3361cb60025e8933b1156305a2a005244b1b763ff33b39f57a08/ellements-0.2.0.tar.gz", hash = "sha256:fba2af88e2fca0ce30341da8dc340d2a311a89f02b1be714c4de11b87af60c97", size = 1020357, upload-time = "2026-07-17T23:52:11.566Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/36/fe/04fd5f456485f34321e7085abe25f7352cb6ddcb99a418cb04e18b62ca98/ellements-0.2.1.tar.gz", hash = "sha256:51f8c3ba9d5e020773119a0f3e258e2827d98a5ab9e283e7457e0649b7d736cb", size = 1022110, upload-time = "2026-08-02T12:16:37.799Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1a/8e/b856c2dd1a41909c18c0119890b333a69464fe79f9f1fff502ffabece39e/ellements-0.2.0-py3-none-any.whl", hash = "sha256:6e0cebeaa9080c5feddee835e29e82b4162744dc3b56fa6288a95adca80b9e12", size = 253864, upload-time = "2026-07-17T23:52:09.301Z" },
+    { url = "https://files.pythonhosted.org/packages/60/39/6f4e6d87bdcc1a8d17edaedae708fa50c081975c866eeef0a974f36e37d8/ellements-0.2.1-py3-none-any.whl", hash = "sha256:d90a8dff1509e92479590c12617b5bef8cc566edcd6edfb294a62613c3583a05", size = 256648, upload-time = "2026-08-02T12:16:35.72Z" },
 ]
 
 [package.optional-dependencies]
@@ -947,15 +957,6 @@ version = "25.12.19"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e8/2d/d2a548598be01649e2d46231d151a6c56d10b964d94043a335ae56ea2d92/flatbuffers-25.12.19-py2.py3-none-any.whl", hash = "sha256:7634f50c427838bb021c2d66a3d1168e9d199b0607e6329399f04846d42e20b4", size = 26661, upload-time = "2025-12-19T23:16:13.622Z" },
-]
-
-[[package]]
-name = "frozendict"
-version = "2.4.7"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/90/b2/2a3d1374b7780999d3184e171e25439a8358c47b481f68be883c14086b4c/frozendict-2.4.7.tar.gz", hash = "sha256:e478fb2a1391a56c8a6e10cc97c4a9002b410ecd1ac28c18d780661762e271bd", size = 317082, upload-time = "2025-11-11T22:40:14.251Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/38/74/f94141b38a51a553efef7f510fc213894161ae49b88bffd037f8d2a7cb2f/frozendict-2.4.7-py3-none-any.whl", hash = "sha256:972af65924ea25cf5b4d9326d549e69a9a4918d8a76a9d3a7cd174d98b237550", size = 16264, upload-time = "2025-11-11T22:40:12.836Z" },
 ]
 
 [[package]]
@@ -4158,7 +4159,7 @@ ui = [
 requires-dist = [
     { name = "black", marker = "extra == 'dev'", specifier = ">=23.0.0,<27" },
     { name = "ellements", extras = ["benchmarking"], marker = "extra == 'benchmarking'", specifier = ">=0.2.0,<0.3" },
-    { name = "ellements", extras = ["cli", "execution", "fslm"], specifier = ">=0.2.0,<0.3" },
+    { name = "ellements", extras = ["cli", "execution", "fslm"], specifier = ">=0.2.1,<0.3" },
     { name = "ellements", extras = ["finance", "web"], marker = "extra == 'examples'", specifier = ">=0.2.0,<0.3" },
     { name = "litellm", specifier = ">=1.83.0,<2" },
     { name = "markitdown", marker = "extra == 'convert'", specifier = ">=0.1.0,<0.2" },
@@ -4537,12 +4538,11 @@ wheels = [
 
 [[package]]
 name = "yfinance"
-version = "0.2.66"
+version = "1.5.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beautifulsoup4" },
     { name = "curl-cffi" },
-    { name = "frozendict" },
     { name = "multitasking" },
     { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "numpy", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
@@ -4554,9 +4554,9 @@ dependencies = [
     { name = "requests" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/59/73/50450b9906c5137d2d02fde6f7360865366c72baea1f8d0550cc990829ce/yfinance-0.2.66.tar.gz", hash = "sha256:fae354cc1649109444b2c84194724afcc52c2a7799551ce44c739424ded6af9c", size = 132820, upload-time = "2025-09-17T11:22:35.422Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/88/25/66da4c0063e7ca96f145861b6194b2b5244b488b997112869929422dc178/yfinance-1.5.2.tar.gz", hash = "sha256:5935d457fc62cf2f7e9bf1b2d019a8fec8fb0072f58a095eb53740b70a6a06ed", size = 167938, upload-time = "2026-07-23T19:16:31.584Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/16/bf/7c0c89ff8ba53592b9cb5157f70e90d8bbb04d60094fc4f10035e158b981/yfinance-0.2.66-py2.py3-none-any.whl", hash = "sha256:511a1a40a687f277aae3a02543009a8aeaa292fce5509671f58915078aebb5c7", size = 123427, upload-time = "2025-09-17T11:22:33.972Z" },
+    { url = "https://files.pythonhosted.org/packages/d6/77/9549bf914e0de5b5ca15086cd3f31bf35d5a1e6bfb793196eb9c4c41baff/yfinance-1.5.2-py2.py3-none-any.whl", hash = "sha256:197fc03485c246547a5a9184956c60150ea33b6f740d877e02a97f123d5cd2b9", size = 144062, upload-time = "2026-07-23T19:16:30.201Z" },
 ]
 
 [[package]]

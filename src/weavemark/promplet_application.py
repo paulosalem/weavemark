@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .api import CompileOptions, compile_file, compile_text
+from .cache_policy import CacheSettings
 from .compilation.result import CompositionResult
 from .engines.base import ExecutionResult, RuntimeConfig
 from .engines.single_call import SingleCallEngine
@@ -98,6 +99,7 @@ async def apply_promplet(
     client: Any | None = None,
     protection: ProtectionContext | None = None,
     logging_settings: LoggingSettings | None = None,
+    cache_settings: CacheSettings | None = None,
 ) -> PrompletApplicationResult:
     """Compile reusable and/or inline instructions, then execute one semantic call."""
 
@@ -161,6 +163,7 @@ async def apply_promplet(
         model=model,
         protection=protection,
         logging_settings=logging_settings,
+        cache_settings=cache_settings,
     )
     execution = await SingleCallEngine(client=engine_client).execute(
         compiled,

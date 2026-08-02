@@ -44,7 +44,7 @@ jobs:
           git clone --quiet https://github.com/paulosalem/ellements.git \
             "$RUNNER_TEMP/ellements"
           git -C "$RUNNER_TEMP/ellements" checkout --quiet \
-            b46cc497a08b5090fbe7ba992a644be4b2eb5ab1
+            44741f3ef48217ad4934f7a0ae255d3d04c70b8d
 
       - name: Install package and release tools
         run: |
@@ -66,6 +66,9 @@ jobs:
             src/weavemark/version.py \
             src/weavemark/protection.py \
             src/weavemark/settings.py \
+            src/weavemark/cache_policy.py \
+            src/weavemark/cache_setup.py \
+            src/weavemark/replay_snapshot.py \
             src/weavemark/logging_policy.py \
             src/weavemark/logging_setup.py \
             src/weavemark/usage_tracking.py \
@@ -79,6 +82,8 @@ jobs:
             tests/test_diagnostics.py \
             tests/test_reference_authority.py \
             tests/test_repository_hygiene.py \
+            tests/test_cache_policy.py \
+            tests/test_replay_snapshot.py \
             tests/test_logging_policy.py \
             tests/test_logging_setup.py \
             tests/test_app_logging.py \
@@ -92,7 +97,7 @@ jobs:
 
       - name: Run focused MyPy checks
         run: |
-          export MYPYPATH="$RUNNER_TEMP/ellements/ellements-core/src:$RUNNER_TEMP/ellements/ellements-execution/src:$RUNNER_TEMP/ellements/ellements-fslm/src:$RUNNER_TEMP/ellements/ellements-cli/src"
+          export MYPYPATH="$RUNNER_TEMP/ellements:$RUNNER_TEMP/ellements/ellements-core/src:$RUNNER_TEMP/ellements/ellements-execution/src:$RUNNER_TEMP/ellements/ellements-fslm/src:$RUNNER_TEMP/ellements/ellements-cli/src"
           mypy --follow-imports=skip \
             src/weavemark/compilation/diagnostics.py \
             src/weavemark/compilation/result.py \
@@ -100,6 +105,9 @@ jobs:
             src/weavemark/version.py \
             src/weavemark/protection.py \
             src/weavemark/settings.py \
+            src/weavemark/cache_policy.py \
+            src/weavemark/cache_setup.py \
+            src/weavemark/replay_snapshot.py \
             src/weavemark/usage_tracking.py \
             src/weavemark/variable_files.py
           mypy --follow-imports=skip \
