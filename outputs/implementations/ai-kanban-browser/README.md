@@ -74,7 +74,11 @@ bootstrap file.
 - Archive mode imports/downloads a versioned JSON archive when connected
   folder access is unavailable. Referenced attachments and artifacts are
   preserved with validated paths, fingerprints, a 50 MB per-file limit, and the
-  250 MB total limit. Demo mode is visibly memory-only.
+  250 MB total limit.
+- Try demo offers a recommended real-workspace path that asks for a folder,
+  installs the agent bootstrap, and immediately fills the workspace with the
+  Personal Research board. The secondary in-memory path is explicitly temporary
+  and cannot be used by local agents.
 - Migration failures preserve the original input bytes in the Worker session
   and return typed recovery errors.
 - Workspace creation preflights every bootstrap path. Existing instruction

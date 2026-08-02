@@ -76,7 +76,8 @@ const saveQueue = new SerializedSaveQueue(persistWorkspace);
 const elements = Object.fromEntries(
   [
     "welcome", "application", "welcomeOpenButton", "welcomeCreateButton",
-    "demoButton", "browserSupportNote", "recentButton", "recentName",
+    "demoButton", "demoDialog", "demoFolderButton", "demoMemoryButton",
+    "demoFolderSupport", "browserSupportNote", "recentButton", "recentName",
     "workspaceName", "saveStatus", "connectionDot", "saveButton",
     "newCardButton", "agentButton", "agentStatusDot", "globalHandoffButton",
     "workspaceMenuButton", "workspaceMenu", "exportArchiveButton",
@@ -116,7 +117,12 @@ async function initialize() {
   if (!nativeFileSystemSupported) {
     elements.welcomeOpenButton.innerHTML = '<span aria-hidden="true">↥</span> Import Board Archive';
     elements.welcomeCreateButton.innerHTML = '<span aria-hidden="true">＋</span> Create Download-only Board';
+    elements.demoFolderButton.disabled = true;
+    elements.demoFolderSupport.textContent =
+      "This browser cannot create a connected folder workspace. Try in memory here, or use a Chromium browser for live local-agent integration.";
   } else {
+    elements.demoFolderSupport.textContent =
+      "You will choose an empty folder before anything is written.";
     const handle = await recentHandle().catch(() => null);
     if (handle) {
       elements.recentName.textContent = handle.name;
@@ -131,8 +137,10 @@ async function initialize() {
 
 function bindEvents() {
   elements.welcomeOpenButton.addEventListener("click", openWorkspace);
-  elements.welcomeCreateButton.addEventListener("click", createWorkspace);
-  elements.demoButton.addEventListener("click", openDemo);
+  elements.welcomeCreateButton.addEventListener("click", () => createWorkspace());
+  elements.demoButton.addEventListener("click", openDemoOptions);
+  elements.demoFolderButton.addEventListener("click", createConnectedDemo);
+  elements.demoMemoryButton.addEventListener("click", openMemoryDemo);
   elements.recentButton.addEventListener("click", reconnectWorkspace);
   elements.saveButton.addEventListener("click", () => saveNow());
   elements.newCardButton.addEventListener("click", () => openCardComposer());
@@ -320,10 +328,16 @@ async function openWorkspace() {
   }
 }
 
-async function createWorkspace() {
+async function createWorkspace({ demo = false, connectedOnly = false } = {}) {
   if (!(await prepareWorkspaceSwitch())) return;
   let creationLock = null;
   try {
+    if (connectedOnly && !nativeFileSystemSupported) {
+      throw typedError(
+        "CONNECTED_WORKSPACE_UNSUPPORTED",
+        "This browser cannot create a connected folder workspace. Try in memory or use a Chromium browser.",
+      );
+    }
     const workspace = nativeFileSystemSupported
       ? await FolderWorkspace.createNative()
       : new PortableWorkspace({ name: "New Board Workspace" });
@@ -369,6 +383,7 @@ async function createWorkspace() {
       bootstrapFiles,
       confirmedBootstrapReplacements,
       creationLock,
+      demo,
     });
     creationLock = null;
   } catch (error) {
@@ -378,7 +393,21 @@ async function createWorkspace() {
   }
 }
 
-async function openDemo() {
+function openDemoOptions() {
+  elements.demoDialog.showModal();
+  const preferred = nativeFileSystemSupported
+    ? elements.demoFolderButton
+    : elements.demoMemoryButton;
+  preferred.focus();
+}
+
+async function createConnectedDemo() {
+  elements.demoDialog.close();
+  await createWorkspace({ demo: true, connectedOnly: true });
+}
+
+async function openMemoryDemo() {
+  elements.demoDialog.close();
   if (!(await prepareWorkspaceSwitch())) return;
   await activateWorkspace(PortableWorkspace.demo(), { create: true, demo: true });
 }
@@ -504,9 +533,16 @@ async function activateWorkspace(
     if (workspace.mode === "connected") {
       setupCoordination();
       await inspectBootstrap();
+      if (demo && !state.readOnly) {
+        setWorkspaceAlert(
+          "Personal Research is ready in this folder. Start a compatible agent here whenever you want live AI collaboration.",
+          "info",
+          [["Start your agent", openAgentDialog]],
+        );
+      }
     } else if (workspace.mode === "memory-only") {
       setWorkspaceAlert(
-        "Demo workspace · memory only. Use Save to download a portable archive before closing.",
+        "Demo workspace · memory only. Local agents cannot read or update this board. Use Save to download a portable archive before closing.",
         "warning",
       );
     } else {
@@ -1939,6 +1975,7 @@ function renderAgentDialog() {
 }
 
 function updateAgentStatus() {
+  const connectedWorkspace = state.workspace?.mode === "connected";
   const label = agentStateLabel(state.agent);
   elements.agentStatusDot.dataset.state = !state.agent
     ? "waiting"
@@ -1947,7 +1984,9 @@ function updateAgentStatus() {
       : state.agent.current_turn_id
         ? "working"
         : "connected";
-  elements.agentButton.title = label;
+  elements.agentButton.title = connectedWorkspace
+    ? label
+    : "Local agent integration requires a connected folder workspace.";
   if (elements.agentDialog.open) renderAgentDialog();
 }
 
@@ -2758,6 +2797,8 @@ function updateChrome() {
   elements.connectionDot.dataset.state = dot;
   elements.saveButton.disabled = state.readOnly || state.saving;
   elements.newCardButton.disabled = state.readOnly;
+  const connectedWorkspace = state.workspace.mode === "connected";
+  elements.agentButton.disabled = !connectedWorkspace;
   elements.globalHandoffButton.disabled = state.detachedForAgent;
   elements.repairBootstrapButton.disabled =
     state.readOnly || !ownsWorkspaceLock();

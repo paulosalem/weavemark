@@ -14,6 +14,20 @@ always pairs an icon with “Needs you”; violet/teal always pairs an icon with
 AI status. The board remains the spatial overview while a large modal gives
 selected work enough room.
 
+## Demo workspace choice
+
+Try demo opens one focused choice instead of silently creating an ephemeral
+board. The preferred path asks the user for a folder, creates the complete Board
+Workspace there, installs the agent bootstrap, and immediately seeds the
+Personal Research cards. This path is labeled recommended because a compatible
+agent started in that folder can participate at once.
+
+The secondary path creates the same demo board purely in memory. Its copy states
+before activation that no folder or agent-readable workspace exists, local
+agents cannot interact with it, and an explicit archive export is required to
+keep changes. Unsupported browsers keep this option available while explaining
+why connected creation is disabled.
+
 ## Visual language
 
 - restrained navy for authority and primary action;
@@ -29,7 +43,8 @@ small radii, and sparse motion prioritize clarity over decoration.
 
 ## State-aware behavior
 
-- **First run:** local-data promise, three actions, support disclosure.
+- **First run:** local-data promise, three actions, support disclosure, and a
+  two-path demo choice with durable creation visually preferred.
 - **Quiet board:** useful invitation rather than empty columns competing.
 - **Active board:** attention counts, search, progressive filters, six columns.
 - **Detail:** Overview first; advanced history is one tab away.

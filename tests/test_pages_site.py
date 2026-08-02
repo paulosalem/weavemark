@@ -193,7 +193,29 @@ def test_pages_artifact_is_complete_and_excludes_lfs(tmp_path: Path) -> None:
     )
     assert 'href="../demos/orion-storybook/" data-live-demo="orion-storybook"' in home_html
     assert 'href="../demos/arcana/" data-live-demo="arcana"' in home_html
-    assert ">Arcana</a>" in home_html
+    assert '<img src="showcase-arcana.jpg"' in home_html
+    assert ">Reflection game</span>" in home_html
+    assert "Interactive reflection game" not in home_html
+    assert "<h3>Arcana</h3>" in home_html
+    assert ">Play Arcana</a>" in home_html
+    for icon in ("ic-code", "ic-cap", "ic-branch", "ic-doc"):
+        assert f'class="ic {icon}"' in home_html
+    assert 'aria-label="Cards source promplet"' in home_html
+    assert 'aria-label="App source promplet"' in home_html
+    assert (
+        "github.com/paulosalem/weavemark/blob/main/promplets/catalog/arcana/"
+        "cards.weavemark.md?plain=1"
+    ) in home_html
+    assert (
+        "github.com/paulosalem/weavemark/blob/main/promplets/catalog/arcana/"
+        "app.weavemark.md?plain=1"
+    ) in home_html
+    assert (
+        "github.com/paulosalem/weavemark/blob/main/examples/"
+        "saved-artifact-workflows/arcana/outputs/arcana-app-spec.md"
+        in home_html
+    )
+    assert ">Spec</a>" in home_html
     assert "weavemark library market-snapshot --replay --verbose" in home_html
     assert 'data-result-href="../demos/orion-storybook/"' in home_html
     assert 'data-result-href="../demos/ai-kanban/"' in home_html
@@ -266,7 +288,9 @@ def test_arcana_live_demo_is_published_independently(tmp_path: Path) -> None:
     ).exists()
     home = (destination / "docs" / "index.html").read_text(encoding="utf-8")
     assert 'href="../demos/arcana/" data-live-demo="arcana"' in home
-    assert ">Arcana</a>" in home
+    assert '<img src="showcase-arcana.jpg"' in home
+    assert "<h3>Arcana</h3>" in home
+    assert ">Play Arcana</a>" in home
 
 
 def test_all_tutorial_source_links_resolve_to_github(tmp_path: Path) -> None:

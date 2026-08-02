@@ -56,10 +56,19 @@ a calm, accessible cue until reviewed.
 
 ## Essential flows
 - First run: Open Board Workspace, Create Board Workspace, or Try demo without
-  misleading durability or permission language.
-- Quick start: instantly load a bundled Personal Research board with recurring
-  cards for a macroeconomic pulse, things to do with a four-year-old in São Paulo,
-  family trips, a collaborative vacation planner, and age-appropriate activities.
+  misleading durability or permission language. Try demo opens exactly two
+  explicit choices. Visually prefer Create a real demo workspace: invoke the same
+  folder picker and safety checks as normal creation, create the complete
+  folder-backed Board Workspace and agent bootstrap, and immediately seed it with
+  the Personal Research demo so compatible agents started there can interact at
+  once. The secondary Try in memory path creates no folder and must state before
+  activation that local agents cannot read or update it and that export is
+  required to retain changes. When folder access is unsupported, keep the
+  in-memory choice available and explain why durable demo creation is disabled.
+- Quick start: both demo paths instantly load the same bundled Personal Research
+  board with recurring cards for a macroeconomic pulse, things to do with a
+  four-year-old in São Paulo, family trips, a collaborative vacation planner, and
+  age-appropriate activities.
 - Vacation loop: the human edits candidate destinations and constraints in Inbox;
   Planning runs broad AI comparison and feedback rounds. A confirmed move to In
   Progress queues deep research of the chosen destination and dated itineraries;

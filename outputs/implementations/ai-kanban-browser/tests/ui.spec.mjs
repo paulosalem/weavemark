@@ -169,6 +169,23 @@ const installFakeWorkspace = async (page) => {
   });
 };
 
+const openMemoryDemo = async (page) => {
+  await page.getByRole("button", { name: "Try demo" }).click();
+  const dialog = page.getByRole("dialog", { name: "Choose how you want to begin." });
+  await expect(dialog.getByText("Recommended")).toBeVisible();
+  await expect(dialog.getByRole("button", {
+    name: /Create a real demo workspace/,
+  })).toBeVisible();
+  await dialog.getByRole("button", { name: /Try in memory/ }).click();
+  await expect(page.getByText(/Local agents cannot read or update this board/)).toBeVisible();
+  const agentControl = page.getByRole("button", { name: "Agent control" });
+  await expect(agentControl).toBeDisabled();
+  await expect(agentControl).toHaveAttribute(
+    "title",
+    "Local agent integration requires a connected folder workspace.",
+  );
+};
+
 test("first run is focused, accessible, and backend-honest", async ({ page }) => {
   const errors = [];
   page.on("console", (message) => {
@@ -210,7 +227,7 @@ test("directory creation lock serializes creators sharing a folder identity", as
 
 test("demo supports board, detail, decision, turn, filter, and handoff flows", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Try demo" }).click();
+  await openMemoryDemo(page);
   await expect(page.getByText("Demo workspace · memory only")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Macroeconomic pulse" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Choose our July family vacation" })).toBeVisible();
@@ -235,9 +252,43 @@ test("demo supports board, detail, decision, turn, filter, and handoff flows", a
   await expect(page.getByText("Cannot apply this packet")).toBeVisible();
 });
 
-test("direct-send review invalidates on every relevant change and clears on close", async ({ page }) => {
+test("recommended demo creates an immediately seeded agent-ready workspace", async ({ page }) => {
+  await installFakeWorkspace(page);
   await page.goto("/");
   await page.getByRole("button", { name: "Try demo" }).click();
+
+  const dialog = page.getByRole("dialog", { name: "Choose how you want to begin." });
+  const connectedChoice = dialog.getByRole("button", {
+    name: /Create a real demo workspace/,
+  });
+  await expect(connectedChoice).toBeFocused();
+  await expect(connectedChoice).toHaveClass(/demo-choice-preferred/);
+  await connectedChoice.click();
+
+  await expect(page.locator("#workspaceName")).toHaveText("Research Board");
+  await expect(page.locator("#saveStatus")).toContainText("read/write granted");
+  await expect(page.getByRole("heading", { name: "Macroeconomic pulse" })).toBeVisible();
+  await expect(page.getByRole("heading", {
+    name: "Choose our July family vacation",
+  })).toBeVisible();
+  await expect(page.getByText(/Personal Research is ready in this folder/)).toBeVisible();
+
+  const durable = await page.evaluate(async () => ({
+    manifest: JSON.parse(await window.__fakeReadText("manifest.json")),
+    boardSize: window.__fakeRoot.entries.get("board.sqlite").bytes.byteLength,
+    skill: await window.__fakeReadText(".agents/skills/ai-kanban/SKILL.md"),
+  }));
+  expect(durable.manifest.primary_state).toBe("board.sqlite");
+  expect(durable.boardSize).toBeGreaterThan(50_000);
+  expect(durable.skill).toContain("AI Kanban agent skill");
+
+  await page.getByRole("button", { name: "Start your agent" }).click();
+  await expect(page.getByRole("dialog", { name: "Agent control" })).toBeVisible();
+});
+
+test("direct-send review invalidates on every relevant change and clears on close", async ({ page }) => {
+  await page.goto("/");
+  await openMemoryDemo(page);
   await page.getByRole("button", { name: "AI handoff" }).click();
   await page.getByRole("tab", { name: "Direct send" }).click();
   await page.locator("#providerName").fill("Test provider");
@@ -292,7 +343,7 @@ test("image download preserves resolved bytes, MIME-derived extension, and not r
 
 test("card creation and keyboard movement preserve a usable board", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Try demo" }).click();
+  await openMemoryDemo(page);
   await page.getByRole("button", { name: "New card" }).click();
   await page.getByLabel("Title").fill("Keyboard movement check");
   await page.getByLabel("Intent and context").fill("Exercise the complete keyboard path.");
@@ -341,7 +392,7 @@ test("320px and reduced-motion modes retain controls without document overflow",
   await page.goto("/");
   await expect(page.getByRole("button", { name: "Try demo" })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
-  await page.getByRole("button", { name: "Try demo" }).click();
+  await openMemoryDemo(page);
   await expect(page.getByRole("button", { name: "New card" })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
   await page.getByRole("heading", { name: "Macroeconomic pulse" }).click();
@@ -354,7 +405,7 @@ test("320px and reduced-motion modes retain controls without document overflow",
 
 test("loaded app remains functional after the network goes offline", async ({ page, context }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Try demo" }).click();
+  await openMemoryDemo(page);
   await context.setOffline(true);
   await page.getByRole("button", { name: "New card" }).click();
   await page.getByLabel("Title").fill("Offline planning");
@@ -379,7 +430,7 @@ test("cross-tab save signals are connected-only and preserve dirty drafts", asyn
       nativeSetTimeout(callback, delay === 700 ? 10_000 : delay, ...arguments_);
   });
   await page.goto("/");
-  await page.getByRole("button", { name: "Try demo" }).click();
+  await openMemoryDemo(page);
   await page.getByRole("button", { name: "Save workspace" }).click();
   expect(await page.evaluate(() => window.__broadcastPosts)).toEqual([]);
   await page.getByRole("button", { name: "Workspace menu" }).click();
@@ -684,6 +735,13 @@ test("unsupported browsers receive explicit archive language", async ({ page }) 
   await expect(page.getByRole("button", { name: "Import Board Archive" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Create Download-only Board" })).toBeVisible();
   await expect(page.getByText(/portable archives instead/)).toBeVisible();
+  await page.getByRole("button", { name: "Try demo" }).click();
+  const dialog = page.getByRole("dialog", { name: "Choose how you want to begin." });
+  await expect(dialog.getByRole("button", {
+    name: /Create a real demo workspace/,
+  })).toBeDisabled();
+  await expect(dialog.getByText(/cannot create a connected folder workspace/)).toBeVisible();
+  await expect(dialog.getByRole("button", { name: /Try in memory/ })).toBeEnabled();
 });
 
 test("workspace creation preserves existing bootstrap files until explicitly confirmed", async ({ page }) => {
@@ -970,7 +1028,7 @@ test("handoff saves serialize and stale agents cannot trigger force recovery", a
 
 test("only complete or approved outputs are featured and publishable", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Try demo" }).click();
+  await openMemoryDemo(page);
   await page.getByRole("button", { name: "New card" }).click();
   await page.getByLabel("Title").fill("Output safety");
   await page.getByRole("button", { name: "Create card" }).click();
@@ -1002,7 +1060,7 @@ test("only complete or approved outputs are featured and publishable", async ({ 
 
 test("forgetting research memory leaves only a content-free tombstone", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Try demo" }).click();
+  await openMemoryDemo(page);
   await page.getByRole("heading", { name: "Macroeconomic pulse" }).click();
   await page.getByRole("tab", { name: "Memory" }).click();
   const memory = page.locator(".memory-card").filter({
@@ -1022,7 +1080,7 @@ test("forgetting research memory leaves only a content-free tombstone", async ({
 
 test("dependency removal works from the card workspace", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Try demo" }).click();
+  await openMemoryDemo(page);
   await page.locator(".kanban-card", {
     hasText: "Choose our July family vacation",
   }).click();

@@ -190,6 +190,50 @@
     <input id="archiveInput" type="file" accept=".json,.ai-kanban.json,application/json" hidden>
     <input id="packetFileInput" type="file" accept=".json,application/json" hidden>
 
+    <dialog id="demoDialog" class="dialog demo-dialog" aria-labelledby="demoTitle">
+      <div>
+        <header class="dialog-header">
+          <div>
+            <p class="eyebrow">Personal Research demo</p>
+            <h2 id="demoTitle">Choose how you want to begin.</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog aria-label="Close demo options">×</button>
+        </header>
+        <p class="demo-intro">
+          Both choices open the same ready-made research board. A real workspace
+          also gives local agents a folder they can read and update.
+        </p>
+        <div class="demo-choice-grid">
+          <button id="demoFolderButton" class="demo-choice demo-choice-preferred" type="button">
+            <span class="demo-choice-meta">
+              <span class="demo-recommended">Recommended</span>
+              <span>Folder-backed</span>
+            </span>
+            <strong>Create a real demo workspace</strong>
+            <span>
+              Choose a folder. AI Kanban creates the complete workspace, installs
+              its agent skill, and fills it with Personal Research cards now.
+            </span>
+            <span class="demo-choice-benefit"><i aria-hidden="true">✓</i> Ready for Copilot CLI, Claude Code, or another compatible agent</span>
+          </button>
+          <button id="demoMemoryButton" class="demo-choice" type="button">
+            <span class="demo-choice-meta"><span>Quick preview</span><span>Memory only</span></span>
+            <strong>Try in memory</strong>
+            <span>
+              Explore without choosing a folder. Local agents cannot read or
+              update this board, and you must export an archive to keep changes.
+            </span>
+            <span class="demo-choice-benefit demo-choice-limitation"><i aria-hidden="true">○</i> No live local-agent integration</span>
+          </button>
+        </div>
+        <p id="demoFolderSupport" class="demo-support-note" role="status"></p>
+        <footer class="dialog-footer">
+          <span class="dialog-spacer"></span>
+          <button class="button button-quiet" type="button" data-close-dialog>Cancel</button>
+        </footer>
+      </div>
+    </dialog>
+
     <dialog id="cardComposerDialog" class="dialog composer-dialog">
       <form id="cardComposerForm" method="dialog">
         <header class="dialog-header">
@@ -272,10 +316,10 @@
       </form>
     </dialog>
 
-    <dialog id="agentDialog" class="dialog agent-dialog">
+    <dialog id="agentDialog" class="dialog agent-dialog" aria-labelledby="agentDialogTitle">
       <div>
         <header class="dialog-header">
-          <div><p class="eyebrow">Cooperative writer baton</p><h2>Agent control</h2></div>
+          <div><p class="eyebrow">Cooperative writer baton</p><h2 id="agentDialogTitle">Agent control</h2></div>
           <button class="icon-button" type="button" data-close-dialog aria-label="Close agent control">×</button>
         </header>
         <section id="agentConnectionState" class="agent-connection-state"></section>

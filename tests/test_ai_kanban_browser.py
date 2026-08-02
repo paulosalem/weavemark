@@ -132,6 +132,8 @@ def test_ai_kanban_compiled_spec_matches_browser_delivery() -> None:
         "Web Worker",
         "import/download",
         "AIProviderAdapter",
+        "real demo workspace",
+        "local agents cannot read or update it",
         "outputs/implementations/ai-kanban-browser/",
     ):
         assert obligation in compiled
@@ -140,6 +142,26 @@ def test_ai_kanban_compiled_spec_matches_browser_delivery() -> None:
     assert "Write an implementation-ready specification" not in compiled
     assert "Return an implementation specification" not in compiled
     assert "final answer" not in compiled.casefold()
+
+
+def test_ai_kanban_demo_workspace_fix_is_preserved_in_source_and_output() -> None:
+    source = (
+        ROOT / "promplets/catalog/standalone/ai-kanban-board.weavemark.md"
+    ).read_text(encoding="utf-8")
+    implementation = "\n".join(
+        (APP / relative).read_text(encoding="utf-8")
+        for relative in ("index.html", "src/app.js")
+    )
+
+    for required in (
+        "Create a real demo workspace",
+        "Try in memory",
+        "local agents cannot read or update",
+        "Personal Research",
+    ):
+        assert required.casefold() in source.casefold()
+        assert required.casefold() in implementation.casefold()
+    assert "demo: true, connectedOnly: true" in implementation
 
 
 def test_ai_kanban_live_app_links_its_generation_path() -> None:

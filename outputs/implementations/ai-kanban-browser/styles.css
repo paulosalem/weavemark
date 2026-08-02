@@ -439,6 +439,40 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
 .dialog-footer { display: flex; align-items: center; gap: 0.5rem; margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
 .dialog-spacer { flex: 1; }
 
+.demo-dialog { width: min(820px, calc(100vw - 2rem)); }
+.demo-intro { max-width: 680px; margin: -0.2rem 0 1.1rem; color: var(--muted); line-height: 1.6; }
+.demo-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.demo-choice {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 0.72rem;
+  padding: 1.05rem;
+  color: var(--ink);
+  text-align: left;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+.demo-choice:hover { border-color: rgba(43, 111, 105, 0.42); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+.demo-choice:focus-visible { outline: 3px solid rgba(43, 111, 105, 0.25); outline-offset: 3px; }
+.demo-choice:disabled { cursor: not-allowed; filter: saturate(0.35); opacity: 0.58; transform: none; }
+.demo-choice-preferred {
+  background: linear-gradient(145deg, rgba(223, 239, 235, 0.78), rgba(255, 253, 248, 0.98));
+  border-color: rgba(43, 111, 105, 0.38);
+  box-shadow: 0 10px 28px rgba(23, 48, 56, 0.08);
+}
+.demo-choice-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.35rem; color: var(--muted); font-size: 0.61rem; font-weight: 760; letter-spacing: 0.055em; text-transform: uppercase; }
+.demo-recommended { padding: 0.22rem 0.42rem; color: var(--teal-700); background: var(--teal-100); border-radius: 999px; }
+.demo-choice strong { font: 560 1.35rem/1.08 Georgia, serif; letter-spacing: -0.025em; }
+.demo-choice > span:not(.demo-choice-meta) { color: var(--muted); font-size: 0.75rem; line-height: 1.55; }
+.demo-choice .demo-choice-benefit { display: flex; align-items: flex-start; gap: 0.42rem; margin-top: auto; color: var(--teal-700); font-weight: 740; }
+.demo-choice .demo-choice-limitation { color: #735637; }
+.demo-choice-benefit i { font-style: normal; }
+.demo-support-note { min-height: 1.2rem; margin: 0.8rem 0 0; color: var(--muted); font-size: 0.68rem; line-height: 1.45; }
+
 /* Card workspace */
 
 .detail-dialog { width: min(1120px, calc(100vw - 2rem)); max-width: none; height: min(860px, calc(100vh - 2rem)); max-height: none; overflow: hidden; }
@@ -662,6 +696,7 @@ button:disabled { cursor: not-allowed; opacity: 0.45; }
   .detail-header h2 { font-size: 1.85rem; }
   .form-grid, .briefing-grid { grid-template-columns: 1fr; }
   .field-wide { grid-column: auto; }
+  .demo-choice-grid { grid-template-columns: 1fr; }
   .option-criteria, .cycle-card dl { grid-template-columns: 1fr; }
   .plan-row { grid-template-columns: 1fr; }
   .file-metadata { grid-template-columns: 1fr; }
