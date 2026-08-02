@@ -81,6 +81,11 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
         "media controller",
         "Use restored key",
         'autocomplete="current-password"',
+        "persistent `HTMLAudioElement`",
+        "icon-only Play/Pause",
+        "AES-256-GCM",
+        "PBKDF2-HMAC-SHA-256",
+        "Unlock saved key",
     ):
         assert obligation in specification
 
@@ -96,6 +101,7 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
         "class DeckRepository",
         "class OpenAIClient",
         "class MediaController",
+        "class EncryptedCookieVault",
         "text-pending",
         "voice-pending",
         "card-turn",
@@ -104,6 +110,21 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
         "Restored key connected from protected browser storage",
         "A saved key was restored by your browser",
         'autocomplete:"current-password"',
+        "narrationAudio=new Audio()",
+        "playsInline=true",
+        "unlock(){",
+        "Playback needs a tap on Play",
+        "ai-stage-media-controls",
+        "mediaIconButton",
+        "body.ai-stage-visible .reading-main",
+        "Save encrypted key in this browser",
+        "Unlock saved key",
+        "AES-GCM",
+        "PBKDF2",
+        "SameSite=Strict",
+        "arcana-openai-key-v1",
+        "document.cookie",
+        "Encrypted key cookie is invalid.",
     ):
         assert marker in html
     assert "Math.random(" not in html
@@ -114,7 +135,14 @@ def test_arcana_retains_compiled_spec_app_and_public_bundle() -> None:
     assert (
         ".position.ai-stage-owner.ai-stage-overlap "
         ".reflection-trigger{display:block"
-    ) in html
+    ) not in html
+    media_transport = html.split("buildMediaTransport(){", 1)[1].split(
+        "stopAudio(){", 1
+    )[0]
+    for label in ("Play audio", "Replay audio", "Stop audio"):
+        assert label in media_transport
+    for word_button in ('text:"Play"', 'text:"Replay"', 'text:"Stop"'):
+        assert word_button not in media_transport
     reflection_source = html.split("renderReflection(){", 1)[1].split(
         "refreshReflection(", 1
     )[0]

@@ -39,7 +39,8 @@ generation_fingerprint() {
     printf 'text-model=%s\nimage-model=%s\n' "$TEXT_MODEL" "$IMAGE_MODEL"
     cat "$CARDS_SPEC"
     printf '\0'
-    cat "$VARS"
+    # App-only configuration must not force expensive card/image regeneration.
+    jq -cS '{deck: (.deck | del(.ai_guide))}' "$VARS"
   } | hash_stream
 }
 

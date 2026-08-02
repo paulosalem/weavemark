@@ -19,6 +19,19 @@
 @refine module:weavemark.domains.programming.stacks.browser_static_esmodules
   Build Arcana as static browser files beside the pre-generated deck artifacts.
 
+@refine module:weavemark.domains.programming.modules.browser_encrypted_secret_storage
+  Configure the imported selectors as follows:
+  - requirement: `@{secret_crypto_requirement}`;
+  - backend: `@{secret_storage_backend}`;
+  - unlock: `@{secret_unlock_mode}`;
+  - cookie name/path/lifetime: `@{secret_cookie_name}`,
+    `@{secret_cookie_path}`, @{secret_cookie_days} days;
+  - KDF: @{secret_kdf_iterations} iterations, minimum passphrase length
+    @{secret_min_passphrase_length};
+  - authenticated context: `@{secret_context}`;
+  - replacement: `@{secret_allow_replacement}`.
+  Session-only use remains the default and plaintext persistence is forbidden.
+
 @refine module:weavemark.domains.programming.modules.adaptive_workspace_shell
   Apply the reusable shell to Arcana's dominant home ritual and immersive active
   table. Guide, OpenAI, Sound, and New reading become compact destinations.
@@ -137,8 +150,10 @@ named request channel so stale work cannot continue billable execution.
 
 Persist only non-secret preferences and explicitly saved readings/notes/history
 in a versioned deck-id namespace. Validate restored data and recover visibly.
-Never persist keys, unsaved private questions, provider request history,
-generated audio, Blob URLs, pending requests, or transient selections.
+Never persist plaintext keys, unlock passphrases/derived keys, unsaved private
+questions, provider request history, generated audio, Blob URLs, pending
+requests, or transient selections. Optional key persistence MUST follow the
+refined encrypted-secret-storage contract and remain disabled by default.
 If the browser or password manager restores a key from protected credential
 storage, detect the prefilled field without connecting or transmitting it,
 state clearly that the browser restored it rather than Arcana, and offer
@@ -357,13 +372,15 @@ explicit phase labels.
 Failures preserve manual play, explain precisely, and offer retry. Never invent
 fallback text.
 
-### Automatic AI interpretation top stage
+### Automatic AI interpretation side stage
 
 Per-card AI interpretation comes to the player automatically through one shallow
-top stage rather than waiting inside Card reflection:
+stage rather than waiting inside Card reflection:
 
-- After a revealed card starts its AI request, slide a pane down from the top of
-  the viewport directly beneath the sticky navigation.
+- After a revealed card starts its AI request, slide a tall editorial side pane
+  in from the viewport edge beneath the sticky navigation. On wide and iPad-size
+  layouts, reserve sibling space for it so the full card formation remains
+  visible and operable rather than sitting underneath the pane.
 - The pane belongs to the most recently revealed AI-enabled card. A later reveal
   replaces its content in place; completion from an older card MUST NOT steal it
   back. Multiple cards may continue computing independently.
@@ -376,6 +393,9 @@ top stage rather than waiting inside Card reflection:
 - Ready shows the generated reflection and only the tension/question sections
   permitted by the selected depth. Failure shows the precise error and an
   eligibility-aware retry.
+- When narration belongs to this card, include icon-only Play/Pause, Replay, and
+  Stop controls plus accessible names/tooltips and the canonical media status.
+  These controls mirror the same media state shown in the navbar.
 - Include a clear **Close interpretation** control. Closing is respected for the
   current request/result; a newly revealed AI-enabled card opens the stage again.
 - Do not move keyboard focus when the pane opens or updates. Announce
@@ -383,14 +403,11 @@ top stage rather than waiting inside Card reflection:
   control inside the pane to close it, return focus without scrolling to the
   owning revealed card; programmatic closure and closure invoked from elsewhere
   do not move focus.
-- Keep the pane intentionally shallow: normally no deeper than 260 CSS pixels or
-  34% of the dynamic viewport, whichever is smaller. Its interpretation body
-  scrolls internally for Deep/Immersive text.
-- At runtime, measure the sticky navigation bottom and the formation’s first card
-  top. When at least 140 CSS pixels are available, cap the pane so it ends before
-  the cards. If less room exists, allow bounded overlap while keeping the selected
-  card’s title/position and all card controls reachable. A compact mobile preview
-  MUST keep **Card reflection** visibly operable rather than hiding it.
+- Give the side pane most of the available dynamic viewport height, with a
+  comfortably readable width and an independently scrolling interpretation body
+  for Deep/Immersive text. At narrow mobile widths it may become a near-full-width
+  non-modal side sheet, but it must remain dismissible and must not alter scroll
+  or focus when it appears.
 - Recompute placement after resize, orientation change, media-transport changes,
   and formation layout changes.
 
@@ -409,6 +426,13 @@ Keep audio in page-memory Blob/Object URLs and revoke on replacement, new
 reading, Forget key, and exit. Attempt playback only after text is visible. If
 blocked, retain Play; failure retains text and offers Retry narration.
 
+For iOS/iPadOS WebKit, including Chrome on iPad, create one persistent
+`HTMLAudioElement` and prime it synchronously from a user gesture before delayed
+TTS is fetched. Reuse that same element across narration and sequential chunks;
+do not create a new playback element after the gesture expires. Resume the Web
+Audio context in the same gesture. If playback is still blocked, expose a clear
+tap-to-play state without treating decoded narration as failed.
+
 The Speech API accepts at most 4096 input characters. Split longer Deep or
 Immersive narration at sentence/word boundaries into chunks of at most 3900
 characters. Fetch chunks sequentially under one voice/media ownership token and
@@ -426,11 +450,13 @@ older media tokens and aborts in-flight speech before stale responses can replac
 current audio or continue billable work.
 
 Whenever media is preparing, ready, playing, paused, completed, or replayable,
-expose a slim navbar transport with source/card label, Play/Pause, Replay, Stop,
-semantic progress, elapsed and total `m:ss`. Use real metadata/events; before
-duration is known show labelled indeterminate state, never NaN or fake duration.
-Turn sound uses known duration and remains replayable briefly. Sound drawer
-mirrors canonical state and independently controls effects/voice.
+expose a slim navbar transport with source/card label, semantic progress, elapsed
+and total `m:ss`, and icon-only Play/Pause, Replay, and Stop controls with
+accessible names and tooltips. Use real metadata/events; before duration is known
+show labelled indeterminate state, never NaN or fake duration. Turn sound uses
+known duration and remains replayable briefly. The interpretation pane mirrors
+the same canonical narration controls; the Sound drawer independently controls
+effects/voice.
 
 ## Complete interpretation
 

@@ -198,11 +198,18 @@ When updating a rubric:
 - **Risk:** Reads, writes, code loading, tools, network effects, and browser
   actions may execute without clear boundaries.
 - **Check:** Enumerate every side effect and entry path, including defaults
-  supplied by imported modules.
+  supplied by imported modules, browser credential restoration, cookies, and
+  other client-side secret persistence.
 - **Do:** Define protected and trusted modes, allowed roots, confirmation rules,
-  persistent grants, denials, and an explicit bypass.
+  persistent grants, denials, and an explicit bypass. Persistent browser secrets
+  must never fall back to plaintext: use an authenticated versioned envelope,
+  explicit user unlock, bounded KDF/storage parameters, scoped deletion, and an
+  honest threat model that does not claim protection from same-origin script or
+  XSS. Discovering ciphertext must not imply consent or trigger a provider call.
 - **Pass evidence:** Tests prove allow, deny, prompt, remembered approval, and
-  bypass behavior for each effect category.
+  bypass behavior for each effect category. Secret-persistence tests additionally
+  prove wrong-unlock, tamper, expiry, replacement rollback, no plaintext leakage,
+  no automatic connection, and complete forget/deletion behavior.
 
 ## 15. Protected-mode example compatibility
 

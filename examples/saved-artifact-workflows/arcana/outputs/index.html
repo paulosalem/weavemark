@@ -69,6 +69,8 @@ h3{font-size:1.3rem}
 .ai-controls{padding-top:11px}
 .key-status{margin:-7px 0 12px;padding:8px 10px;border-left:2px solid var(--blue);background:rgba(216,229,233,.42)}
 .key-status.restored{color:#29473f;border-color:#5d7f70;background:rgba(219,233,224,.72)}
+.key-vault{display:grid;gap:10px;margin:0 0 17px;padding:11px;border:1px solid rgba(87,118,110,.36);background:rgba(255,250,240,.58)}
+.key-vault[hidden]{display:none}.key-vault .field{margin:0}.key-vault .actions{align-items:flex-end}
 .small-card{font-size:.88rem;color:var(--muted);padding:9px 11px;background:rgba(216,229,233,.42);border-left:2px solid var(--blue)}
 .depth-control{display:grid;gap:7px;margin:18px 0}
 .depth-head,.depth-scale{display:flex;justify-content:space-between;gap:10px}
@@ -85,14 +87,16 @@ footer{max-width:1180px;margin:auto;padding:15px max(18px,calc(env(safe-area-ins
 .media-transport.empty{visibility:hidden;pointer-events:none;opacity:0}
 .media-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--blue);font-size:.76rem;font-weight:800}
 .media-controls{display:flex;gap:2px}
-.media-controls button{min-height:30px;padding:2px 6px;border:1px solid transparent;background:transparent;font-size:.73rem}
+.media-controls button,.ai-stage-media-controls button{width:32px;min-height:30px;padding:2px;border:1px solid transparent;background:transparent}
+.media-controls button:hover,.ai-stage-media-controls button:hover{border-color:var(--line);background:var(--ivory)}
+.media-icon{display:inline-grid;place-items:center;font-size:1rem;line-height:1}
 .media-progress{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:center;gap:7px}
 .media-progress progress{width:100%;height:7px;accent-color:var(--oxide)}
 .media-time{font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .reading-main{max-width:1440px;margin:auto;padding:clamp(16px,3vw,36px) max(14px,calc(env(safe-area-inset-right) + 14px)) 54px max(14px,calc(env(safe-area-inset-left) + 14px))}
-.ai-stage{position:fixed;z-index:19;top:var(--ai-stage-top,72px);left:50%;width:min(920px,calc(100vw - 24px));max-height:var(--ai-stage-max,260px);display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden;transform:translate(-50%,calc(-100% - 18px));visibility:hidden;pointer-events:none;opacity:0;border:1px solid rgba(156,120,45,.75);background:linear-gradient(110deg,rgba(255,250,240,.98),rgba(225,235,234,.97));box-shadow:0 18px 52px rgba(31,40,42,.22);transition:transform .52s cubic-bezier(.2,.78,.2,1),opacity .3s,visibility 0s linear .52s}
-.ai-stage.open{transform:translate(-50%,0);visibility:visible;pointer-events:auto;opacity:1;transition-delay:0s}
-.ai-stage.overlap{box-shadow:0 22px 64px rgba(31,40,42,.32)}
+body.ai-stage-visible .reading-main{max-width:none;margin-left:0;margin-right:min(520px,42vw);transition:margin-right .52s cubic-bezier(.2,.78,.2,1)}
+.ai-stage{position:fixed;z-index:19;top:var(--ai-stage-top,72px);right:max(10px,calc(env(safe-area-inset-right) + 10px));width:min(500px,40vw);height:var(--ai-stage-height,calc(100dvh - 88px));display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden;transform:translateX(calc(100% + 28px));visibility:hidden;pointer-events:none;opacity:0;border:1px solid rgba(156,120,45,.75);background:linear-gradient(150deg,rgba(255,250,240,.99),rgba(225,235,234,.98));box-shadow:0 18px 52px rgba(31,40,42,.22);transition:transform .52s cubic-bezier(.2,.78,.2,1),opacity .3s,visibility 0s linear .52s}
+.ai-stage.open{transform:translateX(0);visibility:visible;pointer-events:auto;opacity:1;transition-delay:0s}
 .ai-stage-head{position:relative;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:15px 18px 10px;border-bottom:1px solid rgba(156,120,45,.35)}
 .ai-stage-head h2{margin:.12rem 0 .2rem;font-size:1.35rem}
 .ai-stage-kicker{text-transform:uppercase;letter-spacing:.14em;color:var(--oxide);font-size:.67rem;font-weight:850}
@@ -100,6 +104,8 @@ footer{max-width:1180px;margin:auto;padding:15px max(18px,calc(env(safe-area-ins
 .ai-stage-body{position:relative;z-index:2;overflow:auto;overscroll-behavior:contain;padding:13px 18px 17px}
 .ai-stage-body p{margin:.25rem 0 .75rem;white-space:pre-wrap}
 .ai-stage-body h3{margin-top:.8rem;font-size:1.03rem;color:var(--blue)}
+.ai-stage-media-controls{position:sticky;bottom:-17px;display:flex;align-items:center;gap:5px;margin:18px -18px -17px;padding:9px 18px;background:rgba(244,239,228,.96);border-top:1px solid rgba(156,120,45,.3);backdrop-filter:blur(8px)}
+.ai-stage-media-status{margin-left:4px;color:var(--muted);font-size:.75rem}
 .ai-stage-magic{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:0;transition:opacity .25s}
 .ai-stage.pending .ai-stage-magic{opacity:1}
 .magic-orbit{position:absolute;border:1px solid rgba(54,88,110,.26);border-radius:50%;animation:magic-orbit 9s linear infinite}
@@ -114,7 +120,6 @@ footer{max-width:1180px;margin:auto;padding:15px max(18px,calc(env(safe-area-ins
 .reading-intro p{max-width:520px;margin:0;color:var(--muted)}
 .formation{display:grid;grid-template-columns:repeat(var(--columns,3),minmax(0,1fr));gap:clamp(12px,2vw,26px);align-items:start;min-height:45vh}
 .position{display:grid;align-content:start;gap:9px;width:100%;max-width:430px;min-width:0;justify-self:center}
-.position.ai-stage-owner.ai-stage-overlap{position:relative;z-index:21}
 .position-label{min-height:43px;padding-left:4px;color:var(--blue);font:1.08rem/1.2 var(--serif)}
 .position-label span{display:block;margin-top:4px;color:var(--muted);font:400 .77rem/1.35 var(--sans)}
 .card-button{position:relative;display:block;width:100%;min-height:0;padding:0;border:0;background:none;text-align:inherit;perspective:1300px}
@@ -186,19 +191,14 @@ footer{max-width:1180px;margin:auto;padding:15px max(18px,calc(env(safe-area-ins
   .position.inspection-selected{position:fixed;top:calc(158px + env(safe-area-inset-top));left:50%;width:min(30vw,130px);margin:0;transform:translateX(-50%)}
   .position.inspection-selected .position-label,.position.inspection-selected .orientation,.position.inspection-selected .reflection-trigger{display:none}
   .reflection-grid{grid-template-columns:1fr;gap:2px}.reflection-grid dd{margin-bottom:12px}
-  .ai-stage{width:calc(100vw - 16px);max-height:min(var(--ai-stage-max,240px),34dvh)}
+  body.ai-stage-visible .reading-main{margin-right:0}
+  .ai-stage{width:calc(100vw - 16px);height:min(var(--ai-stage-height,620px),72dvh);right:8px}
   .ai-stage-head{padding:12px 13px 8px}.ai-stage-body{padding:10px 13px 14px}
-  .ai-stage.overlap .ai-stage-head{min-height:98px;padding-left:112px;padding-right:54px}
-  .ai-stage.overlap .ai-stage-body{padding-left:112px}
-  .ai-stage.overlap .ai-stage-head>button{position:absolute;top:8px;right:8px;min-height:34px;padding:4px 8px;font-size:0}
-  .ai-stage.overlap .ai-stage-head>button::after{content:"Close";font-size:.72rem}
-  .position.ai-stage-owner.ai-stage-overlap{position:fixed;z-index:21;top:calc(var(--ai-stage-top-global,150px) + 12px);left:14px;width:82px;margin:0}
-  .position.ai-stage-owner.ai-stage-overlap .position-label,.position.ai-stage-owner.ai-stage-overlap .orientation{display:none}
-  .position.ai-stage-owner.ai-stage-overlap .reflection-trigger{display:block;width:100%;min-height:36px;margin-top:6px;padding:5px 3px;background:rgba(255,250,240,.96);font-size:.66rem;line-height:1.15}
+  .ai-stage-media-controls{bottom:-14px;margin:16px -13px -14px;padding:9px 13px}
 }
 @media(max-width:390px){.reading-nav{gap:4px}.nav-title{font-size:.9rem}.nav-actions button{padding:5px 3px;font-size:.65rem}.media-transport{grid-template-columns:1fr}.media-controls{justify-content:flex-start}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}.revealed .card-shell,.card-button.revealed:hover .card-shell{transform:rotateY(180deg)}.card-button.text-pending .card-shell,.card-button.voice-pending .card-shell{outline:4px solid var(--blue);outline-offset:3px}.ai-stage.pending .ai-stage-magic{opacity:.42}.ai-stage.pending::after{display:none}}
-@media(forced-colors:active){.panel,.card-shell,.drawer,.reflection-pane,.entry-dialog{border:1px solid CanvasText}.card-button.selected .card-shell,.card-button.text-pending .card-shell,.card-button.voice-pending .card-shell{outline:3px solid Highlight}}
+@media(forced-colors:active){.panel,.card-shell,.drawer,.reflection-pane,.entry-dialog,.ai-stage{border:1px solid CanvasText}.card-button.selected .card-shell,.card-button.text-pending .card-shell,.card-button.voice-pending .card-shell{outline:3px solid Highlight}}
 </style>
 </head>
 <body>
@@ -232,6 +232,7 @@ const assetPath=value=>typeof value==="string"&&value.length<500&&/^[\x21-\x7e]+
 const announce=text=>{liveRegion.textContent="";requestAnimationFrame(()=>{liveRegion.textContent=text})};
 const formatTime=seconds=>{if(!Number.isFinite(seconds)||seconds<0)return "—:—";const total=Math.floor(seconds);return Math.floor(total/60)+":"+String(total%60).padStart(2,"0")};
 const wordCount=value=>typeof value==="string"?(value.trim().match(/\S+/g)||[]).length:0;
+const encryptedSecretConfig={requirement:"optional",backend:"cookie",unlock:"passphrase",cookieName:"arcana-openai-key-v1",cookieDays:30,cookiePath:"current-app-directory",iterations:310000,minPassphraseLength:12,context:"arcana-openai-key",allowReplacement:true};
 
 class DeckRepository{
   load(raw){
@@ -321,6 +322,53 @@ class PreferenceRepository{
   deleteReading(index){try{const records=this.history();records.splice(index,1);localStorage.setItem(this.key+".history",JSON.stringify(records));return true}catch{return false}}
 }
 
+class EncryptedCookieVault{
+  constructor(configuration){this.configuration=configuration;this.sessionKey=null;this.sessionSalt=null;this.sessionIterations=0}
+  #encode(bytes){let value="";for(const byte of bytes)value+=String.fromCharCode(byte);return btoa(value).replaceAll("+","-").replaceAll("/","_").replace(/=+$/,"")}
+  #decode(value){if(typeof value!=="string"||value.length>3800||!/^[A-Za-z0-9_-]+$/.test(value))throw Error("Encrypted key cookie is malformed.");const padded=value.replaceAll("-","+").replaceAll("_","/")+"=".repeat((4-value.length%4)%4),binary=atob(padded),bytes=new Uint8Array(binary.length);for(let index=0;index<binary.length;index++)bytes[index]=binary.charCodeAt(index);return bytes}
+  #path(){if(this.configuration.cookiePath!=="current-app-directory")return this.configuration.cookiePath;const path=location.pathname.endsWith("/")?location.pathname:location.pathname.slice(0,location.pathname.lastIndexOf("/")+1);return path||"/"}
+  #attributes(maxAge){return"; Max-Age="+Math.max(0,Math.floor(maxAge))+"; Path="+this.#path()+"; SameSite=Strict"+(location.protocol==="https:"?"; Secure":"")}
+  #read(){const prefix=this.configuration.cookieName+"=",record=document.cookie.split(/; */).find(value=>value.startsWith(prefix));return record?record.slice(prefix.length):""}
+  #write(value,maxAge){document.cookie=this.configuration.cookieName+"="+value+this.#attributes(maxAge)}
+  #delete(){document.cookie=this.configuration.cookieName+"="+this.#attributes(0)}
+  #aad(){return new TextEncoder().encode(["arcana-secret-v1",location.origin,this.configuration.context,this.configuration.cookieName].join("|"))}
+  async #derive(passphrase,salt,iterations){
+    if(typeof passphrase!=="string"||passphrase.length<this.configuration.minPassphraseLength)throw Error("Enter a passphrase of at least "+this.configuration.minPassphraseLength+" characters.");
+    const material=await crypto.subtle.importKey("raw",new TextEncoder().encode(passphrase),"PBKDF2",false,["deriveKey"]);
+    return crypto.subtle.deriveKey({name:"PBKDF2",hash:"SHA-256",salt,iterations},material,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+  }
+  #envelope(){
+    const raw=this.#read();if(!raw)return null;let envelope;try{envelope=JSON.parse(new TextDecoder().decode(this.#decode(raw)))}catch{throw Error("Encrypted key cookie is invalid.")}
+    if(!isPlain(envelope)||envelope.v!==1||envelope.alg!=="A256GCM"||envelope.kdf!=="PBKDF2-SHA256")throw Error("Encrypted key cookie uses an unsupported format.");
+    if(!Number.isInteger(envelope.iterations)||envelope.iterations<this.configuration.iterations)throw Error("Encrypted key cookie uses an unsafe KDF configuration.");
+    if(!Number.isInteger(envelope.expiresAt)||Date.now()>=envelope.expiresAt)throw Error("Encrypted key cookie has expired.");
+    return envelope;
+  }
+  get hasSaved(){return Boolean(this.#read())}
+  get unlocked(){return Boolean(this.sessionKey)}
+  async unlock(passphrase){
+    if(!globalThis.crypto?.subtle||typeof crypto.getRandomValues!=="function")throw Error("Web Crypto is unavailable; the saved key remains locked.");
+    const envelope=this.#envelope();if(!envelope)throw Error("No encrypted key is saved.");
+    try{
+      const salt=this.#decode(envelope.salt),iv=this.#decode(envelope.iv),ciphertext=this.#decode(envelope.ciphertext),key=await this.#derive(passphrase,salt,envelope.iterations),plaintext=await crypto.subtle.decrypt({name:"AES-GCM",iv,additionalData:this.#aad()},key,ciphertext);
+      this.sessionKey=key;this.sessionSalt=salt;this.sessionIterations=envelope.iterations;return new TextDecoder().decode(plaintext);
+    }catch(error){this.clearSession();if(error.message?.startsWith("Enter a passphrase"))throw error;throw Error("Saved key could not be unlocked. Check the passphrase or forget the saved key.")}
+  }
+  async save(secret,passphrase=""){
+    if(!globalThis.crypto?.subtle||typeof crypto.getRandomValues!=="function")throw Error("Web Crypto is unavailable; the key was not saved.");
+    const value=secret.trim();if(!value)throw Error("Enter an OpenAI API key.");
+    const prior=this.#read();if(prior&&!this.configuration.allowReplacement)throw Error("Delete the saved key before storing a replacement.");const salt=passphrase?crypto.getRandomValues(new Uint8Array(16)):this.sessionSalt,key=passphrase?await this.#derive(passphrase,salt,this.configuration.iterations):this.sessionKey,iterations=passphrase?this.configuration.iterations:this.sessionIterations;
+    if(!key||!salt)throw Error("Enter the save passphrase or unlock the existing saved key first.");
+    const iv=crypto.getRandomValues(new Uint8Array(12)),createdAt=Date.now(),expiresAt=createdAt+this.configuration.cookieDays*86400000,ciphertext=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv,additionalData:this.#aad()},key,new TextEncoder().encode(value))),envelope={v:1,alg:"A256GCM",kdf:"PBKDF2-SHA256",iterations,salt:this.#encode(salt),iv:this.#encode(iv),ciphertext:this.#encode(ciphertext),createdAt,expiresAt},encoded=this.#encode(new TextEncoder().encode(JSON.stringify(envelope)));
+    if(encoded.length>3600)throw Error("Encrypted key cookie exceeds the safe browser limit.");
+    this.#write(encoded,this.configuration.cookieDays*86400);
+    if(this.#read()!==encoded){if(prior)this.#write(prior,this.configuration.cookieDays*86400);else this.#delete();throw Error("The browser did not accept the encrypted key cookie.");}
+    this.sessionKey=key;this.sessionSalt=salt;this.sessionIterations=iterations;
+  }
+  clearSession(){this.sessionKey=null;this.sessionSalt=null;this.sessionIterations=0}
+  clear(){this.clearSession();this.#delete()}
+}
+
 class OpenAIClient{
   #key="";
   #source="none";
@@ -367,9 +415,36 @@ class OpenAIClient{
 }
 
 class MediaController{
-  constructor(onChange){this.onChange=onChange;this.audioContext=null;this.turnBuffer=null;this.state=null;this.objectURLs=[];this.frame=0;this.collapseTimer=0;this.generation=0}
+  constructor(onChange){
+    this.onChange=onChange;this.audioContext=null;this.turnBuffer=null;this.state=null;this.objectURLs=[];this.frame=0;this.collapseTimer=0;this.generation=0;this.playbackUnlocked=false;this.unlockPromise=null;this.switchingNarration=false;
+    this.narrationAudio=new Audio();this.narrationAudio.preload="metadata";this.narrationAudio.playsInline=true;this.#bindNarrationAudio();
+  }
   #notify(){this.onChange(this.state);cancelAnimationFrame(this.frame);if(this.state&&this.state.status==="playing")this.frame=requestAnimationFrame(()=>this.#notify())}
   #context(){const Context=globalThis.AudioContext||globalThis.webkitAudioContext;if(!Context)return null;return this.audioContext||(this.audioContext=new Context())}
+  #silentWav(){
+    const samples=80,buffer=new ArrayBuffer(44+samples*2),view=new DataView(buffer),write=(offset,text)=>{for(let index=0;index<text.length;index++)view.setUint8(offset+index,text.charCodeAt(index))};
+    write(0,"RIFF");view.setUint32(4,36+samples*2,true);write(8,"WAVE");write(12,"fmt ");view.setUint32(16,16,true);view.setUint16(20,1,true);view.setUint16(22,1,true);view.setUint32(24,8000,true);view.setUint32(28,16000,true);view.setUint16(32,2,true);view.setUint16(34,16,true);write(36,"data");view.setUint32(40,samples*2,true);return new Blob([buffer],{type:"audio/wav"});
+  }
+  unlock(){
+    const context=this.#context();if(context?.state==="suspended")context.resume().catch(()=>{});
+    if(this.playbackUnlocked||this.unlockPromise||this.state?.kind==="narration")return;
+    const audio=this.narrationAudio,url=URL.createObjectURL(this.#silentWav());audio.src=url;audio.load();
+    this.unlockPromise=Promise.resolve(audio.play()).then(()=>{audio.pause();audio.removeAttribute("src");audio.load();this.playbackUnlocked=true}).catch(()=>{}).finally(()=>{URL.revokeObjectURL(url);this.unlockPromise=null});
+  }
+  #bindNarrationAudio(){
+    const audio=this.narrationAudio;
+    audio.addEventListener("play",()=>{const media=this.state;if(media?.kind==="narration"&&media.audio===audio){media.status="playing";media.playbackError="";this.#notify()}});
+    audio.addEventListener("pause",()=>{const media=this.state;if(!this.switchingNarration&&media?.kind==="narration"&&media.audio===audio&&!audio.ended&&media.status!=="completed"){media.status="paused";this.#notify()}});
+    audio.addEventListener("timeupdate",()=>{if(this.state?.kind==="narration"&&this.state.audio===audio)this.#notify()});
+    audio.addEventListener("ended",()=>{const media=this.state;if(media?.kind!=="narration"||media.audio!==audio)return;if(media.segment<media.urls.length-1){this.#setNarrationSegment(media,media.segment+1);this.#playNarration(media)}else{media.status="completed";media.offset=media.duration;this.#notify()}});
+    audio.addEventListener("error",()=>{const media=this.state;if(media?.kind==="narration"&&media.audio===audio&&!this.switchingNarration){media.status="failed";media.playbackError="Narration audio could not be decoded.";this.#notify()}});
+  }
+  #setNarrationSegment(media,index){
+    this.switchingNarration=true;media.audio.pause();media.segment=index;media.audio.src=media.urls[index];media.audio.load();this.switchingNarration=false;
+  }
+  async #playNarration(media){
+    try{await media.audio.play();return true}catch{if(this.state===media){media.status="blocked";media.playbackError="Playback needs a tap on Play in this browser.";this.#notify()}return false}
+  }
   #makeTurnBuffer(){
     const context=this.#context();if(!context)return null;if(this.turnBuffer)return this.turnBuffer;
     const duration=.82,buffer=context.createBuffer(1,Math.floor(context.sampleRate*duration),context.sampleRate),data=buffer.getChannelData(0);
@@ -396,21 +471,14 @@ class MediaController{
   preparing(label,index){this.stop(true);const token=++this.generation;this.state={kind:"narration",token,label,index,status:"preparing",duration:NaN,offset:0,audio:null,source:null};this.#notify();return token}
   async narration(blobs,label,index,token){
     if(this.state?.kind!=="narration"||this.state.status!=="preparing"||this.state.token!==token)return false;
-    for(const url of this.objectURLs)URL.revokeObjectURL(url);this.objectURLs=blobs.map(blob=>URL.createObjectURL(blob));const audios=this.objectURLs.map(url=>new Audio(url)),media={kind:"narration",token,label,index,status:"preparing",duration:NaN,durations:[],offset:0,audios,audio:audios[0],segment:0,source:null};this.state=media;
-    await Promise.all(audios.map(audio=>new Promise((resolve,reject)=>{audio.preload="metadata";audio.addEventListener("loadedmetadata",resolve,{once:true});audio.addEventListener("error",()=>reject(Error("Narration audio could not be decoded.")),{once:true});audio.load()})));
-    if(this.state!==media||media.token!==token)return false;media.durations=audios.map(audio=>audio.duration);media.duration=media.durations.reduce((total,duration)=>total+duration,0);media.status="ready";
-    audios.forEach((audio,segment)=>{
-      audio.addEventListener("play",()=>{if(this.state===media){media.audio=audio;media.segment=segment;media.status="playing";this.#notify()}});
-      audio.addEventListener("pause",()=>{if(this.state===media&&!audio.ended&&media.status!=="completed"){media.status="paused";this.#notify()}});
-      audio.addEventListener("timeupdate",()=>{if(this.state===media)this.#notify()});
-      audio.addEventListener("ended",()=>{if(this.state!==media)return;if(segment<audios.length-1){media.segment=segment+1;media.audio=audios[segment+1];media.audio.play().catch(()=>{media.status="ready";this.#notify()})}else{media.status="completed";media.offset=media.duration;this.#notify()}});
-    });
-    this.#notify();try{await media.audio.play()}catch{media.status="ready";this.#notify()}return true;
+    for(const url of this.objectURLs)URL.revokeObjectURL(url);this.objectURLs=blobs.map(blob=>URL.createObjectURL(blob));const probes=this.objectURLs.map(url=>new Audio(url)),media={kind:"narration",token,label,index,status:"preparing",duration:NaN,durations:[],offset:0,urls:[...this.objectURLs],audio:this.narrationAudio,segment:0,source:null,playbackError:""};this.state=media;
+    await Promise.all(probes.map(audio=>new Promise((resolve,reject)=>{audio.preload="metadata";audio.addEventListener("loadedmetadata",resolve,{once:true});audio.addEventListener("error",()=>reject(Error("Narration audio could not be decoded.")),{once:true});audio.load()})));
+    if(this.state!==media||media.token!==token)return false;media.durations=probes.map(audio=>audio.duration);media.duration=media.durations.reduce((total,duration)=>total+duration,0);media.status="ready";this.#setNarrationSegment(media,0);this.#notify();await this.#playNarration(media);return true;
   }
   playPause(){const media=this.state;if(!media||["preparing","failed"].includes(media.status))return;if(media.status==="playing"){if(media.kind==="narration"){media.audio.pause();media.status="paused";this.#notify()}else{media.offset=this.currentTime();media.source.onended=null;media.source.stop();media.source=null;media.status="paused";this.#notify()}}else this.play()}
-  play(){const media=this.state;if(!media)return;if(media.kind==="turn"){if(media.offset>=media.duration)media.offset=0;this.#startTurn()}else media.audio.play().catch(()=>{media.status="ready";this.#notify()})}
-  replay(){const media=this.state;if(!media)return;if(media.kind==="turn"){if(media.source){media.source.onended=null;media.source.stop()}media.offset=0;this.#startTurn()}else{for(const audio of media.audios||[media.audio]){audio.pause();audio.currentTime=0}media.segment=0;media.audio=media.audios[0];media.audio.play().catch(()=>{media.status="ready";this.#notify()})}}
-  stop(clear){this.generation++;const media=this.state;if(!media){if(clear){for(const url of this.objectURLs)URL.revokeObjectURL(url);this.objectURLs=[]}return}if(media.source){media.source.onended=null;try{media.source.stop()}catch{}media.source.disconnect()}for(const audio of media.audios||(media.audio?[media.audio]:[])){audio.pause();audio.removeAttribute("src");audio.load()}cancelAnimationFrame(this.frame);clearTimeout(this.collapseTimer);if(clear){this.state=null;for(const url of this.objectURLs)URL.revokeObjectURL(url);this.objectURLs=[]}else{media.status="stopped";media.offset=0}this.#notify()}
+  play(){const media=this.state;if(!media)return;if(media.kind==="turn"){if(media.offset>=media.duration)media.offset=0;this.#startTurn()}else{if(media.status==="completed"||media.offset>=media.duration)this.#setNarrationSegment(media,0);this.#playNarration(media)}}
+  replay(){const media=this.state;if(!media)return;if(media.kind==="turn"){if(media.source){media.source.onended=null;media.source.stop()}media.offset=0;this.#startTurn()}else{media.offset=0;this.#setNarrationSegment(media,0);this.#playNarration(media)}}
+  stop(clear){this.generation++;const media=this.state;if(!media){if(clear){for(const url of this.objectURLs)URL.revokeObjectURL(url);this.objectURLs=[]}return}if(media.source){media.source.onended=null;try{media.source.stop()}catch{}media.source.disconnect()}if(media.kind==="narration"){this.switchingNarration=true;media.audio.pause();media.audio.removeAttribute("src");media.audio.load();this.switchingNarration=false}cancelAnimationFrame(this.frame);clearTimeout(this.collapseTimer);if(clear){this.state=null;for(const url of this.objectURLs)URL.revokeObjectURL(url);this.objectURLs=[]}else{media.status="stopped";media.offset=0}this.#notify()}
 }
 
 const depthRules={
@@ -442,21 +510,21 @@ class ArcanaApplication{
     if(typeof this.preferences.reversals!=="boolean")this.preferences.reversals=deck.reversalsDefault;
     this.preferences.depth=depthRules[this.preferences.depth]?this.preferences.depth:deck.ai.depth.default;
     this.preferencesStore.save(this.preferences);
-    this.openAI=new OpenAIClient(deck.ai);this.media=new MediaController(()=>this.updateMediaTransport());
+    this.openAI=new OpenAIClient(deck.ai);this.keyVault=new EncryptedCookieVault(encryptedSecretConfig);this.mediaStageSignature="";this.media=new MediaController(media=>{this.updateMediaTransport();const signature=media?[media.kind,media.index,media.status].join(":"):"";if(signature!==this.mediaStageSignature){this.mediaStageSignature=signature;if(Number.isInteger(media?.index))this.refreshAIStage(media.index)}});
     this.reading=null;this.selectedIndex=null;this.drawer=null;this.reflection=null;this.entryDialog=null;this.aiStageIndex=null;this.aiStageDismissedToken=null;this.readingGeneration=0;this.requestSequence=0;this.voiceSequence=0;this.focusMode=false;this.focusRestore=0;this.focusTimer=0;
     this.renderSetup();
     window.addEventListener("pagehide",()=>this.shutdown());
     window.addEventListener("wheel",event=>{if(event.deltaY<0)this.advanceFocus(-event.deltaY)},{passive:true});
     window.addEventListener("resize",()=>this.positionAIStage(),{passive:true});
   }
-  shutdown(){this.openAI.forget();this.media.stop(true)}
+  shutdown(){this.openAI.forget();this.keyVault.clearSession();this.media.stop(true)}
   preference(name,value){this.preferences[name]=value;this.preferencesStore.save(this.preferences)}
   setAIConsent(value){
     this.preference("aiConsent",value);if(value){this.reconcileAI();return}this.requestSequence++;this.voiceSequence++;this.openAI.abortAll();if(this.media.state?.kind==="narration")this.media.stop(true);
     this.closeAIStage();if(this.reading){this.reading.items.forEach((item,index)=>{if(item.ai.status==="pending"){item.ai={status:"cancelled"};this.renderCard(index);this.refreshReflection(index)}if(item.voice.status!=="idle"){item.voice={status:"cancelled"};this.renderCard(index);this.refreshReflection(index)}});if(this.reading.final.status==="pending")this.reading.final={status:"idle"};document.getElementById("reading-main")?.classList.remove("final-pending");if(this.allRevealed())this.renderCompletion()}
   }
   setSpeechConsent(value){
-    this.preference("speech",value);if(value)return;this.voiceSequence++;this.openAI.abortSpeech();if(this.media.state?.kind==="narration")this.media.stop(true);if(this.reading)this.reading.items.forEach((item,index)=>{if(item.voice.status!=="idle"){item.voice={status:"cancelled"};this.renderCard(index);this.refreshAIStage(index)}})
+    this.preference("speech",value);if(value){this.media.unlock();return}this.voiceSequence++;this.openAI.abortSpeech();if(this.media.state?.kind==="narration")this.media.stop(true);if(this.reading)this.reading.items.forEach((item,index)=>{if(item.voice.status!=="idle"){item.voice={status:"cancelled"};this.renderCard(index);this.refreshAIStage(index)}})
   }
   setReadingQuestion(value){
     if(!this.reading)return;const question=value.trim();if(question===this.reading.question)return;this.reading.question=question;this.requestSequence++;this.voiceSequence++;this.openAI.abortAll();if(this.media.state?.kind==="narration")this.media.stop(true);
@@ -479,7 +547,7 @@ class ArcanaApplication{
   }
   footer(){return make("footer",{text:this.deck.boundary})}
   renderSetup(){
-    this.reading=null;this.selectedIndex=null;this.focusMode=false;appRoot.textContent="";
+    this.reading=null;this.selectedIndex=null;this.focusMode=false;document.body.classList.remove("ai-stage-visible");appRoot.textContent="";
     const main=make("main",{class:"home",id:"setup-main"});
     const masthead=make("header",{class:"masthead"},make("div",{class:"eyebrow",text:this.deck.prototypeId}),make("h1",{text:this.deck.title}),make("p",{class:"subtitle",text:this.deck.subtitle}),make("p",{class:"boundary",text:this.deck.boundary}));
     const ritual=make("section",{class:"panel ritual-panel",attrs:{"aria-labelledby":"ritual-title"}},make("h2",{id:"ritual-title",text:"Begin a private reading"}),make("p",{class:"quiet",text:"Choose a formation, hold a question lightly if you wish, then reveal one predealt card at a time."}));
@@ -502,23 +570,33 @@ class ArcanaApplication{
     const consent=this.checkbox("ai-consent","Use OpenAI guide for this reading",!!this.preferences.aiConsent,value=>this.setAIConsent(value));
     const keyInput=make("input",{id:"ai-key",name:"openai-api-key",type:"password",autocomplete:"current-password",spellcheck:false,placeholder:"OpenAI API key",attrs:{"aria-describedby":"ai-key-status"}});
     const keyStatus=make("p",{id:"ai-key-status",class:"key-status quiet",attrs:{role:"status"}});
+    const rememberInput=make("input",{id:"remember-key",type:"checkbox",checked:this.keyVault.hasSaved});
+    const remember=make("div",{class:"choice"},rememberInput,make("label",{htmlFor:"remember-key",text:"Save encrypted key in this browser"}));
+    const passphraseInput=make("input",{id:"key-passphrase",name:"arcana-key-passphrase",type:"password",autocomplete:"current-password",minLength:encryptedSecretConfig.minPassphraseLength,placeholder:"At least "+encryptedSecretConfig.minPassphraseLength+" characters"});
+    const unlock=make("button",{class:"secondary",type:"button",text:"Unlock saved key"});
+    const vaultPanel=make("div",{class:"key-vault"},make("div",{class:"field"},make("label",{htmlFor:"key-passphrase",text:"Encryption passphrase"}),passphraseInput),make("div",{class:"actions"},unlock),make("p",{class:"quiet",text:"Arcana stores only AES-GCM ciphertext in a SameSite cookie for up to 30 days. The passphrase is never stored. JavaScript cookies cannot be HttpOnly."}));
     let restored=false,userEdited=false,connect;
     const isAutofilled=()=>{try{return keyInput.matches(":-webkit-autofill")}catch{return false}};
     const renderKeyState=()=>{
-      const hasValue=Boolean(keyInput.value.trim()),restoredConnected=this.openAI.connected&&this.openAI.source==="protected-storage";
-      keyStatus.classList.toggle("restored",restored||restoredConnected);
-      if(restoredConnected)keyStatus.textContent="Restored key connected from protected browser storage. Keep using it, or enter a replacement below.";
-      else if(this.openAI.connected)keyStatus.textContent="Key connected for this page session. Enter another key below only if you want to replace it.";
+      const hasValue=Boolean(keyInput.value.trim()),restoredConnected=this.openAI.connected&&this.openAI.source==="protected-storage",encryptedConnected=this.openAI.connected&&this.openAI.source==="encrypted-cookie",saved=this.keyVault.hasSaved;
+      keyStatus.classList.toggle("restored",restored||restoredConnected||encryptedConnected||saved);
+      if(encryptedConnected)keyStatus.textContent="Encrypted saved key unlocked for this page session. Keep using it, or enter a replacement below.";
+      else if(restoredConnected)keyStatus.textContent="Restored key connected from protected browser storage. Keep using it, or enter a replacement below.";
+      else if(this.openAI.connected)keyStatus.textContent="Key connected for this page session. Enter another key below only if you want to replace it."+(saved?" An encrypted saved key also remains until Forget key.":"");
       else if(restored&&hasValue)keyStatus.textContent="A saved key was restored by your browser from protected credential storage. Use it as-is or replace the field first.";
+      else if(saved)keyStatus.textContent="An encrypted key is saved in this browser but is not connected. Enter the passphrase to unlock it.";
       else keyStatus.textContent="No key connected.";
-      connect.textContent=this.openAI.connected?"Replace key":restored&&hasValue?"Use restored key":"Use key this session";
+      connect.textContent=this.openAI.connected?(rememberInput.checked?"Replace saved key":"Replace key"):restored&&hasValue?"Use restored key":rememberInput.checked?"Save & use key":"Use key this session";
       connect.disabled=!hasValue;
+      vaultPanel.hidden=!rememberInput.checked&&!saved;unlock.disabled=!saved||passphraseInput.value.length<encryptedSecretConfig.minPassphraseLength;
     };
     const detectRestored=()=>{if(!userEdited&&keyInput.value.trim()){restored=true;renderKeyState()}};
-    connect=make("button",{class:"secondary",type:"button",text:"Use key this session",on:{click:()=>{try{const replacing=this.openAI.connected,source=restored?"protected-storage":"manual";this.openAI.connect(keyInput.value,source);keyInput.value="";restored=false;userEdited=false;renderKeyState();this.reconcileAI();announce(source==="protected-storage"?"Restored OpenAI key connected for this page session.":replacing?"OpenAI key replaced for this page session.":"OpenAI key connected for this page session.")}catch(error){keyStatus.textContent=error.message}}}});
-    const forget=make("button",{class:"secondary danger",type:"button",text:"Forget key",on:{click:()=>{this.voiceSequence++;this.requestSequence++;this.openAI.forget();this.media.stop(true);this.closeAIStage();keyInput.value="";restored=false;userEdited=false;renderKeyState();if(this.reading){this.reading.items.forEach((item,index)=>{if(item.ai.status==="pending")item.ai={status:"cancelled"};if(item.voice.status!=="idle")item.voice={status:"cancelled"};this.renderCard(index);this.refreshReflection(index)});if(this.reading.final.status==="pending"){this.reading.final={status:"idle"};document.getElementById("reading-main")?.classList.remove("final-pending")}if(this.allRevealed())this.renderCompletion()}announce("OpenAI key forgotten, provider work cancelled, and narration cleared.")}}});
+    connect=make("button",{class:"secondary",type:"button",text:"Use key this session",on:{click:async()=>{connect.disabled=true;try{const replacing=this.openAI.connected,value=keyInput.value,save=rememberInput.checked,source=save?"encrypted-cookie":restored?"protected-storage":"manual";if(save)await this.keyVault.save(value,passphraseInput.value);this.openAI.connect(value,source);keyInput.value="";passphraseInput.value="";restored=false;userEdited=false;renderKeyState();this.reconcileAI();announce(source==="encrypted-cookie"?"OpenAI key encrypted, saved, and connected for this page session.":source==="protected-storage"?"Restored OpenAI key connected for this page session.":replacing?"OpenAI key replaced for this page session.":"OpenAI key connected for this page session.")}catch(error){renderKeyState();keyStatus.textContent=error.message}}}});
+    unlock.addEventListener("click",async()=>{unlock.disabled=true;try{const value=await this.keyVault.unlock(passphraseInput.value);this.openAI.connect(value,"encrypted-cookie");passphraseInput.value="";rememberInput.checked=true;renderKeyState();this.reconcileAI();announce("Encrypted saved OpenAI key unlocked for this page session.")}catch(error){renderKeyState();keyStatus.textContent=error.message}});
+    const forget=make("button",{class:"secondary danger",type:"button",text:"Forget key",on:{click:()=>{this.voiceSequence++;this.requestSequence++;this.openAI.forget();this.keyVault.clear();this.media.stop(true);this.closeAIStage();keyInput.value="";passphraseInput.value="";rememberInput.checked=false;restored=false;userEdited=false;renderKeyState();if(this.reading){this.reading.items.forEach((item,index)=>{if(item.ai.status==="pending")item.ai={status:"cancelled"};if(item.voice.status!=="idle")item.voice={status:"cancelled"};this.renderCard(index);this.refreshReflection(index)});if(this.reading.final.status==="pending"){this.reading.final={status:"idle"};document.getElementById("reading-main")?.classList.remove("final-pending")}if(this.allRevealed())this.renderCompletion()}announce("OpenAI key and encrypted saved cookie forgotten, provider work cancelled, and narration cleared.")}}});
     keyInput.addEventListener("input",event=>{if(event.isTrusted&&!isAutofilled())userEdited=true;if(userEdited)restored=false;else if(keyInput.value.trim())restored=true;renderKeyState()});
     keyInput.addEventListener("focus",detectRestored);keyInput.addEventListener("change",detectRestored);
+    rememberInput.addEventListener("change",renderKeyState);passphraseInput.addEventListener("input",renderKeyState);
     const restoreMonitor=setInterval(()=>{if(userEdited||this.openAI.connected){clearInterval(restoreMonitor);return}detectRestored()},500);setTimeout(()=>clearInterval(restoreMonitor),30000);
     const level=this.deck.ai.depth.levels[this.preferences.depth],depthOutput=make("output",{htmlFor:"reflection-depth",text:level.label}),depthDescription=make("p",{id:"depth-description",class:"quiet",text:level.description});
     const depthInput=make("input",{id:"reflection-depth",type:"range",min:1,max:5,step:1,value:this.preferences.depth,attrs:{"aria-describedby":"depth-description","aria-valuetext":level.label},on:{input:event=>{const value=Number(event.currentTarget.value),selected=this.deck.ai.depth.levels[value];this.preference("depth",value);depthOutput.textContent=selected.label;depthDescription.textContent=selected.description;event.currentTarget.setAttribute("aria-valuetext",selected.label)}}});
@@ -527,7 +605,7 @@ class ArcanaApplication{
     container.append(consent);
     if(this.reading)container.append(this.questionFields(true));
     renderKeyState();
-    container.append(make("div",{class:"field"},make("label",{htmlFor:"ai-key",text:"OpenAI API key"}),keyInput),keyStatus,make("div",{class:"actions"},connect,forget),depth,make("p",{class:"small-card",text:this.deck.ai.consent}),make("p",{class:"quiet",text:"Fixed model: "+this.deck.ai.model+". Arcana never persists the key; a browser-restored credential remains in protected browser storage and page memory only while connected."}),speech,make("p",{class:"small-card",text:this.deck.ai.speech.disclosure}));
+    container.append(make("div",{class:"field"},make("label",{htmlFor:"ai-key",text:"OpenAI API key"}),keyInput),keyStatus,remember,vaultPanel,make("div",{class:"actions"},connect,forget),depth,make("p",{class:"small-card",text:this.deck.ai.consent}),make("p",{class:"quiet",text:"Fixed model: "+this.deck.ai.model+". Session-only is the default. If Save encrypted key is selected, Arcana stores only AES-GCM ciphertext in a scoped cookie; plaintext and passphrase remain page-memory only."}),speech,make("p",{class:"small-card",text:this.deck.ai.speech.disclosure}));
     return container;
   }
   showStatus(message,error=false){this.setupStatus.textContent=message;this.setupStatus.hidden=!message;this.setupStatus.classList.toggle("error",error)}
@@ -544,7 +622,7 @@ class ArcanaApplication{
   }
   closeEntryDialog(restore=true){if(!this.entryDialog)return;const entry=this.entryDialog;entry.shade.remove();entry.dialog.remove();this.entryDialog=null;appRoot.inert=false;document.body.style.overflow="";if(restore&&entry.invoker&&document.contains(entry.invoker))entry.invoker.focus()}
   async beginReading(manualConfirmed){
-    if(!this.guideReady()&&!manualConfirmed){this.openEntryDialog();return}
+    this.media.unlock();if(!this.guideReady()&&!manualConfirmed){this.openEntryDialog();return}
     try{
       if(!globalThis.crypto||typeof crypto.getRandomValues!=="function")throw Error("Secure randomness is unavailable.");
       this.showStatus("Checking generated card artifacts…");await new DeckRepository().verifyImages(this.deck);
@@ -572,10 +650,10 @@ class ArcanaApplication{
     this.aiStageElement=stage;return stage;
   }
   showAIStage(index){
-    if(!this.aiStageElement)return;this.aiStageIndex=index;this.aiStageDismissedToken=null;this.renderAIStage();this.aiStageElement.classList.add("open");this.aiStageElement.setAttribute("aria-hidden","false");requestAnimationFrame(()=>this.positionAIStage());
+    if(!this.aiStageElement)return;this.aiStageIndex=index;this.aiStageDismissedToken=null;this.renderAIStage();this.aiStageElement.classList.add("open");this.aiStageElement.setAttribute("aria-hidden","false");document.body.classList.add("ai-stage-visible");requestAnimationFrame(()=>this.positionAIStage());
   }
   closeAIStage(){
-    if(!this.aiStageElement)return;const stage=this.aiStageElement,ownerIndex=this.aiStageIndex,restoreFocus=stage.contains(document.activeElement),item=this.reading?.items[ownerIndex];this.aiStageDismissedToken=item?.ai?.token??null;stage.classList.remove("open");stage.setAttribute("aria-hidden","true");document.querySelectorAll(".ai-stage-owner").forEach(node=>node.classList.remove("ai-stage-owner","ai-stage-overlap"));if(restoreFocus)document.querySelector('[data-position-index="'+ownerIndex+'"] .card-button')?.focus({preventScroll:true});
+    if(!this.aiStageElement)return;const stage=this.aiStageElement,ownerIndex=this.aiStageIndex,restoreFocus=stage.contains(document.activeElement),item=this.reading?.items[ownerIndex];this.aiStageDismissedToken=item?.ai?.token??null;stage.classList.remove("open");stage.setAttribute("aria-hidden","true");document.body.classList.remove("ai-stage-visible");if(restoreFocus)document.querySelector('[data-position-index="'+ownerIndex+'"] .card-button')?.focus({preventScroll:true});
   }
   refreshAIStage(index){
     if(index!==this.aiStageIndex||!this.aiStageElement)return;const item=this.reading?.items[index];if(item?.ai?.token===this.aiStageDismissedToken)return;this.renderAIStage();requestAnimationFrame(()=>this.positionAIStage());
@@ -586,9 +664,15 @@ class ArcanaApplication{
     if(item.ai.status==="pending"){stage.classList.add("pending");body.append(make("p",{class:"ai-stage-pulse",text:"Arcana is considering this card…"}))}
     else if(item.ai.status==="failed"){stage.classList.add("failed");body.append(make("p",{class:"status error",text:item.ai.error}));if(this.aiEnabled())body.append(make("button",{class:"secondary",type:"button",text:"Retry this interpretation",on:{click:()=>this.requestCardReflection(this.aiStageIndex)}}));else body.append(make("p",{class:"quiet",text:"Enable the guide and connect a key before retrying."}))}
     else if(item.ai.status==="ready"){stage.classList.add("ready");const data=item.ai.data;body.append(make("p",{text:data.reflection}));if(data.tension)body.append(make("h3",{text:"Living tension"}),make("p",{text:data.tension}));if(data.question)body.append(make("h3",{text:"Question to carry"}),make("p",{text:data.question}));if(item.voice.status==="pending")body.append(make("p",{class:"quiet",text:"Narration is being prepared…"}));if(item.voice.status==="failed"&&this.preferences.speech&&this.aiEnabled())body.append(make("button",{class:"secondary",type:"button",text:"Retry narration",on:{click:()=>this.requestNarration(this.aiStageIndex)}}))}
+    const mediaControls=this.buildAIStageMediaControls(this.aiStageIndex);if(mediaControls)body.append(mediaControls);
+  }
+  mediaIconButton(id,label,icon,handler,disabled=false){const properties={type:"button",disabled,attrs:{"aria-label":label,title:label},on:{click:handler}};if(id)properties.id=id;return make("button",properties,make("span",{class:"media-icon",text:icon,attrs:{"aria-hidden":"true"}}))}
+  buildAIStageMediaControls(index){
+    const media=this.media.state;if(media?.kind!=="narration"||media.index!==index)return null;const disabled=["preparing","failed"].includes(media.status),playing=media.status==="playing",label=playing?"Pause narration":"Play narration",status=media.status==="preparing"?"Preparing narration…":media.status==="blocked"?"Tap Play to hear narration.":media.status==="playing"?"Narration playing":media.status==="paused"?"Narration paused":media.status==="completed"?"Narration complete":"Narration ready";
+    return make("div",{class:"ai-stage-media-controls",attrs:{"aria-label":"Narration controls"}},this.mediaIconButton(null,label,playing?"Ⅱ":"▶",()=>this.media.playPause(),disabled),this.mediaIconButton(null,"Replay narration","↺",()=>this.media.replay(),disabled),this.mediaIconButton(null,"Stop narration","■",()=>this.stopAudio(),disabled),make("span",{class:"ai-stage-media-status",text:status}));
   }
   positionAIStage(){
-    const stage=this.aiStageElement;if(!stage||!stage.classList.contains("open"))return;const nav=document.querySelector(".reading-nav"),card=document.querySelector(".card-button");if(!nav||!card)return;const navBottom=nav.getBoundingClientRect().bottom,cardTop=card.getBoundingClientRect().top,available=cardTop-navBottom-12,viewportCap=Math.floor(innerHeight*.34),avoidOverlap=available>=140,maxHeight=avoidOverlap?Math.min(260,available):Math.min(260,viewportCap),top=Math.max(0,navBottom+6);stage.style.setProperty("--ai-stage-top",top+"px");stage.style.setProperty("--ai-stage-max",Math.max(140,maxHeight)+"px");document.documentElement.style.setProperty("--ai-stage-top-global",top+"px");stage.classList.toggle("overlap",!avoidOverlap);document.querySelectorAll(".ai-stage-owner").forEach(node=>node.classList.remove("ai-stage-owner","ai-stage-overlap"));const owner=document.querySelector('[data-position-index="'+this.aiStageIndex+'"]');if(owner)owner.classList.add("ai-stage-owner",...(!avoidOverlap?["ai-stage-overlap"]:[]));
+    const stage=this.aiStageElement;if(!stage||!stage.classList.contains("open"))return;const nav=document.querySelector(".reading-nav");if(!nav)return;const top=Math.max(0,nav.getBoundingClientRect().bottom+8),height=Math.max(220,innerHeight-top-12);stage.style.setProperty("--ai-stage-top",top+"px");stage.style.setProperty("--ai-stage-height",height+"px");
   }
   cardView(item,index){
     const selected=index===this.selectedIndex,classes=["card-button",item.phase==="face-down"?"":"revealed",item.phase==="turning"?"turning":"",selected?"selected":"",item.ai.status==="pending"?"text-pending":"",item.voice.status==="pending"?"voice-pending":"",item.ai.status==="ready"?"ai-ready":""].filter(Boolean).join(" ");
@@ -603,7 +687,7 @@ class ArcanaApplication{
   }
   renderCard(index){const current=document.querySelector('[data-position-index="'+index+'"]');if(!current)return;const active=current.contains(document.activeElement)?document.activeElement:null,focusSelector=active?.classList.contains("reflection-trigger")?".reflection-trigger":active?.classList.contains("card-button")?".card-button":null,replacement=this.cardView(this.reading.items[index],index);if(this.reflection?.index===index){replacement.classList.add("inspection-selected");this.reflection.invoker=replacement.querySelector(".reflection-trigger")||this.reflection.invoker}current.replaceWith(replacement);if(focusSelector)replacement.querySelector(focusSelector)?.focus({preventScroll:true});requestAnimationFrame(()=>this.positionAIStage())}
   async activateCard(index){
-    const item=this.reading.items[index];this.selectedIndex=index;this.updateSelection();if(item.phase==="turning")return;if(item.phase!=="face-down")return;
+    this.media.unlock();const item=this.reading.items[index];this.selectedIndex=index;this.updateSelection();if(item.phase==="turning")return;if(item.phase!=="face-down")return;
     item.phase="turning";this.renderCard(index);if(this.preferences.sound){if(this.media.state?.kind==="narration")this.stopAudio();this.media.playTurn(item.card.title)}
     await new Promise(resolve=>setTimeout(resolve,matchMedia("(prefers-reduced-motion: reduce)").matches?0:780));if(!this.reading||this.reading.items[index]!==item)return;
     item.phase="revealed";this.renderCard(index);announce("Revealed "+item.card.title+", "+(item.reversed?"reversed":"upright")+", at "+item.position.label+".");if(this.aiEnabled())this.requestCardReflection(index);if(this.allRevealed())this.renderCompletion();
@@ -613,14 +697,14 @@ class ArcanaApplication{
   reconcileAI(){if(!this.aiEnabled())return;this.reading.items.forEach((item,index)=>{if(item.phase==="revealed"&&["idle","cancelled"].includes(item.ai.status))this.requestCardReflection(index)});if(this.allRevealed())this.renderCompletion()}
   allRevealed(){return Boolean(this.reading&&this.reading.items.every(item=>item.phase==="revealed"))}
   buildMediaTransport(){
-    return make("section",{id:"media-transport",class:"media-transport empty",attrs:{"aria-label":"Audio controls","aria-hidden":"true"}},make("div",{id:"media-label",class:"media-label",text:"Audio"}),make("div",{class:"media-controls"},make("button",{id:"media-play",type:"button",text:"Play",on:{click:()=>this.media.playPause()}}),make("button",{id:"media-replay",type:"button",text:"Replay",on:{click:()=>this.media.replay()}}),make("button",{id:"media-stop",type:"button",text:"Stop",on:{click:()=>this.stopAudio()}})),make("div",{class:"media-progress"},make("progress",{id:"media-progress",max:1,value:0,attrs:{"aria-label":"Audio progress"}}),make("span",{id:"media-time",class:"media-time",text:"0:00 / 0:00"})));
+    return make("section",{id:"media-transport",class:"media-transport empty",attrs:{"aria-label":"Audio controls","aria-hidden":"true"}},make("div",{id:"media-label",class:"media-label",text:"Audio"}),make("div",{class:"media-controls"},this.mediaIconButton("media-play","Play audio","▶",()=>this.media.playPause()),this.mediaIconButton("media-replay","Replay audio","↺",()=>this.media.replay()),this.mediaIconButton("media-stop","Stop audio","■",()=>this.stopAudio())),make("div",{class:"media-progress"},make("progress",{id:"media-progress",max:1,value:0,attrs:{"aria-label":"Audio progress"}}),make("span",{id:"media-time",class:"media-time",text:"0:00 / 0:00"})));
   }
   stopAudio(){const index=this.media.state?.index;this.voiceSequence++;this.openAI.abortSpeech();this.media.stop(true);if(Number.isInteger(index)&&this.reading?.items[index]){this.reading.items[index].voice={status:"stopped"};this.renderCard(index);this.refreshAIStage(index)}}
   displaceNarration(nextIndex){const index=this.media.state?.kind==="narration"?this.media.state.index:null;if(!Number.isInteger(index))return;this.voiceSequence++;this.openAI.abortSpeech();this.media.stop(true);if(this.reading?.items[index]){this.reading.items[index].voice={status:index===nextIndex?"cancelled":"stopped"};this.renderCard(index);this.refreshAIStage(index)}}
   updateMediaTransport(){
     const transport=document.getElementById("media-transport");if(!transport)return;const media=this.media.state;transport.classList.toggle("empty",!media);transport.setAttribute("aria-hidden",media?"false":"true");if(!media)return;
-    document.getElementById("media-label").textContent=media.label+(media.status==="preparing"?" · preparing":media.status==="failed"?" · unavailable":"");
-    const play=document.getElementById("media-play");play.textContent=media.status==="playing"?"Pause":"Play";play.disabled=["preparing","failed"].includes(media.status);document.getElementById("media-replay").disabled=play.disabled;
+    document.getElementById("media-label").textContent=media.label+(media.status==="preparing"?" · preparing":media.status==="failed"?" · unavailable":media.status==="blocked"?" · tap play":"");
+    const play=document.getElementById("media-play"),playing=media.status==="playing",playLabel=playing?"Pause audio":"Play audio";play.querySelector(".media-icon").textContent=playing?"Ⅱ":"▶";play.setAttribute("aria-label",playLabel);play.title=playLabel;play.disabled=["preparing","failed"].includes(media.status);document.getElementById("media-replay").disabled=play.disabled;
     const progress=document.getElementById("media-progress"),time=document.getElementById("media-time"),current=this.media.currentTime();
     if(Number.isFinite(media.duration)&&media.duration>0){progress.max=media.duration;progress.value=Math.min(media.duration,current);progress.setAttribute("aria-valuetext",formatTime(current)+" of "+formatTime(media.duration));time.textContent=formatTime(current)+" / "+formatTime(media.duration)}
     else{progress.removeAttribute("value");progress.setAttribute("aria-valuetext","Duration not yet known");time.textContent=formatTime(current)+" / —:—"}requestAnimationFrame(()=>this.positionAIStage())

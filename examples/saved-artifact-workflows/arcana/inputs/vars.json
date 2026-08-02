@@ -1,4 +1,14 @@
 {
+  "secret_crypto_requirement": "optional",
+  "secret_storage_backend": "cookie",
+  "secret_unlock_mode": "passphrase",
+  "secret_cookie_name": "arcana-openai-key-v1",
+  "secret_cookie_days": 30,
+  "secret_cookie_path": "current-app-directory",
+  "secret_kdf_iterations": 310000,
+  "secret_min_passphrase_length": 12,
+  "secret_context": "arcana-openai-key",
+  "secret_allow_replacement": "on",
   "deck": {
     "schema_version": 2,
     "id": "arcana",

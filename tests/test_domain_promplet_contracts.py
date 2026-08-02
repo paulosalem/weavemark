@@ -349,6 +349,7 @@ async def test_arcana_separates_card_execution_from_app_specification() -> None:
     for refinement in (
         "programming.foundations.software_spec",
         "programming.stacks.browser_static_esmodules",
+        "programming.modules.browser_encrypted_secret_storage",
         "programming.modules.adaptive_workspace_shell",
         "programming.modules.focus_preserving_inspection",
         "programming.validation.playwright_mcp_browser_validation",
@@ -361,7 +362,14 @@ async def test_arcana_separates_card_execution_from_app_specification() -> None:
         "Enter without the OpenAI guide?",
         "Optional OpenAI guide",
         "Card reflection",
-        "Automatic AI interpretation top stage",
+        "Automatic AI interpretation side stage",
+        "iOS/iPadOS WebKit",
+        "one persistent",
+        "`HTMLAudioElement`",
+        "icon-only Play/Pause",
+        "secret_crypto_requirement",
+        "secret_storage_backend",
+        "secret_kdf_iterations",
         "Question inspiration",
         "What deserves my courage right now?",
         "semantic progress",
@@ -372,6 +380,34 @@ async def test_arcana_separates_card_execution_from_app_specification() -> None:
         "Double click",
     ):
         assert obligation in app_source
+    encrypted_storage = _source(
+        "programming/fragments/modules/"
+        "module-browser-encrypted-secret-storage.weavemark.md"
+    )
+    assert (
+        "@module weavemark.domains.programming.modules."
+        "browser_encrypted_secret_storage"
+    ) in encrypted_storage
+    for selector in (
+        "secret_crypto_requirement",
+        "secret_storage_backend",
+        "secret_unlock_mode",
+        "secret_allow_replacement",
+    ):
+        assert f"@match {selector}" in encrypted_storage
+    for obligation in (
+        "AES-256-GCM",
+        "PBKDF2-HMAC-SHA-256",
+        "SameSite=Strict",
+        "never permits plaintext storage",
+        "Decrypt only after an explicit user unlock gesture",
+    ):
+        assert obligation in encrypted_storage
+    assert variables["secret_crypto_requirement"] == "optional"
+    assert variables["secret_storage_backend"] == "cookie"
+    assert variables["secret_unlock_mode"] == "passphrase"
+    assert variables["secret_allow_replacement"] == "on"
+    assert variables["secret_kdf_iterations"] == 310_000
     assert "Output only the final HTML document" not in app_source
     assert "Do NOT emit HTML, CSS, JavaScript" in app_source
 
@@ -392,6 +428,7 @@ async def test_arcana_separates_card_execution_from_app_specification() -> None:
     assert runner_source.count('weavemark "$APP_SPEC"') == 1
     assert "--regenerate-cards" in runner_source
     assert "generation_fingerprint" in runner_source
+    assert "del(.ai_guide)" in runner_source
     assert "is_hydrated_png" in runner_source
     assert "89504e470d0a1a0a" in runner_source
     assert "artifact_manifest_matches" in runner_source
@@ -404,11 +441,23 @@ async def test_arcana_separates_card_execution_from_app_specification() -> None:
         'weavemark "$CARDS_SPEC"'
     )
 
+    variables = json.loads((example / "inputs/vars.json").read_text(encoding="utf-8"))
+    card_generation_deck = dict(variables["deck"])
+    card_generation_deck.pop("ai_guide")
+    normalized_card_inputs = (
+        json.dumps(
+            {"deck": card_generation_deck},
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+        + "\n"
+    ).encode()
     expected_fingerprint = sha256(
         b"text-model=gpt-5.6-terra\nimage-model=gpt-image-2\n"
         + cards_source.encode("utf-8")
         + b"\0"
-        + (example / "inputs/vars.json").read_bytes()
+        + normalized_card_inputs
     ).hexdigest()
     assert (
         example / "outputs/cards-build.sha256"
@@ -416,9 +465,9 @@ async def test_arcana_separates_card_execution_from_app_specification() -> None:
 
 
 @pytest.mark.asyncio
-async def test_all_57_domain_promplets_scan_and_compile() -> None:
+async def test_all_domain_promplets_scan_and_compile() -> None:
     paths = sorted(DOMAINS.rglob("*.weavemark.md"))
-    assert len(paths) == 57
+    assert len(paths) == 58
 
     client = _CompileClient()
     failures: list[str] = []

@@ -18,10 +18,13 @@ Then open <http://127.0.0.1:4197/>.
   generated artifacts.
 - Manual play is offline and makes no provider requests.
 - OpenAI reflection and narration are separately optional.
-- Arcana never persists the API key. A browser/password manager may restore a
+- Arcana never persists the plaintext API key. A browser/password manager may restore a
   key from protected credential storage; the app identifies that state and lets
-  the user keep it or replace it. Once accepted, the key and generated audio
-  remain in page memory only.
+  the user keep it or replace it. Users may also opt into a 30-day cookie that
+  contains only an AES-GCM encrypted key envelope. Unlock requires the unstored
+  passphrase; finding the cookie never connects OpenAI or grants consent. Once
+  accepted, plaintext key material and generated audio remain in page memory
+  only, and Forget key deletes the encrypted cookie.
 - Unsaved private questions are not persisted.
 
 ## Browser support
@@ -42,9 +45,12 @@ Browser validation covers manual and mocked-provider readings, all five
 reflection depths, text/voice glow, TTS retry, card-turn and reflection geometry,
 audio transport, final synthesis restoration, drawers/focus, reduced motion,
 privacy/storage, and 320-pixel rendering. Per-card AI interpretation arrives
-automatically in a shallow sliding top stage; manual Card reflection remains
-click-only. Setup and the active OpenAI drawer also provide editable deep-question
-presets.
+automatically in a tall sliding side stage that reserves card space on desktop
+and iPad-size layouts; manual Card reflection remains click-only. The side stage
+and navbar mirror icon-only narration controls. Narration reuses one
+gesture-primed media element for iOS/iPadOS WebKit compatibility, while blocked
+autoplay remains recoverable through Play. Setup and the active OpenAI drawer
+also provide editable deep-question presets.
 
 ## Limitations
 
