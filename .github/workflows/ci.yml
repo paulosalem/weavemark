@@ -44,7 +44,7 @@ jobs:
           git clone --quiet https://github.com/paulosalem/ellements.git \
             "$RUNNER_TEMP/ellements"
           git -C "$RUNNER_TEMP/ellements" checkout --quiet \
-            44741f3ef48217ad4934f7a0ae255d3d04c70b8d
+            0200cd350638e27321c7d751928eeaa7fbb77510
 
       - name: Install package and release tools
         run: |
@@ -145,7 +145,7 @@ jobs:
             --find-links "$RUNNER_TEMP/ellements-dist" \
             dist/*.whl
           "$RUNNER_TEMP/weavemark-wheel/bin/python" -c \
-            "import weavemark; assert weavemark.__version__ == '0.9.3'"
+            "import weavemark; assert weavemark.__version__ == '0.9.4'"
           "$RUNNER_TEMP/weavemark-wheel/bin/weavemark" --version
 
   compatibility:

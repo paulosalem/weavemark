@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.9.4 - 2026-08-03
+
+### Fixed
+
+- Runtime dependencies now require Ellements 0.2.2 and LiteLLM 1.94.1+, removing
+  the preset-cache-key tracebacks emitted by the old HTTPX-constrained resolver
+  combination.
+
 ## 0.9.3 - 2026-08-03
 
 ### Added
@@ -58,7 +66,6 @@
 - Compilation now drains LiteLLM's background logging worker cleanly and avoids
   unsupported response-format parameters for GPT image edits while preserving
   durable DALL-E image caching.
-
 ## 0.9.2 - 2026-07-31
 
 ### Added

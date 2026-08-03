@@ -45,7 +45,7 @@ def test_launcher_version_does_not_import_llm_runtime() -> None:
     )
 
     assert completed.returncode == 0, completed.stderr
-    assert "weavemark 0.9.3 (WeaveMark language 0.9)" in completed.stdout
+    assert "weavemark 0.9.4 (WeaveMark language 0.9)" in completed.stdout
     assert "LITELLM_LOADED=False" in completed.stdout
 
 
