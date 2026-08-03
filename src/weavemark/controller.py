@@ -1118,6 +1118,13 @@ class WeaveMarkController:
             )
             for issue in result.diagnostics:
                 _emit("issue", issue)
+            recorded_activity: dict[str, Any] = {}
+            if result.provenance is not None:
+                original_run = result.provenance.data.get("original_run")
+                if isinstance(original_run, dict):
+                    activity = original_run.get("activity")
+                    if isinstance(activity, dict):
+                        recorded_activity = dict(activity)
             _emit(
                 "done",
                 {
@@ -1127,6 +1134,7 @@ class WeaveMarkController:
                     "output_length": len(result.composed_prompt),
                     "replay": provenance is not None
                     and provenance.replay_dir is not None,
+                    "recorded_activity": recorded_activity,
                 },
             )
 

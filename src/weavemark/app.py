@@ -128,6 +128,28 @@ def _recorded_usage_stats(totals: UsageTotals | None) -> dict[str, str]:
         stats["Recorded API cost"] = format_cost(totals.cost_usd)
     return stats
 
+
+def _replay_activity_stats(data: Mapping[str, Any]) -> dict[str, int]:
+    """Render recorded execution activity without conflating compiler tools."""
+
+    activity = data.get("recorded_activity")
+    if not isinstance(activity, Mapping):
+        return {"Compilation tool calls": int(data.get("tool_calls_made", 0))}
+
+    labels = (
+        ("Recorded execution steps", "execution_steps"),
+        ("Recorded effect calls", "effect_calls"),
+        ("Recorded provider tool calls", "provider_tool_calls"),
+        ("Recorded model calls", "model_calls"),
+    )
+    stats: dict[str, int] = {}
+    for label, key in labels:
+        value = activity.get(key)
+        if isinstance(value, int) and not isinstance(value, bool) and value >= 0:
+            stats[label] = value
+    return stats or {"Compilation tool calls": int(data.get("tool_calls_made", 0))}
+
+
 # ------------------------------------------------------------------
 # Argument parsing
 # ------------------------------------------------------------------
@@ -247,14 +269,16 @@ class WeaveMarkEventRenderer:
         if event_type == "done":
             cli_success("Composition complete", console=console)
             totals = active_totals()
-            telemetry = (
-                _recorded_usage_stats(totals)
-                if data.get("replay")
-                else usage_stats(totals)
+            replay = bool(data.get("replay"))
+            activity = (
+                _replay_activity_stats(data)
+                if replay
+                else {"Tool calls": data.get("tool_calls_made", 0)}
             )
+            telemetry = _recorded_usage_stats(totals) if replay else usage_stats(totals)
             cli_stats_footer(
                 {
-                    "Tool calls": data.get("tool_calls_made", 0),
+                    **activity,
                     "Diagnostics": data.get("diagnostics_count", 0),
                     "Output": f"{data.get('output_length', 0)} chars",
                     **telemetry,

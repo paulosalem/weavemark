@@ -300,15 +300,18 @@ When updating a rubric:
 - **Pass evidence:** The Market Snapshot replay opens its final HTML report, not
   draft Markdown.
 
-## 23. Complete replay telemetry
+## 23. Complete, phase-correct replay telemetry
 
-- **Risk:** Replay statistics may show replay activity while omitting the
-  original run's real cost and token usage.
-- **Check:** Compare original verbose statistics with replay output.
-- **Do:** Preserve original model, call count, input, output, and cached tokens,
-  latency, provider cost, tool calls, and output sizes.
-- **Pass evidence:** Replay labels historical telemetry clearly and values match
-  the recorded manifest.
+- **Risk:** Replay statistics may omit the original run's real activity or
+  present a structural compilation zero as if the restored execution made no
+  tool calls.
+- **Check:** Compare original and replay model calls, compilation tools,
+  execution steps, effects, underlying provider tools, tokens, latency, cost,
+  and output sizes.
+- **Do:** Preserve original activity in the manifest and label compilation,
+  execution, effect, provider-tool, and model counters by phase.
+- **Pass evidence:** Human and JSONL replay telemetry match the recorded
+  manifest and never conflate offline compilation with the retained execution.
 
 ## 24. Complete provenance manifests
 

@@ -106,6 +106,16 @@
       "completion_tokens": 20728,
       "total_tokens": 31730,
       "response_cost": 0.3384
+    },
+    "activity": {
+      "execution_steps": 3,
+      "effect_calls": 2,
+      "provider_tool_calls": 8,
+      "model_calls": 1,
+      "effects": [
+        "finance_data",
+        "web_search"
+      ]
     }
   },
   "artifacts": [

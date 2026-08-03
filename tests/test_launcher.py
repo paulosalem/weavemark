@@ -144,6 +144,7 @@ def test_market_replay_verbose_writes_output_and_original_run_stats(
     tmp_path: Path,
 ) -> None:
     output = tmp_path / "vale3-market-report.md"
+    events = tmp_path / "events.jsonl"
     completed = subprocess.run(
         [
             sys.executable,
@@ -155,6 +156,8 @@ def test_market_replay_verbose_writes_output_and_original_run_stats(
             "--verbose",
             "--output",
             str(output),
+            "--events-jsonl",
+            str(events),
         ],
         cwd=ROOT,
         capture_output=True,
@@ -171,6 +174,10 @@ def test_market_replay_verbose_writes_output_and_original_run_stats(
     assert (tmp_path / "market-dashboard.html").is_file()
     rendered = " ".join((completed.stdout + completed.stderr).split())
     for statistic in (
+        "execution steps: 3",
+        "effect calls: 2",
+        "provider tool calls: 8",
+        "model calls: 1",
         "Recorded input",
         "11,002",
         "Recorded cached",
@@ -181,6 +188,21 @@ def test_market_replay_verbose_writes_output_and_original_run_stats(
         "$0.3384",
     ):
         assert statistic in rendered
+    assert "Tool calls: 0" not in rendered
+    records = [
+        json.loads(line)
+        for line in events.read_text(encoding="utf-8").splitlines()
+        if line
+    ]
+    done = next(record for record in records if record["type"] == "done")
+    assert done["phase"] == "composition"
+    assert done["data"]["recorded_activity"] == {
+        "execution_steps": 3,
+        "effect_calls": 2,
+        "provider_tool_calls": 8,
+        "model_calls": 1,
+        "effects": ["finance_data", "web_search"],
+    }
 
 
 def test_ai_kanban_replay_verbose_reports_recorded_usage(
@@ -209,7 +231,7 @@ def test_ai_kanban_replay_verbose_reports_recorded_usage(
     assert completed.returncode == 0, rendered
     assert output.is_file()
     for statistic in (
-        "Tool calls: 14",
+        "Compilation tool calls: 14",
         "input:",
         "133,913",
         "Recorded cached",

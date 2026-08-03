@@ -471,6 +471,10 @@ weavemark spec.weavemark.md --replay-run ./bundle
   source hash, variable hash, compiler prompt hash, response-schema hash, compile
   configuration, module and resource hashes, and every recorded call hash. Any
   mismatch, or any attempt to reach the network, fails the run.
+- Verbose replay distinguishes compilation activity from the retained original
+  execution. Compile-only recordings report `Compilation tool calls`; retained
+  runs report recorded execution steps, effect calls, underlying provider tool
+  calls, and model calls when those counters are present in `original_run.activity`.
 
 A bundle may also retain a snapshot of the final artifacts from the execution
 that followed compilation. Each retained artifact declares a safe relative path,
@@ -505,6 +509,9 @@ weavemark library market-snapshot --vars-file inputs.json --run \
 Each JSON Lines record carries an ISO timestamp, a monotonic sequence number, a
 type, an optional phase, and structured data including absolute artifact and
 package paths. Use `-` to stream to stdout.
+During replay, the composition `done` record includes `recorded_activity` when
+the bundle declares `original_run.activity`; its counters describe the retained
+execution rather than the offline compilation pass.
 
 `--interaction-stdin jsonl` makes the channel bidirectional: the Processor emits
 interaction requests (missing variables, protection confirmations) on the event

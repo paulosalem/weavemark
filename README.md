@@ -23,7 +23,7 @@ Compilation is intentionally hybrid: variables, branches, imports, output contra
 
 > 💡 **Language is a tool for thought.** Prompts formulate ways of thinking, and WeaveMark makes their linguistic and cognitive structure explicit and composable. See [the principles](https://paulosalem.github.io/weavemark/docs/principles.html) for what follows from this.
 
-[![Watch the 80-second WeaveMark walkthrough](docs/weavemark-demo-poster.jpg)](https://youtu.be/Bh79dlrVxtk)
+[![Watch the 80-second WeaveMark walkthrough](docs/weavemark-demo-poster.jpg)](https://youtu.be/gHJ4O_QGWJ4)
 
 ## 🖼️ See what it produced
 

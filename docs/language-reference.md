@@ -290,6 +290,9 @@ Replay is a Processor operation, not a language construct. A replay bundle may
 retain the final artifacts from an earlier `--run`; replay verifies those bytes
 and restores them when an artifact destination is requested, but does not
 re-evaluate `@execute`, call `@bind` capabilities, or perform package effects.
+Processor telemetry distinguishes compile-time tool calls from recorded
+execution steps, effects, provider tool calls, and model calls when the bundle
+declares those original-run counters.
 The source language therefore keeps the same execution boundary during live
 compilation and replay.
 

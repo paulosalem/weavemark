@@ -295,6 +295,10 @@ weavemark example.weavemark.md --replay-run outputs/example-run
 Recordings include exact LLM requests, responses, and tool results and can
 therefore contain source text, variables, imported content, and images. They
 are created with restrictive permissions and must be treated as sensitive.
+When a curated replay retains an executed run, `original_run.activity` records
+execution steps, effect calls, underlying provider tool calls, and model calls.
+Verbose replay labels these as recorded activity rather than presenting
+compile-time tool calls as if they described the restored execution.
 
 Replay makes no provider calls and never falls back to live completion. It
 fails if the canonical request sequence or deterministic local tool results

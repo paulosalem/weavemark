@@ -126,8 +126,8 @@ def test_home_preserves_principles_and_explains_replay_before_claiming_it() -> N
     assert 'id="compiler-proof"' not in home
     assert 'id="walkthrough" class="video-slot" data-video-slot' in home
     assert "weavemark-demo-poster.jpg" in home
-    assert 'class="video-poster" href="https://youtu.be/Bh79dlrVxtk"' in home
-    assert "https://www.youtube.com/embed/Bh79dlrVxtk" in home
+    assert 'class="video-poster" href="https://youtu.be/gHJ4O_QGWJ4"' in home
+    assert "https://www.youtube.com/embed/gHJ4O_QGWJ4" in home
     assert 'playerUrl.searchParams.set("origin", clientOrigin)' in home
     assert 'playerUrl.searchParams.set("widget_referrer"' in home
     assert "YouTube loads only after you press play." in home
@@ -155,6 +155,13 @@ def test_public_replay_metrics_match_recorded_manifests() -> None:
     original = market["original_run"]
     assert original["duration_ms"] == 177_200
     assert original["output_chars"] == 24_464
+    assert original["activity"] == {
+        "execution_steps": 3,
+        "effect_calls": 2,
+        "provider_tool_calls": 8,
+        "model_calls": 1,
+        "effects": ["finance_data", "web_search"],
+    }
     assert original["usage"] == {
         "prompt_tokens": 11_002,
         "cache_read_input_tokens": 0,
@@ -215,5 +222,5 @@ def test_walkthrough_poster_and_readme_link_are_published_locally() -> None:
 
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "docs/weavemark-demo-poster.jpg" in readme
-    assert "https://youtu.be/Bh79dlrVxtk" in readme
+    assert "https://youtu.be/gHJ4O_QGWJ4" in readme
     assert "Watch the 80-second WeaveMark walkthrough" in readme
