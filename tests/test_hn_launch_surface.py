@@ -124,7 +124,14 @@ def test_home_preserves_principles_and_explains_replay_before_claiming_it() -> N
     assert "weavemark library market-snapshot --replay --verbose" in home
     assert "Can an LLM sensibly act as a compiler" not in home
     assert 'id="compiler-proof"' not in home
-    assert 'class="video-slot" hidden data-video-slot' in home
+    assert 'id="walkthrough" class="video-slot" data-video-slot' in home
+    assert "weavemark-demo-poster.jpg" in home
+    assert 'class="video-poster" href="https://youtu.be/Bh79dlrVxtk"' in home
+    assert "https://www.youtube.com/embed/Bh79dlrVxtk" in home
+    assert 'playerUrl.searchParams.set("origin", clientOrigin)' in home
+    assert 'playerUrl.searchParams.set("widget_referrer"' in home
+    assert "YouTube loads only after you press play." in home
+    assert "<iframe" not in home
     assert '<script src="analytics.js?v=20260720" defer></script>' in home
 
 
@@ -199,3 +206,14 @@ def test_social_preview_has_standard_large_card_dimensions() -> None:
     assert "weavemark_social.png" in home
     assert '<meta property="og:image:width" content="1200">' in home
     assert '<meta property="og:image:height" content="630">' in home
+
+
+def test_walkthrough_poster_and_readme_link_are_published_locally() -> None:
+    poster_path = ROOT / "docs" / "weavemark-demo-poster.jpg"
+    with Image.open(poster_path) as image:
+        assert image.size == (1280, 720)
+
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "docs/weavemark-demo-poster.jpg" in readme
+    assert "https://youtu.be/Bh79dlrVxtk" in readme
+    assert "Watch the 80-second WeaveMark walkthrough" in readme

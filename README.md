@@ -21,9 +21,9 @@ use the **WeaveMark Processor** to: **compile** a concrete prompt, which can the
 
 Compilation is intentionally hybrid: variables, branches, imports, output contracts, and validation are structural; semantic directives such as `@refine` are realized by an LLM. Execution, when requested, relies on predefined engines that follow well-established LLM patterns, as well as user-specified companion programs.
 
-> 💡 **Language is a tool for thought.** Prompts formulate ways of thinking, and WeaveMark
-> makes their linguistic and cognitive structure explicit and composable. See
-> [the principles](https://paulosalem.github.io/weavemark/docs/principles.html) for what follows from this.
+> 💡 **Language is a tool for thought.** Prompts formulate ways of thinking, and WeaveMark makes their linguistic and cognitive structure explicit and composable. See [the principles](https://paulosalem.github.io/weavemark/docs/principles.html) for what follows from this.
+
+[![Watch the 80-second WeaveMark walkthrough](docs/weavemark-demo-poster.jpg)](https://youtu.be/Bh79dlrVxtk)
 
 ## 🖼️ See what it produced
 

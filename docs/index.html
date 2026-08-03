@@ -22,7 +22,7 @@
     <meta name="twitter:description" content="Write prompts as readable Markdown woven with directives for reuse, control flow, and output contracts. The WeaveMark Processor compiles them into concrete prompt artifacts, and can execute them.">
     <meta name="twitter:image" content="https://paulosalem.github.io/weavemark/docs/weavemark_social.png">
     <link rel="canonical" href="https://paulosalem.github.io/weavemark/">
-    <link rel="stylesheet" href="site.css?v=20260802-scan3">
+    <link rel="stylesheet" href="site.css?v=20260802-video1">
     <link rel="icon" href="weavemark_favicon.png" type="image/png">
     <script src="analytics.js?v=20260720" defer></script>
     <script src="mobile-navigation.js?v=20260723" defer></script>
@@ -633,8 +633,33 @@ Give the smallest safe next action in board-ready language.</code></pre>
           </div>
         </aside>
 
-        <section class="video-slot" hidden data-video-slot aria-label="One-minute WeaveMark walkthrough">
-          <div class="video-frame"></div>
+        <section id="walkthrough" class="video-slot" data-video-slot aria-labelledby="walkthrough-title">
+          <div class="section-head video-slot-head">
+            <div>
+              <p class="section-kicker"><span class="ic ic-window" aria-hidden="true"></span>80-second walkthrough</p>
+              <h2 id="walkthrough-title">See WeaveMark in motion.</h2>
+            </div>
+            <p class="section-lede">
+              Take a quick tour from readable promplet source to compilation,
+              execution, and finished artifacts.
+            </p>
+          </div>
+          <div class="video-frame">
+            <a class="video-poster" href="https://youtu.be/Bh79dlrVxtk" data-video-play aria-label="Play the 80-second WeaveMark walkthrough">
+              <img src="weavemark-demo-poster.jpg" alt="" width="1280" height="720" loading="lazy">
+              <span class="video-poster-shade" aria-hidden="true"></span>
+              <span class="video-play-mark" aria-hidden="true"><span></span></span>
+              <span class="video-poster-copy">
+                <strong>Watch the walkthrough</strong>
+                <span>1:20</span>
+              </span>
+            </a>
+          </div>
+          <p class="video-privacy">
+            YouTube loads only after you press play. If the embedded player is
+            blocked, <a href="https://youtu.be/Bh79dlrVxtk">watch the
+            full-resolution video on YouTube</a>.
+          </p>
         </section>
       </section>
 
@@ -843,6 +868,34 @@ Give the smallest safe next action in board-ready language.</code></pre>
         reducedMotion.addEventListener("change", start);
         showSlide(0);
         start();
+      })();
+    </script>
+    <script>
+      (() => {
+        const frame = document.querySelector("[data-video-slot] .video-frame");
+        const play = frame?.querySelector("[data-video-play]");
+        if (!frame || !play) return;
+
+        play.addEventListener("click", (event) => {
+          event.preventDefault();
+          const playerUrl = new URL("https://www.youtube.com/embed/Bh79dlrVxtk");
+          const clientOrigin = /^https?:$/.test(window.location.protocol)
+            ? window.location.origin
+            : "https://paulosalem.github.io";
+          playerUrl.searchParams.set("autoplay", "1");
+          playerUrl.searchParams.set("playsinline", "1");
+          playerUrl.searchParams.set("rel", "0");
+          playerUrl.searchParams.set("origin", clientOrigin);
+          playerUrl.searchParams.set("widget_referrer", window.location.href.split("#")[0]);
+          const player = document.createElement("iframe");
+          player.src = playerUrl.toString();
+          player.title = "WeaveMark 80-second walkthrough";
+          player.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+          player.referrerPolicy = "strict-origin-when-cross-origin";
+          player.allowFullscreen = true;
+          frame.replaceChildren(player);
+          player.focus();
+        }, { once: true });
       })();
     </script>
     <script>
