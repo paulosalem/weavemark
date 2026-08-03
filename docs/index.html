@@ -102,14 +102,14 @@
 <span class="syntax-directive">@package</span> <span class="syntax-key">instructions:</span> module:weavemark.domains.creative.picture_book_html <span class="syntax-key">file:</span> book.html
 <span class="syntax-directive">@package</span> <span class="syntax-key">from:</span> book.html <span class="syntax-key">file:</span> book.pdf</code></pre>
               <pre class="hero-slide" data-carousel-slide data-title="AI Kanban — live browser demo" data-href="../outputs/implementations/ai-kanban-browser/index.html" data-result-href="../outputs/implementations/ai-kanban-browser/index.html" data-source-href="../promplets/catalog/standalone/ai-kanban-board.weavemark.md" data-tutorial-href="tutorial-implement.html" data-live-demo="ai-kanban" data-stat-a-title="real local file" data-stat-a-text="open, create, save, and reopen SQLite" data-stat-b-title="no backend" data-stat-b-text="static JavaScript plus a WASM worker" data-stat-c-title="AI handoff" data-stat-c-text="provider-neutral copy, preview, approve" hidden><code><span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.browser_static_esmodules
-<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.browser_file_backed_webapp
+<span class="syntax-directive">@refine</span> module:weavemark.domains.programming.types.browser_folder_backed_webapp
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_sqlite_file_store
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.modules.browser_ai_handoff
 
 # AI Kanban
 
-A static browser board whose canonical state is
-a user-selected <span class="syntax-string">.aikanban.sqlite</span> file.
+A local, folder-backed board whose canonical state is
+<span class="syntax-string">board.sqlite</span> inside the selected workspace.
 
 Cards carry plans, typed outputs, activity,
 dependencies, and versioned AI handoff packets.</code></pre>

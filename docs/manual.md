@@ -440,7 +440,9 @@ Process-level overrides: `WEAVEMARK_LOG=0`, `WEAVEMARK_LOG_DIR`,
 
 Identical API calls are cached locally, so re-running the same prompt, model,
 tools, and parameters costs nothing. Text calls use LiteLLM's disk cache; image
-generation uses a content-addressed image cache. Default directory:
+generation and edits use a content-addressed image cache. WeaveMark requests
+durable base64 responses only from image operations that support that parameter;
+image-edit providers use their native response encoding. Default directory:
 `~/.weavemark/cache`.
 
 ```json

@@ -9,7 +9,7 @@ LANGUAGE_VERSION = "0.9"
 try:
     __version__ = version("weavemark")
 except PackageNotFoundError:
-    __version__ = "0.9.2"
+    __version__ = "0.9.3"
 
 PROCESSOR_VERSION = __version__
 

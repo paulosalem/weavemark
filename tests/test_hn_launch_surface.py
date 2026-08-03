@@ -133,6 +133,10 @@ def test_home_preserves_principles_and_explains_replay_before_claiming_it() -> N
     assert "YouTube loads only after you press play." in home
     assert "<iframe" not in home
     assert '<script src="analytics.js?v=20260720" defer></script>' in home
+    assert "browser_folder_backed_webapp" in home
+    assert "browser_file_backed_webapp" not in home
+    assert "board.sqlite" in home
+    assert ".aikanban.sqlite" not in home
 
 
 def test_public_replay_metrics_match_recorded_manifests() -> None:
@@ -213,6 +217,15 @@ def test_social_preview_has_standard_large_card_dimensions() -> None:
     assert "weavemark_social.png" in home
     assert '<meta property="og:image:width" content="1200">' in home
     assert '<meta property="og:image:height" content="630">' in home
+
+
+def test_showcase_previews_match_current_card_aspect_ratios() -> None:
+    for relative, expected in (
+        ("docs/showcase-market-report.jpg", (960, 600)),
+        ("docs/showcase-ai-kanban.jpg", (960, 666)),
+    ):
+        with Image.open(ROOT / relative) as image:
+            assert image.size == expected
 
 
 def test_walkthrough_poster_and_readme_link_are_published_locally() -> None:

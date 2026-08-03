@@ -287,6 +287,72 @@ async def test_cached_weavemark_image_calls_request_durable_base64(
 
 
 @pytest.mark.asyncio
+async def test_cached_gpt_image_edits_omit_rejected_response_format(
+    tmp_path: Path,
+) -> None:
+    client = LLMClient(
+        model="openai/gpt-image-1.5",
+        local_cache=LocalCacheConfig(
+            tmp_path,
+            cache_responses=False,
+        ),
+    )
+    provider = AsyncMock(
+        return_value=SimpleNamespace(
+            created=1,
+            data=[{"b64_json": "edited-image-data"}],
+            model="openai/gpt-image-1.5",
+            usage=None,
+        )
+    )
+
+    with patch("ellements.core.llm.client.litellm.aimage_edit", provider):
+        generated, method = await render_image(
+            client,
+            "Edit from references.",
+            model="openai/gpt-image-1.5",
+            kwargs={"response_format": "b64_json"},
+            edit_files=[("reference.png", b"reference")],
+        )
+
+    assert method == "edit_image"
+    assert generated[0]["b64_json"] == "edited-image-data"
+    assert "response_format" not in provider.await_args.kwargs
+
+
+@pytest.mark.asyncio
+async def test_cached_dall_e_edits_request_durable_base64(tmp_path: Path) -> None:
+    client = LLMClient(
+        model="openai/dall-e-2",
+        local_cache=LocalCacheConfig(
+            tmp_path,
+            cache_responses=False,
+        ),
+    )
+    provider = AsyncMock(
+        return_value=SimpleNamespace(
+            created=1,
+            data=[{"b64_json": "edited-image-data"}],
+            model="openai/dall-e-2",
+            usage=None,
+        )
+    )
+
+    with patch("ellements.core.llm.client.litellm.aimage_edit", provider):
+        generated, method = await render_image(
+            client,
+            "Edit from references.",
+            model="openai/dall-e-2",
+            kwargs={},
+            edit_files=[("reference.png", b"reference")],
+        )
+
+    assert method == "edit_image"
+    assert generated[0]["b64_json"] == "edited-image-data"
+    assert provider.await_args.kwargs["response_format"] == "b64_json"
+
+
+@pytest.mark.asyncio
 async def test_chat_engine_passes_resolved_cache_policy_to_client() -> None:
     logging_settings = LoggingSettings(enabled=False)
     cache_settings = CacheSettings(enabled=False)

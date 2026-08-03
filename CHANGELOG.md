@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.9.3 - 2026-08-03
+
 ### Added
 
 - `weavemark library NAME --replay` discovers a bundled strict-offline
@@ -9,9 +11,18 @@
   compilation, and can restore retained final-run artifacts. Market Snapshot
   replay reproduces its executed report, trace, and standalone HTML dashboard
   without provider credentials or network access.
+- Local text-response and generated-image caching with exact-key reuse,
+  prompt-cache telemetry, and complete retained-artifact restoration.
 - Public VALE3 Market Snapshot and AI Kanban replay bundles, a 1200x630 social
   preview, and site discovery files (`robots.txt`, `sitemap.xml`, and
   `llms.txt`).
+- Dedicated Processor operations and language-reference manuals, plus canonical
+  runnable sources for every progressive tutorial and Python API example.
+- An 80-second high-resolution video walkthrough with a click-to-load homepage
+  player and locally hosted poster.
+- Reusable encrypted browser-value storage, stronger browser/native AI Kanban
+  coordination, and improved Arcana narration, reading focus, and optional
+  protected-key restoration.
 - Lightweight Python 3.11-3.13 package smoke jobs cover installation, scanning,
   library discovery, and offline replay.
 
@@ -20,11 +31,17 @@
 - Console startup now defers the LLM runtime for package import, version output,
   and library management; informational, structural, and replay commands use
   LiteLLM's bundled pricing map without an import-time network fetch.
+- `--open` can present compile-only and replayed artifacts, selecting the
+  declared primary final output when a workflow restores several files.
 - The documentation home page preserves its hero and principles-led structure
-  while adding one compact replay card, original-run telemetry, and a hidden
-  one-minute-video slot.
-- Strict replay now reports recorded input, cached-input, output-token, and API
-  cost statistics in verbose output.
+  while foregrounding concise source-to-result proof, recorded replay, live
+  examples, and the walkthrough without launch-specific clutter.
+- Strict replay now distinguishes offline compilation from the recorded run's
+  execution steps, effects, provider-tool calls, model calls, input,
+  cached-input, output tokens, and API cost.
+- Flagship AI Kanban, Market Snapshot, Arcana, Knowledge Cards, and storybook
+  demonstrations have refreshed outputs, screenshots, telemetry, and
+  source-to-artifact links.
 - Documentation retains consent-first Google Analytics, and GitHub Actions use
   immutable commit references.
 
@@ -33,9 +50,14 @@
 - The semantic compiler's package contract consistently requires
   `instructions`/body or `from`, never the obsolete `template` field.
 - CLI help and Python API examples now reference maintained, runnable promplets.
+- Python API examples resolve installed promplets through package resources, run
+  independently without checkout-local files, and use supported output formats.
 - Public API and runtime exceptions share one `WeaveMarkError` hierarchy.
 - Edited bound Python helpers reload in long-lived processes, and discovery
   reports one actionable provider error instead of repeated LiteLLM banners.
+- Compilation now drains LiteLLM's background logging worker cleanly and avoids
+  unsupported response-format parameters for GPT image edits while preserving
+  durable DALL-E image caching.
 
 ## 0.9.2 - 2026-07-31
 

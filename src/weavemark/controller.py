@@ -696,6 +696,15 @@ async def _cleanup_litellm_logging_worker() -> None:
         import litellm.litellm_core_utils.logging_worker as logging_worker
 
         worker = logging_worker.GLOBAL_LOGGING_WORKER
+        with suppress(Exception, asyncio.CancelledError, TimeoutError):
+            await asyncio.wait_for(worker.flush(), timeout=1.0)
+        with suppress(Exception, asyncio.CancelledError, TimeoutError):
+            await asyncio.wait_for(worker.stop(), timeout=1.0)
+        worker_task = worker._worker_task
+        if worker_task is not None:
+            worker_task.cancel()
+            with suppress(Exception, asyncio.CancelledError, TimeoutError):
+                await asyncio.wait_for(worker_task, timeout=1.0)
         queue = worker._queue
         if queue is not None:
             while not queue.empty():
@@ -706,13 +715,13 @@ async def _cleanup_litellm_logging_worker() -> None:
                     if callable(close):
                         close()
                     queue.task_done()
-        worker_task = worker._worker_task
-        if worker_task is not None:
-            worker_task.cancel()
-            with suppress(Exception, asyncio.CancelledError, TimeoutError):
-                await asyncio.wait_for(worker_task, timeout=1.0)
         worker._queue = None
         worker._worker_task = None
+        running_tasks = getattr(worker, "_running_tasks", None)
+        if running_tasks is not None:
+            running_tasks.clear()
+        worker._sem = None
+        worker._bound_loop = None
 
 
 def _composition_from_structural_helper_result(

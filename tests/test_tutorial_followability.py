@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import re
 import sys
 from pathlib import Path
 
@@ -19,6 +20,8 @@ def test_batch_tutorial_commands_supply_all_documented_inputs() -> None:
     assert "outputs/tutorial-investment/brief.md" in first
 
     reuse = _tutorial("tutorial-reuse.html")
+    assert "promplets/tutorials/financial-independence-decision.weavemark.md" in reuse
+    assert "promplets/tutorials/passive-income-planning-dashboard.weavemark.md" in reuse
     for key in (
         "age",
         "annual_income",
@@ -102,6 +105,7 @@ def test_programming_tutorials_use_maintained_surfaces() -> None:
     assert "outputs/reuse/passive-income-planning-dashboard.weavemark.md" in reuse
     assert "ai-kanban-board.weavemark.md" in implement
     assert "browser_sqlite_file_store" in implement
+    assert "asks whether to allow and remember that exact item" in implement
     assert "passive-income-planning-dashboard" not in implement
     assert "orbital-drift" not in implement
     assert "passive-income-android-app" not in reuse + implement
@@ -178,12 +182,33 @@ def test_tutorials_end_with_explicit_output_use_step() -> None:
 def test_python_api_examples_use_real_paths_and_async_entrypoints() -> None:
     markdown = (ROOT / "docs" / "python-api.md").read_text(encoding="utf-8")
     html = (ROOT / "docs" / "python-api.html").read_text(encoding="utf-8")
-    source = "promplets/catalog/standalone/ai-kanban-board.weavemark.md"
+    source = "catalog/standalone/ai-kanban-board.weavemark.md"
 
-    assert (ROOT / source).is_file()
+    assert (ROOT / "promplets" / source).is_file()
     for document in (markdown, html):
         assert source in document
+        assert "tutorials/adaptive-tutor.weavemark.md" in document
+        if document is markdown:
+            assert "tutorials/adaptive-tutor-guided.weavemark.md" in document
+            assert "tutorials/iterate-onboarding.weavemark.md" in document
+        assert "tutorials/api-execution.weavemark.md" in document
+        assert "tutorials/language-learning-goal-plan.weavemark.md" in document
+        assert "bundled_promplet_path" in document
         assert "promplets/support-agent.weavemark.md" not in document
         assert "promplets/agent.weavemark.md" not in document
         assert "promplets/tree-solver.weavemark.md" not in document
+        assert "promplets/brief.weavemark.md" not in document
+        assert "promplets/review.weavemark.md" not in document
+        assert "promplets/interview.weavemark.md" not in document
+        assert "promplets/onboarding.weavemark.md" not in document
         assert "asyncio.run(main())" in document
+
+    referenced_sources = set(
+        re.findall(
+            r'bundled_promplet_path\(\s*["\']([^"\']+\.weavemark\.md)["\']',
+            markdown + html,
+        )
+    )
+    assert referenced_sources
+    for relative in referenced_sources:
+        assert (ROOT / "promplets" / relative).is_file(), relative

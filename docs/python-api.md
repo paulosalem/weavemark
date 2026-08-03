@@ -68,13 +68,14 @@ references; `project:`, `user:`, `extra:`, `builtin:`, and `module:` are explici
 
 ```python
 import asyncio
-from weavemark import compile_file
+from weavemark import bundled_promplet_path, compile_file
 
 
 async def main() -> None:
-    result = await compile_file(
-        "promplets/catalog/standalone/ai-kanban-board.weavemark.md",
-    )
+    with bundled_promplet_path(
+        "catalog/standalone/ai-kanban-board.weavemark.md"
+    ) as source:
+        result = await compile_file(source)
     if result.errors:
         raise RuntimeError(result.errors)
 
@@ -126,20 +127,33 @@ resources, notebooks, web editors, databases, or generated WeaveMark programs.
 ## Control compilation
 
 ```python
-from weavemark import CompileOptions, compile_file
+import asyncio
+from weavemark import CompileOptions, bundled_promplet_path, compile_file
 
-result = await compile_file(
-    "promplets/brief.weavemark.md",
-    variables={"topic": "battery recycling"},
-    options=CompileOptions(
-        model="gpt-5.6-terra",
-        max_iterations=12,
-        use_structural_helpers=True,
-        max_effect_rounds=6,
-        max_effect_questions=20,
-        max_iterate_turns=6,
-    ),
-)
+async def main() -> None:
+    with bundled_promplet_path("tutorials/adaptive-tutor.weavemark.md") as source:
+        result = await compile_file(
+            source,
+            variables={
+                "topic": "battery recycling",
+                "learner_context": "a product manager",
+                "learning_goal": "explain the main recovery tradeoffs",
+                "learner_level": "beginner",
+                "include_practice": True,
+            },
+            options=CompileOptions(
+                model="gpt-5.6-terra",
+                max_iterations=12,
+                use_structural_helpers=True,
+                max_effect_rounds=6,
+                max_effect_questions=20,
+                max_iterate_turns=6,
+            ),
+        )
+    print(result.composed_prompt)
+
+
+asyncio.run(main())
 ```
 
 Most practical specs should compile deterministically through structural
@@ -153,18 +167,33 @@ Promplets that import `@ask` can ask host-mediated questions while they compile.
 Provide `ask_handler` to answer those questions from your app:
 
 ```python
-from weavemark import AskPrompt, compile_file
+import asyncio
+from weavemark import AskPrompt, bundled_promplet_path, compile_file
 
 
 async def answer_ask(prompt: AskPrompt) -> str:
     print(prompt.question)
-    return await my_ui_collect_answer()
+    return "Predict how one gradient update changes a parameter."
 
 
-result = await compile_file(
-    "promplets/interview.weavemark.md",
-    ask_handler=answer_ask,
-)
+async def main() -> None:
+    with bundled_promplet_path(
+        "tutorials/adaptive-tutor-guided.weavemark.md"
+    ) as source:
+        result = await compile_file(
+            source,
+            variables={
+                "topic": "gradient descent",
+                "learner_context": "a designer learning machine-learning basics",
+                "learner_level": "beginner",
+                "include_practice": True,
+            },
+            ask_handler=answer_ask,
+        )
+    print(result.composed_prompt)
+
+
+asyncio.run(main())
 ```
 
 `@ask` is iterative. A compile round can ask several questions, return
@@ -182,11 +211,20 @@ later iterations judge each prior step envelope and rerun only the directive
 application(s) whose judge feedback says material improvement is worthwhile.
 
 ```python
-result = await compile_file(
-    "promplets/onboarding.weavemark.md",
-    options=CompileOptions(max_iterate_turns=4),
-    ask_handler=answer_ask,  # only needed when @iterate wraps its target in @ask
-)
+import asyncio
+from weavemark import CompileOptions, bundled_promplet_path, compile_file
+
+
+async def main() -> None:
+    with bundled_promplet_path("tutorials/iterate-onboarding.weavemark.md") as source:
+        result = await compile_file(
+            source,
+            options=CompileOptions(max_iterate_turns=4),
+        )
+    print(result.composed_prompt)
+
+
+asyncio.run(main())
 ```
 
 The optional positional integer on `@iterate` is capped by
@@ -202,25 +240,28 @@ The library result exposes structured fields directly. When you need the same
 primary output shape as the WeaveMark Processor, use `format_compiled_output()`:
 
 ```python
-from weavemark import compile_file, format_compiled_output
+import asyncio
+from weavemark import bundled_promplet_path, compile_file, format_compiled_output
 
-compiled = await compile_file("promplets/review.weavemark.md")
 
-markdown = format_compiled_output(compiled)
-data_json = format_compiled_output(compiled, "json")
-raw_response = format_compiled_output(compiled, "xml")
+async def main() -> None:
+    with bundled_promplet_path(
+        "tutorials/language-learning-goal-plan.weavemark.md"
+    ) as source:
+        compiled = await compile_file(source)
+    markdown = format_compiled_output(compiled)
+    data_json = format_compiled_output(compiled, "json")
+    mustache = format_compiled_output(compiled, "mustache")
+    raw_response = compiled.raw_response
+    print(markdown, data_json, mustache, raw_response, sep="\n---\n")
+
+
+asyncio.run(main())
 ```
 
-Custom output formats and aliases are resolved through `weavemark.json` when
-you pass `base_dir` or a loaded settings object:
-
-```python
-mustache_text = format_compiled_output(
-    compiled,
-    "mustache",
-    base_dir="prompts",
-)
-```
+Custom output formats and aliases are resolved through `weavemark.json`; pass
+`base_dir="prompts"` or a loaded settings object to
+`format_compiled_output()` when using them.
 
 ## Execute a spec
 
@@ -229,21 +270,32 @@ engine. It raises `WeaveMarkCompilationError` if compilation produced errors,
 so execution never proceeds with an invalid spec.
 
 ```python
-from weavemark import RuntimeConfig, execute_file
+import asyncio
+from weavemark import RuntimeConfig, bundled_promplet_path, execute_file
 
-run = await execute_file(
-    "promplets/catalog/standalone/ai-kanban-board.weavemark.md",
-    engine="single-call",
-    runtime_config=RuntimeConfig(
-        model="gpt-5.6-terra",
-        allowed_models=("gpt-5.6-terra",),
-    ),
-)
 
-print(run.output)            # shortcut for run.execution.output
-print(run.engine)            # selected engine name
-print(run.compiled.prompts)  # compiled prompt set passed to the engine
-print(run.execution.steps)   # engine step trace
+async def main() -> None:
+    with bundled_promplet_path("tutorials/api-execution.weavemark.md") as source:
+        run = await execute_file(
+            source,
+            variables={
+                "topic": "whether to expand a pilot",
+                "context": (
+                    "The pilot met its quality target, but support load is uncertain."
+                ),
+            },
+            runtime_config=RuntimeConfig(
+                model="gpt-5.6-terra",
+                allowed_models=("gpt-5.6-terra",),
+            ),
+        )
+    print(run.output)            # shortcut for run.execution.output
+    print(run.engine)            # selected engine name
+    print(run.compiled.prompts)  # compiled prompt set passed to the engine
+    print(run.execution.steps)   # engine step trace
+
+
+asyncio.run(main())
 ```
 
 Runtime config can be passed as:
@@ -261,7 +313,8 @@ Apps can use built-in engines by name or pass an object implementing the
 `Engine` protocol:
 
 ```python
-from weavemark import execute_file
+import asyncio
+from weavemark import bundled_promplet_path, execute_file
 from weavemark.engines import ExecutionResult
 
 
@@ -271,10 +324,15 @@ class MyEngine:
         return ExecutionResult(output=result.composed_prompt.upper())
 
 
-run = await execute_file(
-    "promplets/catalog/standalone/ai-kanban-board.weavemark.md",
-    engine=MyEngine(),
-)
+async def main() -> None:
+    with bundled_promplet_path(
+        "tutorials/language-learning-goal-plan.weavemark.md"
+    ) as source:
+        run = await execute_file(source, engine=MyEngine())
+    print(run.output)
+
+
+asyncio.run(main())
 ```
 
 Use `on_event` to observe compilation events (`composing`, `transition`,
@@ -285,23 +343,32 @@ parameter for compilation.
 ## Optional provenance and replay
 
 ```python
+import asyncio
 from pathlib import Path
 
-from weavemark import ProvenanceOptions, compile_file
+from weavemark import ProvenanceOptions, bundled_promplet_path, compile_file
 
-result = await compile_file(
-    "example.weavemark.md",
-    provenance=ProvenanceOptions(
-        record_dir=Path("outputs/example-run"),
-    ),
-)
 
-replayed = await compile_file(
-    "example.weavemark.md",
-    provenance=ProvenanceOptions(
-        replay_dir=Path("outputs/example-run"),
-    ),
-)
+async def main() -> None:
+    with bundled_promplet_path(
+        "tutorials/language-learning-goal-plan.weavemark.md"
+    ) as source:
+        result = await compile_file(
+            source,
+            provenance=ProvenanceOptions(
+                record_dir=Path("outputs/language-goal-run"),
+            ),
+        )
+        replayed = await compile_file(
+            source,
+            provenance=ProvenanceOptions(
+                replay_dir=Path("outputs/language-goal-run"),
+            ),
+        )
+    assert replayed.composed_prompt == result.composed_prompt
+
+
+asyncio.run(main())
 ```
 
 Use `manifest_path=` for metadata and hashes without full request/response
@@ -313,11 +380,20 @@ live provider.
 Compilation returns diagnostics instead of throwing for normal spec problems:
 
 ```python
-compiled = await compile_file(
-    "promplets/catalog/standalone/ai-kanban-board.weavemark.md"
-)
-for diagnostic in compiled.diagnostics:
-    print(diagnostic["type"], diagnostic["message"])
+import asyncio
+from weavemark import bundled_promplet_path, compile_file
+
+
+async def main() -> None:
+    with bundled_promplet_path(
+        "catalog/standalone/ai-kanban-board.weavemark.md"
+    ) as source:
+        compiled = await compile_file(source)
+    for diagnostic in compiled.diagnostics:
+        print(diagnostic["type"], diagnostic["message"])
+
+
+asyncio.run(main())
 ```
 
 Execution raises `WeaveMarkCompilationError` when the compile phase has errors;

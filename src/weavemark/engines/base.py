@@ -112,10 +112,17 @@ async def render_image(
 
     call_kwargs = dict(kwargs)
     cache_config = getattr(client, "local_cache", None)
-    if cache_config is not None and cache_config.cache_images:
+    normalized_model = model.casefold()
+    if (
+        cache_config is not None
+        and cache_config.cache_images
+        and "dall-e" in normalized_model
+    ):
         call_kwargs.setdefault("response_format", "b64_json")
     if edit_files:
         call_kwargs.pop("style", None)
+        if "gpt-image" in normalized_model:
+            call_kwargs.pop("response_format", None)
         response = await client.edit_image(
             prompt, edit_files, model=model, **call_kwargs
         )

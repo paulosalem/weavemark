@@ -149,7 +149,7 @@ examples, documentation, generated applications, website, and release process.
 
 For every non-trivial change or audit:
 
-1. Read all 60 rubrics before changing files or finalizing the audit.
+1. Read every rubric before changing files or finalizing the audit.
 2. Perform an applicability scan across all rubrics. Consider downstream
    surfaces, not only the files directly edited.
 3. Validate every applicable rubric with concrete evidence such as tests,

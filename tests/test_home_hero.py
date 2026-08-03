@@ -25,6 +25,14 @@ def test_home_hero_examples_show_current_artifacts() -> None:
     assert '<script src="local-demo-links.js"></script>' in html
     assert "browser_sqlite_file_store" in html
     assert "typescript_nextjs_prisma_sqlite" not in html
+    kanban_slide = re.search(
+        r'data-title="AI Kanban — live browser demo".*?<code>'
+        r"(?P<body>.*?)</code></pre>",
+        html,
+        re.S,
+    )
+    assert kanban_slide is not None
+    assert re.search(r"(?m)^ {8,}\S", kanban_slide.group("body")) is None
 
     assert "news-intelligence-board.weavemark.md" not in html
     assert ">News board</button>" not in html

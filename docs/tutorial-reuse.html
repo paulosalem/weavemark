@@ -168,19 +168,28 @@
             reasoning and finance guidance, decision lenses, and the two finance
             fragments, then frames a concrete household question.
           </p>
+          <p>
+            <strong>Abridged excerpt.</strong> Copy the complete tested source before
+            running the command below:
+          </p>
+          <pre><code>mkdir -p outputs/reuse
+cp promplets/tutorials/financial-independence-decision.weavemark.md \
+  outputs/reuse/financial-independence-decision.weavemark.md</code></pre>
           <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
 <span class="syntax-directive">@refine</span> module:weavemark.std.reasoning.base_analyst
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.finance_safety <span class="syntax-key">mingle:</span> true
-<span class="syntax-comment">&lt;!-- ... plus evidence-quality, strategic-problem-analysis, and resilience lenses ... --&gt;</span>
+<span class="syntax-directive">@refine</span> module:weavemark.std.guidelines.evidence_quality <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.std.analysis.strategic_problem_analysis <span class="syntax-key">mingle:</span> true
+<span class="syntax-directive">@refine</span> module:weavemark.domains.finance.financial_resilience_lens <span class="syntax-key">mingle:</span> true
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.passive_income_capital_growth
 <span class="syntax-directive">@refine</span> module:weavemark.domains.finance.passive_income_forecasting
 <span class="syntax-directive">@refine</span> module:weavemark.std.lenses.decision_gate <span class="syntax-key">mingle:</span> true
 
 # Financial independence passive-income decision
 
-<span class="syntax-var">@{person_name}</span> is deciding whether their household has enough financial
-resilience to reduce dependence on a high-pressure job ...</code></pre>
+Assess whether <span class="syntax-var">@{person_name}</span>'s household has enough financial resilience to
+reduce dependence on a high-pressure job.</code></pre>
           <p class="snippet-source">
             Save this tutorial source as
             <code>outputs/reuse/financial-independence-decision.weavemark.md</code>.
@@ -226,10 +235,15 @@ JSON</code></pre>
         <section id="app" class="article-section">
           <h2>Output B &mdash; an app specification</h2>
           <p>
-            The second spec is a <strong>software</strong> promplet. It refines an
+            The second spec is a <strong>software</strong> promplet. It refines a
             local-first web stack, durable SQLite storage, a dashboard module, and the
             <em>same two finance fragments</em>.
           </p>
+          <p>
+            <strong>Abridged excerpt.</strong> Copy the complete tested source:
+          </p>
+          <pre><code>cp promplets/tutorials/passive-income-planning-dashboard.weavemark.md \
+  outputs/reuse/passive-income-planning-dashboard.weavemark.md</code></pre>
           <pre><code><span class="syntax-directive">@promplet</span> <span class="syntax-key">version:</span> 0.7
 
 <span class="syntax-directive">@refine</span> module:weavemark.domains.programming.stacks.typescript_nextjs_prisma_sqlite
@@ -241,7 +255,7 @@ JSON</code></pre>
 # Passive-Income Planning Dashboard
 
 Design <span class="syntax-var">@{app_name}</span>, a local-first web application for people pursuing financial
-independence through passive income and disciplined capital growth ...</code></pre>
+independence through passive income and disciplined capital growth.</code></pre>
           <p class="snippet-source">
             Save this tutorial source as
             <code>outputs/reuse/passive-income-planning-dashboard.weavemark.md</code>.
@@ -251,7 +265,7 @@ independence through passive income and disciplined capital growth ...</code></p
   --var app_name=Fathom \
   --output outputs/reuse/app-spec.md</code></pre>
           <div class="callout">
-            <strong>What you get:</strong> a build-ready specification whose
+            <strong>What you get:</strong> an implementation-ready specification whose
             financial modules &mdash; safe-to-spend, forecasting, capital-erosion
             warnings &mdash; are <em>induced</em> by the finance fragments rather
             than reinvented by hand. In

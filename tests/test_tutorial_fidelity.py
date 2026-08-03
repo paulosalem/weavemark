@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 import hashlib
 import html
 import json
@@ -160,6 +161,23 @@ def _assert_line_subsequence(snippet: str, source: str) -> None:
             cursor = source_lines.index(line, cursor) + 1
         except ValueError as exc:
             raise AssertionError(f"Untraced tutorial line: {line!r}") from exc
+
+
+def test_python_api_snippets_are_standalone_valid_python() -> None:
+    markdown = (DOCS / "python-api.md").read_text(encoding="utf-8")
+    markdown_blocks = re.findall(r"```python\n(.*?)```", markdown, re.DOTALL)
+    html_blocks = [
+        _block_text(block)
+        for block in _parsed_blocks(DOCS / "python-api.html")
+        if "from weavemark" in _block_text(block)
+    ]
+
+    assert markdown_blocks
+    assert html_blocks
+    for source in (*markdown_blocks, *html_blocks):
+        ast.parse(source)
+        if "await " in source:
+            assert "asyncio.run(main())" in source
 
 
 def _read_promplet(relative: str) -> str:
@@ -614,7 +632,35 @@ async def test_all_canonical_tutorial_promplets_compile_live() -> None:
             "learner_level": "beginner",
             "include_practice": True,
         },
+        "api-execution.weavemark.md": {
+            "topic": "whether to expand a pilot",
+            "context": (
+                "The pilot met its quality target, but support load is uncertain."
+            ),
+        },
+        "financial-independence-decision.weavemark.md": {
+            "person_name": "Alex",
+            "age": "42",
+            "invested_assets": "$1.4M",
+            "annual_income": "$240k",
+            "annual_spending": "$95k",
+            "annual_investments": "$60k",
+            "target_spending": "$70k",
+            "emergency_fund": "12 months",
+            "real_return": "4%",
+            "reduced_hours_income": "$120k/year",
+            "lower_pressure_income": "$90k/year",
+            "expected_monthly_passive_income": "$4,500",
+            "confirmed_monthly_passive_income": "$3,200",
+            "monthly_reinvestment_target": "$1,500",
+            "monthly_tax_reserve": "$800",
+            "principal_drawdown_preference": "Avoid principal drawdown",
+        },
+        "iterate-onboarding.weavemark.md": {},
         "language-learning-goal-plan.weavemark.md": {},
+        "passive-income-planning-dashboard.weavemark.md": {
+            "app_name": "Fathom",
+        },
         "release-workbench-pack.weavemark.md": {
             "product_name": "LaunchDesk",
             "primary_users": "release managers and support leads",

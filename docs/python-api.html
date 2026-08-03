@@ -200,13 +200,14 @@ with bundled_promplet_path(
             project-level <code>weavemark.json</code> behave like the WeaveMark Processor.
           </p>
           <pre><code>import asyncio
-from weavemark import compile_file
+from weavemark import bundled_promplet_path, compile_file
 
 
 async def main() -> None:
-    result = await compile_file(
-        "promplets/catalog/standalone/ai-kanban-board.weavemark.md",
-    )
+    with bundled_promplet_path(
+        "catalog/standalone/ai-kanban-board.weavemark.md"
+    ) as source:
+        result = await compile_file(source)
     if result.errors:
         raise RuntimeError(result.errors)
 
@@ -257,17 +258,30 @@ asyncio.run(main())</code></pre>
             <code>CompileOptions</code> controls the model path for semantic
             compilation while preserving structural processing and diagnostics.
           </p>
-          <pre><code>from weavemark import CompileOptions, compile_file
+          <pre><code>import asyncio
+from weavemark import CompileOptions, bundled_promplet_path, compile_file
 
-compiled = await compile_file(
-    "promplets/brief.weavemark.md",
-    {"topic": "battery recycling"},
-    options=CompileOptions(
-        model="gpt-5.6-terra",
-        max_iterations=12,
-        use_structural_helpers=True,
-    ),
-)</code></pre>
+async def main() -&gt; None:
+    with bundled_promplet_path("tutorials/adaptive-tutor.weavemark.md") as source:
+        compiled = await compile_file(
+            source,
+            {
+                "topic": "battery recycling",
+                "learner_context": "a product manager",
+                "learning_goal": "explain the main recovery tradeoffs",
+                "learner_level": "beginner",
+                "include_practice": True,
+            },
+            options=CompileOptions(
+                model="gpt-5.6-terra",
+                max_iterations=12,
+                use_structural_helpers=True,
+            ),
+        )
+    print(compiled.composed_prompt)
+
+
+asyncio.run(main())</code></pre>
           <p>
             Advanced integrations can pass a custom async LLM client through the
             <code>client</code> parameter when they need their own provider,
@@ -282,13 +296,23 @@ compiled = await compile_file(
             <code>format_compiled_output</code> when you need CLI-style primary
             output.
           </p>
-          <pre><code>from weavemark import compile_file, format_compiled_output
+          <pre><code>import asyncio
+from weavemark import bundled_promplet_path, compile_file, format_compiled_output
 
-compiled = await compile_file("promplets/review.weavemark.md")
 
-markdown = format_compiled_output(compiled)
-data_json = format_compiled_output(compiled, "json")
-raw_response = format_compiled_output(compiled, "xml")</code></pre>
+async def main() -&gt; None:
+    with bundled_promplet_path(
+        "tutorials/language-learning-goal-plan.weavemark.md"
+    ) as source:
+        compiled = await compile_file(source)
+    markdown = format_compiled_output(compiled)
+    data_json = format_compiled_output(compiled, "json")
+    mustache = format_compiled_output(compiled, "mustache")
+    raw_response = compiled.raw_response
+    print(markdown, data_json, mustache, raw_response, sep="\n---\n")
+
+
+asyncio.run(main())</code></pre>
           <p>
             If your project defines custom formats or aliases in
             <code>weavemark.json</code>, pass <code>base_dir</code> or a loaded
@@ -304,21 +328,32 @@ raw_response = format_compiled_output(compiled, "xml")</code></pre>
             <code>WeaveMarkCompilationError</code> when compilation has errors,
             so execution never proceeds with invalid prompt artifacts.
           </p>
-          <pre><code>from weavemark import RuntimeConfig, execute_file
+          <pre><code>import asyncio
+from weavemark import RuntimeConfig, bundled_promplet_path, execute_file
 
-run = await execute_file(
-    "promplets/catalog/standalone/ai-kanban-board.weavemark.md",
-    engine="single-call",
-    runtime_config=RuntimeConfig(
-        model="gpt-5.6-terra",
-        allowed_models=("gpt-5.6-terra",),
-    ),
-)
 
-print(run.output)
-print(run.engine)
-print(run.compiled.prompts)
-print(run.execution.steps)</code></pre>
+async def main() -&gt; None:
+    with bundled_promplet_path("tutorials/api-execution.weavemark.md") as source:
+        run = await execute_file(
+            source,
+            variables={
+                "topic": "whether to expand a pilot",
+                "context": (
+                    "The pilot met its quality target, but support load is uncertain."
+                ),
+            },
+            runtime_config=RuntimeConfig(
+                model="gpt-5.6-terra",
+                allowed_models=("gpt-5.6-terra",),
+            ),
+        )
+    print(run.output)
+    print(run.engine)
+    print(run.compiled.prompts)
+    print(run.execution.steps)
+
+
+asyncio.run(main())</code></pre>
           <p>
             Runtime config may be a <code>RuntimeConfig</code> object, a mapping,
             or a path to a JSON/YAML config file. Pass promplet inputs through
@@ -333,7 +368,8 @@ print(run.execution.steps)</code></pre>
             Pass a built-in engine name or any object implementing the
             <code>Engine</code> protocol.
           </p>
-          <pre><code>from weavemark import execute_file
+          <pre><code>import asyncio
+from weavemark import bundled_promplet_path, execute_file
 from weavemark.engines import ExecutionResult
 
 
@@ -342,10 +378,15 @@ class MyEngine:
         return ExecutionResult(output=result.composed_prompt.upper())
 
 
-run = await execute_file(
-    "promplets/catalog/standalone/ai-kanban-board.weavemark.md",
-    engine=MyEngine(),
-)</code></pre>
+async def main() -&gt; None:
+    with bundled_promplet_path(
+        "tutorials/language-learning-goal-plan.weavemark.md"
+    ) as source:
+        run = await execute_file(source, engine=MyEngine())
+    print(run.output)
+
+
+asyncio.run(main())</code></pre>
           <p>
             Use <code>on_event</code> for compilation events and
             <code>on_step</code> for execution-engine traces.
@@ -358,12 +399,20 @@ run = await execute_file(
             Compilation returns diagnostics in the result so applications can
             display warnings, errors, and suggestions in their own UI.
           </p>
-          <pre><code>compiled = await compile_file(
-    "promplets/catalog/standalone/ai-kanban-board.weavemark.md"
-)
+          <pre><code>import asyncio
+from weavemark import bundled_promplet_path, compile_file
 
-for diagnostic in compiled.diagnostics:
-    print(diagnostic["type"], diagnostic["message"])</code></pre>
+
+async def main() -&gt; None:
+    with bundled_promplet_path(
+        "catalog/standalone/ai-kanban-board.weavemark.md"
+    ) as source:
+        compiled = await compile_file(source)
+    for diagnostic in compiled.diagnostics:
+        print(diagnostic["type"], diagnostic["message"])
+
+
+asyncio.run(main())</code></pre>
           <p>
             During execution, catch <code>WeaveMarkCompilationError</code> and
             inspect <code>exc.result</code> to display the failed compile output.

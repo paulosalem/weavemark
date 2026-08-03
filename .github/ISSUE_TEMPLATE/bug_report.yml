@@ -40,7 +40,7 @@ body:
     attributes:
       label: WeaveMark version
       description: Output of `weavemark --version`.
-      placeholder: "0.9.2"
+      placeholder: "0.9.3"
     validations:
       required: true
 

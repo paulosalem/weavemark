@@ -145,7 +145,7 @@ jobs:
             --find-links "$RUNNER_TEMP/ellements-dist" \
             dist/*.whl
           "$RUNNER_TEMP/weavemark-wheel/bin/python" -c \
-            "import weavemark; assert weavemark.__version__ == '0.9.2'"
+            "import weavemark; assert weavemark.__version__ == '0.9.3'"
           "$RUNNER_TEMP/weavemark-wheel/bin/weavemark" --version
 
   compatibility:

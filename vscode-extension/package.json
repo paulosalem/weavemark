@@ -2,7 +2,7 @@
   "name": "weavemark",
   "displayName": "WeaveMark",
   "description": "Full language support for WeaveMark promplets (.weavemark.md files) — completions, hover docs, diagnostics, go-to-definition, outline, visual decorations, and run commands.",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "publisher": "paulosalem",
   "license": "MIT",
   "repository": {

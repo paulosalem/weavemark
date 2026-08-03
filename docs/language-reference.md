@@ -255,6 +255,10 @@ least-surprising fallback for that directive.
 `@assert` is structural: it is checked deterministically, before any assistant
 sees the compiled prompt.
 
+For `@output type: image`, `edit:` references are sent through the selected
+provider's image-edit operation. WeaveMark preserves the provider's supported
+response encoding when retaining the generated artifact in its image cache.
+
 ### 7.5 Output and artifacts
 
 | Directive | Arguments | Effect |

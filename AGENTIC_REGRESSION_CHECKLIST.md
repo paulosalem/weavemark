@@ -8,7 +8,7 @@ release process. It is a mandatory engineering rubric, not a historical report.
 
 For every non-trivial change or audit:
 
-1. Read all 60 rubrics before changing files or finalizing an audit.
+1. Read every rubric before changing files or finalizing an audit.
 2. Determine which rubrics the work could affect. Do not consider only the file
    being edited; include downstream documentation, examples, generated
    artifacts, package contents, website surfaces, and release behavior.
@@ -413,11 +413,15 @@ When updating a rubric:
 ## 33. Documentation examples backed by real sources
 
 - **Risk:** Attractive snippets may never have been parsed or executed.
-- **Check:** Map each public snippet to a canonical source file and identify
-  intentional abridgements.
+- **Check:** Map each public snippet to a canonical source file, identify
+  intentional abridgements, and run API snippets independently rather than in
+  one shared interpreter state.
 - **Do:** Generate snippets where practical or test them as extracted fragments.
-- **Pass evidence:** Each snippet has a source link and passes syntax and
-  semantic validation.
+  Keep each advertised copy-and-run block self-contained: no nonexistent paths,
+  undefined placeholders, top-level `await`, or undeclared dependency on an
+  earlier block.
+- **Pass evidence:** Each snippet has a source link, parses independently, and
+  passes semantic validation or its documented runtime smoke path.
 
 ## 34. Derived-artifact synchronization
 
@@ -475,14 +479,18 @@ When updating a rubric:
 
 ## 39. Provider-valid configuration
 
-- **Risk:** Example sidecars may contain unsupported settings or redundant
-  divisions between model configuration and variables.
-- **Check:** Validate every shipped configuration against the selected provider
-  and model and document each file's purpose.
-- **Do:** Remove unsupported or legacy settings and consolidate files where
+- **Risk:** Example sidecars or generated requests may contain unsupported
+  settings, including parameters accepted by one provider operation but rejected
+  by another, or redundant divisions between model configuration and variables.
+- **Check:** Validate every shipped configuration and provider request against
+  the selected provider, model, and operation (for example, image generation
+  versus image edit), and document each file's purpose.
+- **Do:** Gate provider-specific request parameters at the narrow operation
+  boundary, remove unsupported or legacy settings, and consolidate files where
   separation adds no value.
 - **Pass evidence:** Every maintained configuration loads without provider
-  warnings.
+  warnings, and operation-level mocks or live smokes reject no generated
+  parameter.
 
 ## 40. Model migration gate
 
