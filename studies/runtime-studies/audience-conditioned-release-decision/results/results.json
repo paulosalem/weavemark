@@ -1,0 +1,70 @@
+{
+  "evaluator_model": "claude-opus-5",
+  "generation_model": "gpt-5.6-terra",
+  "limitations": [
+    "One synthetic scenario.",
+    "One response per experimental cell.",
+    "No causal average treatment effect is identified.",
+    "Rubric dimensions partly measure treatment-mandated format compliance.",
+    "Response format and length make variant identity inferable.",
+    "Separate treatment compilations confound audience with other prompt differences.",
+    "Reported gate labels are prompt-format dependent and are not scored as a common outcome.",
+    "Downstream system context was not captured in the generation manifest.",
+    "One evaluator scored all responses in a shared packet; repeat and inter-rater reliability are unknown."
+  ],
+  "rows": [
+    {
+      "anonymous_id": "R3",
+      "audience": "Implementation Team",
+      "audience_alignment": 3,
+      "decision_protocol": 12,
+      "evidence_quality": 10,
+      "overall_notes": "Well-scoped, honest, and readable, with a defensible resolution of the gate conflict, but it argues from conclusions rather than evidence: no metrics, no explicit unknowns, and no named owners behind the risk acceptance it requires.",
+      "reported_gate_label": "conditional go",
+      "response_path": "outputs/responses/control-implementation-team.md",
+      "response_words": 105,
+      "total": 25,
+      "variant": "control"
+    },
+    {
+      "anonymous_id": "R4",
+      "audience": "Implementation Team",
+      "audience_alignment": 3,
+      "decision_protocol": 14,
+      "evidence_quality": 15,
+      "overall_notes": "Analytically the sharpest treatment of the gate contradiction and of the 1.0% threshold's meaning, with excellent unknown-handling. Held back by unowned risk assignments and a claim-assessment table that rates independence and freshness dimensions the supplied facts do not support.",
+      "reported_gate_label": "wait",
+      "response_path": "outputs/responses/treatment-implementation-team.md",
+      "response_words": 453,
+      "total": 32,
+      "variant": "treatment"
+    },
+    {
+      "anonymous_id": "R1",
+      "audience": "Release Team",
+      "audience_alignment": 3,
+      "decision_protocol": 12,
+      "evidence_quality": 9,
+      "overall_notes": "Operationally sound and correctly scoped decision with clean, non-inflated claims, but evidentially thin: almost no supplied metrics, no explicit unknowns, no named owners, and no acknowledgement of the strong supporting evidence that would justify the exception it requests.",
+      "reported_gate_label": "proceed conditionally",
+      "response_path": "outputs/responses/control-release-team.md",
+      "response_words": 77,
+      "total": 24,
+      "variant": "control"
+    },
+    {
+      "anonymous_id": "R2",
+      "audience": "Release Team",
+      "audience_alignment": 4,
+      "decision_protocol": 15,
+      "evidence_quality": 16,
+      "overall_notes": "The most rigorous submission on the decision-protocol axis. Gate arbitration is exemplary and the evidence base is broad and accurately quantified; the only real gap is that named ownership is partial, resting on the release engineer alone.",
+      "reported_gate_label": "no-go",
+      "response_path": "outputs/responses/treatment-release-team.md",
+      "response_words": 493,
+      "total": 35,
+      "variant": "treatment"
+    }
+  ],
+  "study": "audience-conditioned-release-decision"
+}

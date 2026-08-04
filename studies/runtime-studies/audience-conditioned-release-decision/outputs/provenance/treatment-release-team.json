@@ -1,0 +1,126 @@
+{
+  "artifacts": [
+    {
+      "bytes": 5372,
+      "kind": "primary",
+      "name": "composed_prompt",
+      "sha256": "17133604f1ba642e3c93ae6fe628f748fc2fb9ab028e7ac83d706d3a53466419"
+    },
+    {
+      "bytes": 5372,
+      "kind": "prompt",
+      "name": "default",
+      "sha256": "17133604f1ba642e3c93ae6fe628f748fc2fb9ab028e7ac83d706d3a53466419"
+    }
+  ],
+  "call_count": 1,
+  "compile_config": {
+    "max_compilation_steps": 64,
+    "max_compile_seconds": 300.0,
+    "max_effect_questions": 20,
+    "max_effect_rounds": 6,
+    "max_iterate_turns": 6,
+    "max_iterations": 15,
+    "max_total_model_calls": 100,
+    "model": "gpt-5.6-terra",
+    "temperature": 0.3,
+    "use_structural_helpers": true
+  },
+  "duration_ms": 65465,
+  "finished_at": "2026-08-04T13:17:17.031804+00:00",
+  "format_version": 1,
+  "language_version": "0.9",
+  "lineage": [
+    {
+      "kind": "structural",
+      "stage": "surface lowering"
+    },
+    {
+      "kind": "structural",
+      "stage": "macro/module preprocessing"
+    },
+    {
+      "kind": "structural",
+      "stage": "directive validation"
+    },
+    {
+      "kind": "semantic",
+      "model_calls": 1,
+      "stage": "composition"
+    },
+    {
+      "kind": "structural",
+      "stage": "artifact materialization"
+    }
+  ],
+  "mode": "manifest",
+  "models": [
+    "gpt-5.6-terra"
+  ],
+  "processor_version": "0.9.4",
+  "recording": {
+    "calls_sha256": "3bf305e82be92289909fe096d8e846f1413c1192e76b78963d21dc406da4c8d2",
+    "replay_policy": "strict-no-live-fallback"
+  },
+  "recording_contains_sensitive_content": false,
+  "resources": {
+    "module:weavemark.std.guidelines.evidence_quality": {
+      "bytes": 1311,
+      "sha256": "b49fa6283e4e630ee60685ca3c66e2e87bb5ca26c3e77d78dc0052139a1a9d87"
+    },
+    "module:weavemark.std.lenses.decision_gate": {
+      "bytes": 982,
+      "sha256": "b2e7d6649afdf285cce44871ff6d8d520676b0a1f494ca6721d22b6b039c92ab"
+    }
+  },
+  "response_schema_sha256": "a7d013135a2bac40e4fbabb693baefb00a3b5c072f49f5ede80e5d2b82104745",
+  "source": {
+    "path": "studies/runtime-studies/audience-conditioned-release-decision/promplets/treatment.weavemark.md",
+    "sha256": "96e5ca9694ba5ab3cbd171be1a44a84d02f60e3cc3245f668dc8b8a69fbf5033"
+  },
+  "started_at": "2026-08-04T13:16:11.569773+00:00",
+  "system_prompt_sha256": "89c73c979a5a2986d60df8e85adfc105f77190059cde2bd55ec21df46e3b1fe1",
+  "usage": {
+    "completion_tokens": 5432,
+    "cost_source": "provider",
+    "llm_duration_ms": 65387,
+    "prompt_tokens": 113378,
+    "provider_usage": [
+      {
+        "completion_tokens": 5432,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "image_tokens": null,
+          "reasoning_tokens": 2384,
+          "rejected_prediction_tokens": null,
+          "text_tokens": null,
+          "video_tokens": null
+        },
+        "prompt_tokens": 113378,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_creation_tokens": 8946,
+          "cache_write_tokens": 8946,
+          "cached_tokens": 104423,
+          "image_tokens": null,
+          "text_tokens": null,
+          "video_tokens": null
+        },
+        "response_cost": 0.10845160000000001,
+        "total_tokens": 118810
+      }
+    ],
+    "reported_cost_usd": 0.10845160000000001,
+    "total_tokens": 118810
+  },
+  "variables": {
+    "names": [
+      "audience",
+      "dev_notes",
+      "release"
+    ],
+    "sha256": "7e1279378559dc90266a48404b2adeb1bcd0c2bd56b71c1eeeba39b318196873",
+    "values_in_manifest": false
+  }
+}

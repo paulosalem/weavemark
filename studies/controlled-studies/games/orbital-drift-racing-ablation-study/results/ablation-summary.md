@@ -23,7 +23,7 @@ A browser racing game about piloting a small craft through asteroid fields, grav
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | [[C1] Manual brief](../specs/00-control-manual-orbital-drift.weavemark.md) | Minimal hand-written Orbital Drift request. | 52 | 0 | 52 | 1x | 5 | 96.2 | 96.2 |
 | [[C2] Matched reusable-template control](../specs/01-control-template-orbital-drift.weavemark.md) | Template shell with game, browser implementation, asset, and validation partials. | 61 | 61 | 672 | 11.02x | 55 | 81.8 | 901.6 |
-| [[T] WeaveMark treatment](../specs/02-treatment-promplet-orbital-drift.weavemark.md) | Refines software-spec, web-game, and Playwright MCP validation layers. | 152 | 0 | 3,467 | 22.81x | 228.25 | 65.8 | 1,501.6 |
+| [[T] WeaveMark treatment](../specs/02-treatment-promplet-orbital-drift.weavemark.md) | Refines software-spec, web-game, and Playwright MCP validation layers. | 190 | 0 | 3,467 | 18.25x | 228.25 | 65.8 | 1,201.3 |
 
 ## Metric definitions
 
@@ -41,10 +41,10 @@ The strongest control is [C2] Matched reusable-template control. The treatment i
 
 | Metric | [C2] Matched reusable-template control | [T] WeaveMark treatment | Direction |
 |---|---:|---:|---|
-| Source-only leverage | 11.02 | 22.81 | win |
+| Source-only leverage | 11.02 | 18.25 | win |
 | Discounted fact units | 55 | 228.25 | win |
 | Information density | 81.8 | 65.8 | loss |
-| Information yield | 901.6 | 1,501.6 | win |
+| Information yield | 901.6 | 1,201.3 | win |
 
 ## Contrastive gain/loss scores
 
@@ -71,9 +71,9 @@ Scores compare [T] WeaveMark treatment against [C2] Matched reusable-template co
 
 ## Gains
 
-- [T] WeaveMark treatment wins source-only leverage: 22.81 versus 11.02 for [C2] Matched reusable-template control.
+- [T] WeaveMark treatment wins source-only leverage: 18.25 versus 11.02 for [C2] Matched reusable-template control.
 - [T] WeaveMark treatment wins discounted fact units: 228.25 versus 55 for [C2] Matched reusable-template control.
-- [T] WeaveMark treatment wins information yield: 1,501.6 versus 901.6 for [C2] Matched reusable-template control.
+- [T] WeaveMark treatment wins information yield: 1,201.3 versus 901.6 for [C2] Matched reusable-template control.
 - The treatment has a very large authoring-leverage and information-yield win over the matched template.
 - Browser-game architecture, controls, states, hazards, restart, scoring, and validation are integrated rather than appended.
 - The cleaned study is now a single named game instead of a broad multi-variant showcase.

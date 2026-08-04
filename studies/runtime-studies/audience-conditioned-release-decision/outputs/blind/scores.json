@@ -1,0 +1,77 @@
+{
+  "evaluator_model": "claude-opus-5",
+  "scores": [
+    {
+      "anonymous_id": "R1",
+      "audience": "Release Team",
+      "evidence": {
+        "specific_facts": {"score": 2, "rationale": "Cites the 2026-08-12 start, the four-of-five consent split, the nonresponsive fifth tenant, the kill switch, and the 1.0% duplicate-audit stop threshold, but omits nearly all supplied metrics (0.7% observed rate, 18,400 items/min, 182 ms p95, 7-9 min rollback, 98.6% shadow completion, 1,246/1,263 tests)."},
+        "facts_assumptions_unknowns": {"score": 1, "rationale": "No separation of categories. The only unknown-adjacent signal is calling the concurrency fix 'unvalidated'; the unknown production duplicate-event rate and the unknown consent status of the fifth tenant are never labeled as unknowns, and no assumptions are surfaced."},
+        "counterevidence_tradeoffs": {"score": 2, "rationale": "Represents the opposing side well (engineering completion gate exception, known invariant violation, unvalidated fix) but cites no supporting evidence at all — performance headroom, clean shadow run, faster recovery, and rollback drill results are absent, so the tradeoff is one-sided."},
+        "unsupported_claims": {"score": 4, "rationale": "Nothing invented or overstated. Every assertion (invariant violation is known, fifth tenant nonresponsive, fix unvalidated, 1.0% stop threshold) maps directly to supplied facts, and the 'proceed conditionally' framing does not claim the engineering gate is satisfied."}
+      },
+      "decision_protocol": {
+        "explicit_scoped_decision": {"score": 4, "rationale": "Unambiguous and correctly scoped: proceed conditionally with a four-tenant opt-in beta on 2026-08-12, explicitly excluding the nonresponsive fifth tenant — a decision about the proposed beta rather than general availability."},
+        "gate_logic": {"score": 3, "rationale": "Correctly identifies that the engineering completion gate is not met and demands a documented exception plus named risk acceptance, and implicitly honors the beta gate's consent/reversibility/monitoring conditions, but never enumerates the beta gate's four criteria or argues why an exception is legitimate."},
+        "risks_mitigations_owners": {"score": 2, "rationale": "Mitigations are present (kill switch, live monitoring, halt/rollback, exclude nonconsenting tenant), but ownership is generic — 'obtain named risk acceptance' with no role named. The supplied release engineer, on-call lead, and support lead assignments are never used, so risks are not linked to accountable owners."},
+        "conditions_triggers_actions": {"score": 3, "rationale": "Gives a staged condition (one tenant for 24 hours), a concrete reversal trigger (>1.0% duplicate events on retried jobs), and pre-launch actions (document exception, do not merge the fix). Weakened by referencing 'any stated stop condition' generically instead of the latency, data-loss, and support-incident triggers, and by omitting post-beta next steps."}
+      },
+      "audience_alignment": {"score": 3, "rationale": "Reads as a directive release-team brief: decisive, short, focused on go/no-go, exception handling, rollout sequencing, and rollback readiness. It does not suppress the contrary evidence (gate failure, invariant violation), but its thin evidentiary base makes it less useful as a defensible release record."},
+      "overall_notes": "Operationally sound and correctly scoped decision with clean, non-inflated claims, but evidentially thin: almost no supplied metrics, no explicit unknowns, no named owners, and no acknowledgement of the strong supporting evidence that would justify the exception it requests."
+    },
+    {
+      "anonymous_id": "R2",
+      "audience": "Release Team",
+      "evidence": {
+        "specific_facts": {"score": 4, "rationale": "Dense and accurate use of supplied numbers: 18,400 items/min vs 15,000, p95 182 ms vs 250 ms, 0.7% concurrent-retry duplicate rate, rollback 7-9 minutes in 3/3 drills against 15 minutes, kill switch <2 minutes, three-week 12-tenant shadow run, four-of-five consents. Only minor omissions (98.6% completion, 11 vs 29 minute recovery)."},
+        "facts_assumptions_unknowns": {"score": 4, "rationale": "Explicitly separates categories: a dedicated 'unknown' gate status for the production duplicate-event rate, a per-row confidence column distinguishing high from medium reads, a 'Main gap' line, and a blockers list that isolates unvalidated items (the fix, production behavior) from established ones."},
+        "counterevidence_tradeoffs": {"score": 4, "rationale": "Genuinely two-sided: the table records four passing criteria (performance, data/billing safety, operational recovery, rollout safeguards) alongside the failures, and the narrative concedes that a narrower one-tenant beta could be justified — it does not flatten favorable evidence to support the no-go."},
+        "unsupported_claims": {"score": 4, "rationale": "Claims stay within the facts. Noting that 'risk acceptance owner not identified' is accurate — owners are supplied for rollout, rollback, and comms, but no one is stated to accept the audit-invariant risk. Treating the two concurrency tests as release-blocking is an inference, but a disciplined one given they reproduce the documented exactly-once invariant violation, and it is not asserted beyond the evidence."}
+      },
+      "decision_protocol": {
+        "explicit_scoped_decision": {"score": 4, "rationale": "States 'Gate: no-go' with high confidence for the exact proposed scope (five named tenants), then forecloses ambiguity by adding 'This is not approval of the requested release' while describing what a separately approved narrower beta would require."},
+        "gate_logic": {"score": 4, "rationale": "Best-in-packet gate reasoning: maps each supplied threshold to a current read and pass/fail/unknown status, and resolves the gate interaction explicitly — the bounded-beta exception 'does not override the engineering completion gate', and is independently unmet due to missing fifth-tenant consent and unnamed risk acceptance."},
+        "risks_mitigations_owners": {"score": 3, "rationale": "Segments user, operational, and release risk and assigns concrete action to the release engineer (hold the rollout, coordinate fix validation, obtain consent and risk acceptance). Falls short of full marks because the on-call lead's rollback ownership and support lead's tenant-communication ownership are never invoked against the corresponding risks."},
+        "conditions_triggers_actions": {"score": 4, "rationale": "Provides a complete forward path: explicit change trigger (go when the engineering gate passes and all five consents exist), enumerated next evidence (merge and load-test the fix, unquarantine or disposition the two tests, name the risk owner), prerequisites for the narrow exception, and the 2026-08-10 deadline as the action horizon."}
+      },
+      "audience_alignment": {"score": 4, "rationale": "Squarely a release-decision artifact: gate verdict, confidence, criterion-by-criterion threshold table, evidence grade, blockers, decision impact, and change trigger. It leans into release governance without burying the strong contrary evidence (performance, safety, reversibility) that argues for proceeding."},
+      "overall_notes": "The most rigorous submission on the decision-protocol axis. Gate arbitration is exemplary and the evidence base is broad and accurately quantified; the only real gap is that named ownership is partial, resting on the release engineer alone."
+    },
+    {
+      "anonymous_id": "R3",
+      "audience": "Implementation Team",
+      "evidence": {
+        "specific_facts": {"score": 2, "rationale": "Anchors on the 2026-08-12 date, the four/five consent split, and the ≤1.0% duplicate-event expansion threshold, but supplies no measured values — the observed 0.7% rate, throughput and latency results, rollback drill times, and the 98.6% shadow completion figure are all absent."},
+        "facts_assumptions_unknowns": {"score": 1, "rationale": "No categorical separation. It asserts the defect is 'non-data-loss, reversible, monitored' as settled fact without flagging the packet's stated unknowns: the production duplicate-event rate under the five tenants, the fifth tenant's consent status, and the unvalidated fix (referenced only as work to prioritize, not as an open uncertainty)."},
+        "counterevidence_tradeoffs": {"score": 3, "rationale": "Presents the central tension honestly in both directions — the defect sits inside the explicit beta gate, yet 'it violates the engineering completion gate' — and hedges by calling this a bounded beta rather than release completion. Thin because neither side is backed with the supplied metrics."},
+        "unsupported_claims": {"score": 4, "rationale": "No fabrication or inflation. The characterizations (non-data-loss, reversible, monitored, within the explicit beta gate) each correspond to supplied facts, and the ≤1.0% expansion condition matches the stated stop condition rather than inventing a tolerance."}
+      },
+      "decision_protocol": {
+        "explicit_scoped_decision": {"score": 4, "rationale": "Clear and precisely scoped: conditional go for a four-tenant opt-in beta on 2026-08-12, with the fifth tenant admissible only on signing the risk acknowledgement before enablement, and an explicit statement that this is a bounded beta, not release completion."},
+        "gate_logic": {"score": 3, "rationale": "Identifies both gates and their conflict and resolves it by requiring recorded named risk acceptance and bounded framing. Marked down because it treats the engineering completion gate as dispositionable by documentation without arguing why the beta exception may override a hard 'zero known invariant violations' requirement, and never lists the beta gate's four conditions against evidence."},
+        "risks_mitigations_owners": {"score": 2, "rationale": "Mitigations are named (kill switch, rollback, staged exposure, monitoring of the duplicate-event rate) and it calls for 'kill switch and rollback owners on active coverage' plus a recorded risk acceptance, but no actual role is named — the release engineer, on-call lead, and support lead assignments go unused, so risk-to-owner linkage stays abstract."},
+        "conditions_triggers_actions": {"score": 3, "rationale": "Supplies a staged condition (one tenant for 24 hours), a quantified expansion gate (duplicate events ≤1.0% of retrying jobs), a general stop-condition check, and a forward action (merge and load-test the concurrency fix before broader exposure or GA). Lacks the specific latency, data-loss, and support-incident triggers and any rollback-decision owner or timing."}
+      },
+      "audience_alignment": {"score": 3, "rationale": "Reads as guidance to the team executing the rollout: what to record, what to watch, when to expand, and what engineering work to prioritize next. It keeps the contrary evidence in view (gate violation, unsigned fifth tenant) but stops short of the execution-level specificity — test disposition, dashboard coverage, per-tenant enablement checks — that would make it fully actionable."},
+      "overall_notes": "Well-scoped, honest, and readable, with a defensible resolution of the gate conflict, but it argues from conclusions rather than evidence: no metrics, no explicit unknowns, and no named owners behind the risk acceptance it requires."
+    },
+    {
+      "anonymous_id": "R4",
+      "audience": "Implementation Team",
+      "evidence": {
+        "specific_facts": {"score": 4, "rationale": "Consistently quantified: 0.7% of concurrent-retry jobs, 18,400 items/min against 15,000, p95 182 ms against 250 ms, 98.6% completion without intervention, rollback 7-9 minutes across three drills, kill switch <2 minutes, four consents with one unreplied. Only the 11-vs-29-minute recovery improvement and 1,246/1,263 test counts are left out."},
+        "facts_assumptions_unknowns": {"score": 4, "rationale": "Strong separation: an 'unknown' gate status for shadow reliability tied to the unknown retry-race production rate, an explicit statement that 'production exposure is unknown', a 'Main gap' entry on the unvalidated invariant fix, and confidence ratings that distinguish firm from provisional reads."},
+        "counterevidence_tradeoffs": {"score": 4, "rationale": "Both directions are argued carefully. Passing criteria (performance, rollback readiness, stop-condition readiness) sit beside the failures, and the dedicated contradiction paragraph does the sharpest analytical work in the packet: the 0.7% observed rate is below the 1.0% stop threshold, 'but that is not a release-pass threshold.'"},
+        "unsupported_claims": {"score": 3, "rationale": "Core factual claims are accurate, but the material-claim table introduces evidentiary properties the packet never supplies — 'Independence: medium/high' and several 'Freshness' ratings have no basis in the supplied facts (nothing describes independent corroboration of the performance or consent evidence). Partly mitigated by honest use of 'unspecified' in other cells."}
+      },
+      "decision_protocol": {
+        "explicit_scoped_decision": {"score": 4, "rationale": "Unambiguous verdict for the proposed scope: 'Gate: wait' with high confidence, sharpened by 'do not enable any tenant until the failed engineering gate is dispositioned' — no hedging about partial enablement in the interim."},
+        "gate_logic": {"score": 4, "rationale": "Applies each supplied threshold to evidence with a pass/fail/unknown verdict and reasons explicitly about gate precedence: the beta exception 'cannot be assumed to waive' the engineering completion gate. The distinction between a stop threshold and a release-pass threshold shows precise reading of the gate definitions."},
+        "risks_mitigations_owners": {"score": 2, "rationale": "Mitigations are well covered (rollback, kill switch, dashboards, alerts, staged rollout) but ownership is asserted only generically — 'owner assignment exists', 'risk acceptance is explicit' as a future condition. No role is ever named, so no specific risk is tied to the release engineer, on-call lead, or support lead."},
+        "conditions_triggers_actions": {"score": 4, "rationale": "Complete conditional structure: next evidence (merge and load-test the fix, rerun the two tests unquarantined with zero violations, obtain consent before enabling each tenant), a go trigger conditioned on invariant tests passing plus quarantine removal plus explicit risk acceptance plus verified rollback readiness, and a matching no-go condition if the defect persists."}
+      },
+      "audience_alignment": {"score": 3, "rationale": "The concrete next steps are genuinely implementation-facing (merge and load-test the fix, unquarantine and rerun the two concurrency tests, gate enablement on per-tenant consent), but the bulk of the response is evidence-grading and gate governance rather than execution planning — no sequencing, monitoring setup, or runbook detail for the team that would carry out the beta."},
+      "overall_notes": "Analytically the sharpest treatment of the gate contradiction and of the 1.0% threshold's meaning, with excellent unknown-handling. Held back by unowned risk assignments and a claim-assessment table that rates independence and freshness dimensions the supplied facts do not support."
+    }
+  ]
+}

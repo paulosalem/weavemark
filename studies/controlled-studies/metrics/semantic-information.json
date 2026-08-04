@@ -145,15 +145,15 @@
   {
     "study": "verdant-relay",
     "variant": "promplet",
-    "local_authored_source_words": 303,
+    "local_authored_source_words": 330,
     "variable_payload_words": 5,
     "output_words": 5567,
-    "local_leverage": 18.37,
+    "local_leverage": 16.87,
     "candidate_facts": 293,
     "counted_facts": 293,
     "discounted_fact_units": 289.5,
     "information_density_per_1k_output_words": 52.0,
-    "information_yield_per_1k_source_words": 955.4
+    "information_yield_per_1k_source_words": 877.3
   },
   {
     "study": "orbital-drift",
@@ -184,15 +184,15 @@
   {
     "study": "orbital-drift",
     "variant": "promplet",
-    "local_authored_source_words": 152,
+    "local_authored_source_words": 190,
     "variable_payload_words": 0,
     "output_words": 3467,
-    "local_leverage": 22.81,
+    "local_leverage": 18.25,
     "candidate_facts": 233,
     "counted_facts": 233,
     "discounted_fact_units": 228.25,
     "information_density_per_1k_output_words": 65.8,
-    "information_yield_per_1k_source_words": 1501.6
+    "information_yield_per_1k_source_words": 1201.3
   },
   {
     "study": "learning-tutor",

@@ -1,0 +1,22 @@
+{
+  "R1": {
+    "audience": "Release Team",
+    "response_path": "outputs/responses/control-release-team.md",
+    "variant": "control"
+  },
+  "R2": {
+    "audience": "Release Team",
+    "response_path": "outputs/responses/treatment-release-team.md",
+    "variant": "treatment"
+  },
+  "R3": {
+    "audience": "Implementation Team",
+    "response_path": "outputs/responses/control-implementation-team.md",
+    "variant": "control"
+  },
+  "R4": {
+    "audience": "Implementation Team",
+    "response_path": "outputs/responses/treatment-implementation-team.md",
+    "variant": "treatment"
+  }
+}

@@ -64,9 +64,9 @@ Scores compare [T] WeaveMark treatment against [C2] Matched reusable-template co
 
 ## What improved
 
-- [T] WeaveMark treatment wins source-only leverage: 22.81 versus 11.02 for [C2] Matched reusable-template control.
+- [T] WeaveMark treatment wins source-only leverage: 18.25 versus 11.02 for [C2] Matched reusable-template control.
 - [T] WeaveMark treatment wins discounted fact units: 228.25 versus 55 for [C2] Matched reusable-template control.
-- [T] WeaveMark treatment wins information yield: 1,501.6 versus 901.6 for [C2] Matched reusable-template control.
+- [T] WeaveMark treatment wins information yield: 1,201.3 versus 901.6 for [C2] Matched reusable-template control.
 - The treatment has a very large authoring-leverage and information-yield win over the matched template.
 - Browser-game architecture, controls, states, hazards, restart, scoring, and validation are integrated rather than appended.
 - The cleaned study is now a single named game instead of a broad multi-variant showcase.

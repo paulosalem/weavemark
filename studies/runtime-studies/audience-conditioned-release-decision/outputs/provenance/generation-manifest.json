@@ -1,0 +1,51 @@
+{
+  "independent_context_per_cell": true,
+  "method": "Copilot CLI general-purpose subagent",
+  "model": "gpt-5.6-terra",
+  "records": [
+    {
+      "audience": "Implementation Team",
+      "model": "gpt-5.6-terra",
+      "prompt_path": "outputs/prompts/control-implementation-team.md",
+      "prompt_sha256": "281ea1d45f9f4171409bb53c5d19c98cfa2084f9deb28a3bb1de6c23a14ad095",
+      "reasoning_effort": "high",
+      "response_path": "outputs/responses/control-implementation-team.md",
+      "response_sha256": "4a184f594128e1b82b73ba3c487f15c8b1add2ff17bc464a348d71a90cab1428",
+      "variant": "control"
+    },
+    {
+      "audience": "Implementation Team",
+      "model": "gpt-5.6-terra",
+      "prompt_path": "outputs/prompts/treatment-implementation-team.md",
+      "prompt_sha256": "4e02773133a25d04abd7961940d932a82ec73d27520471cb7fd63201d534b492",
+      "reasoning_effort": "high",
+      "response_path": "outputs/responses/treatment-implementation-team.md",
+      "response_sha256": "db7f3c89c48a1a4819c877d9708f1bfd190cf4100442b11aae043985e030cb37",
+      "variant": "treatment"
+    },
+    {
+      "audience": "Release Team",
+      "model": "gpt-5.6-terra",
+      "prompt_path": "outputs/prompts/control-release-team.md",
+      "prompt_sha256": "44bf3506477323485169a558ce6c13ae5f5b8baab324833835072cb6a51557c1",
+      "reasoning_effort": "high",
+      "response_path": "outputs/responses/control-release-team.md",
+      "response_sha256": "590c7d34c6a4feb9196a61838401b9275dd2505a1c444bd362f84b39f6e262fb",
+      "variant": "control"
+    },
+    {
+      "audience": "Release Team",
+      "model": "gpt-5.6-terra",
+      "prompt_path": "outputs/prompts/treatment-release-team.md",
+      "prompt_sha256": "17133604f1ba642e3c93ae6fe628f748fc2fb9ab028e7ac83d706d3a53466419",
+      "reasoning_effort": "high",
+      "response_path": "outputs/responses/treatment-release-team.md",
+      "response_sha256": "131275208476091a677dd2a2725dde8ededd4b80189e2c5ddad432af6c21e2a2",
+      "variant": "treatment"
+    }
+  ],
+  "response_normalization": "Markdown hard-break trailing spaces were converted to blank-line paragraph separators before publication; wording is unchanged.",
+  "run_date": "2026-08-04",
+  "system_context_recorded": false,
+  "wrapper_protocol": "Answer only the supplied prompt; use no tools or external facts; do not discuss the study or prompt quality."
+}

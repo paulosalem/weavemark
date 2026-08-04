@@ -59,8 +59,8 @@ Variant markers are preserved throughout the studies: [C1] is the compact/manual
 | [Evidence-to-Decision Workspace](evidence-decision-workspace-ablation-study) | [C2] Matched reusable-template control | [T] WeaveMark treatment | 16.3x | 26.63x | 96.5 | 396.5 | 1,440.3 | 1,592.4 | [T] WeaveMark treatment loses information density: 59.8 versus 88.4 for [C2] Matched reusable-template control. |
 | [Learning Tutor](learning-tutor-refinement-ablation-study) | [C2] Matched prose control | [T] WeaveMark treatment | 1x | 12.6x | 18 | 141.25 | 76.3 | 861.3 | [T] WeaveMark treatment loses information density: 68.4 versus 76.3 for [C2] Matched prose control. |
 | [Research Brief](research-brief-ablation-study) | [C2] Matched reusable-template control | [T] WeaveMark treatment | 8.1x | 8.34x | 22 | 113.5 | 536.6 | 551 | [T] WeaveMark treatment loses information density: 66.1 versus 66.3 for [C2] Matched reusable-template control. |
-| [Orbital Drift](games/orbital-drift-racing-ablation-study) | [C2] Matched reusable-template control | [T] WeaveMark treatment | 11.02x | 22.81x | 55 | 228.25 | 901.6 | 1,501.6 | [T] WeaveMark treatment loses information density: 65.8 versus 81.8 for [C2] Matched reusable-template control. |
-| [Verdant Relay](games/verdant-relay-ablation-study) | [C2] Matched reusable-template control | [T] WeaveMark treatment | 11.36x | 18.37x | 83 | 289.5 | 988.1 | 955.4 | [T] WeaveMark treatment loses information density: 52 versus 87 for [C2] Matched reusable-template control. |
+| [Orbital Drift](games/orbital-drift-racing-ablation-study) | [C2] Matched reusable-template control | [T] WeaveMark treatment | 11.02x | 18.25x | 55 | 228.25 | 901.6 | 1,201.3 | [T] WeaveMark treatment loses information density: 65.8 versus 81.8 for [C2] Matched reusable-template control. |
+| [Verdant Relay](games/verdant-relay-ablation-study) | [C2] Matched reusable-template control | [T] WeaveMark treatment | 11.36x | 16.87x | 83 | 289.5 | 988.1 | 877.3 | [T] WeaveMark treatment loses information density: 52 versus 87 for [C2] Matched reusable-template control. |
 | [Transit City Swarm](games/transit-city-swarm-ablation-study) | [C2] Matched-prose no-expand control | [T] Expanded WeaveMark treatment | 7.83x | 16.36x | 95 | 213.5 | 527.8 | 1,206.2 | The matched-prose control remains the fairness baseline because it spells out the same inspiration set without `@expand`. |
 | [Crowd Factory Puzzle](games/crowd-factory-puzzle-ablation-study) | [C2] Matched-prose no-expand control | [T] Expanded WeaveMark treatment | 7.22x | 17.46x | 89.25 | 244.75 | 490.4 | 1,281.4 | The source concepts are concrete enough that manual prose can unpack them very effectively. |
 
@@ -85,12 +85,12 @@ Scores compare each [T] WeaveMark treatment against the strongest listed control
 ### Headline subset
 
 - Strongest controls: 284 local source words, 4,181 output words, 374 discounted fact units.
-- Treatments: 1,019 local source words, 21,138 output words, 1,145.75 discounted fact units.
+- Treatments: 1,046 local source words, 21,138 output words, 1,145.75 discounted fact units.
 
 ### Full study corpus
 
 - Strongest controls: 984 local source words, 8,145 output words, 653.25 discounted fact units.
-- Treatments: 1,909 local source words, 34,618 output words, 2,087 discounted fact units.
+- Treatments: 1,974 local source words, 34,618 output words, 2,087 discounted fact units.
 
 ## Primary blind* score source
 
@@ -167,14 +167,14 @@ The contrastive score tables above use this criterion-aware blind* result wherev
 ### Orbital Drift
 
 - **What it is:** A browser racing game about piloting a small craft through asteroid fields, gravity wells, orbital gates, lap routing, hazards, scoring, restart, and browser validation.
-- **Best gain:** [T] WeaveMark treatment wins source-only leverage: 22.81 versus 11.02 for [C2] Matched reusable-template control.
+- **Best gain:** [T] WeaveMark treatment wins source-only leverage: 18.25 versus 11.02 for [C2] Matched reusable-template control.
 - **Important failure/caveat:** [T] WeaveMark treatment loses information density: 65.8 versus 81.8 for [C2] Matched reusable-template control.
 - **Conclusion:** A strong game-specification result, best used as supporting implementation-spec evidence rather than the main claim.
 
 ### Verdant Relay
 
 - **What it is:** A browser game about defending a living railway garden from blight by combining tower-defense route pressure, deckbuilder card choices, ecosystem feedback, original assets, and browser validation.
-- **Best gain:** [T] WeaveMark treatment wins source-only leverage: 18.37 versus 11.36 for [C2] Matched reusable-template control.
+- **Best gain:** [T] WeaveMark treatment wins source-only leverage: 16.87 versus 11.36 for [C2] Matched reusable-template control.
 - **Important failure/caveat:** [T] WeaveMark treatment loses information density: 52 versus 87 for [C2] Matched reusable-template control.
 - **Conclusion:** A strong structural-mingling stress test, with length/density and synthetic-domain caveats.
 

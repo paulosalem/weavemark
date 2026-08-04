@@ -68,7 +68,7 @@ Scores compare [T] WeaveMark treatment against [C2] Matched reusable-template co
 
 ## What improved
 
-- [T] WeaveMark treatment wins source-only leverage: 18.37 versus 11.36 for [C2] Matched reusable-template control.
+- [T] WeaveMark treatment wins source-only leverage: 16.87 versus 11.36 for [C2] Matched reusable-template control.
 - [T] WeaveMark treatment wins discounted fact units: 289.5 versus 83 for [C2] Matched reusable-template control.
 - The treatment integrates tower defense, deckbuilding, ecosystem simulation, assets, state, balance, UI, and validation into one playable trace.
 - It wins leverage, information yield, and total fact units against the matched template.
@@ -77,7 +77,7 @@ Scores compare [T] WeaveMark treatment against [C2] Matched reusable-template co
 ## What failed or did not improve
 
 - [T] WeaveMark treatment loses information density: 52 versus 87 for [C2] Matched reusable-template control.
-- [T] WeaveMark treatment loses information yield: 955.4 versus 988.1 for [C2] Matched reusable-template control.
+- [T] WeaveMark treatment loses information yield: 877.3 versus 988.1 for [C2] Matched reusable-template control.
 - [T] WeaveMark treatment is much longer: 5,567 words versus 954 for [C2] Matched reusable-template control.
 - The treatment is much longer and less dense than the matched template.
 - It is a synthetic game concept, so it should not carry the main real-work application claim.

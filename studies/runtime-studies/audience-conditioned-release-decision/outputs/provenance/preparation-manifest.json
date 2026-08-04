@@ -1,0 +1,13 @@
+{
+  "control_task_max_words": 20,
+  "files": {
+    "inputs/scenario.json": "741a4e2b18659f6a487f24fbccc10e50e433062d34311b57bb84543add0c80c4",
+    "outputs/prepared/implementation-team.json": "f434466d484a424bb385a436e121ce4ef522ba6450fb1af07759ff211254ccd6",
+    "outputs/prepared/release-team.json": "b4b3141c1429cc8ef37d4cae0cfa7c3285efd251059685fee355d6f88efabc25",
+    "outputs/prompts/control-implementation-team.md": "281ea1d45f9f4171409bb53c5d19c98cfa2084f9deb28a3bb1de6c23a14ad095",
+    "outputs/prompts/control-release-team.md": "44bf3506477323485169a558ce6c13ae5f5b8baab324833835072cb6a51557c1",
+    "promplets/treatment.weavemark.md": "96e5ca9694ba5ab3cbd171be1a44a84d02f60e3cc3245f668dc8b8a69fbf5033"
+  },
+  "model": "gpt-5.6-terra",
+  "study": "audience-conditioned-release-decision"
+}

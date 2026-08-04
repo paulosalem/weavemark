@@ -23,7 +23,7 @@ A browser game about defending a living railway garden from blight by combining 
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | [[C1] Manual brief](../specs/00-control-compact-manual-verdant-relay.weavemark.md) | Compact hand-written Verdant Relay request. | 57 | 0 | 57 | 1x | 5 | 87.7 | 87.7 |
 | [[C2] Matched reusable-template control](../specs/01-control-template-verdant-relay.weavemark.md) | Template shell with browser-game, tower-defense, deckbuilding, ecosystem, asset, and validation partials. | 84 | 51 | 954 | 11.36x | 83 | 87 | 988.1 |
-| [[T] WeaveMark treatment](../specs/02-treatment-promplet-verdant-relay.weavemark.md) | Refines and expands mechanics, production requirements, assets, and validation into one playable first-build specification. | 303 | 5 | 5,567 | 18.37x | 289.5 | 52 | 955.4 |
+| [[T] WeaveMark treatment](../specs/02-treatment-promplet-verdant-relay.weavemark.md) | Refines and expands mechanics, production requirements, assets, and validation into one playable first-build specification. | 330 | 5 | 5,567 | 16.87x | 289.5 | 52 | 877.3 |
 
 ## Metric definitions
 
@@ -41,10 +41,10 @@ The strongest control is [C2] Matched reusable-template control. The treatment i
 
 | Metric | [C2] Matched reusable-template control | [T] WeaveMark treatment | Direction |
 |---|---:|---:|---|
-| Source-only leverage | 11.36 | 18.37 | win |
+| Source-only leverage | 11.36 | 16.87 | win |
 | Discounted fact units | 83 | 289.5 | win |
 | Information density | 87 | 52 | loss |
-| Information yield | 988.1 | 955.4 | loss |
+| Information yield | 988.1 | 877.3 | loss |
 
 ## Contrastive gain/loss scores
 
@@ -71,7 +71,7 @@ Scores compare [T] WeaveMark treatment against [C2] Matched reusable-template co
 
 ## Gains
 
-- [T] WeaveMark treatment wins source-only leverage: 18.37 versus 11.36 for [C2] Matched reusable-template control.
+- [T] WeaveMark treatment wins source-only leverage: 16.87 versus 11.36 for [C2] Matched reusable-template control.
 - [T] WeaveMark treatment wins discounted fact units: 289.5 versus 83 for [C2] Matched reusable-template control.
 - The treatment integrates tower defense, deckbuilding, ecosystem simulation, assets, state, balance, UI, and validation into one playable trace.
 - It wins leverage, information yield, and total fact units against the matched template.
@@ -80,7 +80,7 @@ Scores compare [T] WeaveMark treatment against [C2] Matched reusable-template co
 ## Failures and caveats
 
 - [T] WeaveMark treatment loses information density: 52 versus 87 for [C2] Matched reusable-template control.
-- [T] WeaveMark treatment loses information yield: 955.4 versus 988.1 for [C2] Matched reusable-template control.
+- [T] WeaveMark treatment loses information yield: 877.3 versus 988.1 for [C2] Matched reusable-template control.
 - [T] WeaveMark treatment is much longer: 5,567 words versus 954 for [C2] Matched reusable-template control.
 - The treatment is much longer and less dense than the matched template.
 - It is a synthetic game concept, so it should not carry the main real-work application claim.
